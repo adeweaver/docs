@@ -189,6 +189,32 @@ h5, #mdx-content h5 {
 :has(> .topbar-right-container) > :nth-child(2) {
   justify-content: end;
 }
+/* Make the navbar transition willow wider and taller */
+#navbar-transition-willow {
+  height: 4rem !important; /* Increase navbar height */
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}
+
+/* Make nav tabs text bigger and tabs wider */
+.nav-tabs a.nav-tabs-item,
+a.nav-tabs-item {
+  font-size: 15px !important; /* Make nav tab text bigger */
+  padding-left: 1.5rem !important; /* Add horizontal padding for width */
+  padding-right: 1.5rem !important;
+  justify-content: center !important; /* Center tab names in their containers */
+  text-align: center !important;
+}
+
+/* Align underline hover with bottom of navbar */
+.nav-tabs-item .absolute.bottom-0,
+a.nav-tabs-item .absolute.bottom-0,
+.nav-tabs a .absolute.bottom-0 {
+  bottom: -1rem !important; /* Move underline to align with navbar bottom */
+}
+
+
+
 .dark a.nav-tabs-item[aria-selected="true"],
 .dark a.nav-tabs-item.active,
 .dark a.nav-tabs-item[aria-current="page"],
