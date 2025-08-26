@@ -5,6 +5,24 @@ sidebarTitle: Server changelog
 
 [LangGraph Server](/langgraph-platform/langgraph-server) is an API platform for creating and managing agent-based applications. It provides built-in persistence, a task queue, and supports deploying, configuring, and running assistants (agentic workflows) at scale. This changelog documents all notable updates, features, and fixes to LangGraph Server releases.
 
+<a id="2025-08-25"></a>
+## v0.4.0
+- Emitted attempt messages correctly within the thread stream.
+- Reduced cluster conflicts by using only the thread ID for hashing in cluster mapping, prioritizing efficiency with stream_thread_cache.
+- Introduced a stream endpoint for threads to track all outputs across sequentially executed runs.
+- Made the filter query builder in PostgreSQL more robust against malformed expressions and improved validation to prevent potential security risks.
+
+<a id="2025-08-25"></a>
+## v0.3.4
+- Added custom Prometheus metrics for Redis/PG connection pools and switched the queue server to Uvicorn/Starlette for improved monitoring.
+- Restored Wolfi image build by correcting shell command formatting and added a Makefile target for testing with nginx.
+
+<a id="2025-08-22"></a>
+## v0.3.3
+- Added timeouts to specific Redis calls to prevent workers from being left active.
+- Updated the Golang runtime and added pytest skips for unsupported functionalities, including initial support for passing store to node and message streaming.
+- Introduced a reverse proxy setup for serving combined Python and Node.js graphs, with nginx handling server routing, to facilitate a Postgres/Redis backend for the Node.js API server.
+
 <a id="2025-08-21"></a>
 ## v0.3.1
 - Added a statement timeout to the pool to prevent long-running queries.
