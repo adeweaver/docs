@@ -7,7 +7,7 @@ This Helm repository contains queries to produce output that the LangSmith UI do
 
 This command takes a postgres connection string that contains an embedded name and password (which can be passed in from a call to a secrets manager) and executes a query from an input file. In the example below, we are using the `pg_get_trace_counts_daily.sql` input file in the `support_queries/postgres` directory.
 
-### Prerequisites
+## Prerequisites
 
 Ensure you have the following tools/items ready.
 
@@ -39,7 +39,7 @@ Ensure you have the following tools/items ready.
 
    * You can download the script from [here](https://github.com/langchain-ai/helm/blob/main/charts/langsmith/scripts/run_support_query_pg.sh)
 
-### Running the query script
+## Running the query script
 
 Run the following command to run the desired query:
 
@@ -54,3 +54,41 @@ sh run_support_query_pg.sh "postgres://postgres:postgres@localhost:5432/postgres
 ```
 
 which will output the count of daily traces by workspace ID and organization ID. To extract this to a file add the flag `--output path/to/file.csv`
+
+## Export usage data
+
+<Note>
+Exporting usage data requires running Helm chart version 0.11.4 or later.
+</Note>
+
+### Initial export
+
+These scripts export usage data to a CSV for reporting to LangChain. They additionally track the export by assigning a backfill ID and timestamp.
+
+To export LangSmith trace usage:
+
+```bash
+sh run_support_query_pg.sh <postgres_url> --input support_queries/postgres/pg_usage_traces_backfill_export.sql --output export.csv
+```
+
+To export LangGraph Platform usage:
+
+```bash
+sh run_support_query_pg.sh <postgres_url> --input support_queries/postgres/pg_usage_nodes_backfill_export.sql --output export.csv
+```
+
+### Status update
+
+These scripts update the status of usage events in your installation to reflect that the events have been successfully processed by LangChain.
+
+To update LangSmith trace usage:
+
+```bash
+sh run_support_query_pg.sh <postgres_url> --input support_queries/postgres/pg_usage_traces_backfill_update.sql --output export.csv
+```
+
+To update LangGraph Platform usage:
+
+```bash
+sh run_support_query_pg.sh <postgres_url> --input support_queries/postgres/pg_usage_nodes_backfill_update.sql --output export.csv
+```

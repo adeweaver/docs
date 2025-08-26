@@ -171,16 +171,6 @@ h5, #mdx-content h5 {
   border: none !important;
 }
 
-/* Hide nav dropdown descriptions by default */
-.nav-dropdown-item-description {
-  display: none !important;
-}
-
-/* Show nav dropdown descriptions when dropdown is open */
-[data-state="open"] .nav-dropdown-item-description {
-  display: block !important;
-}
-
 .topbar-right-container {
   flex: 0;
 }
@@ -189,48 +179,88 @@ h5, #mdx-content h5 {
 :has(> .topbar-right-container) > :nth-child(2) {
   justify-content: end;
 }
-/* Make the navbar transition willow wider and taller */
+
+/* Fix version picker text truncation and ensure arrow is visible */
+button.version-picker-button {
+  min-width: 100px !important; /* Fit "JavaScript" + arrow */
+  width: auto !important;
+  overflow: visible !important; /* Allow content to overflow if needed */
+  font-size: 11px !important; /* Make text smaller */
+  gap: 0.5rem !important; /* Standardize spacing between text and arrow */
+  justify-content: space-between !important; /* Even distribution */
+}
+
+button.version-picker-button span {
+  white-space: nowrap !important; /* Prevent text wrapping */
+  overflow: visible !important; /* Show full text */
+  text-overflow: initial !important; /* Remove ellipsis */
+  flex-shrink: 0 !important; /* Don't shrink the text */
+  margin-right: 0 !important; /* Remove any extra margin */
+}
+
+/* Force the dropdown arrow to always show */
+button.version-picker-button svg {
+  display: block !important; /* Force display */
+  visibility: visible !important; /* Force visibility */
+  opacity: 1 !important; /* Make sure it's opaque */
+  flex-shrink: 0 !important; /* Don't shrink */
+  width: 12px !important; /* Set fixed width */
+  height: 12px !important; /* Set fixed height */
+  margin-left: 0 !important; /* Remove any extra margin */
+}
+
+/* Add padding to the top of navbar tabs and increase container height */
 #navbar-transition-willow {
-  height: 4rem !important; /* Increase navbar height */
   padding-top: 1rem !important;
-  padding-bottom: 1rem !important;
-}
-
-/* Make nav tabs text bigger and tabs wider */
-.nav-tabs a.nav-tabs-item,
-a.nav-tabs-item {
-  font-size: 15px !important; /* Make nav tab text bigger */
-  padding-left: 1.5rem !important; /* Add horizontal padding for width */
-  padding-right: 1.5rem !important;
-  justify-content: center !important; /* Center tab names in their containers */
-  text-align: center !important;
-}
-
-/* Align underline hover with bottom of navbar */
-.nav-tabs-item .absolute.bottom-0,
-a.nav-tabs-item .absolute.bottom-0,
-.nav-tabs a .absolute.bottom-0 {
-  bottom: -1rem !important; /* Move underline to align with navbar bottom */
+  height: calc(3rem + 1rem) !important; /* Original h-12 (3rem) + added top padding */
 }
 
 
 
-.dark a.nav-tabs-item[aria-selected="true"],
-.dark a.nav-tabs-item.active,
-.dark a.nav-tabs-item[aria-current="page"],
-.dark a.nav-tabs-item.font-semibold,
-.dark a.nav-tabs-item[class*="font-semibold"] {
 
-  color: #beb4fd !important;
-  border-bottom: 1px solid #1f2937 !important;
-  margin-bottom: -1px !important;
-  position: relative !important;
-  z-index: 1 !important;
-}
+
+
+
+
+
+
+
 
 #banner {
   max-width: 100% !important;
-  color: #1a2c2a !important;
-  a {
-    text-decoration: underline !important;
+  color: var(--brand-600) !important; /* Use the dark green brand color */
+}
+
+#banner * {
+  color: var(--brand-600) !important; /* Force all banner text to use brand color */
+}
+
+#banner a {
+  text-decoration: underline !important;
+  color: var(--brand-600) !important; /* Ensure links also use the brand color */
+}
+
+/* Ensure callout links and lists match callout text formatting */
+.callout a,
+[class*="callout"] a {
+  font-size: inherit !important; /* Match callout text size */
+  color: inherit !important; /* Match callout text color */
+  text-decoration: inherit !important; /* Inherit callout text decoration */
+}
+
+.callout ul,
+.callout ol,
+.callout li,
+[class*="callout"] ul,
+[class*="callout"] ol,
+[class*="callout"] li {
+  font-size: inherit !important; /* Match callout text size */
+  color: inherit !important; /* Match callout text color */
+  line-height: inherit !important; /* Match callout line height */
+}
+
+.callout p,
+[class*="callout"] p {
+  font-size: inherit !important; /* Match callout text size */
+  color: inherit !important; /* Match callout text color */
 }
