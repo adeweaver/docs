@@ -131,8 +131,8 @@ export CUSTOMER_NAME=$(echo "$response" | jq -r '.customer_info.customer_name') 
 sh run_support_query_pg.sh <postgres_url> \
   --input support_queries/postgres/pg_usage_traces_backfill_export.sql \
   --output ls_export.csv \
-  -v customer_id="'$CUSTOMER_ID'" \
-  -v customer_name="'$CUSTOMER_NAME'"
+  -v customer_id=$CUSTOMER_ID \
+  -v customer_name=$CUSTOMER_NAME
 ```
 
 To export LangGraph Platform usage:
@@ -141,22 +141,24 @@ To export LangGraph Platform usage:
 sh run_support_query_pg.sh <postgres_url> \
   --input support_queries/postgres/pg_usage_traces_backfill_export.sql \
   --output lgp_export.csv \
-  -v customer_id="'$CUSTOMER_ID'" \
-  -v customer_name="'$CUSTOMER_NAME'"
+  -v customer_id=$CUSTOMER_ID \
+  -v customer_name=$CUSTOMER_NAME
 ```
 
 ### Status update
 
 These scripts update the status of usage events in your installation to reflect that the events have been successfully processed by LangChain.
 
+The scripts require passing in the corresponding `backfill_id`, which will be confirmed by your LangChain rep.
+
 To update LangSmith trace usage:
 
 ```bash
-sh run_support_query_pg.sh <postgres_url> --input support_queries/postgres/pg_usage_traces_backfill_update.sql --output export.csv
+sh run_support_query_pg.sh <postgres_url> --input support_queries/postgres/pg_usage_traces_backfill_update.sql --output export.csv -v backfill_id=<backfill_id>
 ```
 
 To update LangGraph Platform usage:
 
 ```bash
-sh run_support_query_pg.sh <postgres_url> --input support_queries/postgres/pg_usage_nodes_backfill_update.sql --output export.csv
+sh run_support_query_pg.sh <postgres_url> --input support_queries/postgres/pg_usage_nodes_backfill_update.sql --output export.csv -v backfill_id=<backfill_id>
 ```
