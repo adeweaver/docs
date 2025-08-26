@@ -168,22 +168,14 @@ make format
 
 ### Create a preview build
 
-Once you have a PR open and are ready to preview changes, create a [preview branch](https://github.com/langchain-ai/docs/actions/workflows/create-preview-branch.yml):
-
-1. Go to [Create a preview branch](https://github.com/langchain-ai/docs/actions/workflows/create-preview-branch.yml).
-2. Click the **Run workflow** button.
-3. Select your branch.
-4. Click **Run workflow**.
-5. Once the workflow is done running, click into the related job.
-6. In the **Create and publish preview branch** step, look for the preview branch's name.
-    <img width="1061" height="637" alt="Screenshot 2025-07-24 at 10 23 16 AM" src="https://github.com/user-attachments/assets/d8235368-5f95-404c-b3b8-f731307f1140" />
+When you create or update a PR, a [preview branch/ID](https://github.com/langchain-ai/docs/actions/workflows/create-preview-branch.yml) is automatically generated for you. A comment will be left on the PR with the ID, which you can then use to generate a preview. You can also run this workflow manually if needed.
     
-7. Copy the preview branch's name.
-8. In the [Mintlify dashboard](https://dashboard.mintlify.com/langchain-5e9cc07a/langchain-5e9cc07a?section=previews), click **Create preview deployment**.
-9. Enter the preview branch's name.
-10. Click **Create deployment**.
+1. Copy the preview branch's ID from the comment.
+2. In the [Mintlify dashboard](https://dashboard.mintlify.com/langchain-5e9cc07a/langchain-5e9cc07a?section=previews), click **Create preview deployment**.
+3. Enter the preview branch's ID.
+4. Click **Create deployment**.
     A **Manual update** will display in the **Previews** table.
-11. Select the preview and click **Visit** to view the preview build.
+5. Select the preview and click **Visit** to view the preview build.
 
 To redeploy the preview build, click **Redeploy** on the Mintlify dashboard.
 
