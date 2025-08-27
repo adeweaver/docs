@@ -369,15 +369,9 @@
                 "tab": "Build",
                 "groups": [
                   {
-                    "group": "Build an app with the LangGraph basics",
+                    "group": "Build with LangGraph Platform",
                     "pages": [
-                      "langgraph-platform/langgraph-basics/why-langgraph",
-                      "langgraph-platform/langgraph-basics/1-build-basic-chatbot",
-                      "langgraph-platform/langgraph-basics/2-add-tools",
-                      "langgraph-platform/langgraph-basics/3-add-memory",
-                      "langgraph-platform/langgraph-basics/4-human-in-the-loop",
-                      "langgraph-platform/langgraph-basics/5-customize-state",
-                      "langgraph-platform/langgraph-basics/6-time-travel"
+                      "langgraph-platform/langgraph-basics/why-langgraph"
                     ]
                   },
                   {
@@ -1279,15 +1273,9 @@
                 "tab": "Build",
                 "groups": [
                   {
-                    "group": "Build an app with the LangGraph basics",
+                    "group": "Build with LangGraph Platform",
                     "pages": [
-                      "langgraph-platform/langgraph-basics/why-langgraph",
-                      "langgraph-platform/langgraph-basics/1-build-basic-chatbot",
-                      "langgraph-platform/langgraph-basics/2-add-tools",
-                      "langgraph-platform/langgraph-basics/3-add-memory",
-                      "langgraph-platform/langgraph-basics/4-human-in-the-loop",
-                      "langgraph-platform/langgraph-basics/5-customize-state",
-                      "langgraph-platform/langgraph-basics/6-time-travel"
+                      "langgraph-platform/langgraph-basics/why-langgraph"
                     ]
                   },
                   {
