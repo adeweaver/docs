@@ -236,28 +236,109 @@ class DocumentationBuilder:
             raise
 
     def build_file(self, file_path: Path) -> None:
-        """Build a single file by copying it to the build directory.
+        """Build a single file to the appropriate location(s) in the build directory.
 
-        This method copies a single file from the source directory to the
-        corresponding location in the build directory, but only if the file
-        has a supported extension. The directory structure is preserved.
+        This method handles versioned building for OSS content (creates both Python
+        and JavaScript versions) and single-version building for other content.
+        The directory structure and version-specific preprocessing are preserved.
 
         Args:
             file_path: Path to the source file to be built. Must be within
                 the source directory.
 
-        Prints:
-            A message indicating whether the file was copied or skipped.
+        Raises:
+            AssertionError: If the file does not exist.
         """
         if not file_path.is_file():
             msg = f"File does not exist: {file_path} this is likely a programming error"
-            raise AssertionError(
-                msg,
-            )
+            raise AssertionError(msg)
 
         relative_path = file_path.relative_to(self.src_dir)
-        output_path = self.build_dir / relative_path
 
+        # Check if this is OSS content that needs versioned building
+        if relative_path.parts[0] == "oss":
+            self._build_oss_file(file_path, relative_path)
+        # Check if this is unversioned content
+        elif relative_path.parts[0] in {"langgraph-platform", "labs", "langsmith"}:
+            self._build_unversioned_file(file_path, relative_path)
+        # Handle shared files (images, docs.json, etc.)
+        elif self._is_shared_file(file_path):
+            self._build_shared_file(file_path, relative_path)
+        # Handle root-level files
+        else:
+            self._build_simple_file(file_path, relative_path)
+
+    def _build_oss_file(self, file_path: Path, relative_path: Path) -> None:
+        """Build an OSS file for both Python and JavaScript versions.
+
+        Args:
+            file_path: Path to the source file.
+            relative_path: Relative path from src_dir.
+        """
+        # Skip shared files - they're handled separately
+        if self._is_shared_file(file_path):
+            self._build_shared_file(file_path, relative_path)
+            return
+
+        # Build for both Python and JavaScript versions
+        oss_relative = relative_path.relative_to(Path("oss"))  # Remove 'oss/' prefix
+
+        # Build Python version
+        python_output = self.build_dir / "oss" / "python" / oss_relative
+        if self._build_single_file_to_path(file_path, python_output, "python"):
+            logger.info("Built Python version: oss/python/%s", oss_relative)
+
+        # Build JavaScript version
+        js_output = self.build_dir / "oss" / "javascript" / oss_relative
+        if self._build_single_file_to_path(file_path, js_output, "js"):
+            logger.info("Built JavaScript version: oss/javascript/%s", oss_relative)
+
+    def _build_unversioned_file(self, file_path: Path, relative_path: Path) -> None:
+        """Build an unversioned file (langgraph-platform, labs, langsmith).
+
+        Args:
+            file_path: Path to the source file.
+            relative_path: Relative path from src_dir.
+        """
+        output_path = self.build_dir / relative_path
+        if self._build_single_file_to_path(file_path, output_path, "python"):
+            logger.info("Built: %s", relative_path)
+
+    def _build_shared_file(self, file_path: Path, relative_path: Path) -> None:
+        """Build a shared file (images, docs.json, JS/CSS files).
+
+        Args:
+            file_path: Path to the source file.
+            relative_path: Relative path from src_dir.
+        """
+        output_path = self.build_dir / relative_path
+        if self._build_single_file_to_path(file_path, output_path, None):
+            logger.info("Built shared file: %s", relative_path)
+
+    def _build_simple_file(self, file_path: Path, relative_path: Path) -> None:
+        """Build a simple file (root-level files).
+
+        Args:
+            file_path: Path to the source file.
+            relative_path: Relative path from src_dir.
+        """
+        output_path = self.build_dir / relative_path
+        if self._build_single_file_to_path(file_path, output_path, None):
+            logger.info("Built: %s", relative_path)
+
+    def _build_single_file_to_path(
+        self, file_path: Path, output_path: Path, target_language: str | None
+    ) -> bool:
+        """Build a single file to a specific output path.
+
+        Args:
+            file_path: Path to the source file.
+            output_path: Full output path where the file should be written.
+            target_language: Target language for conditional blocks ("python" or "js").
+
+        Returns:
+            True if the file was built successfully, False if skipped.
+        """
         # Create output directory if needed
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -267,18 +348,19 @@ class DocumentationBuilder:
             ".yaml",
         }:
             self._convert_yaml_to_json(file_path, output_path)
-            logger.info("Converted YAML to JSON: %s", relative_path)
-        # For other files, copy directly if supported
-        elif file_path.suffix.lower() in self.copy_extensions:
+            return True
+
+        # Handle supported file extensions
+        if file_path.suffix.lower() in self.copy_extensions:
             # Handle markdown files with preprocessing
             if file_path.suffix.lower() in {".md", ".mdx"}:
-                self._process_markdown_file(file_path, output_path)
-                logger.info("Processed markdown: %s", relative_path)
-            else:
-                shutil.copy2(file_path, output_path)
-                logger.info("Copied: %s", relative_path)
-        else:
-            logger.info("Skipped: %s (unsupported extension)", relative_path)
+                self._process_markdown_file(file_path, output_path, target_language)
+                return True
+            shutil.copy2(file_path, output_path)
+            return True
+
+        # File was skipped
+        return False
 
     def _build_file_with_progress(self, file_path: Path, pbar: tqdm) -> bool:
         """Build a single file with progress bar integration.
