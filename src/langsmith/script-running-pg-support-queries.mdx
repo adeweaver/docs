@@ -61,6 +61,59 @@ which will output the count of daily traces by workspace ID and organization ID.
 Exporting usage data requires running Helm chart version 0.11.4 or later.
 </Note>
 
+### Get customer information
+
+You need to retrieve your customer information from the LangSmith API before running the export scripts. This information is required as input for the export scripts.
+
+```bash
+curl https://<langsmith_url>/api/v1/info
+# if configured with a subdomain / path prefix:
+curl http://<langsmith_url/prefix/api/v1/info
+```
+
+This will return a JSON response containing your customer information:
+
+```json
+{
+  "version": "0.11.4",
+  "license_expiration_time": "2026-08-18T19:14:34Z",
+  "customer_info": {
+    "customer_id": "<id>",
+    "customer_name": "<name>"
+  }
+}
+```
+
+Extract the `customer_id` and `customer_name` from this response to use as input for the export scripts.
+
+### Process the API response with jq
+
+You can use [jq](https://jqlang.org/download) to parse the JSON response and set bash variables for use in your scripts:
+
+```bash
+# Get the API response and extract customer information
+export LANGSMITH_URL="<your_langsmith_url>"
+response=$(curl -s $LANGSMITH_URL/api/v1/info)
+
+# Extract customer_id and customer_name using jq
+export CUSTOMER_ID=$(echo "$response" | jq -r '.customer_info.customer_id')
+export CUSTOMER_NAME=$(echo "$response" | jq -r '.customer_info.customer_name')
+
+# Verify the variables are set
+echo "Customer ID: $CUSTOMER_ID"
+echo "Customer Name: $CUSTOMER_NAME"
+```
+
+You can then use these environment variables in your export scripts or other commands.
+
+If you don't have `jq`, run these commands to set the environment variables based on the curl output:
+
+```bash
+curl -s $LANGSMITH_URL/api/v1/info
+export CUSTOMER_ID="<id>"
+export CUSTOMER_NAME="<name>"
+```
+
 ### Initial export
 
 These scripts export usage data to a CSV for reporting to LangChain. They additionally track the export by assigning a backfill ID and timestamp.
@@ -68,27 +121,44 @@ These scripts export usage data to a CSV for reporting to LangChain. They additi
 To export LangSmith trace usage:
 
 ```bash
-sh run_support_query_pg.sh <postgres_url> --input support_queries/postgres/pg_usage_traces_backfill_export.sql --output export.csv
+# Get customer information from the API
+export LANGSMITH_URL="<your_langsmith_url>"
+export response=$(curl -s $LANGSMITH_URL/api/v1/info)
+export CUSTOMER_ID=$(echo "$response" | jq -r '.customer_info.customer_id') && echo "Customer ID: $CUSTOMER_ID"
+export CUSTOMER_NAME=$(echo "$response" | jq -r '.customer_info.customer_name') && echo "Customer name: $CUSTOMER_NAME"
+
+# Run the export script with customer information as variables
+sh run_support_query_pg.sh <postgres_url> \
+  --input support_queries/postgres/pg_usage_traces_backfill_export.sql \
+  --output ls_export.csv \
+  -v customer_id=$CUSTOMER_ID \
+  -v customer_name=$CUSTOMER_NAME
 ```
 
 To export LangGraph Platform usage:
 
 ```bash
-sh run_support_query_pg.sh <postgres_url> --input support_queries/postgres/pg_usage_nodes_backfill_export.sql --output export.csv
+sh run_support_query_pg.sh <postgres_url> \
+  --input support_queries/postgres/pg_usage_traces_backfill_export.sql \
+  --output lgp_export.csv \
+  -v customer_id=$CUSTOMER_ID \
+  -v customer_name=$CUSTOMER_NAME
 ```
 
 ### Status update
 
 These scripts update the status of usage events in your installation to reflect that the events have been successfully processed by LangChain.
 
+The scripts require passing in the corresponding `backfill_id`, which will be confirmed by your LangChain rep.
+
 To update LangSmith trace usage:
 
 ```bash
-sh run_support_query_pg.sh <postgres_url> --input support_queries/postgres/pg_usage_traces_backfill_update.sql --output export.csv
+sh run_support_query_pg.sh <postgres_url> --input support_queries/postgres/pg_usage_traces_backfill_update.sql --output export.csv -v backfill_id=<backfill_id>
 ```
 
 To update LangGraph Platform usage:
 
 ```bash
-sh run_support_query_pg.sh <postgres_url> --input support_queries/postgres/pg_usage_nodes_backfill_update.sql --output export.csv
+sh run_support_query_pg.sh <postgres_url> --input support_queries/postgres/pg_usage_nodes_backfill_update.sql --output export.csv -v backfill_id=<backfill_id>
 ```
