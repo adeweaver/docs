@@ -76,7 +76,7 @@ def test_build_all_empty_directory() -> None:
             builder.build_all()
 
             # Verify all files were copied with correct structure
-            build_files = set(str(p) for p in fs.list_build_files())
+            build_files = {str(p) for p in fs.list_build_files()}
 
             # Python version of LangGraph files
             assert "oss/python/index.mdx" in build_files
@@ -159,7 +159,7 @@ def test_build_all_empty_directory() -> None:
             builder.build_all()
 
             # Verify only supported files were copied
-            build_files = set(str(p) for p in fs.list_build_files())
+            build_files = {str(p) for p in fs.list_build_files()}
 
             # Python version of LangGraph files (only .mdx)
             assert "oss/python/index.mdx" in build_files

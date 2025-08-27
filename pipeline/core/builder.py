@@ -142,7 +142,7 @@ class DocumentationBuilder:
 
         Args:
             content: The markdown content to process.
-            target_language: Target language ("python" or "js") or None to skip rewriting.
+            target_language: Target language ("python" or "js") or None to skip.
 
         Returns:
             Content with rewritten links.
@@ -193,9 +193,8 @@ class DocumentationBuilder:
             )
 
             # Then rewrite /oss/ links to include language
-            content = self._rewrite_oss_links(content, target_language)
+            return self._rewrite_oss_links(content, target_language)
 
-            return content
         except Exception:
             logger.exception("Failed to process markdown content from %s", file_path)
             raise
@@ -371,7 +370,7 @@ class DocumentationBuilder:
         """Build LangGraph (oss/) content for a specific version.
 
         Args:
-            output_dir: Output directory (e.g., "langgraph/python", "langgraph/javascript").
+            output_dir: Output directory (e.g., "langgraph/python").
             target_language: Target language for conditional blocks ("python" or "js").
         """
         # Only process files in the oss/ directory
@@ -595,10 +594,7 @@ class DocumentationBuilder:
             return True
 
         # JavaScript and CSS files should be shared (used for custom scripts/styles)
-        if file_path.suffix.lower() in {".js", ".css"}:
-            return True
-
-        return False
+        return file_path.suffix.lower() in {".js", ".css"}
 
     def _copy_shared_files(self) -> None:
         """Copy files that should be shared between versions."""
