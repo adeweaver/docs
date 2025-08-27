@@ -326,13 +326,12 @@ Name: execute_code
 
 [{'type': 'text', 'text': '27', 'annotations': [], 'id': 'msg_6894ff5db3b8819d9159b3a370a25843000169fd9fb68d99'}]
 ```
-<details>
-<summary>Context-free grammars</summary>
+<Accordion title="Context-free grammars">
 
 OpenAI supports the specification of a [context-free grammar](https://platform.openai.com/docs/guides/function-calling#context-free-grammars) for custom tool inputs in `lark` or `regex` format. See [OpenAI docs](https://platform.openai.com/docs/guides/function-calling#context-free-grammars) for details. The `format` parameter can be passed into `@custom_tool` as shown below:
 
 
-```python
+```python highlight={20}
 from langchain_openai import ChatOpenAI, custom_tool
 from langgraph.prebuilt import create_react_agent
 
@@ -352,7 +351,6 @@ MUL: "*"
 format_ = {"type": "grammar", "syntax": "lark", "definition": grammar}
 
 
-# highlight-next-line
 @custom_tool(format=format_)
 def do_math(input_string: str) -> str:
     """Do a mathematical operation."""
@@ -390,7 +388,7 @@ Name: do_math
 
 [{'type': 'text', 'text': '27', 'annotations': [], 'id': 'msg_6895009776b881a2a25f0be8507d08f20681550c89797f43'}]
 ```
-</details>
+</Accordion>
 
 ## Responses API
 
@@ -838,12 +836,11 @@ response = llm_with_tools.invoke(
 Note that the above command created a new container. We can also specify an existing container ID:
 
 
-```python
+```python highlight={5,12}
 code_interpreter_calls = [
     item for item in response.content if item["type"] == "code_interpreter_call"
 ]
 assert len(code_interpreter_calls) == 1
-# highlight-next-line
 container_id = code_interpreter_calls[0]["container_id"]
 
 llm_with_tools = llm.bind_tools(
@@ -851,7 +848,6 @@ llm_with_tools = llm.bind_tools(
         {
             "type": "code_interpreter",
             # Use an existing container
-            # highlight-next-line
             "container": container_id,
         }
     ]
@@ -886,8 +882,8 @@ response = llm_with_tools.invoke(
 )
 ```
 
-<details>
-<summary>MCP Approvals</summary>
+
+<Accordion title="MCP Approvals">
 
 OpenAI will at times request approval before sharing data with a remote MCP server.
 
@@ -939,7 +935,7 @@ next_response = llm_with_tools.invoke(
 )
 ```
 
-</details>
+</Accordion>
 
 ### Managing conversation state
 
@@ -1027,13 +1023,12 @@ You mentioned that your name is Bob. How can I help you today, Bob?
 ChatOpenAI can also automatically specify `previous_response_id` using the last response in a message sequence:
 
 
-```python
+```python highlight={6}
 from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(
     model="gpt-4.1-mini",
     output_version="responses/v1",
-    # highlight-next-line
     use_previous_response_id=True,
 )
 ```
@@ -1128,7 +1123,7 @@ You can see the list of models that support different modalities in [OpenAI's do
 For all modalities, LangChain supports both its [cross-provider standard](/oss/concepts/multimodality/#multimodality-in-chat-models) as well as OpenAI's native content-block format.
 
 To pass multimodal data into `ChatOpenAI`, create a [content block](/oss/concepts/messages/) containing the data and incorporate it into a message, e.g., as below:
-```python
+```python highlight={9}
 message = {
     "role": "user",
     "content": [
@@ -1137,15 +1132,13 @@ message = {
             # Update prompt as desired
             "text": "Describe the (image / PDF / audio...)",
         },
-        # highlight-next-line
         content_block,
     ],
 }
 ```
 See below for examples of content blocks.
 
-<details>
-<summary>Images</summary>
+<Accordion title="Images">
 
 Refer to examples in the how-to guide [here](/oss/how-to/multimodal_inputs/#images).
 
@@ -1184,11 +1177,9 @@ content_block = {
 }
 ```
 
-</details>
+</Accordion>
 
-
-<details>
-<summary>PDFs</summary>
+<Accordion title="PDFs">
 
 Note: OpenAI requires file-names be specified for PDF inputs. When using LangChain's format, include the `filename` key.
 
@@ -1197,14 +1188,13 @@ Read more [here](/oss/how-to/multimodal_inputs/#example-openai-file-names).
 Refer to examples in the how-to guide [here](/oss/how-to/multimodal_inputs/#documents-pdf).
 
 In-line base64 data:
-```python
+```python highlight={7}
 # LangChain format
 content_block = {
     "type": "file",
     "source_type": "base64",
     "data": base64_string,
     "mime_type": "application/pdf",
-    # highlight-next-line
     "filename": "my-file.pdf",
 }
 
@@ -1218,11 +1208,10 @@ content_block = {
 }
 ```
 
-</details>
+</Accordion>
 
 
-<details>
-<summary>Audio</summary>
+<Accordion title="Audio">
 
 See [supported models](https://platform.openai.com/docs/models), e.g., `"gpt-4o-audio-preview"`.
 
@@ -1245,7 +1234,7 @@ content_block = {
 }
 ```
 
-</details>
+</Accordion>
 
 ## Predicted output
 
