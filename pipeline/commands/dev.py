@@ -6,6 +6,7 @@ file watching, and live serving for an optimal development experience.
 
 import asyncio
 import logging
+import signal
 import sys
 from pathlib import Path
 from typing import Any

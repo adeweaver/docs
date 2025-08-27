@@ -7,6 +7,8 @@ build pipeline, enabling automatic rebuilds when source files change.
 import asyncio
 import contextlib
 import logging
+import os
+import time
 from pathlib import Path
 
 from watchdog.events import FileSystemEvent, FileSystemEventHandler
@@ -101,7 +103,7 @@ class DocsFileHandler(FileSystemEventHandler):
 
         file_path = Path(event.src_path)
 
-        relative_path = file_path.relative_to(self.builder.src_dir)
+        relative_path = file_path.relative_to(self.builder.src_dir.absolute())
         output_path = self.builder.build_dir / relative_path
 
         if output_path.exists():
@@ -223,10 +225,62 @@ class FileWatcher:
 
                 logger.info("Rebuilding %d files...", len(files_to_build))
                 self.builder.build_files(files_to_build)
+                
+                # Small delay to ensure build completes, then touch files
+                await asyncio.sleep(0.1)
+                await self._touch_built_files(files_to_build)
 
         except asyncio.CancelledError:
             # Task was cancelled, just return
             pass
+
+    async def _touch_built_files(self, source_files: list[Path]) -> None:
+        """Touch built files to ensure mint dev detects changes.
+        
+        Args:
+            source_files: List of source files that were built.
+        """
+        try:
+            current_time = time.time()
+            touched_count = 0
+            
+            for source_file in source_files:
+                relative_path = source_file.relative_to(self.src_dir)
+                
+                # Handle versioned vs unversioned content
+                if relative_path.parts[0] == "oss":
+                    # OSS content is versioned - check both python and javascript versions
+                    # Remove 'oss/' prefix and add version-specific paths
+                    sub_path = Path(*relative_path.parts[1:])
+                    
+                    for version in ["python", "javascript"]:
+                        built_file = self.build_dir / "oss" / version / sub_path
+                        
+                        # Handle .md -> .mdx conversion
+                        if built_file.suffix.lower() == ".md":
+                            built_file = built_file.with_suffix(".mdx")
+                        
+                        # Touch the file if it exists
+                        if built_file.exists():
+                            os.utime(built_file, (current_time, current_time))
+                            touched_count += 1
+                else:
+                    # Unversioned content (langgraph-platform, labs, langsmith)
+                    built_file = self.build_dir / relative_path
+                    
+                    # Handle .md -> .mdx conversion
+                    if built_file.suffix.lower() == ".md":
+                        built_file = built_file.with_suffix(".mdx")
+                    
+                    # Touch the file if it exists
+                    if built_file.exists():
+                        os.utime(built_file, (current_time, current_time))
+                        touched_count += 1
+                        
+            logger.debug("Touched %d built files to trigger hot reload", touched_count)
+            
+        except Exception:
+            logger.exception("Failed to touch built files for hot reload")
 
     async def shutdown(self) -> None:
         """Gracefully shutdown the file watcher.
