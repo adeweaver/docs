@@ -1,32 +1,40 @@
 ---
 title: Get started with LangGraph Platform
 sidebarTitle: Get started
+mode: wide
 ---
 
 LangGraph Platform is a runtime for deploying and managing long-running, stateful agent workflows in production. It provides APIs for execution, persistence, monitoring, and scaling of agent applications. Agents built with [LangGraph](/oss/python/overview) or other frameworks can be hosted on the platform and exposed through managed endpoints.
 
-<Tip>
-**Quickstart**  
-- [Run locally](/langgraph-platform/local-server) using the LangGraph server process.  
-- [Deploy to cloud](/langgraph-platform/deployment-quickstart) for a managed endpoint.
-</Tip>
+Choose from cloud, hybrid, or self-hosted deployments based on your infrastructure requirements. For more details, refer to the [Deployment options](/langgraph-platform/deployment-options) page.
 
-<Columns cols={2}>
+## Quickstarts
+
+<Columns cols={3}>
 
   <Card
-    title="Deployment Options"
-    icon="cloud"
-    href="/langgraph-platform/deployment-options"
+    title="Run a LangGraph app locally"
+    icon="laptop"
+    href="/langgraph-platform/local-server"
     arrow="true"
     cta="Learn more"
   >
-    Choose from cloud, hybrid, or self-hosted deployments based
-    on your infrastructure requirements.
+    Test and develop your app using the LangGraph server process locally.
+  </Card>
+
+  <Card
+    title="Deploy to cloud"
+    icon="cloud"
+    href="/langgraph-platform/deployment-quickstart"
+    arrow="true"
+    cta="Learn more"
+  >
+    Run your app in a fully managed cloud deployment.
   </Card>
 
   <Card
     title="LangGraph Studio"
-    icon="layout"
+    icon="play"
     href="/langgraph-platform/langgraph-studio"
     arrow="true"
     cta="Learn more"
@@ -35,9 +43,15 @@ LangGraph Platform is a runtime for deploying and managing long-running, statefu
     Includes integrations with LangSmith for tracing and evaluation.
   </Card>
 
+</Columns>
+
+## Features
+
+<Columns cols={3}>
+
   <Card
     title="Streaming Support"
-    icon="waves"
+    icon="signal"
     href="/langgraph-platform/streaming"
     arrow="true"
     cta="Learn more"
@@ -60,7 +74,7 @@ LangGraph Platform is a runtime for deploying and managing long-running, statefu
   <Card
     title="Burst Handling"
     icon="server"
-    href="/langgraph-platform/background-run"
+    href="/langgraph-platform/data-plane#redis"
     arrow="true"
     cta="Learn more"
   >
@@ -70,7 +84,7 @@ LangGraph Platform is a runtime for deploying and managing long-running, statefu
 
   <Card
     title="Interrupt Handling"
-    icon="message-square"
+    icon="split"
     href="/langgraph-platform/interrupt-concurrent"
     arrow="true"
     cta="Learn more"
