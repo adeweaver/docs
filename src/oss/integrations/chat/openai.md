@@ -69,7 +69,7 @@ Now we can instantiate our model object and generate chat completions:
 from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(
-    model="gpt-4o",
+    model="gpt-4o-mini",
     temperature=0,
     max_tokens=None,
     timeout=None,
@@ -186,7 +186,7 @@ ai_msg
 
 
 ```output
-AIMessage(content='', additional_kwargs={'tool_calls': [{'id': 'call_o9udf3EVOWiV4Iupktpbpofk', 'function': {'arguments': '{"location":"San Francisco, CA"}', 'name': 'GetWeather'}, 'type': 'function'}], 'refusal': None}, response_metadata={'token_usage': {'completion_tokens': 17, 'prompt_tokens': 68, 'total_tokens': 85}, 'model_name': 'gpt-4o-2024-05-13', 'system_fingerprint': 'fp_3aa7262c27', 'finish_reason': 'tool_calls', 'logprobs': None}, id='run-1617c9b2-dda5-4120-996b-0333ed5992e2-0', tool_calls=[{'name': 'GetWeather', 'args': {'location': 'San Francisco, CA'}, 'id': 'call_o9udf3EVOWiV4Iupktpbpofk', 'type': 'tool_call'}], usage_metadata={'input_tokens': 68, 'output_tokens': 17, 'total_tokens': 85})
+AIMessage(content='', additional_kwargs={'refusal': None}, response_metadata={'token_usage': {'completion_tokens': 17, 'prompt_tokens': 68, 'total_tokens': 85}, 'model_name': 'gpt-4o-2024-05-13', 'system_fingerprint': 'fp_3aa7262c27', 'finish_reason': 'tool_calls', 'logprobs': None}, id='run-1617c9b2-dda5-4120-996b-0333ed5992e2-0', tool_calls=[{'name': 'GetWeather', 'args': {'location': 'San Francisco, CA'}, 'id': 'call_o9udf3EVOWiV4Iupktpbpofk', 'type': 'tool_call'}], usage_metadata={'input_tokens': 68, 'output_tokens': 17, 'total_tokens': 85})
 ```
 
 
@@ -286,7 +286,7 @@ structured_response = structured_llm.invoke(
 
 ```python
 from langchain_openai import ChatOpenAI, custom_tool
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_react_agent
 
 
 @custom_tool
@@ -295,7 +295,7 @@ def execute_code(code: str) -> str:
     return "27"
 
 
-llm = ChatOpenAI(model="gpt-5", output_version="responses/v1")
+llm = ChatOpenAI(model="gpt-5", use_responses_api=True, output_version="v1")
 
 agent = create_react_agent(llm, [execute_code])
 
@@ -312,10 +312,10 @@ for step in agent.stream(
 Use the tool to calculate 3^3.
 ================================== Ai Message ==================================
 
-[{'id': 'rs_6894ff5747c0819d9b02fc5645b0be9c000169fd9fb68d99', 'summary': [], 'type': 'reasoning'}, {'call_id': 'call_7SYwMSQPbbEqFcKlKOpXeEux', 'input': 'print(3**3)', 'name': 'execute_code', 'type': 'custom_tool_call', 'id': 'ctc_6894ff5b9f54819d8155a63638d34103000169fd9fb68d99', 'status': 'completed'}]
+[{'id': 'rs_68af67a342f881a08980957bcf6d9ec208ee034b81b03765', 'type': 'reasoning'}, {'type': 'non_standard', 'value': {'call_id': 'call_lxgZev0vahouTtOd4YGQgIau', 'input': 'print(3**3)', 'name': 'execute_code', 'type': 'custom_tool_call', 'id': 'ctc_68af67a7648c81a0b8c7795439668b7e08ee034b81b03765', 'status': 'completed'}}]
 Tool Calls:
-  execute_code (call_7SYwMSQPbbEqFcKlKOpXeEux)
- Call ID: call_7SYwMSQPbbEqFcKlKOpXeEux
+  execute_code (call_lxgZev0vahouTtOd4YGQgIau)
+ Call ID: call_lxgZev0vahouTtOd4YGQgIau
   Args:
     __arg1: print(3**3)
 ================================= Tool Message =================================
@@ -324,7 +324,7 @@ Name: execute_code
 [{'type': 'custom_tool_call_output', 'output': '27'}]
 ================================== Ai Message ==================================
 
-[{'type': 'text', 'text': '27', 'annotations': [], 'id': 'msg_6894ff5db3b8819d9159b3a370a25843000169fd9fb68d99'}]
+[{'type': 'text', 'text': '27', 'annotations': [], 'id': 'msg_68af67a82d8081a0a73c901b865e358e08ee034b81b03765'}]
 ```
 <Accordion title="Context-free grammars">
 
@@ -440,39 +440,42 @@ Note that the response includes structured [content blocks](/oss/concepts/messag
 
 
 ```python
-response.content
+response.content_blocks
 ```
 
 
 
 ```output
-[{'id': 'ws_685d997c1838819e8a2cbf66059ddd5c0f6f330a19127ac1',
+[{'type': 'web_search_call',
+  'id': 'ws_68af6ac605848195b7ce59c3293b59100cd6678a2b812fed',
+  'query': 'positive news stories today',
   'action': {'query': 'positive news stories today', 'type': 'search'},
-  'status': 'completed',
-  'type': 'web_search_call'},
+  'status': 'completed'},
+ {'type': 'web_search_result',
+  'id': 'ws_68af6ac605848195b7ce59c3293b59100cd6678a2b812fed'},
  {'type': 'text',
-  'text': "On June 25, 2025, the James Webb Space Telescope made a groundbreaking discovery by directly imaging a previously unknown exoplanet. This young gas giant, approximately the size of Saturn, orbits a star smaller than our Sun, located about 110 light-years away in the constellation Antlia. This achievement marks the first time Webb has identified an exoplanet not previously known, expanding our understanding of distant worlds. ([straitstimes.com](https://www.straitstimes.com/world/while-you-were-sleeping-5-stories-you-might-have-missed-june-26-2025?utm_source=openai))\n\nAdditionally, in the realm of conservation, a significant milestone was achieved with the successful translocation of seventy southern white rhinos from South Africa to Rwanda's Akagera National Park. This initiative represents the first international translocation from Platinum Rhino, a major captive breeding operation, and is seen as a substantial opportunity to safeguard the future of the white rhino species. ([conservationoptimism.org](https://conservationoptimism.org/7-stories-of-optimism-this-week-17-06-25-23-06-25/?utm_source=openai))\n\nThese developments highlight positive strides in both scientific exploration and wildlife conservation efforts. ",
-  'annotations': [{'end_index': 572,
-    'start_index': 429,
-    'title': 'While You Were Sleeping: 5 stories you might have missed, June 26, 2025 | The Straits Times',
-    'type': 'url_citation',
-    'url': 'https://www.straitstimes.com/world/while-you-were-sleeping-5-stories-you-might-have-missed-june-26-2025?utm_source=openai'},
-   {'end_index': 1121,
-    'start_index': 990,
-    'title': '7 stories of optimism this week (17.06.25-23.06.25) - Conservation Optimism',
-    'type': 'url_citation',
-    'url': 'https://conservationoptimism.org/7-stories-of-optimism-this-week-17-06-25-23-06-25/?utm_source=openai'}],
-  'id': 'msg_685d997f6b94819e8d981a2b441470420f6f330a19127ac1'}]
+  'text': 'Here are some positive news stories from today...',
+  'annotations': [{'end_index': 587,
+    'start_index': 484,
+    'title': 'Positive News Highlights | AI, PFAS Breakthroughs & More — August 2025 — Podego',
+    'type': 'citation',
+    'url': 'https://www.podego.com/insights/august-2025-good-news-ai-pfas-stories?utm_source=openai'},
+   {'end_index': 3335,
+    'start_index': 3155,
+    'title': '7 stories of optimism this week (19.08.25-25.08.25) - Conservation Optimism',
+    'type': 'citation',
+    'url': 'https://conservationoptimism.org/7-stories-of-optimism-this-week-19-08-25-25-08-25/?utm_source=openai'}],
+  'id': 'msg_68af6ac75aa881958de4d8758b251c860cd6678a2b812fed'}]
 ```
 
 
 <Tip>
-**You can recover just the text content of the response as a string by using `response.text()`. For example, to stream response text:**
+**You can recover just the text content of the response as a string by using `response.text`. For example, to stream response text:**
 
 
 ```python
 for token in llm_with_tools.stream("..."):
-    print(token.text(), end="|")
+    print(token.text, end="|")
 ```
 
 See the [streaming guide](/oss/how-to/chat_streaming/) for more detail.
@@ -500,7 +503,7 @@ llm.invoke("...", tools=[{"type": "image_generation"}])
 ```python
 from langchain_openai import ChatOpenAI
 
-llm = ChatOpenAI(model="gpt-4.1-mini", output_version="responses/v1")
+llm = ChatOpenAI(model="gpt-4.1-mini", output_version="v1")
 
 tool = {"type": "image_generation", "quality": "low"}
 
@@ -518,9 +521,9 @@ import base64
 from IPython.display import Image
 
 image = next(
-    item for item in ai_message.content if item["type"] == "image_generation_call"
+    item for item in ai_message.content_blocks if item["type"] == "image"
 )
-Image(base64.b64decode(image["result"]), width=200)
+Image(base64.b64decode(image["base64"]), width=200)
 ```
 
 
@@ -538,7 +541,7 @@ To trigger a file search, pass a [file search tool](https://platform.openai.com/
 ```python
 from langchain_openai import ChatOpenAI
 
-llm = ChatOpenAI(model="gpt-4.1-mini", output_version="responses/v1")
+llm = ChatOpenAI(model="gpt-4.1-mini", output_version="v1")
 
 openai_vector_store_ids = [
     "vs_...",  # your IDs here
@@ -551,7 +554,7 @@ tool = {
 llm_with_tools = llm.bind_tools([tool])
 
 response = llm_with_tools.invoke("What is deep research by OpenAI?")
-print(response.text())
+print(response.text)
 ```
 ```output
 Deep Research by OpenAI is a newly launched agentic capability within ChatGPT designed to conduct complex, multi-step research tasks on the internet autonomously. It synthesizes large amounts of online information into comprehensive, research analyst-level reports, accomplishing in tens of minutes what would typically take a human many hours. This capability is powered by an upcoming OpenAI o3 model that is optimized for web browsing and data analysis, allowing it to search, interpret, and analyze massive amounts of text, images, and PDFs from the internet, while dynamically adjusting its approach based on the information it finds.
@@ -817,7 +820,7 @@ Example use:
 ```python
 from langchain_openai import ChatOpenAI
 
-llm = ChatOpenAI(model="o4-mini", output_version="responses/v1")
+llm = ChatOpenAI(model="o4-mini", output_version="v1")
 
 llm_with_tools = llm.bind_tools(
     [
@@ -841,7 +844,7 @@ code_interpreter_calls = [
     item for item in response.content if item["type"] == "code_interpreter_call"
 ]
 assert len(code_interpreter_calls) == 1
-container_id = code_interpreter_calls[0]["container_id"]
+container_id = code_interpreter_calls[0]["extras"]["container_id"]
 
 llm_with_tools = llm.bind_tools(
     [
@@ -951,24 +954,18 @@ from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(model="gpt-4.1-mini", output_version="responses/v1")
 
-tool = {"type": "web_search_preview"}
-llm_with_tools = llm.bind_tools([tool])
-
-first_query = "What was a positive news story from today?"
+first_query = "Hi, I'm Bob."
 messages = [{"role": "user", "content": first_query}]
 
-response = llm_with_tools.invoke(messages)
-response_text = response.text()
-print(f"{response_text[:100]}... {response_text[-100:]}")
+response = llm.invoke(messages)
+print(response.text)
 ```
 ```output
-On June 25, 2025, the James Webb Space Telescope made a groundbreaking discovery by directly imaging... exploration and environmental conservation, reflecting positive developments in science and nature.
+Hi Bob! Nice to meet you. How can I assist you today?
 ```
 
 ```python
-second_query = (
-    "Repeat my question back to me, as well as the last sentence of your answer."
-)
+second_query = "What is my name?"
 
 messages.extend(
     [
@@ -976,13 +973,11 @@ messages.extend(
         {"role": "user", "content": second_query},
     ]
 )
-second_response = llm_with_tools.invoke(messages)
-print(second_response.text())
+second_response = llm.invoke(messages)
+print(second_response.text)
 ```
 ```output
-Your question was: "What was a positive news story from today?"
-
-The last sentence of my answer was: "These stories highlight significant advancements in both space exploration and environmental conservation, reflecting positive developments in science and nature."
+You mentioned that your name is Bob. How can I assist you further, Bob?
 ```
 <Tip>
 **You can use [LangGraph](https://langchain-ai.github.io/langgraph/) to manage conversational threads for you in a variety of backends, including in-memory and Postgres. See [this tutorial](/oss/tutorials/chatbot/) to get started.**
@@ -996,30 +991,17 @@ The last sentence of my answer was: "These stories highlight significant advance
 When using the Responses API, LangChain messages will include an `"id"` field in its metadata. Passing this ID to subsequent invocations will continue the conversation. Note that this is [equivalent](https://platform.openai.com/docs/guides/conversation-state?api-mode=responses#openai-apis-for-conversation-state) to manually passing in messages from a billing perspective.
 
 
-```python
-from langchain_openai import ChatOpenAI
-
-llm = ChatOpenAI(
-    model="gpt-4.1-mini",
-    output_version="responses/v1",
-)
-response = llm.invoke("Hi, I'm Bob.")
-print(response.text())
-```
-```output
-Hi Bob! How can I assist you today?
-```
-
-```python
+```python highlight={3}
 second_response = llm.invoke(
     "What is my name?",
-    previous_response_id=response.response_metadata["id"],
+    previous_response_id=response.id,
 )
-print(second_response.text())
+print(second_response.text)
 ```
 ```output
-You mentioned that your name is Bob. How can I help you today, Bob?
+Your name is Bob. How can I help you today, Bob?
 ```
+
 ChatOpenAI can also automatically specify `previous_response_id` using the last response in a message sequence:
 
 
@@ -1040,7 +1022,7 @@ That is,
 llm.invoke(
     [
         HumanMessage("Hello"),
-        AIMessage("Hi there!", response_metadata={"id": "resp_123"}),
+        AIMessage("Hi there!", id="resp_123"),
         HumanMessage("How are you?"),
     ]
 )
@@ -1065,11 +1047,11 @@ reasoning = {
     "summary": "auto",  # 'detailed', 'auto', or None
 }
 
-llm = ChatOpenAI(model="o4-mini", reasoning=reasoning, output_version="responses/v1")
+llm = ChatOpenAI(model="gpt-5-nano", reasoning=reasoning, output_version="v1")
 response = llm.invoke("What is 3^3?")
 
 # Output
-response.text()
+response.text
 ```
 
 
@@ -1082,10 +1064,9 @@ response.text()
 
 ```python
 # Reasoning
-for block in response.content:
+for block in response.content_blocks:
     if block["type"] == "reasoning":
-        for summary in block["summary"]:
-            print(summary["text"])
+        print(block["reasoning"])
 ```
 ```output
 **Calculating the power of three**
@@ -1147,7 +1128,6 @@ URLs:
 # LangChain format
 content_block = {
     "type": "image",
-    "source_type": "url",
     "url": url_string,
 }
 
@@ -1163,8 +1143,7 @@ In-line base64 data:
 # LangChain format
 content_block = {
     "type": "image",
-    "source_type": "base64",
-    "data": base64_string,
+    "base64": base64_string,
     "mime_type": "image/jpeg",
 }
 
@@ -1192,8 +1171,7 @@ In-line base64 data:
 # LangChain format
 content_block = {
     "type": "file",
-    "source_type": "base64",
-    "data": base64_string,
+    "base64": base64_string,
     "mime_type": "application/pdf",
     "filename": "my-file.pdf",
 }
@@ -1222,9 +1200,8 @@ In-line base64 data:
 # LangChain format
 content_block = {
     "type": "audio",
-    "source_type": "base64",
     "mime_type": "audio/wav",  # or appropriate mime-type
-    "data": base64_string,
+    "base64": base64_string,
 }
 
 # OpenAI Chat Completions format
