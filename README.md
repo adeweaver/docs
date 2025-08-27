@@ -16,40 +16,35 @@ Makefile              # Build automation
 README.md             # This file
 ```
 
-## Contributing
+## Contributing quickstart
 
-### Quick Start
+### Set up virtual environment
 
-#### Install the Mintlify CLI
-
-Install `mint` from https://mintlify.com/docs/installation
-
-#### Setup Virtual Environment (Recommended)
-
-1. **Install uv:**
+1. Install `uv`:
    
    Install `uv` from https://docs.astral.sh/uv/
 
-2. **Create and activate virtual environment:**
+2. Create and activate virtual environment:
    ```bash
    cd docs
    uv venv
    source .venv/bin/activate
    ```
 
-3. **Install dependencies:**
+3. Install dependencies:
    ```bash
    uv sync --all-groups
    ```
 
-4. **Install Mintlify CLI**
+4. Install Mintlify CLI:
 
    The docs CLI uses parts of the Mintlify CLI so you need to install that too.
+
    ```bash
    npm i -g mint
    ```
 
-5. **Use the docs CLI tool:**
+5. Use the docs CLI tool:
    
    After setup, you'll have access to the `docs` command:
    ```bash
@@ -57,35 +52,16 @@ Install `mint` from https://mintlify.com/docs/installation
    ```
    
    Common commands:
-   - `docs dev` - Start development mode with file watching
+   - `docs dev` - Start development mode with file watching and hot reload
    - `docs build` - Build documentation
    - `docs migrate <path>` - Convert MkDocs markdown files to Mintlify format
    - `docs migrate-docusaurus <path>` - Convert Docusaurus markdown files to Mintlify format
-
-#### Using Makefile (Alternative)
-
-You can use the Makefile for easier build and development:
-
-1. **Start development mode, from the src/ dir:**
-   ```bash
-   mint dev
-   ```
-   This watches for changes in `src/` and automatically rebuilds content in `build/`.
-
-   Alternatively, you can `make build`, and launch `mint` inside the `build/` directory 
-   to preview changes.
-
-2. **Build documentation:**
-   ```bash
-   make build
-   ```
-   Generates compiled .mdx files in the `build/` directory.
 
 ### Important Rules
 
 - **Only edit files in `src/`** - The `build/` directory is automatically generated
 - **Use Mintlify syntax** - See [Mintlify documentation](https://mintlify.com/docs) for formatting guidelines
-- **Test your changes** - Use `make dev` to preview changes locally
+- **Test your changes** - Use `docs dev` to preview changes locally with hot reload
 
 ### Available Commands
 
@@ -119,7 +95,10 @@ The `docs` command (installed as `uv run docs`) provides additional functionalit
 
 These can be used directly using the `Makefile` or via the `docs` CLI tool:
 
-- **`docs dev`** - Start development mode with file watching
+- **`docs dev`** - Start development mode with file watching and hot reload
+    - Automatically rebuilds changed files from `src/` to `build/`
+    - Launches Mintlify dev server at http://localhost:3000
+    - Provides automatic browser refresh when files change
     - `--skip-build` - Skip initial build and use existing build directory
 
 - **`docs build`** - Build documentation files
@@ -161,29 +140,34 @@ make format
 
 ## Development Workflow
 
-1. Edit files in `src/`
-2. Run `make dev` to start the development server
-3. The build system will automatically detect changes and rebuild
-4. Preview your changes in the generated `build/` directory
+1. **Start development mode:**
+   ```bash
+   docs dev
+   ```
+   This starts a development server with hot reload at http://localhost:3000
+
+2. **Edit files in `src/`:**
+   - Make changes to markdown files, notebooks, or other documentation
+   - The build system automatically detects changes and rebuilds affected files
+
+3. **Preview changes:**
+   - Changes automatically appear in your browser at http://localhost:3000
+   - No manual refresh needed - the page updates automatically when you save files
+
+4. **Iterate:**
+   - Continue editing and see changes reflected immediately
+   - The development server rebuilds only changed files for faster feedback
 
 ### Create a preview build
 
-Once you have a PR open and are ready to preview changes, create a [preview branch](https://github.com/langchain-ai/docs/actions/workflows/create-preview-branch.yml):
-
-1. Go to [Create a preview branch](https://github.com/langchain-ai/docs/actions/workflows/create-preview-branch.yml).
-2. Click the **Run workflow** button.
-3. Select your branch.
-4. Click **Run workflow**.
-5. Once the workflow is done running, click into the related job.
-6. In the **Create and publish preview branch** step, look for the preview branch's name.
-    <img width="1061" height="637" alt="Screenshot 2025-07-24 at 10 23 16 AM" src="https://github.com/user-attachments/assets/d8235368-5f95-404c-b3b8-f731307f1140" />
+When you create or update a PR, a [preview branch/ID](https://github.com/langchain-ai/docs/actions/workflows/create-preview-branch.yml) is automatically generated for you. A comment will be left on the PR with the ID, which you can then use to generate a preview. You can also run this workflow manually if needed.
     
-7. Copy the preview branch's name.
-8. In the [Mintlify dashboard](https://dashboard.mintlify.com/langchain-5e9cc07a/langchain-5e9cc07a?section=previews), click **Create preview deployment**.
-9. Enter the preview branch's name.
-10. Click **Create deployment**.
+1. Copy the preview branch's ID from the comment.
+2. In the [Mintlify dashboard](https://dashboard.mintlify.com/langchain-5e9cc07a/langchain-5e9cc07a?section=previews), click **Create preview deployment**.
+3. Enter the preview branch's ID.
+4. Click **Create deployment**.
     A **Manual update** will display in the **Previews** table.
-11. Select the preview and click **Visit** to view the preview build.
+5. Select the preview and click **Visit** to view the preview build.
 
 To redeploy the preview build, click **Redeploy** on the Mintlify dashboard.
 

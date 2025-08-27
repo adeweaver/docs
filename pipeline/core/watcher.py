@@ -7,6 +7,9 @@ build pipeline, enabling automatic rebuilds when source files change.
 import asyncio
 import contextlib
 import logging
+import os
+import sys
+import time
 from pathlib import Path
 
 from watchdog.events import FileSystemEvent, FileSystemEventHandler
@@ -101,7 +104,7 @@ class DocsFileHandler(FileSystemEventHandler):
 
         file_path = Path(event.src_path)
 
-        relative_path = file_path.relative_to(self.builder.src_dir)
+        relative_path = file_path.relative_to(self.builder.src_dir.absolute())
         output_path = self.builder.build_dir / relative_path
 
         if output_path.exists():
@@ -215,18 +218,196 @@ class FileWatcher:
         to avoid excessive rebuilds during rapid file changes.
         """
         try:
-            await asyncio.sleep(0.5)  # Debounce delay
+            await asyncio.sleep(0.2)  # Reduced debounce delay for faster response
 
             if self.pending_files:
                 files_to_build = list(self.pending_files)
                 self.pending_files.clear()
 
-                logger.info("Rebuilding %d files...", len(files_to_build))
-                self.builder.build_files(files_to_build)
+                # Build files with progress indication
+                await self._build_files_async(files_to_build)
 
         except asyncio.CancelledError:
             # Task was cancelled, just return
             pass
+
+    async def _build_files_async(self, files_to_build: list[Path]) -> None:
+        """Build files asynchronously with progress indication.
+
+        Args:
+            files_to_build: List of source files that need to be built.
+        """
+        from concurrent.futures import ThreadPoolExecutor
+
+        file_count = len(files_to_build)
+
+        if file_count == 1:
+            # For single file, build directly with simple message
+            file_path = files_to_build[0]
+            relative_path = file_path.absolute().relative_to(self.src_dir.absolute())
+            logger.info("🔄 Rebuilding %s...", relative_path)
+
+            # Run build in thread pool to avoid blocking
+            loop = asyncio.get_event_loop()
+            with ThreadPoolExecutor(max_workers=1) as executor:
+                await loop.run_in_executor(executor, self.builder.build_file, file_path)
+
+            logger.info("✅ Rebuilt %s", relative_path)
+
+        else:
+            # For multiple files, show progress bar
+            logger.info("🔄 Rebuilding %d files...", file_count)
+
+            completed = 0
+
+            def build_single_file(file_path: Path) -> bool:
+                """Build a single file and return success status."""
+                try:
+                    self.builder.build_file(file_path)
+                except Exception:
+                    logger.exception("Failed to build file %s", file_path)
+                    return False
+                else:
+                    return True
+
+            # Use thread pool for concurrent building
+            loop = asyncio.get_event_loop()
+            max_workers = min(4, file_count)  # Limit concurrent builds
+
+            with ThreadPoolExecutor(max_workers=max_workers) as executor:
+                # Submit all build tasks
+                futures = [
+                    loop.run_in_executor(executor, build_single_file, file_path)
+                    for file_path in files_to_build
+                ]
+
+                # Process results as they complete with progress updates
+                for future in asyncio.as_completed(futures):
+                    await future
+                    completed += 1
+
+                    # Show progress to stderr (allowed for user feedback)
+                    progress = int(
+                        (completed / file_count) * 20
+                    )  # 20 char progress bar
+                    bar = "█" * progress + "░" * (20 - progress)
+                    percent = int((completed / file_count) * 100)
+                    sys.stderr.write(
+                        f"\r🔨 [{bar}] {percent}% ({completed}/{file_count})"
+                    )
+                    sys.stderr.flush()
+
+                sys.stderr.write("\n")  # New line after progress bar
+                sys.stderr.flush()
+
+            logger.info("✅ Rebuilt %d files", file_count)
+
+        # Touch built files to trigger hot reload
+        await self._touch_built_files(files_to_build)
+
+    async def _touch_built_files(self, source_files: list[Path]) -> None:
+        """Touch built files to ensure mint dev detects changes.
+
+        Args:
+            source_files: List of source files that were built.
+        """
+        from concurrent.futures import ThreadPoolExecutor
+
+        def touch_files_for_source(source_file: Path) -> int:
+            """Touch all built files for a source file. Returns count touched."""
+            try:
+                current_time = time.time()
+                touched_count = 0
+                relative_path = source_file.absolute().relative_to(
+                    self.src_dir.absolute()
+                )
+
+                # Handle different content types based on the updated build_file logic
+                if relative_path.parts[0] == "oss":
+                    # OSS content is versioned - check both Python and JavaScript versions
+                    # Skip if it's a shared file (images, JS, CSS) - those go to root
+                    if self.builder._is_shared_file(source_file):
+                        built_file = self.build_dir / relative_path
+                        if built_file.suffix.lower() == ".md":
+                            built_file = built_file.with_suffix(".mdx")
+                        if built_file.exists():
+                            os.utime(built_file, (current_time, current_time))
+                            touched_count += 1
+                    else:
+                        # Remove 'oss/' prefix and add version-specific paths
+                        sub_path = Path(*relative_path.parts[1:])
+
+                        for version in ["python", "javascript"]:
+                            built_file = self.build_dir / "oss" / version / sub_path
+
+                            # Handle .md -> .mdx conversion
+                            if built_file.suffix.lower() == ".md":
+                                built_file = built_file.with_suffix(".mdx")
+
+                            # Touch the file if it exists
+                            if built_file.exists():
+                                os.utime(built_file, (current_time, current_time))
+                                touched_count += 1
+
+                elif relative_path.parts[0] in {
+                    "langgraph-platform",
+                    "labs",
+                    "langsmith",
+                }:
+                    # Unversioned content
+                    built_file = self.build_dir / relative_path
+
+                    # Handle .md -> .mdx conversion
+                    if built_file.suffix.lower() == ".md":
+                        built_file = built_file.with_suffix(".mdx")
+
+                    # Touch the file if it exists
+                    if built_file.exists():
+                        os.utime(built_file, (current_time, current_time))
+                        touched_count += 1
+
+                elif self.builder._is_shared_file(source_file):
+                    # Shared files (images, docs.json, JS/CSS) - go directly to build root
+                    built_file = self.build_dir / relative_path
+                    if built_file.exists():
+                        os.utime(built_file, (current_time, current_time))
+                        touched_count += 1
+
+                else:
+                    # Root-level files
+                    built_file = self.build_dir / relative_path
+
+                    # Handle .md -> .mdx conversion
+                    if built_file.suffix.lower() == ".md":
+                        built_file = built_file.with_suffix(".mdx")
+
+                    # Touch the file if it exists
+                    if built_file.exists():
+                        os.utime(built_file, (current_time, current_time))
+                        touched_count += 1
+
+            except Exception:
+                logger.exception("Failed to touch built files for %s", source_file)
+                return 0
+            else:
+                return touched_count
+
+        try:
+            # Touch files concurrently for better performance
+            loop = asyncio.get_event_loop()
+            with ThreadPoolExecutor(max_workers=4) as executor:
+                futures = [
+                    loop.run_in_executor(executor, touch_files_for_source, source_file)
+                    for source_file in source_files
+                ]
+
+                results = await asyncio.gather(*futures)
+                total_touched = sum(results)
+
+            logger.debug("Touched %d built files to trigger hot reload", total_touched)
+
+        except Exception:
+            logger.exception("Failed to touch built files for hot reload")
 
     async def shutdown(self) -> None:
         """Gracefully shutdown the file watcher.

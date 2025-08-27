@@ -7,6 +7,27 @@ A self-hosted LangSmith instance can handle a large number of traces and users. 
 
 For example configurations, refer to [Example LangSmith configurations for scale](#example-langsmith-configurations-for-scale).
 
+## Summary
+
+The table below provides an overview comparing different LangSmith configurations for various load patterns.
+
+| Load Pattern (Reads/Writes)                      | Concurrent Frontend Users | Traces Submitted per Second | Frontend Replicas | Platform Backend Replicas | Queue Replicas | Backend Replicas | Redis Resources | ClickHouse Resources      | ClickHouse Setup              | Postgres Resources                          | Blob Storage |
+| ------------------------------------------------ | ------------------------- | --------------------------- | ----------------- | ------------------------- | -------------- | ---------------- | --------------- | ------------------------- | ----------------------------- | ------------------------------------------- | ------------ |
+| **[Low/Low](#low-reads-low-writes)**             | 5                         | 10                          | 1 (default)       | 3 (default)               | 3 (default)    | 2 (default)      | 8 Gi (default)  | 4 CPU, 16 Gi (default)    | Single instance               | 2 CPU, 8 GB memory, 10GB storage (external) | Disabled     |
+| **[Low/High](#low-reads-high-writes)**           | 5                         | 1000                        | 4                 | 20                        | 160            | 5                | 200 Gi external | 10 CPU, 32Gi memory       | Single instance               | 2 CPU, 8 GB memory, 10GB storage (external) | Enabled      |
+| **[High/Low](#high-reads-low-writes)**           | 50                        | 10                          | 2                 | 3 (default)               | 6              | 40               | 8 Gi (default)  | 8 CPU, 16 Gi per replica  | **3-node replicated cluster** | 2 CPU, 8 GB memory, 10GB storage (external) | Enabled      |
+| **[Medium/Medium](#medium-reads-medium-writes)** | 20                        | 100                         | 2                 | 3 (default)               | 10             | 16               | 13Gi external   | 16 CPU, 24Gi memory       | Single instance               | 2 CPU, 8 GB memory, 10GB storage (external) | Enabled      |
+| **[High/High](#high-reads-high-writes)**         | 50                        | 1000                        | 4                 | 20                        | 160            | 50               | 200 Gi external | 14 CPU, 24 Gi per replica | **3-node replicated cluster** | 2 CPU, 8 GB memory, 10GB storage (external) | Enabled      |
+
+**Notes:**
+
+- **Concurrent Frontend Users**: Number of users actively viewing traces on the frontend
+- **Traces Submitted per Second**: Number of traces being ingested via SDKs or API endpoints
+- **Replicated ClickHouse**: Recommended for high read loads to prevent degraded performance. Another option would be [managed clickhouse](./external_clickhouse#langsmith-managed-clickhouse).
+- **PostgreSQL**: We recommend using an external instance and enabling autoexpansion for the disk to handle growing data requirements.
+
+Below we go into more details about the read and write paths as well as provide a `values.yaml` snippet for you to start with for your self-hosted LangSmith instance.
+
 ## Trace ingestion (write path)
 
 Common usage that put load on the write path:
@@ -70,11 +91,11 @@ For write load (trace ingestion):
 The exact optimal configuration depends on your usage and trace payloads. Use the examples below in combination with the information above and your specific usage to update your LangSmith configuration as you see fit. If you have any questions, please reach out to the LangChain team.
 </Note>
 
-### Low reads, low writes
+### Low reads, low writes <a name="low-reads-low-writes"></a>
 
 The default LangSmith configuration will handle this load. No custom resource configuration is needed here.
 
-### Low reads, high writes
+### Low reads, high writes <a name="low-reads-high-writes"></a>
 
 You have a very high scale of trace ingestions, but single digit number of users on the frontend querying traces at any one time.
 
@@ -151,7 +172,7 @@ commonEnv:
     value: "0"
 ```
 
-### High reads, low writes
+### High reads, low writes <a name="high-reads-low-writes"></a>
 
 You have a relatively low scale of trace ingestions, but many frontend users querying traces and/or have scripts that hit the `/runs/query` or `/runs/<run-id>` endpoints frequently.
 
@@ -200,7 +221,7 @@ clickhouse:
     cluster: "replicated"
 ```
 
-### Medium reads, medium writes
+### Medium reads, medium writes <a name="medium-reads-medium-writes"></a>
 
 This is a good all around configuration that should be able to handle most usage patterns of LangSmith. In internal testing, this configuration allowed us to scale to 100 traces ingested per second and 40 read requests per second.
 
@@ -270,7 +291,7 @@ commonEnv:
 If you still notice slow reads with the above configuration, we recommend moving to a [replicated Clickhouse cluster setup](/langsmith/self-host-external-clickhouse#ha-replicated-clickhouse-cluster)
 </Warning>
 
-### High reads, high writes
+### High reads, high writes <a name="high-reads-high-writes"></a>
 
 You have a very high rate of trace ingestion (approaching 1000 traces submitted per second) and also have many users querying traces on the frontend (over 50 users) and/or scripts that are consistently making requests to `/runs/query` or `/runs/<run-id>` endpoints.
 
