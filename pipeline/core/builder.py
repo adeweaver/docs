@@ -253,7 +253,7 @@ class DocumentationBuilder:
             msg = f"File does not exist: {file_path} this is likely a programming error"
             raise AssertionError(msg)
 
-        relative_path = file_path.relative_to(self.src_dir)
+        relative_path = file_path.absolute().relative_to(self.src_dir.absolute())
 
         # Check if this is OSS content that needs versioned building
         if relative_path.parts[0] == "oss":
@@ -376,7 +376,7 @@ class DocumentationBuilder:
         Returns:
             True if the file was copied, False if it was skipped.
         """
-        relative_path = file_path.relative_to(self.src_dir)
+        relative_path = file_path.absolute().relative_to(self.src_dir.absolute())
         output_path = self.build_dir / relative_path
 
         # Update progress bar description with current file
@@ -624,7 +624,7 @@ class DocumentationBuilder:
         Returns:
             True if the file was copied, False if it was skipped.
         """
-        relative_path = file_path.relative_to(self.src_dir)
+        relative_path = file_path.absolute().relative_to(self.src_dir.absolute())
         # Add version prefix to the output path
         output_path = self.build_dir / version_dir / relative_path
 
@@ -661,7 +661,7 @@ class DocumentationBuilder:
             True if the file should be shared, False if it should be version-specific.
         """
         # Shared files: docs.json, images directory, JavaScript files, snippets
-        relative_path = file_path.relative_to(self.src_dir)
+        relative_path = file_path.absolute().relative_to(self.src_dir.absolute())
 
         # docs.json should be shared
         if file_path.name == "docs.json":
@@ -693,7 +693,7 @@ class DocumentationBuilder:
 
         copied_count = 0
         for file_path in shared_files:
-            relative_path = file_path.relative_to(self.src_dir)
+            relative_path = file_path.absolute().relative_to(self.src_dir.absolute())
             output_path = self.build_dir / relative_path
 
             # Create output directory if needed
