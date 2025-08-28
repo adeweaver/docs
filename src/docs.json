@@ -373,12 +373,12 @@
                   {
                     "group": "Error troubleshooting",
                     "pages": [
-                      "oss/langgraph/common-errors",
-                      "oss/langgraph/GRAPH_RECURSION_LIMIT",
-                      "oss/langgraph/INVALID_CHAT_HISTORY",
-                      "oss/langgraph/INVALID_CONCURRENT_GRAPH_UPDATE",
-                      "oss/langgraph/INVALID_GRAPH_NODE_RETURN_VALUE",
-                      "oss/langgraph/MULTIPLE_SUBGRAPHS"
+                      "oss/python/langgraph/common-errors",
+                      "oss/python/langgraph/GRAPH_RECURSION_LIMIT",
+                      "oss/python/langgraph/INVALID_CHAT_HISTORY",
+                      "oss/python/langgraph/INVALID_CONCURRENT_GRAPH_UPDATE",
+                      "oss/python/langgraph/INVALID_GRAPH_NODE_RETURN_VALUE",
+                      "oss/python/langgraph/MULTIPLE_SUBGRAPHS"
                     ]
                   }
                 ]
@@ -831,7 +831,8 @@
                       "langsmith/compare-experiment-results",
                       "langsmith/filter-experiments-ui",
                       "langsmith/fetch-perf-metrics-experiment",
-                      "langsmith/upload-existing-experiments"                    ]
+                      "langsmith/upload-existing-experiments"
+                    ]
                   },
                   {
                     "group": "Annotation & human feedback",
@@ -1339,6 +1340,17 @@
                       "oss/javascript/reference/supervisor",
                       "oss/javascript/reference/swarm",
                       "oss/javascript/reference/mcp"
+                    ]
+                  },
+                  {
+                    "group": "Error troubleshooting",
+                    "pages": [
+                      "oss/javascript/langgraph/common-errors",
+                      "oss/javascript/langgraph/GRAPH_RECURSION_LIMIT",
+                      "oss/javascript/langgraph/INVALID_CHAT_HISTORY",
+                      "oss/javascript/langgraph/INVALID_CONCURRENT_GRAPH_UPDATE",
+                      "oss/javascript/langgraph/INVALID_GRAPH_NODE_RETURN_VALUE",
+                      "oss/javascript/langgraph/MULTIPLE_SUBGRAPHS"
                     ]
                   }
                 ]
