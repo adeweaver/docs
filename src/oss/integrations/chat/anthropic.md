@@ -76,7 +76,7 @@ Now we can instantiate our model object and generate chat completions:
 from langchain_anthropic import ChatAnthropic
 
 llm = ChatAnthropic(
-    model="claude-3-5-sonnet-20240620",
+    model="claude-3-5-haiku-latest",
     temperature=0,
     max_tokens=1024,
     timeout=None,
@@ -110,7 +110,7 @@ AIMessage(content="J'adore la programmation.", response_metadata={'id': 'msg_018
 
 
 ```python
-print(ai_msg.content)
+print(ai_msg.text)
 ```
 ```output
 J'adore la programmation.
@@ -152,46 +152,71 @@ AIMessage(content="Here's the German translation:\n\nIch liebe Programmieren.", 
 
 ## Content blocks
 
-Content from a single Anthropic AI message can either be a single string or a **list of content blocks**. For example when an Anthropic model invokes a tool, the tool invocation is part of the message content (as well as being exposed in the standardized `AIMessage.tool_calls`):
+When using tools, [extended thinking](#extended-thinking), and other features, content
+from a single Anthropic AI essage can either be a single strong or a
+**list of content blocks**. For example when an Anthropic model invokes a tool, the
+tool invocation is part of the message content
+(as well as being exposed in the standardized `AIMessage.tool_calls`):
 
 
 ```python
-from pydantic import BaseModel, Field
+from langchain_anthropic import ChatAnthropic
+from typing_extensions import Annotated
+
+llm = ChatAnthropic(model="claude-3-5-haiku-latest")
 
 
-class GetWeather(BaseModel):
-    """Get the current weather in a given location"""
+def get_weather(
+    location: Annotated[str, ..., "Location as city and state."]
+) -> str:
+    """Get the weather at a location."""
+    return "It's sunny."
 
-    location: str = Field(..., description="The city and state, e.g. San Francisco, CA")
 
-
-llm_with_tools = llm.bind_tools([GetWeather])
-ai_msg = llm_with_tools.invoke("Which city is hotter today: LA or NY?")
-ai_msg.content
+llm_with_tools = llm.bind_tools([get_weather])
+response = llm_with_tools.invoke("Which city is hotter today: LA or NY?")
+response.content
 ```
 
-
-
 ```output
-[{'text': "To answer this question, we'll need to check the current weather in both Los Angeles (LA) and New York (NY). I'll use the GetWeather function to retrieve this information for both cities.",
+[{'text': "I'll help you compare the temperatures of Los Angeles and New York by checking their current weather. I'll retrieve the weather for both cities.",
   'type': 'text'},
- {'id': 'toolu_01Ddzj5PkuZkrjF4tafzu54A',
+ {'id': 'toolu_01CkMaXrgmsNjTso7so94RJq',
   'input': {'location': 'Los Angeles, CA'},
-  'name': 'GetWeather',
+  'name': 'get_weather',
   'type': 'tool_use'},
- {'id': 'toolu_012kz4qHZQqD4qg8sFPeKqpP',
+ {'id': 'toolu_01SKaTBk9wHjsBTw5mrPVSQf',
   'input': {'location': 'New York, NY'},
-  'name': 'GetWeather',
+  'name': 'get_weather',
   'type': 'tool_use'}]
 ```
 
+Using `.content_blocks` will render the content in a standard format that is
+consistent across providers:
 
+```python
+response.content_blocks
+```
+
+```output
+[{'type': 'text',
+  'text': "I'll help you compare the temperatures of Los Angeles and New York by checking their current weather. I'll retrieve the weather for both cities."},
+ {'type': 'tool_call',
+  'name': 'get_weather',
+  'args': {'location': 'Los Angeles, CA'},
+  'id': 'toolu_01CkMaXrgmsNjTso7so94RJq'},
+ {'type': 'tool_call',
+  'name': 'get_weather',
+  'args': {'location': 'New York, NY'},
+  'id': 'toolu_01SKaTBk9wHjsBTw5mrPVSQf'}]
+```
+
+You can also access tool calls specifically in a standard format using the
+`.tool_calls` attribute:
 
 ```python
 ai_msg.tool_calls
 ```
-
-
 
 ```output
 [{'name': 'GetWeather',
@@ -245,10 +270,7 @@ input_message = {
         },
         {
             "type": "image",
-            "source": {
-                "type": "file",
-                "file_id": image_file_id,
-            },
+            "file_id": image_file_id,
         },
     ],
 }
@@ -283,7 +305,7 @@ input_message = {
     "role": "user",
     "content": [
         {"type": "text", "text": "Describe this document."},
-        {"type": "document", "source": {"type": "file", "file_id": pdf_file_id}}
+        {"type": "file", "file_id": pdf_file_id}
     ],
 }
 llm.invoke([input_message])
@@ -293,9 +315,12 @@ llm.invoke([input_message])
 
 ## Extended thinking
 
-Claude 3.7 Sonnet supports an [extended thinking](https://docs.anthropic.com/en/docs/build-with-claude/extended-thinking) feature, which will output the step-by-step reasoning process that led to its final answer.
+Some Claude models support an [extended thinking](https://docs.anthropic.com/en/docs/build-with-claude/extended-thinking) feature, which will output the step-by-step reasoning process that led to its final answer.
 
-To use it, specify the `thinking` parameter when initializing `ChatAnthropic`. It can also be passed in as a kwarg during invocation.
+See applicable models in the Anthropic guide [here](https://docs.anthropic.com/en/docs/build-with-claude/extended-thinking).
+
+To use extended thinking, specify the `thinking` parameter when initializing
+`ChatAnthropic`. It can also be passed in as a kwarg during invocation.
 
 You will need to specify a token budget to use this feature. See usage example below:
 
@@ -312,14 +337,14 @@ llm = ChatAnthropic(
 )
 
 response = llm.invoke("What is the cube root of 50.653?")
-print(json.dumps(response.content, indent=2))
+print(json.dumps(response.content_blocks, indent=2))
 ```
 ```output
 [
   {
-    "signature": "ErUBCkYIARgCIkCx7bIPj35jGPHpoVOB2y5hvPF8MN4lVK75CYGftmVNlI4axz2+bBbSexofWsN1O/prwNv8yPXnIXQmwT6zrJsKEgwJzvks0yVRZtaGBScaDOm9xcpOxbuhku1zViIw9WDgil/KZL8DsqWrhVpC6TzM0RQNCcsHcmgmyxbgG9g8PR0eJGLxCcGoEw8zMQu1Kh1hQ1/03hZ2JCOgigpByR9aNPTwwpl64fQUe6WwIw==",
-    "thinking": "To find the cube root of 50.653, I need to find the value of $x$ such that $x^3 = 50.653$.\n\nI can try to estimate this first. \n$3^3 = 27$\n$4^3 = 64$\n\nSo the cube root of 50.653 will be somewhere between 3 and 4, but closer to 4.\n\nLet me try to compute this more precisely. I can use the cube root function:\n\ncube root of 50.653 = 50.653^(1/3)\n\nLet me calculate this:\n50.653^(1/3) \u2248 3.6998\n\nLet me verify:\n3.6998^3 \u2248 50.6533\n\nThat's very close to 50.653, so I'm confident that the cube root of 50.653 is approximately 3.6998.\n\nActually, let me compute this more precisely:\n50.653^(1/3) \u2248 3.69981\n\nLet me verify once more:\n3.69981^3 \u2248 50.652998\n\nThat's extremely close to 50.653, so I'll say that the cube root of 50.653 is approximately 3.69981.",
-    "type": "thinking"
+    "type": "reasoning",
+    "reasoning": "To find the cube root of 50.653, I need to find the value of $x$ such that $x^3 = 50.653$.\n\nI can try to estimate this first. \n$3^3 = 27$\n$4^3 = 64$\n\nSo the cube root of 50.653 will be somewhere between 3 and 4, but closer to 4.\n\nLet me try to compute this more precisely. I can use the cube root function:\n\ncube root of 50.653 = 50.653^(1/3)\n\nLet me calculate this:\n50.653^(1/3) \u2248 3.6998\n\nLet me verify:\n3.6998^3 \u2248 50.6533\n\nThat's very close to 50.653, so I'm confident that the cube root of 50.653 is approximately 3.6998.\n\nActually, let me compute this more precisely:\n50.653^(1/3) \u2248 3.69981\n\nLet me verify once more:\n3.69981^3 \u2248 50.652998\n\nThat's extremely close to 50.653, so I'll say that the cube root of 50.653 is approximately 3.69981.",
+    "extras": {"signature": "ErUBCkYIBxgCIkB0UjV..."}
   },
   {
     "text": "The cube root of 50.653 is approximately 3.6998.\n\nTo verify: 3.6998\u00b3 = 50.6530, which is very close to our original number.",
@@ -1069,7 +1094,7 @@ llm_with_tools = llm.bind_tools([tool])
 response = llm_with_tools.invoke(
     "There's a syntax error in my primes.py file. Can you help me fix it?"
 )
-print(response.text())
+print(response.text)
 response.tool_calls
 ```
 ```output
