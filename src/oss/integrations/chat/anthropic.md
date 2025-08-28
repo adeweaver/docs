@@ -152,11 +152,7 @@ AIMessage(content="Here's the German translation:\n\nIch liebe Programmieren.", 
 
 ## Content blocks
 
-When using tools, [extended thinking](#extended-thinking), and other features, content
-from a single Anthropic AI essage can either be a single strong or a
-**list of content blocks**. For example when an Anthropic model invokes a tool, the
-tool invocation is part of the message content
-(as well as being exposed in the standardized `AIMessage.tool_calls`):
+When using tools, [extended thinking](#extended-thinking), and other features, content from a single Anthropic AI message can either be a single string or a list of content blocks. For example, when an Anthropic model invokes a tool, the tool invocation is part of the message content (as well as being exposed in the standardized `AIMessage.tool_calls`):
 
 
 ```python
@@ -319,8 +315,7 @@ Some Claude models support an [extended thinking](https://docs.anthropic.com/en/
 
 See applicable models in the Anthropic guide [here](https://docs.anthropic.com/en/docs/build-with-claude/extended-thinking).
 
-To use extended thinking, specify the `thinking` parameter when initializing
-`ChatAnthropic`. It can also be passed in as a kwarg during invocation.
+To use extended thinking, specify the `thinking` parameter when initializing `ChatAnthropic`. It can also be passed in as a `kwarg` during invocation.
 
 You will need to specify a token budget to use this feature. See usage example below:
 
