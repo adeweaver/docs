@@ -1,6 +1,6 @@
 ---
 title: Tracing quickstart
-sidebarTitle: Quickstart
+sidebarTitle: Trace an application
 ---
 
 Observability is important for any software application, but especially so for LLM applications. LLMs are **non-deterministic** by nature, meaning they can **produce unexpected results**. This makes them trickier than normal to debug.
@@ -12,7 +12,9 @@ This is where LangSmith can help! LangSmith gives you **visibility into each ste
 This tutorial will show you how to instrument a simple [RAG](https://www.mckinsey.com/featured-insights/mckinsey-explainers/what-is-retrieval-augmented-generation-rag) application that consists of a retrieval step to fetch data and an LLM call to OpenAI to answer the user question based on the data. 
 
 <Tip>
-  If you're building an application with [LangChain](https://python.langchain.com/docs/introduction/) or [LangGraph](https://langchain-ai.github.io/langgraph/), get started by reading the guides for tracing with [LangChain](/langsmith/trace-with-langchain) or tracing with [LangGraph](/langsmith/trace-with-langgraph).
+  If you're building an application with [LangChain](https://python.langchain.com/docs/introduction/) or [LangGraph](https://langchain-ai.github.io/langgraph/), you can enable LangSmith tracing with a single environment variable.
+  
+  Get started by reading the guides for tracing with [LangChain](/langsmith/trace-with-langchain) or tracing with [LangGraph](/langsmith/trace-with-langgraph).
 </Tip>
 
 ## 1. Install Dependencies

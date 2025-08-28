@@ -550,25 +550,11 @@
                 "pages": [
                   "langsmith/home",
                   {
-                    "group": "Start tracing",
+                    "group": "Quickstarts",
                     "pages": [
                       "langsmith/observability-quickstart",
-                      "langsmith/observability-concepts"
-                    ]
-                  },
-                  {
-                    "group": "Evaluate your application",
-                    "pages": [
                       "langsmith/evaluation-quickstart",
-                      "langsmith/evaluation-concepts"
-                    ]
-                  },
-                  {
-                    "group": "Test your prompts",
-                    "pages": [
-                      "langsmith/prompt-engineering-quickstart",
-                      "langsmith/prompt-engineering-concepts"
-                    ]
+                      "langsmith/prompt-engineering-quickstart"                    ]
                   },
                   {
                     "group": "API & SDKs",
@@ -591,7 +577,9 @@
                 "tab": "Observability",
                 "pages": [
                   "langsmith/observability",
+                  "langsmith/observability-concepts",
                   "langsmith/observability-llm-tutorial",
+
                   {
                     "group": "Set up tracing",
                     "pages": [
@@ -693,7 +681,8 @@
                 "tab": "Evaluation",
                 "pages": [
                   "langsmith/evaluation",
-                  "langsmith/evaluation-techniques",
+                  "langsmith/evaluation-concepts",
+                  "langsmith/evaluation-approaches",
                   {
                     "group": "Datasets",
                     "pages": [
@@ -719,7 +708,7 @@
                         ]
                       },
                       {
-                        "group": "Evaluation types",
+                        "group": "Evaluation techniques",
                         "pages": [
                           "langsmith/code-evaluator",
                           "langsmith/llm-as-judge",
@@ -761,6 +750,16 @@
                           "langsmith/create-few-shot-evaluators",
                           "langsmith/index-datasets-for-dynamic-few-shot-example-selection"
                         ]
+                      },
+                      {
+                        "group": "Tutorials",
+                        "pages": [
+                          "langsmith/evaluate-chatbot-tutorial",
+                          "langsmith/evaluate-rag-tutorial",
+                          "langsmith/test-react-agent-pytest",
+                          "langsmith/evaluate-complex-agent",
+                          "langsmith/run-backtests-new-agent"
+                        ]
                       }
                     ]
                   },
@@ -783,16 +782,6 @@
                     ]
                   },
                   {
-                    "group": "Tutorials",
-                    "pages": [
-                      "langsmith/evaluate-chatbot-tutorial",
-                      "langsmith/evaluate-rag-tutorial",
-                      "langsmith/test-react-agent-pytest",
-                      "langsmith/evaluate-complex-agent",
-                      "langsmith/run-backtests-new-agent"
-                    ]
-                  },
-                  {
                     "group": "Common data types",
                     "pages": [
                       "langsmith/example-data-format",
@@ -806,6 +795,7 @@
                 "tab": "Prompt engineering",
                 "pages": [
                   "langsmith/prompt-engineering",
+                  "langsmith/prompt-engineering-concepts",
                   {
                     "group": "Create and update prompts",
                     "pages": [
