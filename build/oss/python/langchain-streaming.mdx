@@ -1,0 +1,130 @@
+---
+title: Streaming
+---
+
+Streaming is crucial for enhancing the responsiveness of applications built on LLMs.
+By displaying output progressively, even before a complete response is ready, streaming significantly 
+improves user experience (UX), particularly when dealing with the latency of LLMs.
+
+## Stream from an agent
+
+LangChain's streaming system lets you surface live feedback from agent runs to your application.
+There are three main categories of data you can stream:
+
+1. [Agent progress](/oss/python/langchain-streaming#agent-progress) — get state updates after each agent step.
+2. [LLM tokens](/oss/python/langchain-streaming#llm-tokens) — stream language model tokens as they’re generated.
+3. [Custom updates](/oss/python/langchain-streaming#custom-updates) — emit user-defined signals (e.g., “Fetched 10/100 records”).
+
+You can also stream [multiple modes](/oss/python/langchain-streaming#stream-multiple-modes) at once.
+
+### Agent progress
+
+To stream agent progress, use the [`stream()`](https://langchain-ai.github.io/langgraph/reference/graphs/#langgraph.graph.state.CompiledStateGraph.stream) or [`astream()`](https://langchain-ai.github.io/langgraph/reference/graphs/#langgraph.graph.state.CompiledStateGraph.astream) methods with `stream_mode="updates"`. This emits an event after every agent step.
+
+
+
+
+For example, if you have an agent that calls a tool once, you should see the following updates:
+
+* **LLM node**: AI message with tool call requests
+* **Tool node**: Tool message with execution result
+* **LLM node**: Final AI response
+
+```python {highlight={5,7}}
+agent = create_react_agent(
+    model="anthropic:claude-3-7-sonnet-latest",
+    tools=[get_weather],
+)
+for chunk in agent.stream(
+    {"messages": [{"role": "user", "content": "what is the weather in sf"}]},
+    stream_mode="updates"
+):
+    print(chunk)
+    print("\n")
+```
+
+
+
+
+### LLM tokens
+
+To stream tokens as they are produced by the LLM, use `stream_mode="messages"`:
+
+```python {highlight={5,7}}
+agent = create_react_agent(
+    model="anthropic:claude-3-7-sonnet-latest",
+    tools=[get_weather],
+)
+for token, metadata in agent.stream(
+    {"messages": [{"role": "user", "content": "what is the weather in sf"}]},
+    stream_mode="messages"
+):
+    print("Token", token)
+    print("Metadata", metadata)
+    print("\n")
+```
+
+
+
+
+### Custom updates
+
+To stream updates from tools as they are executed, you can use [get_stream_writer](https://langchain-ai.github.io/langgraph/reference/config/#langgraph.config.get_stream_writer).
+
+```python {highlight={1,5,7,17}}
+from langgraph.config import get_stream_writer
+
+def get_weather(city: str) -> str:
+    """Get weather for a given city."""
+    writer = get_stream_writer()
+    # stream any arbitrary data
+    writer(f"Looking up data for city: {city}")
+    return f"It's always sunny in {city}!"
+
+agent = create_react_agent(
+    model="anthropic:claude-3-7-sonnet-latest",
+    tools=[get_weather],
+)
+
+for chunk in agent.stream(
+    {"messages": [{"role": "user", "content": "what is the weather in sf"}]},
+    stream_mode="custom"
+):
+    print(chunk)
+    print("\n")
+```
+
+<Note>
+  If you add `get_stream_writer` inside your tool, you won't be able to invoke the tool outside of a LangGraph execution context.
+</Note>
+
+
+
+
+### Stream multiple modes
+
+You can specify multiple streaming modes by passing stream mode as a list: `stream_mode=["updates", "messages", "custom"]`:
+
+```python {highlight={8}}
+agent = create_react_agent(
+    model="anthropic:claude-3-7-sonnet-latest",
+    tools=[get_weather],
+)
+
+for stream_mode, chunk in agent.stream(
+    {"messages": [{"role": "user", "content": "what is the weather in sf"}]},
+    stream_mode=["updates", "messages", "custom"]
+):
+    print(chunk)
+    print("\n")
+```
+
+
+
+
+### Disable streaming
+
+In some applications you might need to disable streaming of individual tokens for a given model.
+This is useful in [multi-agent](/oss/python/multi-agent) systems to control which agents stream their output.
+
+See the [Models](/oss/python/models#disable-streaming) guide to learn how to disable streaming.
