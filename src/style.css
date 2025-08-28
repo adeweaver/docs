@@ -228,6 +228,7 @@ button.version-picker-button svg {
 
 #banner {
   max-width: 100% !important;
+<<<<<<< HEAD
   color: var(--brand-600) !important; /* Use the dark green brand color */
 }
 
@@ -264,3 +265,9 @@ button.version-picker-button svg {
   font-size: inherit !important; /* Match callout text size */
   color: inherit !important; /* Match callout text color */
 }
+=======
+  color: #1a2c2a !important;
+  a {
+    text-decoration: underline !important;
+}
+>>>>>>> e23332cd (v1 alpha docs)

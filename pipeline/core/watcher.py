@@ -244,7 +244,7 @@ class FileWatcher:
         if file_count == 1:
             # For single file, build directly with simple message
             file_path = files_to_build[0]
-            relative_path = file_path.relative_to(self.src_dir)
+            relative_path = file_path.absolute().relative_to(self.src_dir.absolute())
             logger.info("🔄 Rebuilding %s...", relative_path)
 
             # Run build in thread pool to avoid blocking
@@ -318,7 +318,9 @@ class FileWatcher:
             try:
                 current_time = time.time()
                 touched_count = 0
-                relative_path = source_file.relative_to(self.src_dir)
+                relative_path = source_file.absolute().relative_to(
+                    self.src_dir.absolute()
+                )
 
                 # Handle different content types based on the updated build_file logic
                 if relative_path.parts[0] == "oss":
