@@ -15,7 +15,13 @@ You can configure retention through helm or environment variable settings. There
 <CodeGroup>
 
 ```yaml Helm
-config:  ttl:    enabled: true    ttl_period_seconds:      # -- TTL seconds - 400 day longlived and 14 day shortlived      longlived: "34560000"      shortlived: "1209600"
+config:  
+  ttl:
+    enabled: true
+    ttl_period_seconds:
+      # -- 400 day longlived and 14 day shortlived
+      longlived: "34560000"
+      shortlived: "1209600"
 ```
 
 ```bash Docker
@@ -37,7 +43,6 @@ As of version **0.11**, a cron job runs on weekends to assist in deleting expire
 By default, the cleanup job runs:
 
 - **Saturday**: 8pm and 10pm UTC
-- **Sunday**: 12am, 2am, and 4am UTC
 
 ### Disabling the Job
 
@@ -131,3 +136,13 @@ If you experience latency spikes and need to terminate a running mutation:
    ```sql
    KILL MUTATION WHERE mutation_id = '<mutation_id>';
    ```
+
+### Backups and Data Retention
+
+If you do not see a decrease in disk space after running this job, or see disk space increasing, then you may have backups causing file system hard
+links, preventing ClickHouse from wiping this data from disk.
+
+To check any current backups, check the `/var/lib/clickhouse/backup` and `/var/lib/clickhouse/shadow` directories inside of your clickhouse pod.
+
+If you see backups in those directories, please copy them over to an external filesystem, or to blob storage such as S3, and wipe those directories.
+You should then see disk space freeing over the following minutes.
