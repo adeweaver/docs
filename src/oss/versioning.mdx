@@ -80,24 +80,23 @@ Patch releases (e.g., 1.0.0 → 1.0.1) include:
 
 To check your installed version:
 
+:::python
 ```python
 import langchain_core
 print(langchain_core.__version__)
 ```
+:::
 
+:::js
 ```javascript
 import { version } from "langchain/version";
 console.log(version);
 ```
+:::
 
 ## Upgrading
 
-import { Tabs, Tab } from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-<Tabs>
-  <TabItem value="python" label="Python" default>
-
+:::python
 ```bash
 # Upgrade to the latest version
 pip install --upgrade langchain-core langchain
@@ -105,10 +104,9 @@ pip install --upgrade langchain-core langchain
 # Upgrade to a specific version
 pip install langchain-core==1.0.0
 ```
+:::
 
-  </TabItem>
-  <TabItem value="javascript" label="JavaScript">
-
+:::js
 ```bash
 # Upgrade to the latest version
 npm update langchain @langchain/core
@@ -116,9 +114,7 @@ npm update langchain @langchain/core
 # Install a specific version
 npm install langchain@1.0.0 @langchain/core@1.0.0
 ```
-
-  </TabItem>
-</Tabs>
+:::
 
 ## Pre-release Versions
 
@@ -130,19 +126,14 @@ We occasionally release alpha and beta versions for early testing:
 
 To install pre-release versions:
 
-<Tabs>
-  <TabItem value="python" label="Python" default>
-
+:::python
 ```bash
 pip install --pre langchain-core
 ```
+:::
 
-  </TabItem>
-  <TabItem value="javascript" label="JavaScript">
-
+:::js
 ```bash
 npm install langchain@next
 ```
-
-  </TabItem>
-</Tabs>
+:::
