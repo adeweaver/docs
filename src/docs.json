@@ -118,9 +118,9 @@
         "version": "Python",
         "dropdowns": [
           {
-            "dropdown": "OSS",
+            "dropdown": "OSS frameworks",
             "icon": "/images/brand/langgraph-pill.svg",
-            "description": "Open source frameworks",
+            "description": "LangChain and LangGraph",
             "tabs": [
               {
                 "tab": "LangChain",
@@ -165,14 +165,6 @@
                       "oss/python/langchain-test",
                       "oss/python/langchain-deploy",
                       "oss/python/langchain-observability"
-                    ]
-                  },
-                  {
-                    "group": "Versions",
-                    "pages": [
-                      "oss/python/langchain/versioning",
-                      "oss/python/langchain/release-policy",
-                      "oss/python/langchain/releases/index"
                     ]
                   }
                 ]
@@ -262,14 +254,6 @@
                       },
                       "oss/python/langgraph-pregel"
                     ]
-                  },
-                  {
-                    "group": "Versions",
-                    "pages": [
-                      "oss/python/langgraph/versioning",
-                      "oss/python/langgraph/release-policy",
-                      "oss/python/langgraph/releases/index"
-                    ]
                   }
                 ]
               },
@@ -351,6 +335,14 @@
               {
                 "tab": "Reference",
                 "groups": [
+                  {
+                    "group": "Release versions",
+                    "pages": [
+                      "oss/python/releases",
+                      "oss/python/versioning",
+                      "oss/python/release-policy"
+                    ]
+                  },
                   {
                     "group": "LangGraph reference",
                     "pages": [
@@ -1105,9 +1097,9 @@
         "version": "JavaScript",
         "dropdowns": [
           {
-            "dropdown": "OSS",
+            "dropdown": "OSS frameworks",
             "icon": "/images/brand/langgraph-pill.svg",
-            "description": "Open source frameworks",
+            "description": "LangChain and LangGraph",
             "tabs": [
               {
                 "tab": "LangChain",
@@ -1344,6 +1336,14 @@
                 "tab": "Reference",
                 "groups": [
                   {
+                    "group": "Release versions",
+                    "pages": [
+                      "oss/javascript/releases",
+                      "oss/javascript/versioning",
+                      "oss/javascript/release-policy"
+                    ]
+                  },
+                  {
                     "group": "LangGraph reference",
                     "pages": [
                       "oss/javascript/reference/overview",
@@ -1368,14 +1368,6 @@
                       "oss/javascript/reference/supervisor",
                       "oss/javascript/reference/swarm",
                       "oss/javascript/reference/mcp"
-                    ]
-                  },
-                  {
-                    "group": "Versions",
-                    "pages": [
-                      "oss/javascript/langgraph/versioning",
-                      "oss/javascript/langgraph/release-policy",
-                      "oss/javascript/langgraph/releases/index"
                     ]
                   }
                 ]

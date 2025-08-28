@@ -2,21 +2,21 @@
 title: Versioning
 ---
 
-Each version number follows the format: `MAJOR.MINOR.PATCH`
+Each LangChain and LangGraph version number follows the format: `MAJOR.MINOR.PATCH`
 
 - **Major**: Breaking API updates that require code changes.
 - **Minor**: New features and improvements that maintain backward compatibility.
 - **Patch**: Bug fixes and minor improvements.
 
-## Version Numbering
+## Version numbering
 
-We follow [Semantic Versioning](https://semver.org/) principles:
+LangChain and LangGraph follow [Semantic Versioning](https://semver.org/) principles:
 
 - **1.0.0**: First stable release with production-ready APIs
 - **1.1.0**: New features added in a backward-compatible manner
 - **1.0.1**: Backward-compatible bug fixes
 
-## API Stability
+## API stability
 
 We communicate the stability of our APIs as follows:
 
@@ -38,85 +38,136 @@ APIs marked as `deprecated` will be removed in future major releases. When possi
 
 1. Switch to the recommended alternative API
 2. Follow the migration guide (released alongside major releases)
-3. Use the LangChain CLI tool to automatically update deprecated imports (TODO: is this still usable?)
+3. Use automated migration tools when available
 
-## Release Cycles
+### Internal APIs
 
-### Major Releases
+Certain APIs are explicitly marked as "internal" in a couple of ways:
+
+- Some documentation refers to internals and mentions them as such. If the documentation says that something is internal, it may change.
+- Functions, methods, and other objects prefixed by a leading underscore (**`_`**). This is the standard Python convention of indicating that something is private; if any method starts with a single **`_`**, it's an internal API.
+    - **Exception:** Certain methods are prefixed with `_` , but do not contain an implementation. These methods are *meant* to be overridden by sub-classes that provide the implementation. Such methods are generally part of the **Public API** of LangChain.
+
+## Release cycles
+
+### Major releases
 
 Major releases (e.g., 1.0.0 → 2.0.0) may include:
+
 - Breaking API changes
 - Removal of deprecated features
 - Significant architectural improvements
 
 We provide:
+
 - Detailed migration guides
 - Automated migration tools when possible
 - Extended support period for the previous major version
 
-### Minor Releases
+### Minor releases
 
 Minor releases (e.g., 1.0.0 → 1.1.0) include:
+
 - New features and capabilities
 - Performance improvements
 - New optional parameters
 - Backward-compatible enhancements
 
-### Patch Releases
+### Patch releases
 
 Patch releases (e.g., 1.0.0 → 1.0.1) include:
+
 - Bug fixes
 - Security updates
 - Documentation improvements
 - Performance optimizations without API changes
 
-## Version Support Policy
+## Version support policy
 
-- **Latest Major Version**: Full support with active development
-- **Previous Major Version**: Security updates and critical bug fixes for 12 months after the next major release
-- **Older Versions**: Community support only
+- **Latest major version**: Full support with active development
+- **Previous major version**: Security updates and critical bug fixes for 12 months after the next major release
+- **Older versions**: Community support only
 
-## Checking Your Version
+## Check your version
 
 To check your installed version:
 
 :::python
-```python
+<CodeGroup>
+
+```python LangChain
 import langchain_core
 print(langchain_core.__version__)
 ```
+
+```python LangGraph
+import langgraph
+print(langgraph.__version__)
+```
+
+</CodeGroup>
 :::
 
 :::js
-```javascript
+<CodeGroup>
+
+```javascript LangChain
 import { version } from "langchain/version";
 console.log(version);
 ```
+
+```javascript LangGraph
+import { version } from "@langchain/langgraph";
+console.log(version);
+```
+</CodeGroup>
 :::
 
-## Upgrading
+## Upgrade
 
 :::python
-```bash
+<CodeGroup>
+
+```bash LangChain
 # Upgrade to the latest version
 pip install --upgrade langchain-core langchain
 
 # Upgrade to a specific version
 pip install langchain-core==1.0.0
 ```
+
+```bash LangGraph
+# Upgrade to the latest version
+pip install --upgrade langgraph
+
+# Upgrade to a specific version
+pip install langgraph==1.0.0
+```
+</CodeGroup>
 :::
 
 :::js
-```bash
+<CodeGroup>
+
+```bash LangChain
 # Upgrade to the latest version
 npm update langchain @langchain/core
 
 # Install a specific version
 npm install langchain@1.0.0 @langchain/core@1.0.0
 ```
+
+```bash LangGraph
+# Upgrade to the latest version
+npm update @langchain/langgraph
+
+# Install a specific version
+npm install @langchain/langgraph@1.0.0
+```
+</CodeGroup>
 :::
 
-## Pre-release Versions
+## Pre-release versions
 
 We occasionally release alpha and beta versions for early testing:
 
@@ -127,13 +178,31 @@ We occasionally release alpha and beta versions for early testing:
 To install pre-release versions:
 
 :::python
-```bash
+<CodeGroup>
+
+```bash LangChain
 pip install --pre langchain-core
 ```
+
+```bash LangGraph
+pip install --pre langgraph
+```
+</CodeGroup>
 :::
 
 :::js
-```bash
+<CodeGroup>
+```bash LangChain
 npm install langchain@next
 ```
+
+```bash LangGraph
+npm install @langchain/langgraph@next
+```
+</CodeGroup>
 :::
+
+## See also
+
+- [Release policy](/oss/release-policy) - Detailed release and deprecation policies
+- [Releases](/oss/releases) - Version-specific release notes and migration guides
