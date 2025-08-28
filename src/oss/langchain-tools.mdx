@@ -32,7 +32,7 @@ Type hints are **required** as they define the tool's input schema. The docstrin
 
 :::js
 The simplest way to create a tool is by importing the `tool` function from the `langchain` package. You can use [zod](https://zod.dev/) to define the tool's input schema:
-```js
+```ts
 import { z } from "zod"
 import { tool } from "langchain"
 
@@ -50,7 +50,7 @@ const searchDatabase = tool(({ query, limit }) => {
 
 Alternatively, you can define the `schema` property as a JSON schema object:
 
-```js
+```ts
 const searchDatabase = tool((input) => {
     const { query, limit } = input as { query: string, limit: number }
     return `Found ${limit} results for '${query}'`
@@ -228,7 +228,7 @@ response = model_any.invoke("Hello")
 :::
 
 :::js
-```js
+```ts
 const modelForced = model.bindTools([calculate], { toolChoice: "calculate" })
 const response = await modelForced.invoke("What's 2+2?")
 
