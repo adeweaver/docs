@@ -1,0 +1,288 @@
+---
+title: Models
+---
+
+LangChain provides a unified interface for working with chat models from various providers. This guide covers the core functionality for initializing, configuring, and using chat models in your applications.
+
+## `init_chat_model()`
+
+
+The easiest way to initialize any chat model in one line. Supports automatic provider inference and runtime configuration, making it perfect for applications that need to support multiple model providers.
+
+### Basic Usage
+```python
+from langchain.chat_models import init_chat_model
+
+# Returns a ChatOpenAI instance
+gpt_oss = init_chat_model("gpt-oss", model_provider="openai", temperature=0, output_version="v1")
+
+# Returns a ChatAnthropic instance  
+claude = init_chat_model("claude-3-5-sonnet-latest", model_provider="anthropic", temperature=0, output_version="v1")
+
+# Returns a ChatGoogleGenerativeAI instance
+gemini = init_chat_model("gemini-2.5-pro", model_provider="google_genai", temperature=0, output_version="v1")
+```
+
+### Advanced Configuration
+
+```python
+# Configure specific fields and add prefixes
+llm = init_chat_model(
+    model="gpt-4o",
+    temperature=0,
+    output_version="v1",
+    configurable_fields=("model", "model_provider", "temperature", "max_tokens"),
+    config_prefix="primary"  # useful for multi-model chains
+)
+
+# Use with custom configuration
+response = llm.invoke(
+    "Hello", 
+    config={
+        "configurable": {
+            "primary_model": "claude-3-5-sonnet-latest",
+            "primary_temperature": 0.5
+        }
+    }
+)
+```
+
+## Integrations
+
+LangChain supports dozens of chat model integrations. Here are examples of the most popular ones:
+
+TODO link out to page with full list
+
+### OpenAI / Anthropic / Google, ...
+
+TODO this should have a toggle to show all model examples
+
+```python
+from langchain_openai import ChatOpenAI
+
+llm = ChatOpenAI(
+    model="gpt-4o",
+    output_version="v1",
+    temperature=0,
+    max_tokens=None,
+    timeout=None,
+    max_retries=2
+)
+
+response = llm.invoke([
+    ("system", "You are a helpful assistant."),
+    ("human", "What is machine learning?")
+])
+```
+
+TODO depending on the model selected, show the features table for that model
+
+### Model Features Comparison
+
+TODO link out to page with full table
+
+A few highlights:
+
+| Provider | Tool Calling | Structured Output | Multimodal | Streaming | Async |
+|----------|-------------|-------------------|------------|-----------|-------|
+| OpenAI | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Anthropic | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Google | ✅ | ✅ | ✅ | ✅ | ✅ |
+
+## Tool Calling
+
+
+Modern chat models support tool calling, allowing them to use external functions and APIs.
+
+### Basic Tool Calling
+
+TODO model switched to show this example for our top 10 models etc.
+
+TODO consider not showing Pydantic? instead data class or other? Alternatively, a switcher to iterate through all different schema definitions
+
+```python
+from pydantic import BaseModel, Field
+from langchain_openai import ChatOpenAI
+
+class GetWeather(BaseModel):
+    """Get the current weather in a given location"""
+    location: str = Field(..., description="The city and state, e.g. San Francisco, CA")
+
+class Calculator(BaseModel):
+    """Perform mathematical calculations"""
+    expression: str = Field(..., description="Mathematical expression to evaluate")
+
+llm = ChatOpenAI(model="gpt-4o")
+llm_with_tools = llm.bind_tools([GetWeather, Calculator])
+
+response = llm_with_tools.invoke("What's the weather like in San Francisco and what's 25 * 4?")
+
+# Access tool calls
+for tool_call in response.tool_calls:
+    print(f"Tool: {tool_call['name']}")
+    print(f"Args: {tool_call['args']}")
+```
+
+### Tool Choice Control
+
+```python
+# Force the model to use a specific tool
+response = llm_with_tools.invoke(
+    "Hello there!",
+    tool_choice="GetWeather"  # Forces use of GetWeather tool
+)
+
+# Prevent tool usage entirely
+response = llm_with_tools.invoke(
+    "What's the weather in NYC?",
+    tool_choice="none"  # Disables all tools
+)
+
+# Allow any tool (default behavior)
+response = llm_with_tools.invoke(
+    "What's the weather in NYC?",
+    tool_choice="any"  # Model chooses appropriate tool
+)
+```
+
+### Parallel Tool Calls
+
+Many models support calling multiple tools simultaneously:
+
+```python
+response = llm_with_tools.invoke(
+    "What's the weather in both New York and London, and calculate 15 + 25"
+)
+
+# The model may make 3 parallel tool calls
+print(f"Number of tool calls: {len(response.tool_calls)}")
+```
+
+TODO are there any other key tool features to highlight that are non-starters if we didn't have/need to show?
+
+TODO link out to more advanced tool calling guide
+
+## Structured Output
+
+Get reliable structured data from language models by using `.with_structured_output()`.
+
+### Using Pydantic Classes / TypedDict / Multiple
+
+TODO a switcher for schemas
+
+```python
+from pydantic import BaseModel, Field
+from typing import Optional
+
+class Joke(BaseModel):
+    """A joke with setup and punchline"""
+    setup: str = Field(description="The setup of the joke")
+    punchline: str = Field(description="The punchline of the joke") 
+    rating: Optional[int] = Field(default=None, description="Humor rating from 1-10")
+
+structured_llm = llm.with_structured_output(Joke)
+result = structured_llm.invoke("Tell me a joke about programming")
+
+print(f"Setup: {result.setup}")
+print(f"Punchline: {result.punchline}")
+print(f"Rating: {result.rating}")
+```
+
+```python
+from typing_extensions import Annotated, TypedDict
+
+class PersonInfo(TypedDict):
+    """Information about a person"""
+    name: Annotated[str, ..., "Person's full name"]
+    age: Annotated[int, ..., "Person's age in years"]
+    occupation: Annotated[str, ..., "Person's job title"]
+
+structured_llm = llm.with_structured_output(PersonInfo)
+result = structured_llm.invoke("Tell me about Albert Einstein")
+```
+
+```python
+from typing import Union
+
+class WeatherQuery(BaseModel):
+    """Query about weather conditions"""
+    location: str = Field(description="Location to check weather for")
+
+class MathQuery(BaseModel):
+    """Mathematical calculation request"""
+    expression: str = Field(description="Math expression to evaluate")
+
+# Use Union for multiple possible response types
+structured_llm = llm.with_structured_output(Union[WeatherQuery, MathQuery])
+result = structured_llm.invoke("What's the weather in Seattle?")
+# Returns either WeatherQuery or MathQuery instance
+```
+
+### Streaming Structured Output
+
+
+```python
+# Only works with TypedDict schemas
+from typing_extensions import TypedDict, Annotated
+
+class StreamingJoke(TypedDict):
+    setup: Annotated[str, ..., "Joke setup"]
+    punchline: Annotated[str, ..., "Joke punchline"]
+
+streaming_llm = llm.with_structured_output(StreamingJoke)
+
+for chunk in streaming_llm.stream("Tell me a joke about cats"):
+    print(chunk)  # Partial results as they arrive
+```
+
+## Streaming
+
+
+All LangChain chat models support streaming responses. 
+
+TODO link out to streaming conceptual guide
+
+### Basic Streaming
+
+TODO switcher for models
+
+TODO switcher for sync/async
+
+```python
+from langchain_openai import ChatOpenAI
+
+llm = ChatOpenAI(model="gpt-4o", output_version="v1")
+
+# Synchronous streaming
+for chunk in llm.stream("Write a short poem about the ocean"):
+    print(chunk.content, end="", flush=True)
+```
+
+```python
+import asyncio
+
+async def stream_response():
+    async for chunk in llm.astream("Tell me about space exploration"):
+        print(chunk.content, end="", flush=True)
+
+asyncio.run(stream_response())
+```
+
+### Stream Events
+
+For complex chains with multiple steps, use `astream_events()` to get detailed streaming information:
+
+
+
+### Streaming with Tools
+
+```python
+llm_with_tools = llm.bind_tools([GetWeather])
+
+for chunk in llm_with_tools.stream("What's the weather in Paris?"):
+    # Handle both content and tool calls in stream
+    if chunk.content:
+        print(chunk.content, end="", flush=True)
+    if chunk.tool_calls:
+        print(f"\nTool calls: {chunk.tool_calls}")
+```
