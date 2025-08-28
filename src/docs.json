@@ -990,6 +990,7 @@
                       "labs/swe/setup/development",
                       "labs/swe/setup/authentication",
                       "labs/swe/setup/monorepo",
+                      "labs/swe/setup/customization",
                       "labs/swe/setup/ci"
                     ]
                   },
