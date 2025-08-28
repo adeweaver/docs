@@ -84,7 +84,7 @@ llm = ChatOpenAI(
 ```
 
 See [API Reference](https://python.langchain.com/api_reference/openai/chat_models/langchain_openai.chat_models.base.ChatOpenAI.html)
-for full set of available parameters.
+for the full set of available parameters.
 
 ## Invocation
 
