@@ -1048,6 +1048,24 @@
         "version": "JavaScript",
         "dropdowns": [
           {
+            "dropdown": "OSS",
+            "icon": "/images/brand/langchain-pill.svg",
+            "description": "Open source software from LangChain",
+            "tabs": [
+              {
+                "tab": "LangChain",
+                "groups": [
+                  {
+                    "group": "Core concepts",
+                    "pages": [
+                      "oss/javascript/langchain-tools"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "dropdown": "LangGraph",
             "icon": "/images/brand/langgraph-pill.svg",
             "description": "Framework for building reliable agents and workflows",
