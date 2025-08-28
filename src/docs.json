@@ -194,12 +194,7 @@
                     "pages": [
                       "oss/python/langgraph-persistence",
                       "oss/python/langgraph-durable-execution",
-                      {
-                        "group": "Streaming",
-                        "pages": [
-                          "oss/python/langgraph-streaming"
-                        ]
-                      },
+                      "oss/python/langgraph-streaming",
                       {
                         "group": "Human-in-the-loop",
                         "pages": [
@@ -1140,12 +1135,7 @@
                     "pages": [
                       "oss/javascript/langgraph-persistence",
                       "oss/javascript/langgraph-durable-execution",
-                      {
-                        "group": "Streaming",
-                        "pages": [
-                          "oss/javascript/langgraph-streaming"
-                        ]
-                      },
+                      "oss/javascript/langgraph-streaming",
                       {
                         "group": "Human-in-the-loop",
                         "pages": [
