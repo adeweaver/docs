@@ -143,5 +143,4 @@ If disk space does not decrease after running this job, or if it continues to in
 
 To check any current backups, check the `/var/lib/clickhouse/backup` and `/var/lib/clickhouse/shadow` directories inside of your clickhouse pod.
 
-If you see backups in those directories, please copy them over to an external filesystem, or to blob storage such as S3, and wipe those directories.
-You should then see disk space freeing over the following minutes.
+If backups are present, copy them to an external filesystem or blob storage (e.g., S3), then clear the directories. Within a few minutes, you will notice disk space releasing.
