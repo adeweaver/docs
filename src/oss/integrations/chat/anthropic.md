@@ -315,8 +315,7 @@ Some Claude models support an [extended thinking](https://docs.anthropic.com/en/
 
 See applicable models in the Anthropic guide [here](https://docs.anthropic.com/en/docs/build-with-claude/extended-thinking).
 
-To use extended thinking, specify the `thinking` parameter when initializing
-`ChatAnthropic`. It can also be passed in as a kwarg during invocation.
+To use extended thinking, specify the `thinking` parameter when initializing `ChatAnthropic`. It can also be passed in as a `kwarg` during invocation.
 
 You will need to specify a token budget to use this feature. See usage example below:
 
