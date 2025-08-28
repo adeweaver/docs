@@ -896,6 +896,7 @@
                       "langsmith/administration-overview",
                       "langsmith/create-account-api-key",
                       "langsmith/set-up-a-workspace",
+                      "langsmith/manage-organization-by-api",
                       "langsmith/billing",
                       "langsmith/set-up-resource-tags",
                       "langsmith/user-management"
@@ -1816,6 +1817,7 @@
                       "langsmith/administration-overview",
                       "langsmith/create-account-api-key",
                       "langsmith/set-up-a-workspace",
+                      "langsmith/manage-organization-by-api",
                       "langsmith/billing",
                       "langsmith/set-up-resource-tags",
                       "langsmith/user-management"
