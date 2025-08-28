@@ -708,7 +708,7 @@
                         ]
                       },
                       {
-                        "group": "Evaluation techniques",
+                        "group": "Evaluation types",
                         "pages": [
                           "langsmith/code-evaluator",
                           "langsmith/llm-as-judge",
