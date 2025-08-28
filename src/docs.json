@@ -166,6 +166,14 @@
                       "oss/python/langchain-deploy",
                       "oss/python/langchain-observability"
                     ]
+                  },
+                  {
+                    "group": "Versions",
+                    "pages": [
+                      "oss/python/langchain/versioning",
+                      "oss/python/langchain/release-policy",
+                      "oss/python/langchain/releases/index"
+                    ]
                   }
                 ]
               },
@@ -233,6 +241,19 @@
                     ]
                   },
                   {
+                    "group": "Versions",
+                    "pages": [
+                      "oss/python/langgraph/versioning",
+                      "oss/python/langgraph/release-policy",
+                      {
+                        "group": "Releases",
+                        "pages": [
+                          "oss/python/langgraph/releases/v1.0.0"
+                        ]
+                      }
+                    ]
+                  },
+                  {
                     "group": "Production",
                     "pages": [
                       "oss/python/langgraph-studio",
@@ -253,24 +274,6 @@
                         ]
                       },
                       "oss/python/langgraph-pregel"
-                    ]
-                  }
-                ]
-              },
-              {
-                "tab": "Migrations",
-                "groups": [
-                  {
-                    "group": "Versioning",
-                    "pages": [
-                      "oss/python/versioning",
-                      "oss/python/release-policy"
-                    ]
-                  },
-                  {
-                    "group": "Migration guides",
-                    "pages": [
-                      "oss/python/langgraph-migrations-v1-0-0"
                     ]
                   }
                 ]
@@ -305,24 +308,6 @@
                       "oss/python/integrations/text_embedding/index",
                       "oss/python/integrations/vectorstores/index",
                       "oss/python/integrations/document_loaders/index"
-                    ]
-                  }
-                ]
-              },
-              {
-                "tab": "Migrations",
-                "groups": [
-                  {
-                    "group": "Versioning",
-                    "pages": [
-                      "oss/python/versioning",
-                      "oss/python/release-policy"
-                    ]
-                  },
-                  {
-                    "group": "Migration guides",
-                    "pages": [
-                      "oss/python/langchain-migrations-v1-0-0"
                     ]
                   }
                 ]
@@ -1323,19 +1308,14 @@
                 ]
               },
               {
-                "tab": "Migrations",
-                "groups": [
+                "tab": "Versions",
+                "pages": [
+                  "oss/javascript/langgraph/versioning",
+                  "oss/javascript/langgraph/release-policy",
                   {
-                    "group": "Versioning",
+                    "group": "Releases",
                     "pages": [
-                      "oss/javascript/versioning",
-                      "oss/javascript/release-policy"
-                    ]
-                  },
-                  {
-                    "group": "Migration guides",
-                    "pages": [
-                      "oss/javascript/langgraph-migrations-v1-0-0"
+                      "oss/javascript/langgraph/releases/v1.0.0"
                     ]
                   }
                 ]
