@@ -1,53 +1,13 @@
 ---
 title: Release policy
-sidebar_position: 2
-sidebar_label: Release policy
 ---
 
-# LangChain release policy
+This page explains the LangChain and LangGraph release policies. Click on the tabs below to view the release policies for each:
 
-The LangChain ecosystem is composed of different component packages (e.g., `langchain-core`, `langchain`, `langchain-community`, `langgraph`, partner packages etc.)
+<Tabs>
+<Tab title="LangChain">
 
-## Versioning
-
-### `langchain`, `langchain-core`, and integration packages
-
-`langchain`, `langchain-core`, `langchain-text-splitters`, and integration packages (`langchain-openai`, `langchain-anthropic`, etc.) follow [semantic versioning](https://semver.org/) in the format of 0.**Y**.**Z**.
-
-Minor version increases will occur for:
-
-- Breaking changes for any public interfaces *not* marked as `beta`.
-
-Patch version increases will occur for:
-
-- Bug fixes,
-- New features,
-- Any changes to private interfaces,
-- Any changes to `beta` features.
-
-When upgrading between minor versions, users should review the list of breaking changes and deprecations.
-
-### `langchain-community`
-
-Minor version increases will occur for:
-
-- Updates to the major/minor versions of required `langchain-x` dependencies. E.g., when updating the required version of `langchain-core` from `^0.2.x` to `0.3.0`.
-
-Patch version increases will occur for:
-
-- Bug fixes,
-- New features,
-- Any changes to private interfaces,
-- Any changes to `beta` features,
-- Breaking changes to integrations to reflect breaking changes in the third-party service.
-
-Whenever possible we will avoid making breaking changes in patch versions.
-
-However, if an external API makes a breaking change then breaking changes to the corresponding `langchain-community` integration can occur in a patch version.
-
-### `langchain-experimental`
-
-All changes will be accompanied with patch version increases.
+The LangChain ecosystem is composed of different component packages (e.g., `langchain-core`, `langchain`, `langchain-community`, partner packages, etc.)
 
 ## Release cadence
 
@@ -71,22 +31,6 @@ The stability of other packages in the LangChain ecosystem may vary:
 - `langchain-community` is a community maintained package that contains 3rd party integrations. While we do our best to review and test changes in `langchain-community`, `langchain-community` is expected to experience more breaking changes than `langchain` and `langchain-core` as it contains many community contributions.
 - Partner packages may follow different stability and versioning policies, and users should refer to the documentation of those packages for more information; however, in general these packages are expected to be stable.
 
-### What is a "API stability"?
-
-API stability means:
-
-- All the public APIs (everything in this documentation) will not be moved or renamed without providing backwards-compatible aliases.
-- If new features are added to these APIs - which is quite possible - they will not break or change the meaning of existing methods. In other words, "stable" does not (necessarily) mean "complete."
-- If, for some reason, an API declared stable must be removed or replaced, it will be declared deprecated but will remain in the API for at least two minor releases. Warnings will be issued when the deprecated method is called.
-
-### **APIs marked as internal**
-
-Certain APIs are explicitly marked as "internal" in a couple of ways:
-
-- Some documentation refers to internals and mentions them as such. If the documentation says that something is internal, it may change.
-- Functions, methods, and other objects prefixed by a leading underscore (**`_`**). This is the standard Python convention of indicating that something is private; if any method starts with a single **`_`**, it's an internal API.
-    - **Exception:** Certain methods are prefixed with `_` , but do not contain an implementation. These methods are *meant* to be overridden by sub-classes that provide the implementation. Such methods are generally part of the **Public API** of LangChain.
-
 ## Deprecation policy
 
 We will generally avoid deprecating features until a better alternative is available.
@@ -96,3 +40,100 @@ When a feature is deprecated, it will continue to work in the current and next m
 Since we're expecting to space out minor releases by at least 2-3 months, this means that a feature can be removed within 2-6 months of being deprecated.
 
 In some situations, we may allow the feature to remain in the code base for longer periods of time, if it's not causing issues in the packages, to reduce the burden on users.
+
+</Tab>
+
+<Tab title="LangGraph">
+LangGraph follows a structured release policy to ensure stability and predictability for users building production applications.
+
+## Release cadence
+
+We expect to space out **major** releases by at least 6-12 months to provide stability for production applications.
+
+**Minor** releases are typically released every 1-2 months with new features and improvements.
+
+**Patch** releases are released as needed, often weekly, to address bugs and security issues.
+
+## API stability
+
+### Stable APIs
+
+All APIs without special prefixes are considered stable and ready for production use. We maintain backward compatibility for stable features within a major version.
+
+### Beta features
+
+Features marked as `beta` in the documentation are:
+
+- Feature-complete and tested
+- Safe for production use with the understanding they may change
+- Subject to minor API adjustments based on user feedback
+
+### Experimental features
+
+Features marked as `experimental` or `alpha`:
+
+- Are under active development
+- May change significantly or be removed
+- Should be used with caution in production
+
+### Internal APIs
+
+APIs prefixed with underscore (`_`) or explicitly marked as internal:
+
+- Are not part of the public API
+- May change without notice
+- Should not be used directly
+
+## Deprecation policy
+
+When deprecating features:
+
+1. **Deprecation Notice**: Features are marked as deprecated with clear migration guidance
+2. **Grace Period**: Deprecated features remain functional for at least one minor version
+3. **Removal**: Features are removed only in major version releases
+4. **Migration Support**: We provide migration guides and, when possible, automated tools
+
+## Platform compatibility
+
+### Python support
+
+- We support Python versions that are actively maintained by the Python Software Foundation
+- Python version requirements may change only in major releases
+- Currently requires Python 3.10 or later
+
+### JavaScript/TypeScript support
+
+- We support Node.js LTS versions
+- TypeScript definitions are provided for all public APIs
+- Browser compatibility is documented for client-side components
+
+## Breaking changes
+
+Breaking changes are only introduced in major versions and include:
+- Removal of deprecated APIs
+- Changes to required parameters
+- Changes to default behavior that affect existing applications
+- Minimum Python/Node.js version updates
+
+## Migration support
+
+For major version upgrades, we provide:
+- Comprehensive migration guides
+- Automated migration scripts when feasible
+- Extended support period for the previous major version
+- Clear documentation of all breaking changes
+
+## Long-term support (LTS)
+
+Selected versions may be designated as LTS releases:
+- Receive security updates and critical bug fixes for extended periods
+- Ideal for enterprise deployments requiring maximum stability
+- LTS status is announced at release time
+
+</Tab>
+</Tabs>
+
+## See also
+
+- [Versioning](/oss/versioning) - Version numbering and support details
+- [Releases](/oss/releases) - Version-specific release notes and migration guides
