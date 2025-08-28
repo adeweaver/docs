@@ -1,0 +1,101 @@
+---
+title: Migrate LangChain to v1.0.0
+---
+
+# Migrate LangChain to v1.0.0
+
+This guide helps you migrate from LangChain 0.x to v1.0.0.
+
+## Overview
+
+LangChain v1.0.0 introduces:
+- Standardized content blocks for consistent LLM I/O
+- Dropped Python 3.9 support (minimum Python 3.10)
+
+## Breaking Changes
+
+### Python Version Requirements
+
+**Action Required**: Upgrade to Python 3.10 or later.
+
+```bash
+# Check your Python version
+python --version
+
+# If using Python 3.9 or earlier, upgrade before installing v1.0.0
+```
+
+### Message Structure Changes
+
+#### Content Blocks
+
+Messages now support standardized content blocks for better multimodal handling.
+
+**Before (v0.x):**
+```python
+from langchain_core.messages import AIMessage
+
+message = AIMessage(content="Hello world")
+```
+
+**After (v1.0.0):**
+```python
+from langchain_core.messages import AIMessage
+
+# Basic text message (backward compatible)
+message = AIMessage(content="Hello world")
+
+# Access typed content blocks
+content_blocks = message.content_blocks  # New property
+```
+
+## New Features
+
+### Standardized Content Blocks
+
+LangChain v1.0.0 introduces standardized content block types:
+
+...
+
+### Provider Auto-Translation
+
+When specifying `model_provider`, content is automatically normalized:
+
+```python
+from langchain_openai import ChatOpenAI
+
+# Automatic content normalization
+llm = ChatOpenAI(model_provider="openai")
+response = llm.invoke("Hello")
+# Content blocks are automatically standardized
+```
+
+## Migration Checklist
+
+- [ ] **Python Version**: Ensure Python 3.10 or later
+- [ ] **Update Dependencies**: 
+
+## Backward Compatibility
+
+### Legacy Format Support
+
+
+### Gradual Migration
+
+You can migrate gradually:
+
+1. Update dependencies
+2. Fix breaking changes (required)
+3. Adopt new features as needed (optional)
+
+## Getting Help
+
+- **Documentation**: See the full [v1.0.0 documentation](/docs)
+- **Community**: Visit the [LangChain Forum](https://forum.langchain.com)
+- **Issues**: Report problems on [GitHub](https://github.com/langchain-ai/langchain/issues)
+
+## Example Migration
+
+Here's a complete before/after example:
+
+TODO
