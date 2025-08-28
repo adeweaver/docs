@@ -2,16 +2,296 @@
 title: Streaming
 ---
 
-## Overview
+Streaming is a feature of LangChain that allows you to stream the output of models and tools in real-time.
 
-## Agent Progress
+## Stream from an agent
 
-## LLM Tokens
+### Agent progress
 
-## Tool Updates
+:::python
+To stream agent progress, use the @[`stream()`][CompiledStateGraph.stream] or @[`astream()`][CompiledStateGraph.astream] methods with `stream_mode="updates"`. This emits an event after every agent step.
+:::
 
-## Stream multiple modes
+:::js
+To stream agent progress, use the @[`stream()`][CompiledStateGraph.stream] method with `streamMode: "updates"`. This emits an event after every agent step.
+:::
 
-## Stream subagents
+For example, if you have an agent that calls a tool once, you should see the following updates:
 
-## Disable streaming
+* **LLM node**: AI message with tool call requests
+* **Tool node**: Tool message with execution result
+* **LLM node**: Final AI response
+
+:::python
+<Tabs>
+  <Tab title="Sync">
+    ```python {highlight={5,7}}
+    agent = create_react_agent(
+        model="anthropic:claude-3-7-sonnet-latest",
+        tools=[get_weather],
+    )
+    for chunk in agent.stream(
+        {"messages": [{"role": "user", "content": "what is the weather in sf"}]},
+        stream_mode="updates"
+    ):
+        print(chunk)
+        print("\n")
+```
+  </Tab>
+  <Tab title="Async">
+    ```python {highlight={5,7}}
+    agent = create_react_agent(
+        model="anthropic:claude-3-7-sonnet-latest",
+        tools=[get_weather],
+    )
+    async for chunk in agent.astream(
+        {"messages": [{"role": "user", "content": "what is the weather in sf"}]},
+        stream_mode="updates"
+    ):
+        print(chunk)
+        print("\n")
+```
+  </Tab>
+</Tabs>
+:::
+
+:::js
+```typescript
+const agent = createReactAgent({
+  llm: model,
+  tools: [getWeather],
+});
+
+for await (const chunk of await agent.stream(
+  { messages: [{ role: "user", content: "what is the weather in sf" }] },
+  { streamMode: "updates" }
+)) {
+  console.log(chunk);
+  console.log("\n");
+}
+```
+:::
+
+### LLM tokens
+
+:::python
+To stream tokens as they are produced by the LLM, use `stream_mode="messages"`:
+
+<Tabs>
+  <Tab title="Sync">
+    ```python {highlight={5,7}}
+    agent = create_react_agent(
+        model="anthropic:claude-3-7-sonnet-latest",
+        tools=[get_weather],
+    )
+    for token, metadata in agent.stream(
+        {"messages": [{"role": "user", "content": "what is the weather in sf"}]},
+        stream_mode="messages"
+    ):
+        print("Token", token)
+        print("Metadata", metadata)
+        print("\n")
+```
+  </Tab>
+  <Tab title="Async">
+    ```python {highlight={5,7}}
+    agent = create_react_agent(
+        model="anthropic:claude-3-7-sonnet-latest",
+        tools=[get_weather],
+    )
+    async for token, metadata in agent.astream(
+        {"messages": [{"role": "user", "content": "what is the weather in sf"}]},
+        stream_mode="messages"
+    ):
+        print("Token", token)
+        print("Metadata", metadata)
+        print("\n")
+```
+  </Tab>
+</Tabs>
+:::
+
+:::js
+To stream tokens as they are produced by the LLM, use `streamMode: "messages"`:
+
+```typescript
+const agent = createReactAgent({
+  llm: model,
+  tools: [getWeather],
+});
+
+for await (const [token, metadata] of await agent.stream(
+  { messages: [{ role: "user", content: "what is the weather in sf" }] },
+  { streamMode: "messages" }
+)) {
+  console.log("Token", token);
+  console.log("Metadata", metadata);
+  console.log("\n");
+}
+```
+:::
+
+### Tool updates
+
+:::python
+To stream updates from tools as they are executed, you can use @[get_stream_writer][get_stream_writer].
+
+<Tabs>
+  <Tab title="Sync">
+    ```python {highlight={1,5,7,17}}
+    from langgraph.config import get_stream_writer
+    
+    def get_weather(city: str) -> str:
+        """Get weather for a given city."""
+        writer = get_stream_writer()
+        # stream any arbitrary data
+        writer(f"Looking up data for city: {city}")
+        return f"It's always sunny in {city}!"
+    
+    agent = create_react_agent(
+        model="anthropic:claude-3-7-sonnet-latest",
+        tools=[get_weather],
+    )
+    
+    for chunk in agent.stream(
+        {"messages": [{"role": "user", "content": "what is the weather in sf"}]},
+        stream_mode="custom"
+    ):
+        print(chunk)
+        print("\n")
+```
+  </Tab>
+  <Tab title="Async">
+    ```python {highlight={1,5,7,17}}
+    from langgraph.config import get_stream_writer
+    
+    def get_weather(city: str) -> str:
+        """Get weather for a given city."""
+        writer = get_stream_writer()
+        # stream any arbitrary data
+        writer(f"Looking up data for city: {city}")
+        return f"It's always sunny in {city}!"
+    
+    agent = create_react_agent(
+        model="anthropic:claude-3-7-sonnet-latest",
+        tools=[get_weather],
+    )
+    
+    async for chunk in agent.astream(
+        {"messages": [{"role": "user", "content": "what is the weather in sf"}]},
+        stream_mode="custom"
+    ):
+        print(chunk)
+        print("\n")
+```
+  </Tab>
+</Tabs>
+
+<Note>
+  If you add `get_stream_writer` inside your tool, you won't be able to invoke the tool outside of a LangGraph execution context.
+</Note>
+:::
+
+:::js
+To stream updates from tools as they are executed, you can use the `writer` parameter from the configuration.
+
+```typescript
+import { LangGraphRunnableConfig } from "@langchain/langgraph";
+
+const getWeather = tool(
+  async (input, config: LangGraphRunnableConfig) => {
+    // Stream any arbitrary data
+    config.writer?.("Looking up data for city: " + input.city);
+    return `It's always sunny in ${input.city}!`;
+  },
+  {
+    name: "get_weather",
+    description: "Get weather for a given city.",
+    schema: z.object({
+      city: z.string().describe("The city to get weather for."),
+    }),
+  }
+);
+
+const agent = createReactAgent({
+  llm: model,
+  tools: [getWeather],
+});
+
+for await (const chunk of await agent.stream(
+  { messages: [{ role: "user", content: "what is the weather in sf" }] },
+  { streamMode: "custom" }
+)) {
+  console.log(chunk);
+  console.log("\n");
+}
+```
+
+<Note>
+  If you add the `writer` parameter to your tool, you won't be able to invoke the tool outside of a LangGraph execution context without providing a writer function.
+</Note>
+:::
+
+### Stream multiple modes
+
+:::python
+You can specify multiple streaming modes by passing stream mode as a list: `stream_mode=["updates", "messages", "custom"]`:
+
+<Tabs>
+  <Tab title="Sync">
+    ```python {highlight={8}}
+    agent = create_react_agent(
+        model="anthropic:claude-3-7-sonnet-latest",
+        tools=[get_weather],
+    )
+    
+    for stream_mode, chunk in agent.stream(
+        {"messages": [{"role": "user", "content": "what is the weather in sf"}]},
+        stream_mode=["updates", "messages", "custom"]
+    ):
+        print(chunk)
+        print("\n")
+```
+  </Tab>
+  <Tab title="Async">
+    ```python {highlight={8}}
+    agent = create_react_agent(
+        model="anthropic:claude-3-7-sonnet-latest",
+        tools=[get_weather],
+    )
+    
+    async for stream_mode, chunk in agent.astream(
+        {"messages": [{"role": "user", "content": "what is the weather in sf"}]},
+        stream_mode=["updates", "messages", "custom"]
+    ):
+        print(chunk)
+        print("\n")
+```
+  </Tab>
+</Tabs>
+:::
+
+:::js
+You can specify multiple streaming modes by passing streamMode as an array: `streamMode: ["updates", "messages", "custom"]`:
+
+```typescript
+const agent = createReactAgent({
+  llm: model,
+  tools: [getWeather],
+});
+
+for await (const chunk of await agent.stream(
+  { messages: [{ role: "user", content: "what is the weather in sf" }] },
+  { streamMode: ["updates", "messages", "custom"] }
+)) {
+  console.log(chunk);
+  console.log("\n");
+}
+```
+:::
+
+### Disable streaming
+
+In some applications you might need to disable streaming of individual tokens for a given model. This is useful in [multi-agent](/oss/multi-agent) systems to control which agents stream their output.
+
+See the [Models](/oss/models#disable-streaming) guide to learn how to disable streaming.

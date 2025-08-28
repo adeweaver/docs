@@ -197,8 +197,7 @@
                       {
                         "group": "Streaming",
                         "pages": [
-                          "oss/python/langgraph-streaming",
-                          "oss/python/langgraph-use-streaming"
+                          "oss/python/langgraph-streaming"
                         ]
                       },
                       {
@@ -1144,8 +1143,7 @@
                       {
                         "group": "Streaming",
                         "pages": [
-                          "oss/javascript/langgraph-streaming",
-                          "oss/javascript/langgraph-use-streaming"
+                          "oss/javascript/langgraph-streaming"
                         ]
                       },
                       {
