@@ -258,6 +258,24 @@
                 ]
               },
               {
+                "tab": "Migrations",
+                "groups": [
+                  {
+                    "group": "Versioning",
+                    "pages": [
+                      "oss/python/versioning",
+                      "oss/python/release-policy"
+                    ]
+                  },
+                  {
+                    "group": "Migration guides",
+                    "pages": [
+                      "oss/python/langgraph-migrations-v1-0-0"
+                    ]
+                  }
+                ]
+              },
+              {
                 "tab": "Integrations",
                 "groups": [
                   {
@@ -287,6 +305,24 @@
                       "oss/python/integrations/text_embedding/index",
                       "oss/python/integrations/vectorstores/index",
                       "oss/python/integrations/document_loaders/index"
+                    ]
+                  }
+                ]
+              },
+              {
+                "tab": "Migrations",
+                "groups": [
+                  {
+                    "group": "Versioning",
+                    "pages": [
+                      "oss/python/versioning",
+                      "oss/python/release-policy"
+                    ]
+                  },
+                  {
+                    "group": "Migration guides",
+                    "pages": [
+                      "oss/python/langchain-migrations-v1-0-0"
                     ]
                   }
                 ]
@@ -1282,6 +1318,24 @@
                       "oss/javascript/reference/supervisor",
                       "oss/javascript/reference/swarm",
                       "oss/javascript/reference/mcp"
+                    ]
+                  }
+                ]
+              },
+              {
+                "tab": "Migrations",
+                "groups": [
+                  {
+                    "group": "Versioning",
+                    "pages": [
+                      "oss/javascript/versioning",
+                      "oss/javascript/release-policy"
+                    ]
+                  },
+                  {
+                    "group": "Migration guides",
+                    "pages": [
+                      "oss/javascript/langgraph-migrations-v1-0-0"
                     ]
                   }
                 ]
