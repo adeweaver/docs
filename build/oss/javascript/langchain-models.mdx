@@ -1,0 +1,231 @@
+---
+title: Models
+---
+
+Large Language Models (LLMs) are advanced machine learning tools that excel in a wide range of language-related tasks such as text generation, translation, summarization, question answering, and more, without needing task-specific fine tuning for every scenario.
+
+Modern LLMs are typically accessed through a chat interface, where [messages]() are exchanged between a user and the model. This is most commonly done via a user interface or an API.
+
+In addition to basic text generation, many models support the following advanced features:
+
+* [Tool calling]() - enables models to interact with external services, APIs, and databases.
+* [Structured output]() - constrain the response format to match a provided schema.
+* [Multimodality]() - the ability to process data other than text, such as images.
+
+## Basic usage
+
+### Key methods
+1. **invoke**: The model takes [message(s)]() as input and returns message(s).
+2. **stream**: Invoke the model, but stream the output as it is generated in real time.
+3. **batch**: Send multiple requests to a model in one batch for more efficient processing.
+
+### `init_chat_model()`
+
+The easiest way start interacting with a model in LangChain:
+
+<CodeGroup dropdown>
+```python OpenAI icon="openai"
+from langchain.chat_models import init_chat_model
+
+model = init_chat_model(
+    model="gpt-5", 
+    model_provider="openai"
+)
+response = model.invoke("Why do parrots talk?")
+```
+
+```python Anthropic icon="anthropic"
+from langchain.chat_models import init_chat_model
+
+model = init_chat_model(
+    model="claude-opus-4-0", 
+    model_provider="anthropic"
+)
+response = model.invoke("Why do parrots talk?")
+```
+
+```python Google icon="google"
+from langchain.chat_models import init_chat_model
+
+model = init_chat_model(
+    model="gemini-2.5-pro", 
+    model_provider="google"
+)
+response = model.invoke("Why do parrots talk?")
+```
+
+```python AWS Bedrock icon="aws"
+from langchain.chat_models import init_chat_model
+
+model = init_chat_model(
+    model="anthropic.claude-opus-4", 
+    model_provider="bedrock",
+)
+response = model.invoke("Why do parrots talk?")
+```
+
+```python Ollama icon="ollama"
+from langchain.chat_models import init_chat_model
+
+model = init_chat_model(
+    model="gpt-oss", 
+    model_provider="ollama",
+)
+response = model.invoke("Why do parrots talk?")
+```
+</CodeGroup>
+
+## Parameters
+
+Many models have standardized parameters that can be used to configure the model:
+
+| Parameter      | Description                                                                                                                                                             |
+|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `model`        | The name or identifier of the specific model you want to use.                                                                                                           |
+| `api_key`      | The key required for authenticating with the model's provider. This is usually issued when you sign up for access to the model.                                         |
+| `temperature`  | Controls the randomness of the model's output. A higher number makes responses more creative, while a lower one makes them more deterministic.                          |
+| `timeout`      | The maximum time (in seconds) to wait for a response from the model before canceling the request.                                                                       |
+| `max_tokens`   | Limits the total number of [tokens]() in the response, effectively controling how long the output can be.                                                               |
+| `stop`         | A string that indicates when the model should stop generating its output.                                                                                               |
+| `max_retries`  | The maximum number of attempts the system will make to resend a request if it fails due to issues like network timeouts or rate limits.                                 |
+
+<Note>Each model supports a different set of parameters. For example, some providers do not expose a configuration for maximum output tokens, so `max_tokens` wouldn't be available for that model. To find all the parameters supported by a model, head to the their respective [page]().</Note>
+
+## Invocation
+
+<Tip>All invocation methods have asynchronous equivalents.</Tip>
+
+### `invoke()`
+
+The most straightforward way to use a model is to call `invoke()` with a single message or a list of messages.
+
+```python Invoke
+response = model.invoke("Why do parrots have colorful feathers?")
+print(response)
+```
+
+### `stream()`
+
+Most models can stream their output content as it is generated. By displaying output progressively, even before a complete response is ready, streaming significantly improves user experience, particularly for longer responses.
+
+Calling `stream()` returns an iterator that yields chunks of output synchronously as they are produced. You can use a loop to process each chunk in real-time:
+
+```python Streaming
+for chunk in model.stream("Why do parrots have colorful feathers?"):
+    print(chunk)
+```
+
+### `batch()`
+
+Batching requests to a model can significantly improve performance when needing to process multiple independent inputs, as the processing can be done in parallel:
+
+```python Batch
+responses = model.batch([
+    "Why do parrots have colorful feathers?",
+    "How do airplanes fly?",
+    "What is quantum computing?"
+])
+for response in responses:
+    print(response)
+```
+
+By default, `batch()` will only return the final output for the entire batch. If you want to receive the output for each individual input as it is finishes generating, you can stream results with `batch_as_completed()`:
+
+```python Yield responses upon completion
+for response in model.batch_as_completed([
+    "Why do parrots have colorful feathers?",
+    "How do airplanes fly?",
+    "What is quantum computing?"
+]):
+    print(response)
+```
+<Note>When using `batch_as_completed()`, results may arrive out of order. Each includes the input index for matching to reconstruct the original order if needed.</Note>
+
+
+## Advanced features
+
+### Tool calling
+
+Models can request to call [tools]() to perform tasks such as fetching data from a database, searching the web, or running code.
+
+<Note>You will sometimes hear the term `function calling`. We use this term interchangeably with `tool calling`.</Note>
+
+To make tools available for use by a model, they must be bound with `.bind_tools()`. In subsequent invocations, the model can then choose to call any of the bound tools as needed.
+
+TODO a switcher to iterate through all different tool schema options
+TODO model switcher to show this example for our top 5 providers
+
+```python Binding tools highlight={16}
+from pydantic import BaseModel, Field
+from langchain.chat_models import init_chat_model
+
+class GetWeather(BaseModel):
+    """Get the current weather in a given location"""
+    location: str = Field(..., description="The city and state, e.g. Boston, MA")
+
+class Calculator(BaseModel):
+    """Perform mathematical calculations"""
+    expression: str = Field(..., description="Mathematical expression to evaluate")
+
+model = init_chat_model(
+    model="gpt-5", 
+    model_provider="openai"
+)
+model_with_tools = model.bind_tools([GetWeather, Calculator])
+
+response = model_with_tools.invoke("What's the weather like in Boston and what's 25 * 4?")
+for tool_call in response.tool_calls:
+    # View tool calls made by the model
+    print(f"Tool: {tool_call['name']}")
+    print(f"Args: {tool_call['args']}")
+```
+
+In this example, the model's response includes a **request** to execute a tool. It is up to you to perform the requested action and return the result back to the model for use in subsequent reasoning.
+
+TODO link out to a different guide on tool execution; beyond the scope here
+
+#### Forcing tool calls
+
+By default, the model has the freedom to choose which bound tool to use based on the user's input. However, you might want to force choosing a tool, ensuring the model uses either a particular tool or *any* tool from a given list:
+
+```python Forcing tool calls
+response = model_with_tools.invoke(
+    "What's the weather in both New York and London, and calculate 15 + 25",
+    force_tool_calls=["GetWeather", "Calculator"]  # Force use of either tool
+)
+# OR
+response = model_with_tools.invoke(
+    "What's the weather in both New York and London, and calculate 15 + 25",
+    force_tool_calls="any"  # Force use of any tool
+)
+```
+
+#### Parallel tool calls
+
+TODO
+
+### Structured outputs
+
+Models can be requested to respond in a particular format (e.g., JSON or matching a defined schema). This is useful for data extraction. See the [structured outputs]() guide for more info.
+
+### Multimodality
+
+Some models can also be used to process other types of data, such as images, audio, and video. This is known as [multimodality]().
+
+## Advanced configuration
+
+
+
+## Supported models
+
+LangChain supports all major model providers.
+
+TODO link out to page with full table
+
+At a glance:
+
+| Provider  | Tool Calling | Structured Output | Multimodal | Streaming | Async |
+|-----------|--------------|-------------------|------------|-----------|-------|
+| OpenAI    | x            | x                 | x          | x         | x     |
+| Anthropic | x            | x                 | x          | x         | x     |
+| Google    | x            | x                 | x          | x         | x     |
