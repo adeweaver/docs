@@ -241,19 +241,6 @@
                     ]
                   },
                   {
-                    "group": "Versions",
-                    "pages": [
-                      "oss/python/langgraph/versioning",
-                      "oss/python/langgraph/release-policy",
-                      {
-                        "group": "Releases",
-                        "pages": [
-                          "oss/python/langgraph/releases/v1.0.0"
-                        ]
-                      }
-                    ]
-                  },
-                  {
                     "group": "Production",
                     "pages": [
                       "oss/python/langgraph-studio",
@@ -274,6 +261,14 @@
                         ]
                       },
                       "oss/python/langgraph-pregel"
+                    ]
+                  },
+                  {
+                    "group": "Versions",
+                    "pages": [
+                      "oss/python/langgraph/versioning",
+                      "oss/python/langgraph/release-policy",
+                      "oss/python/langgraph/releases/index"
                     ]
                   }
                 ]
@@ -1304,18 +1299,13 @@
                       "oss/javascript/reference/swarm",
                       "oss/javascript/reference/mcp"
                     ]
-                  }
-                ]
-              },
-              {
-                "tab": "Versions",
-                "pages": [
-                  "oss/javascript/langgraph/versioning",
-                  "oss/javascript/langgraph/release-policy",
+                  },
                   {
-                    "group": "Releases",
+                    "group": "Versions",
                     "pages": [
-                      "oss/javascript/langgraph/releases/v1.0.0"
+                      "oss/javascript/langgraph/versioning",
+                      "oss/javascript/langgraph/release-policy",
+                      "oss/javascript/langgraph/releases/index"
                     ]
                   }
                 ]
