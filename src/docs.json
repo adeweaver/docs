@@ -263,6 +263,7 @@
                   {
                     "group": "Providers",
                     "pages": [
+                      "oss/python/integrations/providers/index",
                       {
                         "group": "Anthropic",
                         "pages": [
@@ -313,7 +314,16 @@
                           "oss/python/integrations/text_embedding/openai"
                         ]
                       },
-                      "oss/python/integrations/providers/all_providers"
+                      "oss/python/integrations/providers/all_providers",
+                      {
+                        "group": "Contribute an integration",
+                        "pages": [
+                          "oss/python/integrations/contributing/index",
+                          "oss/python/integrations/contributing/package",
+                          "oss/python/integrations/contributing/standard_tests",
+                          "oss/python/integrations/contributing/publish"
+                        ]
+                      }
                     ]
                   },
                   {
