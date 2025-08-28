@@ -213,8 +213,7 @@ Claude also supports interactions with files through its managed [Files API](htt
 
 The Files API can also be used to upload files to a container for use with Claude's built-in code-execution tools. See the [code execution](#code-execution) section below, for details.
 
-<details>
-<summary>Images</summary>
+<Accordion title="Images">
 
 ```python
 # Upload image
@@ -256,10 +255,9 @@ input_message = {
 llm.invoke([input_message])
 ```
 
-</details>
+</Accordion>
 
-<details>
-<summary>PDFs</summary>
+<Accordion title="PDFs">
 
 ```python
 # Upload document
@@ -291,7 +289,7 @@ input_message = {
 llm.invoke([input_message])
 ```
 
-</details>
+</Accordion>
 
 ## Extended thinking
 
@@ -338,7 +336,7 @@ To enable caching on an element of a prompt, mark its associated content block u
 ### Messages
 
 
-```python
+```python highlight={23}
 import requests
 from langchain_anthropic import ChatAnthropic
 
@@ -361,7 +359,6 @@ messages = [
             {
                 "type": "text",
                 "text": f"{readme}",
-                # highlight-next-line
                 "cache_control": {"type": "ephemeral"},
             },
         ],
@@ -394,10 +391,9 @@ Second:
 
     The cache lifetime is 5 minutes by default. If this is too short, you can apply one hour caching by enabling the `"extended-cache-ttl-2025-04-11"` beta header:
 
-    ```python
+    ```python highlight={3}
     llm = ChatAnthropic(
         model="claude-3-7-sonnet-20250219",
-        # highlight-next-line
         betas=["extended-cache-ttl-2025-04-11"],
     )
     ```
@@ -428,7 +424,7 @@ Second:
 ### Tools
 
 
-```python
+```python highlight={17,18}
 from langchain_anthropic import convert_to_anthropic_tool
 from langchain_core.tools import tool
 
@@ -445,10 +441,8 @@ def get_weather(location: str) -> str:
 
 
 # Enable caching on the tool
-# highlight-start
 weather_tool = convert_to_anthropic_tool(get_weather)
 weather_tool["cache_control"] = {"type": "ephemeral"}
-# highlight-end
 
 llm = ChatAnthropic(model="claude-3-7-sonnet-20250219")
 llm_with_tools = llm.bind_tools([weather_tool])
@@ -605,18 +599,13 @@ In the [LangSmith trace](https://smith.langchain.com/public/4d0584d8-5f9e-4b91-8
 Anthropic supports a (beta) [token-efficient tool use](https://docs.anthropic.com/en/docs/build-with-claude/tool-use/token-efficient-tool-use) feature. To use it, specify the relevant beta-headers when instantiating the model.
 
 
-```python
+```python highlight={6}
 from langchain_anthropic import ChatAnthropic
 from langchain_core.tools import tool
 
 llm = ChatAnthropic(
     model="claude-3-7-sonnet-20250219",
-    temperature=0,
-    # highlight-start
-    model_kwargs={
-        "extra_headers": {"anthropic-beta": "token-efficient-tools-2025-02-19"}
-    },
-    # highlight-end
+    betas=["token-efficient-tools-2025-02-19"],
 )
 
 
@@ -732,8 +721,8 @@ def retrieval_tool(query: str) -> list[dict]:
 
 We also need to specify the `search-results-2025-06-09` beta when instantiating ChatAnthropic. You can see an end-to-end example below.
 
-<details>
-<summary>End to end example with LangGraph</summary>
+
+<Accordion title="End to end example with LangGraph">
 
 Here we demonstrate an end-to-end example in which we populate a LangChain [vector store](/oss/concepts/vectorstores/) with sample documents and equip Claude with a tool that queries those documents.
 The tool here takes a search query and a `category` string literal, but any valid tool signature can be used.
@@ -842,7 +831,7 @@ async for step in agent.astream(
     step["messages"][-1].pretty_print()
 ```
 
-</details>
+</Accordion>
 
 ### Using with text splitters
 
@@ -962,8 +951,8 @@ response = llm_with_tools.invoke(
 )
 ```
 
-<details>
-<summary>Use with Files API</summary>
+
+<Accordion title="Use with Files API">
 
 Using the Files API, Claude can write code to access files for data analysis and other purposes. See example below:
 
@@ -1023,7 +1012,7 @@ for i, file_id in enumerate(file_ids):
     file_content.write_to_file(f"/path/to/file_{i}.png")
 ```
 
-</details>
+</Accordion>
 
 ### Remote MCP
 
