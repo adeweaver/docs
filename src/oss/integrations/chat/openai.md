@@ -69,17 +69,22 @@ Now we can instantiate our model object and generate chat completions:
 from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(
-    model="gpt-4o-mini",
-    temperature=0,
-    max_tokens=None,
-    timeout=None,
-    max_retries=2,
+    model="gpt-5-nano",
+    # stream_usage=True,
+    # temperature=None,
+    # max_tokens=None,
+    # timeout=None,
+    # reasoning_effort="low",
+    # max_retries=2,
     # api_key="...",  # if you prefer to pass api key in directly instaed of using env vars
     # base_url="...",
     # organization="...",
     # other params...
 )
 ```
+
+See [API Reference](https://python.langchain.com/api_reference/openai/chat_models/langchain_openai.chat_models.base.ChatOpenAI.html)
+for full set of available parameters.
 
 ## Invocation
 
@@ -357,7 +362,7 @@ def do_math(input_string: str) -> str:
     return "27"
 
 
-llm = ChatOpenAI(model="gpt-5", output_version="responses/v1")
+llm = ChatOpenAI(model="gpt-5", output_version="v1")
 
 agent = create_react_agent(llm, [do_math])
 
@@ -374,10 +379,10 @@ for step in agent.stream(
 Use the tool to calculate 3^3.
 ================================== Ai Message ==================================
 
-[{'id': 'rs_689500828a8481a297ff0f98e328689c0681550c89797f43', 'summary': [], 'type': 'reasoning'}, {'call_id': 'call_jzH01RVhu6EFz7yUrOFXX55s', 'input': '3 * 3 * 3', 'name': 'do_math', 'type': 'custom_tool_call', 'id': 'ctc_6895008d57bc81a2b84d0993517a66b90681550c89797f43', 'status': 'completed'}]
+[{'id': 'rs_68b04e3492a08191bd087e2e754c849b08f1d4c187735236', 'type': 'reasoning'}, {'type': 'non_standard', 'value': {'call_id': 'call_aRTi7Ho65kf5xMWFHrl3rnLd', 'input': '3 * 3 * 3', 'name': 'do_math', 'type': 'custom_tool_call', 'id': 'ctc_68b04e39308c8191ba595c4e3c65194208f1d4c187735236', 'status': 'completed'}}]
 Tool Calls:
-  do_math (call_jzH01RVhu6EFz7yUrOFXX55s)
- Call ID: call_jzH01RVhu6EFz7yUrOFXX55s
+  do_math (call_aRTi7Ho65kf5xMWFHrl3rnLd)
+ Call ID: call_aRTi7Ho65kf5xMWFHrl3rnLd
   Args:
     __arg1: 3 * 3 * 3
 ================================= Tool Message =================================
@@ -386,7 +391,7 @@ Name: do_math
 [{'type': 'custom_tool_call_output', 'output': '27'}]
 ================================== Ai Message ==================================
 
-[{'type': 'text', 'text': '27', 'annotations': [], 'id': 'msg_6895009776b881a2a25f0be8507d08f20681550c89797f43'}]
+[{'type': 'text', 'text': '27', 'annotations': [], 'id': 'msg_68b04e3aecb48191b81218124ef21ebc08f1d4c187735236'}]
 ```
 </Accordion>
 
@@ -428,7 +433,7 @@ llm.invoke("...", tools=[{"type": "web_search_preview"}])
 ```python
 from langchain_openai import ChatOpenAI
 
-llm = ChatOpenAI(model="gpt-4.1-mini", output_version="responses/v1")
+llm = ChatOpenAI(model="gpt-4.1-mini", output_version="v1")
 
 tool = {"type": "web_search_preview"}
 llm_with_tools = llm.bind_tools([tool])
@@ -557,43 +562,30 @@ response = llm_with_tools.invoke("What is deep research by OpenAI?")
 print(response.text)
 ```
 ```output
-Deep Research by OpenAI is a newly launched agentic capability within ChatGPT designed to conduct complex, multi-step research tasks on the internet autonomously. It synthesizes large amounts of online information into comprehensive, research analyst-level reports, accomplishing in tens of minutes what would typically take a human many hours. This capability is powered by an upcoming OpenAI o3 model that is optimized for web browsing and data analysis, allowing it to search, interpret, and analyze massive amounts of text, images, and PDFs from the internet, while dynamically adjusting its approach based on the information it finds.
-
-Key features of Deep Research include:
-- Independent discovery, reasoning, and consolidation of insights from across the web.
-- Ability to use browser and Python programming tools for data analysis and graph plotting.
-- Full documentation of outputs with clear citations and a summary of its reasoning process, making it easy to verify and reference.
-- Designed to provide thorough, precise, and reliable research especially useful for knowledge-intensive domains such as finance, science, policy, and engineering. It is also valuable for individuals seeking personalized and detailed product research.
-
-It uses reinforcement learning techniques to plan and execute multi-step information-gathering tasks, reacting to real-time information by backtracking or pivoting its search when necessary. Deep Research can browse the open web and user-uploaded files, integrates visual data such as images and graphs into its reports, and cites specific source passages to support its conclusions.
-
-The goal behind Deep Research is to enhance knowledge synthesis, which is essential for creating new knowledge, marking a significant step toward the development of Artificial General Intelligence (AGI) capable of producing novel scientific research.
-
-Users can access Deep Research via ChatGPT by selecting the "deep research" option in the message composer, entering their query, and optionally attaching files or spreadsheets. The research process can take from 5 to 30 minutes, during which users can continue with other tasks. The final output is delivered as a richly detailed and well-documented report within the chat interface.
-
-Currently, Deep Research is available to Pro users with plans to expand access further to Plus, Team, and Enterprise users. It currently supports research using open web sources and uploaded files, with future plans to connect to specialized subscription or internal data sources for even more robust research outputs.
-
-Though powerful, Deep Research has limitations such as occasional hallucinations, difficulty distinguishing authoritative information from rumors, and some formatting or citation issues at launch, which are expected to improve with usage and time.
-
-In summary, Deep Research is a highly advanced AI research assistant capable of automating extensive, in-depth knowledge work by synthesizing vast amounts of online data into comprehensive, credible reports, designed to save users significant time and effort on complex research tasks.
+Deep Research by OpenAI is...
 ```
 As with [web search](#web-search), the response will include content blocks with citations:
 
 
 ```python
-[block["type"] for block in response.content]
+for block in response.content_blocks:
+    if block["type"] == "non_standard":
+        print(block["value"].get("type"))
+    else:
+        print(block["type"])
 ```
 
 
 
 ```output
-['file_search_call', 'text']
+file_search_call
+text
 ```
 
 
 
 ```python
-text_block = next(block for block in response.content if block["type"] == "text")
+text_block = next(block for block in response.content_blocks if block["type"] == "text")
 
 text_block["annotations"][:2]
 ```
@@ -601,14 +593,12 @@ text_block["annotations"][:2]
 
 
 ```output
-[{'file_id': 'file-3UzgX7jcC8Dt9ZAFzywg5k',
-  'filename': 'deep_research_blog.pdf',
-  'index': 3121,
-  'type': 'file_citation'},
- {'file_id': 'file-3UzgX7jcC8Dt9ZAFzywg5k',
-  'filename': 'deep_research_blog.pdf',
-  'index': 3121,
-  'type': 'file_citation'}]
+[{'type': 'citation',
+  'title': 'deep_research_blog.pdf',
+  'extras': {'file_id': 'file-3UzgX7jcC8Dt9ZAFzywg5k', 'index': 2712}},
+ {'type': 'citation',
+  'title': 'deep_research_blog.pdf',
+  'extras': {'file_id': 'file-3UzgX7jcC8Dt9ZAFzywg5k', 'index': 2712}}]
 ```
 
 
