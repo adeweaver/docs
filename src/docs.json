@@ -299,7 +299,9 @@
                         "pages": [
                           "oss/python/integrations/providers/google",
                           "oss/python/integrations/chat/google_generative_ai",
-                          "oss/python/integrations/text_embedding/google_generative_ai"
+                          "oss/python/integrations/chat/google_vertex_ai_palm",
+                          "oss/python/integrations/text_embedding/google_generative_ai",
+                          "oss/python/integrations/text_embedding/google_vertex_ai_palm"
                         ]
                       },
                       {
@@ -314,8 +316,9 @@
                         "group": "Microsoft",
                         "pages": [
                           "oss/python/integrations/providers/microsoft",
-                          "oss/python/integrations/chat/azure_ai",
-                          "oss/python/integrations/text_embedding/azureopenai"
+                          "oss/python/integrations/chat/azure_chat_openai/",
+                          "oss/python/integrations/text_embedding/azureopenai",
+                          "oss/python/integrations/chat/azure_ai"
                         ]
                       },
                       {
