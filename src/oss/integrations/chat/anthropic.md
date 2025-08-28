@@ -152,11 +152,7 @@ AIMessage(content="Here's the German translation:\n\nIch liebe Programmieren.", 
 
 ## Content blocks
 
-When using tools, [extended thinking](#extended-thinking), and other features, content
-from a single Anthropic AI essage can either be a single strong or a
-**list of content blocks**. For example when an Anthropic model invokes a tool, the
-tool invocation is part of the message content
-(as well as being exposed in the standardized `AIMessage.tool_calls`):
+When using tools, [extended thinking](#extended-thinking), and other features, content from a single Anthropic AI message can either be a single string or a list of content blocks. For example, when an Anthropic model invokes a tool, the tool invocation is part of the message content (as well as being exposed in the standardized `AIMessage.tool_calls`):
 
 
 ```python
