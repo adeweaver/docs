@@ -139,8 +139,7 @@ If you experience latency spikes and need to terminate a running mutation:
 
 ### Backups and Data Retention
 
-If you do not see a decrease in disk space after running this job, or see disk space increasing, then you may have backups causing file system hard
-links, preventing ClickHouse from wiping this data from disk.
+If disk space does not decrease after running this job, or if it continues to increase, backups may be causing the issue by creating file system hard links. These links prevent ClickHouse from cleaning up the data.
 
 To check any current backups, check the `/var/lib/clickhouse/backup` and `/var/lib/clickhouse/shadow` directories inside of your clickhouse pod.
 
