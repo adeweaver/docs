@@ -45,20 +45,11 @@ Pass one or more of the following stream modes as a list to the @[`stream()`][Co
 :::python
 LangGraph graphs expose the @[`.stream()`][Pregel.stream] (sync) and @[`.astream()`][Pregel.astream] (async) methods to yield streamed outputs as iterators.
 
-<Tabs>
-  <Tab title="Sync">
-    ```python
-    for chunk in graph.stream(inputs, stream_mode="updates"):
-        print(chunk)
-    ```
-  </Tab>
-  <Tab title="Async">
-    ```python
-    async for chunk in graph.astream(inputs, stream_mode="updates"):
-        print(chunk)
-    ```
-  </Tab>
-</Tabs>
+```python
+for chunk in graph.stream(inputs, stream_mode="updates"):
+    print(chunk)
+```
+
 :::
 
 :::js
@@ -156,20 +147,10 @@ You can pass a list as the `stream_mode` parameter to stream multiple modes at o
 
 The streamed outputs will be tuples of `(mode, chunk)` where `mode` is the name of the stream mode and `chunk` is the data streamed by that mode.
 
-<Tabs>
-  <Tab title="Sync">
-    ```python
-    for mode, chunk in graph.stream(inputs, stream_mode=["updates", "custom"]):
-        print(chunk)
-    ```
-  </Tab>
-  <Tab title="Async">
-    ```python
-    async for mode, chunk in graph.astream(inputs, stream_mode=["updates", "custom"]):
-        print(chunk)
-    ```
-  </Tab>
-</Tabs>
+```python
+for mode, chunk in graph.stream(inputs, stream_mode=["updates", "custom"]):
+    print(chunk)
+```
 :::
 
 :::js

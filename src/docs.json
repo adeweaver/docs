@@ -194,13 +194,7 @@
                     "pages": [
                       "oss/langgraph/persistence",
                       "oss/langgraph/durable-execution",
-                      {
-                        "group": "Streaming",
-                        "pages": [
-                          "oss/langgraph/streaming",
-                          "oss/langgraph/use-streaming"
-                        ]
-                      },
+                      "oss/langgraph/streaming",
                       {
                         "group": "Human-in-the-loop",
                         "pages": [
@@ -1157,13 +1151,7 @@
                     "pages": [
                       "oss/langgraph/persistence",
                       "oss/langgraph/durable-execution",
-                      {
-                        "group": "Streaming",
-                        "pages": [
-                          "oss/langgraph/streaming",
-                          "oss/langgraph/use-streaming"
-                        ]
-                      },
+                      "oss/langgraph/streaming",
                       {
                         "group": "Human-in-the-loop",
                         "pages": [
