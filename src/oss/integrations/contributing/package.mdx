@@ -13,7 +13,7 @@ which contain classes that are compatible with LangChain's core interfaces.
 We will cover:
 
 1. (Optional) How to bootstrap a new integration package
-2. How to implement components, such as [chat models](/docs/concepts/chat_models/) and [vector stores](/docs/concepts/vectorstores/), that adhere
+2. How to implement components, such as chat models and vector stores, that adhere
 to the LangChain interface;
 
 ## (Optional) bootstrapping a new integration package
@@ -185,10 +185,8 @@ This is only required if you want to publish your integration in the LangChain d
 
 ## Implementing LangChain components
 
-LangChain components are subclasses of base classes in [langchain-core](/docs/concepts/architecture/#langchain-core).
-Examples include [chat models](/docs/concepts/chat_models/),
-[vector stores](/docs/concepts/vectorstores/), [tools](/docs/concepts/tools/),
-[embedding models](/docs/concepts/embedding_models/) and [retrievers](/docs/concepts/retrievers/).
+LangChain components are subclasses of base classes in `langchain-core`.
+Examples include chat models, vector stores, tools, embedding models, and retrievers.
 
 Your integration package will typically implement a subclass of at least one of these
 components. Expand the tabs below to see details on each.
@@ -196,9 +194,6 @@ components. Expand the tabs below to see details on each.
 <Tabs>
 
     <Tab title="Chat models">
-
-        Refer to the [Custom Chat Model Guide](/docs/how_to/custom_chat_model) guide for
-        detail on a starter chat model [implementation](/docs/how_to/custom_chat_model/#implementation).
 
         You can start from the following template or langchain-cli command:
 
@@ -256,9 +251,6 @@ components. Expand the tabs below to see details on each.
 
 Embeddings are used to convert `str` objects from `Document.page_content` fields
 into a vector representation (represented as a list of floats).
-
-Refer to the [Custom Embeddings Guide](/docs/how_to/custom_embeddings) guide for
-detail on a starter embeddings [implementation](/docs/how_to/custom_embeddings/#implementation).
 
 You can start from the following template or langchain-cli command:
 

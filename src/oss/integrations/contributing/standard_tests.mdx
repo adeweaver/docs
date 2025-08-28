@@ -196,7 +196,7 @@ empty vector store and tearing down the vector store after the test run ends.
 | --- | --- |
 | `vectorstore` | A generator that yields an empty vector store for unit tests. The vector store is cleaned up after the test run ends. |
 
-For example, below is the `VectorStoreIntegrationTests` class for the [Chroma](https://python.langchain.com/docs/integrations/vectorstores/chroma/)
+For example, below is the `VectorStoreIntegrationTests` class for the [Chroma](/oss/integrations/vectorstores/chroma/)
 integration:
 
 ```python
@@ -223,7 +223,7 @@ class TestChromaStandard(VectorStoreIntegrationTests):
 ```
 
 Note that before the initial `yield`, we instantiate the vector store with an
-[embeddings](/docs/concepts/embedding_models/) object. This is a pre-defined
+embeddings object. This is a pre-defined
 ["fake" embeddings model](https://python.langchain.com/api_reference/standard_tests/integration_tests/langchain_tests.integration_tests.vectorstores.VectorStoreIntegrationTests.html#langchain_tests.integration_tests.vectorstores.VectorStoreIntegrationTests.get_embeddings)
 that will generate short, arbitrary vectors for documents. You can use a different
 embeddings object if desired.
