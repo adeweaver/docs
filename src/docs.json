@@ -333,15 +333,10 @@
                     ]
                   },
                   {
-                    "group": "General integrations",
+                    "group": "Integrations by component",
                     "pages": [
                       "oss/python/integrations/chat/index",
-                      "oss/python/integrations/tools/index"
-                    ]
-                  },
-                  {
-                    "group": "RAG integrations",
-                    "pages": [
+                      "oss/python/integrations/tools/index",
                       "oss/python/integrations/retrievers/index",
                       "oss/python/integrations/splitters/text_splitters",
                       "oss/python/integrations/text_embedding/index",
