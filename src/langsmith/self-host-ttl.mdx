@@ -141,6 +141,9 @@ If you experience latency spikes and need to terminate a running mutation:
 
 If disk space does not decrease after running this job, or if it continues to increase, backups may be causing the issue by creating file system hard links. These links prevent ClickHouse from cleaning up the data.
 
-To check any current backups, check the `/var/lib/clickhouse/backup` and `/var/lib/clickhouse/shadow` directories inside of your clickhouse pod.
+To verify, check the following directories inside your ClickHouse pod:
+
+ - `/var/lib/clickhouse/backup` 
+ - `/var/lib/clickhouse/shadow`
 
 If backups are present, copy them to an external filesystem or blob storage (e.g., S3), then clear the directories. Within a few minutes, you will notice disk space releasing.
