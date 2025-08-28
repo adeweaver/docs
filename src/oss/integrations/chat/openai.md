@@ -110,7 +110,7 @@ AIMessage(content="J'adore la programmation.", additional_kwargs={'refusal': Non
 
 
 ```python
-print(ai_msg.content)
+print(ai_msg.text)
 ```
 ```output
 J'adore la programmation.
@@ -763,7 +763,7 @@ response_2 = llm_with_tools.invoke(
 
 
 ```python
-response_2.text()
+response_2.text
 ```
 
 
@@ -790,7 +790,7 @@ response_2 = llm_with_tools.invoke(
 
 
 ```python
-response_2.text()
+response_2.text
 ```
 
 
