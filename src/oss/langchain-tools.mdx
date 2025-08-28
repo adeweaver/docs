@@ -198,6 +198,11 @@ To see examples of how to use tools with agents, see [Agents](./langchain-agents
 
 ## Advanced tool patterns
 
+<Note>
+The following section explores advanced tool patterns that use LangGraph concepts.
+</Note>
+
+
 ### ToolNode
 
 ToolNode is a built-in LangGraph component that handles tool calls within an agent's workflow. It works seamlessly with `create_react_agent`, offering advanced tool execution control, built in parallelism, and error handling.
@@ -301,45 +306,66 @@ tool_node = ToolNode(
 
 #### Using with `create_react_agent`
 
+<Note>
+We recommend that you familiarize yourself with `create_react_agent` before covering this section. Read more about it [here](./langchain-agents).
+</Note>
+
 Pass a configured `ToolNode` directly to `create_react_agent`:
 
 ```python wrap
 from langchain_openai import ChatOpenAI
 from langgraph.prebuilt import ToolNode, create_react_agent
+import random
 
 @tool
-def search_database(query: str) -> str:
-    """Search the database."""
-    return f"Results for: {query}"
+def fetch_user_data(user_id: str) -> str:
+    """Fetch user data from database."""
+    if random.random() > 0.7:
+        raise ConnectionError("Database connection timeout")
+    return f"User {user_id}: John Doe, john@example.com, Active"
 
 @tool
-def send_email(to: str, subject: str, body: str) -> str:
-    """Send an email."""
-    return f"Email sent to {to}"
+def process_transaction(amount: float, user_id: str) -> str:
+    """Process a financial transaction."""
+    if amount > 10000:
+        raise ValueError(f"Amount {amount} exceeds maximum limit of 10000")
+    return f"Processed ${amount} for user {user_id}"
 
-# Configure ToolNode with custom error handling
+def handle_errors(e: Exception) -> str:
+    if isinstance(e, ConnectionError):
+        return "The database is currently overloaded, but it is safe to retry. Please try again with the same parameters."
+    elif isinstance(e, ValueError):
+        return f"Error: {e}. Try to process the transaction in smaller amounts."
+    return f"Error: {e}. Please try again."
+
 tool_node = ToolNode(
-    tools=[search_database, send_email],
-    name="email_tools",
-    handle_tool_errors="Encountered an issue. Let me try a different approach."
+    tools=[fetch_user_data, process_transaction],
+    handle_tool_errors=handle_errors
 )
 
-# Create agent with the configured ToolNode
 agent = create_react_agent(
-    model=ChatOpenAI(model="gpt-4"),
-    tools=tool_node,  # Pass ToolNode instead of tools list
-    prompt="You are a helpful email assistant."
+    model=ChatOpenAI(model="gpt-4o"),
+    tools=tool_node,
+    prompt="You are a financial assistant."
 )
 
-# The agent will use your custom ToolNode configuration
-result = agent.invoke({
-    "messages": [{"role": "user", "content": "Search for John and email him"}]
+agent.invoke({
+    "messages": [{"role": "user", "content": "Process a payment of 15000 dollars for user123. Generate a receipt email and address it to the user."}]
 })
 ```
 
 When you pass a `ToolNode` to `create_react_agent`, the agent uses your exact configuration including error handling, custom names, and tags. This is useful when you need fine-grained control over tool execution behavior.
 
 ### Accessing agent state inside a tool
+
+<Info>
+**`state`**: The agent maintains state throughout its execution - this includes messages, custom fields, and any data your tools need to track. State flows through the graph and can be accessed and modified by tools.
+</Info>
+
+
+<Info>
+**`InjectedState`**: An annotation that allows tools to access the current graph state without exposing it to the LLM. This lets tools read information like message history or custom state fields while keeping the tool's schema simple.
+</Info>
 
 Tools can access the current graph state using the `InjectedState` annotation:
 
@@ -374,6 +400,10 @@ def get_user_preference(
 
 ### Updating agent state inside a tool
 
+<Info>
+**`Command`**: A special return type that tools can use to update the agent's state or control the graph's execution flow. Instead of just returning data, tools can return `Command`s to modify state or direct the agent to specific nodes.
+</Info>
+
 Use a tool that returns a `Command` to update the agent state:
 
 ```python wrap
@@ -405,7 +435,12 @@ def update_user_name(
 
 ### Accessing runtime context inside a tool
 
-Tools may sometimes require immutable context data, such as runtime-only arguments (e.g., user IDs or session details), that should not be controlled by the model. This can be achieved with `get_runtime`:
+
+<Info>
+**`runtime`**: The execution environment of your agent, containing immutable configuration and contextual data that persists throughout the agent's execution (e.g., user IDs, session details, or application-specific configuration).
+</Info>
+
+Tools can access an agent's runtime context through `get_runtime`:
 
 ```python wrap
 from dataclasses import dataclass
@@ -414,32 +449,57 @@ from langgraph.prebuilt import create_react_agent
 from langchain_core.tools import tool
 from langgraph.runtime import get_runtime
 
+USER_DATABASE = {
+    "user123": {
+        "name": "Alice Johnson",
+        "account_type": "Premium",
+        "balance": 5000,
+        "email": "alice@example.com"
+    },
+    "user456": {
+        "name": "Bob Smith", 
+        "account_type": "Standard",
+        "balance": 1200,
+        "email": "bob@example.com"
+    }
+}
+
 @dataclass
-class ContextSchema:
-    user_name: str
+class UserContext:
+    user_id: str
 
 @tool
-def get_user_name(
-) -> str:
-    """Get the user's name."""
-    runtime = get_runtime(ContextSchema)
-    return runtime.context.user_name
+def get_account_info() -> str:
+    """Get the current user's account information."""
+    runtime = get_runtime(UserContext)
+    user_id = runtime.context.user_id
+    
+    if user_id in USER_DATABASE:
+        user = USER_DATABASE[user_id]
+        return f"Account holder: {user['name']}\nType: {user['account_type']}\nBalance: ${user['balance']}"
+    return "User not found"
 
 model = ChatOpenAI(model="gpt-4o")
 agent = create_react_agent(
     model,
-    tools=[get_user_name],
-    context_schema=ContextSchema
+    tools=[get_account_info],
+    context_schema=UserContext,
+    prompt="You are a financial assistant."
 )
-agent.invoke(
-    {"messages": [{"role": "user", "content": "What is my name?"}]},
-    context=ContextSchema(user_name="John Smith")
+
+result = agent.invoke(
+    {"messages": [{"role": "user", "content": "What's my current balance?"}]},
+    context=UserContext(user_id="user123")
 )
 ```
 
 ### Accessing long-term memory inside a tool
 
-Tools may also require access to your agent's long-term memory store, e.g. user-specific or application-specific data stored across conversations. This can be achieved by using `get_store`:
+<Info>
+**`store`**: LangChain's persistence layer. An agent's long-term memory store, e.g. user-specific or application-specific data stored across conversations. 
+</Info>
+
+Tools can access an agent's store through `get_store`:
 
 ```python wrap
 from langgraph.config import get_store
@@ -454,11 +514,10 @@ def get_user_info(user_id: str) -> str:
 
 ### Updating long-term memory inside a tool
 
-To update long-term memory, you can use the `.put()` method of `InMemoryStore`. A full example of persistent memory across sessions:
+To update long-term memory, you can use the `.put()` method of `InMemoryStore`. An example of persistent memory across sessions:
 
 ```python wrap expandable
 from typing import Any
-from langgraph.prebuilt import InjectedStore
 from langgraph.config import get_store
 from langgraph.store.memory import InMemoryStore
 

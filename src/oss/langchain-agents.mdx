@@ -4,41 +4,92 @@ title: Agents
 
 ## Overview
 
-Agents combine language models with tools to create systems that can reason about tasks, decide which tools to use, and iteratively work towards solutions. LangChain's `create_react_agent` function provides a production-ready ReAct (Reasoning + Acting) agent implementation.
+Agents combine language models with tools to create systems that can reason about tasks, decide which tools to use, and iteratively work towards solutions. 
+
+LangChain's `create_react_agent` function provides a production-ready ReAct (Reasoning + Acting) agent implementation based on the paper [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629).
+
+<Accordion title="More on ReAct">
+
+ReAct frames an agent's behavior as an interleaving of "Thought -> Action -> Observation" steps, where the model writes out its reasoning, picks a tool, sees the tool's result, and then repeats. By forcing the model to ground its next step on concrete observations, ReAct reduces hallucinations and makes the decision process auditable. The pattern also improves exploration: the agent can form hypotheses ("Thought"), test them with tools ("Action"), and update its plan based on feedback ("Observation"). 
+
+A ReAct loop runs until a stop condition - i.e. when the model emits a final answer or a max-iterations limit is reached.
+</Accordion>
+
+<Info>
+Under the hood, `create_react_agent` builds a **graph**-based agent runtime. A graph consists of nodes (steps) and edges (connections) that define how your agent processes information. The agent moves through this graph, executing nodes like the model node (which calls the model), the tools node (which executes tools), or pre/post model hook nodes. Learn more about the [graph API](./langgraph-graph-api).
+</Info>
 
 ## Core components
 
 ### Model
 
-The model is the reasoning engine of your agent. It can be specified in multiple ways:
+The model is the reasoning engine of your agent. It can be specified in multiple ways, supporting both static and dynamic model selection.
+
+#### Static model
+
+Static models are configured once when creating the agent and remain unchanged throughout execution. This is the most common and straightforward approach.
+
+To initialize a static model from a model identifier string (requires `langchain` package):
 
 ```python wrap
-from langchain_openai import ChatOpenAI
 from langgraph.prebuilt import create_react_agent
 
-# Option 1: Model identifier string
 agent = create_react_agent(
-    "openai:gpt-5",
+    "openai:gpt-5", 
     tools=tools
 )
+```
 
-# Option 2: Static model
-agent = create_react_agent(
-    model=ChatOpenAI(model="gpt-5", temperature=0), 
-    tools=tools
+Model identifier strings use the format `provider:model` (e.g. `"openai:gpt-4o"`) and support automatic inference (e.g. `"gpt-4o"` will be inferred as `"openai:gpt-4o"`).
+
+The user may want more control over the model configuration, in which case they can initialize a model instance directly:
+
+```python wrap
+from langgraph.prebuilt import create_react_agent
+from langchain_openai import ChatOpenAI
+
+model = ChatOpenAI(
+    model="gpt-4o", 
+    temperature=0.1,
+    max_tokens=1000,
+    timeout=30
 )
+agent = create_react_agent(model, tools=tools)
+```
 
-# Option 3: Dynamic model selection based on state
-def select_model(state, runtime):
-    """Choose model based on task complexity."""
+Model instances give you complete control over configuration. Use them when you need to set specific parameters like temperature, max tokens, timeouts, or configure API keys, base URLs, and other provider-specific settings.
+
+#### Dynamic model
+
+<Info>
+**`runtime`**: The execution environment of your agent, containing immutable configuration and contextual data that persists throughout the agent's execution (e.g., user IDs, session details, or application-specific configuration).
+</Info>
+
+<Info>
+**`state`**: The data that flows through your agent's execution, including messages, custom fields, and any information that needs to be tracked and potentially modified during processing.
+</Info>
+
+Dynamic models are selected at runtime based on the current state and context. This enables sophisticated routing logic and cost optimization.
+
+To use a dynamic model, you need to provde a function that receives the graph state and runtime and returns an instance of `BaseChatModel` with the tools bound to it using `.bind_tools(tools)`, where `tools` is a subset of the `tools` parameter.
+
+```python
+from langchain_openai import ChatOpenAI
+from langgraph.prebuilt import create_react_agent
+from langgraph.graph.message import AgentState, Runtime
+
+def select_model(state: AgentState, runtime: Runtime) -> ChatOpenAI:
+    """Choose model based on conversation complexity."""
     messages = state["messages"]
-    if len(messages) > 10:
-        return ChatOpenAI(model="gpt-5")
-    return ChatOpenAI(model="gpt-5-mini")
+    message_count = len(messages)
+    
+    if message_count > 10:
+        return ChatOpenAI(model="gpt-4.1").bind_tools(tools)
+    else:
+        return ChatOpenAI(model="gpt-4o").bind_tools(tools)
 
 agent = create_react_agent(select_model, tools=tools)
 ```
-Dynamic functions receive graph state and runtime, allowing for context-dependent model selection. The function must return a `BaseChatModel` instance.
 
 <Tip>
 For model configuration details, see [Models](./langchain-models).
@@ -48,23 +99,24 @@ For model configuration details, see [Models](./langchain-models).
 
 Tools give agents the ability to take actions. Agents go beyond simple model-only tool binding by facilitating:
 
-- Multiple tool calls in sequence
+- Multiple tool calls in sequence triggered by a single prompt
+- Parallel tool calls when appropriate
 - Dynamic tool selection based on results
-- Retry logic and error handling
+- Tool retry logic and error handling
 - State persistence across tool calls
-- Complex reasoning chains
-
-#### Creating a tool-calling agent
 
 Tools can be provided to the agent as either:
-1. A list of tools (LangChain `@tool`, callable, or JSON schema)
+1. A list of tools (LangChain `@tool`, callable, or `dict` that represents a builtin provider tool) 
 2. A configured `ToolNode`
+
+#### Passing a list of tools
+
+Passing a list of tools to the agent will create a `ToolNode` under the hood. This is the simplest way to set up a tool-calling agent:
 
 ```python wrap
 from langchain_core.tools import tool
 from langgraph.prebuilt import create_react_agent, ToolNode
 
-# Option 1: List of tools
 @tool
 def search(query: str) -> str:
     """Search for information."""
@@ -76,15 +128,25 @@ def calculate(expression: str) -> str:
     return str(eval(expression))
 
 agent = create_react_agent(model, tools=[search, calculate])
+```
 
-# Option 2: Configured ToolNode for custom error handling
+If an empty tool list is provided, the agent will consist of a single LLM node without tool calling.
+
+#### Passing a configured `ToolNode`
+
+Alternatively, you can create a `ToolNode` directly and pass it to the agent. This allows you to customize the tool node's behavior, such as handling tool errors:
+
+```python wrap
 tool_node = ToolNode(
     tools=[search, calculate],
     handle_tool_errors="Please check your input and try again."
 )
 agent = create_react_agent(model, tools=tool_node)
 ```
-If an empty tool list is provided, the agent will consist of a single LLM node without tool calling.
+
+<Tip>
+To learn more about `ToolNode`, see [ToolNode](./langchain-tools#toolnode).
+</Tip>
 
 ### Understanding agent tool usage
 
@@ -136,34 +198,36 @@ result["messages"] = [
 ```
 
 <Tip>
-To learn more about tools and how to configure `ToolNode`, see [Tools](./langchain-tools).
+To learn more about tools, see [Tools](./langchain-tools).
 </Tip>
 
 ### Prompt
 
-You can shape how your agent approaches tasks by providing a prompt. The `prompt` parameter can be provided in several forms:
+You can shape how your agent approaches tasks by providing a prompt. The `prompt` parameter can be provided in several forms.
+
+#### String
 
 ```python wrap
-from langchain_core.messages import SystemMessage
-from langgraph.prebuilt import create_react_agent
-
-# Option 1: String
 agent = create_react_agent(
     model,
     tools,
     prompt="You are a helpful assistant. Be concise and accurate."
 )
-"""This is converted to a SystemMessage and added to the beginning of the list of messages in state["messages"]."""
+```
 
-# Option 2: SystemMessage
+#### SystemMessage
+
+```python wrap
 agent = create_react_agent(
     model,
     tools,
     prompt=SystemMessage(content="You are a research assistant. Cite your sources.")
 )
-"""This is added to the beginning of the list of messages in state["messages"]."""
+```
 
-# Option 3: Callable
+#### Callable
+
+```python wrap
 def dynamic_prompt(state):
     user_type = state.get("user_type", "standard")
     system_msg = SystemMessage(
@@ -173,9 +237,11 @@ def dynamic_prompt(state):
     )
     return [system_msg] + state["messages"]
 agent = create_react_agent(model, tools, prompt=dynamic_prompt)
-"""This function should take in full graph state and the output is then passed to the language model."""
+```
 
-# Option 4: Runnable
+#### Runnable
+
+```python wrap
 from langchain_core.runnables import RunnableLambda
 
 prompt_runnable = RunnableLambda(
@@ -185,10 +251,9 @@ prompt_runnable = RunnableLambda(
     ]
 )
 agent = create_react_agent(model, tools, prompt=prompt_runnable)
-"""This runnable should take in full graph state and the output is then passed to the language model."""
 ```
 
-When no prompt is provided, the agent uses the messages directly.
+When no `prompt` is provided, the agent will infer its task from the messages directly.
 
 <Tip>
 For more details on message types and formatting, see [Messages](./langchain-messages).
@@ -200,22 +265,64 @@ For more details on message types and formatting, see [Messages](./langchain-mes
 
 In some situations, you may want the agent to return an output in a specific format. LangChain provides a simple, universal way to do this with the `response_format` parameter.
 
+```python wrap
+from pydantic import BaseModel
+from langgraph.prebuilt import create_react_agent
+
+class ContactInfo(BaseModel):
+    name: str
+    email: str
+    phone: str
+
+agent = create_react_agent(
+    model,
+    tools=[search_tool],
+    response_format=ContactInfo
+)
+
+result = agent.invoke({
+    "messages": [{"role": "user", "content": "Extract contact info from: John Doe, john@example.com, (555) 123-4567"}]
+})
+
+result["structured_response"]  # Name: John Doe, Email: john@example.com
+```
+
 <Tip>
 To learn about structured output, see [Structured Output](./langchain-structured-output).
 </Tip>
 
 ### Memory
 
-Agents maintain conversation history automatically through the message state. Users can also configure the agent to use a custom state schema to remember additional information across tool calls.
+Agents maintain conversation history automatically through the message state. You can also configure the agent to use a custom state schema to remember additional information during the conversation.
+
+Information stored in the state can be thought of as the "short-term memory" of the agent:
+
+```python wrap
+from typing import TypedDict
+from typing_extensions import Annotated
+from langgraph.graph.message import add_messages
+from langgraph.prebuilt import create_react_agent
+from langgraph.prebuilt.chat_agent_executor import AgentState
+
+class CustomAgentState(AgentState):
+    messages: Annotated[list, add_messages]
+    user_preferences: dict
+
+agent = create_react_agent(
+    model,
+    tools=tools,
+    state_schema=CustomAgentState
+)
+
+# The agent can now track additional state beyond messages. This custom state can be accessed and updated throughout the conversation.
+result = agent.invoke({
+    "messages": [{"role": "user", "content": "I prefer technical explanations"}],
+    "user_preferences": {"style": "technical", "verbosity": "detailed"},
+})
+```
 
 <Tip>
-To learn about **short-term memory**, see [Memory](./langchain-memory).
-</Tip>
-
-For persistent memory across sessions, use checkpointers and stores.
-
-<Tip>
-To learn about **long-term memory**, see [Memory](./langchain-memory).
+To learn more about memory, including how to implement long-term memory that persists across sessions, see [Memory](./langchain-memory).
 </Tip>
 
 ### Pre-model hook
@@ -247,12 +354,9 @@ graph TD
 It must be a callable or a runnable that takes in current graph state and returns a state update in the form of:
 
 ```python wrap
-# At least one of `messages` or `llm_input_messages` MUST be provided
 {
-    # If provided, will UPDATE the `messages` in the state
+    # Will UPDATE the `messages` in the state
     "messages": [RemoveMessage(id=REMOVE_ALL_MESSAGES), ...],
-    # If provided, will be used as the input to the LLM, and will NOT UPDATE `messages` in the state
-    "llm_input_messages": [...],
     # Any other state keys that need to be propagated
     ...
 }
@@ -289,7 +393,7 @@ agent = create_react_agent(
 ```
 
 <Info>
-At least one of `messages` or `llm_input_messages` MUST be provided and will be used as an input to the `agent` node (i.e., the node that calls the LLM). The rest of the keys will be added to the graph state.
+`messages` must be provided and will be used as an input to the `agent` node (i.e., the node that calls the LLM). The rest of the keys will be added to the graph state.
 </Info>
 
 <Warning>
@@ -363,6 +467,18 @@ agent = create_react_agent(
 ### Streaming
 
 We've seen how the agent can be called with `.invoke` to get a final response. If the agent executes multiple steps, this may take a while. To show intermediate progress, we can stream back messages as they occur.
+
+```python wrap
+for chunk in agent.stream({
+    "messages": [{"role": "user", "content": "Search for AI news and summarize the findings"}]
+}, stream_mode="values"):
+    # Each chunk contains the full state at that point
+    latest_message = chunk["messages"][-1]
+    if latest_message.content:
+        print(f"Agent: {latest_message.content}")
+    elif latest_message.tool_calls:
+        print(f"Calling tools: {[tc['name'] for tc in latest_message.tool_calls]}")
+```
 
 <Tip>
 For more details on streaming, see [Streaming](./langchain-streaming).
@@ -519,7 +635,7 @@ agent.invoke({
 
 # 3) Plan-and-Execute Agents — LangChain Blog
 # - URL: https://blog.langchain.dev/planning-agents
-# - Summary: Discusses plan-and-execute agent architectures in LangChain. Explains separating a planner LLM from a tool-execution runtime, variations like ReWOO, and a “joiner” component for dynamic replanning to improve speed and reliability.
+# - Summary: Discusses plan-and-execute agent architectures in LangChain. Explains separating a planner LLM from a tool-execution runtime, variations like ReWOO, and a "joiner” component for dynamic replanning to improve speed and reliability.
 
 # 4) LangGraph Tutorial: Building LLM Agents with LangChain (Zep)
 # - URL: https://www.getzep.com/ai-agents/langgraph-tutorial/
