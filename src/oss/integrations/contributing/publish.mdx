@@ -7,7 +7,7 @@ title: Publish your package
 Now that your package is implemented and tested, you can:
 
 1. Publish your package to PyPi
-2. Add documentation for your package to the LangChain Monorepo
+2. Add documentation for your package to the LangChain monorepo
 
 ## Publishing your package to PyPi
 
@@ -43,21 +43,21 @@ Finally, publish your package to PyPi:
 poetry publish
 ```
 
-You're all set! Your package is now available on PyPi and can be installed with `pip install langchain-parrot-link`.
+Your package is now available on PyPi and can be installed with `pip install langchain-parrot-link`.
 
-## Adding documentation to the LangChain Monorepo
+## Adding documentation to the LangChain monorepo
 
-To add documentation for your package to the LangChain Monorepo, you will need to:
+To add documentation for your package to the LangChain monorepo, you will need to:
 
-1. Fork and clone the LangChain Monorepo
-2. Make a "Provider Page" at `docs/docs/integrations/providers/<your-package-name>.mdx`
-3. Make "Component Pages" at `docs/docs/integrations/<component-type>/<your-package-name>.mdx`
+1. Fork and clone the LangChain monorepo
+2. Make a provider page at `docs/docs/integrations/providers/<your-package-name>.mdx`
+3. Make component pages at `docs/docs/integrations/<component-type>/<your-package-name>.mdx`
 4. Register your package in `libs/packages.yml`
-5. Submit a PR with **only these changes** to the LangChain Monorepo
+5. Submit a PR with only these changes to the LangChain monorepo
 
-### Fork and clone the LangChain Monorepo
+### Fork and clone the LangChain monorepo
 
-First, fork the [LangChain Monorepo](https://github.com/langchain-ai/langchain) to your GitHub account.
+First, fork the [LangChain monorepo](https://github.com/langchain-ai/langchain) to your GitHub account.
 
 Next, clone the repository to your local machine:
 
@@ -65,9 +65,8 @@ Next, clone the repository to your local machine:
 git clone https://github.com/<your-username>/langchain.git
 ```
 
-You're now ready to make your PR!
 
-### Bootstrap your documentation pages with the langchain-cli (recommended)
+### Bootstrap your documentation pages with the `langchain-cli` (recommended)
 
 To make it easier to create the necessary documentation pages, you can use the `langchain-cli` to bootstrap them for you.
 
@@ -124,7 +123,7 @@ These commands will create the following 3 files, which you should fill out with
 If you prefer to create the documentation pages manually, you can create the same files listed
 above and fill them out with information about your package.
 
-You can view the templates that the CLI uses to create these files [here](https://github.com/langchain-ai/langchain/tree/master/libs/cli/langchain_cli/integration_template/docs) if helpful!
+You can view the templates that the CLI uses to create these files [here](https://github.com/langchain-ai/langchain/tree/master/libs/cli/langchain_cli/integration_template/docs).
 
 ### Register your package in `libs/packages.yml`
 
