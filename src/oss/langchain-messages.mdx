@@ -14,12 +14,12 @@ Messages are structured objects that contain:
 (`system`, `user`, `assistant`, or
 `tool`)
 * <Icon icon="folder-closed" size={16} /> **Content** - Types of content: text,
-images, audio, documents, and more
-* <Icon icon="tag" size={16} /> **Metadata** - Optional fields like IDs, names,
-and usage information
+images, audio, documents, and [more](#content-blocks)
+* <Icon icon="tag" size={16} /> **Metadata** - Optional fields such as response
+information, message IDs, and token usage
 
-LangChain provides a unified message format that works across all chat model
-providers, handling provider-specific differences automatically.
+LangChain provides a unified message format that works across all model
+providers, handling differences automatically.
 
 ## Text prompts vs message prompts
 
@@ -27,8 +27,8 @@ LangChain supports two main approaches for interacting with models:
 
 <Tabs>
     <Tab title="Text Prompts" icon="text">
-        Text prompts are simple strings - ideal for straightforward generation
-        tasks where you don't need conversation history or complex interactions.
+        Text prompts are strings - ideal for straightforward generation tasks
+        where you don't need conversation history.
         
         ```python
         response = model.invoke("Write a haiku about spring")
@@ -43,6 +43,8 @@ LangChain supports two main approaches for interacting with models:
         Message prompts are arrays of structured messages with roles.
         
         ```python
+        from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
+
         messages = [
             SystemMessage("You are a poetry expert"),
             HumanMessage("Write a haiku about spring"),
@@ -55,45 +57,24 @@ LangChain supports two main approaches for interacting with models:
         * Managing multi-turn conversations
         * Working with multimodal content (images, audio, files)
         * Including system instructions
-        * Implementing tool/function calling
-        * Maintaining conversation context
-        
-        **Example use cases:**
-        ```python
-        # Multi-turn conversation
-        messages = [
-            SystemMessage("You are a helpful tutor"),
-            HumanMessage("Explain quantum physics"),
-            AIMessage("Quantum physics studies..."),
-            HumanMessage("Can you give an example?")
-        ]
-        
-        # Multimodal input
-        messages = [
-            HumanMessage([
-                {"type": "text", "text": "What's in this image?"},
-                {"type": "image", "url": "https://example.com/image.jpg"}
-            ])
-        ]
-        ```
     </Tab>
 </Tabs>
 
 ## Message types
 <Columns cols={2}>
-    <Card title="System Message" icon="gear" href="#system-message">
+    <Card title="System Message" icon="gear" href="#system-message" arrow="true">
         **Role:** `system`  
         Prime model behavior and provide context for conversations
     </Card>
-    <Card title="Human Message" icon="user" href="#human-message">
+    <Card title="Human Message" icon="user" href="#human-message" arrow="true">
         **Role:** `user`  
         Represent user input and interactions
     </Card>
-    <Card title="AI Message" icon="robot" href="#ai-message">
+    <Card title="AI Message" icon="robot" href="#ai-message" arrow="true">
         **Role:** `assistant`  
         Model responses and tool requests
     </Card>
-    <Card title="Tool Message" icon="wrench" href="#tool-message">
+    <Card title="Tool Message" icon="wrench" href="#tool-message" arrow="true">
         **Role:** `tool`  
         Tool execution results
     </Card>
@@ -106,13 +87,10 @@ LangChain supports two main approaches for interacting with models:
 from langchain.chat_models import init_chat_model
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 
-# Note: output_version="v1" enables standard content blocks
-model = init_chat_model(model="gpt-5", model_provider="openai")
+model = init_chat_model("openai:gpt-5-nano")
 
-# Create messages
 system_msg = SystemMessage("You are a helpful assistant.")
 human_msg = HumanMessage("Hello, how are you?")
-ai_msg = AIMessage("I'm doing well, thank you!")
 
 # Use with chat models
 messages = [system_msg, human_msg]
@@ -120,9 +98,9 @@ response = model.invoke(messages)  # Returns AIMessage
 ```
 </CodeGroup>
 
-### OpenAI format compatibility
+### <Icon icon="openai" size={16} /> OpenAI format compatibility
 
-LangChain messages work seamlessly with OpenAI's dictionary format:
+LangChain messages work seamlessly with OpenAI's [dictionary format]():
 
 <CodeGroup>
 ```python OpenAI dictionary format
@@ -144,10 +122,8 @@ response = model.invoke(langchain_format)
 ```
 </CodeGroup>
 
-<Note>
-    Both formats produce identical results. LangChain automatically handles the
-    conversion between formats when communicating with different providers.
-</Note>
+Both formats produce identical results. LangChain automatically handles the
+conversion between formats when communicating with different providers.
 
 ## System message
 
@@ -155,12 +131,8 @@ A `SystemMessage` primes the model's behavior and provide conversational
 context. They set the tone, define the model's role, and establish guidelines
 for responses.
 
-### Basic system messages
-
 <CodeGroup>
 ```python Basic instruction
-from langchain_core.messages import SystemMessage
-
 system_msg = SystemMessage("You are a helpful coding assistant.")
 
 messages = [
@@ -187,7 +159,7 @@ response = model.invoke(messages)
 
 ### Provider handling
 
-Different providers handle `SystemMessage` in various ways:
+Different [providers]() handle `SystemMessage` in various ways:
 
 * **Native support** - Message included with `system` role
 * **API parameter** - Content passed as separate system parameter  
@@ -201,19 +173,18 @@ Different providers handle `SystemMessage` in various ways:
 ## Human message
 
 A `HumanMessage` represent user input and interactions. They can contain text,
-images, audio, files, and any other multimodal content.
+images, audio, files, and any other multimodal [content](#content-blocks).
 
 ### Text content
 
 <CodeGroup>
 ```python Message object
-from langchain_core.messages import HumanMessage
-
 human_msg = HumanMessage("What is machine learning?")
 response = model.invoke([human_msg])
 ```
 
 ```python String shortcut
+# Using a string is a shortcut for a single HumanMessage
 response = model.invoke("What is machine learning?")
 ```
 </CodeGroup>
@@ -249,7 +220,8 @@ response = model.invoke(messages)
 ## AI message
 
 An `AIMessage` represents model responses and contain the output of model
-invocations. They can include multimodal data, tool calls, and rich metadata.
+invocations. They can include multimodal data, tool calls, provider-specific
+metadata.
 
 ### Basic AI messages
 
@@ -266,9 +238,9 @@ response = model.invoke("Tell me a joke")
 print(f"Text: {response.text}")  # Text content
 print(f"Content: {response.content}")  # Raw provider content
 print(f"Content blocks: {response.content_blocks}")  # Standardized content blocks
-print(f"Tool calls: {response.tool_calls}")  # Empty list if no tools called
+print(f"Tool calls: {response.tool_calls}")  # (Empty list if no tools called)
 print(f"ID: {response.id}")  # Auto-generated or provider message ID
-print(f"Usage: {response.usage_metadata}")  # Token counts when available
+print(f"Usage: {response.usage_metadata}")  # Token counts (when available)
 print(f"Response metadata: {response.response_metadata}")  # Provider-specific data
 ```
 
@@ -277,16 +249,9 @@ print(f"Response metadata: {response.response_metadata}")  # Provider-specific d
 When models make tool calls, they're included in the AI message:
 
 ```python Tool calling
-from pydantic import BaseModel, Field
-
-class GetWeather(BaseModel):
-    """Get weather for a location"""
-    location: str = Field(..., description="City and state")
-
 model_with_tools = model.bind_tools([GetWeather])
 response = model_with_tools.invoke("What's the weather in Paris?")
 
-# Access tool calls
 if response.tool_calls:
     for tool_call in response.tool_calls:
         print(f"Tool: {tool_call['name']}")
@@ -303,7 +268,7 @@ During streaming, you receive `AIMessageChunk` objects that can be combined:
 chunks = []
 for chunk in model.stream("Write a poem"):
     chunks.append(chunk)
-    print(chunk.content, end="", flush=True)
+    print(chunk.text)
 ```
 
 ```python Combine chunks
@@ -311,7 +276,7 @@ from langchain_core.messages import AIMessage
 
 # Combine chunks into final message
 final_message = sum(chunks, AIMessage(""))
-print(f"\nFull response: {final_message.text}")
+print(f"Full response: {final_message.text}")
 ```
 </CodeGroup>
 
@@ -320,11 +285,12 @@ print(f"\nFull response: {final_message.text}")
 Tool messages contain the results of tool executions and are used to pass data
 back to models after external processing.
 
+{/* TODO: determine how to call out to provider-side tool execution */}
+{/* I can't remember if they send these messages or if it varies */}
+
 ### Basic tool messages
 
 ```python
-from langchain_core.messages import ToolMessage, AIMessage
-
 # After a model makes a tool call
 ai_message = AIMessage(
     tool_calls=[{
@@ -366,103 +332,40 @@ tool_message = ToolMessage(
     model but can be accessed programmatically. This is useful for storing raw
     results, debugging information, or data for downstream processing without
     cluttering the model's context.
+
+    <Accordion
+        title="Example: Using artifact for raw data"
+    >
+        ```python
+        from langchain_core.messages import ToolMessage
+        import json
+
+        # Tool execution returns structured data
+        raw_data = {"temperature": 72, "condition": "Sunny"}
+        tool_message = ToolMessage(
+            content="The weather is sunny with a temperature of 72°F.",
+            tool_call_id="call_123",
+            name="get_weather",
+            artifact={"raw_data": raw_data}  # Store structured data
+        )
+
+        # Later, access the raw data programmatically
+        weather_info = tool_message.artifact.get("raw_data")
+        print(f"Raw weather data: {json.dumps(weather_info)}")
+        ```
+    </Accordion>
 </Note>
-
-
-## Content output versions: v0 vs v1
-
-LangChain v1.0 introduces standardized content formats while maintaining
-backward compatibility with existing code.
-
-### Version comparison
-
-| Aspect | v0 (Legacy) | v1 (Standard) |
-|--------|-------------|---------------|
-| **Default behavior** | Yes (for compatibility) | Opt-in via `output_version` |
-| **Content format** | Provider-specific | Standardized `ContentBlock` types |
-| **Type safety** | Limited | Fully typed |
-| **Multimodal support** | Basic | Comprehensive |
-
-### Setting output version
-
-<CodeGroup>
-```python Model initialization
-# Default v0 (backward compatible)
-model = ChatOpenAI()
-
-# Explicit v1
-model = ChatOpenAI(output_version="v1")
-```
-
-```python Per invocation
-# Override at invocation time
-response = model.invoke(
-    "Hello",
-    output_version="v1"  # Override model default
-)
-```
-
-```python Environment variable
-import os
-os.environ["LC_OUTPUT_VERSION"] = "v1"
-
-model = ChatOpenAI()  # Uses v1
-```
-</CodeGroup>
-
-### Accessing content blocks
-
-Two ways to access standardized content:
-
-```python Content access patterns
-# Method 1: .content_blocks property (always returns v1)
-model = ChatOpenAI()  # v0 model
-response = model.invoke("Hello")
-v1_blocks = response.content_blocks  # Runtime conversion to v1
-
-# Method 2: Set output_version="v1"
-model = ChatOpenAI(output_version="v1")
-response = model.invoke("Hello")
-v1_content = response.content  # Already in v1 format
-```
-
-<Note>
-    The `.content_blocks` property always returns typed `ContentBlock` objects,
-    regardless of the model's `output_version`. For v0 models and messages,
-    conversion happens at runtime.
-</Note>
-
-### Version detection
-
-Check which version was used to create a message:
-
-```python Verify message provenance
-response = model.invoke("Hello")
-
-# Check version in response metadata
-version = response.response_metadata.get("output_version", "v0")
-
-if version == "v1":
-    # Content is already in v1 format
-    blocks = response.content
-
-    # Use content_blocks for typing
-    typed_blocks = response.content_blocks
-else:
-    # Use content_blocks for v1 format
-    blocks = response.content_blocks
-```
 
 ## Content blocks
 
-Content blocks enable **provider-agnostic** multimodal interactions. Instead of
-handling different image formats, audio types, and document structures across
-providers, content blocks provide a unified interface that works everywhere.
-
-### Why content blocks matter
+Different providers return model responses in various formats. To standardize
+this, LangChain has a standard collection of **content blocks** to enable
+**provider-agnostic** multimodal interactions. Instead of handling different
+image formats, audio types, and document structures across providers,
+content blocks provide a unified interface that works everywhere.
 
 <CodeGroup>
-```python Provider-specific formats
+```python Provider-specific format examples
 # OpenAI format
 openai_message = {
     "role": "user", 
@@ -494,51 +397,22 @@ universal_message = HumanMessage([
 
 <CardGroup cols={2}>
     <Card title="Text" icon="align-left">
-        ```python
-        {"type": "text", "text": "Hello world"}
-        ```
         Basic text content for messages
     </Card>
     <Card title="Images" icon="image">
-        ```python
-        {
-            "type": "image",
-            "url": "https://example.com/image.jpg",
-            # OR
-            "base64": "iVBORw0KG...",
-            "mime_type": "image/jpeg"  # Optional
-        }
-        ```
-        Images via URL or base64-encoded data
+        Images via URL, base64-encoded data, or external file IDs.
     </Card>
     <Card title="Documents" icon="file">
-        ```python
-        {
-            "type": "file",
-            "base64": "JVBERi0xLj...",
-            "mime_type": "application/pdf",
-            "filename": "report.pdf"  # Optional
-        }
-        ```
         PDF, Word, and other document files
     </Card>
     <Card title="Audio" icon="volume-high">
-        ```python
-        {
-            "type": "audio",
-            "base64": "UklGRiQAAA...",
-            "mime_type": "audio/mpeg",
-            "format": "mp3"  # Optional
-        }
-        ```
         Audio files for transcription or analysis
     </Card>
 </CardGroup>
 
-### Multimodal message example
+### Examples
 
 ```python Multimodal message
-# Combine multiple content types in one message
 multimodal_message = HumanMessage([
     {"type": "text", "text": "Compare this image and document:"},
     {"type": "image", "url": "chart.jpg"},
@@ -546,11 +420,8 @@ multimodal_message = HumanMessage([
     {"type": "text", "text": "Which data source is more reliable?"}
 ])
 
-# Works with any compatible model
 response = model.invoke([multimodal_message])
 ```
-
-### File handling examples
 
 <CodeGroup>
 ```python PDF document analysis
@@ -607,62 +478,12 @@ response = model.invoke([message])
     [reference]() for supported formats and size limits.
 </Warning>
 
-### Rich model responses
-
-With `output_version="v1"`, models return structured content blocks:
-
-```python
-model = init_chat_model(model="", provider="", output_version="v1")
-response = model.invoke("Analyze the sales data and show your reasoning")
-
-# Response contains structured blocks  
-for block in response.content_blocks:
-    if block["type"] == "reasoning":
-        print(f"Model reasoning: {block['reasoning']}")
-    elif block["type"] == "text": 
-        print(f"Final answer: {block['text']}")
-    elif block["type"] == "tool_call":
-        print(f"Tool used: {block['name']} with {block['args']}")
-```
-
-### Accessing reasoning steps
-
-Some models can expose their internal reasoning process, allowing you to
-understand how they arrived at their conclusions:
-
-<CodeGroup>
-```python Stream reasoning
-# Stream reasoning steps as they're generated
-for chunk in model.stream("Solve this step-by-step: What is 15% of 80?"):
-    for block in chunk.content_blocks:
-        if block.get("type") == "reasoning":
-            print(f"Reasoning: {block['reasoning']}")
-        elif block.get("type") == "text":
-            print(f"Answer: {block['text']}")
-```
-
-```python Extract full reasoning
-# Get complete reasoning after generation
-response = model.invoke(
-    "Explain why the sky is blue, showing your reasoning",
-    reasoning_effort="high"  # Provider-specific parameter
-)
-
-# Extract reasoning blocks
-reasoning_steps = [
-    block for block in response.content_blocks 
-    if block.get("type") == "reasoning"
-]
-
-for step in reasoning_steps:
-    print(f"Step: {step['reasoning']}")
-```
-</CodeGroup>
-
 ### Content block types reference
 
+{/* TODO: incomplete, do we want all fields (like ID/extras) on each? */}
+
 <AccordionGroup>
-    <Accordion title="Core Content Blocks" icon="cube">
+    <Accordion title="Core" icon="cube">
         <AccordionGroup>
             <Accordion title="TextContentBlock" icon="text">
                 **Purpose:** Standard text output
@@ -704,16 +525,20 @@ for step in reasoning_steps:
                 {
                     "type": "reasoning",
                     "reasoning": "The user is asking about..."
+                    "extras": {
+                        "summary": "The user's intent is to learn about...",
+                        "signature": "abc123"
+                    }
                 }
                 ```
             </Accordion>
         </AccordionGroup>
     </Accordion>
     
-    <Accordion title="Multimodal Content Blocks" icon="images">
+    <Accordion title="Multimodal" icon="images">
         <AccordionGroup>
             <Accordion title="PlainTextContentBlock" icon="align-left">
-                **Purpose:** Document text (txt, md)
+                **Purpose:** Document text (`.txt`, `.md`)
                 
                 <ParamField body="text" type="string" required>
                     The text content
@@ -722,85 +547,91 @@ for step in reasoning_steps:
                 <ParamField body="mime_type" type="string">
                     MIME type of the text (e.g., `text/plain`, `text/markdown`)
                 </ParamField>
-                
-                **Supported formats:** `.txt`, `.md`, `.markdown`
             </Accordion>
             <Accordion title="ImageContentBlock" icon="image">
                 **Purpose:** Image data
                 
                 <ParamField body="url" type="string">
-                    URL pointing to the image location. Either `url` or `data` is required.
+                    URL pointing to the image location.
                 </ParamField>
                 
-                <ParamField body="data" type="string">
-                    Base64-encoded image data. Either `url` or `data` is required.
+                <ParamField body="base64" type="string">
+                    Base64-encoded image data.
+                </ParamField>
+                
+                <ParamField body="id" type="string">
+                    Reference ID to an externally stored image (e.g., in a
+                    provider's file system or in a bucket).
                 </ParamField>
                 
                 <ParamField body="mime_type" type="string">
                     Image MIME type (e.g., `image/jpeg`, `image/png`)
                 </ParamField>
-                
-                **Supported formats:** `.jpg`, `.jpeg`, `.png`, `.gif`, `.webp`
             </Accordion>
             <Accordion title="AudioContentBlock" icon="volume-high">
                 **Purpose:** Audio data
                 
                 <ParamField body="url" type="string">
-                    URL pointing to the audio location. Either `url` or `data` is required.
+                    URL pointing to the audio location.
                 </ParamField>
                 
                 <ParamField body="data" type="string">
-                    Base64-encoded audio data. Either `url` or `data` is required.
+                    Base64-encoded audio data.
+                </ParamField>
+
+                <ParamField body="id" type="string">
+                    Reference ID to an externally stored audio file (e.g., in a
+                    provider's file system or in a bucket).
                 </ParamField>
                 
-                <ParamField body="format" type="string">
-                    Audio format (e.g., `mp3`, `wav`, `m4a`)
+                <ParamField body="mime_type" type="string">
+                    Audio MIME type (e.g., `audio/mpeg`, `audio/wav`)
                 </ParamField>
-                
-                **Supported formats:** `.mp3`, `.wav`, `.m4a`, `.ogg`
             </Accordion>
             <Accordion title="VideoContentBlock" icon="video">
                 **Purpose:** Video data
                 
                 <ParamField body="url" type="string">
-                    URL pointing to the video location. Either `url` or `data` is required.
+                    URL pointing to the video location.
                 </ParamField>
                 
                 <ParamField body="data" type="string">
-                    Base64-encoded video data. Either `url` or `data` is required.
+                    Base64-encoded video data.
+                </ParamField>
+
+                <ParamField body="id" type="string">
+                    Reference ID to an externally stored video file (e.g., in a
+                    provider's file system or in a bucket).
                 </ParamField>
                 
                 <ParamField body="mime_type" type="string">
                     Video MIME type (e.g., `video/mp4`, `video/webm`)
                 </ParamField>
-                
-                **Supported formats:** `.mp4`, `.avi`, `.mov`, `.webm`
             </Accordion>
             <Accordion title="FileContentBlock" icon="file">
                 **Purpose:** Generic files (PDF, etc)
                 
                 <ParamField body="url" type="string">
-                    URL pointing to the file location. Either `url` or `data` is required.
+                    URL pointing to the file location.
                 </ParamField>
                 
                 <ParamField body="data" type="string">
-                    Base64-encoded file data. Either `url` or `data` is required.
+                    Base64-encoded file data.
                 </ParamField>
-                
-                <ParamField body="filename" type="string">
-                    Name of the file
+
+                <ParamField body="id" type="string">
+                    Reference ID to an externally stored file (e.g., in a
+                    provider's file system or in a bucket).
                 </ParamField>
                 
                 <ParamField body="mime_type" type="string">
-                    File MIME type (e.g., `application/pdf`, `application/vnd.openxmlformats-officedocument.wordprocessingml.document`)
+                    File MIME type (e.g., `application/pdf`)
                 </ParamField>
-                
-                **Common formats:** `.pdf`, `.docx`, `.xlsx`, `.csv`
             </Accordion>
         </AccordionGroup>
     </Accordion>
     
-    <Accordion title="Tool Calling Blocks" icon="wrench">
+    <Accordion title="Tool Calling" icon="wrench">
         <AccordionGroup>
             <Accordion title="ToolCall" icon="function">
                 **Purpose:** Function calls
@@ -845,8 +676,6 @@ for step in reasoning_steps:
                 <ParamField body="index" type="number" required>
                     Position of this chunk in the stream
                 </ParamField>
-                
-                **Used in:** Streaming responses
             </Accordion>
             <Accordion title="InvalidToolCall" icon="triangle-exclamation">
                 **Purpose:** Malformed calls
@@ -876,8 +705,6 @@ for step in reasoning_steps:
                 <ParamField body="query" type="string" required>
                     The search query to execute
                 </ParamField>
-                
-                **Providers:** Anthropic, Perplexity
             </Accordion>
             <Accordion title="WebSearchResult" icon="globe">
                 **Purpose:** Search results
@@ -890,20 +717,19 @@ for step in reasoning_steps:
                     Text snippets from the search results
                 </ParamField>
                 
-                **Returns:** Top search results with snippets
+                **Returns:** Top search results with optional snippets
             </Accordion>
             <Accordion title="CodeInterpreterCall" icon="code">
                 **Purpose:** Code execution
                 
                 <ParamField body="language" type="string" required>
-                    Programming language to execute (`python`, `javascript`, `sql`)
+                    Programming language to execute (e.g. `python`,
+                    `javascript`, `sql`)
                 </ParamField>
                 
                 <ParamField body="code" type="string" required>
                     Code to execute
                 </ParamField>
-                
-                **Languages:** Python, JavaScript, SQL
             </Accordion>
             <Accordion title="CodeInterpreterResult" icon="terminal">
                 **Purpose:** Execution results
@@ -915,8 +741,6 @@ for step in reasoning_steps:
                 <ParamField body="error" type="string">
                     Error message if execution failed
                 </ParamField>
-                
-                **Security:** Runs in sandboxed environment
             </Accordion>
             <Accordion title="NonStandardContentBlock" icon="asterisk">
                 **Purpose:** Provider-specific escape hatch
@@ -954,12 +778,12 @@ non_standard_block = {
     "value": {"custom_field": "provider_specific_data"}
 ```
 
-## Factory functions
+### Factory functions
 
 LangChain provides type-safe factory functions for creating content blocks with
 automatic ID generation and validation:
 
-### Creating content blocks
+#### Creating content blocks
 
 <CodeGroup>
 ```python Text blocks
@@ -1019,7 +843,7 @@ text = create_text_block(
 ```
 </CodeGroup>
 
-### Using factories in messages
+#### Using factories in messages
 
 ```python Message construction with factories
 from langchain_core.messages import AIMessage
@@ -1041,7 +865,7 @@ message = AIMessage(content_blocks=[
 
 Annotations provide metadata about specific portions of text content:
 
-### Citation annotations
+### Citations
 
 ```python Citations in text
 from langchain_core.messages.content import create_text_block
@@ -1089,57 +913,17 @@ text_block = {
 }
 ```
 
-### Processing annotations
-
-<CodeGroup>
-```python Extract citations
-def extract_citations(message):
-    """Extract all citations from a message"""
-    citations = []
-    
-    for block in message.content_blocks:
-        if block.get("type") == "text" and "annotations" in block:
-            for ann in block["annotations"]:
-                if ann.get("type") == "citation":
-                    citations.append({
-                        "text": block["text"][ann["start_index"]:ann["end_index"]],
-                        "url": ann.get("url"),
-                        "title": ann.get("title")
-                    })
-    
-    return citations
-```
-
-```python Highlight annotations
-def format_with_citations(text_block):
-    """Format text with inline citation links"""
-    text = text_block["text"]
-    annotations = text_block.get("annotations", [])
-    
-    # Sort by position (reverse to maintain indices)
-    citations = sorted(
-        [a for a in annotations if a["type"] == "citation"],
-        key=lambda x: x["start_index"],
-        reverse=True
-    )
-    
-    # Replace citations with links
-    for cite in citations:
-        start, end = cite["start_index"], cite["end_index"]
-        replacement = f"[{text[start:end]}]({cite['url']})"
-        text = text[:start] + replacement + text[end:]
-    
-    return text
-```
-</CodeGroup>
-
 ## Message history management
+
+{/* TODO: does this section belong here? */}
+{/* TODO: check functionality */}
+{/* TODO: add accordion group for each section */}
 
 Managing conversation history is crucial for building stateful applications.
 LangChain provides several strategies for persisting and managing message
 history across sessions.
 
-### Working with checkpointers
+### Checkpointers
 
 Checkpointers enable persistence of conversation state across sessions:
 
@@ -1178,7 +962,7 @@ graph = builder.compile(checkpointer=postgres_checkpointer)
 ```
 </CodeGroup>
 
-### Message state and reducers
+### State and reducers
 
 The `add_messages` reducer intelligently handles message updates based on IDs:
 
@@ -1249,11 +1033,11 @@ def get_session_history(session_id: str):
 ```
 </CodeGroup>
 
-## Advanced message filtering
+### Filtering
 
 Filter messages with sophisticated criteria for different use cases:
 
-### Filter by message type
+#### Filter by type
 
 ```python Type-based filtering
 from langchain_core.messages import filter_messages
@@ -1281,7 +1065,7 @@ ai_with_tools = filter_messages(
 )
 ```
 
-### Filter by metadata
+#### Filter by metadata
 
 ```python Metadata-based filtering
 from langchain_core.messages import filter_messages
@@ -1310,7 +1094,7 @@ gpt4_responses = filter_messages(
 )
 ```
 
-### Filter by message IDs
+### Filter by IDs
 
 ```python ID-based filtering
 # Keep specific messages by ID
@@ -1329,12 +1113,12 @@ def get_messages_after(messages, after_id):
     ]
 ```
 
-## Message trimming strategies
+### Trimming strategies
 
 Manage context window limits with intelligent trimming:
 
 <AccordionGroup>
-    <Accordion title="Token-based trimming" icon="calculator">
+    <Accordion title="Token-based" icon="calculator">
         Control message history size based on token counts to fit within model context windows.
         
         <CodeGroup>
@@ -1357,7 +1141,7 @@ Manage context window limits with intelligent trimming:
         )
         ```
         
-        ```python Preserve system message
+        ```python Preserve system message highlight={6}
         # Always keep system message
         trimmed_with_system = trim_messages(
             messages,
@@ -1388,7 +1172,7 @@ Manage context window limits with intelligent trimming:
         </CodeGroup>
     </Accordion>
     
-    <Accordion title="Message count trimming" icon="hashtag">
+    <Accordion title="Message count" icon="hashtag">
         Limit conversation history by number of messages rather than tokens.
         
         <CodeGroup>
@@ -1509,11 +1293,9 @@ Manage context window limits with intelligent trimming:
     </Accordion>
 </AccordionGroup>
 
-## Message merging
+### Merging
 
 Consolidate consecutive messages for cleaner conversation flow:
-
-### Basic message merging
 
 ```python Merge consecutive messages
 from langchain_core.messages import merge_message_runs
@@ -1536,7 +1318,7 @@ merged = merge_message_runs(messages)
 # ]
 ```
 
-### Custom merging strategies
+#### Custom merging strategies
 
 <CodeGroup>
 ```python Merge with separators
@@ -1550,7 +1332,7 @@ def merge_with_separator(messages, separator="\n\n"):
             current = msg
         elif type(current) == type(msg):
             # Merge content with separator
-            current.content = f"{current.content}{separator}{msg.content}"
+            current.content = f"{current.content_blocks}{separator}{msg.content_blocks}"
         else:
             merged.append(current)
             current = msg
@@ -1586,11 +1368,11 @@ def merge_selective(messages, merge_types=["human"]):
 ```
 </CodeGroup>
 
-## Message summarization
+#### Summarization
+
+{/* TODO tabs? */}
 
 Compress message history while preserving context:
-
-### Basic summarization
 
 ```python Summarize conversation history
 from langchain_core.prompts import ChatPromptTemplate
@@ -1607,7 +1389,7 @@ def summarize_messages(messages, model, max_summary_length=500):
     
     # Format conversation as text
     conversation_text = "\n".join([
-        f"{msg.__class__.__name__}: {msg.content}"
+        f"{msg.__class__.__name__}: {msg.text}"
         for msg in messages
     ])
     
@@ -1625,9 +1407,8 @@ def summarize_messages(messages, model, max_summary_length=500):
     )
 ```
 
-### Progressive summarization
+##### Progressive summarization
 
-<Accordion title="Progressive summarization implementation">
 ```python Rolling summarization
 from langchain_core.messages import SystemMessage
 from langchain_core.prompts import ChatPromptTemplate
@@ -1659,11 +1440,11 @@ class ConversationSummarizer:
             ("human", "{messages}")
         ])
         
-        messages_text = "\n".join([f"{m.type}: {m.content}" for m in messages])
+        messages_text = "\n".join([f"{m.type}: {m.text}" for m in messages])
         response = self.model.invoke(
             prompt.format_messages(messages=messages_text)
         )
-        return response.content
+        return response.text
     
     def get_combined_summary(self):
         """Get combined summary of all chunks"""
@@ -1676,15 +1457,12 @@ class ConversationSummarizer:
             metadata={"type": "rolling_summary"}
         )
 ```
-</Accordion>
 
-## Deleting messages
+### Deletion
 
 Remove specific messages from conversation history:
 
-### Using RemoveMessage
-
-```python Delete specific messages
+```python RemoveMessage
 from langchain_core.messages import RemoveMessage
 from langgraph.graph import MessagesState
 
@@ -1708,7 +1486,7 @@ builder = StateGraph(MessagesState)
 builder.add_node("delete_old", delete_messages_node)
 ```
 
-### Selective deletion patterns
+#### Selective deletion patterns
 
 <CodeGroup>
 ```python Delete by criteria
@@ -1731,7 +1509,7 @@ def delete_error_messages(state):
     error_messages = [
         RemoveMessage(id=msg.id)
         for msg in messages
-        if "error" in msg.content.lower() or 
+        if "error" in msg.text.lower() or 
            msg.metadata.get("status") == "error"
     ]
     
@@ -1781,11 +1559,11 @@ Manage messages in multi-agent systems:
                     """Route to appropriate agent based on message content"""
                     last_message = state["messages"][-1]
                     
-                    if "research" in last_message.content.lower():
+                    if "research" in last_message.text.lower():
                         return "researcher"
-                    elif "code" in last_message.content.lower():
+                    elif "code" in last_message.text.lower():
                         return "coder"
-                    elif "review" in last_message.content.lower():
+                    elif "review" in last_message.text.lower():
                         return "reviewer"
                     else:
                         return "end"
@@ -1800,7 +1578,7 @@ Manage messages in multi-agent systems:
                     relevant_messages = filter_messages(
                         state["messages"],
                         exclude_types=["tool"],  # Exclude other agents' tool calls
-                        filter_func=lambda m: "research" in m.content.lower() or 
+                        filter_func=lambda m: "research" in m.text.lower() or 
                                              m.metadata.get("agent") == "researcher"
                     )
                     
@@ -1814,7 +1592,7 @@ Manage messages in multi-agent systems:
                     relevant_messages = filter_messages(
                         state["messages"],
                         filter_func=lambda m: m.metadata.get("agent") in ["researcher", "coder"] or
-                                             "implement" in m.content.lower()
+                                             "implement" in m.text.lower()
                     )
                     
                     response = coder_model.invoke(relevant_messages)
@@ -1879,7 +1657,7 @@ Manage messages in multi-agent systems:
                 def extract_handoff_context(response):
                     """Extract relevant context for next agent"""
                     return {
-                        "summary": response.content[:200],
+                        "summary": response.text[:200],
                         "key_points": extract_key_points(response.content),
                         "next_steps": identify_next_steps(response.content),
                         "artifacts": response.metadata.get("artifacts", [])
@@ -2513,3 +2291,165 @@ messages = [
 
 response = model.invoke(messages)
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Content output versions: v0 vs v1
+
+LangChain v1.0 introduces standardized content formats while maintaining
+backward compatibility with existing code.
+
+### Version comparison
+
+| Aspect | v0 (Legacy) | v1 (Standard) |
+|--------|-------------|---------------|
+| **Default behavior** | Yes (for compatibility) | Opt-in via `output_version` |
+| **Content format** | Provider-specific | Standardized `ContentBlock` types |
+| **Type safety** | Limited | Fully typed |
+| **Multimodal support** | Basic | Comprehensive |
+
+### Setting output version
+
+<CodeGroup>
+```python Model initialization
+# Default v0 (backward compatible)
+model = ChatOpenAI()
+
+# Explicit v1
+model = ChatOpenAI(output_version="v1")
+```
+
+```python Per invocation
+# Override at invocation time
+response = model.invoke(
+    "Hello",
+    output_version="v1"  # Override model default
+)
+```
+
+```python Environment variable
+import os
+os.environ["LC_OUTPUT_VERSION"] = "v1"
+
+model = ChatOpenAI()  # Uses v1
+```
+</CodeGroup>
+
+### Accessing content blocks
+
+Two ways to access standardized content:
+
+```python Content access patterns
+# Method 1: .content_blocks property (always returns v1)
+model = ChatOpenAI()  # v0 model
+response = model.invoke("Hello")
+v1_blocks = response.content_blocks  # Runtime conversion to v1
+
+# Method 2: Set output_version="v1"
+model = ChatOpenAI(output_version="v1")
+response = model.invoke("Hello")
+v1_content = response.content  # Already in v1 format
+```
+
+<Note>
+    The `.content_blocks` property always returns typed `ContentBlock` objects,
+    regardless of the model's `output_version`. For v0 models and messages,
+    conversion happens at runtime.
+</Note>
+
+### Version detection
+
+Check which version was used to create a message:
+
+```python Verify message provenance
+response = model.invoke("Hello")
+
+# Check version in response metadata
+version = response.response_metadata.get("output_version", "v0")
+
+if version == "v1":
+    # Content is already in v1 format
+    blocks = response.content
+
+    # Use content_blocks for typing
+    typed_blocks = response.content_blocks
+else:
+    # Use content_blocks for v1 format
+    blocks = response.content_blocks
+```
+
+
+
+### Rich model responses
+
+With `output_version="v1"`, models return structured content blocks:
+
+```python
+model = init_chat_model(model="", provider="", output_version="v1")
+response = model.invoke("Analyze the sales data and show your reasoning")
+
+# Response contains structured blocks  
+for block in response.content_blocks:
+    if block["type"] == "reasoning":
+        print(f"Model reasoning: {block['reasoning']}")
+    elif block["type"] == "text": 
+        print(f"Final answer: {block['text']}")
+    elif block["type"] == "tool_call":
+        print(f"Tool used: {block['name']} with {block['args']}")
+```
+
+
+### Accessing reasoning steps
+
+Some models can expose their internal reasoning process, allowing you to
+understand how they arrived at their conclusions:
+
+<CodeGroup>
+```python Stream reasoning
+# Stream reasoning steps as they're generated
+for chunk in model.stream("Solve this step-by-step: What is 15% of 80?"):
+    for block in chunk.content_blocks:
+        if block.get("type") == "reasoning":
+            print(f"Reasoning: {block['reasoning']}")
+        elif block.get("type") == "text":
+            print(f"Answer: {block['text']}")
+```
+
+```python Extract full reasoning
+# Get complete reasoning after generation
+response = model.invoke(
+    "Explain why the sky is blue, showing your reasoning",
+    reasoning_effort="high"  # Provider-specific parameter
+)
+
+# Extract reasoning blocks
+reasoning_steps = [
+    block for block in response.content_blocks 
+    if block.get("type") == "reasoning"
+]
+
+for step in reasoning_steps:
+    print(f"Step: {step['reasoning']}")
+```
+</CodeGroup>
