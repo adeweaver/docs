@@ -1,0 +1,209 @@
+---
+title: Models
+---
+
+Large Language Models (LLMs) are advanced machine learning models that can interpret and generate text like humans do. They're versatile enough to write content, translate languages, summarize information, and answer questions without needing special training for each task.
+
+Providers like OpenAI, Anthropic, and Google offer access to a range of LLMs each carrying their own strengths and weaknesses. Every provider has its own unique interaction patterns for accessing and using the models, typically through a user interface or an API where [messages]() are exchanged between a user and the model.
+
+In addition to text generation, many models support other interaction patterns, such as:
+
+- [Tool calling]() - where models can request execution of external tools (such as database queries or API calls) and incorporate the results into their responses.
+- [Structured output]() - where the model is constrained to generate JSON output that matches a provided schema.
+- [Multimodality]() - where models can process and return data other than text, such as images, audio, and video.
+- [Reasoning]() - where models are able to perform multi-step reasoning to arrive at a conclusion.
+
+When working with models, each provider typically has its own unique format to represent the inputs and outputs of a model, which can make it difficult to swap between models and providers without significant code changes.
+
+LangChain simplifies this by providing a common _chat model_ abstraction for interacting with LLMs across all supported models & providers. If you're experimenting with different models, or building production agents, this lets you focus on the logic of your application rather than the implementation details of the underlying model.
+
+---
+
+## Basic usage
+
+
+
+### `initChatModel()`
+
+The easiest way start interacting with a model in LangChain:
+
+<Tabs>
+  <Tab title="OpenAI" icon="/images/vendor/openai-light.svg">
+    ```typescript
+    import { initChatModel } from "langchain/chat_models";
+
+    const model = await initChatModel(
+      "gpt-5",
+      { modelProvider: "openai" }
+    );
+    const response = await model.invoke("Why do parrots talk?");
+    ````
+
+  </Tab>
+  <Tab title="Anthropic" icon="/images/vendor/claude.svg">
+    ```typescript
+    import { initChatModel } from "langchain/chat_models";
+
+    const model = await initChatModel(
+      "claude-opus-4-0",
+      { modelProvider: "anthropic" }
+    );
+    const response = await model.invoke("Why do parrots talk?");
+    ````
+
+  </Tab>
+  <Tab title="Google" icon="/images/vendor/gemini.svg">
+    ```typescript
+    import { initChatModel } from "langchain/chat_models";
+
+    const model = await initChatModel(
+      "gemini-2.5-pro",
+      { modelProvider: "google" }
+    );
+    const response = await model.invoke("Why do parrots talk?");
+    ````
+
+  </Tab>
+  <Tab title="AWS Bedrock" icon="/images/vendor/aws-bedrock.png">
+    ```typescript
+    import { initChatModel } from "langchain/chat_models";
+
+    const model = await initChatModel(
+      "anthropic.claude-opus-4",
+      { modelProvider: "bedrock" }
+    );
+    const response = await model.invoke("Why do parrots talk?");
+    ````
+
+  </Tab>
+  <Tab title="Ollama" icon="/images/vendor/ollama.svg">
+    ```typescript
+    import { initChatModel } from "langchain/chat_models";
+
+    const model = await initChatModel(
+      "gpt-oss",
+      { modelProvider: "ollama" }
+    );
+    const response = await model.invoke("Why do parrots talk?");
+    ````
+
+  </Tab>
+</Tabs>
+
+
+In addition to passing in single string messages, you can provide the model a
+list of messages to represent conversation history. The role of each message
+provides context to the model about who is speaking. See the [messages]() guide
+for more info.
+
+
+
+```js Conversation history
+import {
+  HumanMessage,
+  AIMessage,
+  SystemMessage,
+} from "@langchain/core/messages";
+
+const conversation = [
+  new SystemMessage(
+    "You are a helpful assistant that translates English to French."
+  ),
+  new HumanMessage("Translate: I love programming."),
+  new AIMessage("J'adore la programmation."),
+  new HumanMessage("Translate: I love building applications."),
+];
+
+const response = await model.invoke(conversation);
+console.log(response);
+```
+
+
+
+
+
+## Invocation
+
+Models must be invoked to generate output. There are three main methods for
+doing this, each suited to different use cases.
+
+### `invoke()`
+
+The most straightforward way to use a model is to call `invoke()` with a single
+message or a list of messages.
+
+```typescript Invoke
+const response = await model.invoke("Why do parrots have colorful feathers?");
+console.log(response);
+```
+
+### `stream()`
+
+Most models can stream their output content as it is generated. By displaying
+output progressively, even before a complete response is ready, streaming
+significantly improves user experience, particularly for longer responses.
+
+Calling `stream()` returns an iterator that yields chunks of output
+synchronously as they are produced. You can use a loop to process each chunk in
+real-time:
+
+```typescript Streaming
+const stream = await model.stream("Why do parrots have colorful feathers?");
+for await (const chunk of stream) {
+  console.log(chunk);
+}
+```
+
+### `batch()`
+
+Batching requests to a model can significantly improve performance when needing
+to process multiple independent inputs, as the processing can be done in
+parallel:
+
+```typescript Batch
+const stream = await model.batch([
+  "Why do parrots have colorful feathers?",
+  "How do airplanes fly?",
+  "What is quantum computing?",
+]);
+for (const response of stream) {
+  console.log(response);
+}
+```
+
+
+
+## Advanced features
+
+### Structured outputs
+
+Models can be requested to respond in a particular format (e.g., JSON or
+matching a defined schema). This is useful for data extraction. See the
+[structured outputs]() guide for more info.
+
+### Multimodality
+
+Certain models can process and return non-textual data such as images, audio,
+and video. This is known as [multimodality]().
+
+TODO show example of image/audio/video input
+
+TODO show example of image/audio/video output
+
+### Reasoning
+
+## Advanced configuration
+
+## Supported models
+
+LangChain supports all major model providers.
+
+TODO link out to page with full table
+
+At a glance:
+
+| Provider  | Tool Calling | Structured Output | Multimodal | Streaming | Async |
+| --------- | ------------ | ----------------- | ---------- | --------- | ----- |
+| OpenAI    | x            | x                 | x          | x         | x     |
+| Anthropic | x            | x                 | x          | x         | x     |
+| Google    | x            | x                 | x          | x         | x     |
