@@ -2,63 +2,25 @@
 title: Messages
 ---
 
+{/* TODO: section on metadata types (response and usage) */}
+
 ## Overview
 
-Messages are the fundamental unit of communication in a LangChain `ChatModel`.
-They represent the input and output of conversations, carrying both content and
-metadata that enables rich, multimodal interactions.
+Messages are the fundamental unit of communication in LangChain. They represent
+the input and output of conversations, carrying both content and metadata that
+enables stateful multimodal interactions.
 
 Messages are structured objects that contain:
 
-* <Icon icon="user" size={16} /> **Role** - Identifies the message type
-(`system`, `user`, `assistant`, or
-`tool`)
-* <Icon icon="folder-closed" size={16} /> **Content** - Types of content: text,
-images, audio, documents, and [more](#content-blocks)
-* <Icon icon="tag" size={16} /> **Metadata** - Optional fields such as response
+* <Icon icon="user" size={16} /> [**Role**](#message-types) - Identifies the
+message type (e.g. `system`, `user`)
+* <Icon icon="folder-closed" size={16} /> [**Content**](#message-content) - Types
+of content: text, images, audio, documents, and more
+* <Icon icon="tag" size={16} /> [**Metadata**]() - Optional fields such as response
 information, message IDs, and token usage
 
 LangChain provides a unified message format that works across all model
 providers, handling differences automatically.
-
-## Text prompts vs message prompts
-
-LangChain supports two main approaches for interacting with models:
-
-<Tabs>
-    <Tab title="Text Prompts" icon="text">
-        Text prompts are strings - ideal for straightforward generation tasks
-        where you don't need conversation history.
-        
-        ```python
-        response = model.invoke("Write a haiku about spring")
-        ```
-        
-        **Use text prompts when:**
-        * You have a single, standalone request
-        * You don't need conversation history
-        * You want minimal code complexity
-    </Tab>
-    <Tab title="Message Prompts" icon="messages">
-        Message prompts are arrays of structured messages with roles.
-        
-        ```python
-        from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
-
-        messages = [
-            SystemMessage("You are a poetry expert"),
-            HumanMessage("Write a haiku about spring"),
-            AIMessage("Cherry blossoms bloom...")
-        ]
-        response = model.invoke(messages)
-        ```
-        
-        **Use message prompts when:**
-        * Managing multi-turn conversations
-        * Working with multimodal content (images, audio, files)
-        * Including system instructions
-    </Tab>
-</Tabs>
 
 ## Message types
 <Columns cols={2}>
@@ -98,7 +60,49 @@ response = model.invoke(messages)  # Returns AIMessage
 ```
 </CodeGroup>
 
-### <Icon icon="openai" size={16} /> OpenAI format compatibility
+### Text prompts vs message prompts
+
+LangChain supports two main approaches for interacting with models:
+
+<Tabs>
+    <Tab title="Text Prompts" icon="text">
+        Text prompts are strings - ideal for straightforward generation tasks
+        where you don't need conversation history.
+        
+        ```python
+        response = model.invoke("Write a haiku about spring")
+        ```
+        
+        **Use text prompts when:**
+        * You have a single, standalone request
+        * You don't need conversation history
+        * You want minimal code complexity
+    </Tab>
+    <Tab title="Message Prompts" icon="messages">
+        Message prompts are arrays of structured messages with roles.
+        
+        ```python
+        from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
+
+        messages = [
+            SystemMessage("You are a poetry expert"),
+            HumanMessage("Write a haiku about spring"),
+            AIMessage("Cherry blossoms bloom...")
+        ]
+        response = model.invoke(messages)
+        ```
+        
+        **Use message prompts when:**
+        * Managing multi-turn conversations
+        * Working with multimodal content (images, audio, files)
+        * Including system instructions
+    </Tab>
+</Tabs>
+
+{/* TODO: fix icon. maybe we're not on the right version */}
+{/* https://fontawesome.com/icons/openai?f=brands&s=solid */}
+{/* ### <Icon icon="openai" size={16} /> OpenAI format compatibility */}
+### OpenAI format compatibility
 
 LangChain messages work seamlessly with OpenAI's [dictionary format]():
 
@@ -173,7 +177,7 @@ Different [providers]() handle `SystemMessage` in various ways:
 ## Human message
 
 A `HumanMessage` represent user input and interactions. They can contain text,
-images, audio, files, and any other multimodal [content](#content-blocks).
+images, audio, files, and any other multimodal [content](#message-content).
 
 ### Text content
 
@@ -356,7 +360,7 @@ tool_message = ToolMessage(
     </Accordion>
 </Note>
 
-## Content blocks
+## Message content
 
 Different providers return model responses in various formats. To standardize
 this, LangChain has a standard collection of **content blocks** to enable
@@ -1804,6 +1808,8 @@ def validate_message_history(messages):
 
 ### Automatic repair strategies
 
+{/* TODO: validate */}
+
 <CodeGroup>
 ```python Fix missing tool responses
 def fix_missing_tool_responses(messages):
@@ -2057,6 +2063,7 @@ Sophisticated message handling patterns for complex use cases:
         </AccordionGroup>
     </Accordion>
     
+    {/* TODO this is LangGraph focused? */}
     <Accordion title="Rich annotations" icon="tags">
         Add metadata, analysis, and context to messages.
         
@@ -2420,7 +2427,8 @@ for block in response.content_blocks:
 ```
 
 
-### Accessing reasoning steps
+{/* TODO: idk if this deserves an example, if so, where? */}
+{/* ### Accessing reasoning steps
 
 Some models can expose their internal reasoning process, allowing you to
 understand how they arrived at their conclusions:
@@ -2452,4 +2460,4 @@ reasoning_steps = [
 for step in reasoning_steps:
     print(f"Step: {step['reasoning']}")
 ```
-</CodeGroup>
+</CodeGroup> */}
