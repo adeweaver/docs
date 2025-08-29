@@ -98,8 +98,7 @@ response = model.invoke(messages)
 
 ### <Icon icon="/images/vendor/openai.svg" size={20} /> Dictionary format
 
-You can also pass in a list of dictionaries to invocation methods, which is
-a similar format to what most providers like OpenAI expect.
+You can also specify messages directly in OpenAI chat completions format. 
 
 ```python
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
@@ -192,17 +191,35 @@ response = model.invoke("Explain AI")
 print(type(response))  # <class 'langchain_core.messages.AIMessage'>
 ```
 
-<Note>
-    `AIMessage` objects are returned by the model when calling it, which contains
-    all of the associated metadata in the response. However, that doesn't mean that's
-    the only place they can be created/ modified from.
-    
-    Providers weight/contextualize types of messages differently, which means it is
-    sometimes helpful to create a new `AIMessage` object and insert it into the
-    message history as if it came from the model.
-</Note>
+`AIMessage` objects are returned by the model when calling it, which contains
+all of the associated metadata in the response. However, that doesn't mean that's
+the only place they can be created/ modified from.
 
-#### `AIMessage` attributes
+Providers weight/contextualize types of messages differently, which means it is
+sometimes helpful to create a new `AIMessage` object and insert it into the
+message history as if it came from the model.
+
+```python
+from langchain_core.messages import AIMessage
+
+# Create an AI message manually (e.g., for conversation history)
+ai_msg = AIMessage(
+    content="I'd be happy to help you with that question!"
+)
+
+# Add to conversation history
+messages = [
+    SystemMessage("You are a helpful assistant"),
+    HumanMessage("Can you help me?"),
+    ai_msg,  # Insert as if it came from the model
+    HumanMessage("Great! What's 2+2?")
+]
+
+response = model.invoke(messages)
+
+```
+
+#### AIMessage attributes
 
 <ParamField path="text" type="string">
     The text content of the message.
@@ -293,7 +310,7 @@ messages = [
 response = model.invoke(messages)  # Model processes the result
 ```
 
-#### `ToolMessage attributes`
+#### ToolMessage attributes
 
 <ParamField path="content" type="string" required>
     The stringified output of the tool call.
@@ -381,7 +398,7 @@ anthropic_message = {
 }
 ```
 
-By default, `AIMessage` objects will store the raw output of the model inside of the `content`
+By default, `AIMessage` objects will store the output of the model inside of the `content`
 attribute. If you want to access content in a way that won't change between providers, you
 can access the `content_blocks` attribute, which will return a list of content blocks that adhere
 to the [standard content format](#content-block-reference).
