@@ -13,15 +13,29 @@ LangGraph is focused on the underlying capabilties important for agent orchestra
 Install LangGraph:
 
 :::python
-```python
+```bash
 pip install -U langgraph
 ```
 :::
 
 :::js
-```js
-npm install @langchain/langgraph
+<CodeGroup>
+```bash npm
+npm install @langchain/langgraph @langchain/core
 ```
+
+```bash pnpm
+pnpm add @langchain/langgraph @langchain/core
+```
+
+```bash yarn
+yarn add @langchain/langgraph @langchain/core
+```
+
+```bash bun
+bun add @langchain/langgraph @langchain/core
+```
+</CodeGroup>
 :::
 
 Then, create a simple hello world example.
@@ -44,7 +58,21 @@ graph.invoke({"messages": [{"role": "user", "content": "hi!"}]})
 :::
 
 :::js
-TODO
+```typescript
+import { MessagesAnnotation, StateGraph, START, END } from "@langchain/langgraph";
+
+const mockLlm = (state: typeof MessagesAnnotation.State) => {
+  return { messages: [{ role: "ai", content: "hello world" }] };
+};
+
+const graph = new StateGraph(MessagesAnnotation)
+  .addNode("mock_llm", mockLlm)
+  .addEdge(START, "mock_llm")
+  .addEdge("mock_llm", END)
+  .compile();
+
+await graph.invoke({ messages: [{ role: "user", content: "hi!" }] });
+```
 :::
 
 ## Core benefits

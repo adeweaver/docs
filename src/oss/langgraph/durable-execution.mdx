@@ -205,7 +205,7 @@ If a [node](/oss/graph-api#nodes) contains multiple operations, you may find it 
 :::js
 <Tabs>
   <Tab title="Original">
-    ```python {highlight={13}}
+    ```typescript {highlight={13}}
     import { StateGraph, START, END } from "@langchain/langgraph";
     import { MemorySaver } from "@langchain/langgraph";
     import { v4 as uuidv4 } from "uuid";
@@ -247,7 +247,7 @@ If a [node](/oss/graph-api#nodes) contains multiple operations, you may find it 
 ```
   </Tab>
   <Tab title="With task">
-    ```python {highlight={14,20}}
+    ```typescript {highlight={14,20}}
     import { StateGraph, START, END } from "@langchain/langgraph";
     import { MemorySaver } from "@langchain/langgraph";
     import { task } from "@langchain/langgraph";
