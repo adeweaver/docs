@@ -205,13 +205,79 @@ Calling `stream()` returns an <Tooltip tip="An object that progressively provide
 that yields output chunks as they are produced. You can use a loop to process
 each chunk in real-time:
 
-```python Streaming
-for chunk in model.stream("Why do parrots have colorful feathers?"):
-    print(chunk)
+<CodeGroup>
+    ```python Basic text streaming
+    for chunk in model.stream("Why do parrots have colorful feathers?"):
+        print(chunk.text)
+    ```
+    
+    ```python Visualize text chunks
+    for chunk in model.stream("what color is the sky?"):
+        print(chunk.text, end="|", flush=True)
+    ```
+</CodeGroup>
+
+As opposed to `invoke()`, which returns a single `AIMessage` after the model has
+finished generating its full response, `stream()` returns multiple
+`AIMessageChunk` objects, each containing a portion of the output text. After
+streaming concludes, you can reconstruct the full message by adding them
+together:
+
+```python Construct AIMessage
+chunks = []
+for chunk in model.stream("What color is the sky?"):
+    chunks.append(chunk)
+
+# chunks: [
+#     AIMessageChunk("The "),
+#     AIMessageChunk("sky "),
+#     AIMessageChunk("is "),
+#     AIMessageChunk("blue.")
+# ]
+
+full_message = sum(chunks)
+print(full_message)  # AIMessage("The sky is blue.")
 ```
 
-See the [streaming]() guide for more detail.
-{/* TODO include three important topics in this callout */}
+<Warning>
+    Streaming is only effective if all steps in the program know how to process
+    an input stream; i.e., process an input chunk one at a time, and yield a
+    corresponding output chunk. In other words, streaming only works if the
+    entire application is designed to be streaming-capable. An application that
+    is **not** streaming-capable, for example, would be one that needs to store
+    the entire output in memory before it can be processed.
+</Warning>
+
+{/* TODO: JSONOutputParser? cc @ccurme */}
+{/* https://python.langchain.com/docs/how_to/streaming/#working-with-input-streams */}
+
+<Accordion title='"Auto-Streaming" Chat Models'>
+    {/* TODO: does this belong here? cc @sydney-runkle */}
+    {/* https://python.langchain.com/docs/concepts/streaming/#auto-streaming-chat-models */}
+    <Note>
+        This section requires some baseline knowledge of callbacks and events.
+    </Note>
+
+    LangChain simplifies streaming from chat models by automatically enabling
+    streaming mode in certain cases, even when you're not explicitly calling the
+    streaming methods. This is particularly useful when you use the
+    non-streaming invoke method but still want to stream the entire application,
+    including intermediate results from the chat model.
+
+    #### How it works
+
+    When you `invoke()` a chat model, LangChain will automatically switch to
+    an internal streaming mode if it detects that you are trying to stream the
+    overall application. The result of the invocation will be the same as far as
+    the code that was using invoke is concerned; however, while the chat model
+    is being streamed, LangChain will take care of invoking `on_llm_new_token`
+    events in LangChain's callback system.
+    
+    Callback events allow LangGraph `stream` and `astream_events` to surface the
+    chat model's output in real-time.
+</Accordion>
+
+{/* TODO: do we want to mention astream_events? Seems better suited for LG */}
 
 ### Batch
 
@@ -302,75 +368,51 @@ model. Check the respective [provider reference]() for details.
     ```
 </CodeGroup>
 
-For more details on creating, using, and executing tools requests, see the
-[tools]() guide.
+{/* TODO a switcher to iterate through all different tool schema options */}
+{/* TODO model switcher to show this example for our top 5 providers */}
 
-{/* 
+When binding user-defined tools, the model's response includes a **request** to
+execute a tool. It is up to you to perform the requested action and return the
+result back to the model for use in subsequent reasoning.
 
-If we want to include some tool info here, we can do so like this:
+<AccordionGroup>
+    <Accordion title="Tool execution loop">
+        x
+    </Accordion>
 
-TODO a switcher to iterate through all different tool schema options
-TODO model switcher to show this example for our top 5 providers
+    <Accordion title="Forcing tool calls">
+        #### Forcing tool calls
 
-```python Binding tools highlight={16}
-from pydantic import BaseModel, Field
-from langchain.chat_models import init_chat_model
+        By default, the model has the freedom to choose which bound tool to use
+        based on the user's input. However, you might want to force choosing a
+        tool, ensuring the model uses either a particular tool or *any* tool
+        from a given list:
 
-class GetWeather(BaseModel):
-    """Get the current weather in a given location"""
-    location: str = Field(..., description="The city and state, e.g. Boston, MA")
+        <CodeGroup>
+        ```python Force use of specific tools
+        response = model_with_tools.invoke(
+            "What's the weather in both New York and London, and calculate 15 + 25",
+            force_tool_calls=["GetWeather", "Calculator"]
+        )
+        ```
 
-class Calculator(BaseModel):
-    """Perform mathematical calculations"""
-    expression: str = Field(..., description="Mathematical expression to evaluate")
+        ```python Force use of any tool
+        response = model_with_tools.invoke(
+            "What's the weather in both New York and London, and calculate 15 + 25",
+            force_tool_calls="any"
+        )
+        ```
+        </CodeGroup>
+    </Accordion>
 
-model = init_chat_model(
-    model="gpt-5", 
-    model_provider="openai"
-)
-model_with_tools = model.bind_tools([GetWeather, Calculator])
-
-response = model_with_tools.invoke("What's the weather like in Boston and what's 25 * 4?")
-for tool_call in response.tool_calls:
-    # View tool calls made by the model
-    print(f"Tool: {tool_call['name']}")
-    print(f"Args: {tool_call['args']}")
-```
-
-In this example, the model's response includes a **request** to execute a tool.
-It is up to you to perform the requested action and return the result back to
-the model for use in subsequent reasoning.
-
-TODO link out to a different guide on tool execution; beyond the scope here
-
-#### Forcing tool calls
-
-By default, the model has the freedom to choose which bound tool to use based on
-the user's input. However, you might want to force choosing a tool, ensuring the
-model uses either a particular tool or *any* tool from a given list:
-
-<CodeGroup>
-
-```python Force use of specific tools
-response = model_with_tools.invoke(
-    "What's the weather in both New York and London, and calculate 15 + 25",
-    force_tool_calls=["GetWeather", "Calculator"]
-)
-```
-
-```python Force use of any tool
-response = model_with_tools.invoke(
-    "What's the weather in both New York and London, and calculate 15 + 25",
-    force_tool_calls="any"
-)
-```
-
-</CodeGroup>
-
-
-#### Parallel tool calls
-
-TODO */}
+    <Accordion title="Parallel tool calls">
+        x
+    </Accordion>
+    
+    <Accordion title="Streaming tool calls">
+        x
+    </Accordion>
+</AccordionGroup>
 
 ### Structured outputs
 
