@@ -98,7 +98,7 @@ response = model.invoke(messages)
 
 ### <Icon icon="openai" size={20} /> Dictionary format
 
-You can also pass in a list of dictionaries to the `.invoke()` method, which is
+You can also pass in a list of dictionaries to invocation methods, which is
 a similar format to what most providers like OpenAI expect.
 
 ```python
@@ -114,7 +114,7 @@ response = model.invoke(messages)
 
 ## Message types
 
-### System Message <Icon icon="gear" size={20} />
+### <Icon icon="gear" size={20} /> System Message
 
 A `SystemMessage` represent an initial set of instructions that primes the
 model's behavior. You can use a system message to set the tone, define the
@@ -146,7 +146,7 @@ response = model.invoke(messages)
 ```
 </CodeGroup>
 
-### Human Message <Icon icon="user" size={20} />
+### <Icon icon="user" size={20} /> Human Message
 
 A `HumanMessage` represents user input and interactions. They can contain text,
 images, audio, files, and any other amount of multimodal [content](#content).
@@ -192,14 +192,14 @@ response = model.invoke(messages)
     [reference]().
 </Note>
 
-### AI Message <Icon icon="robot" size={20} />
+### <Icon icon="robot" size={20} /> AI Message
 
 An `AIMessage` represents the output of a model invocation. They can include
 multimodal data, tool calls, and provider-specific metadata that you can later
 access.
 
 <Note>
-    AIMessage objects are returned by the model when calling `.invoke()`, but that
+    AIMessage objects are returned by the model when invoking it, but that
     doesn't mean that's the only place they can be created. Model providers weight
     different types of messages differently, which means you can use an AIMessage
     to alter model responses, tool calls, and other data.
@@ -271,7 +271,7 @@ print(f"Full response: {final_message.text}")
 ```
 </CodeGroup>
 
-### Tool Message <Icon icon="wrench" size={20} />
+### <Icon icon="wrench" size={20} /> Tool Message
 
 For models that support tool calling, AI messages can contain tool calls.
 Tool messages are used to pass the results of a single tool execution back to the model.
