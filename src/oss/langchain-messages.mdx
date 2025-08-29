@@ -1035,81 +1035,87 @@ def get_session_history(session_id: str):
 
 Filter messages with sophisticated criteria for different use cases:
 
-#### Filter by type
+<AccordionGroup>
+    <Accordion title="By type" icon="filter">
+        Filter messages based on their role (human, AI, system or tool) and tool
+        call presence.
 
-```python Type-based filtering
-from langchain_core.messages import filter_messages
+        ```python Type-based filtering
+        from langchain_core.messages import filter_messages
 
-messages = [
-    SystemMessage("You are helpful"),
-    HumanMessage("Question 1"),
-    AIMessage("Answer 1"),
-    HumanMessage("Question 2"),
-    AIMessage("Answer 2", tool_calls=[...]),
-    ToolMessage("Result", tool_call_id="123")
-]
+        messages = [
+            SystemMessage("You are helpful"),
+            HumanMessage("Question 1"),
+            AIMessage("Answer 1"),
+            HumanMessage("Question 2"),
+            AIMessage("Answer 2", tool_calls=[...]),
+            ToolMessage("Result", tool_call_id="123")
+        ]
 
-# Get only human messages
-human_only = filter_messages(messages, include_types=["human"])
+        # Get only human messages
+        human_only = filter_messages(messages, include_types=["human"])
 
-# Exclude system messages
-no_system = filter_messages(messages, exclude_types=["system"])
+        # Exclude system messages
+        no_system = filter_messages(messages, exclude_types=["system"])
 
-# Get AI messages with tool calls
-ai_with_tools = filter_messages(
-    messages,
-    include_types=["ai"],
-    include_tool_calls=True
-)
-```
+        # Get AI messages with tool calls
+        ai_with_tools = filter_messages(
+            messages,
+            include_types=["ai"],
+            include_tool_calls=True
+        )
+        ```
+    </Accordion>
+    <Accordion title="By metadata" icon="filter">
+        ```python Metadata-based filtering
+        from langchain_core.messages import filter_messages
 
-#### Filter by metadata
+        messages = [
+            HumanMessage("Hi", name="alice", metadata={"priority": "high"}),
+            HumanMessage("Hello", name="bob", metadata={"priority": "low"}),
+            AIMessage("Response to Alice", metadata={"model": "gpt-4"}),
+            AIMessage("Response to Bob", metadata={"model": "gpt-3.5"})
+        ]
 
-```python Metadata-based filtering
-from langchain_core.messages import filter_messages
+        # Filter by name
+        alice_messages = filter_messages(messages, include_names=["alice"])
 
-messages = [
-    HumanMessage("Hi", name="alice", metadata={"priority": "high"}),
-    HumanMessage("Hello", name="bob", metadata={"priority": "low"}),
-    AIMessage("Response to Alice", metadata={"model": "gpt-4"}),
-    AIMessage("Response to Bob", metadata={"model": "gpt-3.5"})
-]
+        # Filter by custom metadata
+        high_priority = filter_messages(
+            messages,
+            filter_func=lambda m: m.metadata.get("priority") == "high"
+        )
 
-# Filter by name
-alice_messages = filter_messages(messages, include_names=["alice"])
+        # Complex filtering
+        gpt4_responses = filter_messages(
+            messages,
+            include_types=["ai"],
+            filter_func=lambda m: m.metadata.get("model") == "gpt-4"
+        )
+        ```
+    </Accordion>
+    <Accordion title="By IDs" icon="filter">
+        ```python ID-based filtering
+        # Keep specific messages by ID
+        message_ids = ["msg_001", "msg_003", "msg_005"]
+        selected = filter_messages(messages, include_ids=message_ids)
 
-# Filter by custom metadata
-high_priority = filter_messages(
-    messages,
-    filter_func=lambda m: m.metadata.get("priority") == "high"
-)
+        # Exclude specific messages
+        excluded = filter_messages(messages, exclude_ids=["msg_002", "msg_004"])
 
-# Complex filtering
-gpt4_responses = filter_messages(
-    messages,
-    include_types=["ai"],
-    filter_func=lambda m: m.metadata.get("model") == "gpt-4"
-)
-```
+        # Get messages after a specific ID
+        def get_messages_after(messages, after_id):
+            found = False
+            return [
+                msg for msg in messages
+                if (found := found or msg.id == after_id) and msg.id != after_id
+            ]
+        ```
+    </Accordion>
+</AccordionGroup>
 
-### Filter by IDs
 
-```python ID-based filtering
-# Keep specific messages by ID
-message_ids = ["msg_001", "msg_003", "msg_005"]
-selected = filter_messages(messages, include_ids=message_ids)
 
-# Exclude specific messages
-excluded = filter_messages(messages, exclude_ids=["msg_002", "msg_004"])
-
-# Get messages after a specific ID
-def get_messages_after(messages, after_id):
-    found = False
-    return [
-        msg for msg in messages
-        if (found := found or msg.id == after_id) and msg.id != after_id
-    ]
-```
 
 ### Trimming strategies
 
