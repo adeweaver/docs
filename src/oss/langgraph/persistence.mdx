@@ -17,7 +17,7 @@ LangGraph has a built-in persistence layer, implemented through checkpointers. W
 
 ## Threads
 
-A thread is a unique ID or thread identifier assigned to each checkpoint saved by a checkpointer. It contains the accumulated state of a sequence of [runs](/langgraph-platform/assistants#execution). When a run is executed, the [state](/oss/graph-api#state) of the underlying graph of the assistant will be persisted to the thread.
+A thread is a unique ID or thread identifier assigned to each checkpoint saved by a checkpointer. It contains the accumulated state of a sequence of [runs](/langgraph-platform/assistants#execution). When a run is executed, the [state](/oss/langgraph/graph-api#state) of the underlying graph of the assistant will be persisted to the thread.
 
 When invoking a graph with a checkpointer, you **must** specify a `thread_id` as part of the `configurable` portion of the config.
 
@@ -47,7 +47,7 @@ The state of a thread at a particular point in time is called a checkpoint. Chec
 * `metadata`: Metadata associated with this checkpoint.
 * `values`: Values of the state channels at this point in time.
 * `next` A tuple of the node names to execute next in the graph.
-* `tasks`: A tuple of `PregelTask` objects that contain information about next tasks to be executed. If the step was previously attempted, it will include error information. If a graph was interrupted [dynamically](/oss/add-human-in-the-loop#pause-using-interrupt) from within a node, tasks will contain additional data associated with interrupts.
+* `tasks`: A tuple of `PregelTask` objects that contain information about next tasks to be executed. If the step was previously attempted, it will include error information. If a graph was interrupted [dynamically](/oss/langgraph/add-human-in-the-loop#pause-using-interrupt) from within a node, tasks will contain additional data associated with interrupts.
 
 Checkpoints are persisted and can be used to restore the state of a thread at a later time.
 
@@ -483,7 +483,7 @@ await graph.invoke(null, config);
 ```
 :::
 
-Importantly, LangGraph knows whether a particular step has been executed previously. If it has, LangGraph simply _re-plays_ that particular step in the graph and does not re-execute the step, but only for the steps _before_ the provided `checkpoint_id`. All of the steps _after_ `checkpoint_id` will be executed (i.e., a new fork), even if they have been executed previously. See this [how to guide on time-travel to learn more about replaying](/oss/time-travel).
+Importantly, LangGraph knows whether a particular step has been executed previously. If it has, LangGraph simply _re-plays_ that particular step in the graph and does not re-execute the step, but only for the steps _before_ the provided `checkpoint_id`. All of the steps _after_ `checkpoint_id` will be executed (i.e., a new fork), even if they have been executed previously. See this [how to guide on time-travel to learn more about replaying](/oss/langgraph/time-travel).
 
 ![Replay](/oss/images/re_play.png)
 
@@ -503,7 +503,7 @@ The config should contain `thread_id` specifying which thread to update. When on
 
 #### `values`
 
-These are the values that will be used to update the state. Note that this update is treated exactly as any update from a node is treated. This means that these values will be passed to the [reducer](/oss/graph-api#reducers) functions, if they are defined for some of the channels in the graph state. This means that `update_state` does NOT automatically overwrite the channel values for every channel, but only for the channels without reducers. Let's walk through an example.
+These are the values that will be used to update the state. Note that this update is treated exactly as any update from a node is treated. This means that these values will be passed to the [reducer](/oss/langgraph/graph-api#reducers) functions, if they are defined for some of the channels in the graph state. This means that `update_state` does NOT automatically overwrite the channel values for every channel, but only for the channels without reducers. Let's walk through an example.
 
 Let's assume you have defined the state of your graph with the following schema (see full example above):
 
@@ -585,11 +585,11 @@ The `foo` key (channel) is completely changed (because there is no reducer speci
 #### `as_node`
 
 :::python
-The final thing you can optionally specify when calling `update_state` is `as_node`. If you provided it, the update will be applied as if it came from node `as_node`. If `as_node` is not provided, it will be set to the last node that updated the state, if not ambiguous. The reason this matters is that the next steps to execute depend on the last node to have given an update, so this can be used to control which node executes next. See this [how to guide on time-travel to learn more about forking state](/oss/time-travel).
+The final thing you can optionally specify when calling `update_state` is `as_node`. If you provided it, the update will be applied as if it came from node `as_node`. If `as_node` is not provided, it will be set to the last node that updated the state, if not ambiguous. The reason this matters is that the next steps to execute depend on the last node to have given an update, so this can be used to control which node executes next. See this [how to guide on time-travel to learn more about forking state](/oss/langgraph/time-travel).
 :::
 
 :::js
-The final thing you can optionally specify when calling `updateState` is `asNode`. If you provide it, the update will be applied as if it came from node `asNode`. If `asNode` is not provided, it will be set to the last node that updated the state, if not ambiguous. The reason this matters is that the next steps to execute depend on the last node to have given an update, so this can be used to control which node executes next. See this [how to guide on time-travel to learn more about forking state](/oss/time-travel).
+The final thing you can optionally specify when calling `updateState` is `asNode`. If you provide it, the update will be applied as if it came from node `asNode`. If `asNode` is not provided, it will be set to the last node that updated the state, if not ambiguous. The reason this matters is that the next steps to execute depend on the last node to have given an update, so this can be used to control which node executes next. See this [how to guide on time-travel to learn more about forking state](/oss/langgraph/time-travel).
 :::
 
 ![Update](/oss/images/checkpoints_full_story.jpg)
@@ -598,7 +598,7 @@ The final thing you can optionally specify when calling `updateState` is `asNode
 
 ![Model of shared state](/oss/images/shared_state.png)
 
-A [state schema](/oss/graph-api#schema) specifies a set of keys that are populated as a graph is executed. As discussed above, state can be written by a checkpointer to a thread at each graph step, enabling state persistence.
+A [state schema](/oss/langgraph/graph-api#schema) specifies a set of keys that are populated as a graph is executed. As discussed above, state can be written by a checkpointer to a thread at each graph step, enabling state persistence.
 
 But, what if we want to retain some information _across threads_? Consider the case of a chatbot where we want to retain specific information about the user across _all_ chat conversations (e.g., threads) with that user!
 
@@ -1159,15 +1159,15 @@ When running on LangGraph Platform, encryption is automatically enabled whenever
 
 ### Human-in-the-loop
 
-First, checkpointers facilitate [human-in-the-loop workflows](/oss/human-in-the-loop) workflows by allowing humans to inspect, interrupt, and approve graph steps. Checkpointers are needed for these workflows as the human has to be able to view the state of a graph at any point in time, and the graph has to be to resume execution after the human has made any updates to the state. See [the how-to guides](/oss/add-human-in-the-loop) for examples.
+First, checkpointers facilitate [human-in-the-loop workflows](/oss/langgraph/human-in-the-loop) workflows by allowing humans to inspect, interrupt, and approve graph steps. Checkpointers are needed for these workflows as the human has to be able to view the state of a graph at any point in time, and the graph has to be to resume execution after the human has made any updates to the state. See [the how-to guides](/oss/langgraph/add-human-in-the-loop) for examples.
 
 ### Memory
 
-Second, checkpointers allow for ["memory"](/oss/memory) between interactions. In the case of repeated human interactions (like conversations) any follow up messages can be sent to that thread, which will retain its memory of previous ones. See [Add memory](/oss/add-memory) for information on how to add and manage conversation memory using checkpointers.
+Second, checkpointers allow for ["memory"](/oss/langgraph/memory) between interactions. In the case of repeated human interactions (like conversations) any follow up messages can be sent to that thread, which will retain its memory of previous ones. See [Add memory](/oss/langgraph/add-memory) for information on how to add and manage conversation memory using checkpointers.
 
 ### Time Travel
 
-Third, checkpointers allow for ["time travel"](/oss/time-travel), allowing users to replay prior graph executions to review and / or debug specific graph steps. In addition, checkpointers make it possible to fork the graph state at arbitrary checkpoints to explore alternative trajectories.
+Third, checkpointers allow for ["time travel"](/oss/langgraph/time-travel), allowing users to replay prior graph executions to review and / or debug specific graph steps. In addition, checkpointers make it possible to fork the graph state at arbitrary checkpoints to explore alternative trajectories.
 
 ### Fault-tolerance
 

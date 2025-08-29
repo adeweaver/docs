@@ -29,8 +29,8 @@ Before agents can authenticate, you need to configure an OAuth provider:
 ```python
 # Create GitHub provider
 github_provider = await client.create_oauth_provider(
-    provider_id="github",
-    name="GitHub",
+    provider_id="github", # Provide any unique ID. Not formally tied to the provider.
+    name="GitHub", # Provide any display name
     client_id="your-github-client-id",
     client_secret="your-github-client-secret",
     auth_url="https://github.com/login/oauth/authorize",

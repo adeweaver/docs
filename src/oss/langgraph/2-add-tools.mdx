@@ -10,7 +10,7 @@ import AlphaCallout from '/snippets/alpha-lg-callout.mdx';
 To handle queries that your chatbot can't answer "from memory", integrate a web search tool. The chatbot can use this tool to find relevant information and provide better responses.
 
 <Note>
-  This tutorial builds on [Build a basic chatbot](/oss/1-build-basic-chatbot).
+  This tutorial builds on [Build a basic chatbot](/oss/langgraph/1-build-basic-chatbot).
 </Note>
 
 ## Prerequisites
@@ -158,11 +158,11 @@ The results are page summaries our chat bot can use to answer questions:
 ## 4. Define the graph
 
 :::python
-For the `StateGraph` you created in the [first tutorial](/oss/1-build-basic-chatbot), add `bind_tools` on the LLM. This lets the LLM know the correct JSON format to use if it wants to use the search engine.
+For the `StateGraph` you created in the [first tutorial](/oss/langgraph/1-build-basic-chatbot), add `bind_tools` on the LLM. This lets the LLM know the correct JSON format to use if it wants to use the search engine.
 :::
 
 :::js
-For the `StateGraph` you created in the [first tutorial](/oss/1-build-basic-chatbot), add `bindTools` on the LLM. This lets the LLM know the correct JSON format to use if it wants to use the search engine.
+For the `StateGraph` you created in the [first tutorial](/oss/langgraph/1-build-basic-chatbot), add `bindTools` on the LLM. This lets the LLM know the correct JSON format to use if it wants to use the search engine.
 :::
 
 Let's first select our LLM:
@@ -676,4 +676,4 @@ To inspect all the steps your agent just took, check out this [LangSmith trace](
 
 ## Next steps
 
-The chatbot cannot remember past interactions on its own, which limits its ability to have coherent, multi-turn conversations. In the next part, you will [add **memory**](/oss/3-add-memory) to address this.
+The chatbot cannot remember past interactions on its own, which limits its ability to have coherent, multi-turn conversations. In the next part, you will [add **memory**](/oss/langgraph/3-add-memory) to address this.

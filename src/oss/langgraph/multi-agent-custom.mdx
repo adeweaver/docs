@@ -7,20 +7,20 @@ import AlphaCallout from '/snippets/alpha-lg-callout.mdx';
 
 <AlphaCallout />
 
-A single agent might struggle if it needs to specialize in multiple domains or manage many tools. To tackle this, you can break your agent into smaller, independent agents and composing them into a [multi-agent system](/oss/multi-agent).
+A single agent might struggle if it needs to specialize in multiple domains or manage many tools. To tackle this, you can break your agent into smaller, independent agents and composing them into a [multi-agent system](/oss/langgraph/multi-agent).
 
 In multi-agent systems, agents need to communicate between each other. They do so via [handoffs](#handoffs) — a primitive that describes which agent to hand control to and the payload to send to that agent.
 
 This guide covers the following:
 
 * implementing [handoffs](#handoffs) between agents
-* using handoffs and the prebuilt [agent](/oss/prebuilts) to [build a custom multi-agent system](#build-a-multi-agent-system)
+* using handoffs and the prebuilt [agent](/oss/langgraph/prebuilts) to [build a custom multi-agent system](#build-a-multi-agent-system)
 
-To get started with building multi-agent systems, check out LangGraph [prebuilt implementations](#prebuilt-implementations) of two of the most popular multi-agent architectures — [supervisor](/oss/multi-agent-prebuilts#supervisor) and [swarm](/oss/multi-agent-prebuilts#swarm).
+To get started with building multi-agent systems, check out LangGraph [prebuilt implementations](#prebuilt-implementations) of two of the most popular multi-agent architectures — [supervisor](/oss/langgraph/multi-agent-prebuilts#supervisor) and [swarm](/oss/langgraph/multi-agent-prebuilts#swarm).
 
 ## Handoffs
 
-To set up communication between the agents in a multi-agent system you can use [**handoffs**](/oss/multi-agent#handoffs) — a pattern where one agent *hands off* control to another. Handoffs allow you to specify:
+To set up communication between the agents in a multi-agent system you can use [**handoffs**](/oss/langgraph/multi-agent#handoffs) — a pattern where one agent *hands off* control to another. Handoffs allow you to specify:
 
 * **destination**: target agent to navigate to (e.g., name of the LangGraph node to go to)
 * **payload**: information to pass to that agent (e.g., state update)
@@ -60,7 +60,7 @@ def create_handoff_tool(*, agent_name: str, description: str | None = None):
     return handoff_tool
 ```
 
-1. Access the [state](/oss/graph-api#state) of the agent that is calling the handoff tool using the @[InjectedState] annotation. 
+1. Access the [state](/oss/langgraph/graph-api#state) of the agent that is calling the handoff tool using the @[InjectedState] annotation. 
 2. The `Command` primitive allows specifying a state update and a node transition as a single operation, making it useful for implementing handoffs.
 3. Name of the agent or node to hand off to.
 4. Take the agent's messages and **add** them to the parent's **state** as part of the handoff. The next agent will see the parent state.
@@ -125,7 +125,7 @@ function createHandoffTool({
 }
 ```
 
-1. Access the [state](/oss/graph-api#state) of the agent that is calling the handoff tool through the `config` parameter.
+1. Access the [state](/oss/langgraph/graph-api#state) of the agent that is calling the handoff tool through the `config` parameter.
 2. The `Command` primitive allows specifying a state update and a node transition as a single operation, making it useful for implementing handoffs.
 3. Name of the agent or node to hand off to.
 4. Take the agent's messages and **add** them to the parent's **state** as part of the handoff. The next agent will see the parent state.
@@ -267,11 +267,11 @@ function createTaskDescriptionHandoffTool({
 ```
 :::
 
-See the multi-agent [supervisor](/oss/agent-supervisor#4-create-delegation-tasks) example for a full example of using @[`Send()`][Send] in handoffs.
+See the multi-agent [supervisor](/oss/langgraph/agent-supervisor#4-create-delegation-tasks) example for a full example of using @[`Send()`][Send] in handoffs.
 
 ## Build a multi-agent system
 
-You can use handoffs in any agents built with LangGraph. We recommend using the prebuilt [agent](/oss/agentic-architectures) or [`ToolNode`](/oss/call-tools#toolnode), as they natively support handoffs tools returning `Command`. Below is an example of how you can implement a multi-agent system for booking travel using handoffs:
+You can use handoffs in any agents built with LangGraph. We recommend using the prebuilt [agent](/oss/langgraph/agentic-architectures) or [`ToolNode`](/oss/langgraph/call-tools#toolnode), as they natively support handoffs tools returning `Command`. Below is an example of how you can implement a multi-agent system for booking travel using handoffs:
 
 :::python
 ```typescript {highlight={16,17,21,22,28,29}}
@@ -1207,11 +1207,11 @@ function agent(state: MessagesState): Command {
 LangGraph comes with prebuilt implementations of two of the most popular multi-agent architectures:
 
 :::python
-* [supervisor](/oss/multi-agent-prebuilts#supervisor) — individual agents are coordinated by a central supervisor agent. The supervisor controls all communication flow and task delegation, making decisions about which agent to invoke based on the current context and task requirements. You can use [`langgraph-supervisor`](https://github.com/langchain-ai/langgraph-supervisor-py) library to create a supervisor multi-agent systems.
-* [swarm](/oss/multi-agent-prebuilts#swarm) — agents dynamically hand off control to one another based on their specializations. The system remembers which agent was last active, ensuring that on subsequent interactions, the conversation resumes with that agent. You can use [`langgraph-swarm`](https://github.com/langchain-ai/langgraph-swarm-py) library to create a swarm multi-agent systems.
+* [supervisor](/oss/langgraph/multi-agent-prebuilts#supervisor) — individual agents are coordinated by a central supervisor agent. The supervisor controls all communication flow and task delegation, making decisions about which agent to invoke based on the current context and task requirements. You can use [`langgraph-supervisor`](https://github.com/langchain-ai/langgraph-supervisor-py) library to create a supervisor multi-agent systems.
+* [swarm](/oss/langgraph/multi-agent-prebuilts#swarm) — agents dynamically hand off control to one another based on their specializations. The system remembers which agent was last active, ensuring that on subsequent interactions, the conversation resumes with that agent. You can use [`langgraph-swarm`](https://github.com/langchain-ai/langgraph-swarm-py) library to create a swarm multi-agent systems.
 :::
 
 :::js
-* [supervisor](/oss/multi-agent-prebuilts#supervisor) — individual agents are coordinated by a central supervisor agent. The supervisor controls all communication flow and task delegation, making decisions about which agent to invoke based on the current context and task requirements. You can use [`langgraph-supervisor`](https://github.com/langchain-ai/langgraph-supervisor-js) library to create a supervisor multi-agent systems.
-* [swarm](/oss/multi-agent-prebuilts#swarm) — agents dynamically hand off control to one another based on their specializations. The system remembers which agent was last active, ensuring that on subsequent interactions, the conversation resumes with that agent. You can use [`langgraph-swarm`](https://github.com/langchain-ai/langgraph-swarm-js) library to create a swarm multi-agent systems.
+* [supervisor](/oss/langgraph/multi-agent-prebuilts#supervisor) — individual agents are coordinated by a central supervisor agent. The supervisor controls all communication flow and task delegation, making decisions about which agent to invoke based on the current context and task requirements. You can use [`langgraph-supervisor`](https://github.com/langchain-ai/langgraph-supervisor-js) library to create a supervisor multi-agent systems.
+* [swarm](/oss/langgraph/multi-agent-prebuilts#swarm) — agents dynamically hand off control to one another based on their specializations. The system remembers which agent was last active, ensuring that on subsequent interactions, the conversation resumes with that agent. You can use [`langgraph-swarm`](https://github.com/langchain-ai/langgraph-swarm-js) library to create a swarm multi-agent systems.
 :::
