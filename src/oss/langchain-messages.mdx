@@ -773,91 +773,78 @@ automatic ID generation and validation.
 #### Creating content blocks
 
 <Tabs>
-  <Tab title="Text blocks">
-    ```python
-    from langchain_core.messages.content import create_text_block
+    <Tab title="Text blocks">
+        ```python
+        from langchain_core.messages.content import create_text_block
 
-    # Simple text block with auto-generated ID
-    text = create_text_block("Hello world")
-    # {"type": "text", "text": "Hello world", "id": "lc_text_..."}
+        # Simple text block with auto-generated ID
+        text = create_text_block("Hello world")
+        # {"type": "text", "text": "Hello world", "id": "lc_text_..."}
 
-    # With annotations
-    text = create_text_block(
-        "Python is popular [1]",
-        annotations=[{
-            "type": "citation",
-            "url": "https://survey.com",
-            "start_index": 18,
-            "end_index": 21
-        }]
-    )
-    ```
-  </Tab>
-  <Tab title="Tool calls">
-    ```python
-    from langchain_core.messages.content import create_tool_call
+        # With annotations
+        text = create_text_block(
+            "Python is popular [1]",
+            annotations=[{
+                "type": "citation",
+                "url": "https://survey.com",
+                "start_index": 18,
+                "end_index": 21
+            }]
+        )
+        ```
+    </Tab>
+    <Tab title="Tool calls">
+        ```python
+        from langchain_core.messages.content import create_tool_call
 
-    # Create tool call with auto-ID
-    tool_call = create_tool_call(
-        name="search",
-        args={"query": "Python tutorials"}
-    )
-    # {"type": "tool_call", "name": "search", "args": {...}, "id": "lc_tool_..."}
+        # Create tool call with auto-ID
+        tool_call = create_tool_call(
+            name="search",
+            args={"query": "Python tutorials"}
+        )
+        # {"type": "tool_call", "name": "search", "args": {...}, "id": "lc_tool_..."}
 
-    # With custom ID
-    tool_call = create_tool_call(
-        name="calculator",
-        args={"expression": "2 + 2"},
-        id="custom_id_123"
-    )
-    ```
-  </Tab>
-  <Tab title="Provider-specific data">
-    Model providers often return extra fields not in the standard spec. These
-    are stored in the `extras` field of content blocks.
+        # With custom ID
+        tool_call = create_tool_call(
+            name="calculator",
+            args={"expression": "2 + 2"},
+            id="custom_id_123"
+        )
+        ```
+    </Tab>
+    <Tab title="Provider-specific data">
+        Model providers often return extra fields not in the standard spec. These
+        are stored in the `extras` field of content blocks.
 
-    ```python
-    # Extra fields go into 'extras' dict
-    text = create_text_block(
-        "Hello",
-        custom_field="value",
-        provider_metadata={"model": "gpt-4"}
-    )
-    # Result:
-    # {
-    #   "type": "text",
-    #   "text": "Hello",
-    #   "id": "lc_text_...",
-    #   "extras": {
-    #     "custom_field": "value",
-    #     "provider_metadata": {"model": "gpt-4"}
-    #   }
-    # }
-    ```
-  </Tab>
+        ```python
+        # Extra fields go into 'extras' dict
+        text = create_text_block(
+            "Hello",
+            custom_field="value",
+            provider_metadata={"model": "gpt-4"}
+        )
+        # Result:
+        # {
+        #   "type": "text",
+        #   "text": "Hello",
+        #   "id": "lc_text_...",
+        #   "extras": {
+        #     "custom_field": "value",
+        #     "provider_metadata": {"model": "gpt-4"}
+        #   }
+        # }
+        ```
+    </Tab>
 </Tabs>
 
-
-<Accordion
-    title="Using factories in messages"
->
-
-    ```python Message construction with factories
-    from langchain_core.messages import AIMessage
-    from langchain_core.messages.content import (
-        create_text_block,
-        create_tool_call,
-        create_reasoning_block
-    )
-
-    # Build message with multiple block types
-    message = AIMessage(content_blocks=[
-        create_reasoning_block("User wants weather info, will search"),
-        create_tool_call("search", {"q": "weather Boston"}),
-        create_text_block("I'll search for Boston weather")
-    ])
-    ```
-</Accordion>
+```python Using factories in messages
+# Build message with multiple block types
+message = AIMessage(content_blocks=[
+    create_reasoning_block("User wants weather info, will search"),
+    create_tool_call("search", {"q": "weather Boston"}),
+    create_text_block("I'll search for Boston weather")
+])
+```
 
 ## Annotations
 
