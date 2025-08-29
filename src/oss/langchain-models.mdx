@@ -250,8 +250,7 @@ from a database, searching the web, or running code.
 
 To make tools available for use by a model, they must be bound using
 `.bind_tools()`. In subsequent invocations, the model can choose to call any of
-the bound tools as needed. For more details on creating, using, and executing
-tools requests, see the [tools]() guide.
+the bound tools as needed.
 
 ```python Binding tools highlight={16}
 from pydantic import BaseModel, Field
@@ -268,6 +267,9 @@ for tool_call in response.tool_calls:
     print(f"Tool: {tool_call['name']}")
     print(f"Args: {tool_call['args']}")
 ```
+
+For more details on creating, using, and executing tools requests, see the
+[tools]() guide.
 
 {/* 
 
@@ -338,21 +340,166 @@ TODO */}
 
 ### Structured outputs
 
-Models can be requested to respond in a particular format (e.g., JSON or
-matching a defined schema). This is useful for data extraction. See the
-[structured outputs]() guide for more info.
+Models can be requested to provide their response in a format matching a given
+schema. This is useful for ensuring the output can be easily parsed and used in
+subsequent processing.
+
+```python Structured output highlight={12-14}
+from pydantic import BaseModel, Field
+
+class Movie(BaseModel):
+    title: str = Field(..., description="The title of the movie")
+    year: int = Field(..., description="The year the movie was released")
+    director: str = Field(..., description="The director of the movie")
+    rating: float = Field(..., description="The movie's rating out of 10")
+
+model_with_structure = model.with_structured_output(Movie)
+response = model_with_structure.invoke("Provide details about the movie Inception")
+print(response)  # Movie(title="Inception", year=2010, director="Christopher Nolan", rating=8.8)
+```
+
+See the [structured outputs]() guide for more info.
 
 ### Multimodality
 
 Certain models can process and return non-textual data such as images, audio,
-and video. This is known as [multimodality]().
+and video. This is known as multimodality.
 
-TODO show example of image/audio/video input
+You can pass non-textual data to a model by creating [content blocks]() that
+encapsulate the data:
 
-TODO show example of image/audio/video output
+<CodeGroup>    
+    ```python Image input
+    from langchain.messages.content import create_image_block
+
+    image = create_image_block(
+        url="https://example.com/path/to/image.jpg"
+    )
+
+    response = model.invoke([
+        "Describe the content of this image.",
+        image
+    ])
+    print(response)  # AIMessage("The image shows a beautiful sunset...")
+    ```
+
+    ```python Video input
+    from langchain.messages.content import create_video_block
+
+    video = create_video_block(
+        base64="AAAAIGZ0eXBtcDQyAAAAAGlzb21tcDQyAAACAGlzb2...",
+        mime_type="video/mp4"
+    )
+
+    response = model.invoke([
+        "Describe the content of this video.",
+        video
+    ])
+    print(response)  # AIMessage("The video shows a cat playing with a ball...")
+    ```
+
+    ```python Audio input
+    from langchain.messages.content import create_audio_block
+    audio = create_audio_block(
+        file_id="file-abc123xyz456",
+    )
+
+    response = model.invoke([
+        "Describe the content of this audio clip.",
+        audio
+    ])
+    print(response)  # AIMessage("The audio clip features a piano melody...")
+    ```
+
+    ```python File input (PDF)
+    from langchain.messages.content import create_file_block
+    file = create_file_block(
+        base64="AAAAIGZ0eXBtcDQyAAAAAGlzb21tcDQyAAACAGlzb2...",
+        mime_type="application/pdf",
+        filename="document.pdf"
+    )
+
+    response = model.invoke([
+        "Summarize the content of this PDF document.",
+        file
+    ])
+    print(response)  # AIMessage("The document discusses the importance of...")
+    ```
+</CodeGroup>
+
+On the other end, models can also return non-textual data as part of their
+response:
+
+<CodeGroup>
+    ```python Image output
+    response = model.invoke("Generate an image of a green parrot.")
+    image = response.content_blocks[0]
+    print(image.url)
+    ```
+
+    ```python Video output
+    response = model.invoke("Generate a short video of a cat playing.")
+    video = response.content_blocks[0]
+    print(video.base64)
+    ```
+
+    ```python Audio output
+    response = model.invoke("Generate an audio clip of a piano melody.")
+    audio = response.content_blocks[0]
+    print(audio.file_id)  # ID of the uploaded audio file in a bucket
+    ```
+
+    ```python File output (PDF)
+    response = model.invoke("Generate a PDF report on climate change.")
+    file = response.content_blocks[0]
+    print(file.filename)
+    ```
+</CodeGroup>
 
 ### Reasoning
 
+Newer models are capable of performing multi-step reasoning to arrive at a
+conclusion. This involves breaking down complex problems into smaller, more
+manageable steps.
+
+If supported by the underlying model, you can surface this reasoning process to
+better understand how the model arrived at its final answer.
+
+<CodeGroup>
+    ```python Stream reasoning output
+    for chunk in model.stream("Why do parrots have colorful feathers?"):
+        reasoning_steps = [r for r in chunk.content_blocks if r[type] == "reasoning"]
+        print(reasoning_steps if reasoning_steps else chunk.text)
+    ```
+    
+    ```python Full reasoning output
+    response = model.invoke("Why do parrots have colorful feathers?")
+    reasoning_steps = [b for b in response.content_blocks if b.type == "reasoning"]
+    print (sum(r.text for r in reasoning_steps))
+    ```
+</CodeGroup>
+
+Depending on the model, you can sometimes specify a level of effort to put into
+reasoning. Alternatively, you can request that the model turn off reasoning
+entirely.
+
+<CodeGroup>
+    ```python Reasoning effort
+    response = model.invoke(
+        "Why do parrots have colorful feathers?",
+        reasoning_effort="low"  # Options depend on the model
+    )
+    print(response)
+    ``` 
+
+    ```python Disable reasoning
+    response = model.invoke(
+        "Why do parrots have colorful feathers?",
+        reasoning_effort="none"
+    )
+    print(response)
+    ```
+</CodeGroup>
 
 
 ## Advanced configuration
