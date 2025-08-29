@@ -2,6 +2,10 @@
 title: Overview
 ---
 
+import AlphaCallout from '/snippets/alpha-lg-callout.mdx';
+
+<AlphaCallout />
+
 Trusted by companies shaping the future of agents – including Klarna, Replit, Elastic, and more – LangGraph is a low-level orchestration framework for building, managing, and deploying long-running, stateful agents.
 
 LangGraph is very low-level, and focused entirely on agent **orchestration**. Before using LangGraph, it is recommended you familiarize yourself with some of the components used to build agents, starting with [models](/langchain/models) and [tools](/langchain/tools). We will commonly use [LangChain](/langchain/overview) components throughout the documentation, but you do not need to use LangChain to use LangGraph.
@@ -13,15 +17,29 @@ LangGraph is focused on the underlying capabilties important for agent orchestra
 Install LangGraph:
 
 :::python
-```python
+```bash
 pip install -U langgraph
 ```
 :::
 
 :::js
-```js
-npm install @langchain/langgraph
+<CodeGroup>
+```bash npm
+npm install @langchain/langgraph @langchain/core
 ```
+
+```bash pnpm
+pnpm add @langchain/langgraph @langchain/core
+```
+
+```bash yarn
+yarn add @langchain/langgraph @langchain/core
+```
+
+```bash bun
+bun add @langchain/langgraph @langchain/core
+```
+</CodeGroup>
 :::
 
 Then, create a simple hello world example.
@@ -44,16 +62,30 @@ graph.invoke({"messages": [{"role": "user", "content": "hi!"}]})
 :::
 
 :::js
-TODO
+```typescript
+import { MessagesAnnotation, StateGraph, START, END } from "@langchain/langgraph";
+
+const mockLlm = (state: typeof MessagesAnnotation.State) => {
+  return { messages: [{ role: "ai", content: "hello world" }] };
+};
+
+const graph = new StateGraph(MessagesAnnotation)
+  .addNode("mock_llm", mockLlm)
+  .addEdge(START, "mock_llm")
+  .addEdge("mock_llm", END)
+  .compile();
+
+await graph.invoke({ messages: [{ role: "user", content: "hi!" }] });
+```
 :::
 
 ## Core benefits
 
 LangGraph provides low-level supporting infrastructure for *any* long-running, stateful workflow or agent. LangGraph does not abstract prompts or architecture, and provides the following central benefits:
 
-* [Durable execution](/oss/durable-execution): Build agents that persist through failures and can run for extended periods, automatically resuming from exactly where they left off.
-* [Human-in-the-loop](/oss/human-in-the-loop): Seamlessly incorporate human oversight by inspecting and modifying agent state at any point during execution.
-* [Comprehensive memory](/oss/memory): Create truly stateful agents with both short-term working memory for ongoing reasoning and long-term persistent memory across sessions.
+* [Durable execution](/oss/langgraph/durable-execution): Build agents that persist through failures and can run for extended periods, automatically resuming from exactly where they left off.
+* [Human-in-the-loop](/oss/langgraph/human-in-the-loop): Seamlessly incorporate human oversight by inspecting and modifying agent state at any point during execution.
+* [Comprehensive memory](/oss/langgraph/memory): Create truly stateful agents with both short-term working memory for ongoing reasoning and long-term persistent memory across sessions.
 * [Debugging with LangSmith](http://www.langchain.com/langsmith): Gain deep visibility into complex agent behavior with visualization tools that trace execution paths, capture state transitions, and provide detailed runtime metrics.
 * [Production-ready deployment](/langgraph-platform/deployment-options): Deploy sophisticated agent systems confidently with scalable infrastructure designed to handle the unique challenges of stateful, long-running workflows.
 
