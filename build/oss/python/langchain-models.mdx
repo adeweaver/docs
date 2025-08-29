@@ -1,0 +1,604 @@
+---
+title: Models
+---
+
+import ConversationHistory from '/snippets/oss/langchain-conversation-history.mdx';
+
+Large Language Models (LLMs) are advanced tools that excel in a wide range of
+language-related tasks such as text generation, translation, summarization,
+question answering, and more.
+
+Modern LLMs are primarily accessed through a chat interface, where [messages]()
+are exchanged between a human user and the model. In LangChain, models can be
+interacted with programatically to build complex, stateful applications.
+
+In addition to basic text generation, many models support the following advanced
+features:
+
+* [Tool calling](#tool-calling) - enables models to interact with external
+services, APIs, and databases.
+* [Structured output](#structured-output) - constrain the response format to
+match a provided schema.
+* [Multimodality](#multimodality) - the ability to process data other than text,
+such as images.
+* [Reasoning](#reasoning) - the ability to perform multi-step reasoning to
+arrive at a conclusion.
+
+## Basic usage
+
+The primary interface for interacting with models in LangChain are the
+`ChatModel` abstractions. They provide a consistent interface for accessing
+different LLMs from various providers.
+
+The easiest way start interacting with a model in LangChain is to use
+`init_chat_model()` to initialize one from a model [provider]() of your choice.
+
+<CodeGroup>
+```python
+from langchain.chat_models import init_chat_model
+
+model = init_chat_model(
+    model="gpt-5", 
+    model_provider="openai"
+)
+response = model.invoke("Why do parrots talk?")
+```
+
+{/* ```python OpenAI icon="openai"
+from langchain.chat_models import init_chat_model
+
+model = init_chat_model(
+    model="gpt-5", 
+    model_provider="openai"
+)
+response = model.invoke("Why do parrots talk?")
+```
+
+```python Anthropic icon="anthropic"
+from langchain.chat_models import init_chat_model
+
+model = init_chat_model(
+    model="claude-opus-4-0", 
+    model_provider="anthropic"
+)
+response = model.invoke("Why do parrots talk?")
+```
+
+```python Google icon="google"
+from langchain.chat_models import init_chat_model
+
+model = init_chat_model(
+    model="gemini-2.5-pro", 
+    model_provider="google"
+)
+response = model.invoke("Why do parrots talk?")
+```
+
+```python AWS Bedrock icon="aws"
+from langchain.chat_models import init_chat_model
+
+model = init_chat_model(
+    model="anthropic.claude-opus-4", 
+    model_provider="bedrock",
+)
+response = model.invoke("Why do parrots talk?")
+```
+
+```python Ollama icon="ollama"
+from langchain.chat_models import init_chat_model
+
+model = init_chat_model(
+    model="gpt-oss", 
+    model_provider="ollama",
+)
+response = model.invoke("Why do parrots talk?")
+``` */}
+</CodeGroup>
+
+### Key methods
+
+<Card title="Invoke" href="#invoke" icon="paper-plane" arrow="true" horizontal>
+    The model takes messages as input and returns messages after generating a
+    full response.
+</Card>
+<Card title="Stream" href="#stream" icon="tower-broadcast" arrow="true" horizontal>
+    Invoke the model, but stream the response as it is generated in real-time.
+</Card>
+<Card title="Batch" href="#batch" icon="folder-open" arrow="true" horizontal>
+    Send multiple requests to a model in a batch for more efficient processing.
+</Card>
+
+<Info>
+    In addition to chat models, LangChain provides support for legacy text
+    completion models, embedding models, and other model types. See the full
+    list of supported models in the [reference]().
+</Info>
+
+## Parameters
+
+A `ChatModel` takes parameters that can be used to configure its behavior. The
+full set of supported parameters vary by model and provider, but common ones
+include:
+
+<ParamField body="model" type="string" required>
+    The name or identifier of the specific model you want to use with the
+    provider.
+</ParamField>
+
+<ParamField body="api_key" type="string">
+    The key required for authenticating with the model's provider. This is
+    usually issued when you sign up for access to the model.
+</ParamField>
+
+<ParamField body="temperature" type="number">
+    Controls the randomness of the model's output. A higher number makes
+    responses more creative, while a lower one makes them more deterministic.
+</ParamField>
+
+<ParamField body="stop" type="string[]">
+    A sequence of characters that indicates when the model should stop
+    generating its output.
+</ParamField>
+
+<ParamField body="timeout" type="number">
+    The maximum time (in seconds) to wait for a response from the model before
+    canceling the request.
+</ParamField>
+
+<ParamField body="max_tokens" type="number">
+    Limits the total number of <Tooltip tip="The basic unit that a model reads and generates. Providers may define them differently, but in general, they can represent a whole or part of word.">tokens</Tooltip>
+    in the response, effectively controlling how long the output can be.
+</ParamField>
+
+<ParamField body="max_retries" type="number">
+    The maximum number of attempts the system will make to resend a request if
+    it fails due to issues like network timeouts or rate limits.
+</ParamField>
+
+<Info>
+    To find all the parameters supported by a `ChatModel`, head to the
+    [reference]().
+</Info>
+
+## Invocation
+
+A `ChatModel` must be invoked to generate an output. There are three main
+invocation methods, each suited to different use cases.
+
+<Tip>
+    Each invocation method has an
+    <Tooltip tip="Asynchronous methods are useful for non-blocking operations, especially in web servers or applications that handle multiple tasks concurrently.">asynchronous</Tooltip>
+    equivalent, typically prefixed with the letter `'a'`
+    
+    For example: `ainvoke()`, `astream()`, `abatch()`
+    
+    A full list of async methods can be found in the [reference]().
+</Tip>
+
+### Invoke
+
+The most straightforward way to call a model is to use `invoke()` with a single
+message or a list of messages.
+
+A list of messages can be provided to a model to represent a conversation
+history. Each message has a role to provide context as to who is speaking in the
+sequence. See the [messages]() guide for more detail.
+{/* TODO include three important topics in this callout */}
+
+<CodeGroup>
+```python Single message
+response = model.invoke("Why do parrots have colorful feathers?")
+print(response)
+```
+<ConversationHistory/>
+</CodeGroup>
+
+### Stream
+
+Most models can stream their output content while it is being generated. By
+displaying output progressively, streaming significantly improves user
+experience, particularly for longer responses.
+
+Calling `stream()` returns an <Tooltip tip="An object that progressively provides access to each item of a collection, in order.">iterator</Tooltip>
+that yields output chunks as they are produced. You can use a loop to process
+each chunk in real-time:
+
+```python Streaming
+for chunk in model.stream("Why do parrots have colorful feathers?"):
+    print(chunk)
+```
+
+See the [streaming]() guide for more detail.
+{/* TODO include three important topics in this callout */}
+
+### Batch
+
+Batching a collection of independent requests to a model can significantly
+improve performance, as the processing can be done in parallel:
+
+```python Batch
+responses = model.batch([
+    "Why do parrots have colorful feathers?",
+    "How do airplanes fly?",
+    "What is quantum computing?"
+])
+for response in responses:
+    print(response)
+```
+
+By default, `batch()` will only return the final output for the entire batch.
+If you want to receive the output for each individual input as it is finishes
+generating, you can stream results with `batch_as_completed()`:
+
+```python Yield responses upon completion
+for response in model.batch_as_completed([
+    "Why do parrots have colorful feathers?",
+    "How do airplanes fly?",
+    "What is quantum computing?"
+]):
+    print(response)
+```
+<Note>
+    When using `batch_as_completed()`, results may arrive out of order. Each
+    includes the input index for matching to reconstruct the original order if
+    needed.
+</Note>
+
+For more details on batching, see the [batching]() reference.
+
+## Advanced features
+
+### Tool calling
+
+Models can request to call tools that perform tasks such as fetching data from a
+database, searching the web, or running code.
+
+<Note>
+    You will sometimes hear the term `function calling`. We use this term 
+    interchangeably with `tool calling`.
+</Note>
+
+To make tools that you have defined available for use by a model, you must bind
+them using `.bind_tools()`. In subsequent invocations, the model can choose to
+call any of the bound tools as needed.
+
+Some model providers offer built-in tools that can be enabled via model
+parameters. In such cases, you do not need to define or bind those tools to your
+model. Check the respective [provider reference]() for details.
+
+<CodeGroup>
+    ```python Binding user tools highlight={7}
+    from pydantic import BaseModel, Field
+
+    class GetWeather(BaseModel):
+        """Get the current weather in a given location"""
+        location: str = Field(..., description="The city and state, e.g. Boston, MA")
+
+    model_with_tools = model.bind_tools([GetWeather])
+
+    response = model_with_tools.invoke("What's the weather like in Boston?")
+    for tool_call in response.tool_calls:
+        # View tool calls made by the model
+        print(f"Tool: {tool_call['name']}")
+        print(f"Args: {tool_call['args']}")
+    ```
+    
+    ```python Built-in tool usage with citations
+    response = model.invoke("Search the web for the latest news on AI.")
+    content = response.content_blocks
+
+    # content: [
+    #     TextContentBlock(
+    #         text = "The latest news articles on AI..."),
+    #         annotations = [
+    #             Citation(
+    #                 title="AI breakthrough in natural language processing",
+    #                 url="https://example.com/ai-news",
+    #                 cited_text="Researchers have...",
+    #         )]
+    # ])
+    ```
+</CodeGroup>
+
+For more details on creating, using, and executing tools requests, see the
+[tools]() guide.
+
+{/* 
+
+If we want to include some tool info here, we can do so like this:
+
+TODO a switcher to iterate through all different tool schema options
+TODO model switcher to show this example for our top 5 providers
+
+```python Binding tools highlight={16}
+from pydantic import BaseModel, Field
+from langchain.chat_models import init_chat_model
+
+class GetWeather(BaseModel):
+    """Get the current weather in a given location"""
+    location: str = Field(..., description="The city and state, e.g. Boston, MA")
+
+class Calculator(BaseModel):
+    """Perform mathematical calculations"""
+    expression: str = Field(..., description="Mathematical expression to evaluate")
+
+model = init_chat_model(
+    model="gpt-5", 
+    model_provider="openai"
+)
+model_with_tools = model.bind_tools([GetWeather, Calculator])
+
+response = model_with_tools.invoke("What's the weather like in Boston and what's 25 * 4?")
+for tool_call in response.tool_calls:
+    # View tool calls made by the model
+    print(f"Tool: {tool_call['name']}")
+    print(f"Args: {tool_call['args']}")
+```
+
+In this example, the model's response includes a **request** to execute a tool.
+It is up to you to perform the requested action and return the result back to
+the model for use in subsequent reasoning.
+
+TODO link out to a different guide on tool execution; beyond the scope here
+
+#### Forcing tool calls
+
+By default, the model has the freedom to choose which bound tool to use based on
+the user's input. However, you might want to force choosing a tool, ensuring the
+model uses either a particular tool or *any* tool from a given list:
+
+<CodeGroup>
+
+```python Force use of specific tools
+response = model_with_tools.invoke(
+    "What's the weather in both New York and London, and calculate 15 + 25",
+    force_tool_calls=["GetWeather", "Calculator"]
+)
+```
+
+```python Force use of any tool
+response = model_with_tools.invoke(
+    "What's the weather in both New York and London, and calculate 15 + 25",
+    force_tool_calls="any"
+)
+```
+
+</CodeGroup>
+
+
+#### Parallel tool calls
+
+TODO */}
+
+### Structured outputs
+
+Models can be requested to provide their response in a format matching a given
+schema. This is useful for ensuring the output can be easily parsed and used in
+subsequent processing.
+
+```python Structured output highlight={12-14}
+from pydantic import BaseModel, Field
+
+class Movie(BaseModel):
+    title: str = Field(..., description="The title of the movie")
+    year: int = Field(..., description="The year the movie was released")
+    director: str = Field(..., description="The director of the movie")
+    rating: float = Field(..., description="The movie's rating out of 10")
+
+model_with_structure = model.with_structured_output(Movie)
+response = model_with_structure.invoke("Provide details about the movie Inception")
+print(response)  # Movie(title="Inception", year=2010, director="Christopher Nolan", rating=8.8)
+```
+
+See the [structured outputs]() guide for more info.
+{/* TODO include three important topics in this callout */}
+
+### Multimodality
+
+Certain models can process and return non-textual data such as images, audio,
+and video.
+
+You can pass non-textual data to a model by creating [content blocks]() that
+encapsulate the data:
+
+<CodeGroup>    
+    ```python Image input
+    from langchain.messages.content import create_image_block
+
+    response = model.invoke([
+        "Describe the content of this image.",
+        create_image_block(url="https://example.com/path/to/image.jpg")
+    ])
+    print(response)  # AIMessage("The image shows a beautiful sunset...")
+    ```
+
+    ```python Video input
+    from langchain.messages.content import create_video_block
+
+    video = create_video_block(
+        base64="AAAAIGZ0eXBtcDQyAAAAAGlzb21tcDQyAAACAGlzb2...",
+        mime_type="video/mp4"
+    )
+
+    response = model.invoke([
+        "Describe the content of this video.",
+        video
+    ])
+    print(response)  # AIMessage("The video shows a cat playing with a ball...")
+    ```
+
+    ```python Audio input
+    from langchain.messages.content import create_audio_block
+
+    response = model.invoke([
+        "Describe the content of this audio clip.",
+        create_audio_block(file_id="file-abc123xyz456")
+    ])
+    print(response)  # AIMessage("The audio clip features a piano melody...")
+    ```
+
+    ```python File input (PDF)
+    from langchain.messages.content import create_file_block
+
+    file = create_file_block(
+        base64="AAAAIGZ0eXBtcDQyAAAAAGlzb21tcDQyAAACAGlzb2...",
+        mime_type="application/pdf",
+        filename="document.pdf"
+    )
+
+    response = model.invoke([
+        "Summarize the content of this PDF document.",
+        file
+    ])
+    print(response)  # AIMessage("The document discusses the importance of...")
+    ```
+</CodeGroup>
+
+On the other hand, models can return non-textual data as part of their response:
+
+<CodeGroup>
+    ```python Image output
+    response = model.invoke("Generate an image of a green parrot.")
+    image = response.content_blocks[0]
+    print(image.url)  # 'https://example.com/path/to/generated-image.jpg'
+    ```
+
+    ```python Video output
+    response = model.invoke("Generate a short video of a cat playing.")
+    video = response.content_blocks[0]
+    print(video.base64)  # 'AAAAIGZ0eXBtcDQyAAAAAGlzb21tcDQyAAACAGlzb2...'
+    ```
+
+    ```python Audio output
+    response = model.invoke("Generate an audio clip of a piano melody.")
+    audio = response.content_blocks[0]
+    print(audio.file_id)  # ID of the uploaded audio file in a bucket
+    ```
+
+    ```python File output (PDF)
+    response = model.invoke("Generate a PDF report on climate change.")
+    file = response.content_blocks[0]
+    print(file.filename)  # 'climate_change_report.pdf'
+    ```
+</CodeGroup>
+
+### Reasoning
+
+Newer models are capable of performing multi-step reasoning to arrive at a
+conclusion. This involves breaking down complex problems into smaller, more
+manageable steps.
+
+If supported by the underlying model, you can surface this reasoning process to
+better understand how the model arrived at its final answer.
+
+<CodeGroup>
+    ```python Stream reasoning output
+    for chunk in model.stream("Why do parrots have colorful feathers?"):
+        reasoning_steps = [r for r in chunk.content_blocks if r[type] == "reasoning"]
+        print(reasoning_steps if reasoning_steps else chunk.text)
+    ```
+    
+    ```python Full reasoning output
+    response = model.invoke("Why do parrots have colorful feathers?")
+    reasoning_steps = [b for b in response.content_blocks if b.type == "reasoning"]
+    print (sum(r.text for r in reasoning_steps))
+    ```
+</CodeGroup>
+
+Depending on the model, you can sometimes specify the level of effort it should
+put into reasoning. Alternatively, you can request that the model turn off
+reasoning entirely.
+
+<CodeGroup>
+    ```python Reasoning effort
+    response = model.invoke(
+        "Why do parrots have colorful feathers?",
+        reasoning_effort="low"
+    )
+    print(response)
+    ``` 
+
+    ```python Disable reasoning
+    response = model.invoke(
+        "Why do parrots have colorful feathers?",
+        reasoning_effort="none"
+    )
+    print(response)
+    ```
+</CodeGroup>
+
+To see what reasoning capabilities are supported by a particular provider or
+model, check the respective [reference]().
+
+## Supported models
+
+LangChain supports all major model providers, including OpenAI, Anthropic,
+Google, Azure, AWS Bedrock, and more. Each provider offers a variety of models
+with different capabilities. For a full list of supported models in LangChain,
+see the [provider reference]().
+
+## Advanced configuration
+
+### Local models
+
+LangChain supports running models locally on your own hardware. This is useful
+for scenarios where data privacy is critical, or when you want to avoid the cost
+of using a cloud-based model.
+
+[Ollama]() is one of the easiest ways to run models locally. See the full list
+of local integrations in the [reference]().
+
+### Caching
+
+Chat model APIs can be slow and expensive to call. To help mitigate this,
+LangChain provides an optional caching layer for `ChatModel` integrations. See
+the [caching]() guide for more details.
+
+### Rate limiting
+
+Many chat model providers impose a limit on the number of invocations that can
+be made in a given time period. If you hit a rate limit, you will typically
+receive a rate limit error response from the provider, and will need to wait
+before making more requests.
+
+To help manage rate limits, `ChatModel` integrations accept a `rate_limiter`
+parameter that can be provided during initialization to control the rate at
+which requests are made. See the [rate limiting]() guide for more details.
+
+### Base URL or proxy
+
+### Log Probabilities
+
+Certain models can be configured to return token-level log probabilities
+representing the likelihood of a given token. Accessing them is as simple as
+setting the `logprobs` parameter when initializing a model:
+
+```python Log probs
+model = init_chat_model(
+    model="gpt-5", 
+    model_provider="openai"
+).bind(logprobs=True)
+
+response = model.invoke("Why do parrots talk?")
+print(response_metadata["logprobs"]["content"])
+```
+{/* TODO check this */}
+
+### Token Usage
+
+A number of model providers return token usage information as part of the
+invocation response. When available, this information will be included on the
+AIMessage objects produced by the corresponding model. For more details, see the
+[messages]() guide.
+
+
+{/* ### Context window
+
+A model's context window refers to the maximum size of the input that it can
+process at one time. Maximum size varies from model to model.
+
+If the input to a model exceeds the context window, the model may not be able to
+process the entire input and could raise an error. In conversational
+applications, this determines how much information the model can "remember"
+throughout a conversation. Consequently, you may need to manage the context to
+maintain a coherent dialogue. */}
