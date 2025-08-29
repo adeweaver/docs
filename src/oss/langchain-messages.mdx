@@ -60,7 +60,7 @@ response = model.invoke(messages)  # Returns AIMessage
 ```
 </CodeGroup>
 
-### Text prompts vs message prompts
+### Text vs message prompts
 
 LangChain supports two main approaches for interacting with models:
 
@@ -101,8 +101,8 @@ LangChain supports two main approaches for interacting with models:
 
 {/* TODO: fix icon. maybe we're not on the right version */}
 {/* https://fontawesome.com/icons/openai?f=brands&s=solid */}
-{/* ### <Icon icon="openai" size={16} /> OpenAI format compatibility */}
-### OpenAI format compatibility
+{/* ### <Icon icon="openai" size={16} /> OpenAI compatibility */}
+### OpenAI compatibility
 
 LangChain messages work seamlessly with OpenAI's [dictionary format]():
 
@@ -291,8 +291,6 @@ back to models after external processing.
 
 {/* TODO: determine how to call out to provider-side tool execution */}
 {/* I can't remember if they send these messages or if it varies */}
-
-### Basic tool messages
 
 ```python
 # After a model makes a tool call
@@ -770,8 +768,6 @@ non_standard_block = {
 LangChain provides type-safe factory functions for creating content blocks with
 automatic ID generation and validation.
 
-#### Creating content blocks
-
 <Tabs>
     <Tab title="Text blocks">
         ```python
@@ -898,9 +894,8 @@ text_block = {
 }
 ```
 
-## Message history management
+## Message history
 
-{/* TODO: does this section belong here? */}
 {/* TODO: check functionality */}
 {/* TODO: add accordion group for each section */}
 
@@ -908,949 +903,168 @@ Managing conversation history is crucial for building stateful applications.
 LangChain provides several strategies for persisting and managing message
 history across sessions.
 
-### Checkpointers
+<Tabs>
+    <Tab title="Merging">
+        <AccordionGroup>
+        <Accordion title="Basic Message Merging">
+            Consolidate consecutive messages for cleaner conversation flow:
 
-Checkpointers enable persistence of conversation state across sessions:
+            ```python
+            from langchain_core.messages import merge_message_runs
 
-<CodeGroup>
-```python In-memory checkpointer
-from langgraph.checkpoint.memory import InMemorySaver
-from langgraph.graph import MessagesState, StateGraph
-
-# Create checkpointer for development/testing
-memory = InMemorySaver()
-
-# Build your graph
-builder = StateGraph(MessagesState)
-# ... add nodes and edges ...
-graph = builder.compile(checkpointer=memory)
-
-# Invoke with thread ID for conversation continuity
-config = {"configurable": {"thread_id": "user_123"}}
-response = graph.invoke({"messages": [HumanMessage("Hello")]}, config)
-```
-
-```python Production checkpointers
-from langgraph.checkpoint.postgres import PostgresSaver
-from langgraph.checkpoint.sqlite import SqliteSaver
-
-# SQLite for local persistence
-sqlite_checkpointer = SqliteSaver.from_conn_string("conversations.db")
-
-# PostgreSQL for production
-postgres_checkpointer = PostgresSaver.from_conn_string(
-    "postgresql://user:password@localhost:5432/chatbot"
-)
-
-# Use with your graph
-graph = builder.compile(checkpointer=postgres_checkpointer)
-```
-</CodeGroup>
-
-### State and reducers
-
-The `add_messages` reducer intelligently handles message updates based on IDs:
-
-```python Understanding add_messages
-from langgraph.graph.message import add_messages
-from typing import Annotated
-from typing_extensions import TypedDict
-
-class State(TypedDict):
-    # The reducer handles message list updates
-    messages: Annotated[list, add_messages]
-
-# How add_messages works:
-# 1. New messages (no ID) are appended
-# 2. Messages with existing IDs are updated
-# 3. RemoveMessage objects delete specific messages
-
-# Example state update behaviors:
-initial_state = {"messages": [HumanMessage("Hi", id="1")]}
-
-# Appends new message
-update1 = {"messages": [AIMessage("Hello!")]}
-# Result: [HumanMessage("Hi", id="1"), AIMessage("Hello!")]
-
-# Updates existing message
-update2 = {"messages": [HumanMessage("Hey", id="1")]}
-# Result: [HumanMessage("Hey", id="1")]
-```
-
-### Thread and session management
-
-Track conversations across sessions using thread IDs:
-
-<CodeGroup>
-```python Thread-based conversations
-# Store different conversations separately
-thread_configs = {
-    "user_alice": {"configurable": {"thread_id": "alice_001"}},
-    "user_bob": {"configurable": {"thread_id": "bob_001"}},
-}
-
-# Each thread maintains its own state
-for user, config in thread_configs.items():
-    response = graph.invoke(
-        {"messages": [HumanMessage(f"Hello from {user}")]},
-        config
-    )
-```
-
-```python Session metadata tracking
-from langchain_core.messages import HumanMessage
-
-# Add metadata to track sessions
-message = HumanMessage(
-    "What's the weather?",
-    metadata={
-        "session_id": "sess_abc123",
-        "user_id": "user_456",
-        "timestamp": "2024-01-15T10:30:00Z"
-    }
-)
-
-# Retrieve conversation history with metadata
-def get_session_history(session_id: str):
-    state = graph.get_state({"configurable": {"thread_id": session_id}})
-    return [msg for msg in state.values["messages"] 
-            if msg.metadata.get("session_id") == session_id]
-```
-</CodeGroup>
-
-### Filtering
-
-Filter messages with sophisticated criteria for different use cases:
-
-<AccordionGroup>
-    <Accordion title="By type" icon="filter">
-        Filter messages based on their role (human, AI, system or tool) and tool
-        call presence.
-
-        ```python Type-based filtering
-        from langchain_core.messages import filter_messages
-
-        messages = [
-            SystemMessage("You are helpful"),
-            HumanMessage("Question 1"),
-            AIMessage("Answer 1"),
-            HumanMessage("Question 2"),
-            AIMessage("Answer 2", tool_calls=[...]),
-            ToolMessage("Result", tool_call_id="123")
-        ]
-
-        # Get only human messages
-        human_only = filter_messages(messages, include_types=["human"])
-
-        # Exclude system messages
-        no_system = filter_messages(messages, exclude_types=["system"])
-
-        # Get AI messages with tool calls
-        ai_with_tools = filter_messages(
-            messages,
-            include_types=["ai"],
-            include_tool_calls=True
-        )
-        ```
-    </Accordion>
-    <Accordion title="By metadata" icon="filter">
-        ```python Metadata-based filtering
-        from langchain_core.messages import filter_messages
-
-        messages = [
-            HumanMessage("Hi", name="alice", metadata={"priority": "high"}),
-            HumanMessage("Hello", name="bob", metadata={"priority": "low"}),
-            AIMessage("Response to Alice", metadata={"model": "gpt-4"}),
-            AIMessage("Response to Bob", metadata={"model": "gpt-3.5"})
-        ]
-
-        # Filter by name
-        alice_messages = filter_messages(messages, include_names=["alice"])
-
-        # Filter by custom metadata
-        high_priority = filter_messages(
-            messages,
-            filter_func=lambda m: m.metadata.get("priority") == "high"
-        )
-
-        # Complex filtering
-        gpt4_responses = filter_messages(
-            messages,
-            include_types=["ai"],
-            filter_func=lambda m: m.metadata.get("model") == "gpt-4"
-        )
-        ```
-    </Accordion>
-    <Accordion title="By IDs" icon="filter">
-        ```python ID-based filtering
-        # Keep specific messages by ID
-        message_ids = ["msg_001", "msg_003", "msg_005"]
-        selected = filter_messages(messages, include_ids=message_ids)
-
-        # Exclude specific messages
-        excluded = filter_messages(messages, exclude_ids=["msg_002", "msg_004"])
-
-        # Get messages after a specific ID
-        def get_messages_after(messages, after_id):
-            found = False
-            return [
-                msg for msg in messages
-                if (found := found or msg.id == after_id) and msg.id != after_id
+            messages = [
+                HumanMessage("Hello"),
+                HumanMessage("How are you?"),
+                AIMessage("I'm doing well!"),
+                AIMessage("How can I help you today?"),
+                HumanMessage("I have a question")
             ]
-        ```
-    </Accordion>
-</AccordionGroup>
 
+            # Merge consecutive messages of the same type
+            merged = merge_message_runs(messages)
+            # Result:
+            # [
+            #   HumanMessage("Hello\nHow are you?"),
+            #   AIMessage("I'm doing well!\nHow can I help you today?"),
+            #   HumanMessage("I have a question")
+            # ]
+            ```
+        </Accordion>
 
-
-
-### Trimming strategies
-
-Manage context window limits with intelligent trimming:
-
-<AccordionGroup>
-    <Accordion title="Token-based" icon="calculator">
-        Control message history size based on token counts to fit within model context windows.
-        
-        <CodeGroup>
-        ```python Basic token trimming
-        from langchain_core.messages import trim_messages
-        
-        messages = [
-            SystemMessage("You are a helpful assistant"),
-            HumanMessage("Tell me about Python"),
-            AIMessage("Python is a programming language..."),
-            # ... many more messages ...
-        ]
-        
-        # Keep last 1000 tokens
-        trimmed = trim_messages(
-            messages,
-            max_tokens=1000,
-            strategy="last",  # Keep most recent messages
-            token_counter=model  # Use model's token counter
-        )
-        ```
-        
-        ```python Preserve system message highlight={6}
-        # Always keep system message
-        trimmed_with_system = trim_messages(
-            messages,
-            max_tokens=1000,
-            strategy="last",
-            include_system=True,  # Preserve system message
-            token_counter=model
-        )
-        ```
-        
-        ```python Custom token counter
-        # Use custom token counter
-        def count_tokens(messages):
-            """Custom token counting logic"""
-            total = 0
-            for msg in messages:
-                # Approximate: 4 chars = 1 token
-                total += len(msg.content) // 4
-            return total
-        
-        trimmed = trim_messages(
-            messages,
-            max_tokens=1000,
-            strategy="last",
-            token_counter=count_tokens
-        )
-        ```
-        </CodeGroup>
-    </Accordion>
-    
-    <Accordion title="Message count" icon="hashtag">
-        Limit conversation history by number of messages rather than tokens.
-        
-        <CodeGroup>
-        ```python Keep recent messages
-        # Keep last N messages
-        recent_messages = trim_messages(
-            messages,
-            max_messages=10,
-            strategy="last"
-        )
-        ```
-        
-        ```python Keep initial context
-        # Keep first N messages after system
-        initial_context = trim_messages(
-            messages,
-            max_messages=5,
-            strategy="first",
-            include_system=True
-        )
-        ```
-        
-        ```python Preserve tool messages
-        # Custom trimming with tool message preservation
-        def trim_preserve_tools(messages, max_messages=10):
-            """Keep tool-related messages intact"""
-            tool_messages = filter_messages(
-                messages,
-                include_types=["ai", "tool"],
-                include_tool_calls=True
-            )
-            other_messages = filter_messages(
-                messages,
-                exclude_types=["tool"]
-            )
-            trimmed_other = other_messages[-max_messages:]
-            return sorted(trimmed_other + tool_messages, key=lambda m: m.id)
-        ```
-        </CodeGroup>
-    </Accordion>
-    
-    <Accordion title="Intelligent trimming strategies" icon="brain">
-        Advanced strategies that preserve important context while trimming.
-        
-        <AccordionGroup>
-            <Accordion title="Importance-based trimming" icon="star">
-                ```python
-                def smart_trim(messages, max_tokens=2000):
-                    """Trim while preserving important context"""
-                    # Always keep system message
-                    system = filter_messages(messages, include_types=["system"])
-                    
-                    # Keep messages with high importance
-                    important = filter_messages(
-                        messages,
-                        filter_func=lambda m: m.metadata.get("important", False)
-                    )
-                    
-                    # Keep recent messages
-                    recent = messages[-5:]
-                    
-                    # Combine and deduplicate
-                    combined = list({m.id: m for m in system + important + recent}.values())
-                    
-                    # Trim if still over limit
-                    return trim_messages(combined, max_tokens=max_tokens, strategy="last")
-                ```
-            </Accordion>
-            
-            <Accordion title="Sliding window approach" icon="window-restore">
-                ```python
-                def sliding_window_trim(messages, window_size=10, overlap=2):
-                    """Keep a sliding window of messages with overlap"""
-                    if len(messages) <= window_size:
-                        return messages
-                    
-                    # Keep system message
-                    system = filter_messages(messages, include_types=["system"])
-                    
-                    # Get the window
-                    start_idx = max(0, len(messages) - window_size)
-                    window = messages[start_idx:]
-                    
-                    # Add overlap from previous context
-                    if start_idx > 0:
-                        overlap_msgs = messages[max(0, start_idx - overlap):start_idx]
-                        window = overlap_msgs + window
-                    
-                    return system + window
-                ```
-            </Accordion>
-            
-            <Accordion title="Topic-aware trimming" icon="tags">
-                ```python
-                def topic_aware_trim(messages, max_tokens=2000):
-                    """Keep messages related to current topic"""
-                    # Identify current topic from recent messages
-                    recent = messages[-3:]
-                    topics = extract_topics(recent)  # Custom topic extraction
-                    
-                    # Keep topic-relevant messages
-                    relevant = filter_messages(
-                        messages,
-                        filter_func=lambda m: any(
-                            topic in m.content.lower() 
-                            for topic in topics
-                        )
-                    )
-                    
-                    # Combine with system and recent
-                    system = filter_messages(messages, include_types=["system"])
-                    combined = system + relevant + recent
-                    
-                    return trim_messages(combined, max_tokens=max_tokens)
-                ```
-            </Accordion>
-        </AccordionGroup>
-    </Accordion>
-</AccordionGroup>
-
-### Merging
-
-Consolidate consecutive messages for cleaner conversation flow:
-
-```python Merge consecutive messages
-from langchain_core.messages import merge_message_runs
-
-messages = [
-    HumanMessage("Hello"),
-    HumanMessage("How are you?"),
-    AIMessage("I'm doing well!"),
-    AIMessage("How can I help you today?"),
-    HumanMessage("I have a question")
-]
-
-# Merge consecutive messages of the same type
-merged = merge_message_runs(messages)
-# Result:
-# [
-#   HumanMessage("Hello\nHow are you?"),
-#   AIMessage("I'm doing well!\nHow can I help you today?"),
-#   HumanMessage("I have a question")
-# ]
-```
-
-#### Custom merging strategies
-
-<CodeGroup>
-```python Merge with separators
-def merge_with_separator(messages, separator="\n\n"):
-    """Merge messages with custom separator"""
-    merged = []
-    current = None
-    
-    for msg in messages:
-        if current is None:
-            current = msg
-        elif type(current) == type(msg):
-            # Merge content with separator
-            current.content = f"{current.content_blocks}{separator}{msg.content_blocks}"
-        else:
-            merged.append(current)
-            current = msg
-    
-    if current:
-        merged.append(current)
-    
-    return merged
-```
-
-```python Selective merging
-def merge_selective(messages, merge_types=["human"]):
-    """Only merge specific message types"""
-    merged = []
-    buffer = []
-    
-    for msg in messages:
-        msg_type = msg.__class__.__name__.lower().replace("message", "")
-        
-        if msg_type in merge_types:
-            buffer.append(msg)
-        else:
-            if buffer:
-                # Merge buffered messages
-                merged.append(merge_message_runs(buffer)[0])
-                buffer = []
-            merged.append(msg)
-    
-    if buffer:
-        merged.append(merge_message_runs(buffer)[0])
-    
-    return merged
-```
-</CodeGroup>
-
-#### Summarization
-
-{/* TODO tabs? */}
-
-Compress message history while preserving context:
-
-```python Summarize conversation history
-from langchain_core.prompts import ChatPromptTemplate
-
-def summarize_messages(messages, model, max_summary_length=500):
-    """Summarize a conversation history"""
-    
-    # Create summarization prompt
-    prompt = ChatPromptTemplate.from_messages([
-        ("system", "Summarize this conversation in {max_length} words or less. "
-                   "Focus on key points and maintain context."),
-        ("human", "Conversation to summarize:\n{conversation}")
-    ])
-    
-    # Format conversation as text
-    conversation_text = "\n".join([
-        f"{msg.__class__.__name__}: {msg.text}"
-        for msg in messages
-    ])
-    
-    # Generate summary
-    summary_msg = model.invoke(
-        prompt.format_messages(
-            max_length=max_summary_length,
-            conversation=conversation_text
-        )
-    )
-    
-    return SystemMessage(
-        content=f"Previous conversation summary: {summary_msg.text}",
-        metadata={"type": "summary", "message_count": len(messages)}
-    )
-```
-
-##### Progressive summarization
-
-```python Rolling summarization
-from langchain_core.messages import SystemMessage
-from langchain_core.prompts import ChatPromptTemplate
-
-class ConversationSummarizer:
-    """Progressively summarize conversations"""
-    
-    def __init__(self, model, chunk_size=10):
-        self.model = model
-        self.chunk_size = chunk_size
-        self.summaries = []
-    
-    def add_messages(self, messages):
-        """Add messages and summarize if needed"""
-        if len(messages) >= self.chunk_size:
-            # Summarize the chunk
-            summary = self.summarize_chunk(messages)
-            self.summaries.append(summary)
-            
-            # Return summary + recent messages
-            recent = messages[-3:]  # Keep last 3 messages
-            return [self.get_combined_summary()] + recent
-        return messages
-    
-    def summarize_chunk(self, messages):
-        """Summarize a chunk of messages"""
-        prompt = ChatPromptTemplate.from_messages([
-            ("system", "Summarize these messages concisely:"),
-            ("human", "{messages}")
-        ])
-        
-        messages_text = "\n".join([f"{m.type}: {m.text}" for m in messages])
-        response = self.model.invoke(
-            prompt.format_messages(messages=messages_text)
-        )
-        return response.text
-    
-    def get_combined_summary(self):
-        """Get combined summary of all chunks"""
-        if not self.summaries:
-            return None
-        
-        combined = " ".join(self.summaries)
-        return SystemMessage(
-            f"Conversation context: {combined}",
-            metadata={"type": "rolling_summary"}
-        )
-```
-
-### Deletion
-
-Remove specific messages from conversation history:
-
-```python RemoveMessage
-from langchain_core.messages import RemoveMessage
-from langgraph.graph import MessagesState
-
-def delete_messages_node(state: MessagesState):
-    """Delete messages by ID"""
-    messages = state["messages"]
-    
-    # Find messages to delete (e.g., older than 5 messages)
-    if len(messages) > 5:
-        to_delete = messages[:-5]  # Keep only last 5
-        
-        # Create RemoveMessage objects
-        deletions = [RemoveMessage(id=msg.id) for msg in to_delete]
-        
-        return {"messages": deletions}
-    
-    return {}
-
-# In a graph
-builder = StateGraph(MessagesState)
-builder.add_node("delete_old", delete_messages_node)
-```
-
-#### Selective deletion patterns
-
-<CodeGroup>
-```python Delete by criteria
-def delete_by_metadata(state, key, value):
-    """Delete messages matching metadata criteria"""
-    messages = state["messages"]
-    
-    to_delete = [
-        RemoveMessage(id=msg.id)
-        for msg in messages
-        if msg.metadata.get(key) == value
-    ]
-    
-    return {"messages": to_delete}
-
-def delete_error_messages(state):
-    """Remove messages marked as errors"""
-    messages = state["messages"]
-    
-    error_messages = [
-        RemoveMessage(id=msg.id)
-        for msg in messages
-        if "error" in msg.text.lower() or 
-           msg.metadata.get("status") == "error"
-    ]
-    
-    return {"messages": error_messages}
-```
-
-```python Clear conversation
-def clear_conversation(state, keep_system=True):
-    """Clear all messages except system"""
-    messages = state["messages"]
-    
-    if keep_system:
-        # Keep only system messages
-        to_delete = [
-            RemoveMessage(id=msg.id)
-            for msg in messages
-            if not isinstance(msg, SystemMessage)
-        ]
-    else:
-        # Clear everything
-        to_delete = [RemoveMessage(id=msg.id) for msg in messages]
-    
-    return {"messages": to_delete}
-```
-</CodeGroup>
-
-## Multi-agent message handling
-
-Manage messages in multi-agent systems:
-
-<AccordionGroup>
-    <Accordion title="Message routing" icon="route">
-        Direct messages to appropriate agents based on content and context.
-        
-        <AccordionGroup>
-            <Accordion title="Content-based routing" icon="filter">
-                ```python
-                from typing import Literal, Annotated
-                from typing_extensions import TypedDict
-                from langgraph.graph.message import add_messages
+        <Accordion title="Custom Merging Strategies">
+            <CodeGroup>
+            ```python Merge with separators
+            def merge_with_separator(messages, separator="\n\n"):
+                """Merge messages with custom separator"""
+                merged = []
+                current = None
                 
-                class MultiAgentState(TypedDict):
-                    messages: Annotated[list, add_messages]
-                    next_agent: Literal["researcher", "coder", "reviewer", "end"]
-                
-                def route_message(state: MultiAgentState) -> str:
-                    """Route to appropriate agent based on message content"""
-                    last_message = state["messages"][-1]
-                    
-                    if "research" in last_message.text.lower():
-                        return "researcher"
-                    elif "code" in last_message.text.lower():
-                        return "coder"
-                    elif "review" in last_message.text.lower():
-                        return "reviewer"
+                for msg in messages:
+                    if current is None:
+                        current = msg
+                    elif type(current) == type(msg):
+                        # Merge content with separator
+                        current.content = f"{current.content}{separator}{msg.content}"
                     else:
-                        return "end"
-                ```
-            </Accordion>
-            
-            <Accordion title="Agent-specific filtering" icon="user-shield">
-                ```python
-                def researcher_node(state: MultiAgentState):
-                    """Researcher only sees relevant messages"""
-                    # Filter messages for researcher context
-                    relevant_messages = filter_messages(
-                        state["messages"],
-                        exclude_types=["tool"],  # Exclude other agents' tool calls
-                        filter_func=lambda m: "research" in m.text.lower() or 
-                                             m.metadata.get("agent") == "researcher"
-                    )
-                    
-                    response = researcher_model.invoke(relevant_messages)
-                    response.metadata = {"agent": "researcher"}
-                    
-                    return {"messages": [response], "next_agent": "coder"}
+                        merged.append(current)
+                        current = msg
                 
-                def coder_node(state: MultiAgentState):
-                    """Coder sees implementation-relevant messages"""
-                    relevant_messages = filter_messages(
-                        state["messages"],
-                        filter_func=lambda m: m.metadata.get("agent") in ["researcher", "coder"] or
-                                             "implement" in m.text.lower()
-                    )
-                    
-                    response = coder_model.invoke(relevant_messages)
-                    response.metadata = {"agent": "coder"}
-                    
-                    return {"messages": [response], "next_agent": "reviewer"}
-                ```
-            </Accordion>
-        </AccordionGroup>
-    </Accordion>
-    
-    <Accordion title="Agent handoffs" icon="handshake">
-        Manage transitions between agents with proper context transfer.
-        
-        <AccordionGroup>
-            <Accordion title="Basic handoff" icon="arrow-right">
-                ```python
-                def create_handoff_message(from_agent: str, to_agent: str, context: str):
-                    """Create a handoff message between agents"""
-                    return AIMessage(
-                        content=f"Transferring from {from_agent} to {to_agent}: {context}",
-                        tool_calls=[{
-                            "name": "transfer_to_agent",
-                            "args": {"agent": to_agent, "context": context},
-                            "id": f"handoff_{from_agent}_{to_agent}"
-                        }]
-                    )
+                if current:
+                    merged.append(current)
                 
-                def add_handoff_confirmation(handoff_message: AIMessage):
-                    """Add confirmation for handoff"""
-                    tool_call_id = handoff_message.tool_calls[0]["id"]
-                    return ToolMessage(
-                        content=f"Successfully transferred to agent",
-                        tool_call_id=tool_call_id
-                    )
-                ```
-            </Accordion>
-            
-            <Accordion title="Context-aware handoff" icon="share-nodes">
-                ```python
-                def agent_with_handoff(state):
-                    """Handle agent transitions with context"""
-                    messages = state["messages"]
-                    
-                    # Process messages
-                    response = model.invoke(messages)
-                    
-                    # Check if handoff is needed
-                    if needs_handoff(response):
-                        # Extract context for next agent
-                        context = extract_handoff_context(response)
-                        handoff = create_handoff_message("current", "next", context)
-                        confirmation = add_handoff_confirmation(handoff)
-                        
-                        return {
-                            "messages": [response, handoff, confirmation],
-                            "handoff_context": context
-                        }
-                    
-                    return {"messages": [response]}
+                return merged
+            ```
+
+            ```python Selective merging
+            def merge_selective(messages, merge_types=["human"]):
+                """Only merge specific message types"""
+                merged = []
+                buffer = []
                 
-                def extract_handoff_context(response):
-                    """Extract relevant context for next agent"""
-                    return {
-                        "summary": response.text[:200],
-                        "key_points": extract_key_points(response.content),
-                        "next_steps": identify_next_steps(response.content),
-                        "artifacts": response.metadata.get("artifacts", [])
-                    }
-                ```
-            </Accordion>
-        </AccordionGroup>
-    </Accordion>
-    
-    <Accordion title="Message views" icon="eye">
-        Maintain separate message histories for different agents.
-        
-        <AccordionGroup>
-            <Accordion title="Separate agent views" icon="users">
-                ```python
-                from typing import Annotated
-                from typing_extensions import TypedDict
-                from langgraph.graph.message import add_messages
-                from langchain_core.messages import SystemMessage
+                for msg in messages:
+                    msg_type = msg.__class__.__name__.lower().replace("message", "")
+                    
+                    if msg_type in merge_types:
+                        buffer.append(msg)
+                    else:
+                        if buffer:
+                            # Merge buffered messages
+                            merged.append(merge_message_runs(buffer)[0])
+                            buffer = []
+                        merged.append(msg)
                 
-                class MultiAgentMessagesState(TypedDict):
-                    # Shared message list
-                    messages: Annotated[list, add_messages]
-                    # Agent-specific views
-                    researcher_messages: Annotated[list, add_messages]
-                    coder_messages: Annotated[list, add_messages]
-                    reviewer_messages: Annotated[list, add_messages]
+                if buffer:
+                    merged.append(merge_message_runs(buffer)[0])
                 
-                def update_agent_view(state, agent_name: str, message):
-                    """Update agent-specific message view"""
-                    # Add to shared messages
-                    updates = {"messages": [message]}
-                    
-                    # Add to agent-specific view
-                    agent_key = f"{agent_name}_messages"
-                    updates[agent_key] = [message]
-                    
-                    # Optionally add summary to other agents
-                    if message.metadata.get("share_summary"):
-                        summary = SystemMessage(
-                            f"[{agent_name}]: {message.content[:100]}...",
-                            metadata={"type": "agent_summary", "from": agent_name}
-                        )
-                        for other_agent in ["researcher", "coder", "reviewer"]:
-                            if other_agent != agent_name:
-                                updates[f"{other_agent}_messages"] = [summary]
-                    
-                    return updates
-                ```
-            </Accordion>
+                return merged
+            ```
+            </CodeGroup>
+        </Accordion>
+    </AccordionGroup>
+  </Tab>
+
+  <Tab title="Deletion">
+    <AccordionGroup>
+      <Accordion title="Basic Message Deletion">
+        Remove specific messages from conversation history:
+
+        ```python
+        from langchain_core.messages import RemoveMessage
+        from langgraph.graph import MessagesState
+
+        def delete_messages_node(state: MessagesState):
+            """Delete messages by ID"""
+            messages = state["messages"]
             
-            <Accordion title="Visibility control" icon="eye-slash">
-                ```python
-                class MessageVisibility:
-                    """Control which agents can see which messages"""
-                    
-                    def __init__(self):
-                        self.visibility_rules = {
-                            "researcher": ["public", "research", "planning"],
-                            "coder": ["public", "implementation", "technical"],
-                            "reviewer": ["public", "review", "quality"],
-                            "manager": ["all"]  # Sees everything
-                        }
-                    
-                    def filter_for_agent(self, messages, agent_role):
-                        """Filter messages based on agent visibility"""
-                        allowed_tags = self.visibility_rules.get(agent_role, ["public"])
-                        
-                        if "all" in allowed_tags:
-                            return messages
-                        
-                        return [
-                            msg for msg in messages
-                            if any(tag in msg.metadata.get("visibility", ["public"])
-                                  for tag in allowed_tags)
-                        ]
-                    
-                    def tag_message(self, message, visibility_tags):
-                        """Tag message with visibility metadata"""
-                        message.metadata["visibility"] = visibility_tags
-                        return message
-                ```
-            </Accordion>
-        </AccordionGroup>
-    </Accordion>
-</AccordionGroup>
-
-## Invalid chat history handling
-
-Handle and fix malformed message sequences:
-
-### Common validation errors
-
-<Accordion title="Message validation implementation">
-```python Detect invalid sequences
-from langchain_core.messages import ToolMessage
-
-def validate_message_history(messages):
-    """Check for common message history issues"""
-    errors = []
-    
-    for i, msg in enumerate(messages):
-        # Check for tool calls without responses
-        if hasattr(msg, 'tool_calls') and msg.tool_calls:
-            # Look for corresponding ToolMessage
-            tool_ids = {tc['id'] for tc in msg.tool_calls}
-            found_responses = set()
-            
-            for future_msg in messages[i+1:]:
-                if isinstance(future_msg, ToolMessage):
-                    if future_msg.tool_call_id in tool_ids:
-                        found_responses.add(future_msg.tool_call_id)
-            
-            missing = tool_ids - found_responses
-            if missing:
-                errors.append({
-                    "type": "missing_tool_response",
-                    "message_index": i,
-                    "tool_call_ids": list(missing)
-                })
-    
-    # Check for orphaned tool messages
-    for i, msg in enumerate(messages):
-        if isinstance(msg, ToolMessage):
-            # Look for corresponding tool call
-            found = False
-            for prior_msg in messages[:i]:
-                if hasattr(prior_msg, 'tool_calls'):
-                    if any(tc['id'] == msg.tool_call_id 
-                          for tc in prior_msg.tool_calls):
-                        found = True
-                        break
-            
-            if not found:
-                errors.append({
-                    "type": "orphaned_tool_message",
-                    "message_index": i,
-                    "tool_call_id": msg.tool_call_id
-                })
-    
-    return errors
-```
-</Accordion>
-
-### Automatic repair strategies
-
-{/* TODO: validate */}
-
-<CodeGroup>
-```python Fix missing tool responses
-def fix_missing_tool_responses(messages):
-    """Add placeholder responses for missing tool calls"""
-    fixed = []
-    
-    for msg in messages:
-        fixed.append(msg)
-        
-        # If message has tool calls, ensure responses exist
-        if hasattr(msg, 'tool_calls') and msg.tool_calls:
-            for tool_call in msg.tool_calls:
-                # Check if response exists in remaining messages
-                has_response = any(
-                    isinstance(m, ToolMessage) and 
-                    m.tool_call_id == tool_call['id']
-                    for m in messages
-                )
+            # Find messages to delete (e.g., older than 5 messages)
+            if len(messages) > 5:
+                to_delete = messages[:-5]  # Keep only last 5
                 
-                if not has_response:
-                    # Add placeholder response
-                    fixed.append(ToolMessage(
-                        content="Tool execution skipped",
-                        tool_call_id=tool_call['id'],
-                        metadata={"auto_generated": True}
-                    ))
-    
-    return fixed
-```
+                # Create RemoveMessage objects
+                deletions = [RemoveMessage(id=msg.id) for msg in to_delete]
+                
+                return {"messages": deletions}
+            
+            return {}
 
-```python Remove invalid messages
-def clean_message_history(messages):
-    """Remove invalid messages from history"""
-    cleaned = []
-    tool_call_ids = set()
-    
-    # First pass: collect valid tool call IDs
-    for msg in messages:
-        if hasattr(msg, 'tool_calls') and msg.tool_calls:
-            for tc in msg.tool_calls:
-                tool_call_ids.add(tc['id'])
-    
-    # Second pass: filter messages
-    for msg in messages:
-        if isinstance(msg, ToolMessage):
-            # Only keep tool messages with valid IDs
-            if msg.tool_call_id in tool_call_ids:
-                cleaned.append(msg)
-        else:
-            cleaned.append(msg)
-    
-    return cleaned
-```
-</CodeGroup>
+        # In a graph
+        builder = StateGraph(MessagesState)
+        builder.add_node("delete_old", delete_messages_node)
+        ```
+      </Accordion>
+
+      <Accordion title="Selective Deletion Patterns">
+        <CodeGroup>
+          ```python Delete by criteria
+          def delete_by_metadata(state, key, value):
+              """Delete messages matching metadata criteria"""
+              messages = state["messages"]
+              
+              to_delete = [
+                  RemoveMessage(id=msg.id)
+                  for msg in messages
+                  if msg.metadata.get(key) == value
+              ]
+              
+              return {"messages": to_delete}
+
+          def delete_error_messages(state):
+              """Remove messages marked as errors"""
+              messages = state["messages"]
+              
+              error_messages = [
+                  RemoveMessage(id=msg.id)
+                  for msg in messages
+                  if "error" in msg.text.lower() or 
+                     msg.metadata.get("status") == "error"
+              ]
+              
+              return {"messages": error_messages}
+          ```
+
+          ```python Clear conversation
+          def clear_conversation(state, keep_system=True):
+              """Clear all messages except system"""
+              messages = state["messages"]
+              
+              if keep_system:
+                  # Keep only system messages
+                  to_delete = [
+                      RemoveMessage(id=msg.id)
+                      for msg in messages
+                      if not isinstance(msg, SystemMessage)
+                  ]
+              else:
+                  # Clear everything
+                  to_delete = [RemoveMessage(id=msg.id) for msg in messages]
+              
+              return {"messages": to_delete}
+          ```
+        </CodeGroup>
+      </Accordion>
+    </AccordionGroup>
+  </Tab>
+</Tabs>
 
 ## Advanced patterns
 
@@ -2050,7 +1264,7 @@ Sophisticated message handling patterns for complex use cases:
         </AccordionGroup>
     </Accordion>
     
-    {/* TODO this is LangGraph focused? */}
+    {/* TODO this is LangGraph focused? Probably re-write using content blocks? */}
     <Accordion title="Rich annotations" icon="tags">
         Add metadata, analysis, and context to messages.
         
@@ -2194,7 +1408,7 @@ response = filter_chain.invoke(messages)
 ```
 </CodeGroup>
 
-## Practical examples
+## Examples
 
 ### Multi-turn conversations
 
@@ -2440,3 +1654,448 @@ for step in reasoning_steps:
     print(f"Step: {step['reasoning']}")
 ```
 </CodeGroup> */}
+
+
+
+
+
+
+
+
+
+{/* TODO: ensure these are covered in short-term memory docs  */}
+{/*
+### Checkpointers
+
+Checkpointers enable persistence of conversation state across sessions:
+
+<CodeGroup>
+```python In-memory checkpointer
+from langgraph.checkpoint.memory import InMemorySaver
+from langgraph.graph import MessagesState, StateGraph
+
+# Create checkpointer for development/testing
+memory = InMemorySaver()
+
+# Build your graph
+builder = StateGraph(MessagesState)
+# ... add nodes and edges ...
+graph = builder.compile(checkpointer=memory)
+
+# Invoke with thread ID for conversation continuity
+config = {"configurable": {"thread_id": "user_123"}}
+response = graph.invoke({"messages": [HumanMessage("Hello")]}, config)
+```
+
+```python Production checkpointers
+from langgraph.checkpoint.postgres import PostgresSaver
+from langgraph.checkpoint.sqlite import SqliteSaver
+
+# SQLite for local persistence
+sqlite_checkpointer = SqliteSaver.from_conn_string("conversations.db")
+
+# PostgreSQL for production
+postgres_checkpointer = PostgresSaver.from_conn_string(
+    "postgresql://user:password@localhost:5432/chatbot"
+)
+
+# Use with your graph
+graph = builder.compile(checkpointer=postgres_checkpointer)
+```
+</CodeGroup>
+
+### Thread and session management
+
+Track conversations across sessions using thread IDs:
+
+<CodeGroup>
+```python Thread-based conversations
+# Store different conversations separately
+thread_configs = {
+    "user_alice": {"configurable": {"thread_id": "alice_001"}},
+    "user_bob": {"configurable": {"thread_id": "bob_001"}},
+}
+
+# Each thread maintains its own state
+for user, config in thread_configs.items():
+    response = graph.invoke(
+        {"messages": [HumanMessage(f"Hello from {user}")]},
+        config
+    )
+```
+
+```python Session metadata tracking
+from langchain_core.messages import HumanMessage
+
+# Add metadata to track sessions
+message = HumanMessage(
+    "What's the weather?",
+    metadata={
+        "session_id": "sess_abc123",
+        "user_id": "user_456",
+        "timestamp": "2024-01-15T10:30:00Z"
+    }
+)
+
+# Retrieve conversation history with metadata
+def get_session_history(session_id: str):
+    state = graph.get_state({"configurable": {"thread_id": session_id}})
+    return [msg for msg in state.values["messages"] 
+            if msg.metadata.get("session_id") == session_id]
+```
+</CodeGroup>
+
+### Filtering
+
+Filter messages with sophisticated criteria for different use cases:
+
+<AccordionGroup>
+    <Accordion title="By type" icon="filter">
+        Filter messages based on their role (human, AI, system or tool) and tool
+        call presence.
+
+        ```python Type-based filtering
+        from langchain_core.messages import filter_messages
+
+        messages = [
+            SystemMessage("You are helpful"),
+            HumanMessage("Question 1"),
+            AIMessage("Answer 1"),
+            HumanMessage("Question 2"),
+            AIMessage("Answer 2", tool_calls=[...]),
+            ToolMessage("Result", tool_call_id="123")
+        ]
+
+        # Get only human messages
+        human_only = filter_messages(messages, include_types=["human"])
+
+        # Exclude system messages
+        no_system = filter_messages(messages, exclude_types=["system"])
+
+        # Get AI messages with tool calls
+        ai_with_tools = filter_messages(
+            messages,
+            include_types=["ai"],
+            include_tool_calls=True
+        )
+        ```
+    </Accordion>
+    <Accordion title="By metadata" icon="filter">
+        ```python Metadata-based filtering
+        from langchain_core.messages import filter_messages
+
+        messages = [
+            HumanMessage("Hi", name="alice", metadata={"priority": "high"}),
+            HumanMessage("Hello", name="bob", metadata={"priority": "low"}),
+            AIMessage("Response to Alice", metadata={"model": "gpt-4"}),
+            AIMessage("Response to Bob", metadata={"model": "gpt-3.5"})
+        ]
+
+        # Filter by name
+        alice_messages = filter_messages(messages, include_names=["alice"])
+
+        # Filter by custom metadata
+        high_priority = filter_messages(
+            messages,
+            filter_func=lambda m: m.metadata.get("priority") == "high"
+        )
+
+        # Complex filtering
+        gpt4_responses = filter_messages(
+            messages,
+            include_types=["ai"],
+            filter_func=lambda m: m.metadata.get("model") == "gpt-4"
+        )
+        ```
+    </Accordion>
+    <Accordion title="By IDs" icon="filter">
+        ```python ID-based filtering
+        # Keep specific messages by ID
+        message_ids = ["msg_001", "msg_003", "msg_005"]
+        selected = filter_messages(messages, include_ids=message_ids)
+
+        # Exclude specific messages
+        excluded = filter_messages(messages, exclude_ids=["msg_002", "msg_004"])
+
+        # Get messages after a specific ID
+        def get_messages_after(messages, after_id):
+            found = False
+            return [
+                msg for msg in messages
+                if (found := found or msg.id == after_id) and msg.id != after_id
+            ]
+        ```
+    </Accordion>
+</AccordionGroup>
+
+### Trimming strategies
+
+Manage context window limits with intelligent trimming:
+
+<AccordionGroup>
+    <Accordion title="Token-based" icon="calculator">
+        Control message history size based on token counts to fit within model context windows.
+        
+        <CodeGroup>
+        ```python Basic token trimming
+        from langchain_core.messages import trim_messages
+        
+        messages = [
+            SystemMessage("You are a helpful assistant"),
+            HumanMessage("Tell me about Python"),
+            AIMessage("Python is a programming language..."),
+            # ... many more messages ...
+        ]
+        
+        # Keep last 1000 tokens
+        trimmed = trim_messages(
+            messages,
+            max_tokens=1000,
+            strategy="last",  # Keep most recent messages
+            token_counter=model  # Use model's token counter
+        )
+        ```
+        
+        ```python Preserve system message highlight={6}
+        # Always keep system message
+        trimmed_with_system = trim_messages(
+            messages,
+            max_tokens=1000,
+            strategy="last",
+            include_system=True,  # Preserve system message
+            token_counter=model
+        )
+        ```
+        
+        ```python Custom token counter
+        # Use custom token counter
+        def count_tokens(messages):
+            """Custom token counting logic"""
+            total = 0
+            for msg in messages:
+                # Approximate: 4 chars = 1 token
+                total += len(msg.content) // 4
+            return total
+        
+        trimmed = trim_messages(
+            messages,
+            max_tokens=1000,
+            strategy="last",
+            token_counter=count_tokens
+        )
+        ```
+        </CodeGroup>
+    </Accordion>
+    
+    <Accordion title="Message count" icon="hashtag">
+        Limit conversation history by number of messages rather than tokens.
+        
+        <CodeGroup>
+        ```python Keep recent messages
+        # Keep last N messages
+        recent_messages = trim_messages(
+            messages,
+            max_messages=10,
+            strategy="last"
+        )
+        ```
+        
+        ```python Keep initial context
+        # Keep first N messages after system
+        initial_context = trim_messages(
+            messages,
+            max_messages=5,
+            strategy="first",
+            include_system=True
+        )
+        ```
+        
+        ```python Preserve tool messages
+        # Custom trimming with tool message preservation
+        def trim_preserve_tools(messages, max_messages=10):
+            """Keep tool-related messages intact"""
+            tool_messages = filter_messages(
+                messages,
+                include_types=["ai", "tool"],
+                include_tool_calls=True
+            )
+            other_messages = filter_messages(
+                messages,
+                exclude_types=["tool"]
+            )
+            trimmed_other = other_messages[-max_messages:]
+            return sorted(trimmed_other + tool_messages, key=lambda m: m.id)
+        ```
+        </CodeGroup>
+    </Accordion>
+    
+    <Accordion title="Intelligent trimming strategies" icon="brain">
+        Advanced strategies that preserve important context while trimming.
+        
+        <AccordionGroup>
+            <Accordion title="Importance-based trimming" icon="star">
+                ```python
+                def smart_trim(messages, max_tokens=2000):
+                    """Trim while preserving important context"""
+                    # Always keep system message
+                    system = filter_messages(messages, include_types=["system"])
+                    
+                    # Keep messages with high importance
+                    important = filter_messages(
+                        messages,
+                        filter_func=lambda m: m.metadata.get("important", False)
+                    )
+                    
+                    # Keep recent messages
+                    recent = messages[-5:]
+                    
+                    # Combine and deduplicate
+                    combined = list({m.id: m for m in system + important + recent}.values())
+                    
+                    # Trim if still over limit
+                    return trim_messages(combined, max_tokens=max_tokens, strategy="last")
+                ```
+            </Accordion>
+            
+            <Accordion title="Sliding window approach" icon="window-restore">
+                ```python
+                def sliding_window_trim(messages, window_size=10, overlap=2):
+                    """Keep a sliding window of messages with overlap"""
+                    if len(messages) <= window_size:
+                        return messages
+                    
+                    # Keep system message
+                    system = filter_messages(messages, include_types=["system"])
+                    
+                    # Get the window
+                    start_idx = max(0, len(messages) - window_size)
+                    window = messages[start_idx:]
+                    
+                    # Add overlap from previous context
+                    if start_idx > 0:
+                        overlap_msgs = messages[max(0, start_idx - overlap):start_idx]
+                        window = overlap_msgs + window
+                    
+                    return system + window
+                ```
+            </Accordion>
+            
+            <Accordion title="Topic-aware trimming" icon="tags">
+                ```python
+                def topic_aware_trim(messages, max_tokens=2000):
+                    """Keep messages related to current topic"""
+                    # Identify current topic from recent messages
+                    recent = messages[-3:]
+                    topics = extract_topics(recent)  # Custom topic extraction
+                    
+                    # Keep topic-relevant messages
+                    relevant = filter_messages(
+                        messages,
+                        filter_func=lambda m: any(
+                            topic in m.content.lower() 
+                            for topic in topics
+                        )
+                    )
+                    
+                    # Combine with system and recent
+                    system = filter_messages(messages, include_types=["system"])
+                    combined = system + relevant + recent
+                    
+                    return trim_messages(combined, max_tokens=max_tokens)
+                ```
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+</AccordionGroup> 
+
+#### Summarization
+
+TODO tabs?
+
+Compress message history while preserving context:
+
+```python Summarize conversation history
+from langchain_core.prompts import ChatPromptTemplate
+
+def summarize_messages(messages, model, max_summary_length=500):
+    """Summarize a conversation history"""
+    
+    # Create summarization prompt
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", "Summarize this conversation in {max_length} words or less. "
+                   "Focus on key points and maintain context."),
+        ("human", "Conversation to summarize:\n{conversation}")
+    ])
+    
+    # Format conversation as text
+    conversation_text = "\n".join([
+        f"{msg.__class__.__name__}: {msg.text}"
+        for msg in messages
+    ])
+    
+    # Generate summary
+    summary_msg = model.invoke(
+        prompt.format_messages(
+            max_length=max_summary_length,
+            conversation=conversation_text
+        )
+    )
+    
+    return SystemMessage(
+        content=f"Previous conversation summary: {summary_msg.text}",
+        metadata={"type": "summary", "message_count": len(messages)}
+    )
+```
+
+##### Progressive summarization
+
+```python Rolling summarization
+from langchain_core.messages import SystemMessage
+from langchain_core.prompts import ChatPromptTemplate
+
+class ConversationSummarizer:
+    """Progressively summarize conversations"""
+    
+    def __init__(self, model, chunk_size=10):
+        self.model = model
+        self.chunk_size = chunk_size
+        self.summaries = []
+    
+    def add_messages(self, messages):
+        """Add messages and summarize if needed"""
+        if len(messages) >= self.chunk_size:
+            # Summarize the chunk
+            summary = self.summarize_chunk(messages)
+            self.summaries.append(summary)
+            
+            # Return summary + recent messages
+            recent = messages[-3:]  # Keep last 3 messages
+            return [self.get_combined_summary()] + recent
+        return messages
+    
+    def summarize_chunk(self, messages):
+        """Summarize a chunk of messages"""
+        prompt = ChatPromptTemplate.from_messages([
+            ("system", "Summarize these messages concisely:"),
+            ("human", "{messages}")
+        ])
+        
+        messages_text = "\n".join([f"{m.type}: {m.text}" for m in messages])
+        response = self.model.invoke(
+            prompt.format_messages(messages=messages_text)
+        )
+        return response.text
+    
+    def get_combined_summary(self):
+        """Get combined summary of all chunks"""
+        if not self.summaries:
+            return None
+        
+        combined = " ".join(self.summaries)
+        return SystemMessage(
+            f"Conversation context: {combined}",
+            metadata={"type": "rolling_summary"}
+        )
+```
+
+*/}
