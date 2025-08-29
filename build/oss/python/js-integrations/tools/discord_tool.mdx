@@ -1,0 +1,38 @@
+---
+title: Discord Tool
+---
+
+The Discord Tool gives your agent the ability to search, read, and write messages to discord channels.
+It is useful for when you need to interact with a discord channel.
+
+## Setup
+
+To use the Discord Tool you need to install the following official peer depencency:
+
+```bash npm
+npm install discord.js
+```
+## Usage, standalone
+
+import DiscordTool from "/snippets/javascript-integrations/examples/tools/discord_tool.mdx";
+
+import IntegrationInstallTooltip from '/snippets/javascript-integrations/integration-install-tooltip.mdx';
+
+<IntegrationInstallTooltip/>
+
+```bash npm
+npm install @langchain/openai @langchain/core
+```
+
+<DiscordTool />
+
+## Usage, in an Agent
+
+import Discord from "/snippets/javascript-integrations/examples/agents/discord.mdx";
+
+<Discord />
+
+## Related
+
+- Tool [conceptual guide](/oss/python/concepts/tools)
+- Tool [how-to guides](/oss/python/how-to/#tools)
