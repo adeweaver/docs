@@ -118,7 +118,7 @@
         "version": "Python",
         "dropdowns": [
           {
-            "dropdown": "OSS frameworks",
+            "dropdown": "OSS (v1-alpha)",
             "icon": "/images/brand/langgraph-pill.svg",
             "description": "LangChain and LangGraph",
             "tabs": [
