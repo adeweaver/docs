@@ -15,7 +15,6 @@ llm = init_chat_model(
     temperature=0
 )
 
-
 # Define tools
 @tool
 def multiply(a: int, b: int) -> int:
@@ -27,7 +26,6 @@ def multiply(a: int, b: int) -> int:
     """
     return a * b
 
-
 @tool
 def add(a: int, b: int) -> int:
     """Adds a and b.
@@ -38,7 +36,6 @@ def add(a: int, b: int) -> int:
     """
     return a + b
 
-
 @tool
 def divide(a: int, b: int) -> float:
     """Divide a and b.
@@ -48,7 +45,6 @@ def divide(a: int, b: int) -> float:
         b: second int
     """
     return a / b
-
 
 # Augment the LLM with tools
 tools = [add, multiply, divide]
@@ -87,7 +83,6 @@ def llm_call(state: dict):
 
 # Step 3: Define tool node
 
-
 from langchain_core.messages import ToolMessage
 
 def tool_node(state: dict):
@@ -103,6 +98,7 @@ def tool_node(state: dict):
 # Step 4: Define logic to determine whether to end
 
 from typing import Literal
+from langgraph.graph import StateGraph, START, END
 
 # Conditional edge function to route to the tool node or end based upon whether the LLM made a tool call
 def should_continue(state: MessagesState) -> Literal["environment", END]:
@@ -117,8 +113,6 @@ def should_continue(state: MessagesState) -> Literal["environment", END]:
     return END
 
 # Step 5: Build agent
-
-from langgraph.graph import StateGraph, START, END
 
 # Build workflow
 agent_builder = StateGraph(MessagesState)
@@ -154,7 +148,6 @@ messages = [HumanMessage(content="Add 3 and 4.")]
 messages = agent.invoke({"messages": messages})
 for m in messages["messages"]:
     m.pretty_print()
-
 ```
 :::
 
@@ -171,7 +164,6 @@ llm = init_chat_model(
     temperature=0
 )
 
-
 # Define tools
 @tool
 def multiply(a: int, b: int) -> int:
@@ -183,7 +175,6 @@ def multiply(a: int, b: int) -> int:
     """
     return a * b
 
-
 @tool
 def add(a: int, b: int) -> int:
     """Adds a and b.
@@ -194,7 +185,6 @@ def add(a: int, b: int) -> int:
     """
     return a + b
 
-
 @tool
 def divide(a: int, b: int) -> float:
     """Divide a and b.
@@ -204,7 +194,6 @@ def divide(a: int, b: int) -> float:
         b: second int
     """
     return a / b
-
 
 # Augment the LLM with tools
 tools = [add, multiply, divide]
@@ -218,7 +207,7 @@ from langchain_core.messages import (
     BaseMessage,
     ToolCall,
 )
-
+from langgraph.func import entrypoint, task
 
 # Step 1: define model node
 @task
@@ -233,14 +222,12 @@ def call_llm(messages: list[BaseMessage]):
         + messages
     )
 
-
 # Step 2: define tool node
 @task
 def call_tool(tool_call: ToolCall):
     """Performs the tool call"""
     tool = tools_by_name[tool_call["name"]]
     return tool.invoke(tool_call)
-
 
 # Step 3: define agent
 @entrypoint()
