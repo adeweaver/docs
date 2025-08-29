@@ -80,15 +80,24 @@ LangChain supports two main approaches for interacting with models:
 </Tabs>
 
 ## Message types
-
-{/* TODO: make this look better, use icons and cards that link to respective section */}
-
-| Type | Role | Purpose |
-|------|------|---------|
-| [SystemMessage](#system-message) | `system` | Prime model behavior and provide context |
-| [HumanMessage](#human-message) | `user` | Represent user input and interactions |
-| [AIMessage](#ai-message) | `assistant` | Model responses and tool requests |
-| [ToolMessage](#tool-message) | `tool` | Tool execution results |
+<Columns cols={2}>
+    <Card title="System Message" icon="gear" href="#system-message">
+        **Role:** `system`  
+        Prime model behavior and provide context for conversations
+    </Card>
+    <Card title="Human Message" icon="user" href="#human-message">
+        **Role:** `user`  
+        Represent user input and interactions
+    </Card>
+    <Card title="AI Message" icon="robot" href="#ai-message">
+        **Role:** `assistant`  
+        Model responses and tool requests
+    </Card>
+    <Card title="Tool Message" icon="wrench" href="#tool-message">
+        **Role:** `tool`  
+        Tool execution results
+    </Card>
+</Columns>
 
 ## Basic usage
 
@@ -351,7 +360,13 @@ tool_message = ToolMessage(
     artifact={"raw_data": [1, 2, 3]}  # Additional data not sent to model
 )
 ```
-{/* TODO: explain artifact */}
+
+<Note>
+    The `artifact` field stores supplementary data that won't be sent to the
+    model but can be accessed programmatically. This is useful for storing raw
+    results, debugging information, or data for downstream processing without
+    cluttering the model's context.
+</Note>
 
 
 ## Content output versions: v0 vs v1
@@ -477,24 +492,48 @@ universal_message = HumanMessage([
 
 ### Standard content types
 
-{/* TODO: blocks in Mintlify */}
-
-<Tabs>
-    <Tab title="Text">
+<CardGroup cols={2}>
+    <Card title="Text" icon="align-left">
         ```python
         {"type": "text", "text": "Hello world"}
         ```
-    </Tab>
-    <Tab title="Images">
-        {/* TODO */}
-    </Tab>
-    <Tab title="Documents">
-        {/* TODO */}
-    </Tab>
-    <Tab title="Audio">
-        {/* TODO */}
-    </Tab>
-</Tabs>
+        Basic text content for messages
+    </Card>
+    <Card title="Images" icon="image">
+        ```python
+        {
+            "type": "image",
+            "url": "https://example.com/image.jpg",
+            # OR
+            "base64": "iVBORw0KG...",
+            "mime_type": "image/jpeg"  # Optional
+        }
+        ```
+        Images via URL or base64-encoded data
+    </Card>
+    <Card title="Documents" icon="file">
+        ```python
+        {
+            "type": "file",
+            "base64": "JVBERi0xLj...",
+            "mime_type": "application/pdf",
+            "filename": "report.pdf"  # Optional
+        }
+        ```
+        PDF, Word, and other document files
+    </Card>
+    <Card title="Audio" icon="volume-high">
+        ```python
+        {
+            "type": "audio",
+            "base64": "UklGRiQAAA...",
+            "mime_type": "audio/mpeg",
+            "format": "mp3"  # Optional
+        }
+        ```
+        Audio files for transcription or analysis
+    </Card>
+</CardGroup>
 
 ### Multimodal message example
 
@@ -592,13 +631,12 @@ Some models can expose their internal reasoning process, allowing you to
 understand how they arrived at their conclusions:
 
 <CodeGroup>
-{/* TODO verify */}
 ```python Stream reasoning
 # Stream reasoning steps as they're generated
 for chunk in model.stream("Solve this step-by-step: What is 15% of 80?"):
     for block in chunk.content_blocks:
         if block.get("type") == "reasoning":
-            print(f"Reasoning: {block['text']}")
+            print(f"Reasoning: {block['reasoning']}")
         elif block.get("type") == "text":
             print(f"Answer: {block['text']}")
 ```
@@ -617,52 +655,285 @@ reasoning_steps = [
 ]
 
 for step in reasoning_steps:
-    print(f"Step: {step['text']}")
+    print(f"Step: {step['reasoning']}")
 ```
 </CodeGroup>
 
 ### Content block types reference
 
-Standardized content blocks:
-
-{/* TODO convert to mintlify format */}
-<Tabs>
-    <Tab title="Core Blocks">
-        | Block Type | Purpose | Fields |
-        |------------|---------|--------|
-        | `TextContentBlock` | Standard text output | `text`, `annotations?`, `extras?` |
-        | `ReasoningContentBlock` | Model reasoning steps | `reasoning`, `extras?` |
-    </Tab>
-    <Tab title="Multimodal Blocks">
-        | Block Type | Purpose | Fields |
-        |------------|---------|--------|
-        | `PlainTextContentBlock` | Document text (txt, md) | `text`, `mime_type?` |
-        | `ImageContentBlock` | Image data | `url` or `data`, `mime_type?` |
-        | `AudioContentBlock` | Audio data | `url` or `data`, `format?` |
-        | `VideoContentBlock` | Video data | `url` or `data`, `mime_type?` |
-        | `FileContentBlock` | Generic files (PDF, etc) | `url` or `data`, `filename?`, `mime_type?` |
-    </Tab>
-    <Tab title="Tool Blocks">
-        | Block Type | Purpose | Fields |
-        |------------|---------|--------|
-        | `ToolCall` | Function calls | `name`, `args`, `id` |
-        | `ToolCallChunk` | Streaming tool fragments | `name?`, `args?`, `id?`, `index` |
-        | `InvalidToolCall` | Malformed calls | `name?`, `args?`, `error` |
-    </Tab>
-    <Tab title="Provider Tools">
-        | Block Type | Purpose | Fields |
-        |------------|---------|--------|
-        | `WebSearchCall` | Built-in web search | `query` |
-        | `WebSearchResult` | Search results | `urls`, `snippets?` |
-        | `CodeInterpreterCall` | Code execution | `language`, `code` |
-        | `CodeInterpreterResult` | Execution results | `output`, `error?` |
-    </Tab>
-    <Tab title="Extensibility">
-        | Block Type | Purpose | Fields |
-        |------------|---------|--------|
-        | `NonStandardContentBlock` | Provider-specific escape hatch | `type: "non_standard"`, `value` |
-    </Tab>
-</Tabs>
+<AccordionGroup>
+    <Accordion title="Core Content Blocks" icon="cube">
+        <AccordionGroup>
+            <Accordion title="TextContentBlock" icon="text">
+                **Purpose:** Standard text output
+                
+                <ParamField body="text" type="string" required>
+                    The text content
+                </ParamField>
+                
+                <ParamField body="annotations" type="object[]">
+                    List of annotations for the text
+                </ParamField>
+                
+                <ParamField body="extras" type="object">
+                    Additional provider-specific data
+                </ParamField>
+                
+                **Example:**
+                ```python
+                {
+                    "type": "text",
+                    "text": "Hello world",
+                    "annotations": []
+                }
+                ```
+            </Accordion>
+            <Accordion title="ReasoningContentBlock" icon="brain">
+                **Purpose:** Model reasoning steps
+                
+                <ParamField body="reasoning" type="string" required>
+                    The reasoning content
+                </ParamField>
+                
+                <ParamField body="extras" type="object">
+                    Additional provider-specific data
+                </ParamField>
+                
+                **Example:**
+                ```python
+                {
+                    "type": "reasoning",
+                    "reasoning": "The user is asking about..."
+                }
+                ```
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+    
+    <Accordion title="Multimodal Content Blocks" icon="images">
+        <AccordionGroup>
+            <Accordion title="PlainTextContentBlock" icon="align-left">
+                **Purpose:** Document text (txt, md)
+                
+                <ParamField body="text" type="string" required>
+                    The text content
+                </ParamField>
+                
+                <ParamField body="mime_type" type="string">
+                    MIME type of the text (e.g., `text/plain`, `text/markdown`)
+                </ParamField>
+                
+                **Supported formats:** `.txt`, `.md`, `.markdown`
+            </Accordion>
+            <Accordion title="ImageContentBlock" icon="image">
+                **Purpose:** Image data
+                
+                <ParamField body="url" type="string">
+                    URL pointing to the image location. Either `url` or `data` is required.
+                </ParamField>
+                
+                <ParamField body="data" type="string">
+                    Base64-encoded image data. Either `url` or `data` is required.
+                </ParamField>
+                
+                <ParamField body="mime_type" type="string">
+                    Image MIME type (e.g., `image/jpeg`, `image/png`)
+                </ParamField>
+                
+                **Supported formats:** `.jpg`, `.jpeg`, `.png`, `.gif`, `.webp`
+            </Accordion>
+            <Accordion title="AudioContentBlock" icon="volume-high">
+                **Purpose:** Audio data
+                
+                <ParamField body="url" type="string">
+                    URL pointing to the audio location. Either `url` or `data` is required.
+                </ParamField>
+                
+                <ParamField body="data" type="string">
+                    Base64-encoded audio data. Either `url` or `data` is required.
+                </ParamField>
+                
+                <ParamField body="format" type="string">
+                    Audio format (e.g., `mp3`, `wav`, `m4a`)
+                </ParamField>
+                
+                **Supported formats:** `.mp3`, `.wav`, `.m4a`, `.ogg`
+            </Accordion>
+            <Accordion title="VideoContentBlock" icon="video">
+                **Purpose:** Video data
+                
+                <ParamField body="url" type="string">
+                    URL pointing to the video location. Either `url` or `data` is required.
+                </ParamField>
+                
+                <ParamField body="data" type="string">
+                    Base64-encoded video data. Either `url` or `data` is required.
+                </ParamField>
+                
+                <ParamField body="mime_type" type="string">
+                    Video MIME type (e.g., `video/mp4`, `video/webm`)
+                </ParamField>
+                
+                **Supported formats:** `.mp4`, `.avi`, `.mov`, `.webm`
+            </Accordion>
+            <Accordion title="FileContentBlock" icon="file">
+                **Purpose:** Generic files (PDF, etc)
+                
+                <ParamField body="url" type="string">
+                    URL pointing to the file location. Either `url` or `data` is required.
+                </ParamField>
+                
+                <ParamField body="data" type="string">
+                    Base64-encoded file data. Either `url` or `data` is required.
+                </ParamField>
+                
+                <ParamField body="filename" type="string">
+                    Name of the file
+                </ParamField>
+                
+                <ParamField body="mime_type" type="string">
+                    File MIME type (e.g., `application/pdf`, `application/vnd.openxmlformats-officedocument.wordprocessingml.document`)
+                </ParamField>
+                
+                **Common formats:** `.pdf`, `.docx`, `.xlsx`, `.csv`
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+    
+    <Accordion title="Tool Calling Blocks" icon="wrench">
+        <AccordionGroup>
+            <Accordion title="ToolCall" icon="function">
+                **Purpose:** Function calls
+                
+                <ParamField body="name" type="string" required>
+                    Name of the tool to call
+                </ParamField>
+                
+                <ParamField body="args" type="object" required>
+                    Arguments to pass to the tool
+                </ParamField>
+                
+                <ParamField body="id" type="string" required>
+                    Unique identifier for this tool call
+                </ParamField>
+                
+                **Example:**
+                ```python
+                {
+                    "type": "tool_call",
+                    "name": "search",
+                    "args": {"query": "weather"},
+                    "id": "call_123"
+                }
+                ```
+            </Accordion>
+            <Accordion title="ToolCallChunk" icon="puzzle-piece">
+                **Purpose:** Streaming tool fragments
+                
+                <ParamField body="name" type="string">
+                    Name of the tool being called
+                </ParamField>
+                
+                <ParamField body="args" type="string">
+                    Partial tool arguments (may be incomplete JSON)
+                </ParamField>
+                
+                <ParamField body="id" type="string">
+                    Tool call identifier
+                </ParamField>
+                
+                <ParamField body="index" type="number" required>
+                    Position of this chunk in the stream
+                </ParamField>
+                
+                **Used in:** Streaming responses
+            </Accordion>
+            <Accordion title="InvalidToolCall" icon="triangle-exclamation">
+                **Purpose:** Malformed calls
+                
+                <ParamField body="name" type="string">
+                    Name of the tool that failed to be called
+                </ParamField>
+                
+                <ParamField body="args" type="string">
+                    Raw arguments that failed to parse
+                </ParamField>
+                
+                <ParamField body="error" type="string" required>
+                    Description of what went wrong
+                </ParamField>
+                
+                **Common errors:** Invalid JSON, missing required fields
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+    
+    <Accordion title="Provider-Specific Blocks" icon="plug">
+        <AccordionGroup>
+            <Accordion title="WebSearchCall" icon="magnifying-glass">
+                **Purpose:** Built-in web search
+                
+                <ParamField body="query" type="string" required>
+                    The search query to execute
+                </ParamField>
+                
+                **Providers:** Anthropic, Perplexity
+            </Accordion>
+            <Accordion title="WebSearchResult" icon="globe">
+                **Purpose:** Search results
+                
+                <ParamField body="urls" type="string[]" required>
+                    URLs of the search results
+                </ParamField>
+                
+                <ParamField body="snippets" type="string[]">
+                    Text snippets from the search results
+                </ParamField>
+                
+                **Returns:** Top search results with snippets
+            </Accordion>
+            <Accordion title="CodeInterpreterCall" icon="code">
+                **Purpose:** Code execution
+                
+                <ParamField body="language" type="string" required>
+                    Programming language to execute (`python`, `javascript`, `sql`)
+                </ParamField>
+                
+                <ParamField body="code" type="string" required>
+                    Code to execute
+                </ParamField>
+                
+                **Languages:** Python, JavaScript, SQL
+            </Accordion>
+            <Accordion title="CodeInterpreterResult" icon="terminal">
+                **Purpose:** Execution results
+                
+                <ParamField body="output" type="string" required>
+                    Output from the code execution
+                </ParamField>
+                
+                <ParamField body="error" type="string">
+                    Error message if execution failed
+                </ParamField>
+                
+                **Security:** Runs in sandboxed environment
+            </Accordion>
+            <Accordion title="NonStandardContentBlock" icon="asterisk">
+                **Purpose:** Provider-specific escape hatch
+                
+                <ParamField body="type" type="string" required>
+                    Must be `"non_standard"`
+                </ParamField>
+                
+                <ParamField body="value" type="object" required>
+                    Provider-specific data structure
+                </ParamField>
+                
+                **Usage:** For experimental or provider-unique features
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+</AccordionGroup>
 
 ```python Content block examples
 # Standard text with annotations
@@ -1062,116 +1333,181 @@ def get_messages_after(messages, after_id):
 
 Manage context window limits with intelligent trimming:
 
-### Token-based trimming
-
-```python Trim by token count
-from langchain_core.messages import trim_messages
-
-messages = [
-    SystemMessage("You are a helpful assistant"),
-    HumanMessage("Tell me about Python"),
-    AIMessage("Python is a programming language..."),
-    # ... many more messages ...
-]
-
-# Keep last 1000 tokens
-trimmed = trim_messages(
-    messages,
-    max_tokens=1000,
-    strategy="last",  # Keep most recent messages
-    token_counter=model  # Use model's token counter
-)
-
-# Always keep system message
-trimmed_with_system = trim_messages(
-    messages,
-    max_tokens=1000,
-    strategy="last",
-    include_system=True,  # Preserve system message
-    token_counter=model
-)
-```
-
-### Message count trimming
-
-```python Trim by message count
-# Keep last N messages
-recent_messages = trim_messages(
-    messages,
-    max_messages=10,
-    strategy="last"
-)
-
-# Keep first N messages after system
-initial_context = trim_messages(
-    messages,
-    max_messages=5,
-    strategy="first",
-    include_system=True
-)
-
-# Custom trimming with tool message preservation
-def trim_preserve_tools(messages, max_messages=10):
-    """Keep tool-related messages intact"""
-    tool_messages = filter_messages(
-        messages,
-        include_types=["ai", "tool"],
-        include_tool_calls=True
-    )
-    other_messages = filter_messages(
-        messages,
-        exclude_types=["tool"]
-    )
-    trimmed_other = other_messages[-max_messages:]
-    return sorted(trimmed_other + tool_messages, key=lambda m: m.id)
-```
-
-### Intelligent trimming strategies
-
-<CodeGroup>
-```python Strategy: Keep important messages
-def smart_trim(messages, max_tokens=2000):
-    """Trim while preserving important context"""
-    # Always keep system message
-    system = filter_messages(messages, include_types=["system"])
+<AccordionGroup>
+    <Accordion title="Token-based trimming" icon="calculator">
+        Control message history size based on token counts to fit within model context windows.
+        
+        <CodeGroup>
+        ```python Basic token trimming
+        from langchain_core.messages import trim_messages
+        
+        messages = [
+            SystemMessage("You are a helpful assistant"),
+            HumanMessage("Tell me about Python"),
+            AIMessage("Python is a programming language..."),
+            # ... many more messages ...
+        ]
+        
+        # Keep last 1000 tokens
+        trimmed = trim_messages(
+            messages,
+            max_tokens=1000,
+            strategy="last",  # Keep most recent messages
+            token_counter=model  # Use model's token counter
+        )
+        ```
+        
+        ```python Preserve system message
+        # Always keep system message
+        trimmed_with_system = trim_messages(
+            messages,
+            max_tokens=1000,
+            strategy="last",
+            include_system=True,  # Preserve system message
+            token_counter=model
+        )
+        ```
+        
+        ```python Custom token counter
+        # Use custom token counter
+        def count_tokens(messages):
+            """Custom token counting logic"""
+            total = 0
+            for msg in messages:
+                # Approximate: 4 chars = 1 token
+                total += len(msg.content) // 4
+            return total
+        
+        trimmed = trim_messages(
+            messages,
+            max_tokens=1000,
+            strategy="last",
+            token_counter=count_tokens
+        )
+        ```
+        </CodeGroup>
+    </Accordion>
     
-    # Keep messages with high importance
-    important = filter_messages(
-        messages,
-        filter_func=lambda m: m.metadata.get("important", False)
-    )
+    <Accordion title="Message count trimming" icon="hashtag">
+        Limit conversation history by number of messages rather than tokens.
+        
+        <CodeGroup>
+        ```python Keep recent messages
+        # Keep last N messages
+        recent_messages = trim_messages(
+            messages,
+            max_messages=10,
+            strategy="last"
+        )
+        ```
+        
+        ```python Keep initial context
+        # Keep first N messages after system
+        initial_context = trim_messages(
+            messages,
+            max_messages=5,
+            strategy="first",
+            include_system=True
+        )
+        ```
+        
+        ```python Preserve tool messages
+        # Custom trimming with tool message preservation
+        def trim_preserve_tools(messages, max_messages=10):
+            """Keep tool-related messages intact"""
+            tool_messages = filter_messages(
+                messages,
+                include_types=["ai", "tool"],
+                include_tool_calls=True
+            )
+            other_messages = filter_messages(
+                messages,
+                exclude_types=["tool"]
+            )
+            trimmed_other = other_messages[-max_messages:]
+            return sorted(trimmed_other + tool_messages, key=lambda m: m.id)
+        ```
+        </CodeGroup>
+    </Accordion>
     
-    # Keep recent messages
-    recent = messages[-5:]
-    
-    # Combine and deduplicate
-    combined = list({m.id: m for m in system + important + recent}.values())
-    
-    # Trim if still over limit
-    return trim_messages(combined, max_tokens=max_tokens, strategy="last")
-```
-
-```python Strategy: Sliding window
-def sliding_window_trim(messages, window_size=10, overlap=2):
-    """Keep a sliding window of messages with overlap"""
-    if len(messages) <= window_size:
-        return messages
-    
-    # Keep system message
-    system = filter_messages(messages, include_types=["system"])
-    
-    # Get the window
-    start_idx = max(0, len(messages) - window_size)
-    window = messages[start_idx:]
-    
-    # Add overlap from previous context
-    if start_idx > 0:
-        overlap_msgs = messages[max(0, start_idx - overlap):start_idx]
-        window = overlap_msgs + window
-    
-    return system + window
-```
-</CodeGroup>
+    <Accordion title="Intelligent trimming strategies" icon="brain">
+        Advanced strategies that preserve important context while trimming.
+        
+        <AccordionGroup>
+            <Accordion title="Importance-based trimming" icon="star">
+                ```python
+                def smart_trim(messages, max_tokens=2000):
+                    """Trim while preserving important context"""
+                    # Always keep system message
+                    system = filter_messages(messages, include_types=["system"])
+                    
+                    # Keep messages with high importance
+                    important = filter_messages(
+                        messages,
+                        filter_func=lambda m: m.metadata.get("important", False)
+                    )
+                    
+                    # Keep recent messages
+                    recent = messages[-5:]
+                    
+                    # Combine and deduplicate
+                    combined = list({m.id: m for m in system + important + recent}.values())
+                    
+                    # Trim if still over limit
+                    return trim_messages(combined, max_tokens=max_tokens, strategy="last")
+                ```
+            </Accordion>
+            
+            <Accordion title="Sliding window approach" icon="window-restore">
+                ```python
+                def sliding_window_trim(messages, window_size=10, overlap=2):
+                    """Keep a sliding window of messages with overlap"""
+                    if len(messages) <= window_size:
+                        return messages
+                    
+                    # Keep system message
+                    system = filter_messages(messages, include_types=["system"])
+                    
+                    # Get the window
+                    start_idx = max(0, len(messages) - window_size)
+                    window = messages[start_idx:]
+                    
+                    # Add overlap from previous context
+                    if start_idx > 0:
+                        overlap_msgs = messages[max(0, start_idx - overlap):start_idx]
+                        window = overlap_msgs + window
+                    
+                    return system + window
+                ```
+            </Accordion>
+            
+            <Accordion title="Topic-aware trimming" icon="tags">
+                ```python
+                def topic_aware_trim(messages, max_tokens=2000):
+                    """Keep messages related to current topic"""
+                    # Identify current topic from recent messages
+                    recent = messages[-3:]
+                    topics = extract_topics(recent)  # Custom topic extraction
+                    
+                    # Keep topic-relevant messages
+                    relevant = filter_messages(
+                        messages,
+                        filter_func=lambda m: any(
+                            topic in m.content.lower() 
+                            for topic in topics
+                        )
+                    )
+                    
+                    # Combine with system and recent
+                    system = filter_messages(messages, include_types=["system"])
+                    combined = system + relevant + recent
+                    
+                    return trim_messages(combined, max_tokens=max_tokens)
+                ```
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+</AccordionGroup>
 
 ## Message merging
 
@@ -1426,122 +1762,210 @@ def clear_conversation(state, keep_system=True):
 
 Manage messages in multi-agent systems:
 
-### Message routing between agents
-
-```python Agent message routing
-from typing import Literal, Annotated
-from typing_extensions import TypedDict
-from langgraph.graph.message import add_messages
-
-class MultiAgentState(TypedDict):
-    messages: Annotated[list, add_messages]
-    next_agent: Literal["researcher", "coder", "reviewer", "end"]
-
-def route_message(state: MultiAgentState) -> str:
-    """Route to appropriate agent based on message content"""
-    last_message = state["messages"][-1]
+<AccordionGroup>
+    <Accordion title="Message routing" icon="route">
+        Direct messages to appropriate agents based on content and context.
+        
+        <AccordionGroup>
+            <Accordion title="Content-based routing" icon="filter">
+                ```python
+                from typing import Literal, Annotated
+                from typing_extensions import TypedDict
+                from langgraph.graph.message import add_messages
+                
+                class MultiAgentState(TypedDict):
+                    messages: Annotated[list, add_messages]
+                    next_agent: Literal["researcher", "coder", "reviewer", "end"]
+                
+                def route_message(state: MultiAgentState) -> str:
+                    """Route to appropriate agent based on message content"""
+                    last_message = state["messages"][-1]
+                    
+                    if "research" in last_message.content.lower():
+                        return "researcher"
+                    elif "code" in last_message.content.lower():
+                        return "coder"
+                    elif "review" in last_message.content.lower():
+                        return "reviewer"
+                    else:
+                        return "end"
+                ```
+            </Accordion>
+            
+            <Accordion title="Agent-specific filtering" icon="user-shield">
+                ```python
+                def researcher_node(state: MultiAgentState):
+                    """Researcher only sees relevant messages"""
+                    # Filter messages for researcher context
+                    relevant_messages = filter_messages(
+                        state["messages"],
+                        exclude_types=["tool"],  # Exclude other agents' tool calls
+                        filter_func=lambda m: "research" in m.content.lower() or 
+                                             m.metadata.get("agent") == "researcher"
+                    )
+                    
+                    response = researcher_model.invoke(relevant_messages)
+                    response.metadata = {"agent": "researcher"}
+                    
+                    return {"messages": [response], "next_agent": "coder"}
+                
+                def coder_node(state: MultiAgentState):
+                    """Coder sees implementation-relevant messages"""
+                    relevant_messages = filter_messages(
+                        state["messages"],
+                        filter_func=lambda m: m.metadata.get("agent") in ["researcher", "coder"] or
+                                             "implement" in m.content.lower()
+                    )
+                    
+                    response = coder_model.invoke(relevant_messages)
+                    response.metadata = {"agent": "coder"}
+                    
+                    return {"messages": [response], "next_agent": "reviewer"}
+                ```
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
     
-    if "research" in last_message.content.lower():
-        return "researcher"
-    elif "code" in last_message.content.lower():
-        return "coder"
-    elif "review" in last_message.content.lower():
-        return "reviewer"
-    else:
-        return "end"
-
-# Agent-specific message filtering
-def researcher_node(state: MultiAgentState):
-    """Researcher only sees relevant messages"""
-    # Filter messages for researcher context
-    relevant_messages = filter_messages(
-        state["messages"],
-        exclude_types=["tool"],  # Exclude other agents' tool calls
-        filter_func=lambda m: "research" in m.content.lower() or 
-                             m.metadata.get("agent") == "researcher"
-    )
+    <Accordion title="Agent handoffs" icon="handshake">
+        Manage transitions between agents with proper context transfer.
+        
+        <AccordionGroup>
+            <Accordion title="Basic handoff" icon="arrow-right">
+                ```python
+                def create_handoff_message(from_agent: str, to_agent: str, context: str):
+                    """Create a handoff message between agents"""
+                    return AIMessage(
+                        content=f"Transferring from {from_agent} to {to_agent}: {context}",
+                        tool_calls=[{
+                            "name": "transfer_to_agent",
+                            "args": {"agent": to_agent, "context": context},
+                            "id": f"handoff_{from_agent}_{to_agent}"
+                        }]
+                    )
+                
+                def add_handoff_confirmation(handoff_message: AIMessage):
+                    """Add confirmation for handoff"""
+                    tool_call_id = handoff_message.tool_calls[0]["id"]
+                    return ToolMessage(
+                        content=f"Successfully transferred to agent",
+                        tool_call_id=tool_call_id
+                    )
+                ```
+            </Accordion>
+            
+            <Accordion title="Context-aware handoff" icon="share-nodes">
+                ```python
+                def agent_with_handoff(state):
+                    """Handle agent transitions with context"""
+                    messages = state["messages"]
+                    
+                    # Process messages
+                    response = model.invoke(messages)
+                    
+                    # Check if handoff is needed
+                    if needs_handoff(response):
+                        # Extract context for next agent
+                        context = extract_handoff_context(response)
+                        handoff = create_handoff_message("current", "next", context)
+                        confirmation = add_handoff_confirmation(handoff)
+                        
+                        return {
+                            "messages": [response, handoff, confirmation],
+                            "handoff_context": context
+                        }
+                    
+                    return {"messages": [response]}
+                
+                def extract_handoff_context(response):
+                    """Extract relevant context for next agent"""
+                    return {
+                        "summary": response.content[:200],
+                        "key_points": extract_key_points(response.content),
+                        "next_steps": identify_next_steps(response.content),
+                        "artifacts": response.metadata.get("artifacts", [])
+                    }
+                ```
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
     
-    response = researcher_model.invoke(relevant_messages)
-    response.metadata = {"agent": "researcher"}
-    
-    return {"messages": [response], "next_agent": "coder"}
-```
-
-### Agent handoffs
-
-```python Handle agent handoffs
-def create_handoff_message(from_agent: str, to_agent: str, context: str):
-    """Create a handoff message between agents"""
-    return AIMessage(
-        content=f"Transferring from {from_agent} to {to_agent}: {context}",
-        tool_calls=[{
-            "name": "transfer_to_agent",
-            "args": {"agent": to_agent, "context": context},
-            "id": f"handoff_{from_agent}_{to_agent}"
-        }]
-    )
-
-def add_handoff_confirmation(handoff_message: AIMessage):
-    """Add confirmation for handoff"""
-    tool_call_id = handoff_message.tool_calls[0]["id"]
-    return ToolMessage(
-        content=f"Successfully transferred to agent",
-        tool_call_id=tool_call_id
-    )
-
-# Example usage in agent node
-def agent_with_handoff(state):
-    messages = state["messages"]
-    
-    # Process messages
-    response = model.invoke(messages)
-    
-    # Check if handoff is needed
-    if needs_handoff(response):
-        handoff = create_handoff_message("current", "next", response.content)
-        confirmation = add_handoff_confirmation(handoff)
-        return {"messages": [response, handoff, confirmation]}
-    
-    return {"messages": [response]}
-```
-
-### Separate agent message views
-
-```python Agent-specific message history
-from typing import Annotated
-from typing_extensions import TypedDict
-from langgraph.graph.message import add_messages
-from langchain_core.messages import SystemMessage
-
-class MultiAgentMessagesState(TypedDict):
-    # Shared message list
-    messages: Annotated[list, add_messages]
-    # Agent-specific views
-    researcher_messages: Annotated[list, add_messages]
-    coder_messages: Annotated[list, add_messages]
-    reviewer_messages: Annotated[list, add_messages]
-
-def update_agent_view(state, agent_name: str, message):
-    """Update agent-specific message view"""
-    # Add to shared messages
-    updates = {"messages": [message]}
-    
-    # Add to agent-specific view
-    agent_key = f"{agent_name}_messages"
-    updates[agent_key] = [message]
-    
-    # Optionally add summary to other agents
-    if message.metadata.get("share_summary"):
-        summary = SystemMessage(
-            f"[{agent_name}]: {message.content[:100]}...",
-            metadata={"type": "agent_summary", "from": agent_name}
-        )
-        for other_agent in ["researcher", "coder", "reviewer"]:
-            if other_agent != agent_name:
-                updates[f"{other_agent}_messages"] = [summary]
-    
-    return updates
-```
+    <Accordion title="Message views" icon="eye">
+        Maintain separate message histories for different agents.
+        
+        <AccordionGroup>
+            <Accordion title="Separate agent views" icon="users">
+                ```python
+                from typing import Annotated
+                from typing_extensions import TypedDict
+                from langgraph.graph.message import add_messages
+                from langchain_core.messages import SystemMessage
+                
+                class MultiAgentMessagesState(TypedDict):
+                    # Shared message list
+                    messages: Annotated[list, add_messages]
+                    # Agent-specific views
+                    researcher_messages: Annotated[list, add_messages]
+                    coder_messages: Annotated[list, add_messages]
+                    reviewer_messages: Annotated[list, add_messages]
+                
+                def update_agent_view(state, agent_name: str, message):
+                    """Update agent-specific message view"""
+                    # Add to shared messages
+                    updates = {"messages": [message]}
+                    
+                    # Add to agent-specific view
+                    agent_key = f"{agent_name}_messages"
+                    updates[agent_key] = [message]
+                    
+                    # Optionally add summary to other agents
+                    if message.metadata.get("share_summary"):
+                        summary = SystemMessage(
+                            f"[{agent_name}]: {message.content[:100]}...",
+                            metadata={"type": "agent_summary", "from": agent_name}
+                        )
+                        for other_agent in ["researcher", "coder", "reviewer"]:
+                            if other_agent != agent_name:
+                                updates[f"{other_agent}_messages"] = [summary]
+                    
+                    return updates
+                ```
+            </Accordion>
+            
+            <Accordion title="Visibility control" icon="eye-slash">
+                ```python
+                class MessageVisibility:
+                    """Control which agents can see which messages"""
+                    
+                    def __init__(self):
+                        self.visibility_rules = {
+                            "researcher": ["public", "research", "planning"],
+                            "coder": ["public", "implementation", "technical"],
+                            "reviewer": ["public", "review", "quality"],
+                            "manager": ["all"]  # Sees everything
+                        }
+                    
+                    def filter_for_agent(self, messages, agent_role):
+                        """Filter messages based on agent visibility"""
+                        allowed_tags = self.visibility_rules.get(agent_role, ["public"])
+                        
+                        if "all" in allowed_tags:
+                            return messages
+                        
+                        return [
+                            msg for msg in messages
+                            if any(tag in msg.metadata.get("visibility", ["public"])
+                                  for tag in allowed_tags)
+                        ]
+                    
+                    def tag_message(self, message, visibility_tags):
+                        """Tag message with visibility metadata"""
+                        message.metadata["visibility"] = visibility_tags
+                        return message
+                ```
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+</AccordionGroup>
 
 ## Invalid chat history handling
 
@@ -1659,164 +2083,307 @@ def clean_message_history(messages):
 
 ## Advanced patterns
 
-Sophisticated message handling patterns:
+Sophisticated message handling patterns for complex use cases:
 
-### Message versioning
-
-<Accordion title="Message versioning implementation">
-```python Track message versions
-import uuid
-from datetime import datetime
-from langchain_core.messages import HumanMessage, AIMessage
-
-class VersionedMessage:
-    """Track message edit history"""
-    
-    def __init__(self, content, role="human"):
-        self.id = str(uuid.uuid4())
-        self.role = role
-        self.versions = [
-            {
-                "content": content,
-                "timestamp": datetime.now(),
-                "version": 1
-            }
-        ]
-    
-    def edit(self, new_content):
-        """Add new version of message"""
-        self.versions.append({
-            "content": new_content,
-            "timestamp": datetime.now(),
-            "version": len(self.versions) + 1
-        })
-    
-    @property
-    def content(self):
-        """Get current content"""
-        return self.versions[-1]["content"]
-    
-    def get_version(self, version_num):
-        """Get specific version"""
-        for v in self.versions:
-            if v["version"] == version_num:
-                return v["content"]
-        return None
-    
-    def to_langchain_message(self):
-        """Convert to LangChain message"""
-        msg_class = HumanMessage if self.role == "human" else AIMessage
-        return msg_class(
-            content=self.content,
-            id=self.id,
-            metadata={
-                "version": len(self.versions),
-                "edited": len(self.versions) > 1
-            }
-        )
-```
-</Accordion>
-
-### Message branching
-
-<Accordion title="Conversation branching implementation">
-```python Conversation branching
-class ConversationTree:
-    """Support branching conversations"""
-    
-    def __init__(self):
-        self.branches = {}
-        self.current_branch = "main"
-    
-    def add_message(self, message, branch=None):
-        """Add message to branch"""
-        branch = branch or self.current_branch
-        if branch not in self.branches:
-            self.branches[branch] = []
-        self.branches[branch].append(message)
-    
-    def create_branch(self, from_branch="main", at_index=-1):
-        """Create new branch from existing conversation"""
-        new_branch_id = f"branch_{len(self.branches)}"
+<AccordionGroup>
+    <Accordion title="Message versioning & history" icon="clock-rotate-left">
+        Track and manage message edit history for audit trails and undo functionality.
         
-        # Copy messages up to branch point
-        source_messages = self.branches[from_branch][:at_index]
-        self.branches[new_branch_id] = source_messages.copy()
+        <AccordionGroup>
+            <Accordion title="Basic versioning" icon="code-branch">
+                ```python
+                import uuid
+                from datetime import datetime
+                from langchain_core.messages import HumanMessage, AIMessage
+                
+                class VersionedMessage:
+                    """Track message edit history"""
+                    
+                    def __init__(self, content, role="human"):
+                        self.id = str(uuid.uuid4())
+                        self.role = role
+                        self.versions = [
+                            {
+                                "content": content,
+                                "timestamp": datetime.now(),
+                                "version": 1
+                            }
+                        ]
+                    
+                    def edit(self, new_content):
+                        """Add new version of message"""
+                        self.versions.append({
+                            "content": new_content,
+                            "timestamp": datetime.now(),
+                            "version": len(self.versions) + 1
+                        })
+                    
+                    @property
+                    def content(self):
+                        """Get current content"""
+                        return self.versions[-1]["content"]
+                    
+                    def get_version(self, version_num):
+                        """Get specific version"""
+                        for v in self.versions:
+                            if v["version"] == version_num:
+                                return v["content"]
+                        return None
+                    
+                    def to_langchain_message(self):
+                        """Convert to LangChain message"""
+                        msg_class = HumanMessage if self.role == "human" else AIMessage
+                        return msg_class(
+                            content=self.content,
+                            id=self.id,
+                            metadata={
+                                "version": len(self.versions),
+                                "edited": len(self.versions) > 1
+                            }
+                        )
+                ```
+            </Accordion>
+            
+            <Accordion title="Diff tracking" icon="code-compare">
+                ```python
+                import difflib
+                
+                class DiffTrackedMessage(VersionedMessage):
+                    """Track changes between message versions"""
+                    
+                    def get_diff(self, v1=None, v2=None):
+                        """Get diff between two versions"""
+                        if v1 is None:
+                            v1 = len(self.versions) - 1
+                        if v2 is None:
+                            v2 = len(self.versions)
+                        
+                        content1 = self.get_version(v1)
+                        content2 = self.get_version(v2)
+                        
+                        differ = difflib.unified_diff(
+                            content1.splitlines(),
+                            content2.splitlines(),
+                            lineterm='',
+                            n=3
+                        )
+                        
+                        return '\n'.join(differ)
+                    
+                    def get_changelog(self):
+                        """Get full changelog"""
+                        changelog = []
+                        for i in range(1, len(self.versions)):
+                            changelog.append({
+                                "from_version": i,
+                                "to_version": i + 1,
+                                "timestamp": self.versions[i]["timestamp"],
+                                "diff": self.get_diff(i, i + 1)
+                            })
+                        return changelog
+                ```
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+    
+    <Accordion title="Conversation branching" icon="code-fork">
+        Support multiple conversation paths and what-if scenarios.
         
-        return new_branch_id
+        <AccordionGroup>
+            <Accordion title="Branch management" icon="sitemap">
+                ```python
+                class ConversationTree:
+                    """Support branching conversations"""
+                    
+                    def __init__(self):
+                        self.branches = {}
+                        self.current_branch = "main"
+                    
+                    def add_message(self, message, branch=None):
+                        """Add message to branch"""
+                        branch = branch or self.current_branch
+                        if branch not in self.branches:
+                            self.branches[branch] = []
+                        self.branches[branch].append(message)
+                    
+                    def create_branch(self, from_branch="main", at_index=-1):
+                        """Create new branch from existing conversation"""
+                        new_branch_id = f"branch_{len(self.branches)}"
+                        
+                        # Copy messages up to branch point
+                        source_messages = self.branches[from_branch][:at_index]
+                        self.branches[new_branch_id] = source_messages.copy()
+                        
+                        return new_branch_id
+                    
+                    def merge_branches(self, branch1, branch2, strategy="append"):
+                        """Merge two conversation branches"""
+                        if strategy == "append":
+                            # Simply append branch2 to branch1
+                            merged = self.branches[branch1] + self.branches[branch2]
+                        elif strategy == "interleave":
+                            # Interleave messages by timestamp
+                            merged = sorted(
+                                self.branches[branch1] + self.branches[branch2],
+                                key=lambda m: m.metadata.get("timestamp", 0)
+                            )
+                        
+                        return merged
+                    
+                    def get_messages(self, branch=None):
+                        """Get messages from branch"""
+                        branch = branch or self.current_branch
+                        return self.branches.get(branch, [])
+                ```
+            </Accordion>
+            
+            <Accordion title="Parallel exploration" icon="route">
+                ```python
+                class ParallelConversations:
+                    """Explore multiple conversation paths simultaneously"""
+                    
+                    def __init__(self, model):
+                        self.model = model
+                        self.conversations = {}
+                    
+                    async def explore_parallel(self, base_messages, variations):
+                        """Explore multiple variations in parallel"""
+                        import asyncio
+                        
+                        tasks = []
+                        for variation_id, variation_msg in variations.items():
+                            messages = base_messages + [variation_msg]
+                            task = self.model.ainvoke(messages)
+                            tasks.append((variation_id, task))
+                        
+                        results = {}
+                        for variation_id, task in tasks:
+                            response = await task
+                            results[variation_id] = response
+                        
+                        return results
+                    
+                    def compare_outcomes(self, results):
+                        """Compare different conversation outcomes"""
+                        comparison = {}
+                        for var_id, response in results.items():
+                            comparison[var_id] = {
+                                "response": response.content,
+                                "sentiment": analyze_sentiment(response.content),
+                                "length": len(response.content),
+                                "tool_calls": len(response.tool_calls) if response.tool_calls else 0
+                            }
+                        return comparison
+                ```
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
     
-    def merge_branches(self, branch1, branch2, strategy="append"):
-        """Merge two conversation branches"""
-        if strategy == "append":
-            # Simply append branch2 to branch1
-            merged = self.branches[branch1] + self.branches[branch2]
-        elif strategy == "interleave":
-            # Interleave messages by timestamp
-            merged = sorted(
-                self.branches[branch1] + self.branches[branch2],
-                key=lambda m: m.metadata.get("timestamp", 0)
-            )
+    <Accordion title="Rich annotations" icon="tags">
+        Add metadata, analysis, and context to messages.
         
-        return merged
-    
-    def get_messages(self, branch=None):
-        """Get messages from branch"""
-        branch = branch or self.current_branch
-        return self.branches.get(branch, [])
-```
-</Accordion>
-
-### Message annotations
-
-<Accordion title="Message annotations implementation">
-```python Rich message annotations
-class AnnotatedMessage:
-    """Messages with rich annotations"""
-    
-    def __init__(self, message):
-        self.message = message
-        self.annotations = {
-            "sentiment": None,
-            "topics": [],
-            "entities": [],
-            "intent": None,
-            "confidence": None
-        }
-    
-    def annotate(self, annotation_type, value):
-        """Add annotation to message"""
-        self.annotations[annotation_type] = value
-        return self
-    
-    def to_langchain_message(self):
-        """Convert to LangChain message with annotations"""
-        msg = self.message
-        msg.metadata = {
-            **msg.metadata,
-            "annotations": self.annotations
-        }
-        return msg
-
-# Usage example
-def annotate_conversation(messages, analyzer):
-    """Add annotations to messages"""
-    annotated = []
-    
-    for msg in messages:
-        ann_msg = AnnotatedMessage(msg)
-        
-        # Analyze message
-        analysis = analyzer.analyze(msg.content)
-        
-        ann_msg.annotate("sentiment", analysis["sentiment"])
-        ann_msg.annotate("topics", analysis["topics"])
-        ann_msg.annotate("intent", analysis["intent"])
-        
-        annotated.append(ann_msg.to_langchain_message())
-    
-    return annotated
-```
-</Accordion>
+        <AccordionGroup>
+            <Accordion title="Semantic annotations" icon="bookmark">
+                ```python
+                class AnnotatedMessage:
+                    """Messages with rich annotations"""
+                    
+                    def __init__(self, message):
+                        self.message = message
+                        self.annotations = {
+                            "sentiment": None,
+                            "topics": [],
+                            "entities": [],
+                            "intent": None,
+                            "confidence": None
+                        }
+                    
+                    def annotate(self, annotation_type, value):
+                        """Add annotation to message"""
+                        self.annotations[annotation_type] = value
+                        return self
+                    
+                    def to_langchain_message(self):
+                        """Convert to LangChain message with annotations"""
+                        msg = self.message
+                        msg.metadata = {
+                            **msg.metadata,
+                            "annotations": self.annotations
+                        }
+                        return msg
+                
+                # Usage example
+                def annotate_conversation(messages, analyzer):
+                    """Add annotations to messages"""
+                    annotated = []
+                    
+                    for msg in messages:
+                        ann_msg = AnnotatedMessage(msg)
+                        
+                        # Analyze message
+                        analysis = analyzer.analyze(msg.content)
+                        
+                        ann_msg.annotate("sentiment", analysis["sentiment"])
+                        ann_msg.annotate("topics", analysis["topics"])
+                        ann_msg.annotate("intent", analysis["intent"])
+                        
+                        annotated.append(ann_msg.to_langchain_message())
+                    
+                    return annotated
+                ```
+            </Accordion>
+            
+            <Accordion title="Context linking" icon="link">
+                ```python
+                class LinkedMessage:
+                    """Messages with contextual links"""
+                    
+                    def __init__(self, message):
+                        self.message = message
+                        self.links = {
+                            "references": [],  # Messages this refers to
+                            "referenced_by": [],  # Messages that refer to this
+                            "related": [],  # Related messages
+                            "context": None  # External context
+                        }
+                    
+                    def add_reference(self, message_id, ref_type="explicit"):
+                        """Add reference to another message"""
+                        self.links["references"].append({
+                            "message_id": message_id,
+                            "type": ref_type,  # explicit, implicit, topic
+                            "timestamp": datetime.now()
+                        })
+                    
+                    def set_context(self, context_data):
+                        """Set external context"""
+                        self.links["context"] = {
+                            "data": context_data,
+                            "timestamp": datetime.now()
+                        }
+                    
+                    def find_related(self, messages, threshold=0.7):
+                        """Find related messages by similarity"""
+                        from sklearn.metrics.pairwise import cosine_similarity
+                        
+                        # Compute embeddings (simplified)
+                        embeddings = [get_embedding(m.content) for m in messages]
+                        my_embedding = get_embedding(self.message.content)
+                        
+                        # Find similar messages
+                        similarities = cosine_similarity([my_embedding], embeddings)[0]
+                        related = [
+                            messages[i].id for i, sim in enumerate(similarities)
+                            if sim > threshold and messages[i].id != self.message.id
+                        ]
+                        
+                        self.links["related"] = related
+                        return related
+                ```
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+</AccordionGroup>
 
 ## Message utilities
 
