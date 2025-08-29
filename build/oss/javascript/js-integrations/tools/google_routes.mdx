@@ -1,0 +1,31 @@
+---
+title: Google Routes Tool
+---
+
+The Google Routes Tool allows your agent to utilize the Google Routes API in order to find a route between
+two or more destinations. You can get a route by walk, transit, car, motorcycle and bicycle.
+
+## Setup
+
+You will need to get an API key from [Google here](https://developers.google.com/maps/documentation/places/web-service/overview)
+and [enable the Routes API](https://console.cloud.google.com/apis/library/routes.googleapis.com). Then, set your API key
+as `process.env.GOOGLE_ROUTES_API_KEY` or pass it in as an `apiKey` constructor argument.
+
+## Usage
+
+import IntegrationInstallTooltip from '/snippets/javascript-integrations/integration-install-tooltip.mdx';
+
+<IntegrationInstallTooltip/>
+
+```bash npm
+npm install @langchain/openai @langchain/community @langchain/core
+```
+
+import GoogleRoutes from "/snippets/javascript-integrations/examples/tools/google_routes.mdx";
+
+<GoogleRoutes />
+
+## Related
+
+- Tool [conceptual guide](/oss/javascript/concepts/tools)
+- Tool [how-to guides](/oss/javascript/how-to/#tools)
