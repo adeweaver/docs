@@ -14,7 +14,7 @@ Messages are structured objects that contain:
 
 * <Icon icon="user" size={16} /> [**Role**](#message-types) - Identifies the
 message type (e.g. `system`, `user`)
-* <Icon icon="folder-closed" size={16} /> [**Content**](#message-content) - Types
+* <Icon icon="folder-closed" size={16} /> [**Content**](#content) - Types
 of content: text, images, audio, documents, and more
 * <Icon icon="tag" size={16} /> [**Metadata**]() - Optional fields such as response
 information, message IDs, and token usage
@@ -177,7 +177,7 @@ Different [providers]() handle `SystemMessage` in various ways:
 ## Human message
 
 A `HumanMessage` represent user input and interactions. They can contain text,
-images, audio, files, and any other multimodal [content](#message-content).
+images, audio, files, and any other multimodal [content](#content).
 
 ### Text content
 
@@ -360,7 +360,7 @@ tool_message = ToolMessage(
     </Accordion>
 </Note>
 
-## Message content
+## Content
 
 Different providers return model responses in various formats. To standardize
 this, LangChain has a standard collection of **content blocks** to enable
@@ -397,7 +397,7 @@ universal_message = HumanMessage([
 ```
 </CodeGroup>
 
-### Standard content types
+### Standard content blocks
 
 <CardGroup cols={2}>
     <Card title="Text" icon="align-left">
@@ -789,63 +789,67 @@ automatic ID generation and validation:
 
 #### Creating content blocks
 
-<CodeGroup>
-```python Text blocks
-from langchain_core.messages.content import create_text_block
+<Tabs>
+  <Tab title="Text blocks">
+    ```python
+    from langchain_core.messages.content import create_text_block
 
-# Simple text block with auto-generated ID
-text = create_text_block("Hello world")
-# {"type": "text", "text": "Hello world", "id": "lc_text_..."}
+    # Simple text block with auto-generated ID
+    text = create_text_block("Hello world")
+    # {"type": "text", "text": "Hello world", "id": "lc_text_..."}
 
-# With annotations
-text = create_text_block(
-    "Python is popular [1]",
-    annotations=[{
-        "type": "citation",
-        "url": "https://survey.com",
-        "start_index": 18,
-        "end_index": 21
-    }]
-)
-```
+    # With annotations
+    text = create_text_block(
+        "Python is popular [1]",
+        annotations=[{
+            "type": "citation",
+            "url": "https://survey.com",
+            "start_index": 18,
+            "end_index": 21
+        }]
+    )
+    ```
+  </Tab>
+  <Tab title="Tool calls">
+    ```python
+    from langchain_core.messages.content import create_tool_call
 
-```python Tool calls
-from langchain_core.messages.content import create_tool_call
+    # Create tool call with auto-ID
+    tool_call = create_tool_call(
+        name="search",
+        args={"query": "Python tutorials"}
+    )
+    # {"type": "tool_call", "name": "search", "args": {...}, "id": "lc_tool_..."}
 
-# Create tool call with auto-ID
-tool_call = create_tool_call(
-    name="search",
-    args={"query": "Python tutorials"}
-)
-# {"type": "tool_call", "name": "search", "args": {...}, "id": "lc_tool_..."}
-
-# With custom ID
-tool_call = create_tool_call(
-    name="calculator",
-    args={"expression": "2 + 2"},
-    id="custom_id_123"
-)
-```
-
-```python Provider-specific data
-# Extra fields go into 'extras' dict
-text = create_text_block(
-    "Hello",
-    custom_field="value",
-    provider_metadata={"model": "gpt-4"}
-)
-# Result:
-# {
-#   "type": "text",
-#   "text": "Hello",
-#   "id": "lc_text_...",
-#   "extras": {
-#     "custom_field": "value",
-#     "provider_metadata": {"model": "gpt-4"}
-#   }
-# }
-```
-</CodeGroup>
+    # With custom ID
+    tool_call = create_tool_call(
+        name="calculator",
+        args={"expression": "2 + 2"},
+        id="custom_id_123"
+    )
+    ```
+  </Tab>
+  <Tab title="Provider-specific data">
+    ```python
+    # Extra fields go into 'extras' dict
+    text = create_text_block(
+        "Hello",
+        custom_field="value",
+        provider_metadata={"model": "gpt-4"}
+    )
+    # Result:
+    # {
+    #   "type": "text",
+    #   "text": "Hello",
+    #   "id": "lc_text_...",
+    #   "extras": {
+    #     "custom_field": "value",
+    #     "provider_metadata": {"model": "gpt-4"}
+    #   }
+    # }
+    ```
+  </Tab>
+</Tabs>
 
 #### Using factories in messages
 
