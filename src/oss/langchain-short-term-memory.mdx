@@ -594,6 +594,66 @@ await agent.invoke(
 ```
 :::
 
+### Prompt
+
+Access short term memory (state) in a dynamic prompt function by injecting the agent's state into the prompt function signature.
+
+```python
+from langchain_core.messages import AnyMessage
+from langchain.agents import create_react_agent, AgentState
+from langgraph.runtime import get_runtime
+from typing import TypedDict
+
+
+class CustomContext(TypedDict):
+    user_name: str
+
+
+def get_weather(city: str) -> str:
+    """Get the weather in a city."""
+    return f"The weather in {city} is always sunny!"
+
+
+def prompt(state: AgentState) -> list[AnyMessage]:
+    user_name = get_runtime(CustomContext).context["user_name"]
+    system_msg = f"You are a helpful assistant. Address the user as {user_name}."
+    return [{"role": "system", "content": system_msg}] + state["messages"]
+
+
+agent = create_react_agent(
+    model="openai:gpt-5-nano",
+    tools=[get_weather],
+    prompt=prompt,
+    context_schema=CustomContext,
+)
+
+result = agent.invoke(
+    {"messages": [{"role": "user", "content": "What is the weather in SF?"}]},
+    context=CustomContext(user_name="John Smith"),
+)
+for msg in result["messages"]:
+    msg.pretty_print()
+```
+
+```shell title="Output"
+================================ Human Message =================================
+
+What is the weather in SF?
+================================== Ai Message ==================================
+Tool Calls:
+  get_weather (call_WFQlOGn4b2yoJrv7cih342FG)
+ Call ID: call_WFQlOGn4b2yoJrv7cih342FG
+  Args:
+    city: San Francisco
+================================= Tool Message =================================
+Name: get_weather
+
+The weather in San Francisco is always sunny!
+================================== Ai Message ==================================
+
+Hi John Smith, the weather in San Francisco is always sunny!
+```
+
 ### Pre Model Hook
 
 Access short term memory (state) in a pre model hook by injecting the agent's state into the hook signature.
