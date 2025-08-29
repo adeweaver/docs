@@ -2393,24 +2393,16 @@ else:
     blocks = response.content_blocks
 ```
 
+### Saving content blocks
 
-
-### Rich model responses
-
-With `output_version="v1"`, models return structured content blocks:
+With `output_version='v1'`, models store content blocks in `content`:
 
 ```python
 model = init_chat_model(model="", provider="", output_version="v1")
 response = model.invoke("Analyze the sales data and show your reasoning")
 
-# Response contains structured blocks  
-for block in response.content_blocks:
-    if block["type"] == "reasoning":
-        print(f"Model reasoning: {block['reasoning']}")
-    elif block["type"] == "text": 
-        print(f"Final answer: {block['text']}")
-    elif block["type"] == "tool_call":
-        print(f"Tool used: {block['name']} with {block['args']}")
+response.content  # List of ContentBlock objects
+response.content_blocks  # Same as above, typed
 ```
 
 
