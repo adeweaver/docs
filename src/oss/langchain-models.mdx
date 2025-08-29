@@ -36,7 +36,8 @@ The primary interface for interacting with models in LangChain are the
 different LLMs from various providers.
 
 The easiest way start interacting with a model in LangChain is to use
-`init_chat_model()` to initialize one from a model [provider]() of your choice.
+`init_chat_model()` to initialize one from a model [provider](/oss/integrations/providers) of
+your choice.
 
 <CodeGroup>
 ```python Initialize a ChatModel
@@ -96,6 +97,9 @@ model = init_chat_model(
 response = model.invoke("Why do parrots talk?")
 ``` */}
 </CodeGroup>
+
+See the `init_chat_model` [API reference](https://python.langchain.com/api_reference/langchain/chat_models/langchain.chat_models.base.init_chat_model.html)
+for more detail.
 
 ### Key methods
 
@@ -1164,3 +1168,107 @@ These configuration values are particularly useful when:
 
 For more information on all supported `RunnableConfig` attributes, see the
 [`RunnableConfig`]() reference.
+
+### Configurable models
+
+You can also create a runtime-configurable model by specifying `configurable_fields`.
+If you don't specify a model value, then "model" and "model_provider" be configurable by default.
+
+```python
+from langchain.chat_models import init_chat_model
+
+configurable_model = init_chat_model(temperature=0)
+
+configurable_model.invoke(
+    "what's your name",
+    config={"configurable": {"model": "gpt-5-nano"}},  # Run with GPT-5-Nano
+)
+configurable_model.invoke(
+    "what's your name",
+    config={"configurable": {"model": "claude-3-5-sonnet-latest"}},  # run with Claude
+)
+```
+
+See below for additional examples.
+
+<Accordion title="Configurable model with default values">
+We can create a configurable model with default model values, specify which parameters
+are configurable, and add prefixes to configurable params:
+```python
+first_llm = init_chat_model(
+    model="gpt-4.1-mini",
+    temperature=0,
+    configurable_fields=("model", "model_provider", "temperature", "max_tokens"),
+    config_prefix="first",  # useful when you have a chain with multiple models
+)
+
+first_llm.invoke("what's your name")
+```
+```python
+first_llm.invoke(
+    "what's your name",
+    config={
+        "configurable": {
+            "first_model": "claude-3-5-sonnet-latest",
+            "first_temperature": 0.5,
+            "first_max_tokens": 100,
+        }
+    },
+)
+```
+</Accordion>
+
+<Accordion title="Using a configurable model declaratively">
+We can call declarative operations like `bind_tools`, `with_structured_output`,
+`with_configurable`, etc. on a configurable model and chain a configurable model in the
+same way that we would a regularly instantiated chat model object.
+```python
+from pydantic import BaseModel, Field
+
+
+class GetWeather(BaseModel):
+    """Get the current weather in a given location"""
+
+    location: str = Field(..., description="The city and state, e.g. San Francisco, CA")
+
+
+class GetPopulation(BaseModel):
+    """Get the current population in a given location"""
+
+    location: str = Field(..., description="The city and state, e.g. San Francisco, CA")
+
+
+llm = init_chat_model(temperature=0)
+llm_with_tools = llm.bind_tools([GetWeather, GetPopulation])
+
+llm_with_tools.invoke(
+    "what's bigger in 2024 LA or NYC", config={"configurable": {"model": "gpt-4.1-mini"}}
+).tool_calls
+```
+```
+[{'name': 'GetPopulation',
+  'args': {'location': 'Los Angeles, CA'},
+  'id': 'call_Ga9m8FAArIyEjItHmztPYA22',
+  'type': 'tool_call'},
+ {'name': 'GetPopulation',
+  'args': {'location': 'New York, NY'},
+  'id': 'call_jh2dEvBaAHRaw5JUDthOs7rt',
+  'type': 'tool_call'}]
+```
+```python
+llm_with_tools.invoke(
+    "what's bigger in 2024 LA or NYC",
+    config={"configurable": {"model": "claude-3-5-sonnet-latest"}},
+).tool_calls
+```
+```
+[{'name': 'GetPopulation',
+  'args': {'location': 'Los Angeles, CA'},
+  'id': 'toolu_01JMufPf4F4t2zLj7miFeqXp',
+  'type': 'tool_call'},
+ {'name': 'GetPopulation',
+  'args': {'location': 'New York City, NY'},
+  'id': 'toolu_01RQBHcE8kEEbYTuuS8WqY1u',
+  'type': 'tool_call'}]
+```
+</Accordion>
