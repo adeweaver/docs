@@ -23,14 +23,14 @@ interacted with programatically to build complex, stateful applications.
 In addition to basic text generation, many models support the following advanced
 features:
 
-* <Icon icon="hammer" size={16} /> [Tool calling](#tool-calling) - enables models to interact with external
-services, APIs, and databases.
-* <Icon icon="shapes" size={16} /> [Structured output](#structured-output) - constrain the response format to
-match a provided schema.
-* <Icon icon="image" size={16} /> [Multimodality](#multimodality) - the ability to process data other than text,
-such as images.
-* <Icon icon="brain" size={16} /> [Reasoning](#reasoning) - the ability to perform multi-step reasoning to
-arrive at a conclusion.
+* <Icon icon="hammer" size={16} /> [Tool calling](#tool-calling) - enables
+models to interact with external services, APIs, and databases.
+* <Icon icon="shapes" size={16} /> [Structured output](#structured-output) -
+constrain the response format to match a provided schema.
+* <Icon icon="image" size={16} /> [Multimodality](#multimodality) - the ability
+to process data other than text, such as images.
+* <Icon icon="brain" size={16} /> [Reasoning](#reasoning) - the ability to
+perform multi-step reasoning to arrive at a conclusion.
 
 ## Basic usage
 
@@ -39,8 +39,8 @@ model abstractions. They provide a consistent interface for accessing different
 LLMs from various providers.
 
 The easiest way start interacting with a model in LangChain is to use
-`init_chat_model()` to initialize one from a model [provider](/oss/integrations/providers) of
-your choice.
+`init_chat_model()` to initialize one from a model
+[provider](/oss/integrations/providers) of your choice.
 
 <CodeGroup>
 ```python Initialize a chat model
@@ -101,7 +101,7 @@ response = model.invoke("Why do parrots talk?")
 ``` */}
 </CodeGroup>
 
-See @[init_chat_model] for more detail.
+See @[init_chat_model()] for more detail.
 
 ### Key methods
 
@@ -135,8 +135,8 @@ include:
 
 <ParamField body="api_key" type="string">
     The key required for authenticating with the model's provider. This is
-    usually issued when you sign up for access to the model. Can often be accessed from
-    an environment variable.
+    usually issued when you sign up for access to the model. Can often be
+    accessed from an environment variable.
 </ParamField>
 
 <ParamField body="temperature" type="number">
@@ -236,8 +236,8 @@ As opposed to `invoke()`, which returns a single `AIMessage` after the model has
 finished generating its full response, `stream()` returns multiple
 `AIMessageChunk` objects, each containing a portion of the output text.
 
-Importantly, each `AIMessageChunk` in a stream is designed to be gathered into a full
-message via summation:
+Importantly, each `AIMessageChunk` in a stream is designed to be gathered into a
+full message via summation:
 
 ```python Construct AIMessage
 full = None  # None | AIMessageChunk
@@ -256,9 +256,9 @@ print(full.content_blocks)
 # [{"type": "text", "text": "The sky is typically blue..."}]
 ```
 
-The resulting full message can be treated the same as a message that was generated
-with [invoke](#invoke) - for example, it can be aggregated into a message history
-and passed back to the model as conversational context.
+The resulting full message can be treated the same as a message that was
+generated with [invoke](#invoke) - for example, it can be aggregated into a
+message history and passed back to the model as conversational context.
 
 <Warning>
     Streaming is only effective if all steps in the program know how to process
@@ -286,9 +286,9 @@ and passed back to the model as conversational context.
     non-streaming invoke method but still want to stream the entire application,
     including intermediate results from the chat model.
 
-    In [LangGraph agents](/oss/python/langchain-agents), for example, you can call
-    `model.invoke` within nodes, but LangChain will automatically delegate to streaming
-    if running in a streaming mode.
+    In [LangGraph agents](/oss/python/langchain-agents), for example, you can
+    call `model.invoke()` within nodes, but LangChain will automatically
+    delegate to streaming if running in a streaming mode.
 
     #### How it works
 
@@ -309,8 +309,8 @@ and passed back to the model as conversational context.
     LangChain chat models can also stream semantic events using the
     @[astream_events] API.
 
-    This simplifies filtering based on event types and other metadata, and will aggregate
-    the full message in the background. See below for an example.
+    This simplifies filtering based on event types and other metadata, and will
+    aggregate the full message in the background. See below for an example.
 
     ```python
     async for event in model.astream_events("Hello"):
@@ -346,8 +346,9 @@ and passed back to the model as conversational context.
 
 <Note>
 
-This section describes a chat model method `.batch`, which parallelizes model calls
-client-side. It is distinct from batch APIs supported by inference providers.
+This section describes a chat model method `.batch`, which parallelizes model
+calls client-side. It is distinct from batch APIs supported by inference
+providers.
 
 </Note>
 
@@ -416,8 +417,8 @@ guide on [context engineering]() for strategies to effectively manage context.
 Models can request to call tools that perform tasks such as fetching data from a
 database, searching the web, or running code. Tools are pairings of:
 
-1. A schema, including the name of the tool, a description, and/or argument definitions (often
-defined with something like JSON schema)
+1. A schema, including the name of the tool, a description, and/or argument
+definitions (often defined with something like JSON schema)
 2. A function or coroutine to execute.
 
 <Note>
@@ -430,13 +431,13 @@ them using `.bind_tools()`. In subsequent invocations, the model can choose to
 call any of the bound tools as needed.
 
 Some model providers offer built-in tools that can be enabled via model
-parameters. Check the respective [provider reference](/oss/integrations/providers) for
-details.
+parameters. Check the respective
+[provider reference](/oss/integrations/providers) for details.
 
 <Tip>
 
-See the [tools guide](/oss/langchain-tools) for details and other options for creating
-tools.
+See the [tools guide](/oss/langchain-tools) for details and other options for
+creating tools.
 
 </Tip>
 
@@ -462,15 +463,15 @@ When binding user-defined tools, the model's response includes a **request** to
 execute a tool. It is up to you to perform the requested action and return the
 result back to the model for use in subsequent reasoning.
 
-The LangGraph framework simplifies the orchestration of model and tool calls. See the
-[Agent guides](/oss/langchain-agents) to get started. Below, we show some simple
-patterns for illustration.
+The LangGraph framework simplifies the orchestration of model and tool calls.
+See the [Agent guides](/oss/langchain-agents) to get started. Below, we show
+some simple patterns for illustration.
 
 <AccordionGroup>
     <Accordion title="Tool execution loop">
-        When a model returns tool calls, you need to execute the tools and pass the
-        results back to the model. This creates a conversation loop where the model
-        can use tool results to generate its final response.
+        When a model returns tool calls, you need to execute the tools and pass
+        the results back to the model. This creates a conversation loop where
+        the model can use tool results to generate its final response.
 
         ```python Tool execution loop
         # Bind (potentially multiple) tools to the model
@@ -544,8 +545,8 @@ patterns for illustration.
             results.append(result)
         ```
 
-        The model intelligently determines when parallel execution is appropriate
-        based on the independence of the requested operations.
+        The model intelligently determines when parallel execution is
+        appropriate based on the independence of the requested operations.
     </Accordion>
     
     <Accordion title="Streaming tool calls">
@@ -689,7 +690,8 @@ for enforcing structured outputs.
 <Accordion title="Example: get AIMessage output alongside parsed structure">
 
 It can be useful to return the raw `AIMessage` object alongside the parsed
-representation, to access response metadata such as token counts and other information.
+representation, to access response metadata such as token counts and other
+information.
 
 ```python highlight={10}
 from pydantic import BaseModel, Field
@@ -765,8 +767,10 @@ encapsulate the data. See examples below.
 All LangChain chat models with underlying multimodal capabilities support:
 
 1. Data in the cross-provider standard format (shown below)
-2. OpenAI [chat completions](https://platform.openai.com/docs/guides/images-vision?api-mode=chat) format
-3. Any format that is native to that specific provider (e.g., Anthropic models accept Anthropic native format)
+2. OpenAI [chat completions](https://platform.openai.com/docs/guides/images-vision?api-mode=chat)
+format
+3. Any format that is native to that specific provider (e.g., Anthropic models
+accept Anthropic native format)
 
 </Tip>
 
@@ -859,8 +863,8 @@ All LangChain chat models with underlying multimodal capabilities support:
 
 Some models can also return multimodal data as part of their response.
 
-In these cases, the resulting `AIMessage.content_blocks` will contain blocks with
-type `"image`.
+In these cases, the resulting `AIMessage.content_blocks` will contain blocks
+with type `"image`.
 
 See the [Integrations page](/oss/integrations/providers) for details on your
 specific providers.
@@ -1074,8 +1078,8 @@ AIMessage objects produced by the corresponding model. For more details, see the
 
 <Note>
 
-Some provider APIs, notably OpenAI and Azure OpenAI chat completions, require users
-opt-in to receiving token usage data in streaming contexts. See
+Some provider APIs, notably OpenAI and Azure OpenAI chat completions, require
+users opt-in to receiving token usage data in streaming contexts. See
 [this section](/oss/integrations/chat/openai#streaming-usage-metadata) of the
 integration guide for details.
 
@@ -1099,15 +1103,19 @@ result_2 = llm_2.invoke("Hello", config={"callbacks": [callback]})
 callback.usage_metadata
 ```
 ```
-{'gpt-4o-mini-2024-07-18': {'input_tokens': 8,
-  'output_tokens': 10,
-  'total_tokens': 18,
-  'input_token_details': {'audio': 0, 'cache_read': 0},
-  'output_token_details': {'audio': 0, 'reasoning': 0}},
- 'claude-3-5-haiku-20241022': {'input_tokens': 8,
-  'output_tokens': 21,
-  'total_tokens': 29,
-  'input_token_details': {'cache_read': 0, 'cache_creation': 0}}}
+{
+    'gpt-4o-mini-2024-07-18': {
+        'input_tokens': 8,
+        'output_tokens': 10,
+        'total_tokens': 18,
+        'input_token_details': {'audio': 0, 'cache_read': 0},
+        'output_token_details': {'audio': 0, 'reasoning': 0}},
+        'claude-3-5-haiku-20241022': {'input_tokens': 8,
+        'output_tokens': 21,
+        'total_tokens': 29,
+        'input_token_details': {'cache_read': 0, 'cache_creation': 0}
+    }
+}
 ```
 </Tab>
 <Tab title="Context manager">
@@ -1124,15 +1132,19 @@ with get_usage_metadata_callback() as cb:
     print(cb.usage_metadata)
 ```
 ```
-{'gpt-4o-mini-2024-07-18': {'input_tokens': 8,
-  'output_tokens': 10,
-  'total_tokens': 18,
-  'input_token_details': {'audio': 0, 'cache_read': 0},
-  'output_token_details': {'audio': 0, 'reasoning': 0}},
- 'claude-3-5-haiku-20241022': {'input_tokens': 8,
-  'output_tokens': 21,
-  'total_tokens': 29,
-  'input_token_details': {'cache_read': 0, 'cache_creation': 0}}}
+{
+    'gpt-4o-mini-2024-07-18': {
+        'input_tokens': 8,
+        'output_tokens': 10,
+        'total_tokens': 18,
+        'input_token_details': {'audio': 0, 'cache_read': 0},
+        'output_token_details': {'audio': 0, 'reasoning': 0}},
+        'claude-3-5-haiku-20241022': {'input_tokens': 8,
+        'output_tokens': 21,
+        'total_tokens': 29,
+        'input_token_details': {'cache_read': 0, 'cache_creation': 0}
+    }
+}
 ```
 </Tab>
 </Tabs>
@@ -1200,8 +1212,9 @@ For more information on all supported `RunnableConfig` attributes, see the
 
 ### Configurable models
 
-You can also create a runtime-configurable model by specifying `configurable_fields`.
-If you don't specify a model value, then "model" and "model_provider" be configurable by default.
+You can also create a runtime-configurable model by specifying
+`configurable_fields`. If you don't specify a model value, then `'model'` and
+`'model_provider'` will be configurable by default.
 
 ```python
 from langchain.chat_models import init_chat_model
@@ -1221,8 +1234,8 @@ configurable_model.invoke(
 See below for additional examples.
 
 <Accordion title="Configurable model with default values">
-We can create a configurable model with default model values, specify which parameters
-are configurable, and add prefixes to configurable params:
+We can create a configurable model with default model values, specify which
+parameters are configurable, and add prefixes to configurable params:
 ```python
 first_llm = init_chat_model(
     model="gpt-4.1-mini",
@@ -1249,8 +1262,8 @@ first_llm.invoke(
 
 <Accordion title="Using a configurable model declaratively">
 We can call declarative operations like `bind_tools`, `with_structured_output`,
-`with_configurable`, etc. on a configurable model and chain a configurable model in the
-same way that we would a regularly instantiated chat model object.
+`with_configurable`, etc. on a configurable model and chain a configurable model
+in the same way that we would a regularly instantiated chat model object.
 ```python
 from pydantic import BaseModel, Field
 
@@ -1275,14 +1288,20 @@ llm_with_tools.invoke(
 ).tool_calls
 ```
 ```
-[{'name': 'GetPopulation',
-  'args': {'location': 'Los Angeles, CA'},
-  'id': 'call_Ga9m8FAArIyEjItHmztPYA22',
-  'type': 'tool_call'},
- {'name': 'GetPopulation',
-  'args': {'location': 'New York, NY'},
-  'id': 'call_jh2dEvBaAHRaw5JUDthOs7rt',
-  'type': 'tool_call'}]
+[
+    {
+        'name': 'GetPopulation',
+        'args': {'location': 'Los Angeles, CA'},
+        'id': 'call_Ga9m8FAArIyEjItHmztPYA22',
+        'type': 'tool_call'
+    },
+    {
+        'name': 'GetPopulation',
+        'args': {'location': 'New York, NY'},
+        'id': 'call_jh2dEvBaAHRaw5JUDthOs7rt',
+        'type': 'tool_call'
+    }
+]
 ```
 ```python
 llm_with_tools.invoke(
@@ -1291,13 +1310,19 @@ llm_with_tools.invoke(
 ).tool_calls
 ```
 ```
-[{'name': 'GetPopulation',
-  'args': {'location': 'Los Angeles, CA'},
-  'id': 'toolu_01JMufPf4F4t2zLj7miFeqXp',
-  'type': 'tool_call'},
- {'name': 'GetPopulation',
-  'args': {'location': 'New York City, NY'},
-  'id': 'toolu_01RQBHcE8kEEbYTuuS8WqY1u',
-  'type': 'tool_call'}]
+[
+    {
+        'name': 'GetPopulation',
+        'args': {'location': 'Los Angeles, CA'},
+        'id': 'toolu_01JMufPf4F4t2zLj7miFeqXp',
+        'type': 'tool_call'
+    },
+    {
+        'name': 'GetPopulation',
+        'args': {'location': 'New York City, NY'},
+        'id': 'toolu_01RQBHcE8kEEbYTuuS8WqY1u',
+        'type': 'tool_call'
+    }
+]
 ```
 </Accordion>
