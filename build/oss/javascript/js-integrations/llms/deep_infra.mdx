@@ -1,0 +1,26 @@
+---
+title: DeepInfra
+---
+
+LangChain supports LLMs hosted by [Deep Infra](https://deepinfra.com/) through the `DeepInfra` wrapper.
+First, you'll need to install the `@langchain/community` package:
+
+import IntegrationInstallTooltip from '/snippets/javascript-integrations/integration-install-tooltip.mdx';
+
+<IntegrationInstallTooltip/>
+
+```bash npm
+npm install @langchain/community @langchain/core
+```
+
+You'll need to obtain an API key and set it as an environment variable named `DEEPINFRA_API_TOKEN`
+(or pass it into the constructor), then call the model as shown below:
+
+import Deepinfra from "/snippets/javascript-integrations/examples/models/llm/deepinfra.mdx";
+
+<Deepinfra />
+
+## Related
+
+- LLM [conceptual guide](/oss/javascript/concepts/text_llms)
+- LLM [how-to guides](/oss/javascript/how-to/#llms)
