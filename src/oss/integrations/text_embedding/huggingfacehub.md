@@ -1,5 +1,6 @@
 ---
 title: Hugging Face
+sidebarTitle: HuggingFaceEmbeddings
 ---
 
 Let's load the Hugging Face Embedding class.
