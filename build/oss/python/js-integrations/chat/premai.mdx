@@ -1,0 +1,31 @@
+---
+title: ChatPrem
+---
+
+## Setup
+
+1. Create a Prem AI account and get your API key [here](https://studio.premai.io/sign-up).
+2. Export or set your API key inline. The ChatPrem class defaults to `process.env.PREM_API_KEY`.
+
+```bash
+export PREM_API_KEY=your-api-key
+```
+
+You can use models provided by Prem AI as follows:
+
+import IntegrationInstallTooltip from '/snippets/javascript-integrations/integration-install-tooltip.mdx';
+
+<IntegrationInstallTooltip/>
+
+```bash npm
+npm install @langchain/community @langchain/core
+```
+
+import IntegrationPremai from "/snippets/javascript-integrations/examples/models/chat/integration_premai.mdx";
+
+<IntegrationPremai />
+
+## Related
+
+- Chat model [conceptual guide](/oss/python/concepts/chat_models)
+- Chat model [how-to guides](/oss/python/how-to/#chat-models)
