@@ -199,9 +199,9 @@ multimodal data, tool calls, and provider-specific metadata that you can later
 access.
 
 <Note>
-    AIMessage objects are returned by the model when invoking it, but that
+    `AIMessage` objects are returned by the model when invoking it, but that
     doesn't mean that's the only place they can be created. Model providers weight
-    different types of messages differently, which means you can use an AIMessage
+    different types of messages differently, which means you can use an `AIMessage`
     to alter model responses, tool calls, and other data.
 </Note>
 
