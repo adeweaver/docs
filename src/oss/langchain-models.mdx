@@ -337,6 +337,12 @@ for response in model.batch_as_completed([
 
 For more details on batching, see the [reference]().
 
+## Context windows
+
+Each model has a <Tooltip tip="The maximum number of tokens a model can process in a single request, including both input and output tokens">context window</Tooltip>
+that determines how much text it can process at once. To learn more, see our
+guide on [context engineering]() for strategies to effectively manage context.
+
 ## Advanced features
 
 <Icon icon="hammer" size={32} />
