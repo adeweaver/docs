@@ -550,22 +550,131 @@ result back to the model for use in subsequent reasoning.
 
 Models can be requested to provide their response in a format matching a given
 schema. This is useful for ensuring the output can be easily parsed and used in
-subsequent processing.
+subsequent processing. LangChain supports multiple schema types and methods
+for enforcing structured outputs.
 
-```python Structured output highlight={12-14}
+<Tabs>
+    <Tab title="Pydantic">
+        Pydantic models provide the richest feature set with field validation,
+        descriptions, and nested structures.
+
+        ```python highlight={3-8,10-12}
+        from pydantic import BaseModel, Field
+
+        class Movie(BaseModel):
+            """A movie with details."""
+            title: str = Field(..., description="The title of the movie")
+            year: int = Field(..., description="The year the movie was released")
+            director: str = Field(..., description="The director of the movie")
+            rating: float = Field(..., description="The movie's rating out of 10")
+
+        model_with_structure = model.with_structured_output(Movie)
+        response = model_with_structure.invoke("Provide details about the movie Inception")
+        print(response)  # Movie(title="Inception", year=2010, director="Christopher Nolan", rating=8.8)
+        ```
+    </Tab>
+    <Tab title="TypedDict">
+        `TypedDict` provides a simpler alternative using Python's built-in
+        typing, ideal when you don't need runtime validation.
+
+        ```python highlight={3-7,9-11}
+        from typing_extensions import TypedDict, Annotated
+
+        class MovieDict(TypedDict):
+            """A movie with details."""
+            title: Annotated[str, ..., "The title of the movie"]
+            year: Annotated[int, ..., "The year the movie was released"]
+            director: Annotated[str, ..., "The director of the movie"]
+            rating: Annotated[float, ..., "The movie's rating out of 10"]
+
+        model_with_structure = model.with_structured_output(MovieDict)
+        response = model_with_structure.invoke("Provide details about the movie Inception")
+        print(response)  # {'title': 'Inception', 'year': 2010, 'director': 'Christopher Nolan', 'rating': 8.8}
+        ```
+    </Tab>
+    <Tab title="JSON Schema">
+        For maximum control or interoperability, you can provide a raw JSON
+        Schema. Some providers support `strict=True` for guaranteed schema
+        adherence.
+
+        ```python highlight={3-20,22-26}
+        import json
+
+        json_schema = {
+            "title": "Movie",
+            "description": "A movie with details",
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "The title of the movie"
+                },
+                "year": {
+                    "type": "integer",
+                    "description": "The year the movie was released"
+                },
+                "director": {
+                    "type": "string",
+                    "description": "The director of the movie"
+                },
+                "rating": {
+                    "type": "number",
+                    "description": "The movie's rating out of 10"
+                }
+            },
+            "required": ["title", "year", "director", "rating"]
+        }
+
+        model_with_structure = model.with_structured_output(
+            json_schema, 
+            method="json_schema",
+            strict=True  # Available on certain providers
+        )
+        response = model_with_structure.invoke("Provide details about the movie Inception")
+        print(response)  # {'title': 'Inception', 'year': 2010, ...}
+        ```
+    </Tab>
+</Tabs>
+
+<Note>
+    **Key considerations for structured outputs:**
+
+    - **Method parameter**: Some providers support different methods
+    (`"json_schema"`, `"function_calling"`, `"json_mode"`)
+    - **Strict mode**: When available, `strict=True` guarantees the output will
+    match your schema exactly
+    - **Include raw**: Use `include_raw=True` to get both the parsed output and
+    the raw AI message
+    - **Validation**: Pydantic models provide automatic validation, while
+    `TypedDict` and JSON Schema require manual validation
+</Note>
+
+Advanced usage with nested structures:
+
+```python
 from pydantic import BaseModel, Field
+from typing import List, Optional
 
-class Movie(BaseModel):
-    title: str = Field(..., description="The title of the movie")
-    year: int = Field(..., description="The year the movie was released")
-    director: str = Field(..., description="The director of the movie")
-    rating: float = Field(..., description="The movie's rating out of 10")
+class Actor(BaseModel):
+    name: str
+    role: str
 
-model_with_structure = model.with_structured_output(Movie)
-response = model_with_structure.invoke("Provide details about the movie Inception")
-print(response)  # Movie(title="Inception", year=2010, director="Christopher Nolan", rating=8.8)
+class MovieDetails(BaseModel):
+    title: str
+    year: int
+    cast: List[Actor]
+    genres: List[str]
+    budget: Optional[float] = Field(None, description="Budget in millions USD")
+
+model_with_structure = model.with_structured_output(
+    MovieDetails, 
+    include_raw=True  # Returns both parsed and raw response
+)
+
+result = model_with_structure.invoke("Tell me about The Matrix movie")
+print(result["parsed"])  # Access the structured data
+print(result["raw"])     # Access the original AI message
 ```
-{/* TODO include three important topics in this callout */}
 
 <Icon icon="image" size={32} />
 ### Multimodality
@@ -884,16 +993,61 @@ AIMessage objects produced by the corresponding model. For more details, see the
 
 ### Invocation config
 
-x
+When invoking a model, you can pass additional configuration through the
+`config` parameter using a [`RunnableConfig`]() dictionary. This provides
+run-time control over execution behavior, callbacks, and metadata tracking.
 
+Common configuration options include:
 
-{/* ### Context window
+```python Invocation with config
+response = model.invoke(
+    "Tell me a joke",
+    config={
+        "run_name": "joke_generation",      # Custom name for this run
+        "tags": ["humor", "demo"],          # Tags for categorization
+        "metadata": {"user_id": "123"},     # Custom metadata
+        "callbacks": [my_callback_handler], # Callback handlers
+    }
+)
+```
 
-A model's context window refers to the maximum size of the input that it can
-process at one time. Maximum size varies from model to model.
+**Key configuration attributes:**
 
-If the input to a model exceeds the context window, the model may not be able to
-process the entire input and could raise an error. In conversational
-applications, this determines how much information the model can "remember"
-throughout a conversation. Consequently, you may need to manage the context to
-maintain a coherent dialogue. */}
+<ParamField body="run_name" type="string">
+    Identifies this specific invocation in logs and traces. Not inherited by 
+    sub-calls.
+</ParamField>
+
+<ParamField body="tags" type="string[]">
+    Labels inherited by all sub-calls for filtering and organization in 
+    debugging tools.
+</ParamField>
+
+<ParamField body="metadata" type="object">
+    Custom key-value pairs for tracking additional context, inherited by all 
+    sub-calls.
+</ParamField>
+
+<ParamField body="max_concurrency" type="number">
+    Controls the maximum number of parallel calls when using `batch()` or 
+    `batch_as_completed()`.
+</ParamField>
+
+<ParamField body="callbacks" type="array">
+    Handlers for monitoring and responding to events during execution. See 
+    [callbacks]() for details.
+</ParamField>
+
+<ParamField body="recursion_limit" type="number">
+    Maximum recursion depth for chains to prevent infinite loops in complex 
+    pipelines.
+</ParamField>
+
+These configuration values are particularly useful when:
+- Debugging with [LangSmith](https://docs.smith.langchain.com/) tracing
+- Implementing custom logging or monitoring
+- Controlling resource usage in production
+- Tracking invocations across complex pipelines
+
+For more information on all supported `RunnableConfig` attributes, see the
+[`RunnableConfig`]() reference.
