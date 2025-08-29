@@ -1,24 +1,20 @@
 ---
 title: Streaming overview
-sidebarTitle: Overview
 ---
 
-LangGraph implements a streaming system to surface real-time updates, allowing for responsive and transparent user experiences.
+## Overview
 
-LangGraph’s streaming system lets you surface live feedback from graph runs to your app.
-There are three main categories of data you can stream:
+LangGraph implements a streaming system to surface real-time updates.
+This is essential for applications that use LLMs due to the inherent latency involved in model calls.
+Streaming allows for a more responsive user experience.
 
-1. **Workflow progress** — get state updates after each graph node is executed.
-2. **LLM tokens** — stream language model tokens as they’re generated.
-3. **Custom updates** — emit user-defined signals (e.g., “Fetched 10/100 records”).
+## What's possible with LangGraph streaming
 
-## What’s possible with LangGraph streaming
-
-* [**Stream LLM tokens**](/oss/streaming#messages) — capture token streams from anywhere: inside nodes, subgraphs, or tools.
-* [**Emit progress notifications from tools**](/oss/streaming#stream-custom-data) — send custom updates or progress signals directly from tool functions.
-* [**Stream from subgraphs**](/oss/streaming#stream-subgraph-outputs) — include outputs from both the parent graph and any nested subgraphs.
-* [**Use any LLM**](/oss/streaming#use-with-any-llm) — stream tokens from any LLM, even if it's not a LangChain model using the `custom` streaming mode.
-* [**Use multiple streaming modes**](/oss/streaming#stream-multiple-modes) — choose from `values` (full state), `updates` (state deltas), `messages` (LLM tokens + metadata), `custom` (arbitrary user data), or `debug` (detailed traces).
+* [**Stream graph state**](/oss/langgraph/streaming#stream-graph-state) — get state updates / values with `updates` and `values` modes.
+* [**Stream subgraph outputs**](/oss/langgraph/streaming#stream-subgraph-outputs) — include outputs from both the parent graph and any nested subgraphs.
+* [**Stream LLM tokens**](/oss/langgraph/streaming#messages) — capture token streams from anywhere: inside nodes, subgraphs, or tools.
+* [**Stream custom data**](/oss/langgraph/streaming#stream-custom-data) — send custom updates or progress signals directly from tool functions.
+* [**Use multiple streaming modes**](/oss/langgraph/streaming#stream-multiple-modes) — choose from `values` (full state), `updates` (state deltas), `messages` (LLM tokens + metadata), `custom` (arbitrary user data), or `debug` (detailed traces).
 
 ## Supported stream modes
 
@@ -38,9 +34,7 @@ Pass one or more of the following stream modes as a list to the @[`stream()`][Co
 | `messages` | Streams 2-tuples (LLM token, metadata) from any graph nodes where an LLM is invoked.                                                                                                |
 | `debug`    | Streams as much information as possible throughout the execution of the graph.                                                                                                      |
 
-## Stream from a workflow
-
-### Basic usage example
+## Basic usage example
 
 :::python
 LangGraph graphs expose the @[`.stream()`][Pregel.stream] (sync) and @[`.astream()`][Pregel.astream] (async) methods to yield streamed outputs as iterators.
@@ -140,7 +134,7 @@ for await (const chunk of await graph.stream(inputs, {
   ```
 </Accordion>
 
-### Stream multiple modes
+## Stream multiple modes
 
 :::python
 You can pass a list as the `stream_mode` parameter to stream multiple modes at once.
@@ -167,7 +161,7 @@ for await (const [mode, chunk] of await graph.stream(inputs, {
 ```
 :::
 
-### Stream graph state
+## Stream graph state
 
 Use the stream modes `updates` and `values` to stream the state of the graph as it executes.
 
@@ -279,7 +273,7 @@ const graph = new StateGraph(State)
   </Tab>
 </Tabs>
 
-### Stream subgraph outputs
+## Stream subgraph outputs
 
 :::python
 To include outputs from [subgraphs](/oss/subgraphs) in the streamed outputs, you can set `subgraphs=True` in the `.stream()` method of the parent graph. This will stream outputs from both the parent graph and any subgraphs.
@@ -465,7 +459,7 @@ for await (const chunk of await graph.stream(
 :::
 
 <a id="messages"></a>
-### LLM tokens
+## LLM tokens
 
 Use the `messages` streaming mode to stream Large Language Model (LLM) outputs **token by token** from any part of your graph, including nodes, tools, subgraphs, or tasks.
 
@@ -886,7 +880,7 @@ for await (const [msg, metadata] of await graph.stream(
   :::
 </Accordion>
 
-### Stream custom data
+## Stream custom data
 
 :::python
 To send **custom user-defined data** from inside a LangGraph node or tool, follow these steps:
@@ -1036,7 +1030,7 @@ To send **custom user-defined data** from inside a LangGraph node or tool, follo
 </Tabs>
 :::
 
-### Use with any LLM
+## Use with any LLM
 
 :::python
 You can use `stream_mode="custom"` to stream data from **any LLM API** — even if that API does **not** implement the LangChain chat model interface.
@@ -1355,7 +1349,7 @@ for await (const chunk of await graph.stream(
   :::
 </Accordion>
 
-### Disable streaming for specific chat models
+## Disable streaming for specific chat models
 
 If your application mixes models that support streaming with those that do not, you may need to explicitly disable streaming for
 models that do not support it.
