@@ -5,7 +5,6 @@ title: Models
 {/* TODO: fix all dead links */}
 
 import ConversationHistory from '/snippets/oss/langchain-conversation-history.mdx';
-import ExampleTools from '/snippets/oss/langchain-example-tools.mdx';
 
 ## Overview
 
@@ -32,7 +31,7 @@ arrive at a conclusion.
 ## Basic usage
 
 The primary interface for interacting with models in LangChain are the
-`ChatModel` abstractions. They provide a consistent interface for accessing
+cha model abstractions. They provide a consistent interface for accessing
 different LLMs from various providers.
 
 The easiest way start interacting with a model in LangChain is to use
@@ -40,7 +39,7 @@ The easiest way start interacting with a model in LangChain is to use
 your choice.
 
 <CodeGroup>
-```python Initialize a ChatModel
+```python Initialize a chat model
 from langchain.chat_models import init_chat_model
 
 model = init_chat_model("openai:gpt-5-nano")
@@ -98,8 +97,7 @@ response = model.invoke("Why do parrots talk?")
 ``` */}
 </CodeGroup>
 
-See the `init_chat_model` [API reference](https://python.langchain.com/api_reference/langchain/chat_models/langchain.chat_models.base.init_chat_model.html)
-for more detail.
+See @[init_chat_model] for more detail.
 
 ### Key methods
 
@@ -115,14 +113,14 @@ for more detail.
 </Card>
 
 <Info>
-    In addition to chat models, LangChain provides support for legacy
-    [text completion models](), [embedding models](), and other model types.
-    See the full list of supported models in the [reference]().
+    In addition to chat models, LangChain provides support for other adjacent
+    technologies, such as embedding models and vector stores. See the
+    [Integrations page](/oss/integrations/providers) for details.
 </Info>
 
 ## Parameters
 
-A `ChatModel` takes parameters that can be used to configure its behavior. The
+A chat model takes parameters that can be used to configure its behavior. The
 full set of supported parameters vary by model and provider, but common ones
 include:
 
@@ -133,7 +131,8 @@ include:
 
 <ParamField body="api_key" type="string">
     The key required for authenticating with the model's provider. This is
-    usually issued when you sign up for access to the model.
+    usually issued when you sign up for access to the model. Can often be accessed from
+    an environment variable.
 </ParamField>
 
 <ParamField body="temperature" type="number">
@@ -143,7 +142,7 @@ include:
 
 <ParamField body="stop" type="string[]">
     A sequence of characters that indicates when the model should stop
-    generating its output.
+    generating its output. String or list of strings.
 </ParamField>
 
 <ParamField body="timeout" type="number">
@@ -162,13 +161,13 @@ include:
 </ParamField>
 
 <Info>
-    To find all the parameters supported by a given `ChatModel`, head to the
-    [reference]().
+    To find all the parameters supported by a given chat model, head to the
+    @[Reference].
 </Info>
 
 ## Invocation
 
-A `ChatModel` must be invoked to generate an output. There are three main
+A chat model must be invoked to generate an output. There are three main
 invocation methods, each suited to different use cases.
 
 <Tip>
@@ -288,6 +287,10 @@ and passed back to the model as conversational context.
     non-streaming invoke method but still want to stream the entire application,
     including intermediate results from the chat model.
 
+    In [LangGraph agents](/oss/python/langchain-agents), for example, you can call
+    `model.invoke` within nodes, but LangChain will automatically delegate to streaming
+    if running in a streaming mode.
+
     #### How it works
 
     When you `invoke()` a chat model, LangChain will automatically switch to
@@ -304,8 +307,7 @@ and passed back to the model as conversational context.
 **Stream events**
 
 LangChain chat models can also stream semantic events using the
-[astream_events](https://python.langchain.com/api_reference/core/language_models/langchain_core.language_models.chat_models.BaseChatModel.html#langchain_core.language_models.chat_models.BaseChatModel.astream_events)
-API.
+@[astream_events] API.
 
 This simplifies filtering based on event types and other metadata, and will aggregate
 the full message in the background. See below for an example.
@@ -339,11 +341,17 @@ Full message: Hi there! How can I help today?
 ```
 </Accordion>
 
-See the [API reference](https://python.langchain.com/api_reference/core/language_models/langchain_core.language_models.chat_models.BaseChatModel.html#langchain_core.language_models.chat_models.BaseChatModel.astream_events)
-for event types and other details.
+See the @[astream_events] API reference for event types and other details.
 
 
 ### Batch
+
+<Note>
+
+This section describes a chat model method `.batch`, which parallelizes model calls
+client-side. It is distinct from batch APIs supported by inference providers.
+
+</Note>
 
 Batching a collection of independent requests to a model can significantly
 improve performance, as the processing can be done in parallel:
@@ -403,12 +411,16 @@ Each model has a <Tooltip tip="The maximum number of tokens a model can process 
 that determines how much text it can process at once. To learn more, see our
 guide on [context engineering]() for strategies to effectively manage context.
 
-## Advanced features
+## Model capabilities
 
 ### Tool calling
 
 Models can request to call tools that perform tasks such as fetching data from a
-database, searching the web, or running code.
+database, searching the web, or running code. Tools are pairings of:
+
+1. A schema, including the name of the tool, a description, and/or argument definitions (often
+defined with something like JSON schema)
+2. A function or coroutine to execute.
 
 <Note>
     You will sometimes hear the term `function calling`. We use this term 
@@ -419,54 +431,42 @@ To make tools that you have defined available for use by a model, you must bind
 them using `.bind_tools()`. In subsequent invocations, the model can choose to
 call any of the bound tools as needed.
 
-Let's define some example tools that we'll use throughout this section:
-
-<ExampleTools />
-
 Some model providers offer built-in tools that can be enabled via model
-parameters. In such cases, you do not need to define or bind those tools to your
-model. Check the respective [provider reference]() for details.
+parameters. Check the respective [provider reference](/oss/integrations/providers) for
+details.
 
-<CodeGroup>
-    ```python Binding user tools highlight={7}
-    from pydantic import BaseModel, Field
+<Tip>
 
-    class GetWeather(BaseModel):
-        """Get the current weather in a given location"""
-        location: str = Field(..., description="The city and state, e.g. Boston, MA")
+See the [tools guide](/oss/langchain-tools) for details and other options for creating
+tools.
 
-    model_with_tools = model.bind_tools([GetWeather])
+</Tip>
 
-    response = model_with_tools.invoke("What's the weather like in Boston?")
-    for tool_call in response.tool_calls:
-        # View tool calls made by the model
-        print(f"Tool: {tool_call['name']}")
-        print(f"Args: {tool_call['args']}")
-    ```
-    
-    ```python Built-in tool usage with citations
-    response = model.invoke("Search the web for the latest news on AI.")
-    content = response.content_blocks
+```python Binding user tools highlight={8}
+from langchain_core.tools import tool
 
-    # content: [
-    #     TextContentBlock(
-    #         text = "The latest news articles on AI..."),
-    #         annotations = [
-    #             Citation(
-    #                 title="AI breakthrough in natural language processing",
-    #                 url="https://example.com/ai-news",
-    #                 cited_text="Researchers have...",
-    #         )]
-    # ])
-    ```
-</CodeGroup>
+@tool
+def get_weather(location: str) -> str:
+    """Get the weather at a location."""
+    return f"It's sunny in {location}."
 
-{/* TODO a switcher to iterate through all different tool schema options */}
-{/* TODO model switcher to show this example for our top 5 providers */}
+
+model_with_tools = model.bind_tools([get_weather])
+
+response = model_with_tools.invoke("What's the weather like in Boston?")
+for tool_call in response.tool_calls:
+    # View tool calls made by the model
+    print(f"Tool: {tool_call['name']}")
+    print(f"Args: {tool_call['args']}")
+```
 
 When binding user-defined tools, the model's response includes a **request** to
 execute a tool. It is up to you to perform the requested action and return the
 result back to the model for use in subsequent reasoning.
+
+The LangGraph framework simplifies the orchestration of model and tool calls. See the
+[Agent guides](/oss/langchain-agents) to get started. Below, we show some simple
+patterns for illustration.
 
 <AccordionGroup>
     <Accordion title="Tool execution loop">
@@ -475,22 +475,20 @@ result back to the model for use in subsequent reasoning.
         can use tool results to generate its final response.
 
         ```python Tool execution loop
-        from langchain_core.messages import HumanMessage
+        # Bind (potentially multiple) tools to the model
+        model_with_tools = model.bind_tools([get_weather])
 
-        # Bind tools to the model
-        model_with_tools = model.bind_tools([get_weather, get_time])
-        
         # Step 1: Model generates tool calls
-        messages = [HumanMessage("What's the weather in Boston?")]
+        messages = [{"role": "user", "content": "What's the weather in Boston?"}]
         ai_msg = model_with_tools.invoke(messages)
         messages.append(ai_msg)
-        
+
         # Step 2: Execute tools and collect results
         for tool_call in ai_msg.tool_calls:
             # Execute the tool with the generated arguments
             tool_result = get_weather.invoke(tool_call)
             messages.append(tool_result)
-        
+
         # Step 3: Pass results back to model for final response
         final_response = model_with_tools.invoke(messages)
         print(final_response.text)
@@ -503,7 +501,6 @@ result back to the model for use in subsequent reasoning.
     </Accordion>
 
     <Accordion title="Forcing tool calls">
-        #### Forcing tool calls
 
         By default, the model has the freedom to choose which bound tool to use
         based on the user's input. However, you might want to force choosing a
@@ -511,20 +508,12 @@ result back to the model for use in subsequent reasoning.
         from a given list:
 
         <CodeGroup>
-        ```python Force use of specific tools
-        model_with_tools = model.bind_tools([get_weather, calculate])
-        
-        response = model_with_tools.invoke(
-            "What's the weather in Boston and calculate 15 + 25",
-            force_tool_calls=["get_weather", "calculate"]
-        )
+        ```python Force use of any tool
+        model_with_tools = model.bind_tools([tool_1], tool_choice="any")
         ```
 
-        ```python Force use of any tool
-        response = model_with_tools.invoke(
-            "What's the weather in Boston and calculate 15 + 25",
-            force_tool_calls="any"
-        )
+        ```python Force use of specific tools
+        model_with_tools = model.bind_tools([tool_1], tool_choice="tool_1")
         ```
         </CodeGroup>
     </Accordion>
@@ -535,17 +524,17 @@ result back to the model for use in subsequent reasoning.
         simultaneously.
 
         ```python Parallel tool calls
-        model_with_tools = model.bind_tools([get_weather, get_time])
+        model_with_tools = model.bind_tools([get_weather])
         
         response = model_with_tools.invoke(
-            "What's the weather in Boston and the time in Tokyo?"
+            "What's the weather in Boston and Tokyo?"
         )
         
         # The model may generate multiple tool calls
         print(response.tool_calls)
         # [
         #   {'name': 'get_weather', 'args': {'location': 'Boston'}, 'id': 'call_1'},
-        #   {'name': 'get_time', 'args': {'timezone': 'Tokyo'}, 'id': 'call_2'}
+        #   {'name': 'get_time', 'args': {'location': 'Tokyo'}, 'id': 'call_2'}
         # ]
         
         # Execute all tools (can be done in parallel with async)
@@ -553,8 +542,7 @@ result back to the model for use in subsequent reasoning.
         for tool_call in response.tool_calls:
             if tool_call['name'] == 'get_weather':
                 result = get_weather.invoke(tool_call)
-            elif tool_call['name'] == 'get_time':
-                result = get_time.invoke(tool_call)
+            ...
             results.append(result)
         ```
 
@@ -569,7 +557,7 @@ result back to the model for use in subsequent reasoning.
 
         ```python Streaming tool calls
         for chunk in model_with_tools.stream(
-            "What's the weather in Boston and the time in Tokyo?"
+            "What's the weather in Boston and Tokyo?"
         ):
             # Tool call chunks arrive progressively
             if chunk.tool_call_chunks:
@@ -594,12 +582,9 @@ result back to the model for use in subsequent reasoning.
 
         ```python Accumulate tool calls
         gathered = None
-        for chunk in model_with_tools.stream(query):
+        for chunk in model_with_tools.stream("What's the weather in Boston?"):
             gathered = chunk if gathered is None else gathered + chunk
-            
-            # Access partial tool calls as they build
-            if gathered.tool_calls:
-                print(f"Complete tool calls: {gathered.tool_calls}")
+            print(gathered.content_blocks)
         ```
     </Accordion>
 </AccordionGroup>
@@ -652,8 +637,7 @@ for enforcing structured outputs.
     </Tab>
     <Tab title="JSON Schema">
         For maximum control or interoperability, you can provide a raw JSON
-        Schema. Some providers support `strict=True` for guaranteed schema
-        adherence.
+        Schema.
 
         ```python
         import json
@@ -686,7 +670,6 @@ for enforcing structured outputs.
         model_with_structure = model.with_structured_output(
             json_schema, 
             method="json_schema",
-            strict=True  # Available on certain providers
         )
         response = model_with_structure.invoke("Provide details about the movie Inception")
         print(response)  # {'title': 'Inception', 'year': 2010, ...}
@@ -699,18 +682,43 @@ for enforcing structured outputs.
 
     - **Method parameter**: Some providers support different methods
     (`'json_schema'`, `'function_calling'`, `'json_mode'`)
-    - **Strict mode**: When available, `strict=True` guarantees the output will
-    match your schema exactly
     - **Include raw**: Use `include_raw=True` to get both the parsed output and
     the raw AI message
     - **Validation**: Pydantic models provide automatic validation, while
     `TypedDict` and JSON Schema require manual validation
 </Note>
 
-<Accordion title="Advanced usage with nested structures">
-    ```python
+<Accordion title="Example: get AIMessage output alongside parsed structure">
+
+It can be useful to return the raw `AIMessage` object alongside the parsed
+representation, to access response metadata such as token counts and other information.
+
+```python highlight={10}
+from pydantic import BaseModel, Field
+
+class Movie(BaseModel):
+    """A movie with details."""
+    title: str = Field(..., description="The title of the movie")
+    year: int = Field(..., description="The year the movie was released")
+    director: str = Field(..., description="The director of the movie")
+    rating: float = Field(..., description="The movie's rating out of 10")
+
+model_with_structure = model.with_structured_output(Movie, include_raw=True)
+response = model_with_structure.invoke("Provide details about the movie Inception")
+response
+# {
+#     "raw": AIMessage(...),
+#     "parsed": Movie(title=..., year=..., ...),
+#     "parsing_error": None,
+# }
+```
+
+</Accordion>
+
+<Accordion title="Example: nested structures">
+<CodeGroup>
+    ```python Pydantic BaseModel
     from pydantic import BaseModel, Field
-    from typing import List, Optional
 
     class Actor(BaseModel):
         name: str
@@ -719,79 +727,30 @@ for enforcing structured outputs.
     class MovieDetails(BaseModel):
         title: str
         year: int
-        cast: List[Actor]
-        genres: List[str]
-        budget: Optional[float] = Field(None, description="Budget in millions USD")
+        cast: list[Actor]
+        genres: list[str]
+        budget: float | None = Field(None, description="Budget in millions USD")
 
-    model_with_structure = model.with_structured_output(
-        MovieDetails, 
-        include_raw=True  # Returns both parsed and raw response
-    )
-
-    result = model_with_structure.invoke("Tell me about The Matrix movie")
-    print(result["parsed"])  # Access the structured data
-    print(result["raw"])     # Access the original AI message
-    ```
-</Accordion>
-
-<Accordion title="Structured output with tool calling">
-    You can combine structured outputs with tool calling to ensure tools return
-    data in a specific format. This is particularly useful when tools need to
-    extract or process information in a standardized way.
-
-    ```python
-    from pydantic import BaseModel, Field
-    from langchain_core.tools import tool
-
-    class SearchResult(BaseModel):
-        """A structured search result."""
-        query: str = Field(description="The search query used")
-        results: List[str] = Field(description="List of search results")
-        confidence: float = Field(description="Confidence score 0-1")
-
-    @tool(response_format=SearchResult)
-    def web_search(query: str) -> SearchResult:
-        """Search the web and return structured results."""
-        # Your search logic here
-        return SearchResult(
-            query=query,
-            results=["Result 1", "Result 2"],
-            confidence=0.95
-        )
-
-    # Bind the tool to the model
-    model_with_tools = model.bind_tools([web_search])
-
-    # The tool will automatically return structured data
-    response = model_with_tools.invoke("Search for information about quantum computing")
-    if response.tool_calls:
-        tool_result = response.tool_calls[0]
-        print(tool_result["args"])  # Structured as SearchResult
+    model_with_structure = model.with_structured_output(MovieDetails)
     ```
 
-    You can also use `with_structured_output()` alongside tools for extracting
-    structured information from tool responses:
+    ```python TypedDict
+    from typing_extensions import Annotated, TypedDict
 
-    ```python
-    class Analysis(BaseModel):
-        """Analysis of search results."""
-        summary: str = Field(description="Summary of findings")
-        key_points: List[str] = Field(description="Key points extracted")
-        needs_more_info: bool = Field(description="Whether more information is needed")
+    class Actor(TypedDict):
+        name: str
+        role: str
 
-    # Create a model that uses tools and outputs structured data
-    model_with_tools = model.bind_tools([web_search])
-    structured_model = model_with_tools.with_structured_output(Analysis)
+    class MovieDetails(TypedDict):
+        title: str
+        year: int
+        cast: list[Actor]
+        genres: list[str]
+        budget: Annotated[float | None, ..., "Budget in millions USD"]
 
-    # This will:
-    # 1. Call the search tool if needed
-    # 2. Process the results
-    # 3. Return structured analysis
-    result = structured_model.invoke(
-        "Search for quantum computing and analyze the findings"
-    )
-    print(result)  # Analysis(summary="...", key_points=[...], needs_more_info=False)
+    model_with_structure = model.with_structured_output(MovieDetails)
     ```
+</CodeGroup>
 </Accordion>
 
 
@@ -801,88 +760,112 @@ Certain models can process and return non-textual data such as images, audio,
 and video.
 
 You can pass non-textual data to a model by creating [content blocks]() that
-encapsulate the data:
+encapsulate the data. See examples below.
+
+<Tip>
+
+All LangChain chat models with underlying multimodal capabilities support:
+
+1. Data in the cross-provider standard format (shown below)
+2. OpenAI [chat completions](https://platform.openai.com/docs/guides/images-vision?api-mode=chat) format
+3. Any format that is native to that specific provider (e.g., Anthropic models accept Anthropic native format)
+
+</Tip>
 
 <CodeGroup>    
     ```python Image input
-    from langchain.messages.content import create_image_block
-
+    # From URL
     response = model.invoke([
-        "Describe the content of this image.",
-        create_image_block(url="https://example.com/path/to/image.jpg")
+        {"type": "text", "text": "Describe the content of this image."},
+        {"type": "image", "url": "https://example.com/path/to/image.jpg"},
     ])
-    print(response)  # AIMessage("The image shows a beautiful sunset...")
+
+    # From base64 data
+    response = model.invoke([
+        {"type": "text", "text": "Describe the content of this image."},
+        {
+            "type": "image",
+            "base64": "AAAAIGZ0eXBtcDQyAAAAAGlzb21tcDQyAAACAGlzb2...",
+            "mime_type": "image/jpeg",
+        },
+    ])
+
+    # From provider-managed File ID
+    response = model.invoke([
+        {"type": "text", "text": "Describe the content of this image."},
+        {"type": "image", "file_id": "file-abc123"},
+    ])
     ```
 
-    ```python Video input
-    from langchain.messages.content import create_video_block
-
-    video = create_video_block(
-        base64="AAAAIGZ0eXBtcDQyAAAAAGlzb21tcDQyAAACAGlzb2...",
-        mime_type="video/mp4"
-    )
-
+    ```python PDF document input
+    # From URL
     response = model.invoke([
-        "Describe the content of this video.",
-        video
+        {"type": "text", "text": "Describe the content of this document."},
+        {"type": "file", "url": "https://example.com/path/to/document.pdf"},
     ])
-    print(response)  # AIMessage("The video shows a cat playing with a ball...")
+
+    # From base64 data
+    response = model.invoke([
+        {"type": "text", "text": "Describe the content of this document."},
+        {
+            "type": "file",
+            "base64": "AAAAIGZ0eXBtcDQyAAAAAGlzb21tcDQyAAACAGlzb2...",
+            "mime_type": "application/pdf",
+        },
+    ])
+
+    # From provider-managed File ID
+    response = model.invoke([
+        {"type": "text", "text": "Describe the content of this document."},
+        {"type": "file", "file_id": "file-abc123"},
+    ])
     ```
 
     ```python Audio input
-    from langchain.messages.content import create_audio_block
-
+    # From base64 data
     response = model.invoke([
-        "Describe the content of this audio clip.",
-        create_audio_block(file_id="file-abc123xyz456")
+        {"type": "text", "text": "Describe the content of this audio."},
+        {
+            "type": "audio",
+            "base64": "AAAAIGZ0eXBtcDQyAAAAAGlzb21tcDQyAAACAGlzb2...",
+            "mime_type": "audio/wav",
+        },
     ])
-    print(response)  # AIMessage("The audio clip features a piano melody...")
+
+    # From provider-managed File ID
+    response = model.invoke([
+        {"type": "text", "text": "Describe the content of this audio."},
+        {"type": "audio", "file_id": "file-abc123"},
+    ])
     ```
 
-    ```python File input (PDF)
-    from langchain.messages.content import create_file_block
-
-    file = create_file_block(
-        base64="AAAAIGZ0eXBtcDQyAAAAAGlzb21tcDQyAAACAGlzb2...",
-        mime_type="application/pdf",
-        filename="document.pdf"
-    )
-
+    ```python Video input
+    # From base64 data
     response = model.invoke([
-        "Summarize the content of this PDF document.",
-        file
+        {"type": "text", "text": "Describe the content of this video."},
+        {
+            "type": "video",
+            "base64": "AAAAIGZ0eXBtcDQyAAAAAGlzb21tcDQyAAACAGlzb2...",
+            "mime_type": "video/mp4",
+        },
     ])
-    print(response)  # AIMessage("The document discusses the importance of...")
+
+    # From provider-managed File ID
+    response = model.invoke([
+        {"type": "text", "text": "Describe the content of this video."},
+        {"type": "video", "file_id": "file-abc123"},
+    ])
     ```
+
 </CodeGroup>
 
-On the other hand, models can return non-textual data as part of their response:
+Some models can also return multimodal data as part of their response.
 
-<CodeGroup>
-    ```python Image output
-    response = model.invoke("Generate an image of a green parrot.")
-    image = response.content_blocks[0]
-    print(image.url)  # 'https://example.com/path/to/generated-image.jpg'
-    ```
+In these cases, the resulting `AIMessage.content_blocks` will contain blocks with
+type `"image`.
 
-    ```python Video output
-    response = model.invoke("Generate a short video of a cat playing.")
-    video = response.content_blocks[0]
-    print(video.base64)  # 'AAAAIGZ0eXBtcDQyAAAAAGlzb21tcDQyAAACAGlzb2...'
-    ```
-
-    ```python Audio output
-    response = model.invoke("Generate an audio clip of a piano melody.")
-    audio = response.content_blocks[0]
-    print(audio.file_id)  # ID of the uploaded audio file in a bucket
-    ```
-
-    ```python File output (PDF)
-    response = model.invoke("Generate a PDF report on climate change.")
-    file = response.content_blocks[0]
-    print(file.filename)  # 'climate_change_report.pdf'
-    ```
-</CodeGroup>
+See the [Integrations page](/oss/integrations/providers) for details on your
+specific providers.
 
 ### Reasoning
 
@@ -903,34 +886,17 @@ better understand how the model arrived at its final answer.
     ```python Full reasoning output
     response = model.invoke("Why do parrots have colorful feathers?")
     reasoning_steps = [b for b in response.content_blocks if b["type"] == "reasoning"]
-    print (sum(r.text for r in reasoning_steps))
+    print(" ".join(step["reasoning"] for step in reasoning_steps))
     ```
 </CodeGroup>
 
 Depending on the model, you can sometimes specify the level of effort it should
 put into reasoning. Alternatively, you can request that the model turn off
-reasoning entirely.
+reasoning entirely. This may take the form of categorical "tiers" of reasoning
+(e.g., "low" or "high") or integer token budgets.
 
-<CodeGroup>
-    ```python Reasoning effort
-    response = model.invoke(
-        "Why do parrots have colorful feathers?",
-        reasoning_effort="low"
-    )
-    print(response)
-    ``` 
-
-    ```python Disable reasoning
-    response = model.invoke(
-        "Why do parrots have colorful feathers?",
-        reasoning_effort="none"
-    )
-    print(response)
-    ```
-</CodeGroup>
-
-To see what reasoning capabilities are supported by a particular provider or
-model, check the respective [reference]().
+For details, see the relevant chat model in the
+[Integrations page](/oss/integrations/providers).
 
 ## Supported models
 
@@ -953,7 +919,7 @@ of local integrations in the [reference]().
 ### Caching
 
 Chat model APIs can be slow and expensive to call. To help mitigate this,
-LangChain provides an optional caching layer for `ChatModel` integrations.
+LangChain provides an optional caching layer for chat model integrations.
 
 <Accordion title="Enable caching for your model">
 
@@ -1005,7 +971,7 @@ be made in a given time period. If you hit a rate limit, you will typically
 receive a rate limit error response from the provider, and will need to wait
 before making more requests.
 
-To help manage rate limits, `ChatModel` integrations accept a `rate_limiter`
+To help manage rate limits, chat model integrations accept a `rate_limiter`
 parameter that can be provided during initialization to control the rate at
 which requests are made.
 
@@ -1038,7 +1004,7 @@ which requests are made.
 
 ### Base URL or proxy
 
-For many `ChatModel` integrations, you can configure the base URL for API
+For many chat model integrations, you can configure the base URL for API
 requests, which allows you to use model providers that have OpenAI-compatible
 APIs or to use a proxy server.
 
@@ -1059,7 +1025,7 @@ model = init_chat_model(
 ```
 
 <Note>
-    When using direct `ChatModel` class instantiation, the parameter name may
+    When using direct chat model class instantiation, the parameter name may
     vary by provider. Check the respective [reference]() for details.
 </Note>
 </Accordion>
@@ -1106,7 +1072,72 @@ print(response.response_metadata["logprobs"])
 A number of model providers return token usage information as part of the
 invocation response. When available, this information will be included on the
 AIMessage objects produced by the corresponding model. For more details, see the
-[messages]() guide.
+[messages](/oss/python/langchain-messages) guide.
+
+<Note>
+
+Some provider APIs, notably OpenAI and Azure OpenAI chat completions, require users
+opt-in to receiving token usage data in streaming contexts. See
+[this section](/oss/integrations/chat/openai#streaming-usage-metadata) of the
+integration guide for details.
+
+</Note>
+
+You can track aggregate token counts across models in an application using either
+a callback or context manager, as shown below:
+
+<Tabs>
+<Tab title="Callback handler">
+```python Callback handler
+from langchain.chat_models import init_chat_model
+from langchain_core.callbacks import UsageMetadataCallbackHandler
+
+llm_1 = init_chat_model(model="openai:gpt-4o-mini")
+llm_2 = init_chat_model(model="anthropic:claude-3-5-haiku-latest")
+
+callback = UsageMetadataCallbackHandler()
+result_1 = llm_1.invoke("Hello", config={"callbacks": [callback]})
+result_2 = llm_2.invoke("Hello", config={"callbacks": [callback]})
+callback.usage_metadata
+```
+```
+{'gpt-4o-mini-2024-07-18': {'input_tokens': 8,
+  'output_tokens': 10,
+  'total_tokens': 18,
+  'input_token_details': {'audio': 0, 'cache_read': 0},
+  'output_token_details': {'audio': 0, 'reasoning': 0}},
+ 'claude-3-5-haiku-20241022': {'input_tokens': 8,
+  'output_tokens': 21,
+  'total_tokens': 29,
+  'input_token_details': {'cache_read': 0, 'cache_creation': 0}}}
+```
+</Tab>
+<Tab title="Context manager">
+```python Context manager
+from langchain.chat_models import init_chat_model
+from langchain_core.callbacks import get_usage_metadata_callback
+
+llm_1 = init_chat_model(model="openai:gpt-4o-mini")
+llm_2 = init_chat_model(model="anthropic:claude-3-5-haiku-latest")
+
+with get_usage_metadata_callback() as cb:
+    llm_1.invoke("Hello")
+    llm_2.invoke("Hello")
+    print(cb.usage_metadata)
+```
+```
+{'gpt-4o-mini-2024-07-18': {'input_tokens': 8,
+  'output_tokens': 10,
+  'total_tokens': 18,
+  'input_token_details': {'audio': 0, 'cache_read': 0},
+  'output_token_details': {'audio': 0, 'reasoning': 0}},
+ 'claude-3-5-haiku-20241022': {'input_tokens': 8,
+  'output_tokens': 21,
+  'total_tokens': 29,
+  'input_token_details': {'cache_read': 0, 'cache_creation': 0}}}
+```
+</Tab>
+</Tabs>
 
 ### Invocation config
 
