@@ -263,6 +263,7 @@
                   {
                     "group": "Providers",
                     "pages": [
+                      "oss/python/integrations/providers/index",
                       {
                         "group": "Anthropic",
                         "pages": [
@@ -283,7 +284,9 @@
                         "pages": [
                           "oss/python/integrations/providers/google",
                           "oss/python/integrations/chat/google_generative_ai",
-                          "oss/python/integrations/text_embedding/google_generative_ai"
+                          "oss/python/integrations/chat/google_vertex_ai_palm",
+                          "oss/python/integrations/text_embedding/google_generative_ai",
+                          "oss/python/integrations/text_embedding/google_vertex_ai_palm"
                         ]
                       },
                       {
@@ -298,8 +301,9 @@
                         "group": "Microsoft",
                         "pages": [
                           "oss/python/integrations/providers/microsoft",
-                          "oss/python/integrations/chat/azure_ai",
-                          "oss/python/integrations/text_embedding/azureopenai"
+                          "oss/python/integrations/chat/azure_chat_openai/",
+                          "oss/python/integrations/text_embedding/azureopenai",
+                          "oss/python/integrations/chat/azure_ai"
                         ]
                       },
                       {
@@ -310,19 +314,23 @@
                           "oss/python/integrations/text_embedding/openai"
                         ]
                       },
-                      "oss/python/integrations/providers/all_providers"
+                      "oss/python/integrations/providers/all_providers",
+                      {
+                        "group": "Contribute an integration",
+                        "pages": [
+                          "oss/python/integrations/contributing/index",
+                          "oss/python/integrations/contributing/package",
+                          "oss/python/integrations/contributing/standard_tests",
+                          "oss/python/integrations/contributing/publish"
+                        ]
+                      }
                     ]
                   },
                   {
-                    "group": "General integrations",
+                    "group": "Integrations by component",
                     "pages": [
                       "oss/python/integrations/chat/index",
-                      "oss/python/integrations/tools/index"
-                    ]
-                  },
-                  {
-                    "group": "RAG integrations",
-                    "pages": [
+                      "oss/python/integrations/tools/index",
                       "oss/python/integrations/retrievers/index",
                       "oss/python/integrations/splitters/text_splitters",
                       "oss/python/integrations/text_embedding/index",
