@@ -34,9 +34,9 @@ arrive at a conclusion.
 
 ## Basic usage
 
-The primary interface for interacting with models in LangChain are the
-cha model abstractions. They provide a consistent interface for accessing
-different LLMs from various providers.
+The primary interface for interacting with models in LangChain are the chat
+model abstractions. They provide a consistent interface for accessing different
+LLMs from various providers.
 
 The easiest way start interacting with a model in LangChain is to use
 `init_chat_model()` to initialize one from a model [provider](/oss/integrations/providers) of
@@ -220,18 +220,13 @@ each chunk in real-time:
 
     ```python Stream tool calls, reasoning, and other content
     for chunk in model.stream("What color is the sky?"):
-
         for block in chunk.content_blocks:
-
             if block["type"] == "reasoning" and (reasoning := block.get("reasoning")):
                 print(f"Reasoning: {reasoning}")
-
             elif block["type"] == "tool_call_chunk":
                 print(f"Tool call chunk: {block}")
-
             elif block["type"] == "text":
                 print(block["text"])
-
             else:
                 ...
     ```
@@ -262,7 +257,7 @@ print(full.content_blocks)
 ```
 
 The resulting full message can be treated the same as a message that was generated
-with [invoke](#invoke)— for example, it can be aggregated into a message history
+with [invoke](#invoke) - for example, it can be aggregated into a message history
 and passed back to the model as conversational context.
 
 <Warning>
