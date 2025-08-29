@@ -215,6 +215,28 @@ button.version-picker-button svg {
   height: calc(3rem + 1rem) !important; /* Original h-12 (3rem) + added top padding */
 }
 
+/* Target span elements within each header type */
+h1 span,
+h2 span,
+h3 span,
+h4 span,
+h5 span,
+h6 span {
+  display: flex;
+  align-items: center;
+}
+
+h1 span img,
+h2 span img,
+h3 span img,
+h4 span img,
+h5 span img,
+h6 span img {
+  background-color: transparent !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
 
 
 
