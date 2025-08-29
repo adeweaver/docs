@@ -16,16 +16,17 @@ Large Language Models (LLMs) are advanced tools that excel in a wide range of
 language-related tasks such as text generation, translation, summarization,
 question answering, and more.
 
-Modern LLMs are primarily accessed through a chat interface, where [messages]()
-are exchanged between a human user and the model. In LangChain, models can be
-interacted with programatically to build complex, stateful applications.
+Modern LLMs are primarily accessed through a chat interface, where
+[messages](./langchain-messages.mdx) are exchanged between a human user and the
+model. In LangChain, models can be interacted with programatically to build
+complex, stateful applications.
 
-In addition to basic text generation, many models support the following advanced
+In addition to basic text generation, many models support the following
 features:
 
 * <Icon icon="hammer" size={16} /> [Tool calling](#tool-calling) - enables
 models to interact with external services, APIs, and databases.
-* <Icon icon="shapes" size={16} /> [Structured output](#structured-output) -
+* <Icon icon="shapes" size={16} /> [Structured output](#structured-outputs) -
 constrain the response format to match a provided schema.
 * <Icon icon="image" size={16} /> [Multimodality](#multimodality) - the ability
 to process data other than text, such as images.
@@ -129,14 +130,14 @@ full set of supported parameters vary by model and provider, but common ones
 include:
 
 <ParamField body="model" type="string" required>
-    The name or identifier of the specific model you want to use with the
+    The name or identifier of the specific model you want to use with a
     provider.
 </ParamField>
 
 <ParamField body="api_key" type="string">
     The key required for authenticating with the model's provider. This is
     usually issued when you sign up for access to the model. Can often be
-    accessed from an environment variable.
+    accessed by setting an <Tooltip tip="A variable whose value is set outside the program, typically through functionality built into the operating system or microservice.">environment variable</Tooltip>.
 </ParamField>
 
 <ParamField body="temperature" type="number">
@@ -181,7 +182,7 @@ invocation methods, each suited to different use cases.
     
     For example: `ainvoke()`, `astream()`, `abatch()`
     
-    A full list of async methods can be found in the [reference]().
+    A full list of async methods can be found in the [reference](https://python.langchain.com/api_reference/core/language_models/langchain_core.language_models.chat_models.BaseChatModel.html#langchain_core.language_models.chat_models.BaseChatModel.invoke).
 </Tip>
 
 ### Invoke
@@ -191,8 +192,8 @@ message or a list of messages.
 
 A list of messages can be provided to a model to represent a conversation
 history. Each message has a role to provide context as to who is speaking in the
-sequence. See the [messages]() guide for more detail on roles, types, and
-content.
+sequence. See the [messages](./langchain-messages.mdx) guide for more detail on
+roles, types, and content.
 
 <CodeGroup>
 ```python Single message
@@ -273,8 +274,6 @@ message history and passed back to the model as conversational context.
 {/* https://python.langchain.com/docs/how_to/streaming/#working-with-input-streams */}
 
 <Accordion title='"Auto-Streaming" Chat Models'>
-    {/* TODO: does this belong here? cc @sydney-runkle */}
-    {/* https://python.langchain.com/docs/concepts/streaming/#auto-streaming-chat-models */}
     <Note>
         This section requires some baseline knowledge of [callbacks]() and
         [events]().
@@ -398,17 +397,17 @@ for response in model.batch_as_completed([
     )
     ```
 
-    See the [`RunnableConfig`]() reference for a full list of supported
-    attributes.
+    See the [`RunnableConfig`](https://python.langchain.com/api_reference/core/runnables/langchain_core.runnables.config.RunnableConfig.html#runnableconfig)
+    reference for a full list of supported attributes.
 </Tip>
 
-For more details on batching, see the [reference]().
+For more details on batching, see the [reference](https://python.langchain.com/api_reference/core/language_models/langchain_core.language_models.chat_models.BaseChatModel.html#langchain_core.language_models.chat_models.BaseChatModel.batch).
 
 ## Context windows
 
 Each model has a <Tooltip tip="The maximum number of tokens a model can process in a single request, including both input and output tokens">context window</Tooltip>
 that determines how much text it can process at once. To learn more, see our
-guide on [context engineering]() for strategies to effectively manage context.
+guide on [context engineering](./langchain-context-engineering.mdx) for strategies to effectively manage context.
 
 ## Model capabilities
 
@@ -759,8 +758,8 @@ response
 Certain models can process and return non-textual data such as images, audio,
 and video.
 
-You can pass non-textual data to a model by creating [content blocks]() that
-encapsulate the data. See examples below.
+You can pass non-textual data to a model by creating [content blocks](./langchain-messages.mdx#content)
+that encapsulate the data. See examples below.
 
 <Tip>
 
@@ -864,9 +863,9 @@ accept Anthropic native format)
 Some models can also return multimodal data as part of their response.
 
 In these cases, the resulting `AIMessage.content_blocks` will contain blocks
-with type `"image`.
+with type `'image'`.
 
-See the [Integrations page](/oss/integrations/providers) for details on your
+See the [integrations page](/oss/integrations/providers) for details on your
 specific providers.
 
 ### Reasoning
@@ -898,7 +897,7 @@ reasoning entirely. This may take the form of categorical "tiers" of reasoning
 (e.g., `'low'` or `'high'`) or integer token budgets.
 
 For details, see the relevant chat model in the
-[Integrations page](/oss/integrations/providers).
+[integrations page](/oss/integrations/providers).
 
 ## Supported models
 
@@ -915,8 +914,9 @@ LangChain supports running models locally on your own hardware. This is useful
 for scenarios where data privacy is critical, or when you want to avoid the cost
 of using a cloud-based model.
 
-[Ollama]() is one of the easiest ways to run models locally. See the full list
-of local integrations in the [reference]().
+[Ollama](./integrations/providers/ollama.mdx) is one of the easiest ways to run
+models locally. See the full list of local integrations on the
+[integrations page](/oss/integrations/providers).
 
 ### Caching
 
@@ -1152,8 +1152,9 @@ with get_usage_metadata_callback() as cb:
 ### Invocation config
 
 When invoking a model, you can pass additional configuration through the
-`config` parameter using a [`RunnableConfig`]() dictionary. This provides
-run-time control over execution behavior, callbacks, and metadata tracking.
+`config` parameter using a [`RunnableConfig`](https://python.langchain.com/api_reference/core/runnables/langchain_core.runnables.config.RunnableConfig.html#runnableconfig)
+dictionary. This provides run-time control over execution behavior, callbacks,
+and metadata tracking.
 
 Common configuration options include:
 
@@ -1208,7 +1209,8 @@ These configuration values are particularly useful when:
 - Tracking invocations across complex pipelines
 
 For more information on all supported `RunnableConfig` attributes, see the
-[`RunnableConfig`]() reference.
+[`RunnableConfig`](https://python.langchain.com/api_reference/core/runnables/langchain_core.runnables.config.RunnableConfig.html#runnableconfig)
+reference.
 
 ### Configurable models
 
