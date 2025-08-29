@@ -15,7 +15,13 @@ You can configure retention through helm or environment variable settings. There
 <CodeGroup>
 
 ```yaml Helm
-config:  ttl:    enabled: true    ttl_period_seconds:      # -- TTL seconds - 400 day longlived and 14 day shortlived      longlived: "34560000"      shortlived: "1209600"
+config:  
+  ttl:
+    enabled: true
+    ttl_period_seconds:
+      # -- 400 day longlived and 14 day shortlived
+      longlived: "34560000"
+      shortlived: "1209600"
 ```
 
 ```bash Docker
@@ -131,3 +137,14 @@ If you experience latency spikes and need to terminate a running mutation:
    ```sql
    KILL MUTATION WHERE mutation_id = '<mutation_id>';
    ```
+
+### Backups and Data Retention
+
+If disk space does not decrease after running this job, or if it continues to increase, backups may be causing the issue by creating file system hard links. These links prevent ClickHouse from cleaning up the data.
+
+To verify, check the following directories inside your ClickHouse pod:
+
+ - `/var/lib/clickhouse/backup` 
+ - `/var/lib/clickhouse/shadow`
+
+If backups are present, copy them to an external filesystem or blob storage (e.g., S3), then clear the directories. Within a few minutes, you will notice disk space releasing.

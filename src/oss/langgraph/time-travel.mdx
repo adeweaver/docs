@@ -3,8 +3,9 @@ title: Time travel overview
 sidebarTitle: Overview
 ---
 
+import AlphaCallout from '/snippets/alpha-lg-callout.mdx';
 
-
+<AlphaCallout />
 
 When working with non-deterministic systems that make model-based decisions (e.g., agents powered by LLMs), it can be useful to examine their decision-making process in detail:
 
@@ -12,8 +13,8 @@ When working with non-deterministic systems that make model-based decisions (e.g
 2. 🐞 **Debug mistakes**: Identify where and why errors occurred.
 3. 🔍 **Explore alternatives**: Test different paths to uncover better solutions.
 
-LangGraph provides [time travel functionality](/oss/time-travel) to support these use cases. Specifically, you can resume execution from a prior checkpoint — either replaying the same state or modifying it to explore alternatives. In all cases, resuming past execution produces a new fork in the history.
+LangGraph provides [time travel functionality](/oss/langgraph/time-travel) to support these use cases. Specifically, you can resume execution from a prior checkpoint — either replaying the same state or modifying it to explore alternatives. In all cases, resuming past execution produces a new fork in the history.
 
 <Tip>
-  For information on how to use time travel, see [Use time travel](/oss/time-travel) and [Time travel using Server API](/langgraph-platform/human-in-the-loop-time-travel).
+  For information on how to use time travel, see [Use time travel](/oss/langgraph/time-travel) and [Time travel using Server API](/langgraph-platform/human-in-the-loop-time-travel).
 </Tip>
