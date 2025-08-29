@@ -1,0 +1,2463 @@
+---
+title: Messages
+---
+
+{/* TODO: section on metadata types (response and usage) */}
+
+## Overview
+
+Messages are the fundamental unit of communication in LangChain. They represent
+the input and output of conversations, carrying both content and metadata that
+enables stateful multimodal interactions.
+
+Messages are structured objects that contain:
+
+* <Icon icon="user" size={16} /> [**Role**](#message-types) - Identifies the
+message type (e.g. `system`, `user`)
+* <Icon icon="folder-closed" size={16} /> [**Content**](#content) - Types
+of content: text, images, audio, documents, and more
+* <Icon icon="tag" size={16} /> [**Metadata**]() - Optional fields such as response
+information, message IDs, and token usage
+
+LangChain provides a unified message format that works across all model
+providers, handling differences automatically.
+
+## Message types
+<Columns cols={2}>
+    <Card title="System Message" icon="gear" href="#system-message" arrow="true">
+        **Role:** `system`  
+        Prime model behavior and provide context for conversations
+    </Card>
+    <Card title="Human Message" icon="user" href="#human-message" arrow="true">
+        **Role:** `user`  
+        Represent user input and interactions
+    </Card>
+    <Card title="AI Message" icon="robot" href="#ai-message" arrow="true">
+        **Role:** `assistant`  
+        Model responses and tool requests
+    </Card>
+    <Card title="Tool Message" icon="wrench" href="#tool-message" arrow="true">
+        **Role:** `tool`  
+        Tool execution results
+    </Card>
+</Columns>
+
+## Basic usage
+
+<CodeGroup>
+```python Create and use messages
+from langchain.chat_models import init_chat_model
+from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
+
+model = init_chat_model("openai:gpt-5-nano")
+
+system_msg = SystemMessage("You are a helpful assistant.")
+human_msg = HumanMessage("Hello, how are you?")
+
+# Use with chat models
+messages = [system_msg, human_msg]
+response = model.invoke(messages)  # Returns AIMessage
+```
+</CodeGroup>
+
+### Text prompts vs message prompts
+
+LangChain supports two main approaches for interacting with models:
+
+<Tabs>
+    <Tab title="Text Prompts" icon="text">
+        Text prompts are strings - ideal for straightforward generation tasks
+        where you don't need conversation history.
+        
+        ```python
+        response = model.invoke("Write a haiku about spring")
+        ```
+        
+        **Use text prompts when:**
+        * You have a single, standalone request
+        * You don't need conversation history
+        * You want minimal code complexity
+    </Tab>
+    <Tab title="Message Prompts" icon="messages">
+        Message prompts are arrays of structured messages with roles.
+        
+        ```python
+        from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
+
+        messages = [
+            SystemMessage("You are a poetry expert"),
+            HumanMessage("Write a haiku about spring"),
+            AIMessage("Cherry blossoms bloom...")
+        ]
+        response = model.invoke(messages)
+        ```
+        
+        **Use message prompts when:**
+        * Managing multi-turn conversations
+        * Working with multimodal content (images, audio, files)
+        * Including system instructions
+    </Tab>
+</Tabs>
+
+{/* TODO: fix icon. maybe we're not on the right version */}
+{/* https://fontawesome.com/icons/openai?f=brands&s=solid */}
+{/* ### <Icon icon="openai" size={16} /> OpenAI format compatibility */}
+### OpenAI format compatibility
+
+LangChain messages work seamlessly with OpenAI's [dictionary format]():
+
+<CodeGroup>
+```python OpenAI dictionary format
+openai_format = [
+    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "user", "content": "Hello!"},
+]
+
+response = model.invoke(openai_format)
+```
+
+```python LangChain message objects
+langchain_format = [
+    SystemMessage("You are a helpful assistant."),
+    HumanMessage("Hello!"),
+]
+
+response = model.invoke(langchain_format)
+```
+</CodeGroup>
+
+Both formats produce identical results. LangChain automatically handles the
+conversion between formats when communicating with different providers.
+
+## System message
+
+A `SystemMessage` primes the model's behavior and provide conversational
+context. They set the tone, define the model's role, and establish guidelines
+for responses.
+
+<CodeGroup>
+```python Basic instruction
+system_msg = SystemMessage("You are a helpful coding assistant.")
+
+messages = [
+    system_msg,
+    HumanMessage("How do I create a REST API?")
+]
+response = model.invoke(messages)
+```
+
+```python Detailed persona
+system_msg = SystemMessage("""
+You are a senior Python developer with expertise in web frameworks.
+Always provide code examples and explain your reasoning.
+Be concise but thorough in your explanations.
+""")
+
+messages = [
+    system_msg,
+    HumanMessage("How do I create a REST API?")
+]
+response = model.invoke(messages)
+```
+</CodeGroup>
+
+### Provider handling
+
+Different [providers]() handle `SystemMessage` in various ways:
+
+* **Native support** - Message included with `system` role
+* **API parameter** - Content passed as separate system parameter  
+* **No support** - Content merged into first human message
+
+<Info>
+    LangChain handles these provider differences automatically, ensuring your
+    system messages work consistently across all supported models.
+</Info>
+
+## Human message
+
+A `HumanMessage` represent user input and interactions. They can contain text,
+images, audio, files, and any other multimodal [content](#content).
+
+### Text content
+
+<CodeGroup>
+```python Message object
+human_msg = HumanMessage("What is machine learning?")
+response = model.invoke([human_msg])
+```
+
+```python String shortcut
+# Using a string is a shortcut for a single HumanMessage
+response = model.invoke("What is machine learning?")
+```
+</CodeGroup>
+
+
+### Message metadata
+
+<CodeGroup>
+```python Add metadata
+human_msg = HumanMessage(
+    content="Hello!",
+    name="alice",  # Optional: identify different users
+    id="msg_123",  # Optional: unique identifier for tracing
+)
+```
+
+```python Multi-user scenarios
+messages = [
+    HumanMessage("I like apples", name="alice"),
+    HumanMessage("I prefer oranges", name="bob"),
+    HumanMessage("What fruits do Alice and Bob like?", name="charlie")
+]
+response = model.invoke(messages)
+```
+</CodeGroup>
+
+<Note>
+    The `name` field behavior varies by provider - some use it for user
+    identification, others ignore it. To check, refer to your model provider's
+    [reference]().
+</Note>
+
+## AI message
+
+An `AIMessage` represents model responses and contain the output of model
+invocations. They can include multimodal data, tool calls, provider-specific
+metadata.
+
+### Basic AI messages
+
+```python
+response = model.invoke("Explain AI")
+print(type(response))  # <class 'langchain_core.messages.AIMessage'>
+```
+
+### AI message attributes
+
+```python AI message attributes
+response = model.invoke("Tell me a joke")
+
+print(f"Text: {response.text}")  # Text content
+print(f"Content: {response.content}")  # Raw provider content
+print(f"Content blocks: {response.content_blocks}")  # Standardized content blocks
+print(f"Tool calls: {response.tool_calls}")  # (Empty list if no tools called)
+print(f"ID: {response.id}")  # Auto-generated or provider message ID
+print(f"Usage: {response.usage_metadata}")  # Token counts (when available)
+print(f"Response metadata: {response.response_metadata}")  # Provider-specific data
+```
+
+### Tool calling responses
+
+When models make tool calls, they're included in the AI message:
+
+```python Tool calling
+model_with_tools = model.bind_tools([GetWeather])
+response = model_with_tools.invoke("What's the weather in Paris?")
+
+if response.tool_calls:
+    for tool_call in response.tool_calls:
+        print(f"Tool: {tool_call['name']}")
+        print(f"Args: {tool_call['args']}")
+        print(f"ID: {tool_call['id']}")
+```
+
+### Streaming and chunks
+
+During streaming, you receive `AIMessageChunk` objects that can be combined:
+
+<CodeGroup>
+```python Stream and collect chunks
+chunks = []
+for chunk in model.stream("Write a poem"):
+    chunks.append(chunk)
+    print(chunk.text)
+```
+
+```python Combine chunks
+from langchain_core.messages import AIMessage
+
+# Combine chunks into final message
+final_message = sum(chunks, AIMessage(""))
+print(f"Full response: {final_message.text}")
+```
+</CodeGroup>
+
+## Tool message
+
+Tool messages contain the results of tool executions and are used to pass data
+back to models after external processing.
+
+{/* TODO: determine how to call out to provider-side tool execution */}
+{/* I can't remember if they send these messages or if it varies */}
+
+### Basic tool messages
+
+```python
+# After a model makes a tool call
+ai_message = AIMessage(
+    tool_calls=[{
+        "name": "get_weather",
+        "args": {"location": "San Francisco"},
+        "id": "call_123"
+    }]
+)
+
+# Execute tool and create result message
+weather_result = "Sunny, 72°F"
+tool_message = ToolMessage(
+    content=weather_result,
+    tool_call_id="call_123"  # Must match the call ID
+)
+
+# Continue conversation
+messages = [
+    HumanMessage("What's the weather in San Francisco?"),
+    ai_message,  # Model's tool call
+    tool_message,  # Tool execution result
+]
+response = model.invoke(messages)  # Model processes the result
+```
+
+### Tool message structure
+
+```python Tool message with metadata
+tool_message = ToolMessage(
+    content="Operation completed successfully",
+    tool_call_id="call_123",  # Links to specific tool call
+    name="calculator",  # Optional tool name
+    artifact={"raw_data": [1, 2, 3]}  # Additional data not sent to model
+)
+```
+
+<Note>
+    The `artifact` field stores supplementary data that won't be sent to the
+    model but can be accessed programmatically. This is useful for storing raw
+    results, debugging information, or data for downstream processing without
+    cluttering the model's context.
+
+    <Accordion
+        title="Example: Using artifact for raw data"
+    >
+        ```python
+        from langchain_core.messages import ToolMessage
+        import json
+
+        # Tool execution returns structured data
+        raw_data = {"temperature": 72, "condition": "Sunny"}
+        tool_message = ToolMessage(
+            content="The weather is sunny with a temperature of 72°F.",
+            tool_call_id="call_123",
+            name="get_weather",
+            artifact={"raw_data": raw_data}  # Store structured data
+        )
+
+        # Later, access the raw data programmatically
+        weather_info = tool_message.artifact.get("raw_data")
+        print(f"Raw weather data: {json.dumps(weather_info)}")
+        ```
+    </Accordion>
+</Note>
+
+## Content
+
+Different providers return model responses in various formats. To standardize
+this, LangChain has a standard collection of **content blocks** to enable
+**provider-agnostic** multimodal interactions. Instead of handling different
+image formats, audio types, and document structures across providers,
+content blocks provide a unified interface that works everywhere.
+
+<CodeGroup>
+```python Provider-specific format examples
+# OpenAI format
+openai_message = {
+    "role": "user", 
+    "content": [
+        {"type": "text", "text": "What's in this image?"}, 
+        {"type": "image_url", "image_url": {"url": "..."}}
+    ]
+}
+
+# Anthropic format
+anthropic_message = {
+    "role": "user",
+    "content": [
+        {"type": "text", "text": "What's in this image?"},
+        {"type": "image", "source": {"type": "url", "media_type": "image/jpeg", "url": "..."}}
+    ]
+}
+```
+
+```python Standard content blocks
+universal_message = HumanMessage([
+    {"type": "text", "text": "What's in this image?"},
+    {"type": "image", "url": "..."}  # Works with any provider
+])
+```
+</CodeGroup>
+
+### Examples
+
+```python Multimodal message
+multimodal_message = HumanMessage([
+    {"type": "text", "text": "Compare this image and document:"},
+    {"type": "image", "url": "chart.jpg"},
+    {"type": "file", "base64": pdf_data, "mime_type": "application/pdf"},
+    {"type": "text", "text": "Which data source is more reliable?"}
+])
+
+response = model.invoke([multimodal_message])
+```
+
+<CodeGroup>
+```python PDF document analysis
+import base64
+from langchain_core.messages import HumanMessage
+
+# Read and encode PDF
+with open("report.pdf", "rb") as f:
+    pdf_data = base64.b64encode(f.read()).decode()
+
+message = HumanMessage([
+    {"type": "text", "text": "Summarize the key findings in this report"},
+    {"type": "file", "base64": pdf_data, "mime_type": "application/pdf"}
+])
+
+response = model.invoke([message])
+```
+
+```python Audio transcription
+import base64
+from langchain_core.messages import HumanMessage
+
+# Read and encode audio file
+with open("meeting.mp3", "rb") as f:
+    audio_data = base64.b64encode(f.read()).decode()
+
+message = HumanMessage([
+    {"type": "text", "text": "Transcribe this audio and identify the main topics discussed"},
+    {"type": "audio", "base64": audio_data, "mime_type": "audio/mpeg"}
+])
+
+response = model.invoke([message])
+```
+
+```python Video analysis
+import base64
+from langchain_core.messages import HumanMessage
+
+# Read and encode video file
+with open("demo.mp4", "rb") as f:
+    video_data = base64.b64encode(f.read()).decode()
+
+message = HumanMessage([
+    {"type": "text", "text": "Describe what happens in this video"},
+    {"type": "video", "base64": video_data, "mime_type": "video/mp4"}
+])
+
+response = model.invoke([message])
+```
+</CodeGroup>
+
+<Warning>
+    Not all models support all file types. Check your model provider's
+    [reference]() for supported formats and size limits.
+</Warning>
+
+### Content block types reference
+
+{/* TODO: incomplete, do we want all fields (like ID/extras) on each? */}
+
+<AccordionGroup>
+    <Accordion title="Core" icon="cube">
+        <AccordionGroup>
+            <Accordion title="TextContentBlock" icon="text">
+                **Purpose:** Standard text output
+                
+                <ParamField body="text" type="string" required>
+                    The text content
+                </ParamField>
+                
+                <ParamField body="annotations" type="object[]">
+                    List of annotations for the text
+                </ParamField>
+                
+                <ParamField body="extras" type="object">
+                    Additional provider-specific data
+                </ParamField>
+                
+                **Example:**
+                ```python
+                {
+                    "type": "text",
+                    "text": "Hello world",
+                    "annotations": []
+                }
+                ```
+            </Accordion>
+            <Accordion title="ReasoningContentBlock" icon="brain">
+                **Purpose:** Model reasoning steps
+                
+                <ParamField body="reasoning" type="string" required>
+                    The reasoning content
+                </ParamField>
+                
+                <ParamField body="extras" type="object">
+                    Additional provider-specific data
+                </ParamField>
+                
+                **Example:**
+                ```python
+                {
+                    "type": "reasoning",
+                    "reasoning": "The user is asking about..."
+                    "extras": {
+                        "summary": "The user's intent is to learn about...",
+                        "signature": "abc123"
+                    }
+                }
+                ```
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+    
+    <Accordion title="Multimodal" icon="images">
+        <AccordionGroup>
+            <Accordion title="PlainTextContentBlock" icon="align-left">
+                **Purpose:** Document text (`.txt`, `.md`)
+                
+                <ParamField body="text" type="string" required>
+                    The text content
+                </ParamField>
+                
+                <ParamField body="mime_type" type="string">
+                    MIME type of the text (e.g., `text/plain`, `text/markdown`)
+                </ParamField>
+            </Accordion>
+            <Accordion title="ImageContentBlock" icon="image">
+                **Purpose:** Image data
+                
+                <ParamField body="url" type="string">
+                    URL pointing to the image location.
+                </ParamField>
+                
+                <ParamField body="base64" type="string">
+                    Base64-encoded image data.
+                </ParamField>
+                
+                <ParamField body="id" type="string">
+                    Reference ID to an externally stored image (e.g., in a
+                    provider's file system or in a bucket).
+                </ParamField>
+                
+                <ParamField body="mime_type" type="string">
+                    Image MIME type (e.g., `image/jpeg`, `image/png`)
+                </ParamField>
+            </Accordion>
+            <Accordion title="AudioContentBlock" icon="volume-high">
+                **Purpose:** Audio data
+                
+                <ParamField body="url" type="string">
+                    URL pointing to the audio location.
+                </ParamField>
+                
+                <ParamField body="data" type="string">
+                    Base64-encoded audio data.
+                </ParamField>
+
+                <ParamField body="id" type="string">
+                    Reference ID to an externally stored audio file (e.g., in a
+                    provider's file system or in a bucket).
+                </ParamField>
+                
+                <ParamField body="mime_type" type="string">
+                    Audio MIME type (e.g., `audio/mpeg`, `audio/wav`)
+                </ParamField>
+            </Accordion>
+            <Accordion title="VideoContentBlock" icon="video">
+                **Purpose:** Video data
+                
+                <ParamField body="url" type="string">
+                    URL pointing to the video location.
+                </ParamField>
+                
+                <ParamField body="data" type="string">
+                    Base64-encoded video data.
+                </ParamField>
+
+                <ParamField body="id" type="string">
+                    Reference ID to an externally stored video file (e.g., in a
+                    provider's file system or in a bucket).
+                </ParamField>
+                
+                <ParamField body="mime_type" type="string">
+                    Video MIME type (e.g., `video/mp4`, `video/webm`)
+                </ParamField>
+            </Accordion>
+            <Accordion title="FileContentBlock" icon="file">
+                **Purpose:** Generic files (PDF, etc)
+                
+                <ParamField body="url" type="string">
+                    URL pointing to the file location.
+                </ParamField>
+                
+                <ParamField body="data" type="string">
+                    Base64-encoded file data.
+                </ParamField>
+
+                <ParamField body="id" type="string">
+                    Reference ID to an externally stored file (e.g., in a
+                    provider's file system or in a bucket).
+                </ParamField>
+                
+                <ParamField body="mime_type" type="string">
+                    File MIME type (e.g., `application/pdf`)
+                </ParamField>
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+    
+    <Accordion title="Tool Calling" icon="wrench">
+        <AccordionGroup>
+            <Accordion title="ToolCall" icon="function">
+                **Purpose:** Function calls
+                
+                <ParamField body="name" type="string" required>
+                    Name of the tool to call
+                </ParamField>
+                
+                <ParamField body="args" type="object" required>
+                    Arguments to pass to the tool
+                </ParamField>
+                
+                <ParamField body="id" type="string" required>
+                    Unique identifier for this tool call
+                </ParamField>
+                
+                **Example:**
+                ```python
+                {
+                    "type": "tool_call",
+                    "name": "search",
+                    "args": {"query": "weather"},
+                    "id": "call_123"
+                }
+                ```
+            </Accordion>
+            <Accordion title="ToolCallChunk" icon="puzzle-piece">
+                **Purpose:** Streaming tool fragments
+                
+                <ParamField body="name" type="string">
+                    Name of the tool being called
+                </ParamField>
+                
+                <ParamField body="args" type="string">
+                    Partial tool arguments (may be incomplete JSON)
+                </ParamField>
+                
+                <ParamField body="id" type="string">
+                    Tool call identifier
+                </ParamField>
+                
+                <ParamField body="index" type="number" required>
+                    Position of this chunk in the stream
+                </ParamField>
+            </Accordion>
+            <Accordion title="InvalidToolCall" icon="triangle-exclamation">
+                **Purpose:** Malformed calls
+                
+                <ParamField body="name" type="string">
+                    Name of the tool that failed to be called
+                </ParamField>
+                
+                <ParamField body="args" type="string">
+                    Raw arguments that failed to parse
+                </ParamField>
+                
+                <ParamField body="error" type="string" required>
+                    Description of what went wrong
+                </ParamField>
+                
+                **Common errors:** Invalid JSON, missing required fields
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+    
+    <Accordion title="Provider-Specific Blocks" icon="plug">
+        <AccordionGroup>
+            <Accordion title="WebSearchCall" icon="magnifying-glass">
+                **Purpose:** Built-in web search
+                
+                <ParamField body="query" type="string" required>
+                    The search query to execute
+                </ParamField>
+            </Accordion>
+            <Accordion title="WebSearchResult" icon="globe">
+                **Purpose:** Search results
+                
+                <ParamField body="urls" type="string[]" required>
+                    URLs of the search results
+                </ParamField>
+                
+                <ParamField body="snippets" type="string[]">
+                    Text snippets from the search results
+                </ParamField>
+                
+                **Returns:** Top search results with optional snippets
+            </Accordion>
+            <Accordion title="CodeInterpreterCall" icon="code">
+                **Purpose:** Code execution
+                
+                <ParamField body="language" type="string" required>
+                    Programming language to execute (e.g. `python`,
+                    `javascript`, `sql`)
+                </ParamField>
+                
+                <ParamField body="code" type="string" required>
+                    Code to execute
+                </ParamField>
+            </Accordion>
+            <Accordion title="CodeInterpreterResult" icon="terminal">
+                **Purpose:** Execution results
+                
+                <ParamField body="output" type="string" required>
+                    Output from the code execution
+                </ParamField>
+                
+                <ParamField body="error" type="string">
+                    Error message if execution failed
+                </ParamField>
+            </Accordion>
+            <Accordion title="NonStandardContentBlock" icon="asterisk">
+                **Purpose:** Provider-specific escape hatch
+                
+                <ParamField body="type" type="string" required>
+                    Must be `"non_standard"`
+                </ParamField>
+                
+                <ParamField body="value" type="object" required>
+                    Provider-specific data structure
+                </ParamField>
+                
+                **Usage:** For experimental or provider-unique features
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+</AccordionGroup>
+
+```python Content block examples
+# Standard text with annotations
+text_block = {
+    "type": "text",
+    "text": "According to research [1], Python is popular.",
+    "annotations": [{
+        "type": "citation",
+        "url": "https://example.com",
+        "start_index": 22,
+        "end_index": 25
+    }]
+}
+
+# Provider-specific content
+non_standard_block = {
+    "type": "non_standard",
+    "value": {"custom_field": "provider_specific_data"}
+```
+
+### Factory functions
+
+LangChain provides type-safe factory functions for creating content blocks with
+automatic ID generation and validation.
+
+#### Creating content blocks
+
+<Tabs>
+  <Tab title="Text blocks">
+    ```python
+    from langchain_core.messages.content import create_text_block
+
+    # Simple text block with auto-generated ID
+    text = create_text_block("Hello world")
+    # {"type": "text", "text": "Hello world", "id": "lc_text_..."}
+
+    # With annotations
+    text = create_text_block(
+        "Python is popular [1]",
+        annotations=[{
+            "type": "citation",
+            "url": "https://survey.com",
+            "start_index": 18,
+            "end_index": 21
+        }]
+    )
+    ```
+  </Tab>
+  <Tab title="Tool calls">
+    ```python
+    from langchain_core.messages.content import create_tool_call
+
+    # Create tool call with auto-ID
+    tool_call = create_tool_call(
+        name="search",
+        args={"query": "Python tutorials"}
+    )
+    # {"type": "tool_call", "name": "search", "args": {...}, "id": "lc_tool_..."}
+
+    # With custom ID
+    tool_call = create_tool_call(
+        name="calculator",
+        args={"expression": "2 + 2"},
+        id="custom_id_123"
+    )
+    ```
+  </Tab>
+  <Tab title="Provider-specific data">
+    Model providers often return extra fields not in the standard spec. These
+    are stored in the `extras` field of content blocks.
+
+    ```python
+    # Extra fields go into 'extras' dict
+    text = create_text_block(
+        "Hello",
+        custom_field="value",
+        provider_metadata={"model": "gpt-4"}
+    )
+    # Result:
+    # {
+    #   "type": "text",
+    #   "text": "Hello",
+    #   "id": "lc_text_...",
+    #   "extras": {
+    #     "custom_field": "value",
+    #     "provider_metadata": {"model": "gpt-4"}
+    #   }
+    # }
+    ```
+  </Tab>
+</Tabs>
+
+
+<Accordion
+    title="Using factories in messages"
+>
+
+    ```python Message construction with factories
+    from langchain_core.messages import AIMessage
+    from langchain_core.messages.content import (
+        create_text_block,
+        create_tool_call,
+        create_reasoning_block
+    )
+
+    # Build message with multiple block types
+    message = AIMessage(content_blocks=[
+        create_reasoning_block("User wants weather info, will search"),
+        create_tool_call("search", {"q": "weather Boston"}),
+        create_text_block("I'll search for Boston weather")
+    ])
+    ```
+</Accordion>
+
+## Annotations
+
+Annotations provide metadata about specific portions of text content:
+
+### Citations
+
+```python Citations in text
+from langchain_core.messages.content import create_text_block
+
+text_with_citations = create_text_block(
+    text="According to research [1], Python usage grew 27% [2] last year.",
+    annotations=[
+        {
+            "type": "citation",
+            "title": "Programming Language Survey 2024",
+            "url": "https://survey.example.com",
+            "cited_text": "[1]",
+            "start_index": 22,  # Position of [1] in `text
+            "end_index": 25
+        },
+        {
+            "type": "citation", 
+            "title": "Python Growth Statistics",
+            "url": "https://stats.python.org",
+            "cited_text": "[2]",
+            "start_index": 50,  # Position of [2] in `text
+            "end_index": 53
+        }
+    ]
+)
+```
+
+### Custom annotations
+
+```python Non-standard annotations
+# Provider-specific annotations
+text_block = {
+    "type": "text",
+    "text": "This text has custom metadata",
+    "annotations": [
+        {
+            "type": "non_standard_annotation",
+            "value": {
+                "sentiment": "positive",
+                "confidence": 0.95,
+                "custom_data": "provider_specific"
+            }
+        }
+    ]
+}
+```
+
+## Message history management
+
+{/* TODO: does this section belong here? */}
+{/* TODO: check functionality */}
+{/* TODO: add accordion group for each section */}
+
+Managing conversation history is crucial for building stateful applications.
+LangChain provides several strategies for persisting and managing message
+history across sessions.
+
+### Checkpointers
+
+Checkpointers enable persistence of conversation state across sessions:
+
+<CodeGroup>
+```python In-memory checkpointer
+from langgraph.checkpoint.memory import InMemorySaver
+from langgraph.graph import MessagesState, StateGraph
+
+# Create checkpointer for development/testing
+memory = InMemorySaver()
+
+# Build your graph
+builder = StateGraph(MessagesState)
+# ... add nodes and edges ...
+graph = builder.compile(checkpointer=memory)
+
+# Invoke with thread ID for conversation continuity
+config = {"configurable": {"thread_id": "user_123"}}
+response = graph.invoke({"messages": [HumanMessage("Hello")]}, config)
+```
+
+```python Production checkpointers
+from langgraph.checkpoint.postgres import PostgresSaver
+from langgraph.checkpoint.sqlite import SqliteSaver
+
+# SQLite for local persistence
+sqlite_checkpointer = SqliteSaver.from_conn_string("conversations.db")
+
+# PostgreSQL for production
+postgres_checkpointer = PostgresSaver.from_conn_string(
+    "postgresql://user:password@localhost:5432/chatbot"
+)
+
+# Use with your graph
+graph = builder.compile(checkpointer=postgres_checkpointer)
+```
+</CodeGroup>
+
+### State and reducers
+
+The `add_messages` reducer intelligently handles message updates based on IDs:
+
+```python Understanding add_messages
+from langgraph.graph.message import add_messages
+from typing import Annotated
+from typing_extensions import TypedDict
+
+class State(TypedDict):
+    # The reducer handles message list updates
+    messages: Annotated[list, add_messages]
+
+# How add_messages works:
+# 1. New messages (no ID) are appended
+# 2. Messages with existing IDs are updated
+# 3. RemoveMessage objects delete specific messages
+
+# Example state update behaviors:
+initial_state = {"messages": [HumanMessage("Hi", id="1")]}
+
+# Appends new message
+update1 = {"messages": [AIMessage("Hello!")]}
+# Result: [HumanMessage("Hi", id="1"), AIMessage("Hello!")]
+
+# Updates existing message
+update2 = {"messages": [HumanMessage("Hey", id="1")]}
+# Result: [HumanMessage("Hey", id="1")]
+```
+
+### Thread and session management
+
+Track conversations across sessions using thread IDs:
+
+<CodeGroup>
+```python Thread-based conversations
+# Store different conversations separately
+thread_configs = {
+    "user_alice": {"configurable": {"thread_id": "alice_001"}},
+    "user_bob": {"configurable": {"thread_id": "bob_001"}},
+}
+
+# Each thread maintains its own state
+for user, config in thread_configs.items():
+    response = graph.invoke(
+        {"messages": [HumanMessage(f"Hello from {user}")]},
+        config
+    )
+```
+
+```python Session metadata tracking
+from langchain_core.messages import HumanMessage
+
+# Add metadata to track sessions
+message = HumanMessage(
+    "What's the weather?",
+    metadata={
+        "session_id": "sess_abc123",
+        "user_id": "user_456",
+        "timestamp": "2024-01-15T10:30:00Z"
+    }
+)
+
+# Retrieve conversation history with metadata
+def get_session_history(session_id: str):
+    state = graph.get_state({"configurable": {"thread_id": session_id}})
+    return [msg for msg in state.values["messages"] 
+            if msg.metadata.get("session_id") == session_id]
+```
+</CodeGroup>
+
+### Filtering
+
+Filter messages with sophisticated criteria for different use cases:
+
+<AccordionGroup>
+    <Accordion title="By type" icon="filter">
+        Filter messages based on their role (human, AI, system or tool) and tool
+        call presence.
+
+        ```python Type-based filtering
+        from langchain_core.messages import filter_messages
+
+        messages = [
+            SystemMessage("You are helpful"),
+            HumanMessage("Question 1"),
+            AIMessage("Answer 1"),
+            HumanMessage("Question 2"),
+            AIMessage("Answer 2", tool_calls=[...]),
+            ToolMessage("Result", tool_call_id="123")
+        ]
+
+        # Get only human messages
+        human_only = filter_messages(messages, include_types=["human"])
+
+        # Exclude system messages
+        no_system = filter_messages(messages, exclude_types=["system"])
+
+        # Get AI messages with tool calls
+        ai_with_tools = filter_messages(
+            messages,
+            include_types=["ai"],
+            include_tool_calls=True
+        )
+        ```
+    </Accordion>
+    <Accordion title="By metadata" icon="filter">
+        ```python Metadata-based filtering
+        from langchain_core.messages import filter_messages
+
+        messages = [
+            HumanMessage("Hi", name="alice", metadata={"priority": "high"}),
+            HumanMessage("Hello", name="bob", metadata={"priority": "low"}),
+            AIMessage("Response to Alice", metadata={"model": "gpt-4"}),
+            AIMessage("Response to Bob", metadata={"model": "gpt-3.5"})
+        ]
+
+        # Filter by name
+        alice_messages = filter_messages(messages, include_names=["alice"])
+
+        # Filter by custom metadata
+        high_priority = filter_messages(
+            messages,
+            filter_func=lambda m: m.metadata.get("priority") == "high"
+        )
+
+        # Complex filtering
+        gpt4_responses = filter_messages(
+            messages,
+            include_types=["ai"],
+            filter_func=lambda m: m.metadata.get("model") == "gpt-4"
+        )
+        ```
+    </Accordion>
+    <Accordion title="By IDs" icon="filter">
+        ```python ID-based filtering
+        # Keep specific messages by ID
+        message_ids = ["msg_001", "msg_003", "msg_005"]
+        selected = filter_messages(messages, include_ids=message_ids)
+
+        # Exclude specific messages
+        excluded = filter_messages(messages, exclude_ids=["msg_002", "msg_004"])
+
+        # Get messages after a specific ID
+        def get_messages_after(messages, after_id):
+            found = False
+            return [
+                msg for msg in messages
+                if (found := found or msg.id == after_id) and msg.id != after_id
+            ]
+        ```
+    </Accordion>
+</AccordionGroup>
+
+
+
+
+### Trimming strategies
+
+Manage context window limits with intelligent trimming:
+
+<AccordionGroup>
+    <Accordion title="Token-based" icon="calculator">
+        Control message history size based on token counts to fit within model context windows.
+        
+        <CodeGroup>
+        ```python Basic token trimming
+        from langchain_core.messages import trim_messages
+        
+        messages = [
+            SystemMessage("You are a helpful assistant"),
+            HumanMessage("Tell me about Python"),
+            AIMessage("Python is a programming language..."),
+            # ... many more messages ...
+        ]
+        
+        # Keep last 1000 tokens
+        trimmed = trim_messages(
+            messages,
+            max_tokens=1000,
+            strategy="last",  # Keep most recent messages
+            token_counter=model  # Use model's token counter
+        )
+        ```
+        
+        ```python Preserve system message highlight={6}
+        # Always keep system message
+        trimmed_with_system = trim_messages(
+            messages,
+            max_tokens=1000,
+            strategy="last",
+            include_system=True,  # Preserve system message
+            token_counter=model
+        )
+        ```
+        
+        ```python Custom token counter
+        # Use custom token counter
+        def count_tokens(messages):
+            """Custom token counting logic"""
+            total = 0
+            for msg in messages:
+                # Approximate: 4 chars = 1 token
+                total += len(msg.content) // 4
+            return total
+        
+        trimmed = trim_messages(
+            messages,
+            max_tokens=1000,
+            strategy="last",
+            token_counter=count_tokens
+        )
+        ```
+        </CodeGroup>
+    </Accordion>
+    
+    <Accordion title="Message count" icon="hashtag">
+        Limit conversation history by number of messages rather than tokens.
+        
+        <CodeGroup>
+        ```python Keep recent messages
+        # Keep last N messages
+        recent_messages = trim_messages(
+            messages,
+            max_messages=10,
+            strategy="last"
+        )
+        ```
+        
+        ```python Keep initial context
+        # Keep first N messages after system
+        initial_context = trim_messages(
+            messages,
+            max_messages=5,
+            strategy="first",
+            include_system=True
+        )
+        ```
+        
+        ```python Preserve tool messages
+        # Custom trimming with tool message preservation
+        def trim_preserve_tools(messages, max_messages=10):
+            """Keep tool-related messages intact"""
+            tool_messages = filter_messages(
+                messages,
+                include_types=["ai", "tool"],
+                include_tool_calls=True
+            )
+            other_messages = filter_messages(
+                messages,
+                exclude_types=["tool"]
+            )
+            trimmed_other = other_messages[-max_messages:]
+            return sorted(trimmed_other + tool_messages, key=lambda m: m.id)
+        ```
+        </CodeGroup>
+    </Accordion>
+    
+    <Accordion title="Intelligent trimming strategies" icon="brain">
+        Advanced strategies that preserve important context while trimming.
+        
+        <AccordionGroup>
+            <Accordion title="Importance-based trimming" icon="star">
+                ```python
+                def smart_trim(messages, max_tokens=2000):
+                    """Trim while preserving important context"""
+                    # Always keep system message
+                    system = filter_messages(messages, include_types=["system"])
+                    
+                    # Keep messages with high importance
+                    important = filter_messages(
+                        messages,
+                        filter_func=lambda m: m.metadata.get("important", False)
+                    )
+                    
+                    # Keep recent messages
+                    recent = messages[-5:]
+                    
+                    # Combine and deduplicate
+                    combined = list({m.id: m for m in system + important + recent}.values())
+                    
+                    # Trim if still over limit
+                    return trim_messages(combined, max_tokens=max_tokens, strategy="last")
+                ```
+            </Accordion>
+            
+            <Accordion title="Sliding window approach" icon="window-restore">
+                ```python
+                def sliding_window_trim(messages, window_size=10, overlap=2):
+                    """Keep a sliding window of messages with overlap"""
+                    if len(messages) <= window_size:
+                        return messages
+                    
+                    # Keep system message
+                    system = filter_messages(messages, include_types=["system"])
+                    
+                    # Get the window
+                    start_idx = max(0, len(messages) - window_size)
+                    window = messages[start_idx:]
+                    
+                    # Add overlap from previous context
+                    if start_idx > 0:
+                        overlap_msgs = messages[max(0, start_idx - overlap):start_idx]
+                        window = overlap_msgs + window
+                    
+                    return system + window
+                ```
+            </Accordion>
+            
+            <Accordion title="Topic-aware trimming" icon="tags">
+                ```python
+                def topic_aware_trim(messages, max_tokens=2000):
+                    """Keep messages related to current topic"""
+                    # Identify current topic from recent messages
+                    recent = messages[-3:]
+                    topics = extract_topics(recent)  # Custom topic extraction
+                    
+                    # Keep topic-relevant messages
+                    relevant = filter_messages(
+                        messages,
+                        filter_func=lambda m: any(
+                            topic in m.content.lower() 
+                            for topic in topics
+                        )
+                    )
+                    
+                    # Combine with system and recent
+                    system = filter_messages(messages, include_types=["system"])
+                    combined = system + relevant + recent
+                    
+                    return trim_messages(combined, max_tokens=max_tokens)
+                ```
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+</AccordionGroup>
+
+### Merging
+
+Consolidate consecutive messages for cleaner conversation flow:
+
+```python Merge consecutive messages
+from langchain_core.messages import merge_message_runs
+
+messages = [
+    HumanMessage("Hello"),
+    HumanMessage("How are you?"),
+    AIMessage("I'm doing well!"),
+    AIMessage("How can I help you today?"),
+    HumanMessage("I have a question")
+]
+
+# Merge consecutive messages of the same type
+merged = merge_message_runs(messages)
+# Result:
+# [
+#   HumanMessage("Hello\nHow are you?"),
+#   AIMessage("I'm doing well!\nHow can I help you today?"),
+#   HumanMessage("I have a question")
+# ]
+```
+
+#### Custom merging strategies
+
+<CodeGroup>
+```python Merge with separators
+def merge_with_separator(messages, separator="\n\n"):
+    """Merge messages with custom separator"""
+    merged = []
+    current = None
+    
+    for msg in messages:
+        if current is None:
+            current = msg
+        elif type(current) == type(msg):
+            # Merge content with separator
+            current.content = f"{current.content_blocks}{separator}{msg.content_blocks}"
+        else:
+            merged.append(current)
+            current = msg
+    
+    if current:
+        merged.append(current)
+    
+    return merged
+```
+
+```python Selective merging
+def merge_selective(messages, merge_types=["human"]):
+    """Only merge specific message types"""
+    merged = []
+    buffer = []
+    
+    for msg in messages:
+        msg_type = msg.__class__.__name__.lower().replace("message", "")
+        
+        if msg_type in merge_types:
+            buffer.append(msg)
+        else:
+            if buffer:
+                # Merge buffered messages
+                merged.append(merge_message_runs(buffer)[0])
+                buffer = []
+            merged.append(msg)
+    
+    if buffer:
+        merged.append(merge_message_runs(buffer)[0])
+    
+    return merged
+```
+</CodeGroup>
+
+#### Summarization
+
+{/* TODO tabs? */}
+
+Compress message history while preserving context:
+
+```python Summarize conversation history
+from langchain_core.prompts import ChatPromptTemplate
+
+def summarize_messages(messages, model, max_summary_length=500):
+    """Summarize a conversation history"""
+    
+    # Create summarization prompt
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", "Summarize this conversation in {max_length} words or less. "
+                   "Focus on key points and maintain context."),
+        ("human", "Conversation to summarize:\n{conversation}")
+    ])
+    
+    # Format conversation as text
+    conversation_text = "\n".join([
+        f"{msg.__class__.__name__}: {msg.text}"
+        for msg in messages
+    ])
+    
+    # Generate summary
+    summary_msg = model.invoke(
+        prompt.format_messages(
+            max_length=max_summary_length,
+            conversation=conversation_text
+        )
+    )
+    
+    return SystemMessage(
+        content=f"Previous conversation summary: {summary_msg.text}",
+        metadata={"type": "summary", "message_count": len(messages)}
+    )
+```
+
+##### Progressive summarization
+
+```python Rolling summarization
+from langchain_core.messages import SystemMessage
+from langchain_core.prompts import ChatPromptTemplate
+
+class ConversationSummarizer:
+    """Progressively summarize conversations"""
+    
+    def __init__(self, model, chunk_size=10):
+        self.model = model
+        self.chunk_size = chunk_size
+        self.summaries = []
+    
+    def add_messages(self, messages):
+        """Add messages and summarize if needed"""
+        if len(messages) >= self.chunk_size:
+            # Summarize the chunk
+            summary = self.summarize_chunk(messages)
+            self.summaries.append(summary)
+            
+            # Return summary + recent messages
+            recent = messages[-3:]  # Keep last 3 messages
+            return [self.get_combined_summary()] + recent
+        return messages
+    
+    def summarize_chunk(self, messages):
+        """Summarize a chunk of messages"""
+        prompt = ChatPromptTemplate.from_messages([
+            ("system", "Summarize these messages concisely:"),
+            ("human", "{messages}")
+        ])
+        
+        messages_text = "\n".join([f"{m.type}: {m.text}" for m in messages])
+        response = self.model.invoke(
+            prompt.format_messages(messages=messages_text)
+        )
+        return response.text
+    
+    def get_combined_summary(self):
+        """Get combined summary of all chunks"""
+        if not self.summaries:
+            return None
+        
+        combined = " ".join(self.summaries)
+        return SystemMessage(
+            f"Conversation context: {combined}",
+            metadata={"type": "rolling_summary"}
+        )
+```
+
+### Deletion
+
+Remove specific messages from conversation history:
+
+```python RemoveMessage
+from langchain_core.messages import RemoveMessage
+from langgraph.graph import MessagesState
+
+def delete_messages_node(state: MessagesState):
+    """Delete messages by ID"""
+    messages = state["messages"]
+    
+    # Find messages to delete (e.g., older than 5 messages)
+    if len(messages) > 5:
+        to_delete = messages[:-5]  # Keep only last 5
+        
+        # Create RemoveMessage objects
+        deletions = [RemoveMessage(id=msg.id) for msg in to_delete]
+        
+        return {"messages": deletions}
+    
+    return {}
+
+# In a graph
+builder = StateGraph(MessagesState)
+builder.add_node("delete_old", delete_messages_node)
+```
+
+#### Selective deletion patterns
+
+<CodeGroup>
+```python Delete by criteria
+def delete_by_metadata(state, key, value):
+    """Delete messages matching metadata criteria"""
+    messages = state["messages"]
+    
+    to_delete = [
+        RemoveMessage(id=msg.id)
+        for msg in messages
+        if msg.metadata.get(key) == value
+    ]
+    
+    return {"messages": to_delete}
+
+def delete_error_messages(state):
+    """Remove messages marked as errors"""
+    messages = state["messages"]
+    
+    error_messages = [
+        RemoveMessage(id=msg.id)
+        for msg in messages
+        if "error" in msg.text.lower() or 
+           msg.metadata.get("status") == "error"
+    ]
+    
+    return {"messages": error_messages}
+```
+
+```python Clear conversation
+def clear_conversation(state, keep_system=True):
+    """Clear all messages except system"""
+    messages = state["messages"]
+    
+    if keep_system:
+        # Keep only system messages
+        to_delete = [
+            RemoveMessage(id=msg.id)
+            for msg in messages
+            if not isinstance(msg, SystemMessage)
+        ]
+    else:
+        # Clear everything
+        to_delete = [RemoveMessage(id=msg.id) for msg in messages]
+    
+    return {"messages": to_delete}
+```
+</CodeGroup>
+
+## Multi-agent message handling
+
+Manage messages in multi-agent systems:
+
+<AccordionGroup>
+    <Accordion title="Message routing" icon="route">
+        Direct messages to appropriate agents based on content and context.
+        
+        <AccordionGroup>
+            <Accordion title="Content-based routing" icon="filter">
+                ```python
+                from typing import Literal, Annotated
+                from typing_extensions import TypedDict
+                from langgraph.graph.message import add_messages
+                
+                class MultiAgentState(TypedDict):
+                    messages: Annotated[list, add_messages]
+                    next_agent: Literal["researcher", "coder", "reviewer", "end"]
+                
+                def route_message(state: MultiAgentState) -> str:
+                    """Route to appropriate agent based on message content"""
+                    last_message = state["messages"][-1]
+                    
+                    if "research" in last_message.text.lower():
+                        return "researcher"
+                    elif "code" in last_message.text.lower():
+                        return "coder"
+                    elif "review" in last_message.text.lower():
+                        return "reviewer"
+                    else:
+                        return "end"
+                ```
+            </Accordion>
+            
+            <Accordion title="Agent-specific filtering" icon="user-shield">
+                ```python
+                def researcher_node(state: MultiAgentState):
+                    """Researcher only sees relevant messages"""
+                    # Filter messages for researcher context
+                    relevant_messages = filter_messages(
+                        state["messages"],
+                        exclude_types=["tool"],  # Exclude other agents' tool calls
+                        filter_func=lambda m: "research" in m.text.lower() or 
+                                             m.metadata.get("agent") == "researcher"
+                    )
+                    
+                    response = researcher_model.invoke(relevant_messages)
+                    response.metadata = {"agent": "researcher"}
+                    
+                    return {"messages": [response], "next_agent": "coder"}
+                
+                def coder_node(state: MultiAgentState):
+                    """Coder sees implementation-relevant messages"""
+                    relevant_messages = filter_messages(
+                        state["messages"],
+                        filter_func=lambda m: m.metadata.get("agent") in ["researcher", "coder"] or
+                                             "implement" in m.text.lower()
+                    )
+                    
+                    response = coder_model.invoke(relevant_messages)
+                    response.metadata = {"agent": "coder"}
+                    
+                    return {"messages": [response], "next_agent": "reviewer"}
+                ```
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+    
+    <Accordion title="Agent handoffs" icon="handshake">
+        Manage transitions between agents with proper context transfer.
+        
+        <AccordionGroup>
+            <Accordion title="Basic handoff" icon="arrow-right">
+                ```python
+                def create_handoff_message(from_agent: str, to_agent: str, context: str):
+                    """Create a handoff message between agents"""
+                    return AIMessage(
+                        content=f"Transferring from {from_agent} to {to_agent}: {context}",
+                        tool_calls=[{
+                            "name": "transfer_to_agent",
+                            "args": {"agent": to_agent, "context": context},
+                            "id": f"handoff_{from_agent}_{to_agent}"
+                        }]
+                    )
+                
+                def add_handoff_confirmation(handoff_message: AIMessage):
+                    """Add confirmation for handoff"""
+                    tool_call_id = handoff_message.tool_calls[0]["id"]
+                    return ToolMessage(
+                        content=f"Successfully transferred to agent",
+                        tool_call_id=tool_call_id
+                    )
+                ```
+            </Accordion>
+            
+            <Accordion title="Context-aware handoff" icon="share-nodes">
+                ```python
+                def agent_with_handoff(state):
+                    """Handle agent transitions with context"""
+                    messages = state["messages"]
+                    
+                    # Process messages
+                    response = model.invoke(messages)
+                    
+                    # Check if handoff is needed
+                    if needs_handoff(response):
+                        # Extract context for next agent
+                        context = extract_handoff_context(response)
+                        handoff = create_handoff_message("current", "next", context)
+                        confirmation = add_handoff_confirmation(handoff)
+                        
+                        return {
+                            "messages": [response, handoff, confirmation],
+                            "handoff_context": context
+                        }
+                    
+                    return {"messages": [response]}
+                
+                def extract_handoff_context(response):
+                    """Extract relevant context for next agent"""
+                    return {
+                        "summary": response.text[:200],
+                        "key_points": extract_key_points(response.content),
+                        "next_steps": identify_next_steps(response.content),
+                        "artifacts": response.metadata.get("artifacts", [])
+                    }
+                ```
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+    
+    <Accordion title="Message views" icon="eye">
+        Maintain separate message histories for different agents.
+        
+        <AccordionGroup>
+            <Accordion title="Separate agent views" icon="users">
+                ```python
+                from typing import Annotated
+                from typing_extensions import TypedDict
+                from langgraph.graph.message import add_messages
+                from langchain_core.messages import SystemMessage
+                
+                class MultiAgentMessagesState(TypedDict):
+                    # Shared message list
+                    messages: Annotated[list, add_messages]
+                    # Agent-specific views
+                    researcher_messages: Annotated[list, add_messages]
+                    coder_messages: Annotated[list, add_messages]
+                    reviewer_messages: Annotated[list, add_messages]
+                
+                def update_agent_view(state, agent_name: str, message):
+                    """Update agent-specific message view"""
+                    # Add to shared messages
+                    updates = {"messages": [message]}
+                    
+                    # Add to agent-specific view
+                    agent_key = f"{agent_name}_messages"
+                    updates[agent_key] = [message]
+                    
+                    # Optionally add summary to other agents
+                    if message.metadata.get("share_summary"):
+                        summary = SystemMessage(
+                            f"[{agent_name}]: {message.content[:100]}...",
+                            metadata={"type": "agent_summary", "from": agent_name}
+                        )
+                        for other_agent in ["researcher", "coder", "reviewer"]:
+                            if other_agent != agent_name:
+                                updates[f"{other_agent}_messages"] = [summary]
+                    
+                    return updates
+                ```
+            </Accordion>
+            
+            <Accordion title="Visibility control" icon="eye-slash">
+                ```python
+                class MessageVisibility:
+                    """Control which agents can see which messages"""
+                    
+                    def __init__(self):
+                        self.visibility_rules = {
+                            "researcher": ["public", "research", "planning"],
+                            "coder": ["public", "implementation", "technical"],
+                            "reviewer": ["public", "review", "quality"],
+                            "manager": ["all"]  # Sees everything
+                        }
+                    
+                    def filter_for_agent(self, messages, agent_role):
+                        """Filter messages based on agent visibility"""
+                        allowed_tags = self.visibility_rules.get(agent_role, ["public"])
+                        
+                        if "all" in allowed_tags:
+                            return messages
+                        
+                        return [
+                            msg for msg in messages
+                            if any(tag in msg.metadata.get("visibility", ["public"])
+                                  for tag in allowed_tags)
+                        ]
+                    
+                    def tag_message(self, message, visibility_tags):
+                        """Tag message with visibility metadata"""
+                        message.metadata["visibility"] = visibility_tags
+                        return message
+                ```
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+</AccordionGroup>
+
+## Invalid chat history handling
+
+Handle and fix malformed message sequences:
+
+### Common validation errors
+
+<Accordion title="Message validation implementation">
+```python Detect invalid sequences
+from langchain_core.messages import ToolMessage
+
+def validate_message_history(messages):
+    """Check for common message history issues"""
+    errors = []
+    
+    for i, msg in enumerate(messages):
+        # Check for tool calls without responses
+        if hasattr(msg, 'tool_calls') and msg.tool_calls:
+            # Look for corresponding ToolMessage
+            tool_ids = {tc['id'] for tc in msg.tool_calls}
+            found_responses = set()
+            
+            for future_msg in messages[i+1:]:
+                if isinstance(future_msg, ToolMessage):
+                    if future_msg.tool_call_id in tool_ids:
+                        found_responses.add(future_msg.tool_call_id)
+            
+            missing = tool_ids - found_responses
+            if missing:
+                errors.append({
+                    "type": "missing_tool_response",
+                    "message_index": i,
+                    "tool_call_ids": list(missing)
+                })
+    
+    # Check for orphaned tool messages
+    for i, msg in enumerate(messages):
+        if isinstance(msg, ToolMessage):
+            # Look for corresponding tool call
+            found = False
+            for prior_msg in messages[:i]:
+                if hasattr(prior_msg, 'tool_calls'):
+                    if any(tc['id'] == msg.tool_call_id 
+                          for tc in prior_msg.tool_calls):
+                        found = True
+                        break
+            
+            if not found:
+                errors.append({
+                    "type": "orphaned_tool_message",
+                    "message_index": i,
+                    "tool_call_id": msg.tool_call_id
+                })
+    
+    return errors
+```
+</Accordion>
+
+### Automatic repair strategies
+
+{/* TODO: validate */}
+
+<CodeGroup>
+```python Fix missing tool responses
+def fix_missing_tool_responses(messages):
+    """Add placeholder responses for missing tool calls"""
+    fixed = []
+    
+    for msg in messages:
+        fixed.append(msg)
+        
+        # If message has tool calls, ensure responses exist
+        if hasattr(msg, 'tool_calls') and msg.tool_calls:
+            for tool_call in msg.tool_calls:
+                # Check if response exists in remaining messages
+                has_response = any(
+                    isinstance(m, ToolMessage) and 
+                    m.tool_call_id == tool_call['id']
+                    for m in messages
+                )
+                
+                if not has_response:
+                    # Add placeholder response
+                    fixed.append(ToolMessage(
+                        content="Tool execution skipped",
+                        tool_call_id=tool_call['id'],
+                        metadata={"auto_generated": True}
+                    ))
+    
+    return fixed
+```
+
+```python Remove invalid messages
+def clean_message_history(messages):
+    """Remove invalid messages from history"""
+    cleaned = []
+    tool_call_ids = set()
+    
+    # First pass: collect valid tool call IDs
+    for msg in messages:
+        if hasattr(msg, 'tool_calls') and msg.tool_calls:
+            for tc in msg.tool_calls:
+                tool_call_ids.add(tc['id'])
+    
+    # Second pass: filter messages
+    for msg in messages:
+        if isinstance(msg, ToolMessage):
+            # Only keep tool messages with valid IDs
+            if msg.tool_call_id in tool_call_ids:
+                cleaned.append(msg)
+        else:
+            cleaned.append(msg)
+    
+    return cleaned
+```
+</CodeGroup>
+
+## Advanced patterns
+
+Sophisticated message handling patterns for complex use cases:
+
+<AccordionGroup>
+    <Accordion title="Message versioning & history" icon="clock-rotate-left">
+        Track and manage message edit history for audit trails and undo functionality.
+        
+        <AccordionGroup>
+            <Accordion title="Basic versioning" icon="code-branch">
+                ```python
+                import uuid
+                from datetime import datetime
+                from langchain_core.messages import HumanMessage, AIMessage
+                
+                class VersionedMessage:
+                    """Track message edit history"""
+                    
+                    def __init__(self, content, role="human"):
+                        self.id = str(uuid.uuid4())
+                        self.role = role
+                        self.versions = [
+                            {
+                                "content": content,
+                                "timestamp": datetime.now(),
+                                "version": 1
+                            }
+                        ]
+                    
+                    def edit(self, new_content):
+                        """Add new version of message"""
+                        self.versions.append({
+                            "content": new_content,
+                            "timestamp": datetime.now(),
+                            "version": len(self.versions) + 1
+                        })
+                    
+                    @property
+                    def content(self):
+                        """Get current content"""
+                        return self.versions[-1]["content"]
+                    
+                    def get_version(self, version_num):
+                        """Get specific version"""
+                        for v in self.versions:
+                            if v["version"] == version_num:
+                                return v["content"]
+                        return None
+                    
+                    def to_langchain_message(self):
+                        """Convert to LangChain message"""
+                        msg_class = HumanMessage if self.role == "human" else AIMessage
+                        return msg_class(
+                            content=self.content,
+                            id=self.id,
+                            metadata={
+                                "version": len(self.versions),
+                                "edited": len(self.versions) > 1
+                            }
+                        )
+                ```
+            </Accordion>
+            
+            <Accordion title="Diff tracking" icon="code-compare">
+                ```python
+                import difflib
+                
+                class DiffTrackedMessage(VersionedMessage):
+                    """Track changes between message versions"""
+                    
+                    def get_diff(self, v1=None, v2=None):
+                        """Get diff between two versions"""
+                        if v1 is None:
+                            v1 = len(self.versions) - 1
+                        if v2 is None:
+                            v2 = len(self.versions)
+                        
+                        content1 = self.get_version(v1)
+                        content2 = self.get_version(v2)
+                        
+                        differ = difflib.unified_diff(
+                            content1.splitlines(),
+                            content2.splitlines(),
+                            lineterm='',
+                            n=3
+                        )
+                        
+                        return '\n'.join(differ)
+                    
+                    def get_changelog(self):
+                        """Get full changelog"""
+                        changelog = []
+                        for i in range(1, len(self.versions)):
+                            changelog.append({
+                                "from_version": i,
+                                "to_version": i + 1,
+                                "timestamp": self.versions[i]["timestamp"],
+                                "diff": self.get_diff(i, i + 1)
+                            })
+                        return changelog
+                ```
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+    
+    <Accordion title="Conversation branching" icon="code-fork">
+        Support multiple conversation paths and what-if scenarios.
+        
+        <AccordionGroup>
+            <Accordion title="Branch management" icon="sitemap">
+                ```python
+                class ConversationTree:
+                    """Support branching conversations"""
+                    
+                    def __init__(self):
+                        self.branches = {}
+                        self.current_branch = "main"
+                    
+                    def add_message(self, message, branch=None):
+                        """Add message to branch"""
+                        branch = branch or self.current_branch
+                        if branch not in self.branches:
+                            self.branches[branch] = []
+                        self.branches[branch].append(message)
+                    
+                    def create_branch(self, from_branch="main", at_index=-1):
+                        """Create new branch from existing conversation"""
+                        new_branch_id = f"branch_{len(self.branches)}"
+                        
+                        # Copy messages up to branch point
+                        source_messages = self.branches[from_branch][:at_index]
+                        self.branches[new_branch_id] = source_messages.copy()
+                        
+                        return new_branch_id
+                    
+                    def merge_branches(self, branch1, branch2, strategy="append"):
+                        """Merge two conversation branches"""
+                        if strategy == "append":
+                            # Simply append branch2 to branch1
+                            merged = self.branches[branch1] + self.branches[branch2]
+                        elif strategy == "interleave":
+                            # Interleave messages by timestamp
+                            merged = sorted(
+                                self.branches[branch1] + self.branches[branch2],
+                                key=lambda m: m.metadata.get("timestamp", 0)
+                            )
+                        
+                        return merged
+                    
+                    def get_messages(self, branch=None):
+                        """Get messages from branch"""
+                        branch = branch or self.current_branch
+                        return self.branches.get(branch, [])
+                ```
+            </Accordion>
+            
+            <Accordion title="Parallel exploration" icon="route">
+                ```python
+                class ParallelConversations:
+                    """Explore multiple conversation paths simultaneously"""
+                    
+                    def __init__(self, model):
+                        self.model = model
+                        self.conversations = {}
+                    
+                    async def explore_parallel(self, base_messages, variations):
+                        """Explore multiple variations in parallel"""
+                        import asyncio
+                        
+                        tasks = []
+                        for variation_id, variation_msg in variations.items():
+                            messages = base_messages + [variation_msg]
+                            task = self.model.ainvoke(messages)
+                            tasks.append((variation_id, task))
+                        
+                        results = {}
+                        for variation_id, task in tasks:
+                            response = await task
+                            results[variation_id] = response
+                        
+                        return results
+                    
+                    def compare_outcomes(self, results):
+                        """Compare different conversation outcomes"""
+                        comparison = {}
+                        for var_id, response in results.items():
+                            comparison[var_id] = {
+                                "response": response.content,
+                                "sentiment": analyze_sentiment(response.content),
+                                "length": len(response.content),
+                                "tool_calls": len(response.tool_calls) if response.tool_calls else 0
+                            }
+                        return comparison
+                ```
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+    
+    {/* TODO this is LangGraph focused? */}
+    <Accordion title="Rich annotations" icon="tags">
+        Add metadata, analysis, and context to messages.
+        
+        <AccordionGroup>
+            <Accordion title="Semantic annotations" icon="bookmark">
+                ```python
+                class AnnotatedMessage:
+                    """Messages with rich annotations"""
+                    
+                    def __init__(self, message):
+                        self.message = message
+                        self.annotations = {
+                            "sentiment": None,
+                            "topics": [],
+                            "entities": [],
+                            "intent": None,
+                            "confidence": None
+                        }
+                    
+                    def annotate(self, annotation_type, value):
+                        """Add annotation to message"""
+                        self.annotations[annotation_type] = value
+                        return self
+                    
+                    def to_langchain_message(self):
+                        """Convert to LangChain message with annotations"""
+                        msg = self.message
+                        msg.metadata = {
+                            **msg.metadata,
+                            "annotations": self.annotations
+                        }
+                        return msg
+                
+                # Usage example
+                def annotate_conversation(messages, analyzer):
+                    """Add annotations to messages"""
+                    annotated = []
+                    
+                    for msg in messages:
+                        ann_msg = AnnotatedMessage(msg)
+                        
+                        # Analyze message
+                        analysis = analyzer.analyze(msg.content)
+                        
+                        ann_msg.annotate("sentiment", analysis["sentiment"])
+                        ann_msg.annotate("topics", analysis["topics"])
+                        ann_msg.annotate("intent", analysis["intent"])
+                        
+                        annotated.append(ann_msg.to_langchain_message())
+                    
+                    return annotated
+                ```
+            </Accordion>
+            
+            <Accordion title="Context linking" icon="link">
+                ```python
+                class LinkedMessage:
+                    """Messages with contextual links"""
+                    
+                    def __init__(self, message):
+                        self.message = message
+                        self.links = {
+                            "references": [],  # Messages this refers to
+                            "referenced_by": [],  # Messages that refer to this
+                            "related": [],  # Related messages
+                            "context": None  # External context
+                        }
+                    
+                    def add_reference(self, message_id, ref_type="explicit"):
+                        """Add reference to another message"""
+                        self.links["references"].append({
+                            "message_id": message_id,
+                            "type": ref_type,  # explicit, implicit, topic
+                            "timestamp": datetime.now()
+                        })
+                    
+                    def set_context(self, context_data):
+                        """Set external context"""
+                        self.links["context"] = {
+                            "data": context_data,
+                            "timestamp": datetime.now()
+                        }
+                    
+                    def find_related(self, messages, threshold=0.7):
+                        """Find related messages by similarity"""
+                        from sklearn.metrics.pairwise import cosine_similarity
+                        
+                        # Compute embeddings (simplified)
+                        embeddings = [get_embedding(m.content) for m in messages]
+                        my_embedding = get_embedding(self.message.content)
+                        
+                        # Find similar messages
+                        similarities = cosine_similarity([my_embedding], embeddings)[0]
+                        related = [
+                            messages[i].id for i, sim in enumerate(similarities)
+                            if sim > threshold and messages[i].id != self.message.id
+                        ]
+                        
+                        self.links["related"] = related
+                        return related
+                ```
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+</AccordionGroup>
+
+## Message utilities
+
+LangChain provides utilities for working with messages:
+
+<CodeGroup>
+```python Filter messages
+from langchain_core.messages import filter_messages
+
+messages = [
+    SystemMessage("You are helpful."),
+    HumanMessage("Hello", name="alice"),
+    HumanMessage("Hi there", name="bob"), 
+    AIMessage("Hello Alice and Bob!")
+]
+
+# Filter by type
+user_messages = filter_messages(messages, include_types="human")
+
+# Filter by name
+alice_messages = filter_messages(messages, include_names=["alice"])
+```
+
+```python Merge message runs
+from langchain_core.messages import merge_message_runs
+
+# Merge consecutive messages of same type
+merged = merge_message_runs(messages)
+```
+
+```python Use in chains
+from langchain_core.runnables import RunnableLambda
+
+filter_chain = RunnableLambda(filter_messages) | model
+response = filter_chain.invoke(messages)
+```
+</CodeGroup>
+
+## Practical examples
+
+### Multi-turn conversations
+
+Building conversational applications requires managing message history and context:
+
+<CodeGroup>
+```python Basic chat loop
+from langchain_core.messages import HumanMessage, AIMessage
+
+# Initialize conversation
+messages = [
+    SystemMessage("You are a helpful assistant specializing in Python programming")
+]
+
+# Simulate multi-turn conversation
+while True:
+    user_input = input("You: ")
+    if user_input.lower() == "quit":
+        break
+    
+    # Add user message
+    messages.append(HumanMessage(user_input))
+    
+    # Get model response
+    response = model.invoke(messages)
+    
+    # Add assistant response to history
+    messages.append(response)
+    
+    print(f"Assistant: {response.content}")
+```
+
+```python Context window management
+from langchain_core.messages import filter_messages
+
+def manage_conversation_window(messages, max_messages=10):
+    """Keep only the system message and last N messages"""
+    system_msgs = filter_messages(messages, include_types="system")
+    recent_msgs = messages[-(max_messages-len(system_msgs)):]
+    return system_msgs + recent_msgs
+
+# Usage in conversation loop
+while True:
+    user_input = input("You: ")
+    messages.append(HumanMessage(user_input))
+    
+    # Trim conversation to fit context window
+    messages = manage_conversation_window(messages)
+    
+    response = model.invoke(messages)
+    messages.append(response)
+```
+
+```python Conversation with memory
+from langchain.memory import ConversationBufferMemory
+from langchain_core.messages import HumanMessage
+
+# Initialize memory
+memory = ConversationBufferMemory(return_messages=True)
+
+# Add messages to memory
+memory.chat_memory.add_user_message("What is Python?")
+memory.chat_memory.add_ai_message("Python is a high-level programming language...")
+
+# Retrieve conversation history
+messages = memory.chat_memory.messages
+
+# Continue conversation
+new_response = model.invoke(messages + [HumanMessage("Tell me more about its uses")])
+```
+</CodeGroup>
+
+### Structured conversations
+
+Organize complex interactions with clear message patterns:
+
+```python Multi-agent conversation
+from langchain_core.messages import HumanMessage, AIMessage
+
+# Simulate conversation between user and multiple assistants
+messages = [
+    SystemMessage("You are a team of experts: a developer and a designer"),
+    HumanMessage("I need help building a website"),
+    AIMessage("[Developer]: I can help with the backend architecture..."),
+    AIMessage("[Designer]: I'll handle the UI/UX design..."),
+    HumanMessage("Great! Let's start with the design first"),
+]
+
+response = model.invoke(messages)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Content output versions: v0 vs v1
+
+LangChain v1.0 introduces standardized content formats while maintaining
+backward compatibility with existing code.
+
+### Version comparison
+
+| Aspect | v0 (Legacy) | v1 (Standard) |
+|--------|-------------|---------------|
+| **Default behavior** | Yes (for compatibility) | Opt-in via `output_version` |
+| **Content format** | Provider-specific | Standardized `ContentBlock` types |
+| **Type safety** | Limited | Fully typed |
+| **Multimodal support** | Basic | Comprehensive |
+
+### Setting output version
+
+<CodeGroup>
+```python Model initialization
+# Default v0 (backward compatible)
+model = ChatOpenAI()
+
+# Explicit v1
+model = ChatOpenAI(output_version="v1")
+```
+
+```python Per invocation
+# Override at invocation time
+response = model.invoke(
+    "Hello",
+    output_version="v1"  # Override model default
+)
+```
+
+```python Environment variable
+import os
+os.environ["LC_OUTPUT_VERSION"] = "v1"
+
+model = ChatOpenAI()  # Uses v1
+```
+</CodeGroup>
+
+### Accessing content blocks
+
+Two ways to access standardized content:
+
+```python Content access patterns
+# Method 1: .content_blocks property (always returns v1)
+model = ChatOpenAI()  # v0 model
+response = model.invoke("Hello")
+v1_blocks = response.content_blocks  # Runtime conversion to v1
+
+# Method 2: Set output_version="v1"
+model = ChatOpenAI(output_version="v1")
+response = model.invoke("Hello")
+v1_content = response.content  # Already in v1 format
+```
+
+<Note>
+    The `.content_blocks` property always returns typed `ContentBlock` objects,
+    regardless of the model's `output_version`. For v0 models and messages,
+    conversion happens at runtime.
+</Note>
+
+### Version detection
+
+Check which version was used to create a message:
+
+```python Verify message provenance
+response = model.invoke("Hello")
+
+# Check version in response metadata
+version = response.response_metadata.get("output_version", "v0")
+
+if version == "v1":
+    # Content is already in v1 format
+    blocks = response.content
+
+    # Use content_blocks for typing
+    typed_blocks = response.content_blocks
+else:
+    # Use content_blocks for v1 format
+    blocks = response.content_blocks
+```
+
+
+
+### Rich model responses
+
+With `output_version="v1"`, models return structured content blocks:
+
+```python
+model = init_chat_model(model="", provider="", output_version="v1")
+response = model.invoke("Analyze the sales data and show your reasoning")
+
+# Response contains structured blocks  
+for block in response.content_blocks:
+    if block["type"] == "reasoning":
+        print(f"Model reasoning: {block['reasoning']}")
+    elif block["type"] == "text": 
+        print(f"Final answer: {block['text']}")
+    elif block["type"] == "tool_call":
+        print(f"Tool used: {block['name']} with {block['args']}")
+```
+
+
+{/* TODO: idk if this deserves an example, if so, where? */}
+{/* ### Accessing reasoning steps
+
+Some models can expose their internal reasoning process, allowing you to
+understand how they arrived at their conclusions:
+
+<CodeGroup>
+```python Stream reasoning
+# Stream reasoning steps as they're generated
+for chunk in model.stream("Solve this step-by-step: What is 15% of 80?"):
+    for block in chunk.content_blocks:
+        if block.get("type") == "reasoning":
+            print(f"Reasoning: {block['reasoning']}")
+        elif block.get("type") == "text":
+            print(f"Answer: {block['text']}")
+```
+
+```python Extract full reasoning
+# Get complete reasoning after generation
+response = model.invoke(
+    "Explain why the sky is blue, showing your reasoning",
+    reasoning_effort="high"  # Provider-specific parameter
+)
+
+# Extract reasoning blocks
+reasoning_steps = [
+    block for block in response.content_blocks 
+    if block.get("type") == "reasoning"
+]
+
+for step in reasoning_steps:
+    print(f"Step: {step['reasoning']}")
+```
+</CodeGroup> */}
