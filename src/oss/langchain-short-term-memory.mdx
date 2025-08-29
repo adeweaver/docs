@@ -466,6 +466,35 @@ print(result["messages"][-1].content)
 Access short term memory (state) in a pre model hook by injecting the agent's state into the hook signature.
 
 ```python
+from langchain_core.messages.utils import trim_messages, count_tokens_approximately
+from langchain_core.messages import BaseMessage
+from langgraph.checkpoint.memory import InMemorySaver
+from langchain.agents import create_react_agent, AgentState
+
+
+def pre_model_hook(state: AgentState) -> dict[str, list[BaseMessage]]:
+    """
+    This function will be called prior to every llm call to prepare the messages for the llm.
+    """
+    trimmed_messages = trim_messages(
+        state["messages"],
+        strategy="last",
+        token_counter=count_tokens_approximately,
+        max_tokens=384,
+        start_on="human",
+        end_on=("human", "tool"),
+    )
+    return {"llm_input_messages": trimmed_messages}
+
+agent = create_react_agent(
+    model="openai:gpt-5-nano",
+    tools=[],
+    pre_model_hook=pre_model_hook,
+    checkpointer=InMemorySaver(),
+)
+
+result = agent.invoke({"messages": "hi, my name is bob"}, {"configurable": {"thread_id": "1"}})
+print(result["messages"][-1].content)
 ```
 
 ### Post Model Hook
@@ -473,4 +502,21 @@ Access short term memory (state) in a pre model hook by injecting the agent's st
 Access short term memory (state) in a post model hook by injecting the agent's state into the hook signature.
 
 ```python
+from langchain.agents import create_react_agent, AgentState
+
+STOP_WORDS = ["password", "secret"]
+
+def validate_response(state: AgentState) -> dict[str, list[BaseMessage]]:
+    """Confirm the response doesn't have any content that is in the stop words list."""
+    last_message = state["messages"][-1]
+    if any(word in last_message.content for word in STOP_WORDS):
+        return {"messages": [RemoveMessage(id=last_message.id)]}
+    return {}
+
+agent = create_react_agent(
+    model="openai:gpt-5-nano",
+    tools=[],
+    post_model_hook=validate_response,
+    checkpointer=InMemorySaver(),
+)
 ```
