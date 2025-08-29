@@ -111,14 +111,14 @@ response = model.invoke(messages)
 
 ## Message types
 
-### <Icon icon="gear" size={20} /> System Message
+### System Message <Icon icon="gear" size={20} />
 
 A `SystemMessage` represent an initial set of instructions that primes the
 model's behavior. You can use a system message to set the tone, define the
 model's roles, and establish guidelines for responses.
 
 <CodeGroup>
-```python Basic instruction
+```python Basic instructions
 system_msg = SystemMessage("You are a helpful coding assistant.")
 
 messages = [
@@ -143,25 +143,12 @@ response = model.invoke(messages)
 ```
 </CodeGroup>
 
-### Provider handling
+### Human Message <Icon icon="user" size={20} />
 
-Different [providers]() handle `SystemMessage` in various ways:
+A `HumanMessage` represents user input and interactions. They can contain text,
+images, audio, files, and any other amount of multimodal [content](#content).
 
-* **Native support** - Message included with `system` role
-* **API parameter** - Content passed as separate system parameter  
-* **No support** - Content merged into first human message
-
-<Info>
-    LangChain handles these provider differences automatically, ensuring your
-    system messages work consistently across all supported models.
-</Info>
-
-## Human message
-
-A `HumanMessage` represent user input and interactions. They can contain text,
-images, audio, files, and any other multimodal [content](#content).
-
-### Text content
+#### Text content
 
 <CodeGroup>
 ```python Message object
@@ -175,8 +162,7 @@ response = model.invoke("What is machine learning?")
 ```
 </CodeGroup>
 
-
-### Message metadata
+#### Message metadata
 
 <CodeGroup>
 ```python Add metadata
@@ -199,38 +185,54 @@ response = model.invoke(messages)
 
 <Note>
     The `name` field behavior varies by provider - some use it for user
-    identification, others ignore it. To check, refer to your model provider's
+    identification, others ignore it. To check, refer to the model provider's
     [reference]().
 </Note>
 
-## AI message
+### AI Message <Icon icon="robot" size={20} />
 
-An `AIMessage` represents model responses and contain the output of model
-invocations. They can include multimodal data, tool calls, provider-specific
-metadata.
+An `AIMessage` represents the output of a model invocation. They can include
+multimodal data, tool calls, and provider-specific metadata that you can later
+access.
 
-### Basic AI messages
+<Note>
+    AIMessage objects are returned by the model when calling `.invoke()`, but that
+    doesn't mean that's the only place they can be created. Model providers weight
+    different types of messages differently, which means you can use an AIMessage
+    to alter model responses, tool calls, and other data.
+</Note>
+
 
 ```python
 response = model.invoke("Explain AI")
 print(type(response))  # <class 'langchain_core.messages.AIMessage'>
 ```
 
-### AI message attributes
+#### `AIMessage` attributes
 
-```python AI message attributes
-response = model.invoke("Tell me a joke")
+<ParamField path="text" type="string">
+    The text content of the message.
+</ParamField>
+<ParamField path="content" type="string | dict[]">
+    The raw content of the message.
+</ParamField>
+<ParamField path="content_blocks" type="types.ContentBlock[]">
+    The standardized content blocks of the message.
+</ParamField>
+<ParamField path="tool_calls" type="dict[] | None">
+    The tool calls made by the model. (can be empty if no tools are called)
+</ParamField>
+<ParamField path="id" type="string">
+    A unique identifier for the message (either auto-generated or returned by the provider)
+</ParamField>
+<ParamField path="usage_metadata" type="dict | None">
+    The usage metadata of the message, which can contain token counts when available.
+</ParamField>
+<ParamField path="response_metadata" type="dict | None">
+    The response metadata of the message.
+</ParamField>
 
-print(f"Text: {response.text}")  # Text content
-print(f"Content: {response.content}")  # Raw provider content
-print(f"Content blocks: {response.content_blocks}")  # Standardized content blocks
-print(f"Tool calls: {response.tool_calls}")  # (Empty list if no tools called)
-print(f"ID: {response.id}")  # Auto-generated or provider message ID
-print(f"Usage: {response.usage_metadata}")  # Token counts (when available)
-print(f"Response metadata: {response.response_metadata}")  # Provider-specific data
-```
-
-### Tool calling responses
+#### Tool calling responses
 
 When models make tool calls, they're included in the AI message:
 
@@ -245,7 +247,7 @@ if response.tool_calls:
         print(f"ID: {tool_call['id']}")
 ```
 
-### Streaming and chunks
+#### Streaming and chunks
 
 During streaming, you receive `AIMessageChunk` objects that can be combined:
 
@@ -266,13 +268,10 @@ print(f"Full response: {final_message.text}")
 ```
 </CodeGroup>
 
-## Tool message
+### Tool Message <Icon icon="wrench" size={20} />
 
-Tool messages contain the results of tool executions and are used to pass data
-back to models after external processing.
-
-{/* TODO: determine how to call out to provider-side tool execution */}
-{/* I can't remember if they send these messages or if it varies */}
+For models that support tool calling, AI messages can contain tool calls.
+Tool messages are used to pass the results of a single tool execution back to the model.
 
 ```python
 # After a model makes a tool call
@@ -300,16 +299,20 @@ messages = [
 response = model.invoke(messages)  # Model processes the result
 ```
 
-### Tool message structure
+#### `ToolMessage attributes`
 
-```python Tool message with metadata
-tool_message = ToolMessage(
-    content="Operation completed successfully",
-    tool_call_id="call_123",  # Links to specific tool call
-    name="calculator",  # Optional tool name
-    artifact={"raw_data": [1, 2, 3]}  # Additional data not sent to model
-)
-```
+<ParamField path="content" type="string" required>
+    The stringified output of the tool call.
+</ParamField>
+<ParamField path="tool_call_id" type="string" required>
+    The ID of the tool call that this message is responding to. (this must match the ID of the tool call in the AI message)
+</ParamField>
+<ParamField path="name" type="string" required>
+    The name of the tool that was called.
+</ParamField>
+<ParamField path="artifact" type="dict">
+    Additional data not sent to the model but can be accessed programmatically.
+</ParamField>
 
 <Note>
     The `artifact` field stores supplementary data that won't be sent to the
