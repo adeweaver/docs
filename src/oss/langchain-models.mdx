@@ -119,7 +119,7 @@ See @[init_chat_model()] for more detail.
 <Info>
     In addition to chat models, LangChain provides support for other adjacent
     technologies, such as embedding models and vector stores. See the
-    [Integrations page](/oss/integrations/providers) for details.
+    [integrations page](/oss/integrations/providers) for details.
 </Info>
 
 ## Parameters
@@ -346,7 +346,7 @@ message history and passed back to the model as conversational context.
 
 <Note>
 
-This section describes a chat model method `.batch`, which parallelizes model
+This section describes a chat model method `.batch()`, which parallelizes model
 calls client-side. It is distinct from batch APIs supported by inference
 providers.
 
@@ -687,7 +687,7 @@ for enforcing structured outputs.
     `TypedDict` and JSON Schema require manual validation
 </Note>
 
-<Accordion title="Example: get AIMessage output alongside parsed structure">
+<Accordion title="Example: get `AIMessage` output alongside parsed structure">
 
 It can be useful to return the raw `AIMessage` object alongside the parsed
 representation, to access response metadata such as token counts and other
@@ -895,7 +895,7 @@ better understand how the model arrived at its final answer.
 Depending on the model, you can sometimes specify the level of effort it should
 put into reasoning. Alternatively, you can request that the model turn off
 reasoning entirely. This may take the form of categorical "tiers" of reasoning
-(e.g., "low" or "high") or integer token budgets.
+(e.g., `'low'` or `'high'`) or integer token budgets.
 
 For details, see the relevant chat model in the
 [Integrations page](/oss/integrations/providers).
@@ -1073,8 +1073,8 @@ print(response.response_metadata["logprobs"])
 
 A number of model providers return token usage information as part of the
 invocation response. When available, this information will be included on the
-AIMessage objects produced by the corresponding model. For more details, see the
-[messages](/oss/python/langchain-messages) guide.
+`AIMessage` objects produced by the corresponding model. For more details, see
+the [messages](/oss/python/langchain-messages) guide.
 
 <Note>
 
@@ -1227,11 +1227,9 @@ configurable_model.invoke(
 )
 configurable_model.invoke(
     "what's your name",
-    config={"configurable": {"model": "claude-3-5-sonnet-latest"}},  # run with Claude
+    config={"configurable": {"model": "claude-3-5-sonnet-latest"}},  # Run with Claude
 )
 ```
-
-See below for additional examples.
 
 <Accordion title="Configurable model with default values">
 We can create a configurable model with default model values, specify which
@@ -1241,7 +1239,7 @@ first_llm = init_chat_model(
     model="gpt-4.1-mini",
     temperature=0,
     configurable_fields=("model", "model_provider", "temperature", "max_tokens"),
-    config_prefix="first",  # useful when you have a chain with multiple models
+    config_prefix="first",  # Useful when you have a chain with multiple models
 )
 
 first_llm.invoke("what's your name")
