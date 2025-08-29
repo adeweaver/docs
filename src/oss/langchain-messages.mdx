@@ -2,18 +2,22 @@
 title: Messages
 ---
 
-Messages are the fundamental unit of communication in LangChain chat models. They represent the input and output of conversations, carrying both content and metadata that enables rich, multimodal interactions.
+Messages are the fundamental unit of communication in LangChain chat models.
+They represent the input and output of conversations, carrying both content and
+metadata that enables rich, multimodal interactions.
 
 
 ## Overview
 
 Messages are structured objects that contain:
 
-- **Role**: Identifies the message type (`system`, `user`, `assistant`, or `tool`)
+- **Role**: Identifies the message type (`system`, `user`, `assistant`, or
+`tool`)
 - **Content**: Types of content: text, images, audio, documents, and more
 - **Metadata**: Optional fields like IDs, names, and usage information
 
-LangChain provides a unified message format that works across all chat model providers, handling provider-specific differences automatically.
+LangChain provides a unified message format that works across all chat model
+providers, handling provider-specific differences automatically.
 
 ### Message Types
 
@@ -72,7 +76,9 @@ response2 = model.invoke(langchain_format)
 
 ## System Message
 
-System messages prime the model's behavior and provide conversational context. They set the tone, define the model's role, and establish guidelines for responses.
+System messages prime the model's behavior and provide conversational context.
+They set the tone, define the model's role, and establish guidelines for
+responses.
 
 
 ### Basic System Messages
@@ -110,7 +116,8 @@ LangChain handles these differences automatically.
 
 ## Human Message
 
-Human messages represent user input and interactions. They can contain text, images, audio, files, and any other multimodal content.
+Human messages represent user input and interactions. They can contain text,
+images, audio, files, and any other multimodal content.
 
 ### Text Content
 
@@ -144,12 +151,15 @@ messages = [
 ]
 ```
 
-**Note**: The `name` field behavior varies by provider - some use it for user identification, others ignore it. The `id` and `additional_kwargs` fields are preserved but may not be sent to all providers.
+**Note**: The `name` field behavior varies by provider - some use it for user
+identification, others ignore it. The `id` and `additional_kwargs` fields are
+preserved but may not be sent to all providers.
 TODO make this better
 
 ## AI Message
 
-AI messages represent model responses and contain the output of chat model invocations. They can include text, tool calls, and rich metadata.
+AI messages represent model responses and contain the output of chat model
+invocations. They can include text, tool calls, and rich metadata.
 
 ### Basic AI Messages
 
@@ -214,7 +224,8 @@ print(f"\nFull response: {final_message.content}")
 
 ## Tool Message
 
-Tool messages contain the results of tool executions and are used to pass data back to models after external processing.
+Tool messages contain the results of tool executions and are used to pass data
+back to models after external processing.
 
 
 ### Basic Tool Messages
@@ -279,7 +290,10 @@ except Exception as e:
 
 ## Content Blocks
 
-Content blocks enable **provider-agnostic** multimodal interactions. Instead of handling different image formats, audio types, and document structures across providers, content blocks provide a unified interface that works everywhere (supported).
+Content blocks enable **provider-agnostic** multimodal interactions. Instead of
+handling different image formats, audio types, and document structures across
+providers, content blocks provide a unified interface that works everywhere
+(supported).
 
 
 ### Why Content Blocks Matter
@@ -365,7 +379,8 @@ for block in response.content:
 
 ### Content Block Types
 
-When using `output_version="v1"`, models can return various structured content types:
+When using `output_version="v1"`, models can return various structured content
+types:
 
 | Block Type | Description | When Available |
 |------------|-------------|----------------|
