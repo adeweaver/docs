@@ -833,7 +833,7 @@ better understand how the model arrived at its final answer.
 <CodeGroup>
     ```python Stream reasoning output
     for chunk in model.stream("Why do parrots have colorful feathers?"):
-        reasoning_steps = [r for r in chunk.content_blocks if r[type] == "reasoning"]
+        reasoning_steps = [r for r in chunk.content_blocks if r["type"] == "reasoning"]
         print(reasoning_steps if reasoning_steps else chunk.text)
     ```
     
