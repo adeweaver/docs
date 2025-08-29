@@ -6,14 +6,14 @@ import AlphaCallout from '/snippets/alpha-lg-callout.mdx';
 
 <AlphaCallout />
 
-AI applications need [memory](/oss/memory) to share context across multiple interactions. In LangGraph, you can add two types of memory:
+AI applications need [memory](/oss/langgraph/memory) to share context across multiple interactions. In LangGraph, you can add two types of memory:
 
-* [Add short-term memory](#add-short-term-memory) as a part of your agent's [state](/oss/graph-api#state) to enable multi-turn conversations.
+* [Add short-term memory](#add-short-term-memory) as a part of your agent's [state](/oss/langgraph/graph-api#state) to enable multi-turn conversations.
 * [Add long-term memory](#add-long-term-memory) to store user-specific or application-level data across sessions.
 
 ## Add short-term memory
 
-**Short-term** memory (thread-level [persistence](/oss/persistence)) enables agents to track multi-turn conversations. To add short-term memory:
+**Short-term** memory (thread-level [persistence](/oss/langgraph/persistence)) enables agents to track multi-turn conversations. To add short-term memory:
 
 :::python
 ```python {highlight={1,4,7,11}}
@@ -428,7 +428,7 @@ const graph = builder.compile({ checkpointer });
 
 ### Use in subgraphs
 
-If your graph contains [subgraphs](/oss/subgraphs), you only need to provide the checkpointer when compiling the parent graph. LangGraph will automatically propagate the checkpointer to the child subgraphs.
+If your graph contains [subgraphs](/oss/langgraph/subgraphs), you only need to provide the checkpointer when compiling the parent graph. LangGraph will automatically propagate the checkpointer to the child subgraphs.
 
 :::python
 ```python {highlight={16,21,25}}
@@ -483,7 +483,7 @@ const graph = builder.compile({ checkpointer });
 ```
 :::
 
-If you want the subgraph to have its own memory, you can compile it with the appropriate checkpointer option. This is useful in [multi-agent](/oss/multi-agent) systems, if you want agents to keep track of their internal message histories.
+If you want the subgraph to have its own memory, you can compile it with the appropriate checkpointer option. This is useful in [multi-agent](/oss/langgraph/multi-agent) systems, if you want agents to keep track of their internal message histories.
 
 :::python
 ```python {highlight={2}}
@@ -572,7 +572,7 @@ await agent.invoke({
 ```
 :::
 
-See the [Context](/oss/context) guide for more information.
+See the [Context](/oss/langgraph/context) guide for more information.
 
 <a id="write-short-term"></a>
 ### Write short-term memory from tools
@@ -1788,7 +1788,7 @@ Most LLMs have a maximum supported context window (denominated in tokens). One w
 You can delete messages from the graph state to manage the message history. This is useful when you want to remove specific messages or clear the entire message history.
 
 :::python
-To delete messages from the graph state, you can use the `RemoveMessage`. For `RemoveMessage` to work, you need to use a state key with @[`add_messages`][add_messages] [reducer](/oss/graph-api#reducers), like [`MessagesState`](/oss/graph-api#messagesstate).
+To delete messages from the graph state, you can use the `RemoveMessage`. For `RemoveMessage` to work, you need to use a state key with @[`add_messages`][add_messages] [reducer](/oss/langgraph/graph-api#reducers), like [`MessagesState`](/oss/langgraph/graph-api#messagesstate).
 
 To remove specific messages:
 
@@ -1813,7 +1813,7 @@ def delete_messages(state):
 :::
 
 :::js
-To delete messages from the graph state, you can use the `RemoveMessage`. For `RemoveMessage` to work, you need to use a state key with @[`messagesStateReducer`][messagesStateReducer] [reducer](/oss/graph-api#reducers), like `MessagesZodState`.
+To delete messages from the graph state, you can use the `RemoveMessage`. For `RemoveMessage` to work, you need to use a state key with @[`messagesStateReducer`][messagesStateReducer] [reducer](/oss/langgraph/graph-api#reducers), like `MessagesZodState`.
 
 To remove specific messages:
 
@@ -2002,7 +2002,7 @@ The problem with trimming or removing messages, as shown above, is that you may 
   </Tab>
   <Tab title="In a workflow">
     :::python
-    Prompting and orchestration logic can be used to summarize the message history. For example, in LangGraph you can extend the [`MessagesState`](/oss/graph-api#working-with-messages-in-graph-state) to include a `summary` key:
+    Prompting and orchestration logic can be used to summarize the message history. For example, in LangGraph you can extend the [`MessagesState`](/oss/langgraph/graph-api#working-with-messages-in-graph-state) to include a `summary` key:
     
     ```python
     from langgraph.graph import MessagesState
@@ -2041,7 +2041,7 @@ The problem with trimming or removing messages, as shown above, is that you may 
     :::
     
     :::js
-    Prompting and orchestration logic can be used to summarize the message history. For example, in LangGraph you can extend the [`MessagesZodState`](/oss/graph-api#working-with-messages-in-graph-state) to include a `summary` key:
+    Prompting and orchestration logic can be used to summarize the message history. For example, in LangGraph you can extend the [`MessagesZodState`](/oss/langgraph/graph-api#working-with-messages-in-graph-state) to include a `summary` key:
     
     ```typescript
     import { MessagesZodState } from "@langchain/langgraph";

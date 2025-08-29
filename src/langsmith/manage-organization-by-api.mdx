@@ -1,9 +1,9 @@
 ---
 title: Manage your organization using the API
-sidebarTitle: Manage your organization using the API
+sidebarTitle: Manage organizations using the API
 ---
 
-LangSmith's API supports programmatic access via API key to all of the actions available in the UI, with only a few exceptions that are .
+LangSmith's API supports programmatic access via API key to all of the actions available in the UI, with only a few exceptions that are noted in [User-only endpoints](#user-only-endpoints).
 
 <Check>
   Before diving into this content, it might be helpful to read the following:
@@ -58,7 +58,7 @@ Workspace level:
   These params should be omitted: `read_only` (deprecated), `password` and `full_name` ([basic auth](/langsmith/authentication-methods) only)
 </Note>
 
-## API Keys
+## API keys
 
 <Note>
   Use the `X-Tenant-Id` header to specify which workspace to target. If the header is not present, operations will default to the workspace the API key was initially created in.
@@ -67,7 +67,7 @@ Workspace level:
 * [Create a service key](https://api.smith.langchain.com/redoc#tag/api-key/operation/generate_api_key_api_v1_api_key_post)
 * [Delete a service key](https://api.smith.langchain.com/redoc#tag/api-key/operation/delete_api_key_api_v1_api_key__api_key_id__delete)
 
-## Security Settings
+## Security settings
 
 <Note>
   "Shared resources" in this context refer to [public prompts](/langsmith/create-a-prompt#save-your-prompt), [shared runs](/langsmith/share-trace), and [shared datasets](/langsmith/manage-datasets#share-a-dataset).
@@ -76,14 +76,14 @@ Workspace level:
 * [Update organization sharing settings](https://api.smith.langchain.com/redoc#tag/orgs/operation/update_current_organization_info_api_v1_orgs_current_info_patch)
   * use `unshare_all` to unshare **ALL** shared resources in the organization - use `disable_public_sharing` to prevent future sharing of resources
 
-## User-Only Endpoints
+## User-only endpoints
 
 These endpoints are user-scoped and require a logged-in user's JWT, so they should only be executed through the UI.
 
 * `/api-key/current` endpoints: these are related a user's PATs
 * `/sso/email-verification/send` (Cloud-only): this endpoint is related to [SAML SSO](/langsmith/user-management)
 
-## Sample Code
+## Sample code
 
 The sample code below goes through a few common workflows related to organization management. Make sure to make necessary replacements wherever `<replace_me>` is in the code.
 

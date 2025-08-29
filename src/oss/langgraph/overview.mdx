@@ -83,9 +83,9 @@ await graph.invoke({ messages: [{ role: "user", content: "hi!" }] });
 
 LangGraph provides low-level supporting infrastructure for *any* long-running, stateful workflow or agent. LangGraph does not abstract prompts or architecture, and provides the following central benefits:
 
-* [Durable execution](/oss/durable-execution): Build agents that persist through failures and can run for extended periods, automatically resuming from exactly where they left off.
-* [Human-in-the-loop](/oss/human-in-the-loop): Seamlessly incorporate human oversight by inspecting and modifying agent state at any point during execution.
-* [Comprehensive memory](/oss/memory): Create truly stateful agents with both short-term working memory for ongoing reasoning and long-term persistent memory across sessions.
+* [Durable execution](/oss/langgraph/durable-execution): Build agents that persist through failures and can run for extended periods, automatically resuming from exactly where they left off.
+* [Human-in-the-loop](/oss/langgraph/human-in-the-loop): Seamlessly incorporate human oversight by inspecting and modifying agent state at any point during execution.
+* [Comprehensive memory](/oss/langgraph/memory): Create truly stateful agents with both short-term working memory for ongoing reasoning and long-term persistent memory across sessions.
 * [Debugging with LangSmith](http://www.langchain.com/langsmith): Gain deep visibility into complex agent behavior with visualization tools that trace execution paths, capture state transitions, and provide detailed runtime metrics.
 * [Production-ready deployment](/langgraph-platform/deployment-options): Deploy sophisticated agent systems confidently with scalable infrastructure designed to handle the unique challenges of stateful, long-running workflows.
 

@@ -418,7 +418,7 @@
                     ]
                   },
                   {
-                    "group": "Plans and deployment",
+                    "group": "Plans",
                     "pages": [
                       "langgraph-platform/plans"
                     ]
@@ -429,15 +429,9 @@
                 "tab": "Build",
                 "groups": [
                   {
-                    "group": "Build an app with the LangGraph basics",
+                    "group": "Build with LangGraph Platform",
                     "pages": [
-                      "langgraph-platform/langgraph-basics/why-langgraph",
-                      "langgraph-platform/langgraph-basics/1-build-basic-chatbot",
-                      "langgraph-platform/langgraph-basics/2-add-tools",
-                      "langgraph-platform/langgraph-basics/3-add-memory",
-                      "langgraph-platform/langgraph-basics/4-human-in-the-loop",
-                      "langgraph-platform/langgraph-basics/5-customize-state",
-                      "langgraph-platform/langgraph-basics/6-time-travel"
+                      "langgraph-platform/why-langgraph"
                     ]
                   },
                   {
@@ -610,25 +604,11 @@
                 "pages": [
                   "langsmith/home",
                   {
-                    "group": "Start tracing",
+                    "group": "Quickstarts",
                     "pages": [
                       "langsmith/observability-quickstart",
-                      "langsmith/observability-concepts"
-                    ]
-                  },
-                  {
-                    "group": "Evaluate your application",
-                    "pages": [
                       "langsmith/evaluation-quickstart",
-                      "langsmith/evaluation-concepts"
-                    ]
-                  },
-                  {
-                    "group": "Test your prompts",
-                    "pages": [
-                      "langsmith/prompt-engineering-quickstart",
-                      "langsmith/prompt-engineering-concepts"
-                    ]
+                      "langsmith/prompt-engineering-quickstart"                    ]
                   },
                   {
                     "group": "API & SDKs",
@@ -651,7 +631,9 @@
                 "tab": "Observability",
                 "pages": [
                   "langsmith/observability",
+                  "langsmith/observability-concepts",
                   "langsmith/observability-llm-tutorial",
+
                   {
                     "group": "Set up tracing",
                     "pages": [
@@ -723,6 +705,7 @@
                     "pages": [
                       "langsmith/rules",
                       "langsmith/webhooks",
+                      "langsmith/alerts-webhook",
                       "langsmith/online-evaluations"
                     ]
                   },
@@ -753,7 +736,8 @@
                 "tab": "Evaluation",
                 "pages": [
                   "langsmith/evaluation",
-                  "langsmith/evaluation-techniques",
+                  "langsmith/evaluation-concepts",
+                  "langsmith/evaluation-approaches",
                   {
                     "group": "Datasets",
                     "pages": [
@@ -821,6 +805,16 @@
                           "langsmith/create-few-shot-evaluators",
                           "langsmith/index-datasets-for-dynamic-few-shot-example-selection"
                         ]
+                      },
+                      {
+                        "group": "Tutorials",
+                        "pages": [
+                          "langsmith/evaluate-chatbot-tutorial",
+                          "langsmith/evaluate-rag-tutorial",
+                          "langsmith/test-react-agent-pytest",
+                          "langsmith/evaluate-complex-agent",
+                          "langsmith/run-backtests-new-agent"
+                        ]
                       }
                     ]
                   },
@@ -844,16 +838,6 @@
                     ]
                   },
                   {
-                    "group": "Tutorials",
-                    "pages": [
-                      "langsmith/evaluate-chatbot-tutorial",
-                      "langsmith/evaluate-rag-tutorial",
-                      "langsmith/test-react-agent-pytest",
-                      "langsmith/evaluate-complex-agent",
-                      "langsmith/run-backtests-new-agent"
-                    ]
-                  },
-                  {
                     "group": "Common data types",
                     "pages": [
                       "langsmith/example-data-format",
@@ -867,6 +851,7 @@
                 "tab": "Prompt engineering",
                 "pages": [
                   "langsmith/prompt-engineering",
+                  "langsmith/prompt-engineering-concepts",
                   {
                     "group": "Create and update prompts",
                     "pages": [
@@ -972,6 +957,7 @@
                       "langsmith/administration-overview",
                       "langsmith/create-account-api-key",
                       "langsmith/set-up-a-workspace",
+                      "langsmith/manage-organization-by-api",
                       "langsmith/billing",
                       "langsmith/set-up-resource-tags",
                       "langsmith/user-management"
@@ -1051,6 +1037,7 @@
                       "labs/swe/setup/development",
                       "labs/swe/setup/authentication",
                       "labs/swe/setup/monorepo",
+                      "labs/swe/setup/customization",
                       "labs/swe/setup/ci"
                     ]
                   },
@@ -1410,15 +1397,9 @@
                 "tab": "Build",
                 "groups": [
                   {
-                    "group": "Build an app with the LangGraph basics",
+                    "group": "Build with LangGraph Platform",
                     "pages": [
-                      "langgraph-platform/langgraph-basics/why-langgraph",
-                      "langgraph-platform/langgraph-basics/1-build-basic-chatbot",
-                      "langgraph-platform/langgraph-basics/2-add-tools",
-                      "langgraph-platform/langgraph-basics/3-add-memory",
-                      "langgraph-platform/langgraph-basics/4-human-in-the-loop",
-                      "langgraph-platform/langgraph-basics/5-customize-state",
-                      "langgraph-platform/langgraph-basics/6-time-travel"
+                      "langgraph-platform/why-langgraph"
                     ]
                   },
                   {
@@ -1704,6 +1685,7 @@
                     "pages": [
                       "langsmith/rules",
                       "langsmith/webhooks",
+                      "langsmith/alerts-webhook",
                       "langsmith/online-evaluations"
                     ]
                   },
@@ -1957,6 +1939,7 @@
                       "langsmith/administration-overview",
                       "langsmith/create-account-api-key",
                       "langsmith/set-up-a-workspace",
+                      "langsmith/manage-organization-by-api",
                       "langsmith/billing",
                       "langsmith/set-up-resource-tags",
                       "langsmith/user-management"

@@ -7,12 +7,12 @@ import AlphaCallout from '/snippets/alpha-lg-callout.mdx';
 
 <AlphaCallout />
 
-[**Supervisor**](/oss/multi-agent#supervisor) is a multi-agent architecture where **specialized** agents are coordinated by a central **supervisor agent**. The supervisor agent controls all communication flow and task delegation, making decisions about which agent to invoke based on the current context and task requirements.
+[**Supervisor**](/oss/langgraph/multi-agent#supervisor) is a multi-agent architecture where **specialized** agents are coordinated by a central **supervisor agent**. The supervisor agent controls all communication flow and task delegation, making decisions about which agent to invoke based on the current context and task requirements.
 
 In this tutorial, you will build a supervisor system with two agents — a research and a math expert. By the end of the tutorial you will:
 
 1. Build specialized research and math agents
-2. Build a supervisor for orchestrating them with the prebuilt [`langgraph-supervisor`](/oss/agent-supervisor)
+2. Build a supervisor for orchestrating them with the prebuilt [`langgraph-supervisor`](/oss/langgraph/agent-supervisor)
 3. Build a supervisor from scratch
 4. Implement advanced task delegation
 
@@ -71,7 +71,7 @@ print(web_search_results["results"][0]["content"])
 Find events, attractions, deals, and more at nyctourism.com Skip Main Navigation Menu The Official Website of the City of New York Text Size Powered by Translate SearchSearch Primary Navigation The official website of NYC Home NYC Resources NYC311 Office of the Mayor Events Connect Jobs Search Office of the Mayor | Mayor's Bio | City of New York Secondary Navigation MayorBiographyNewsOfficials Eric L. Adams 110th Mayor of New York City Mayor Eric Adams has served the people of New York City as an NYPD officer, State Senator, Brooklyn Borough President, and now as the 110th Mayor of the City of New York. Mayor Eric Adams has served the people of New York City as an NYPD officer, State Senator, Brooklyn Borough President, and now as the 110th Mayor of the City of New York. He gave voice to a diverse coalition of working families in all five boroughs and is leading the fight to bring back New York City's economy, reduce inequality, improve public safety, and build a stronger, healthier city that delivers for all New Yorkers. As the representative of one of the nation's largest counties, Eric fought tirelessly to grow the local economy, invest in schools, reduce inequality, improve public safety, and advocate for smart policies and better government that delivers for all New Yorkers.
 ```
 
-To create individual worker agents, we will use LangGraph's prebuilt [agent](/oss/quickstart).
+To create individual worker agents, we will use LangGraph's prebuilt [agent](/oss/langgraph/quickstart).
 
 ```python
 from langgraph.prebuilt import create_react_agent
@@ -90,7 +90,7 @@ research_agent = create_react_agent(
 )
 ```
 
-Let's [run the agent](/oss/run-an-agent) to verify that it behaves as expected.
+Let's [run the agent](/oss/langgraph/run-an-agent) to verify that it behaves as expected.
 
 <Note>
   **We'll use `pretty_print_messages` helper to render the streamed agent outputs nicely**
@@ -173,7 +173,7 @@ Let's [run the agent](/oss/run-an-agent) to verify that it behaves as expected.
 
 ### Math agent
 
-For math agent tools we will use [vanilla Python functions](/oss/call-tools#define-a-tool):
+For math agent tools we will use [vanilla Python functions](/oss/langgraph/call-tools#define-a-tool):
 
 ```python
 def add(a: float, b: float):
@@ -462,7 +462,7 @@ supervisor_agent = create_react_agent(
 
 ### Create multi-agent graph
 
-Putting this all together, let's create a graph for our overall multi-agent system. We will add the supervisor and the individual agents as subgraph [nodes](/oss/graph-api#nodes).
+Putting this all together, let's create a graph for our overall multi-agent system. We will add the supervisor and the individual agents as subgraph [nodes](/oss/langgraph/graph-api#nodes).
 
 ```python
 from langgraph.graph import END
@@ -482,7 +482,7 @@ supervisor = (
 )
 ```
 
-Notice that we've added explicit [edges](/oss/graph-api#edges) from worker agents back to the supervisor — this means that they are guaranteed to return control back to the supervisor. If you want the agents to respond directly to the user (i.e., turn the system into a router, you can remove these edges).
+Notice that we've added explicit [edges](/oss/langgraph/graph-api#edges) from worker agents back to the supervisor — this means that they are guaranteed to return control back to the supervisor. If you want the agents to respond directly to the user (i.e., turn the system into a router, you can remove these edges).
 
 ```python
 from IPython.display import display, Image

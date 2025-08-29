@@ -6,7 +6,7 @@ import AlphaCallout from '/snippets/alpha-lg-callout.mdx';
 
 <AlphaCallout />
 
-[Tools](/oss/tools) encapsulate a callable function and its input schema. These can be passed to compatible chat models, allowing the model to decide whether to invoke a tool and determine the appropriate arguments.
+[Tools](/oss/langgraph/tools) encapsulate a callable function and its input schema. These can be passed to compatible chat models, allowing the model to decide whether to invoke a tool and determine the appropriate arguments.
 
 You can [define your own tools](#define-a-tool) or use [prebuilt tools](#prebuilt-tools)
 
@@ -344,7 +344,7 @@ To execute tools in custom workflows, use the prebuilt @[`ToolNode`][ToolNode] o
 * Executes multiple tools concurrently.
 * Handles errors during tool execution (`handle_tool_errors=True`, enabled by default). See [handling tool errors](#handle-errors) for more details.
 
-`ToolNode` operates on [`MessagesState`](/oss/graph-api#messagesstate):
+`ToolNode` operates on [`MessagesState`](/oss/langgraph/graph-api#messagesstate):
 
 * **Input**: `MessagesState`, where the last message is an `AIMessage` containing the `tool_calls` parameter.
 * **Output**: `MessagesState` updated with the resulting [`ToolMessage`](https://python.langchain.com/docs/concepts/messages/#toolmessage) from executed tools.
@@ -702,7 +702,7 @@ await toolNode.invoke({ messages: [...] });
 </Accordion>
 
 <Accordion title="Use in a tool-calling agent">
-  This is an example of creating a tool-calling agent from scratch using `ToolNode`. You can also use LangGraph's prebuilt [agent](/oss/prebuilts).
+  This is an example of creating a tool-calling agent from scratch using `ToolNode`. You can also use LangGraph's prebuilt [agent](/oss/langgraph/prebuilts).
   
   :::python
   ```python {highlight={12,15,33}}
@@ -1213,11 +1213,11 @@ const updateUserName = tool(
 
 ### Long-term memory
 
-Use [long-term memory](/oss/memory#long-term-memory) to store user-specific or application-specific data across conversations. This is useful for applications like chatbots, where you want to remember user preferences or other information.
+Use [long-term memory](/oss/langgraph/memory#long-term-memory) to store user-specific or application-specific data across conversations. This is useful for applications like chatbots, where you want to remember user preferences or other information.
 
 To use long-term memory, you need to:
 
-1. [Configure a store](/oss/add-memory#add-long-term-memory) to persist data across invocations.
+1. [Configure a store](/oss/langgraph/add-memory#add-long-term-memory) to persist data across invocations.
 2. Access the store from within tools.
 
 :::python
@@ -1778,14 +1778,14 @@ const configuredModel = model.bindTools(
   Forcing tool usage without stopping conditions can create infinite loops. Use one of the following safeguards:
   
   * Mark the tool with [`return_direct=True`](#immediate-return) to end the loop after execution.
-  * Set [`recursion_limit`](/oss/graph-api#recursion-limit) to restrict the number of execution steps.
+  * Set [`recursion_limit`](/oss/langgraph/graph-api#recursion-limit) to restrict the number of execution steps.
   :::
   
   :::js
   Forcing tool usage without stopping conditions can create infinite loops. Use one of the following safeguards:
   
   * Mark the tool with [`returnDirect: true`](#immediate-return) to end the loop after execution.
-  * Set [`recursionLimit`](/oss/graph-api#recursion-limit) to restrict the number of execution steps.
+  * Set [`recursionLimit`](/oss/langgraph/graph-api#recursion-limit) to restrict the number of execution steps.
   :::
 </Warning>
 

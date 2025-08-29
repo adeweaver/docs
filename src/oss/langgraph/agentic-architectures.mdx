@@ -501,9 +501,9 @@ While a router allows an LLM to make a single decision, more complex agent archi
 2. [Memory](#memory): Enabling the agent to retain and use information from previous steps.
 3. [Planning](#planning): Empowering the LLM to create and follow multi-step plans to achieve goals.
 
-This architecture allows for more complex and flexible agent behaviors, going beyond simple routing to enable dynamic problem-solving with multiple steps. Unlike the original [paper](https://arxiv.org/abs/2210.03629), today's agents rely on LLMs' [tool calling](#tool-calling) capabilities and operate on a list of [messages](/oss/graph-api#why-use-messages).
+This architecture allows for more complex and flexible agent behaviors, going beyond simple routing to enable dynamic problem-solving with multiple steps. Unlike the original [paper](https://arxiv.org/abs/2210.03629), today's agents rely on LLMs' [tool calling](#tool-calling) capabilities and operate on a list of [messages](/oss/langgraph/graph-api#why-use-messages).
 
-In LangGraph, you can use the prebuilt [agent](/oss/prebuilts#2-create-an-agent) to get started with tool-calling agents.
+In LangGraph, you can use the prebuilt [agent](/oss/langgraph/prebuilts#2-create-an-agent) to get started with tool-calling agents.
 
 ### Tool calling
 
@@ -515,22 +515,22 @@ Tools are useful whenever you want an agent to interact with external systems. E
 
 ### Memory
 
-[Memory](/oss/add-memory) is crucial for agents, enabling them to retain and utilize information across multiple steps of problem-solving. It operates on different scales:
+[Memory](/oss/langgraph/add-memory) is crucial for agents, enabling them to retain and utilize information across multiple steps of problem-solving. It operates on different scales:
 
-1. [Short-term memory](/oss/add-memory#add-short-term-memory): Allows the agent to access information acquired during earlier steps in a sequence.
-2. [Long-term memory](/oss/add-memory#add-long-term-memory): Enables the agent to recall information from previous interactions, such as past messages in a conversation.
+1. [Short-term memory](/oss/langgraph/add-memory#add-short-term-memory): Allows the agent to access information acquired during earlier steps in a sequence.
+2. [Long-term memory](/oss/langgraph/add-memory#add-long-term-memory): Enables the agent to recall information from previous interactions, such as past messages in a conversation.
 
 LangGraph provides full control over memory implementation:
 
-* [`State`](/oss/graph-api#state): User-defined schema specifying the exact structure of memory to retain.
-* [`Checkpointer`](/oss/persistence#checkpoints): Mechanism to store state at every step across different interactions within a session.
-* [`Store`](/oss/persistence#memory-store): Mechanism to store user-specific or application-level data across sessions.
+* [`State`](/oss/langgraph/graph-api#state): User-defined schema specifying the exact structure of memory to retain.
+* [`Checkpointer`](/oss/langgraph/persistence#checkpoints): Mechanism to store state at every step across different interactions within a session.
+* [`Store`](/oss/langgraph/persistence#memory-store): Mechanism to store user-specific or application-level data across sessions.
 
-This flexible approach allows you to tailor the memory system to your specific agent architecture needs. Effective memory management enhances an agent's ability to maintain context, learn from past experiences, and make more informed decisions over time. For a practical guide on adding and managing memory, see [Memory](/oss/add-memory).
+This flexible approach allows you to tailor the memory system to your specific agent architecture needs. Effective memory management enhances an agent's ability to maintain context, learn from past experiences, and make more informed decisions over time. For a practical guide on adding and managing memory, see [Memory](/oss/langgraph/add-memory).
 
 ### Planning
 
-In a tool-calling [agent](/oss/agentic-architectures#what-is-an-agent), an LLM is called repeatedly in a while-loop. At each step the agent decides which tools to call, and what the inputs to those tools should be. Those tools are then executed, and the outputs are fed back into the LLM as observations. The while-loop terminates when the agent decides it has enough information to solve the user request and it is not worth calling any more tools.
+In a tool-calling [agent](/oss/langgraph/agentic-architectures#what-is-an-agent), an LLM is called repeatedly in a while-loop. At each step the agent decides which tools to call, and what the inputs to those tools should be. Those tools are then executed, and the outputs are fed back into the LLM as observations. The while-loop terminates when the agent decides it has enough information to solve the user request and it is not worth calling any more tools.
 
 
 ## Prompt chaining
@@ -871,7 +871,7 @@ With orchestrator-worker, an orchestrator breaks down a task, delegates each sub
     
     **Creating Workers in LangGraph**
     
-    Because orchestrator-worker workflows are common, LangGraph **has the `Send` API to support this**. It lets you dynamically create worker nodes and send each one a specific input. Each worker has its own state, and all worker outputs are written to a *shared state key* that is accessible to the orchestrator graph. This gives the orchestrator access to all worker output and allows it to synthesize them into a final output. As you can see below, we iterate over a list of sections and `Send` each to a worker node. See further documentation [here](/oss/graph-api#map-reduce-and-the-send-api) and [here](/oss/graph-api#send).
+    Because orchestrator-worker workflows are common, LangGraph **has the `Send` API to support this**. It lets you dynamically create worker nodes and send each one a specific input. Each worker has its own state, and all worker outputs are written to a *shared state key* that is accessible to the orchestrator graph. This gives the orchestrator access to all worker output and allows it to synthesize them into a final output. As you can see below, we iterate over a list of sections and `Send` each to a worker node. See further documentation [here](/oss/langgraph/graph-api#map-reduce-and-the-send-api) and [here](/oss/langgraph/graph-api#send).
     
     ```python
     from langgraph.types import Send
@@ -1011,7 +1011,7 @@ With orchestrator-worker, an orchestrator breaks down a task, delegates each sub
     
     **Creating Workers in LangGraph**
     
-    Because orchestrator-worker workflows are common, LangGraph **has the `Send` API to support this**. It lets you dynamically create worker nodes and send each one a specific input. Each worker has its own state, and all worker outputs are written to a *shared state key* that is accessible to the orchestrator graph. This gives the orchestrator access to all worker output and allows it to synthesize them into a final output. As you can see below, we iterate over a list of sections and `Send` each to a worker node. See further documentation [here](/oss/graph-api#map-reduce-and-the-send-api) and [here](/oss/graph-api#send).
+    Because orchestrator-worker workflows are common, LangGraph **has the `Send` API to support this**. It lets you dynamically create worker nodes and send each one a specific input. Each worker has its own state, and all worker outputs are written to a *shared state key* that is accessible to the orchestrator graph. This gives the orchestrator access to all worker output and allows it to synthesize them into a final output. As you can see below, we iterate over a list of sections and `Send` each to a worker node. See further documentation [here](/oss/langgraph/graph-api#map-reduce-and-the-send-api) and [here](/oss/langgraph/graph-api#send).
     
     ```typescript
     import { withLangGraph } from "@langchain/langgraph/zod";
@@ -1543,11 +1543,11 @@ Human involvement can significantly enhance agent reliability, especially for se
 * Providing feedback to update the agent's state
 * Offering guidance in complex decision-making processes
 
-Human-in-the-loop patterns are crucial when full automation isn't feasible or desirable. Learn more in our [human-in-the-loop guide](/oss/human-in-the-loop).
+Human-in-the-loop patterns are crucial when full automation isn't feasible or desirable. Learn more in our [human-in-the-loop guide](/oss/langgraph/human-in-the-loop).
 
 ## Parallelization 
 
-With parallelization, LLMs work simultaneously and have their outputs aggregated programmatically. Parallel processing is vital for efficient multi-agent systems and complex tasks. LangGraph supports parallelization through its [Send](/oss/graph-api#send) API, enabling:
+With parallelization, LLMs work simultaneously and have their outputs aggregated programmatically. Parallel processing is vital for efficient multi-agent systems and complex tasks. LangGraph supports parallelization through its [Send](/oss/langgraph/graph-api#send) API, enabling:
 
 * Concurrent processing of multiple states
 * Implementation of map-reduce-like operations
@@ -1635,7 +1635,7 @@ With parallelization, LLMs work simultaneously and have their outputs aggregated
     
     **Documentation**
     
-    See our documentation on parallelization [here](/oss/graph-api#create-branches).
+    See our documentation on parallelization [here](/oss/langgraph/graph-api#create-branches).
     
     **LangChain Academy**
     
@@ -1816,13 +1816,13 @@ With parallelization, LLMs work simultaneously and have their outputs aggregated
 
 ## Subgraphs
 
-[Subgraphs](/oss/subgraphs) are essential for managing complex agent architectures, particularly in [multi-agent systems](/oss/multi-agent). They allow:
+[Subgraphs](/oss/langgraph/subgraphs) are essential for managing complex agent architectures, particularly in [multi-agent systems](/oss/langgraph/multi-agent). They allow:
 
 * Isolated state management for individual agents
 * Hierarchical organization of agent teams
 * Controlled communication between agents and the main system
 
-Subgraphs communicate with the parent graph through overlapping keys in the state schema. This enables flexible, modular agent design. For implementation details, refer to our [subgraph how-to guide](/oss/subgraphs).
+Subgraphs communicate with the parent graph through overlapping keys in the state schema. This enables flexible, modular agent design. For implementation details, refer to our [subgraph how-to guide](/oss/langgraph/subgraphs).
 
 ## Reflection
 
