@@ -1,0 +1,19 @@
+```python
+from langchain_core.tools import tool
+
+@tool
+def get_weather(location: str) -> str:
+    """Get the current weather for a location."""
+    return f"Weather in {location}: 72°F, sunny"
+
+@tool
+def get_time(timezone: str) -> str:
+    """Get current time in a timezone."""
+    return f"Time in {timezone}: 3:00 PM"
+
+@tool
+def calculate(expression: str) -> str:
+    """Evaluate a mathematical expression."""
+    # In practice, use safe evaluation
+    return str(eval(expression))
+```
