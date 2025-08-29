@@ -264,3 +264,16 @@ button.version-picker-button svg {
   font-size: inherit !important; /* Match callout text size */
   color: inherit !important; /* Match callout text color */
 }
+
+/* Ensure bold and italic text inherit callout formatting */
+.callout strong,
+.callout b,
+.callout em,
+.callout i,
+[class*="callout"] strong,
+[class*="callout"] b,
+[class*="callout"] em,
+[class*="callout"] i {
+  font-size: inherit !important; /* Match callout text size */
+  color: inherit !important; /* Match callout text color */
+}

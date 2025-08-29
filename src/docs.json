@@ -118,7 +118,7 @@
         "version": "Python",
         "dropdowns": [
           {
-            "dropdown": "OSS frameworks",
+            "dropdown": "OSS (v1-alpha)",
             "icon": "/images/brand/langgraph-pill.svg",
             "description": "LangChain and LangGraph",
             "tabs": [
@@ -175,59 +175,59 @@
                   {
                     "group": "Get started",
                     "pages": [
-                      "oss/langgraph/overview",
-                      "oss/langgraph/installation",
-                      "oss/langgraph/quickstart",
-                      "oss/langgraph/philosophy"
+                      "oss/python/langgraph/overview",
+                      "oss/python/langgraph/installation",
+                      "oss/python/langgraph/quickstart",
+                      "oss/python/langgraph/philosophy"
 
                     ]
                   },
                   {
-                        "group": "Graph API",
-                        "pages": [
-                          "oss/langgraph/graph-api",
-                          "oss/langgraph/use-graph-api"
-                        ]
-                      },
+                    "group": "Graph API",
+                    "pages": [
+                      "oss/python/langgraph/graph-api",
+                      "oss/python/langgraph/use-graph-api"
+                    ]
+                  },
                   {
                     "group": "Capabilities",
                     "pages": [
-                      "oss/langgraph/persistence",
-                      "oss/langgraph/durable-execution",
+                      "oss/python/langgraph/persistence",
+                      "oss/python/langgraph/durable-execution",
                       {
                         "group": "Streaming",
                         "pages": [
-                          "oss/langgraph/streaming",
-                          "oss/langgraph/use-streaming"
+                          "oss/python/langgraph/streaming",
+                          "oss/python/langgraph/use-streaming"
                         ]
                       },
                       {
                         "group": "Human-in-the-loop",
                         "pages": [
-                          "oss/langgraph/human-in-the-loop",
-                          "oss/langgraph/add-human-in-the-loop"
+                          "oss/python/langgraph/human-in-the-loop",
+                          "oss/python/langgraph/add-human-in-the-loop"
                         ]
                       },
                       {
                         "group": "Time travel",
                         "pages": [
-                          "oss/langgraph/time-travel",
-                          "oss/langgraph/use-time-travel"
+                          "oss/python/langgraph/time-travel",
+                          "oss/python/langgraph/use-time-travel"
                         ]
                       },
                       {
                         "group": "Memory and context",
                         "pages": [
-                          "oss/langgraph/memory",
-                          "oss/langgraph/context",
-                          "oss/langgraph/add-memory"
+                          "oss/python/langgraph/memory",
+                          "oss/python/langgraph/context",
+                          "oss/python/langgraph/add-memory"
                         ]
                       },
                       {
                         "group": "Subgraphs",
                         "pages": [
-                          "oss/langgraph/subgraphs",
-                          "oss/langgraph/use-subgraphs"
+                          "oss/python/langgraph/subgraphs",
+                          "oss/python/langgraph/use-subgraphs"
                         ]
                       }
                     ]
@@ -235,10 +235,10 @@
                   {
                     "group": "Production",
                     "pages": [
-                      "oss/langgraph/studio",
-                      "oss/langgraph/test",
-                      "oss/langgraph/deploy",
-                      "oss/langgraph/observability"
+                      "oss/python/langgraph/studio",
+                      "oss/python/langgraph/test",
+                      "oss/python/langgraph/deploy",
+                      "oss/python/langgraph/observability"
                     ]
                   },
                   {
@@ -248,11 +248,11 @@
                       {
                         "group": "Functional API",
                         "pages": [
-                          "oss/langgraph/functional-api",
-                          "oss/langgraph/use-functional-api"
+                          "oss/python/langgraph/functional-api",
+                          "oss/python/langgraph/use-functional-api"
                         ]
                       },
-                      "oss/langgraph/pregel"
+                      "oss/python/langgraph/pregel"
                     ]
                   }
                 ]
@@ -418,7 +418,7 @@
                     ]
                   },
                   {
-                    "group": "Plans and deployment",
+                    "group": "Plans",
                     "pages": [
                       "langgraph-platform/plans"
                     ]
@@ -429,15 +429,9 @@
                 "tab": "Build",
                 "groups": [
                   {
-                    "group": "Build an app with the LangGraph basics",
+                    "group": "Build with LangGraph Platform",
                     "pages": [
-                      "langgraph-platform/langgraph-basics/why-langgraph",
-                      "langgraph-platform/langgraph-basics/1-build-basic-chatbot",
-                      "langgraph-platform/langgraph-basics/2-add-tools",
-                      "langgraph-platform/langgraph-basics/3-add-memory",
-                      "langgraph-platform/langgraph-basics/4-human-in-the-loop",
-                      "langgraph-platform/langgraph-basics/5-customize-state",
-                      "langgraph-platform/langgraph-basics/6-time-travel"
+                      "langgraph-platform/why-langgraph"
                     ]
                   },
                   {
@@ -610,25 +604,11 @@
                 "pages": [
                   "langsmith/home",
                   {
-                    "group": "Start tracing",
+                    "group": "Quickstarts",
                     "pages": [
                       "langsmith/observability-quickstart",
-                      "langsmith/observability-concepts"
-                    ]
-                  },
-                  {
-                    "group": "Evaluate your application",
-                    "pages": [
                       "langsmith/evaluation-quickstart",
-                      "langsmith/evaluation-concepts"
-                    ]
-                  },
-                  {
-                    "group": "Test your prompts",
-                    "pages": [
-                      "langsmith/prompt-engineering-quickstart",
-                      "langsmith/prompt-engineering-concepts"
-                    ]
+                      "langsmith/prompt-engineering-quickstart"                    ]
                   },
                   {
                     "group": "API & SDKs",
@@ -651,7 +631,9 @@
                 "tab": "Observability",
                 "pages": [
                   "langsmith/observability",
+                  "langsmith/observability-concepts",
                   "langsmith/observability-llm-tutorial",
+
                   {
                     "group": "Set up tracing",
                     "pages": [
@@ -723,6 +705,7 @@
                     "pages": [
                       "langsmith/rules",
                       "langsmith/webhooks",
+                      "langsmith/alerts-webhook",
                       "langsmith/online-evaluations"
                     ]
                   },
@@ -753,7 +736,8 @@
                 "tab": "Evaluation",
                 "pages": [
                   "langsmith/evaluation",
-                  "langsmith/evaluation-techniques",
+                  "langsmith/evaluation-concepts",
+                  "langsmith/evaluation-approaches",
                   {
                     "group": "Datasets",
                     "pages": [
@@ -821,6 +805,16 @@
                           "langsmith/create-few-shot-evaluators",
                           "langsmith/index-datasets-for-dynamic-few-shot-example-selection"
                         ]
+                      },
+                      {
+                        "group": "Tutorials",
+                        "pages": [
+                          "langsmith/evaluate-chatbot-tutorial",
+                          "langsmith/evaluate-rag-tutorial",
+                          "langsmith/test-react-agent-pytest",
+                          "langsmith/evaluate-complex-agent",
+                          "langsmith/run-backtests-new-agent"
+                        ]
                       }
                     ]
                   },
@@ -844,16 +838,6 @@
                     ]
                   },
                   {
-                    "group": "Tutorials",
-                    "pages": [
-                      "langsmith/evaluate-chatbot-tutorial",
-                      "langsmith/evaluate-rag-tutorial",
-                      "langsmith/test-react-agent-pytest",
-                      "langsmith/evaluate-complex-agent",
-                      "langsmith/run-backtests-new-agent"
-                    ]
-                  },
-                  {
                     "group": "Common data types",
                     "pages": [
                       "langsmith/example-data-format",
@@ -867,6 +851,7 @@
                 "tab": "Prompt engineering",
                 "pages": [
                   "langsmith/prompt-engineering",
+                  "langsmith/prompt-engineering-concepts",
                   {
                     "group": "Create and update prompts",
                     "pages": [
@@ -972,6 +957,7 @@
                       "langsmith/administration-overview",
                       "langsmith/create-account-api-key",
                       "langsmith/set-up-a-workspace",
+                      "langsmith/manage-organization-by-api",
                       "langsmith/billing",
                       "langsmith/set-up-resource-tags",
                       "langsmith/user-management"
@@ -1051,6 +1037,7 @@
                       "labs/swe/setup/development",
                       "labs/swe/setup/authentication",
                       "labs/swe/setup/monorepo",
+                      "labs/swe/setup/customization",
                       "labs/swe/setup/ci"
                     ]
                   },
@@ -1153,44 +1140,53 @@
                 "tab": "LangGraph",
                 "groups": [
                   {
+                    "group": "Get started",
+                    "pages": [
+                      "oss/javascript/langgraph/overview",
+                      "oss/javascript/langgraph/installation",
+                      "oss/javascript/langgraph/quickstart",
+                      "oss/javascript/langgraph/philosophy"
+                    ]
+                  },
+                  {
                     "group": "Capabilities",
                     "pages": [
-                      "oss/langgraph/persistence",
-                      "oss/langgraph/durable-execution",
+                      "oss/javascript/langgraph/persistence",
+                      "oss/javascript/langgraph/durable-execution",
                       {
                         "group": "Streaming",
                         "pages": [
-                          "oss/langgraph/streaming",
-                          "oss/langgraph/use-streaming"
+                          "oss/javascript/langgraph/streaming",
+                          "oss/javascript/langgraph/use-streaming"
                         ]
                       },
                       {
                         "group": "Human-in-the-loop",
                         "pages": [
-                          "oss/langgraph/human-in-the-loop",
-                          "oss/langgraph/add-human-in-the-loop"
+                          "oss/javascript/langgraph/human-in-the-loop",
+                          "oss/javascript/langgraph/add-human-in-the-loop"
                         ]
                       },
                       {
                         "group": "Time travel",
                         "pages": [
-                          "oss/langgraph/time-travel",
-                          "oss/langgraph/use-time-travel"
+                          "oss/javascript/langgraph/time-travel",
+                          "oss/javascript/langgraph/use-time-travel"
                         ]
                       },
                       {
                         "group": "Memory and context",
                         "pages": [
-                          "oss/langgraph/memory",
-                          "oss/langgraph/context",
-                          "oss/langgraph/add-memory"
+                          "oss/javascript/langgraph/memory",
+                          "oss/javascript/langgraph/context",
+                          "oss/javascript/langgraph/add-memory"
                         ]
                       },
                       {
                         "group": "Subgraphs",
                         "pages": [
-                          "oss/langgraph/subgraphs",
-                          "oss/langgraph/use-subgraphs"
+                          "oss/javascript/langgraph/subgraphs",
+                          "oss/javascript/langgraph/use-subgraphs"
                         ]
                       }
                     ]
@@ -1198,10 +1194,10 @@
                   {
                     "group": "Run and debug",
                     "pages": [
-                      "oss/langgraph/local-server",
-                      "oss/langgraph/ui",
-                      "oss/langgraph/trace-agent",
-                      "oss/langgraph/evals"
+                      "oss/javascript/langgraph/local-server",
+                      "oss/javascript/langgraph/ui",
+                      "oss/javascript/langgraph/trace-agent",
+                      "oss/javascript/langgraph/evals"
                     ]
                   },
                   {
@@ -1210,18 +1206,18 @@
                       {
                         "group": "Graph API",
                         "pages": [
-                          "oss/langgraph/graph-api",
-                          "oss/langgraph/use-graph-api"
+                          "oss/javascript/langgraph/graph-api",
+                          "oss/javascript/langgraph/use-graph-api"
                         ]
                       },
                       {
                         "group": "Functional API",
                         "pages": [
-                          "oss/langgraph/functional-api",
-                          "oss/langgraph/use-functional-api"
+                          "oss/javascript/langgraph/functional-api",
+                          "oss/javascript/langgraph/use-functional-api"
                         ]
                       },
-                      "oss/langgraph/pregel"
+                      "oss/javascript/langgraph/pregel"
                     ]
                   }
                 ]
@@ -1401,15 +1397,9 @@
                 "tab": "Build",
                 "groups": [
                   {
-                    "group": "Build an app with the LangGraph basics",
+                    "group": "Build with LangGraph Platform",
                     "pages": [
-                      "langgraph-platform/langgraph-basics/why-langgraph",
-                      "langgraph-platform/langgraph-basics/1-build-basic-chatbot",
-                      "langgraph-platform/langgraph-basics/2-add-tools",
-                      "langgraph-platform/langgraph-basics/3-add-memory",
-                      "langgraph-platform/langgraph-basics/4-human-in-the-loop",
-                      "langgraph-platform/langgraph-basics/5-customize-state",
-                      "langgraph-platform/langgraph-basics/6-time-travel"
+                      "langgraph-platform/why-langgraph"
                     ]
                   },
                   {
@@ -1695,6 +1685,7 @@
                     "pages": [
                       "langsmith/rules",
                       "langsmith/webhooks",
+                      "langsmith/alerts-webhook",
                       "langsmith/online-evaluations"
                     ]
                   },
@@ -1948,6 +1939,7 @@
                       "langsmith/administration-overview",
                       "langsmith/create-account-api-key",
                       "langsmith/set-up-a-workspace",
+                      "langsmith/manage-organization-by-api",
                       "langsmith/billing",
                       "langsmith/set-up-resource-tags",
                       "langsmith/user-management"
