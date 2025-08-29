@@ -553,8 +553,50 @@ of local integrations in the [reference]().
 ### Caching
 
 Chat model APIs can be slow and expensive to call. To help mitigate this,
-LangChain provides an optional caching layer for `ChatModel` integrations. See
-the [caching]() guide for more details.
+LangChain provides an optional caching layer for `ChatModel` integrations.
+
+<Accordion title="Enable caching for your model">
+
+    By default, caching is disabled. To enable it, import:
+
+    ```python
+    from langchain_core.globals import set_llm_cache
+    ```
+
+    Next, choose a cache:
+
+    <AccordionGroup>
+        <Accordion title="In Memory Cache" icon="memory">
+            An ephemeral cache that stores model calls in memory. Wiped when
+            your environment restarts. Not shared across processes.
+
+            ```python InMemoryCache
+            from langchain_core.caches import InMemoryCache
+
+            set_llm_cache(InMemoryCache())
+
+            response = model.invoke("Tell me a joke")
+            response = model.invoke("Tell me a joke")  # Fast, from cache
+            ```
+        </Accordion>
+
+        <Accordion title="SQLite Cache" icon="database">
+            Uses a SQLite database to store responses, and will last across
+            process restarts
+
+            ```python SQLite Cache
+            # We can do the same thing with a SQLite cache
+            from langchain_community.cache import SQLiteCache
+
+            set_llm_cache(SQLiteCache(database_path=".langchain.db"))
+
+            response = model.invoke("Tell me a joke")
+            response = model.invoke("Tell me a joke")  # Fast, from cache
+            ```
+        </Accordion>
+    </AccordionGroup>
+
+</Accordion>
 
 ### Rate limiting
 
@@ -565,7 +607,34 @@ before making more requests.
 
 To help manage rate limits, `ChatModel` integrations accept a `rate_limiter`
 parameter that can be provided during initialization to control the rate at
-which requests are made. See the [rate limiting]() guide for more details.
+which requests are made.
+
+<Accordion title="Initialize and use a rate limiter">
+    LangChain in comes with a built-in in memory rate limiter. This rate limiter
+    is thread safe and can be shared by multiple threads in the same process.
+
+    ```python Define a rate limiter highlight={12}
+        from langchain_core.rate_limiters import InMemoryRateLimiter
+
+        rate_limiter = InMemoryRateLimiter(
+            requests_per_second=0.1,  # 1 request every 10s
+            check_every_n_seconds=0.1,  # Check every 100ms whether allowed to make a request
+            max_bucket_size=10,  # Controls the maximum burst size.
+        )
+
+        model = init_chat_model(
+            model="gpt-5", 
+            model_provider="openai",
+            rate_limiter=rate_limiter
+        )
+    ```
+
+    <Warning>
+        The provided rate limiter can only limit the number of requests per unit
+        time. It will not help if you need to also limit based on the size of
+        the requests.
+    </Warning>
+</Accordion>
 
 ### Base URL or proxy
 
