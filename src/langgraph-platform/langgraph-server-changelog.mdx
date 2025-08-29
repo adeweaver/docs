@@ -5,6 +5,11 @@ sidebarTitle: Server changelog
 
 [LangGraph Server](/langgraph-platform/langgraph-server) is an API platform for creating and managing agent-based applications. It provides built-in persistence, a task queue, and supports deploying, configuring, and running assistants (agentic workflows) at scale. This changelog documents all notable updates, features, and fixes to LangGraph Server releases.
 
+<a id="2025-08-28"></a>
+## v0.4.4
+- Set the custom auth thread_id to None for stateless runs to prevent conflicts.
+- Improved Redis signaling in the Go runtime by adding a wakeup worker and Redis lock implementation, and updated sweep logic.
+
 <a id="2025-08-27"></a>
 ## v0.4.3
 - Added stream mode to thread stream for improved data processing.
