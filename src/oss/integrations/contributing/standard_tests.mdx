@@ -11,7 +11,7 @@ When creating either a custom class for yourself or to publish in a LangChain in
 First, let's install 2 dependencies:
 
 - `langchain-core` will define the interfaces we want to import to define our custom tool.
-- `langchain-tests` will provide the standard tests we want to use, as well as pytest plugins necessary to run them. Recommended to pin to the [latest version](https://pypi.org/project/langchain-tests/).
+- `langchain-tests` will provide the standard tests we want to use, as well as `pytest` plugins necessary to run them. We recommend pinning to the [latest version](https://pypi.org/project/langchain-tests/).
 
 <Note>
 
@@ -22,7 +22,7 @@ version of `langchain-tests` to avoid unexpected changes.
 
 <Tabs>
     <Tab title="Poetry">
-If you followed the [previous guide](../package), you should already have these dependencies installed!
+If you followed the [previous guide](../package), you should already have these dependencies installed.
 
 ```bash
 poetry add langchain-core
@@ -47,7 +47,7 @@ There are 2 namespaces in the `langchain-tests` package:
 - Unit tests (`langchain_tests.unit_tests`): designed to be used to test the component in isolation and without access to external services
 - Integration tests (`langchain_tests.integration_tests`): designed to be used to test the component with access to external services (in particular, the external service that the component is designed to interact with).
 
-Both types of tests are implemented as [`pytest` class-based test suites](https://docs.pytest.org/en/7.1.x/getting-started.html#group-multiple-tests-in-a-class).
+Both types of tests are implemented as `pytest` [class-based test suites](https://docs.pytest.org/en/7.1.x/getting-started.html#group-multiple-tests-in-a-class).
 
 By subclassing the base classes for each type of standard test (see below), you get all of the standard tests for that type, and you
 can override the properties that the test suite uses to configure the tests.
@@ -80,13 +80,13 @@ Additionally, chat model standard tests test a range of behaviors, from the most
 1. If a feature is intended to be supported by the model, it should pass;
 2. If a feature is not intended to be supported by the model, it should be skipped.
 
-Tests for "optional" capabilities are controlled via a set of properties that can be overridden on the test model subclass.
+Tests for optional capabilities are controlled via a set of properties that can be overridden on the test model subclass.
 
-You can see the **entire list of configurable capabilities** in the API references for
+You can see the entire list of configurable capabilities in the API references for
 [unit tests](https://python.langchain.com/api_reference/standard_tests/unit_tests/langchain_tests.unit_tests.chat_models.ChatModelUnitTests.html)
 and [integration tests](https://python.langchain.com/api_reference/standard_tests/integration_tests/langchain_tests.integration_tests.chat_models.ChatModelIntegrationTests.html).
 
-For example, to enable integration tests for image inputs, we can implement
+For example, to enable integration tests for image inputs, we can implement:
 
 ```python
 @property
@@ -98,7 +98,7 @@ on the integration test class.
 
 <Note>
 
-Details on what tests are run, how each test can be skipped, and troubleshooting tips for each test can be found in the API references. See details:
+Details on what tests are run, how each test can be skipped, and troubleshooting tips for each test can be found in the API references:
 
 - [Unit tests API reference](https://python.langchain.com/api_reference/standard_tests/unit_tests/langchain_tests.unit_tests.chat_models.ChatModelUnitTests.html)
 - [Integration tests API reference](https://python.langchain.com/api_reference/standard_tests/integration_tests/langchain_tests.integration_tests.chat_models.ChatModelIntegrationTests.html)
@@ -189,7 +189,7 @@ class TestParrotVectorStore(VectorStoreIntegrationTests):
             pass
 ```
 
-Configuring the tests consists of implementing pytest fixtures for setting up an
+Configuring the tests consists of implementing `pytest` fixtures for setting up an
 empty vector store and tearing down the vector store after the test run ends.
 
 | Fixture | Description |
@@ -224,7 +224,7 @@ class TestChromaStandard(VectorStoreIntegrationTests):
 
 Note that before the initial `yield`, we instantiate the vector store with an
 embeddings object. This is a pre-defined
-["fake" embeddings model](https://python.langchain.com/api_reference/standard_tests/integration_tests/langchain_tests.integration_tests.vectorstores.VectorStoreIntegrationTests.html#langchain_tests.integration_tests.vectorstores.VectorStoreIntegrationTests.get_embeddings)
+[fake embeddings model](https://python.langchain.com/api_reference/standard_tests/integration_tests/langchain_tests.integration_tests.vectorstores.VectorStoreIntegrationTests.html#langchain_tests.integration_tests.vectorstores.VectorStoreIntegrationTests.get_embeddings)
 that will generate short, arbitrary vectors for documents. You can use a different
 embeddings object if desired.
 
@@ -251,7 +251,7 @@ To configure standard tests for an embeddings model, we subclass `EmbeddingsUnit
 
 <Note>
 
-Details on what tests are run, how each test can be skipped, and troubleshooting tips for each test can be found in the API references. See details:
+Details on what tests are run, how each test can be skipped, and troubleshooting tips for each test can be found in the API references:
 
 - [Unit tests API reference](https://python.langchain.com/api_reference/standard_tests/unit_tests/langchain_tests.unit_tests.embeddings.EmbeddingsUnitTests.html)
 - [Integration tests API reference](https://python.langchain.com/api_reference/standard_tests/integration_tests/langchain_tests.integration_tests.embeddings.EmbeddingsIntegrationTests.html)
@@ -321,7 +321,7 @@ override `tool_constructor_params`.
 
 <Note>
 
-Details on what tests are run, how each test can be skipped, and troubleshooting tips for each test can be found in the API references. See details:
+Details on what tests are run, how each test can be skipped, and troubleshooting tips for each test can be found in the API references:
 
 - [Unit tests API reference](https://python.langchain.com/api_reference/standard_tests/unit_tests/langchain_tests.unit_tests.tools.ToolsUnitTests.html)
 - [Integration tests API reference](https://python.langchain.com/api_reference/standard_tests/integration_tests/langchain_tests.integration_tests.tools.ToolsIntegrationTests.html)
@@ -441,7 +441,7 @@ class TestParrotRetriever(RetrieversIntegrationTests):
 
 ### Running the tests
 
-You can run these with the following commands from your project root
+You can run these with the following commands from your project root.
 
 <Tabs>
     <Tab title="Poetry" default>
@@ -475,4 +475,4 @@ information on which tests are included and how to troubleshoot common issues,
 see the [Standard Tests API Reference](https://python.langchain.com/api_reference/standard_tests/index.html).
 
 You can see troubleshooting guides under the individual test suites listed in that API Reference. For example,
-[here is the guide for `ChatModelIntegrationTests.test_usage_metadata`](https://python.langchain.com/api_reference/standard_tests/integration_tests/langchain_tests.integration_tests.chat_models.ChatModelIntegrationTests.html#langchain_tests.integration_tests.chat_models.ChatModelIntegrationTests.test_usage_metadata).
+here is the guide for [ChatModelIntegrationTests.test_usage_metadata](https://python.langchain.com/api_reference/standard_tests/integration_tests/langchain_tests.integration_tests.chat_models.ChatModelIntegrationTests.html#langchain_tests.integration_tests.chat_models.ChatModelIntegrationTests.test_usage_metadata).
