@@ -20,13 +20,13 @@ interacted with programatically to build complex, stateful applications.
 In addition to basic text generation, many models support the following advanced
 features:
 
-* [Tool calling](#tool-calling) - enables models to interact with external
+* <Icon icon="hammer" size={16} /> [Tool calling](#tool-calling) - enables models to interact with external
 services, APIs, and databases.
-* [Structured output](#structured-output) - constrain the response format to
+* <Icon icon="shapes" size={16} /> [Structured output](#structured-output) - constrain the response format to
 match a provided schema.
-* [Multimodality](#multimodality) - the ability to process data other than text,
+* <Icon icon="image" size={16} /> [Multimodality](#multimodality) - the ability to process data other than text,
 such as images.
-* [Reasoning](#reasoning) - the ability to perform multi-step reasoning to
+* <Icon icon="brain" size={16} /> [Reasoning](#reasoning) - the ability to perform multi-step reasoning to
 arrive at a conclusion.
 
 ## Basic usage
@@ -345,7 +345,6 @@ guide on [context engineering]() for strategies to effectively manage context.
 
 ## Advanced features
 
-<Icon icon="hammer" size={32} />
 ### Tool calling
 
 Models can request to call tools that perform tasks such as fetching data from a
@@ -545,7 +544,6 @@ result back to the model for use in subsequent reasoning.
     </Accordion>
 </AccordionGroup>
 
-<Icon icon="shapes" size={32} />
 ### Structured outputs
 
 Models can be requested to provide their response in a format matching a given
@@ -558,7 +556,7 @@ for enforcing structured outputs.
         Pydantic models provide the richest feature set with field validation,
         descriptions, and nested structures.
 
-        ```python highlight={3-8,10-12}
+        ```python
         from pydantic import BaseModel, Field
 
         class Movie(BaseModel):
@@ -577,7 +575,7 @@ for enforcing structured outputs.
         `TypedDict` provides a simpler alternative using Python's built-in
         typing, ideal when you don't need runtime validation.
 
-        ```python highlight={3-7,9-11}
+        ```python
         from typing_extensions import TypedDict, Annotated
 
         class MovieDict(TypedDict):
@@ -597,7 +595,7 @@ for enforcing structured outputs.
         Schema. Some providers support `strict=True` for guaranteed schema
         adherence.
 
-        ```python highlight={3-20,22-26}
+        ```python
         import json
 
         json_schema = {
@@ -640,7 +638,7 @@ for enforcing structured outputs.
     **Key considerations for structured outputs:**
 
     - **Method parameter**: Some providers support different methods
-    (`"json_schema"`, `"function_calling"`, `"json_mode"`)
+    (`'json_schema'`, `'function_calling'`, `'json_mode'`)
     - **Strict mode**: When available, `strict=True` guarantees the output will
     match your schema exactly
     - **Include raw**: Use `include_raw=True` to get both the parsed output and
@@ -649,34 +647,94 @@ for enforcing structured outputs.
     `TypedDict` and JSON Schema require manual validation
 </Note>
 
-Advanced usage with nested structures:
+<Accordion title="Advanced usage with nested structures">
+    ```python
+    from pydantic import BaseModel, Field
+    from typing import List, Optional
 
-```python
-from pydantic import BaseModel, Field
-from typing import List, Optional
+    class Actor(BaseModel):
+        name: str
+        role: str
 
-class Actor(BaseModel):
-    name: str
-    role: str
+    class MovieDetails(BaseModel):
+        title: str
+        year: int
+        cast: List[Actor]
+        genres: List[str]
+        budget: Optional[float] = Field(None, description="Budget in millions USD")
 
-class MovieDetails(BaseModel):
-    title: str
-    year: int
-    cast: List[Actor]
-    genres: List[str]
-    budget: Optional[float] = Field(None, description="Budget in millions USD")
+    model_with_structure = model.with_structured_output(
+        MovieDetails, 
+        include_raw=True  # Returns both parsed and raw response
+    )
 
-model_with_structure = model.with_structured_output(
-    MovieDetails, 
-    include_raw=True  # Returns both parsed and raw response
-)
+    result = model_with_structure.invoke("Tell me about The Matrix movie")
+    print(result["parsed"])  # Access the structured data
+    print(result["raw"])     # Access the original AI message
+    ```
+</Accordion>
 
-result = model_with_structure.invoke("Tell me about The Matrix movie")
-print(result["parsed"])  # Access the structured data
-print(result["raw"])     # Access the original AI message
-```
+<Accordion title="Structured output with tool calling">
+    You can combine structured outputs with tool calling to ensure tools return
+    data in a specific format. This is particularly useful when tools need to
+    extract or process information in a standardized way.
 
-<Icon icon="image" size={32} />
+    ```python
+    from pydantic import BaseModel, Field
+    from langchain_core.tools import tool
+
+    class SearchResult(BaseModel):
+        """A structured search result."""
+        query: str = Field(description="The search query used")
+        results: List[str] = Field(description="List of search results")
+        confidence: float = Field(description="Confidence score 0-1")
+
+    @tool(response_format=SearchResult)
+    def web_search(query: str) -> SearchResult:
+        """Search the web and return structured results."""
+        # Your search logic here
+        return SearchResult(
+            query=query,
+            results=["Result 1", "Result 2"],
+            confidence=0.95
+        )
+
+    # Bind the tool to the model
+    model_with_tools = model.bind_tools([web_search])
+
+    # The tool will automatically return structured data
+    response = model_with_tools.invoke("Search for information about quantum computing")
+    if response.tool_calls:
+        tool_result = response.tool_calls[0]
+        print(tool_result["args"])  # Structured as SearchResult
+    ```
+
+    You can also use `with_structured_output()` alongside tools for extracting
+    structured information from tool responses:
+
+    ```python
+    class Analysis(BaseModel):
+        """Analysis of search results."""
+        summary: str = Field(description="Summary of findings")
+        key_points: List[str] = Field(description="Key points extracted")
+        needs_more_info: bool = Field(description="Whether more information is needed")
+
+    # Create a model that uses tools and outputs structured data
+    model_with_tools = model.bind_tools([web_search])
+    structured_model = model_with_tools.with_structured_output(Analysis)
+
+    # This will:
+    # 1. Call the search tool if needed
+    # 2. Process the results
+    # 3. Return structured analysis
+    result = structured_model.invoke(
+        "Search for quantum computing and analyze the findings"
+    )
+    print(result)  # Analysis(summary="...", key_points=[...], needs_more_info=False)
+    ```
+</Accordion>
+
+
 ### Multimodality
 
 Certain models can process and return non-textual data such as images, audio,
@@ -766,7 +824,6 @@ On the other hand, models can return non-textual data as part of their response:
     ```
 </CodeGroup>
 
-<Icon icon="brain" size={32} />
 ### Reasoning
 
 Newer models are capable of performing multi-step reasoning to arrive at a
@@ -1011,37 +1068,37 @@ response = model.invoke(
 )
 ```
 
-**Key configuration attributes:**
+<Accordion title="Key configuration attributes">
+    <ParamField body="run_name" type="string">
+        Identifies this specific invocation in logs and traces. Not inherited by 
+        sub-calls.
+    </ParamField>
 
-<ParamField body="run_name" type="string">
-    Identifies this specific invocation in logs and traces. Not inherited by 
-    sub-calls.
-</ParamField>
+    <ParamField body="tags" type="string[]">
+        Labels inherited by all sub-calls for filtering and organization in 
+        debugging tools.
+    </ParamField>
 
-<ParamField body="tags" type="string[]">
-    Labels inherited by all sub-calls for filtering and organization in 
-    debugging tools.
-</ParamField>
+    <ParamField body="metadata" type="object">
+        Custom key-value pairs for tracking additional context, inherited by all 
+        sub-calls.
+    </ParamField>
 
-<ParamField body="metadata" type="object">
-    Custom key-value pairs for tracking additional context, inherited by all 
-    sub-calls.
-</ParamField>
+    <ParamField body="max_concurrency" type="number">
+        Controls the maximum number of parallel calls when using `batch()` or 
+        `batch_as_completed()`.
+    </ParamField>
 
-<ParamField body="max_concurrency" type="number">
-    Controls the maximum number of parallel calls when using `batch()` or 
-    `batch_as_completed()`.
-</ParamField>
+    <ParamField body="callbacks" type="array">
+        Handlers for monitoring and responding to events during execution. See 
+        [callbacks]() for details.
+    </ParamField>
 
-<ParamField body="callbacks" type="array">
-    Handlers for monitoring and responding to events during execution. See 
-    [callbacks]() for details.
-</ParamField>
-
-<ParamField body="recursion_limit" type="number">
-    Maximum recursion depth for chains to prevent infinite loops in complex 
-    pipelines.
-</ParamField>
+    <ParamField body="recursion_limit" type="number">
+        Maximum recursion depth for chains to prevent infinite loops in complex 
+        pipelines.
+    </ParamField>
+</Accordion>
 
 These configuration values are particularly useful when:
 - Debugging with [LangSmith](https://docs.smith.langchain.com/) tracing
