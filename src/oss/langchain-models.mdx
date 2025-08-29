@@ -6,8 +6,6 @@ import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
 
 <AlphaCallout />
 
-{/* TODO: fix all dead links */}
-
 import ConversationHistory from '/snippets/oss/langchain-conversation-history.mdx';
 
 ## Overview
@@ -102,7 +100,8 @@ response = model.invoke("Why do parrots talk?")
 ``` */}
 </CodeGroup>
 
-See @[init_chat_model()] for more detail.
+See [`init_chat_model()`](https://python.langchain.com/api_reference/langchain/chat_models/langchain.chat_models.base.init_chat_model.html)
+for more detail.
 
 ### Key methods
 
@@ -187,8 +186,8 @@ invocation methods, each suited to different use cases.
 
 ### Invoke
 
-The most straightforward way to call a model is to use `invoke()` with a single
-message or a list of messages.
+The most straightforward way to call a model is to use [`invoke()`](https://python.langchain.com/api_reference/core/language_models/langchain_core.language_models.chat_models.BaseChatModel.html#langchain_core.language_models.chat_models.BaseChatModel.invoke)
+with a single message or a list of messages.
 
 A list of messages can be provided to a model to represent a conversation
 history. Each message has a role to provide context as to who is speaking in the
@@ -209,7 +208,8 @@ Most models can stream their output content while it is being generated. By
 displaying output progressively, streaming significantly improves user
 experience, particularly for longer responses.
 
-Calling `stream()` returns an <Tooltip tip="An object that progressively provides access to each item of a collection, in order.">iterator</Tooltip>
+Calling [`stream()`](https://python.langchain.com/api_reference/core/language_models/langchain_core.language_models.chat_models.BaseChatModel.html#langchain_core.language_models.chat_models.BaseChatModel.stream)
+returns an <Tooltip tip="An object that progressively provides access to each item of a collection, in order.">iterator</Tooltip>
 that yields output chunks as they are produced. You can use a loop to process
 each chunk in real-time:
 
@@ -270,9 +270,6 @@ message history and passed back to the model as conversational context.
     the entire output in memory before it can be processed.
 </Warning>
 
-{/* TODO: JSONOutputParser? cc @ccurme */}
-{/* https://python.langchain.com/docs/how_to/streaming/#working-with-input-streams */}
-
 <Accordion title='"Auto-Streaming" Chat Models'>
     <Note>
         This section requires some baseline knowledge of [callbacks]() and
@@ -298,15 +295,14 @@ message history and passed back to the model as conversational context.
     is being streamed, LangChain will take care of invoking `on_llm_new_token`
     events in LangChain's callback system.
     
-    Callback events allow LangGraph `stream` and `astream_events` to surface the
-    chat model's output in real-time.
+    Callback events allow LangGraph `stream()` and [`astream_events()`](https://python.langchain.com/api_reference/langchain/agents/langchain.agents.agent.AgentExecutor.html#langchain.agents.agent.AgentExecutor.astream_events)
+    to surface the chat model's output in real-time.
 </Accordion>
 
 <Accordion
     title="Stream events"
 >    
-    LangChain chat models can also stream semantic events using the
-    @[astream_events] API.
+    LangChain chat models can also stream semantic events using `astream_events()`.
 
     This simplifies filtering based on event types and other metadata, and will
     aggregate the full message in the background. See below for an example.
@@ -338,14 +334,15 @@ message history and passed back to the model as conversational context.
     Full message: Hi there! How can I help today?
     ```
     
-    See the @[astream_events] reference for event types and other details.
+    See the [`astream_events()`](https://python.langchain.com/api_reference/langchain/agents/langchain.agents.agent.AgentExecutor.html#langchain.agents.agent.AgentExecutor.astream_events)
+    reference for event types and other details.
 </Accordion>
 
 ### Batch
 
 <Note>
 
-This section describes a chat model method `.batch()`, which parallelizes model
+This section describes a chat model method `batch()`, which parallelizes model
 calls client-side. It is distinct from batch APIs supported by inference
 providers.
 
@@ -364,9 +361,10 @@ for response in responses:
     print(response)
 ```
 
-By default, `batch()` will only return the final output for the entire batch.
-If you want to receive the output for each individual input as it is finishes
-generating, you can stream results with `batch_as_completed()`:
+By default, [`batch()`](https://python.langchain.com/api_reference/core/language_models/langchain_core.language_models.chat_models.BaseChatModel.html#langchain_core.language_models.chat_models.BaseChatModel.batch)
+will only return the final output for the entire batch. If you want to receive
+the output for each individual input as it is finishes generating, you can
+stream results with [`batch_as_completed()`](https://python.langchain.com/api_reference/core/language_models/langchain_core.language_models.chat_models.BaseChatModel.html#langchain_core.language_models.chat_models.BaseChatModel.batch_as_completed):
 
 ```python Yield responses upon completion
 for response in model.batch_as_completed([
@@ -426,8 +424,9 @@ definitions (often defined with something like JSON schema)
 </Note>
 
 To make tools that you have defined available for use by a model, you must bind
-them using `.bind_tools()`. In subsequent invocations, the model can choose to
-call any of the bound tools as needed.
+them using [`bind_tools()`](https://python.langchain.com/api_reference/core/language_models/langchain_core.language_models.chat_models.BaseChatModel.html#langchain_core.language_models.chat_models.BaseChatModel.bind_tools).
+In subsequent invocations, the model can choose to call any of the bound tools
+as needed.
 
 Some model providers offer built-in tools that can be enabled via model
 parameters. Check the respective
@@ -463,7 +462,7 @@ execute a tool. It is up to you to perform the requested action and return the
 result back to the model for use in subsequent reasoning.
 
 The LangGraph framework simplifies the orchestration of model and tool calls.
-See the [Agent guides](/oss/langchain-agents) to get started. Below, we show
+See the [agent guides](/oss/langchain-agents) to get started. Below, we show
 some simple patterns for illustration.
 
 <AccordionGroup>
@@ -904,7 +903,7 @@ For details, see the relevant chat model in the
 LangChain supports all major model providers, including OpenAI, Anthropic,
 Google, Azure, AWS Bedrock, and more. Each provider offers a variety of models
 with different capabilities. For a full list of supported models in LangChain,
-see the [provider reference]().
+see the [integrations page](/oss/integrations/providers).
 
 ## Advanced configuration
 
