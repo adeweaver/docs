@@ -397,23 +397,6 @@ universal_message = HumanMessage([
 ```
 </CodeGroup>
 
-### Standard content blocks
-
-<CardGroup cols={2}>
-    <Card title="Text" icon="align-left">
-        Basic text content for messages
-    </Card>
-    <Card title="Images" icon="image">
-        Images via URL, base64-encoded data, or external file IDs.
-    </Card>
-    <Card title="Documents" icon="file">
-        PDF, Word, and other document files
-    </Card>
-    <Card title="Audio" icon="volume-high">
-        Audio files for transcription or analysis
-    </Card>
-</CardGroup>
-
 ### Examples
 
 ```python Multimodal message
@@ -785,7 +768,7 @@ non_standard_block = {
 ### Factory functions
 
 LangChain provides type-safe factory functions for creating content blocks with
-automatic ID generation and validation:
+automatic ID generation and validation.
 
 #### Creating content blocks
 
@@ -830,6 +813,9 @@ automatic ID generation and validation:
     ```
   </Tab>
   <Tab title="Provider-specific data">
+    Model providers often return extra fields not in the standard spec. These
+    are stored in the `extras` field of content blocks.
+
     ```python
     # Extra fields go into 'extras' dict
     text = create_text_block(
@@ -851,23 +837,27 @@ automatic ID generation and validation:
   </Tab>
 </Tabs>
 
-#### Using factories in messages
 
-```python Message construction with factories
-from langchain_core.messages import AIMessage
-from langchain_core.messages.content import (
-    create_text_block,
-    create_tool_call,
-    create_reasoning_block
-)
+<Accordion
+    title="Using factories in messages"
+>
 
-# Build message with multiple block types
-message = AIMessage(content_blocks=[
-    create_reasoning_block("User wants weather info, will search"),
-    create_tool_call("search", {"q": "weather Boston"}),
-    create_text_block("I'll search for Boston weather")
-])
-```
+    ```python Message construction with factories
+    from langchain_core.messages import AIMessage
+    from langchain_core.messages.content import (
+        create_text_block,
+        create_tool_call,
+        create_reasoning_block
+    )
+
+    # Build message with multiple block types
+    message = AIMessage(content_blocks=[
+        create_reasoning_block("User wants weather info, will search"),
+        create_tool_call("search", {"q": "weather Boston"}),
+        create_text_block("I'll search for Boston weather")
+    ])
+    ```
+</Accordion>
 
 ## Annotations
 
