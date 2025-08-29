@@ -233,6 +233,8 @@ h4 span img,
 h5 span img,
 h6 span img {
   background-color: transparent !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 

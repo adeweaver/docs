@@ -120,7 +120,6 @@ A `SystemMessage` represent an initial set of instructions that primes the
 model's behavior. You can use a system message to set the tone, define the
 model's role, and establish guidelines for responses.
 
-<CodeGroup>
 ```python Basic instructions
 system_msg = SystemMessage("You are a helpful coding assistant.")
 
@@ -144,7 +143,6 @@ messages = [
 ]
 response = model.invoke(messages)
 ```
-</CodeGroup>
 
 ### <Icon icon="user" size={20} /> Human Message
 
@@ -174,15 +172,6 @@ human_msg = HumanMessage(
     name="alice",  # Optional: identify different users
     id="msg_123",  # Optional: unique identifier for tracing
 )
-```
-
-```python Multi-user scenarios
-messages = [
-    HumanMessage("I like apples", name="alice"),
-    HumanMessage("I prefer oranges", name="bob"),
-    HumanMessage("What fruits do Alice and Bob like?", name="charlie")
-]
-response = model.invoke(messages)
 ```
 </CodeGroup>
 
@@ -245,11 +234,10 @@ When models make tool calls, they're included in the AI message:
 model_with_tools = model.bind_tools([GetWeather])
 response = model_with_tools.invoke("What's the weather in Paris?")
 
-if response.tool_calls:
-    for tool_call in response.tool_calls:
-        print(f"Tool: {tool_call['name']}")
-        print(f"Args: {tool_call['args']}")
-        print(f"ID: {tool_call['id']}")
+for tool_call in response.tool_calls:
+    print(f"Tool: {tool_call['name']}")
+    print(f"Args: {tool_call['args']}")
+    print(f"ID: {tool_call['id']}")
 ```
 
 #### Streaming and chunks
@@ -281,6 +269,7 @@ Tool messages are used to pass the results of a single tool execution back to th
 ```python
 # After a model makes a tool call
 ai_message = AIMessage(
+    content=[],
     tool_calls=[{
         "name": "get_weather",
         "args": {"location": "San Francisco"},
@@ -477,7 +466,7 @@ response = model.invoke([message])
 </CodeGroup>
 
 <Warning>
-    Not all models support all file types. Check your model provider's
+    Not all models support all file types. Check the model provider's
     [reference]() for supported formats and size limits.
 </Warning>
 
@@ -702,8 +691,7 @@ must adhere to one of the following block types:
         </AccordionGroup>
     </Accordion>
 
-
-    <Accordion title="Provider-Specific Blocks" icon="plug">
+    <Accordion title="Server-Side Tool Execution" icon="server">
         <AccordionGroup>
             <Accordion title="WebSearchCall" icon="magnifying-glass">
                 **Purpose:** Built-in web search
@@ -748,6 +736,11 @@ must adhere to one of the following block types:
                     Error message if execution failed
                 </ParamField>
             </Accordion>
+        </AccordionGroup>
+    </Accordion>
+
+    <Accordion title="Provider-Specific Blocks" icon="plug">
+        <AccordionGroup>
             <Accordion title="NonStandardContentBlock" icon="asterisk">
                 **Purpose:** Provider-specific escape hatch
                 
@@ -764,87 +757,6 @@ must adhere to one of the following block types:
         </AccordionGroup>
     </Accordion>
 </AccordionGroup>
-
-### Factory functions
-
-LangChain provides type-safe factory functions for creating content blocks with
-automatic ID generation and validation.
-
-<Tabs>
-    <Tab title="Text blocks">
-        ```python
-        from langchain_core.messages.content import create_text_block
-
-        # Simple text block with auto-generated ID
-        text = create_text_block("Hello world")
-        # {"type": "text", "text": "Hello world", "id": "lc_text_..."}
-
-        # With annotations
-        text = create_text_block(
-            "Python is popular [1]",
-            annotations=[{
-                "type": "citation",
-                "url": "https://survey.com",
-                "start_index": 18,
-                "end_index": 21
-            }]
-        )
-        ```
-    </Tab>
-    <Tab title="Tool calls">
-        ```python
-        from langchain_core.messages.content import create_tool_call
-
-        # Create tool call with auto-ID
-        tool_call = create_tool_call(
-            name="search",
-            args={"query": "Python tutorials"}
-        )
-        # {"type": "tool_call", "name": "search", "args": {...}, "id": "lc_tool_..."}
-
-        # With custom ID
-        tool_call = create_tool_call(
-            name="calculator",
-            args={"expression": "2 + 2"},
-            id="custom_id_123"
-        )
-        ```
-    </Tab>
-    <Tab title="Provider-specific data">
-        Model providers often return extra fields not in the standard spec. These
-        are stored in the `extras` field of content blocks.
-
-        ```python
-        from langchain_core.messages.content import create_text_block
-
-        # Extra fields go into 'extras' dict
-        text = create_text_block(
-            "Hello",
-            custom_field="value",
-            provider_metadata={"model": "gpt-4"}
-        )
-        # Result:
-        # {
-        #   "type": "text",
-        #   "text": "Hello",
-        #   "id": "lc_text_...",
-        #   "extras": {
-        #     "custom_field": "value",
-        #     "provider_metadata": {"model": "gpt-4"}
-        #   }
-        # }
-        ```
-    </Tab>
-</Tabs>
-
-```python Using factories in messages
-# Build message with multiple block types
-message = AIMessage(content_blocks=[
-    create_reasoning_block("User wants weather info, will search"),
-    create_tool_call("search", {"q": "weather Boston"}),
-    create_text_block("I'll search for Boston weather")
-])
-```
 
 ## Examples
 
@@ -899,44 +811,7 @@ while True:
     response = model.invoke(messages)
     messages.append(response)
 ```
-
-```python Conversation with memory
-from langchain.memory import ConversationBufferMemory
-from langchain_core.messages import HumanMessage
-
-# Initialize memory
-memory = ConversationBufferMemory(return_messages=True)
-
-# Add messages to memory
-memory.chat_memory.add_user_message("What is Python?")
-memory.chat_memory.add_ai_message("Python is a high-level programming language...")
-
-# Retrieve conversation history
-messages = memory.chat_memory.messages
-
-# Continue conversation
-new_response = model.invoke(messages + [HumanMessage("Tell me more about its uses")])
-```
 </CodeGroup>
-
-### Structured conversations
-
-Organize complex interactions with clear message patterns:
-
-```python Multi-agent conversation
-from langchain_core.messages import HumanMessage, AIMessage
-
-# Simulate conversation between user and multiple assistants
-messages = [
-    SystemMessage("You are a team of experts: a developer and a designer"),
-    HumanMessage("I need help building a website"),
-    AIMessage("[Developer]: I can help with the backend architecture..."),
-    AIMessage("[Designer]: I'll handle the UI/UX design..."),
-    HumanMessage("Great! Let's start with the design first"),
-]
-
-response = model.invoke(messages)
-```
 
 ## Message output versions: v0 vs v1
 
@@ -961,14 +836,6 @@ model = ChatOpenAI()
 model = ChatOpenAI(output_version="v1")
 ```
 
-```python Per invocation
-# Override at invocation time
-response = model.invoke(
-    "Hello",
-    output_version="v1"  # Override model default
-)
-```
-
 ```python Environment variable
 import os
 os.environ["LC_OUTPUT_VERSION"] = "v1"
@@ -991,33 +858,13 @@ response.content_blocks  # Same as above, but typed
 Models can interpret both v0 and v1 content formats, which means that you can use the same model instance
 to invoke messages that might have different content formats.
 
-| Aspect | v0 (Legacy) | v1 (Standard) |
+| Aspect | v0 | v1 (Standard) |
 |:--------|:-----------|:-------------|
-| **Default behavior** | Yes (for compatibility) | Opt-in via `output_version` |
+| **Default behavior** | Yes | Accessible through `.content_blocks` |
+| **Serialization** | `content` is raw model output | `content` is a list of `ContentBlock` objects |
 | **Content format** | Provider-specific | Standardized `ContentBlock` types |
 | **Type safety** | Limited | Fully typed |
 | **Multimodal support** | Basic | Comprehensive |
-
-### Version detection
-
-You can check which version was used to create a message:
-
-```python Verify message provenance
-response = model.invoke("Hello")
-
-# Check version in response metadata
-version = response.response_metadata.get("output_version", "v0")
-
-if version == "v1":
-    # Content is already in v1 format
-    blocks = response.content
-
-    # Use content_blocks for typing
-    typed_blocks = response.content_blocks
-else:
-    # Use content_blocks for v1 format
-    blocks = response.content_blocks
-```
 
 {/* TODO: ensure these topics are covered somewhere  */}
 {/*
@@ -1025,254 +872,6 @@ else:
 ## Message history
 
 TODO: check functionality
-
-Managing conversation history is crucial for building stateful applications.
-LangChain provides several strategies for persisting and managing message
-history across sessions.
-
-<Tabs>
-    <Tab title="Merging">
-        <AccordionGroup>
-        <Accordion title="Basic Message Merging">
-            Consolidate consecutive messages for cleaner conversation flow:
-
-            ```python
-            from langchain_core.messages import merge_message_runs
-
-            messages = [
-                HumanMessage("Hello"),
-                HumanMessage("How are you?"),
-                AIMessage("I'm doing well!"),
-                AIMessage("How can I help you today?"),
-                HumanMessage("I have a question")
-            ]
-
-            # Merge consecutive messages of the same type
-            merged = merge_message_runs(messages)
-            # Result:
-            # [
-            #   HumanMessage("Hello\nHow are you?"),
-            #   AIMessage("I'm doing well!\nHow can I help you today?"),
-            #   HumanMessage("I have a question")
-            # ]
-            ```
-        </Accordion>
-
-        <Accordion title="Custom Merging Strategies">
-            <CodeGroup>
-            ```python Merge with separators
-            def merge_with_separator(messages, separator="\n\n"):
-                """Merge messages with custom separator"""
-                merged = []
-                current = None
-                
-                for msg in messages:
-                    if current is None:
-                        current = msg
-                    elif type(current) == type(msg):
-                        # Merge content with separator
-                        current.content = f"{current.content}{separator}{msg.content}"
-                    else:
-                        merged.append(current)
-                        current = msg
-                
-                if current:
-                    merged.append(current)
-                
-                return merged
-            ```
-
-            ```python Selective merging
-            def merge_selective(messages, merge_types=["human"]):
-                """Only merge specific message types"""
-                merged = []
-                buffer = []
-                
-                for msg in messages:
-                    msg_type = msg.__class__.__name__.lower().replace("message", "")
-                    
-                    if msg_type in merge_types:
-                        buffer.append(msg)
-                    else:
-                        if buffer:
-                            # Merge buffered messages
-                            merged.append(merge_message_runs(buffer)[0])
-                            buffer = []
-                        merged.append(msg)
-                
-                if buffer:
-                    merged.append(merge_message_runs(buffer)[0])
-                
-                return merged
-            ```
-            </CodeGroup>
-        </Accordion>
-    </AccordionGroup>
-  </Tab>
-
-  <Tab title="Deletion">
-    <AccordionGroup>
-      <Accordion title="Basic Message Deletion">
-        Remove specific messages from conversation history:
-
-        ```python
-        from langchain_core.messages import RemoveMessage
-        from langgraph.graph import MessagesState
-
-        def delete_messages_node(state: MessagesState):
-            """Delete messages by ID"""
-            messages = state["messages"]
-            
-            # Find messages to delete (e.g., older than 5 messages)
-            if len(messages) > 5:
-                to_delete = messages[:-5]  # Keep only last 5
-                
-                # Create RemoveMessage objects
-                deletions = [RemoveMessage(id=msg.id) for msg in to_delete]
-                
-                return {"messages": deletions}
-            
-            return {}
-
-        # In a graph
-        builder = StateGraph(MessagesState)
-        builder.add_node("delete_old", delete_messages_node)
-        ```
-      </Accordion>
-
-      <Accordion title="Selective Deletion Patterns">
-        <CodeGroup>
-          ```python Delete by criteria
-          def delete_by_metadata(state, key, value):
-              """Delete messages matching metadata criteria"""
-              messages = state["messages"]
-              
-              to_delete = [
-                  RemoveMessage(id=msg.id)
-                  for msg in messages
-                  if msg.metadata.get(key) == value
-              ]
-              
-              return {"messages": to_delete}
-
-          def delete_error_messages(state):
-              """Remove messages marked as errors"""
-              messages = state["messages"]
-              
-              error_messages = [
-                  RemoveMessage(id=msg.id)
-                  for msg in messages
-                  if "error" in msg.text.lower() or 
-                     msg.metadata.get("status") == "error"
-              ]
-              
-              return {"messages": error_messages}
-          ```
-
-          ```python Clear conversation
-          def clear_conversation(state, keep_system=True):
-              """Clear all messages except system"""
-              messages = state["messages"]
-              
-              if keep_system:
-                  # Keep only system messages
-                  to_delete = [
-                      RemoveMessage(id=msg.id)
-                      for msg in messages
-                      if not isinstance(msg, SystemMessage)
-                  ]
-              else:
-                  # Clear everything
-                  to_delete = [RemoveMessage(id=msg.id) for msg in messages]
-              
-              return {"messages": to_delete}
-          ```
-        </CodeGroup>
-      </Accordion>
-    </AccordionGroup>
-  </Tab>
-</Tabs>
-
-
-### Checkpointers
-
-Checkpointers enable persistence of conversation state across sessions:
-
-<CodeGroup>
-```python In-memory checkpointer
-from langgraph.checkpoint.memory import InMemorySaver
-from langgraph.graph import MessagesState, StateGraph
-
-# Create checkpointer for development/testing
-memory = InMemorySaver()
-
-# Build your graph
-builder = StateGraph(MessagesState)
-# ... add nodes and edges ...
-graph = builder.compile(checkpointer=memory)
-
-# Invoke with thread ID for conversation continuity
-config = {"configurable": {"thread_id": "user_123"}}
-response = graph.invoke({"messages": [HumanMessage("Hello")]}, config)
-```
-
-```python Production checkpointers
-from langgraph.checkpoint.postgres import PostgresSaver
-from langgraph.checkpoint.sqlite import SqliteSaver
-
-# SQLite for local persistence
-sqlite_checkpointer = SqliteSaver.from_conn_string("conversations.db")
-
-# PostgreSQL for production
-postgres_checkpointer = PostgresSaver.from_conn_string(
-    "postgresql://user:password@localhost:5432/chatbot"
-)
-
-# Use with your graph
-graph = builder.compile(checkpointer=postgres_checkpointer)
-```
-</CodeGroup>
-
-### Thread and session management
-
-Track conversations across sessions using thread IDs:
-
-<CodeGroup>
-```python Thread-based conversations
-# Store different conversations separately
-thread_configs = {
-    "user_alice": {"configurable": {"thread_id": "alice_001"}},
-    "user_bob": {"configurable": {"thread_id": "bob_001"}},
-}
-
-# Each thread maintains its own state
-for user, config in thread_configs.items():
-    response = graph.invoke(
-        {"messages": [HumanMessage(f"Hello from {user}")]},
-        config
-    )
-```
-
-```python Session metadata tracking
-from langchain_core.messages import HumanMessage
-
-# Add metadata to track sessions
-message = HumanMessage(
-    "What's the weather?",
-    metadata={
-        "session_id": "sess_abc123",
-        "user_id": "user_456",
-        "timestamp": "2024-01-15T10:30:00Z"
-    }
-)
-
-# Retrieve conversation history with metadata
-def get_session_history(session_id: str):
-    state = graph.get_state({"configurable": {"thread_id": session_id}})
-    return [msg for msg in state.values["messages"] 
-            if msg.metadata.get("session_id") == session_id]
-```
-</CodeGroup>
 
 ### Filtering
 
