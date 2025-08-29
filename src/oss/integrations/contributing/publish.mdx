@@ -127,7 +127,7 @@ You can view the templates that the CLI uses to create these files [here](https:
 
 ### Register your package in `libs/packages.yml`
 
-Finally, add your package to the end of the `libs/packages.yml` file in the LangChain Monorepo.
+Finally, add your package to the end of the `libs/packages.yml` file in the LangChain monorepo.
 
 ```yaml
 packages:
@@ -136,12 +136,11 @@ packages:
     path: .
 ```
 
-For `path`, you can use `.` if your package is in the root of your repository, or specify a subdirectory (e.g. `libs/parrot-link`) if it is in a subdirectory.
+For `path`, you can use `.` if your package is in the root of your repository, or specify a subdirectory (e.g., `libs/parrot-link`) if it is in a subdirectory.
 
 If you followed the [package bootstrapping guide](../package), then your path is `.`.
 
 ### Submit a PR with your changes
 
-Once you have completed these steps, you can submit a PR to the LangChain Monorepo with **only these changes**.
+After you complete these steps, submit a PR to the LangChain monorepo with only these changes. If you have additional changes to request, submit them in a separate PR.
 
-If you have additional changes to request, please submit them in a separate PR.
