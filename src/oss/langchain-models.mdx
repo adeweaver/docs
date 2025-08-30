@@ -10,25 +10,23 @@ import ConversationHistory from '/snippets/oss/langchain-conversation-history.md
 
 ## Overview
 
-Large Language Models (LLMs) are machine learning models that can interpret and generate text like humans do. They're versatile enough to write content, translate languages, summarize information, and answer questions without needing special training for each task.
-
-Providers like OpenAI, Anthropic, and Google offer access to a range of LLMs each carrying their own strengths and weaknesses. Every provider has its own unique interaction patterns for accessing and using the models, typically through a user interface or an API where [messages]() are exchanged between a user and the model.
+[LLMs](https://en.wikipedia.org/wiki/Large_language_model) are machine learning models that can interpret and generate text like humans do. They're versatile enough to write content, translate languages, summarize information, and answer questions without needing special training for each task.
 
 In addition to text generation, many models support other interaction patterns, such as:
 
-* <Icon icon="hammer" size={16} /> [Tool calling](#tool-calling) - where models can request execution of external tools (such as database queries or API calls) and incorporate the results into their responses.
+* <Icon icon="hammer" size={16} /> [Tool calling](#tool-calling) - where models can call external tools (like database queries or API calls) and use the results in their responses.
 * <Icon icon="shapes" size={16} /> [Structured output](#structured-outputs) -
-where the model is constrained to generate JSON output that matches a provided schema.
+where the model is constrained to respond with an object that matches a schema.
 * <Icon icon="image" size={16} /> [Multimodal](#multimodal) - where models can process and return data other than text, such as images, audio, and video.
 * <Icon icon="brain" size={16} /> [Reasoning](#reasoning) - where models are able to perform multi-step reasoning to arrive at a conclusion.
 
-When working with models, each provider typically has its own unique way to interact with the model, which can make it difficult to swap between models and providers without significant code changes.
+Providers like OpenAI, Anthropic, and Google offer access to a range of LLMs each carrying their own strengths and weaknesses. Every provider has its own unique interaction patterns for accessing and using models, typically through a user interface or an API where [messages](./langchain-messages.mdx) are exchanged between a user and the model.
 
-LangChain simplifies this by providing a common `ChatModel` abstraction for interacting with LLMs across all supported models & providers. If you're experimenting with different models, or building production agents, this lets you focus on the logic of your application rather than the implementation details of the underlying model.
+Because each providers has its own opinionated way of interacting with models, it can make it difficult to swap between models and providers without significant code changes. LangChain simplifies this by providing a common chat model abstraction for interacting with LLMs across all supported models & providers. If you're experimenting with different models, or building production agents, this lets you focus on the logic of your application rather than the implementation details of the underlying model.
 
 ## Basic usage
 
-The easiest way to get started with a model in LangChain is to use `init_chat_model` to initialize one from a model [provider]() of your choice.
+The easiest way to get started with a model in LangChain is to use `init_chat_model` to initialize one from a model [provider](/oss/integrations/providers) of your choice.
 
 <CodeGroup>
 ```python Initialize a chat model
@@ -89,7 +87,7 @@ response = model.invoke("Why do parrots talk?")
 ``` */}
 </CodeGroup>
 
-See [`init_chat_model()`](https://python.langchain.com/api_reference/langchain/chat_models/langchain.chat_models.base.init_chat_model.html)
+See [`init_chat_model`](https://python.langchain.com/api_reference/langchain/chat_models/langchain.chat_models.base.init_chat_model.html)
 for more detail.
 
 ### Key methods
@@ -182,7 +180,7 @@ response = model.invoke("Why do parrots have colorful feathers?")
 print(response)
 ```
 
-A list of messages can be provided to a model to represent conversation history. Each message has a role that models use to organize messages contextually. See the [messages](./langchain-messages.mdx) guide for more detail on roles, types, and content.
+A list of messages can be provided to a model to represent conversation history. Each message has a role that models use to indicate who sent the message in the conversation. See the [messages](./langchain-messages.mdx) guide for more detail on roles, types, and content.
 
 <ConversationHistory/>
 
@@ -737,8 +735,7 @@ response
 ### Multimodal
 
 Certain models can process and return non-textual data such as images, audio,
-and video. You can pass non-textual data to a model by creating [content blocks](./langchain-messages.mdx#content)
-that encapsulate the data.
+and video. You can pass non-textual data to a model by providing [content blocks](./langchain-messages.mdx#content)
 
 <Tip>
 All LangChain chat models with underlying multimodal capabilities support:
@@ -997,7 +994,7 @@ APIs or to use a proxy server.
 
 Many model providers offer OpenAI-compatible APIs (e.g.,
 [Together AI](https://www.together.ai/),
-[vLLM](https://github.com/vllm-project/vllm)). You can use `init_chat_model()`
+[vLLM](https://github.com/vllm-project/vllm)). You can use `init_chat_model`
 with these providers by specifying the appropriate `base_url` parameter:
 
 ```python
@@ -1011,7 +1008,7 @@ model = init_chat_model(
 
 <Note>
     When using direct chat model class instantiation, the parameter name may
-    vary by provider. Check the respective [reference]() for details.
+    vary by provider. Check the respective [reference](/oss/integrations/providers) for details.
 </Note>
 </Accordion>
 
@@ -1030,8 +1027,8 @@ model = ChatOpenAI(
 ```
 
 <Note>
-    Proxy support varies by integration. Check your specific model provider's
-    [reference]() for proxy configuration options.
+    Proxy support varies by integration. Check the specific model provider's
+    [reference](/oss/integrations/providers) for proxy configuration options.
 </Note>
 
 </Accordion>
