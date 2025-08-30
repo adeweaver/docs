@@ -149,6 +149,19 @@ chain.invoke(
 AIMessage(content='Ich liebe das Programmieren.', additional_kwargs={'refusal': None}, response_metadata={'token_usage': {'completion_tokens': 6, 'prompt_tokens': 26, 'total_tokens': 32}, 'model_name': 'gpt-4o-2024-05-13', 'system_fingerprint': 'fp_3aa7262c27', 'finish_reason': 'stop', 'logprobs': None}, id='run-350585e1-16ca-4dad-9460-3d9e7e49aaf1-0', usage_metadata={'input_tokens': 26, 'output_tokens': 6, 'total_tokens': 32})
 ```
 
+## Streaming usage metadata
+
+OpenAI's Chat Completions API does not stream token usage statistics by default
+(see API reference
+[here](https://platform.openai.com/docs/api-reference/completions/create#completions-create-stream_options)).
+To recover token counts when streaming with `ChatOpenAI` or `AzureChatOpenAI`, set
+`stream_usage=True` as an initialization parameter or on invocation:
+
+```python highlight={3}
+from langchain_openai import ChatOpenAI
+
+llm = ChatOpenAI(model="gpt-4.1-mini", stream_usage=True)
+```
 
 ## Tool calling
 
