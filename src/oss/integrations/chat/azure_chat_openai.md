@@ -2,7 +2,19 @@
 title: AzureChatOpenAI
 ---
 
-This guide will help you get started with AzureOpenAI [chat models](/oss/concepts/chat_models). For detailed documentation of all AzureChatOpenAI features and configurations head to the [API reference](https://python.langchain.com/api_reference/openai/chat_models/langchain_openai.chat_models.azure.AzureChatOpenAI.html).
+This guide will help you get started with AzureOpenAI [chat models](/oss/concepts/chat_models).
+
+<Note>
+
+`AzureChatOpenAI` shares the same underlying base implementation as `ChatOpenAI`,
+which interfaces with OpenAI services directly.
+
+This page serves as a quickstart for authenticating and connecting your Azure OpenAI service to a LangChain chat model.
+
+Visit the [ChatOpenAI docs](/oss/integrations/chat/openai/) for details on available
+features, or head to the [API reference](https://python.langchain.com/api_reference/openai/chat_models/langchain_openai.chat_models.azure.AzureChatOpenAI.html).
+
+</Note>
 
 Azure OpenAI has several chat models. You can find information about their latest models and their costs, context windows, and supported input types in the [Azure docs](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models).
 

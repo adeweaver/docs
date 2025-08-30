@@ -1,5 +1,5 @@
 ---
-title: Bedrock
+title: BedrockEmbeddings
 ---
 
 >[Amazon Bedrock](https://aws.amazon.com/bedrock/) is a fully managed service that offers a choice of 
