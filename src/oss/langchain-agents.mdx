@@ -6,33 +6,69 @@ title: Agents
 
 Agents combine language models with tools to create systems that can reason about tasks, decide which tools to use, and iteratively work towards solutions. 
 
-LangChain's `create_react_agent` function provides a production-ready ReAct (Reasoning + Acting) agent implementation based on the paper [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629).
+`create_react_agent()` provides a production-ready ReAct (Reasoning + Acting) agent implementation based on the paper [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629).
 
-<Accordion title="More on ReAct">
+<Columns cols={2}>
 
-ReAct frames an agent's behavior as an interleaving of "Thought -> Action -> Observation" steps, where the model writes out its reasoning, picks a tool, sees the tool's result, and then repeats. By forcing the model to ground its next step on concrete observations, ReAct reduces hallucinations and makes the decision process auditable. The pattern also improves exploration: the agent can form hypotheses ("Thought"), test them with tools ("Action"), and update its plan based on feedback ("Observation"). 
+<Card>
+ReAct frames an agent's behavior as an interleaving of `thought` -> `action` -> `observation` steps, where the model writes out its reasoning, picks a tool, sees the tool's result, and then repeats. ReAct reduces hallucinations and makes the decision process auditable: the agent can form hypotheses (`thought`), test them with tools (`action`), and update its plan based on feedback (`observation`). 
 
 A ReAct loop runs until a stop condition - i.e. when the model emits a final answer or a max-iterations limit is reached.
-</Accordion>
+</Card>
+
+<Card>
+```mermaid
+%%{
+  init: {
+    "fontFamily": "monospace",
+    "flowchart": {
+      "curve": "curve"
+    },
+    "themeVariables": {"edgeLabelBackground": "transparent"}
+  }
+}%%
+graph TD
+  %% Outside the agent
+  QUERY([query])
+  LLM{thought}
+  TOOL(tools)
+  ANSWER([answer])
+
+  %% Main flows (no inline labels)
+  QUERY --> LLM
+  LLM --"action"--> TOOL
+  TOOL --"observation"--> LLM
+  LLM --"finish"--> ANSWER
+
+  classDef blueHighlight fill:#0a1c25,stroke:#0a455f,color:#bae6fd;
+  classDef greenHighlight fill:#0b1e1a,stroke:#0c4c39,color:#9ce4c4;
+  class QUERY blueHighlight;
+  class ANSWER blueHighlight;
+```
+</Card>
+
+</Columns>
+
+
 
 <Info>
-Under the hood, `create_react_agent` builds a **graph**-based agent runtime. A graph consists of nodes (steps) and edges (connections) that define how your agent processes information. The agent moves through this graph, executing nodes like the model node (which calls the model), the tools node (which executes tools), or pre/post model hook nodes. Learn more about the [graph API](./langgraph-graph-api).
+Under the hood, `create_react_agent()` builds a **graph**-based agent runtime. A graph consists of nodes (steps) and edges (connections) that define how your agent processes information. The agent moves through this graph, executing nodes like the model node (which calls the model), the tools node (which executes tools), or pre/post model hook nodes. Learn more about the [graph API](./langgraph-graph-api).
 </Info>
 
 ## Core components
 
 ### Model
 
-The model is the reasoning engine of your agent. It can be specified in multiple ways, supporting both static and dynamic model selection.
+The [model](./langchain-models) is the reasoning engine of your agent. It can be specified in multiple ways, supporting both static and dynamic model selection.
 
 #### Static model
 
 Static models are configured once when creating the agent and remain unchanged throughout execution. This is the most common and straightforward approach.
 
-To initialize a static model from a model identifier string (requires `langchain` package):
+To initialize a static model from a model identifier string:
 
 ```python wrap
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_react_agent
 
 agent = create_react_agent(
     "openai:gpt-5", 
@@ -40,16 +76,16 @@ agent = create_react_agent(
 )
 ```
 
-Model identifier strings use the format `provider:model` (e.g. `"openai:gpt-4o"`) and support automatic inference (e.g. `"gpt-4o"` will be inferred as `"openai:gpt-4o"`).
+Model identifier strings use the format `provider:model` (e.g. `"openai:gpt-5"`) and support automatic inference (e.g. `"gpt-5"` will be inferred as `"openai:gpt-5"`).
 
 The user may want more control over the model configuration, in which case they can initialize a model instance directly:
 
 ```python wrap
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_react_agent
 from langchain_openai import ChatOpenAI
 
 model = ChatOpenAI(
-    model="gpt-4o", 
+    model="gpt-5", 
     temperature=0.1,
     max_tokens=1000,
     timeout=30
@@ -57,7 +93,7 @@ model = ChatOpenAI(
 agent = create_react_agent(model, tools=tools)
 ```
 
-Model instances give you complete control over configuration. Use them when you need to set specific parameters like temperature, max tokens, timeouts, or configure API keys, base URLs, and other provider-specific settings.
+Model instances give you complete control over configuration. Use them when you need to set specific parameters like temperature, max tokens, timeouts, or configure API keys, base URLs, and other provider-specific settings. Refer to the [API reference](https://python.langchain.com/api_reference/) to see available params and methods on your model.
 
 #### Dynamic model
 
@@ -66,7 +102,7 @@ Model instances give you complete control over configuration. Use them when you 
 </Info>
 
 <Info>
-**`state`**: The data that flows through your agent's execution, including messages, custom fields, and any information that needs to be tracked and potentially modified during processing.
+**`state`**: The data that flows through your agent's execution, including messages, custom fields, and any information that needs to be tracked and potentially modified during processing (e.g. user preferences or tool usage stats).
 </Info>
 
 Dynamic models are selected at runtime based on the current state and context. This enables sophisticated routing logic and cost optimization.
@@ -75,18 +111,18 @@ To use a dynamic model, you need to provde a function that receives the graph st
 
 ```python
 from langchain_openai import ChatOpenAI
-from langgraph.prebuilt import create_react_agent
-from langgraph.graph.message import AgentState, Runtime
+from langchain.agents import create_react_agent, AgentState
+from langgraph.runtime import Runtime
 
 def select_model(state: AgentState, runtime: Runtime) -> ChatOpenAI:
     """Choose model based on conversation complexity."""
     messages = state["messages"]
     message_count = len(messages)
     
-    if message_count > 10:
-        return ChatOpenAI(model="gpt-4.1").bind_tools(tools)
+    if message_count < 10:
+        return ChatOpenAI(model="gpt-4.1-mini").bind_tools(tools)
     else:
-        return ChatOpenAI(model="gpt-4o").bind_tools(tools)
+        return ChatOpenAI(model="gpt-5").bind_tools(tools) # Better model for longer conversations
 
 agent = create_react_agent(select_model, tools=tools)
 ```
@@ -115,7 +151,7 @@ Passing a list of tools to the agent will create a `ToolNode` under the hood. Th
 
 ```python wrap
 from langchain_core.tools import tool
-from langgraph.prebuilt import create_react_agent, ToolNode
+from langchain.agents import create_react_agent
 
 @tool
 def search(query: str) -> str:
@@ -142,60 +178,85 @@ tool_node = ToolNode(
     handle_tool_errors="Please check your input and try again."
 )
 agent = create_react_agent(model, tools=tool_node)
+result = agent.invoke({"messages": [...]})
+```
+
+If an error occurs within `ToolNode`, the agent will return a `ToolMessage` to the model with the custom error message:
+
+```python
+# result["messages"]
+[
+    ...
+    ToolMessage(content="Please check your input and try again.", tool_call_id="..."),
+    ...
+]
+
 ```
 
 <Tip>
-To learn more about `ToolNode`, see [ToolNode](./langchain-tools#toolnode).
+To learn more about error handling in`ToolNode`, see [ToolNode](./langchain-tools#toolnode).
 </Tip>
 
-### Understanding agent tool usage
+### Tool use in the ReAct loop
 
-The agent follows a ReAct pattern (Reasoning + Acting):
+Agents follow the ReAct (*Reasoning* + *Acting*) pattern, alternating between brief reasoning steps with targeted tool calls and feeding the resulting observations into subsequent decisions until they can deliver a final answer.
 
-```python wrap
-# The agent's response contains the full message history:
-result["messages"] = [
-    # Original request
-    HumanMessage(content="Find wireless headphones, check if they're in stock, and calculate shipping to New York"),
-    
-    # Agent decides to search products
-    AIMessage(
-        content="",  # content is empty when calling tools
-        tool_calls=[{
-            'name': 'search_products',
-            'args': {'query': 'wireless headphones'},
-            'id': 'call_abc123'
-        }]
-    ),
-    
-    # Tool returns search results
-    ToolMessage(
-        content="Found 5 products matching 'wireless headphones'",
-        tool_call_id="call_abc123"
-    ),
-    
-    # Agent checks inventory for top result
-    AIMessage(
-        content="",
-        tool_calls=[{
-            'name': 'check_inventory',
-            'args': {'product_id': 'WH-1000XM5'},
-            'id': 'call_def456'
-        }]
-    ),
-    
-    # Tool returns inventory status
-    ToolMessage(
-        content="Product WH-1000XM5: 10 units in stock",
-        tool_call_id="call_def456"
-    ),
-    
-    # Agent's final response to user
-    AIMessage(
-        content="I found wireless headphones (model WH-1000XM5) with 10 units in stock..."
-    )
-]
+Follow along as an agent applies ReAct to answer a user's question:
+
+<Card title="Prompt: Identify the current most popular wireless headphones and verify availability.">
+
 ```
+================================ Human Message =================================
+
+Find the most popular wireless headphones right now and check if they're in stock
+```
+
+*Reasoning*: "Popularity is time-sensitive, I need to use the provided search tool."
+
+*Acting*: Call `search_products("wireless headphones")`
+
+```
+================================== Ai Message ==================================
+Tool Calls:
+  search_products (call_abc123)
+ Call ID: call_abc123
+  Args:
+    query: wireless headphones
+```
+```
+================================= Tool Message =================================
+
+Found 5 products matching "wireless headphones". Top 5 results: WH-1000XM5, ...
+```
+
+*Reasoning*: "I need to confirm availability for the top-ranked item before answering."
+
+*Acting*: Call `check_inventory("WH-1000XM5")`
+
+```
+================================== Ai Message ==================================
+Tool Calls:
+  check_inventory (call_def456)
+ Call ID: call_def456
+  Args:
+    product_id: WH-1000XM5
+```
+```
+================================= Tool Message =================================
+
+Product WH-1000XM5: 10 units in stock
+```
+
+*Reasoning*: "I have the most popular model and its stock status. I can now answer the user's question."
+
+*Acting*: Produce final answer
+
+```
+================================== Ai Message ==================================
+
+I found wireless headphones (model WH-1000XM5) with 10 units in stock...
+```
+</Card>
 
 <Tip>
 To learn more about tools, see [Tools](./langchain-tools).
@@ -267,7 +328,7 @@ In some situations, you may want the agent to return an output in a specific for
 
 ```python wrap
 from pydantic import BaseModel
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_react_agent
 
 class ContactInfo(BaseModel):
     name: str
@@ -284,7 +345,8 @@ result = agent.invoke({
     "messages": [{"role": "user", "content": "Extract contact info from: John Doe, john@example.com, (555) 123-4567"}]
 })
 
-result["structured_response"]  # Name: John Doe, Email: john@example.com
+result["structured_response"]
+# ContactInfo(name='John Doe', email='john@example.com', phone='(555) 123-4567')
 ```
 
 <Tip>
@@ -301,8 +363,8 @@ Information stored in the state can be thought of as the "short-term memory" of 
 from typing import TypedDict
 from typing_extensions import Annotated
 from langgraph.graph.message import add_messages
-from langgraph.prebuilt import create_react_agent
-from langgraph.prebuilt.chat_agent_executor import AgentState
+from langchain.agents import create_react_agent
+from langchain.agents import AgentState
 
 class CustomAgentState(AgentState):
     messages: Annotated[list, add_messages]
@@ -330,10 +392,19 @@ To learn more about memory, including how to implement long-term memory that per
 Pre-model hook is an optional node that can process state before the model is called. Use cases include message trimming, summarization, and context injection.
 
 ```mermaid
+%%{
+  init: {
+    "fontFamily": "monospace",
+    "flowchart": {
+      "curve": "curve"
+    },
+    "themeVariables": {"edgeLabelBackground": "transparent"}
+  }
+}%%
 graph TD
     S(["\_\_start\_\_"])
     PRE(pre_model_hook)
-    AG(agent)
+    AG(model)
     POST(post_model_hook)
     END(["\_\_end\_\_"])
     TOOLS(tools)
@@ -347,8 +418,11 @@ graph TD
     POST -.-> TOOLS
     POST -.-> END
 
-    classDef highlight fill:#0b1e1a,stroke:#0c4c39,color:#fff;
-    class PRE highlight;
+    classDef blueHighlight fill:#0a1c25,stroke:#0a455f,color:#bae6fd;
+    classDef greenHighlight fill:#0b1e1a,stroke:#0c4c39,color:#9ce4c4;
+    class S blueHighlight;
+    class END blueHighlight;
+    class PRE greenHighlight;
 ```
 
 It must be a callable or a runnable that takes in current graph state and returns a state update in the form of:
@@ -364,8 +438,9 @@ It must be a callable or a runnable that takes in current graph state and return
 Example of a pre-model hook that trims messages to fit the context window:
 
 ```python wrap
-from langchain_core.messages import SystemMessage, RemoveMessage
+from langchain_core.messages import RemoveMessage
 from langgraph.graph.message import REMOVE_ALL_MESSAGES
+from langchain.agents import create_react_agent
 
 def trim_messages(state):
     """Keep only the last few messages to fit context window."""
@@ -412,10 +487,19 @@ If you are returning `messages` in the pre-model hook, you should OVERWRITE the 
 Post-model hook is an optional node that can process the model's response before tool execution. Use cases include validation, guardrails, or other post-processing.
 
 ```mermaid
+%%{
+  init: {
+    "fontFamily": "monospace",
+    "flowchart": {
+      "curve": "curve"
+    },
+    "themeVariables": {"edgeLabelBackground": "transparent"}
+  }
+}%%
 graph TD
     S(["\_\_start\_\_"])
     PRE(pre_model_hook)
-    AG(agent)
+    AG(model)
     POST(post_model_hook)
     END(["\_\_end\_\_"])
     TOOLS(tools)
@@ -429,8 +513,11 @@ graph TD
     POST -.-> TOOLS
     POST -.-> END
 
-    classDef highlight fill:#0b1e1a,stroke:#0c4c39,color:#fff;
-    class POST highlight;
+    classDef blueHighlight fill:#0a1c25,stroke:#0a455f,color:#bae6fd;
+    classDef greenHighlight fill:#0b1e1a,stroke:#0c4c39,color:#9ce4c4;
+    class S blueHighlight;
+    class END blueHighlight;
+    class POST greenHighlight;
 ```
 
 It must be a callable or a runnable that takes in current graph state and returns a state update.
@@ -495,12 +582,12 @@ To run this example, you'll need to set your Tavily and OpenAI API keys in your 
 ```python wrap
 from langchain_openai import ChatOpenAI
 from langchain_tavily import TavilySearch
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_react_agent
 
 search = TavilySearch(max_results=2)
 tools = [search]
 
-model = ChatOpenAI(model="gpt-4o",)
+model = ChatOpenAI(model="gpt-5",)
 agent = create_react_agent(
     model, 
     tools,
@@ -531,13 +618,13 @@ from langchain_openai import ChatOpenAI
 from langchain_tavily import TavilySearch
 from langchain_core.tools import tool
 from langgraph.checkpoint.memory import MemorySaver
-from langgraph.prebuilt import create_react_agent
-from langgraph.prebuilt.chat_agent_executor import AgentState
+from langchain.agents import create_react_agent
+from langchain.agents import AgentState
+from langgraph.store.memory import InMemoryStore
 import json
 
 search = TavilySearch(max_results=3)
 
-from langgraph.store.memory import InMemoryStore
 store = InMemoryStore()
 
 class ResearcherState(AgentState):
