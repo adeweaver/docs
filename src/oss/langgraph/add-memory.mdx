@@ -499,203 +499,6 @@ const subgraph = subgraphBuilder.compile({ checkpointer: true });
 ```
 :::
 
-<a id="read-short-term"></a>
-### Read short-term memory in tools
-
-LangGraph allows agents to access their short-term memory (state) inside the tools.
-
-:::python
-```python {highlight={5,8,11,17,22}}
-from typing import Annotated
-from langgraph.prebuilt import InjectedState, create_react_agent
-
-class CustomState(AgentState):
-    user_id: str
-
-def get_user_info(
-    state: Annotated[CustomState, InjectedState]
-) -> str:
-    """Look up user info."""
-    user_id = state["user_id"]
-    return "User is John Smith" if user_id == "user_123" else "Unknown user"
-
-agent = create_react_agent(
-    model="anthropic:claude-3-7-sonnet-latest",
-    tools=[get_user_info],
-    state_schema=CustomState,
-)
-
-agent.invoke({
-    "messages": "look up user information",
-    "user_id": "user_123"
-})
-```
-:::
-
-:::js
-```typescript
-import { tool } from "@langchain/core/tools";
-import { z } from "zod";
-import {
-  MessagesZodState,
-  LangGraphRunnableConfig,
-} from "@langchain/langgraph";
-import { createReactAgent } from "@langchain/langgraph/prebuilt";
-
-const CustomState = z.object({
-  messages: MessagesZodState.shape.messages,
-  userId: z.string(),
-});
-
-const getUserInfo = tool(
-  async (_, config: LangGraphRunnableConfig) => {
-    const userId = config.configurable?.userId;
-    return userId === "user_123" ? "User is John Smith" : "Unknown user";
-  },
-  {
-    name: "get_user_info",
-    description: "Look up user info.",
-    schema: z.object({}),
-  }
-);
-
-const agent = createReactAgent({
-  llm: model,
-  tools: [getUserInfo],
-  stateSchema: CustomState,
-});
-
-await agent.invoke({
-  messages: [{ role: "user", content: "look up user information" }],
-  userId: "user_123",
-});
-```
-:::
-
-See the [Context](/oss/langgraph/context) guide for more information.
-
-<a id="write-short-term"></a>
-### Write short-term memory from tools
-
-To modify the agent's short-term memory (state) during execution, you can return state updates directly from the tools. This is useful for persisting intermediate results or making information accessible to subsequent tools or prompts.
-
-:::python
-```python {highlight={10,19,20,31,40,45}}
-from typing import Annotated
-from langchain_core.tools import InjectedToolCallId
-from langchain_core.runnables import RunnableConfig
-from langchain_core.messages import ToolMessage
-from langgraph.prebuilt import InjectedState, create_react_agent
-from langgraph.prebuilt.chat_agent_executor import AgentState
-from langgraph.types import Command
-
-class CustomState(AgentState):
-    user_name: str
-
-def update_user_info(
-    tool_call_id: Annotated[str, InjectedToolCallId],
-    config: RunnableConfig
-) -> Command:
-    """Look up and update user info."""
-    user_id = config["configurable"].get("user_id")
-    name = "John Smith" if user_id == "user_123" else "Unknown user"
-    return Command(update={
-        "user_name": name,
-        # update the message history
-        "messages": [
-            ToolMessage(
-                "Successfully looked up user information",
-                tool_call_id=tool_call_id
-            )
-        ]
-    })
-
-def greet(
-    state: Annotated[CustomState, InjectedState]
-) -> str:
-    """Use this to greet the user once you found their info."""
-    user_name = state["user_name"]
-    return f"Hello {user_name}!"
-
-agent = create_react_agent(
-    model="anthropic:claude-3-7-sonnet-latest",
-    tools=[update_user_info, greet],
-    state_schema=CustomState
-)
-
-agent.invoke(
-    {"messages": [{"role": "user", "content": "greet the user"}]},
-    config={"configurable": {"user_id": "user_123"}}
-)
-```
-:::
-
-:::js
-```typescript
-import { tool } from "@langchain/core/tools";
-import { z } from "zod";
-import {
-  MessagesZodState,
-  LangGraphRunnableConfig,
-  Command,
-} from "@langchain/langgraph";
-import { createReactAgent } from "@langchain/langgraph/prebuilt";
-
-const CustomState = z.object({
-  messages: MessagesZodState.shape.messages,
-  userName: z.string().optional(),
-});
-
-const updateUserInfo = tool(
-  async (_, config: LangGraphRunnableConfig) => {
-    const userId = config.configurable?.userId;
-    const name = userId === "user_123" ? "John Smith" : "Unknown user";
-    return new Command({
-      update: {
-        userName: name,
-        // update the message history
-        messages: [
-          {
-            role: "tool",
-            content: "Successfully looked up user information",
-            tool_call_id: config.toolCall?.id,
-          },
-        ],
-      },
-    });
-  },
-  {
-    name: "update_user_info",
-    description: "Look up and update user info.",
-    schema: z.object({}),
-  }
-);
-
-const greet = tool(
-  async (_, config: LangGraphRunnableConfig) => {
-    const userName = config.configurable?.userName;
-    return `Hello ${userName}!`;
-  },
-  {
-    name: "greet",
-    description: "Use this to greet the user once you found their info.",
-    schema: z.object({}),
-  }
-);
-
-const agent = createReactAgent({
-  llm: model,
-  tools: [updateUserInfo, greet],
-  stateSchema: CustomState,
-});
-
-await agent.invoke(
-  { messages: [{ role: "user", content: "greet the user" }] },
-  { configurable: { userId: "user_123" } }
-);
-```
-:::
-
 ## Add long-term memory
 
 Use long-term memory to store user-specific or application-specific data across conversations.
@@ -1188,224 +991,6 @@ const graph = builder.compile({ store });
 </Accordion>
 :::
 
-<a id="read-long-term"></a>
-### Read long-term memory in tools
-
-:::python
-```title="A tool the agent can use to look up user information" {highlight={6,8,20,22,28,34}}
-from langchain_core.runnables import RunnableConfig
-from langgraph.config import get_store
-from langgraph.prebuilt import create_react_agent
-from langgraph.store.memory import InMemoryStore
-
-store = InMemoryStore() # (1)!
-
-store.put(  # (2)!
-    ("users",),  # (3)!
-    "user_123",  # (4)!
-    {
-        "name": "John Smith",
-        "language": "English",
-    } # (5)!
-)
-
-def get_user_info(config: RunnableConfig) -> str:
-    """Look up user info."""
-    # Same as that provided to `create_react_agent`
-    store = get_store() # (6)!
-    user_id = config["configurable"].get("user_id")
-    user_info = store.get(("users",), user_id) # (7)!
-    return str(user_info.value) if user_info else "Unknown user"
-
-agent = create_react_agent(
-    model="anthropic:claude-3-7-sonnet-latest",
-    tools=[get_user_info],
-    store=store # (8)!
-)
-
-# Run the agent
-agent.invoke(
-    {"messages": [{"role": "user", "content": "look up user information"}]},
-    config={"configurable": {"user_id": "user_123"}}
-)
-```
-
-1. The `InMemoryStore` is a store that stores data in memory. In a production setting, you would typically use a database or other persistent storage. Please review the [store documentation](https://langchain-ai.github.io/langgraph/reference/store/) for more options. If you're deploying with **LangGraph Platform**, the platform will provide a production-ready store for you.
-2. For this example, we write some sample data to the store using the `put` method. Please see the @[BaseStore.put] API reference for more details.
-3. The first argument is the namespace. This is used to group related data together. In this case, we are using the `users` namespace to group user data.
-4. A key within the namespace. This example uses a user ID for the key.
-5. The data that we want to store for the given user.
-6. The `get_store` function is used to access the store. You can call it from anywhere in your code, including tools and prompts. This function returns the store that was passed to the agent when it was created.
-7. The `get` method is used to retrieve data from the store. The first argument is the namespace, and the second argument is the key. This will return a `StoreValue` object, which contains the value and metadata about the value.
-8. The `store` is passed to the agent. This enables the agent to access the store when running tools. You can also use the `get_store` function to access the store from anywhere in your code.
-:::
-
-:::js
-```typescript title="A tool the agent can use to look up user information"
-import { tool } from "@langchain/core/tools";
-import { z } from "zod";
-import { LangGraphRunnableConfig, InMemoryStore } from "@langchain/langgraph";
-import { createReactAgent } from "@langchain/langgraph/prebuilt";
-
-const store = new InMemoryStore(); // (1)!
-
-await store.put(
-  // (2)!
-  ["users"], // (3)!
-  "user_123", // (4)!
-  {
-    name: "John Smith",
-    language: "English",
-  } // (5)!
-);
-
-const getUserInfo = tool(
-  async (_, config: LangGraphRunnableConfig) => {
-    /**Look up user info.*/
-    // Same as that provided to `createReactAgent`
-    const store = config.store; // (6)!
-    const userId = config.configurable?.userId;
-    const userInfo = await store?.get(["users"], userId); // (7)!
-    return userInfo?.value ? JSON.stringify(userInfo.value) : "Unknown user";
-  },
-  {
-    name: "get_user_info",
-    description: "Look up user info.",
-    schema: z.object({}),
-  }
-);
-
-const agent = createReactAgent({
-  llm: model,
-  tools: [getUserInfo],
-  store, // (8)!
-});
-
-// Run the agent
-await agent.invoke(
-  { messages: [{ role: "user", content: "look up user information" }] },
-  { configurable: { userId: "user_123" } }
-);
-```
-
-1. The `InMemoryStore` is a store that stores data in memory. In a production setting, you would typically use a database or other persistent storage. Please review the [store documentation](https://langchain-ai.github.io/langgraph/reference/store/) for more options. If you're deploying with **LangGraph Platform**, the platform will provide a production-ready store for you.
-2. For this example, we write some sample data to the store using the `put` method. Please see the @[BaseStore.put] API reference for more details.
-3. The first argument is the namespace. This is used to group related data together. In this case, we are using the `users` namespace to group user data.
-4. A key within the namespace. This example uses a user ID for the key.
-5. The data that we want to store for the given user.
-6. The store is accessible through the config. You can call it from anywhere in your code, including tools and prompts. This function returns the store that was passed to the agent when it was created.
-7. The `get` method is used to retrieve data from the store. The first argument is the namespace, and the second argument is the key. This will return a `StoreValue` object, which contains the value and metadata about the value.
-8. The `store` is passed to the agent. This enables the agent to access the store when running tools. You can also use the store from the config to access it from anywhere in your code.
-:::
-
-<a id="write-long-term"></a>
-### Write long-term memory from tools
-
-:::python
-```title="Example of a tool that updates user information" {highlight={16,18,24,30}}
-from typing_extensions import TypedDict
-
-from langgraph.config import get_store
-from langchain_core.runnables import RunnableConfig
-from langgraph.prebuilt import create_react_agent
-from langgraph.store.memory import InMemoryStore
-
-store = InMemoryStore() # (1)!
-
-class UserInfo(TypedDict): # (2)!
-    name: str
-
-def save_user_info(user_info: UserInfo, config: RunnableConfig) -> str: # (3)!
-    """Save user info."""
-    # Same as that provided to `create_react_agent`
-    store = get_store() # (4)!
-    user_id = config["configurable"].get("user_id")
-    store.put(("users",), user_id, user_info) # (5)!
-    return "Successfully saved user info."
-
-agent = create_react_agent(
-    model="anthropic:claude-3-7-sonnet-latest",
-    tools=[save_user_info],
-    store=store
-)
-
-# Run the agent
-agent.invoke(
-    {"messages": [{"role": "user", "content": "My name is John Smith"}]},
-    config={"configurable": {"user_id": "user_123"}} # (6)!
-)
-
-# You can access the store directly to get the value
-store.get(("users",), "user_123").value
-```
-
-1. The `InMemoryStore` is a store that stores data in memory. In a production setting, you would typically use a database or other persistent storage. Please review the [store documentation](https://langchain-ai.github.io/langgraph/reference/store/) for more options. If you're deploying with **LangGraph Platform**, the platform will provide a production-ready store for you.
-2. The `UserInfo` class is a `TypedDict` that defines the structure of the user information. The LLM will use this to format the response according to the schema.
-3. The `save_user_info` function is a tool that allows an agent to update user information. This could be useful for a chat application where the user wants to update their profile information.
-4. The `get_store` function is used to access the store. You can call it from anywhere in your code, including tools and prompts. This function returns the store that was passed to the agent when it was created.
-5. The `put` method is used to store data in the store. The first argument is the namespace, and the second argument is the key. This will store the user information in the store.
-6. The `user_id` is passed in the config. This is used to identify the user whose information is being updated.
-:::
-
-:::js
-```typescript title="Example of a tool that updates user information"
-import { tool } from "@langchain/core/tools";
-import { z } from "zod";
-import { LangGraphRunnableConfig, InMemoryStore } from "@langchain/langgraph";
-import { createReactAgent } from "@langchain/langgraph/prebuilt";
-
-const store = new InMemoryStore(); // (1)!
-
-const UserInfo = z.object({
-  // (2)!
-  name: z.string(),
-});
-
-const saveUserInfo = tool(
-  async (
-    userInfo: z.infer<typeof UserInfo>,
-    config: LangGraphRunnableConfig
-  ) => {
-    // (3)!
-    /**Save user info.*/
-    // Same as that provided to `createReactAgent`
-    const store = config.store; // (4)!
-    const userId = config.configurable?.userId;
-    await store?.put(["users"], userId, userInfo); // (5)!
-    return "Successfully saved user info.";
-  },
-  {
-    name: "save_user_info",
-    description: "Save user info.",
-    schema: UserInfo,
-  }
-);
-
-const agent = createReactAgent({
-  llm: model,
-  tools: [saveUserInfo],
-  store,
-});
-
-// Run the agent
-await agent.invoke(
-  { messages: [{ role: "user", content: "My name is John Smith" }] },
-  { configurable: { userId: "user_123" } } // (6)!
-);
-
-// You can access the store directly to get the value
-const result = await store.get(["users"], "user_123");
-console.log(result?.value);
-```
-
-1. The `InMemoryStore` is a store that stores data in memory. In a production setting, you would typically use a database or other persistent storage. Please review the [store documentation](https://langchain-ai.github.io/langgraph/reference/store/) for more options. If you're deploying with **LangGraph Platform**, the platform will provide a production-ready store for you.
-2. The `UserInfo` schema defines the structure of the user information. The LLM will use this to format the response according to the schema.
-3. The `saveUserInfo` function is a tool that allows an agent to update user information. This could be useful for a chat application where the user wants to update their profile information.
-4. The store is accessible through the config. You can call it from anywhere in your code, including tools and prompts. This function returns the store that was passed to the agent when it was created.
-5. The `put` method is used to store data in the store. The first argument is the namespace, and the second argument is the key. This will store the user information in the store.
-6. The `userId` is passed in the config. This is used to identify the user whose information is being updated.
-:::
-
 ### Use semantic search
 
 Enable semantic search in your graph's memory store to let graph agents search for items in the store by semantic similarity.
@@ -1581,119 +1166,55 @@ This allows the agent to keep track of the conversation without exceeding the LL
 
 Most LLMs have a maximum supported context window (denominated in tokens). One way to decide when to truncate messages is to count the tokens in the message history and truncate whenever it approaches that limit. If you're using LangChain, you can use the trim messages utility and specify the number of tokens to keep from the list, as well as the `strategy` (e.g., keep the last `maxTokens`) to use for handling the boundary.
 
-<Tabs>
-  <Tab title="In an agent">
-    :::python
-    To trim message history in an agent, use @[`pre_model_hook`][create_react_agent] with the [`trim_messages`](https://python.langchain.com/api_reference/core/messages/langchain_core.messages.utils.trim_messages.html) function:
-    
-    ```python {highlight={1,2,3,4,17,23}}
-    from langchain_core.messages.utils import (
-        trim_messages,
-        count_tokens_approximately
+:::python
+To trim message history, use the [`trim_messages`](https://python.langchain.com/api_reference/core/messages/langchain_core.messages.utils.trim_messages.html) function:
+
+```python {highlight={1,2,3,4,7}}
+from langchain_core.messages.utils import (
+    trim_messages,
+    count_tokens_approximately
+)
+
+def call_model(state: MessagesState):
+    messages = trim_messages(
+        state["messages"],
+        strategy="last",
+        token_counter=count_tokens_approximately,
+        max_tokens=128,
+        start_on="human",
+        end_on=("human", "tool"),
     )
-    from langgraph.prebuilt import create_react_agent
-    
-    # This function will be called every time before the node that calls LLM
-    def pre_model_hook(state):
-        trimmed_messages = trim_messages(
-            state["messages"],
-            strategy="last",
-            token_counter=count_tokens_approximately,
-            max_tokens=384,
-            start_on="human",
-            end_on=("human", "tool"),
-        )
-        return {"llm_input_messages": trimmed_messages}
-    
-    checkpointer = InMemorySaver()
-    agent = create_react_agent(
-        model,
-        tools,
-        pre_model_hook=pre_model_hook,
-        checkpointer=checkpointer,
-    )
+    response = model.invoke(messages)
+    return {"messages": [response]}
+
+builder = StateGraph(MessagesState)
+builder.add_node(call_model)
+...
 ```
-    :::
-    
-    :::js
-    To trim message history in an agent, use `stateModifier` with the [`trimMessages`](https://js.langchain.com/docs/how_to/trim_messages/) function:
-    
-    ```typescript
-    import { trimMessages } from "@langchain/core/messages";
-    import { createReactAgent } from "@langchain/langgraph/prebuilt";
-    
-    // This function will be called every time before the node that calls LLM
-    const stateModifier = async (state) => {
-      return trimMessages(state.messages, {
-        strategy: "last",
-        maxTokens: 384,
-        startOn: "human",
-        endOn: ["human", "tool"],
-      });
-    };
-    
-    const checkpointer = new MemorySaver();
-    const agent = createReactAgent({
-      llm: model,
-      tools,
-      stateModifier,
-      checkpointer,
-    });
-    ```
-    :::
-  </Tab>
-  <Tab title="In a workflow">
-    :::python
-    To trim message history, use the [`trim_messages`](https://python.langchain.com/api_reference/core/messages/langchain_core.messages.utils.trim_messages.html) function:
-    
-    ```python {highlight={1,2,3,4,7}}
-    from langchain_core.messages.utils import (
-        trim_messages,
-        count_tokens_approximately
-    )
-    
-    def call_model(state: MessagesState):
-        messages = trim_messages(
-            state["messages"],
-            strategy="last",
-            token_counter=count_tokens_approximately,
-            max_tokens=128,
-            start_on="human",
-            end_on=("human", "tool"),
-        )
-        response = model.invoke(messages)
-        return {"messages": [response]}
-    
-    builder = StateGraph(MessagesState)
-    builder.add_node(call_model)
-    ...
+:::
+
+:::js
+To trim message history, use the [`trimMessages`](https://js.langchain.com/docs/how_to/trim_messages/) function:
+
+```typescript
+import { trimMessages } from "@langchain/core/messages";
+
+const callModel = async (state: z.infer<typeof MessagesZodState>) => {
+  const messages = trimMessages(state.messages, {
+    strategy: "last",
+    maxTokens: 128,
+    startOn: "human",
+    endOn: ["human", "tool"],
+  });
+  const response = await model.invoke(messages);
+  return { messages: [response] };
+};
+
+const builder = new StateGraph(MessagesZodState)
+  .addNode("call_model", callModel);
+// ...
 ```
-    :::
-    
-    :::js
-    To trim message history, use the [`trimMessages`](https://js.langchain.com/docs/how_to/trim_messages/) function:
-    
-    ```typescript
-    import { trimMessages } from "@langchain/core/messages";
-    
-    const callModel = async (state: z.infer<typeof MessagesZodState>) => {
-      const messages = trimMessages(state.messages, {
-        strategy: "last",
-        maxTokens: 128,
-        startOn: "human",
-        endOn: ["human", "tool"],
-      });
-      const response = await model.invoke(messages);
-      return { messages: [response] };
-    };
-    
-    const builder = new StateGraph(MessagesZodState)
-      .addNode("call_model", callModel);
-    // ...
-    ```
-    :::
-  </Tab>
-</Tabs>
+:::
 
 <Accordion title="Full example: trim messages">
   :::python
@@ -1952,147 +1473,97 @@ The problem with trimming or removing messages, as shown above, is that you may 
 
 ![](/oss/images/summary.png)
 
-<Tabs>
-  <Tab title="In an agent">
-    :::python
-    To summarize message history in an agent, use @[`pre_model_hook`][create_react_agent] with a prebuilt [`SummarizationNode`](https://langchain-ai.github.io/langmem/reference/short_term/#langmem.short_term.SummarizationNode) abstraction:
-    
-    ```python {highlight={22,30,31}}
-    from langchain_anthropic import ChatAnthropic
-    from langmem.short_term import SummarizationNode, RunningSummary
-    from langchain_core.messages.utils import count_tokens_approximately
-    from langgraph.prebuilt import create_react_agent
-    from langgraph.prebuilt.chat_agent_executor import AgentState
-    from langgraph.checkpoint.memory import InMemorySaver
-    from typing import Any
-    
-    model = ChatAnthropic(model="claude-3-7-sonnet-latest")
-    
-    summarization_node = SummarizationNode( # (1)!
-        token_counter=count_tokens_approximately,
-        model=model,
-        max_tokens=384,
-        max_summary_tokens=128,
-        output_messages_key="llm_input_messages",
-    )
-    
-    class State(AgentState):
-        # NOTE: we're adding this key to keep track of previous summary information
-        # to make sure we're not summarizing on every LLM call
-        context: dict[str, RunningSummary]  # (2)!
-    
-    
-    checkpointer = InMemorySaver() # (3)!
-    
-    agent = create_react_agent(
-        model=model,
-        tools=tools,
-        pre_model_hook=summarization_node, # (4)!
-        state_schema=State, # (5)!
-        checkpointer=checkpointer,
-    )
+
+:::python
+Prompting and orchestration logic can be used to summarize the message history. For example, in LangGraph you can extend the [`MessagesState`](/oss/graph-api#working-with-messages-in-graph-state) to include a `summary` key:
+
+```python
+from langgraph.graph import MessagesState
+class State(MessagesState):
+    summary: str
 ```
-    
-    1. The `InMemorySaver` is a checkpointer that stores the agent's state in memory. In a production setting, you would typically use a database or other persistent storage. Please review the [checkpointer documentation](https://langchain-ai.github.io/langgraph/reference/checkpoints/) for more options. If you're deploying with **LangGraph Platform**, the platform will provide a production-ready checkpointer for you.
-    2. The `context` key is added to the agent's state. The key contains book-keeping information for the summarization node. It is used to keep track of the last summary information and ensure that the agent doesn't summarize on every LLM call, which can be inefficient.
-    3. The `checkpointer` is passed to the agent. This enables the agent to persist its state across invocations.
-    4. The `pre_model_hook` is set to the `SummarizationNode`. This node will summarize the message history before sending it to the LLM. The summarization node will automatically handle the summarization process and update the agent's state with the new summary. You can replace this with a custom implementation if you prefer. Please see the @[create_react_agent][create_react_agent] API reference for more details.
-    5. The `state_schema` is set to the `State` class, which is the custom state that contains an extra `context` key.
-    :::
-  </Tab>
-  <Tab title="In a workflow">
-    :::python
-    Prompting and orchestration logic can be used to summarize the message history. For example, in LangGraph you can extend the [`MessagesState`](/oss/langgraph/graph-api#working-with-messages-in-graph-state) to include a `summary` key:
-    
-    ```python
-    from langgraph.graph import MessagesState
-    class State(MessagesState):
-        summary: str
-    ```
-    
-    Then, you can generate a summary of the chat history, using any existing summary as context for the next summary. This `summarize_conversation` node can be called after some number of messages have accumulated in the `messages` state key.
-    
-    ```python
-    def summarize_conversation(state: State):
-    
-        # First, we get any existing summary
-        summary = state.get("summary", "")
-    
-        # Create our summarization prompt
-        if summary:
-    
-            # A summary already exists
-            summary_message = (
-                f"This is a summary of the conversation to date: {summary}\n\n"
-                "Extend the summary by taking into account the new messages above:"
-            )
-    
-        else:
-            summary_message = "Create a summary of the conversation above:"
-    
-        # Add prompt to our history
-        messages = state["messages"] + [HumanMessage(content=summary_message)]
-        response = model.invoke(messages)
-    
-        # Delete all but the 2 most recent messages
-        delete_messages = [RemoveMessage(id=m.id) for m in state["messages"][:-2]]
-        return {"summary": response.content, "messages": delete_messages}
-    ```
-    :::
-    
-    :::js
-    Prompting and orchestration logic can be used to summarize the message history. For example, in LangGraph you can extend the [`MessagesZodState`](/oss/langgraph/graph-api#working-with-messages-in-graph-state) to include a `summary` key:
-    
-    ```typescript
-    import { MessagesZodState } from "@langchain/langgraph";
-    import { z } from "zod";
-    
-    const State = MessagesZodState.merge(z.object({
-      summary: z.string().optional(),
-    }));
-    ```
-    
-    Then, you can generate a summary of the chat history, using any existing summary as context for the next summary. This `summarizeConversation` node can be called after some number of messages have accumulated in the `messages` state key.
-    
-    ```typescript
-    import { RemoveMessage, HumanMessage } from "@langchain/core/messages";
-    
-    const summarizeConversation = async (state: z.infer<typeof State>) => {
-      // First, we get any existing summary
-      const summary = state.summary || "";
-    
-      // Create our summarization prompt
-      let summaryMessage: string;
-      if (summary) {
-        // A summary already exists
-        summaryMessage =
-          `This is a summary of the conversation to date: ${summary}\n\n` +
-          "Extend the summary by taking into account the new messages above:";
-      } else {
-        summaryMessage = "Create a summary of the conversation above:";
-      }
-    
-      // Add prompt to our history
-      const messages = [
-        ...state.messages,
-        new HumanMessage({ content: summaryMessage })
-      ];
-      const response = await model.invoke(messages);
-    
-      // Delete all but the 2 most recent messages
-      const deleteMessages = state.messages
-        .slice(0, -2)
-        .map(m => new RemoveMessage({ id: m.id }));
-    
-      return {
-        summary: response.content,
-        messages: deleteMessages
-      };
-    };
-    ```
-    :::
-  </Tab>
-</Tabs>
+
+Then, you can generate a summary of the chat history, using any existing summary as context for the next summary. This `summarize_conversation` node can be called after some number of messages have accumulated in the `messages` state key.
+
+```python
+def summarize_conversation(state: State):
+
+    # First, we get any existing summary
+    summary = state.get("summary", "")
+
+    # Create our summarization prompt
+    if summary:
+
+        # A summary already exists
+        summary_message = (
+            f"This is a summary of the conversation to date: {summary}\n\n"
+            "Extend the summary by taking into account the new messages above:"
+        )
+
+    else:
+        summary_message = "Create a summary of the conversation above:"
+
+    # Add prompt to our history
+    messages = state["messages"] + [HumanMessage(content=summary_message)]
+    response = model.invoke(messages)
+
+    # Delete all but the 2 most recent messages
+    delete_messages = [RemoveMessage(id=m.id) for m in state["messages"][:-2]]
+    return {"summary": response.content, "messages": delete_messages}
+```
+:::
+
+:::js
+Prompting and orchestration logic can be used to summarize the message history. For example, in LangGraph you can extend the [`MessagesZodState`](/oss/graph-api#working-with-messages-in-graph-state) to include a `summary` key:
+
+```typescript
+import { MessagesZodState } from "@langchain/langgraph";
+import { z } from "zod";
+
+const State = MessagesZodState.merge(z.object({
+  summary: z.string().optional(),
+}));
+```
+
+Then, you can generate a summary of the chat history, using any existing summary as context for the next summary. This `summarizeConversation` node can be called after some number of messages have accumulated in the `messages` state key.
+
+```typescript
+import { RemoveMessage, HumanMessage } from "@langchain/core/messages";
+
+const summarizeConversation = async (state: z.infer<typeof State>) => {
+  // First, we get any existing summary
+  const summary = state.summary || "";
+
+  // Create our summarization prompt
+  let summaryMessage: string;
+  if (summary) {
+    // A summary already exists
+    summaryMessage =
+      `This is a summary of the conversation to date: ${summary}\n\n` +
+      "Extend the summary by taking into account the new messages above:";
+  } else {
+    summaryMessage = "Create a summary of the conversation above:";
+  }
+
+  // Add prompt to our history
+  const messages = [
+    ...state.messages,
+    new HumanMessage({ content: summaryMessage })
+  ];
+  const response = await model.invoke(messages);
+
+  // Delete all but the 2 most recent messages
+  const deleteMessages = state.messages
+    .slice(0, -2)
+    .map(m => new RemoveMessage({ id: m.id }));
+
+  return {
+    summary: response.content,
+    messages: deleteMessages
+  };
+};
+```
+:::
 
 <Accordion title="Full example: summarize messages">
   :::python

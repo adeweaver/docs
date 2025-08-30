@@ -192,15 +192,9 @@
                   {
                     "group": "Capabilities",
                     "pages": [
-                      "oss/python/langgraph/persistence",
-                      "oss/python/langgraph/durable-execution",
-                      {
-                        "group": "Streaming",
-                        "pages": [
-                          "oss/python/langgraph/streaming",
-                          "oss/python/langgraph/use-streaming"
-                        ]
-                      },
+                      "oss/langgraph/persistence",
+                      "oss/langgraph/durable-execution",
+                      "oss/langgraph/streaming",
                       {
                         "group": "Human-in-the-loop",
                         "pages": [
@@ -1093,7 +1087,29 @@
         "version": "JavaScript",
         "dropdowns": [
           {
+<<<<<<< HEAD
             "dropdown": "OSS frameworks",
+=======
+            "dropdown": "OSS",
+            "icon": "/images/brand/langchain-pill.svg",
+            "description": "Open source software from LangChain",
+            "tabs": [
+              {
+                "tab": "LangChain",
+                "groups": [
+                  {
+                    "group": "Core concepts",
+                    "pages": [
+                      "oss/javascript/langchain-tools"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "LangGraph",
+>>>>>>> a7ef4d59 (translate tools page to js)
             "icon": "/images/brand/langgraph-pill.svg",
             "description": "LangChain and LangGraph",
             "tabs": [
@@ -1159,15 +1175,9 @@
                   {
                     "group": "Capabilities",
                     "pages": [
-                      "oss/javascript/langgraph/persistence",
-                      "oss/javascript/langgraph/durable-execution",
-                      {
-                        "group": "Streaming",
-                        "pages": [
-                          "oss/javascript/langgraph/streaming",
-                          "oss/javascript/langgraph/use-streaming"
-                        ]
-                      },
+                      "oss/langgraph/persistence",
+                      "oss/langgraph/durable-execution",
+                      "oss/langgraph/streaming",
                       {
                         "group": "Human-in-the-loop",
                         "pages": [
