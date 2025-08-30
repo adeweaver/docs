@@ -109,66 +109,6 @@ def get_weather(location: str, units: str = "celsius", include_forecast: bool = 
 
 </CodeGroup>
 
-## Using tools with LLMs
-
-Tools allow models to interact with the world via well defined inputs and outputs. 
-
-<Accordion title="TODO: Move to models page">
-
-### Direct tool binding
-
-The simplest integration is binding tools directly to a model. The model can then decide whether to use tools based on the conversation:
-
-```python wrap
-from langchain_openai import ChatOpenAI
-
-model = ChatOpenAI(model="gpt-5")
-model_with_tools = model.bind_tools([search_database, get_weather])
-
-response = model_with_tools.invoke("What's the weather in Sydney?")
-```
-
-### Understanding tool calls
-
-When a model calls a tool, the response contains structured tool call information:
-
-```python wrap
-response = model_with_tools.invoke("Search for customers named John")
-
-# The response contains tool_calls when tools are invoked
-if response.tool_calls:
-    tool_call = response.tool_calls[0]
-    # Structure:
-    # {
-    #     'id': 'unique_call_id',
-    #     'function': {
-    #         'name': 'search_database',
-    #         'arguments': '{"query": "John", "limit": 10}'
-    #     },
-    #     'type': 'function'
-    # }
-```
-
-### Forcing tool usage
-
-A key principle of tool calling is that the model decides when to use a tool based on the input's relevance. Sometimes you want to ensure a tool is used:
-
-```python wrap
-# Force specific tool use, even for simple math
-model_forced = model.bind_tools([calculate], tool_choice="calculate")
-response = model_forced.invoke("What's 2+2?")
-
-# Force the model to use any tool
-model_any = model.bind_tools([search_database, calculate], tool_choice="any")
-response = model_any.invoke("Hello")
-```
-
-</Accordion>
-
-<Tip>
-To learn more about how to use tools with models, see [Models](./langchain-models).
-</Tip>
-
 ## Using tools with agents
 
 Agents go beyond simple tool binding by adding reasoning loops, state management, and multi-step execution.
