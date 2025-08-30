@@ -104,7 +104,7 @@ const response = await model.invoke("Why do parrots talk?");
 ```
 </CodeGroup>
 
-See @[initChatModel][`initChatModel`] for more detail.
+See @[`initChatModel`][initChatModel] for more detail.
 
 :::
 
@@ -211,7 +211,7 @@ include:
 
 <Info>
     To find all the parameters supported by a given chat model, head to the
-    @[Reference].
+    @[reference docs][Reference].
 </Info>
 
 ## Invocation
@@ -227,13 +227,13 @@ invocation methods, each suited to different use cases.
     
     For example: `ainvoke()`, `astream()`, `abatch()`
     
-    A full list of async methods can be found in the @[Reference][reference].
+    A full list of async methods can be found in the @[reference docs][Reference].
 </Tip>
 :::
 
 ### Invoke
 
-The most straightforward way to call a model is to use @[invoke][`invoke()`] with a single message or a list of messages.
+The most straightforward way to call a model is to use @[`invoke()`][BaseChatModel.invoke] with a single message or a list of messages.
 
 :::python
 ```python Single message
@@ -277,7 +277,7 @@ Most models can stream their output content while it is being generated. By
 displaying output progressively, streaming significantly improves user
 experience, particularly for longer responses.
 
-Calling @[stream][`stream()`] returns an <Tooltip tip="An object that progressively provides access to each item of a collection, in order.">iterator</Tooltip> that yields output chunks as they are produced. You can use a loop to process each chunk in real-time:
+Calling @[`stream()`][BaseChatModel.stream] returns an <Tooltip tip="An object that progressively provides access to each item of a collection, in order.">iterator</Tooltip> that yields output chunks as they are produced. You can use a loop to process each chunk in real-time:
 
 :::python
 <CodeGroup>
@@ -415,11 +415,11 @@ message history and passed back to the model as conversational context.
     events in LangChain's callback system.
     
     :::python
-    Callback events allow LangGraph `stream()` and @[astream_events][`astream_events()`]
+    Callback events allow LangGraph `stream()` and @[`astream_events()`][BaseChatModel.astream_events]
     to surface the chat model's output in real-time.
     :::
     :::js
-    Callback events allow LangGraph `stream()` and @[streamEvents][`streamEvents()`]
+    Callback events allow LangGraph `stream()` and @[`streamEvents()`][BaseChatModel.streamEvents]
     to surface the chat model's output in real-time.
     :::
 </Accordion>
@@ -459,7 +459,7 @@ message history and passed back to the model as conversational context.
     Full message: Hi there! How can I help today?
     ```
 
-    See the @[astream_events][`astream_events()`] reference for event types and other details.
+    See the @[`astream_events()`][BaseChatModel.astream_events] reference for event types and other details.
     :::
 
     :::js
@@ -494,7 +494,7 @@ message history and passed back to the model as conversational context.
     Full message: Hi there! How can I help today?
     ```
 
-    See the @[streamEvents][`streamEvents()`] reference for event types and other details.
+    See the @[`streamEvents()`][BaseChatModel.streamEvents] reference for event types and other details.
     :::
 </Accordion>
 
@@ -522,8 +522,8 @@ for response in responses:
     print(response)
 ```
 
-By default, @[batch][`batch()`] will only return the final output for the entire batch. If you want to receive
-the output for each individual input as it is finishes generating, you can stream results with @[batch_as_completed][`batch_as_completed()`]:
+By default, @[`batch()`][BaseChatModel.batch] will only return the final output for the entire batch. If you want to receive
+the output for each individual input as it is finishes generating, you can stream results with @[`batch_as_completed()`][BaseChatModel.batch_as_completed]:
 
 ```python Yield responses upon completion
 for response in model.batch_as_completed([
@@ -554,7 +554,7 @@ for response in model.batch_as_completed([
     )
     ```
 
-    See the @[RunnableConfig][`RunnableConfig`] reference for a full list of supported attributes.
+    See the @[`RunnableConfig`][RunnableConfig] reference for a full list of supported attributes.
 </Tip>
 
 For more details on batching, see the [reference](https://python.langchain.com/api_reference/core/language_models/langchain_core.language_models.chat_models.BaseChatModel.html#langchain_core.language_models.chat_models.BaseChatModel.batch).
@@ -585,7 +585,7 @@ for (const response of responses) {
     )
     ```
 
-    See the @[RunnableConfig][`RunnableConfig`] reference for a full list of supported attributes.
+    See the @[`RunnableConfig`][RunnableConfig] reference for a full list of supported attributes.
 </Tip>
 
 For more details on batching, see the [reference](https://js.langchain.com/api_reference/core/language_models/langchain_core.language_models.chat_models.BaseChatModel.html#langchain_core.language_models.chat_models.BaseChatModel.batch).
@@ -1811,11 +1811,11 @@ with get_usage_metadata_callback() as cb:
 ### Invocation config
 
 :::python
-When invoking a model, you can pass additional configuration through the `config` parameter using a @[RunnableConfig][`RunnableConfig`] dictionary. This provides run-time control over execution behavior, callbacks, and metadata tracking.
+When invoking a model, you can pass additional configuration through the `config` parameter using a @[`RunnableConfig`][RunnableConfig] dictionary. This provides run-time control over execution behavior, callbacks, and metadata tracking.
 :::
 
 :::js
-When invoking a model, you can pass additional configuration through the `config` parameter using a @[RunnableConfig][`RunnableConfig`] object. This provides run-time control over execution behavior, callbacks, and metadata tracking.
+When invoking a model, you can pass additional configuration through the `config` parameter using a @[`RunnableConfig`][RunnableConfig] object. This provides run-time control over execution behavior, callbacks, and metadata tracking.
 :::
 
 Common configuration options include:
@@ -1922,7 +1922,7 @@ These configuration values are particularly useful when:
 - Tracking invocations across complex pipelines
 
 For more information on all supported `RunnableConfig` attributes, see the
-@[RunnableConfig][`RunnableConfig`] reference.
+@[`RunnableConfig`][RunnableConfig] reference.
 
 :::python
 ### Configurable models
