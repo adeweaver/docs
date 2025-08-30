@@ -1087,29 +1087,7 @@
         "version": "JavaScript",
         "dropdowns": [
           {
-<<<<<<< HEAD
             "dropdown": "OSS frameworks",
-=======
-            "dropdown": "OSS",
-            "icon": "/images/brand/langchain-pill.svg",
-            "description": "Open source software from LangChain",
-            "tabs": [
-              {
-                "tab": "LangChain",
-                "groups": [
-                  {
-                    "group": "Core concepts",
-                    "pages": [
-                      "oss/javascript/langchain-tools"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "dropdown": "LangGraph",
->>>>>>> a7ef4d59 (translate tools page to js)
             "icon": "/images/brand/langgraph-pill.svg",
             "description": "LangChain and LangGraph",
             "tabs": [
