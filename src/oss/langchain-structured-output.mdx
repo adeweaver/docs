@@ -566,7 +566,7 @@ Options parameter containing an optional `handleError` parameter for customizing
 
 - **`true`**: Catch all errors with default error template (default)
 - **`False`**: No retry, let exceptions propagate
-- **(error: ToolStrategyError) => string | Promise<string>**: retry with the provided message or throw the error
+- **`(error: ToolStrategyError) => string | Promise<string>`**: retry with the provided message or throw the error
 </ParamField>
 
 <CodeGroup>
