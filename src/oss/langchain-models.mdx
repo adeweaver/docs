@@ -22,7 +22,7 @@ where the model is constrained to respond with an object that matches a schema.
 
 Providers like OpenAI, Anthropic, and Google offer access to a range of LLMs each carrying their own strengths and weaknesses. Every provider has its own unique interaction patterns for accessing and using models, typically through a user interface or an API where [messages](./langchain-messages.mdx) are exchanged between a user and the model.
 
-Because each providers has its own opinionated way of interacting with models, it can make it difficult to swap between models and providers without significant code changes. LangChain simplifies this by providing a common chat model abstraction for interacting with LLMs across all supported models & providers. If you're experimenting with different models, or building production agents, this lets you focus on the logic of your application rather than the implementation details of the underlying model.
+Because each provider has its own opinionated way of interacting with models, it can make it difficult to swap between models and providers without significant code changes. LangChain simplifies this by providing a chat model abstraction to interact with models across a number of providers and models. This lets you focus on the logic of your application rather than the implementation details of the underlying provider API.
 
 ## Basic usage
 
