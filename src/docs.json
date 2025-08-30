@@ -95,7 +95,7 @@
       "youtube": "https://www.youtube.com/@LangChain"
     }
   },
-    "scripts": [
+  "scripts": [
     "/hide-version-picker.js"
   ],
   "styles": [
@@ -106,6 +106,13 @@
     "dismissible": true
   },
   "navbar": {
+    "links": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/langchain-ai",
+        "icon": "github"
+      }
+    ],
     "primary": {
       "type": "button",
       "label": "Forum",
@@ -179,7 +186,6 @@
                       "oss/python/langgraph/installation",
                       "oss/python/langgraph/quickstart",
                       "oss/python/langgraph/philosophy"
-
                     ]
                   },
                   {
@@ -238,7 +244,6 @@
                   {
                     "group": "LangGraph APIs",
                     "pages": [
-
                       {
                         "group": "Functional API",
                         "pages": [
@@ -610,7 +615,8 @@
                     "pages": [
                       "langsmith/observability-quickstart",
                       "langsmith/evaluation-quickstart",
-                      "langsmith/prompt-engineering-quickstart"                    ]
+                      "langsmith/prompt-engineering-quickstart"
+                    ]
                   },
                   {
                     "group": "API & SDKs",
@@ -635,7 +641,6 @@
                   "langsmith/observability",
                   "langsmith/observability-concepts",
                   "langsmith/observability-llm-tutorial",
-
                   {
                     "group": "Set up tracing",
                     "pages": [
@@ -698,7 +703,7 @@
                       "langsmith/export-traces",
                       "langsmith/compare-traces",
                       "langsmith/share-trace",
-                      "langsmith/langgraph-platform-logs", 
+                      "langsmith/langgraph-platform-logs",
                       "langsmith/data-export"
                     ]
                   },
@@ -1255,14 +1260,14 @@
                           "/oss/javascript/js-integrations/text_embedding/azure_openai"
                         ]
                       },
-                    {
-                      "group": "OpenAI",
-                      "pages": [
-                        "oss/javascript/js-integrations/platforms/openai",
-                        "/oss/javascript/js-integrations/chat/openai",
-                        "/oss/javascript/js-integrations/text_embedding/openai"
-                      ]
-                    }
+                      {
+                        "group": "OpenAI",
+                        "pages": [
+                          "oss/javascript/js-integrations/platforms/openai",
+                          "/oss/javascript/js-integrations/chat/openai",
+                          "/oss/javascript/js-integrations/text_embedding/openai"
+                        ]
+                      }
                     ]
                   },
                   {
@@ -1672,7 +1677,7 @@
                       "langsmith/export-traces",
                       "langsmith/compare-traces",
                       "langsmith/share-trace",
-                      "langsmith/langgraph-platform-logs", 
+                      "langsmith/langgraph-platform-logs",
                       "langsmith/data-export"
                     ]
                   },
@@ -1795,7 +1800,8 @@
                       "langsmith/compare-experiment-results",
                       "langsmith/filter-experiments-ui",
                       "langsmith/fetch-perf-metrics-experiment",
-                      "langsmith/upload-existing-experiments"                    ]
+                      "langsmith/upload-existing-experiments"
+                    ]
                   },
                   {
                     "group": "Annotation & human feedback",
