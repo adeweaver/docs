@@ -47,6 +47,7 @@ providers, ensuring consistent behavior regardless of the model being called.
 The simplest way to use messages is to create message objects and pass them to
 a model when [invoking](./langchain-models#<todo-use-proper-anchor>).
 
+:::python
 ```python
 from langchain.chat_models import init_chat_model
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
@@ -60,15 +61,38 @@ human_msg = HumanMessage("Hello, how are you?")
 messages = [system_msg, human_msg]
 response = model.invoke(messages)  # Returns AIMessage
 ```
+:::
+
+:::js
+```typescript
+import { initChatModel } from "langchain/chat_models";
+
+const model = initChatModel("openai:gpt-5-nano");
+
+const systemMsg = new SystemMessage("You are a helpful assistant.");
+const humanMsg = new HumanMessage("Hello, how are you?");
+
+const messages = [systemMsg, humanMsg];
+const response = await model.invoke(messages);  // Returns AIMessage
+```
+:::
 
 ### <Icon icon="text" size={16} /> Text prompts
 
 Text prompts are strings - ideal for straightforward generation tasks
 where you don't need to retain conversation history.
 
+:::python
 ```python
 response = model.invoke("Write a haiku about spring")
 ```
+:::
+
+:::js
+```typescript
+const response = await model.invoke("Write a haiku about spring");
+```
+:::
 
 **Use text prompts when:**
 * You have a single, standalone request
@@ -80,6 +104,7 @@ response = model.invoke("Write a haiku about spring")
 Alternatively, you can pass in a list of messages to the model by providing
 a list of message objects.
 
+:::python
 ```python
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 
@@ -90,6 +115,20 @@ messages = [
 ]
 response = model.invoke(messages)
 ```
+:::
+
+:::js
+```typescript
+import { SystemMessage, HumanMessage, AIMessage } from "@langchain/core/messages";
+
+const messages = [
+    new SystemMessage("You are a poetry expert"),
+    new HumanMessage("Write a haiku about spring"),
+    new AIMessage("Cherry blossoms bloom...")
+]
+const response = await model.invoke(messages);
+```
+:::
 
 **Use message prompts when:**
 * Managing multi-turn conversations
@@ -100,6 +139,7 @@ response = model.invoke(messages)
 
 You can also specify messages directly in OpenAI chat completions format. 
 
+:::python
 ```python
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 
@@ -110,6 +150,20 @@ messages = [
 ]
 response = model.invoke(messages)
 ```
+:::
+
+:::js
+```typescript
+import { SystemMessage, HumanMessage, AIMessage } from "@langchain/core/messages";
+
+const messages = [
+    { role: "system", content: "You are a poetry expert" },
+    { role: "user", content: "Write a haiku about spring" },
+    { role: "assistant", content: "Cherry blossoms bloom..." }
+]
+const response = await model.invoke(messages);
+```
+:::
 
 ## Message types
 
@@ -119,6 +173,7 @@ A `SystemMessage` represent an initial set of instructions that primes the
 model's behavior. You can use a system message to set the tone, define the
 model's role, and establish guidelines for responses.
 
+:::python
 ```python Basic instructions
 system_msg = SystemMessage("You are a helpful coding assistant.")
 
@@ -128,8 +183,26 @@ messages = [
 ]
 response = model.invoke(messages)
 ```
+:::
 
+:::js
+```typescript Basic instructions
+import { SystemMessage, HumanMessage, AIMessage } from "@langchain/core/messages";
+
+const systemMsg = new SystemMessage("You are a helpful coding assistant.");
+
+const messages = [
+    systemMsg,
+    new HumanMessage("How do I create a REST API?")
+]
+const response = await model.invoke(messages);
+```
+:::
+
+:::python
 ```python Detailed persona
+from langchain_core.messages import SystemMessage, HumanMessage
+
 system_msg = SystemMessage("""
 You are a senior Python developer with expertise in web frameworks.
 Always provide code examples and explain your reasoning.
@@ -142,6 +215,25 @@ messages = [
 ]
 response = model.invoke(messages)
 ```
+:::
+
+:::js
+```typescript Detailed persona
+import { SystemMessage, HumanMessage } from "@langchain/core/messages";
+
+const systemMsg = new SystemMessage(`
+You are a senior TypeScript developer with expertise in web frameworks.
+Always provide code examples and explain your reasoning.
+Be concise but thorough in your explanations.
+`);
+
+const messages = [
+    systemMsg,
+    new HumanMessage("How do I create a REST API?")
+]
+const response = await model.invoke(messages);
+```
+:::
 
 ### <Icon icon="user" size={20} /> Human Message
 
@@ -150,6 +242,7 @@ images, audio, files, and any other amount of multimodal [content](#content).
 
 #### Text content
 
+:::python
 <CodeGroup>
 ```python Message object
 human_msg = HumanMessage("What is machine learning?")
@@ -161,10 +254,23 @@ response = model.invoke([human_msg])
 response = model.invoke("What is machine learning?")
 ```
 </CodeGroup>
+:::
+
+:::js
+```typescript Message object
+const humanMsg = new HumanMessage("What is machine learning?");
+const response = await model.invoke([humanMsg]);
+```
+
+```typescript String shortcut
+const response = await model.invoke("What is machine learning?");
+```
+:::
 
 #### Message metadata
 
 <CodeGroup>
+:::python
 ```python Add metadata
 human_msg = HumanMessage(
     content="Hello!",
@@ -172,6 +278,17 @@ human_msg = HumanMessage(
     id="msg_123",  # Optional: unique identifier for tracing
 )
 ```
+:::
+
+:::js
+```typescript
+const humanMsg = new HumanMessage({
+    content: "Hello!",
+    name: "alice",
+    id: "msg_123"
+});
+```
+:::
 </CodeGroup>
 
 <Note>
@@ -186,10 +303,19 @@ An `AIMessage` represents the output of a model invocation. They can include
 multimodal data, tool calls, and provider-specific metadata that you can later
 access.
 
+:::python
 ```python
 response = model.invoke("Explain AI")
 print(type(response))  # <class 'langchain_core.messages.AIMessage'>
 ```
+:::
+
+:::js
+```typescript
+const response = await model.invoke("Explain AI");
+console.log(typeof response);  // AIMessage
+```
+:::
 
 `AIMessage` objects are returned by the model when calling it, which contains
 all of the associated metadata in the response. However, that doesn't mean that's
@@ -199,8 +325,9 @@ Providers weight/contextualize types of messages differently, which means it is
 sometimes helpful to create a new `AIMessage` object and insert it into the
 message history as if it came from the model.
 
+:::python
 ```python
-from langchain_core.messages import AIMessage
+from langchain_core.messages import AIMessage, SystemMessage, HumanMessage
 
 # Create an AI message manually (e.g., for conversation history)
 ai_msg = AIMessage(
@@ -216,11 +343,29 @@ messages = [
 ]
 
 response = model.invoke(messages)
-
 ```
+:::
+
+:::js
+```typescript
+import { AIMessage, SystemMessage, HumanMessage } from "@langchain/core/messages";
+
+const aiMsg = new AIMessage("I'd be happy to help you with that question!");
+
+const messages = [
+    new SystemMessage("You are a helpful assistant"),
+    new HumanMessage("Can you help me?"),
+    aiMsg,  // Insert as if it came from the model
+    new HumanMessage("Great! What's 2+2?")
+]
+
+const response = await model.invoke(messages);
+```
+:::
 
 #### AIMessage attributes
 
+:::python
 <ParamField path="text" type="string">
     The text content of the message.
 </ParamField>
@@ -242,11 +387,37 @@ response = model.invoke(messages)
 <ParamField path="response_metadata" type="ResponseMetadata | None">
     The response metadata of the message.
 </ParamField>
+:::
+
+:::js
+<ParamField path="text" type="string">
+    The text content of the message.
+</ParamField>
+<ParamField path="content" type="string | ContentBlock[]">
+    The raw content of the message.
+</ParamField>
+<ParamField path="content_blocks" type="ContentBlock.Standard[]">
+    The standardized content blocks of the message. (See [Content](#content))
+</ParamField>
+<ParamField path="tool_calls" type="ToolCall[] | None">
+    The tool calls made by the model. Empty if no tools are called.
+</ParamField>
+<ParamField path="id" type="string">
+    A unique identifier for the message (either automatically generated by LangChain or returned in the provider response)
+</ParamField>
+<ParamField path="usage_metadata" type="UsageMetadata | None">
+    The usage metadata of the message, which can contain token counts when available.
+</ParamField>
+<ParamField path="response_metadata" type="ResponseMetadata | None">
+    The response metadata of the message.
+</ParamField>
+:::
 
 #### Tool calling responses
 
 When models make tool calls, they're included in the AI message:
 
+:::python
 ```python Tool calling
 model_with_tools = model.bind_tools([GetWeather])
 response = model_with_tools.invoke("What's the weather in Paris?")
@@ -256,11 +427,26 @@ for tool_call in response.tool_calls:
     print(f"Args: {tool_call['args']}")
     print(f"ID: {tool_call['id']}")
 ```
+:::
+
+:::js
+```typescript
+const modelWithTools = model.bind_tools([getWeather]);
+const response = await modelWithTools.invoke("What's the weather in Paris?");
+
+for (const toolCall of response.tool_calls) {
+    console.log(`Tool: ${toolCall.name}`);
+    console.log(`Args: ${toolCall.args}`);
+    console.log(`ID: ${toolCall.id}`);
+}
+```
+:::
 
 #### Streaming and chunks
 
-During streaming, you receive `AIMessageChunk` objects that can be combined:
+During streaming, you'll receive `AIMessageChunk` objects that can be combined:
 
+:::python
 <CodeGroup>
 ```python Stream and collect chunks
 chunks = []
@@ -277,12 +463,36 @@ final_message = sum(chunks, AIMessage(""))
 print(f"Full response: {final_message.text}")
 ```
 </CodeGroup>
+:::
+
+:::js
+<CodeGroup>
+```typescript Stream and collect chunks
+const chunks = [];
+for await (const chunk of model.stream("Write a poem")) {
+    chunks.push(chunk);
+    console.log(chunk.text);
+}
+```
+
+```typescript Combine chunks
+import { AIMessageChunk } from "@langchain/core/messages";
+
+const finalChunk = chunks.reduce(
+    (acc, chunk) => acc.concat(chunk.text),
+    new AIMessageChunk("") // Start with an empty chunk
+);
+console.log(`Full response: ${finalChunk.text}`);
+```
+</CodeGroup>
+:::
 
 ### <Icon icon="wrench" size={20} /> Tool Message
 
 For models that support tool calling, AI messages can contain tool calls.
 Tool messages are used to pass the results of a single tool execution back to the model.
 
+:::python
 ```python
 # After a model makes a tool call
 ai_message = AIMessage(
@@ -309,6 +519,35 @@ messages = [
 ]
 response = model.invoke(messages)  # Model processes the result
 ```
+:::
+
+:::js
+```typescript
+import { AIMessage, ToolMessage } from "@langchain/core/messages";
+
+const aiMessage = new AIMessage({
+    content: [],
+    tool_calls: [{
+        name: "get_weather",
+        args: { location: "San Francisco" },
+        id: "call_123"
+    }]
+});
+
+const toolMessage = new ToolMessage({
+    content: "Sunny, 72°F",
+    tool_call_id: "call_123"
+});
+
+const messages = [
+    new HumanMessage("What's the weather in San Francisco?"),
+    aiMessage,  // Model's tool call
+    toolMessage,  // Tool execution result
+];
+
+const response = await model.invoke(messages);  // Model processes the result
+```
+:::
 
 #### ToolMessage attributes
 
@@ -325,6 +564,7 @@ response = model.invoke(messages)  # Model processes the result
     Additional data not sent to the model but can be accessed programmatically.
 </ParamField>
 
+:::python
 <Note>
     The `artifact` field stores supplementary data that won't be sent to the
     model but can be accessed programmatically. This is useful for storing raw
@@ -353,6 +593,37 @@ response = model.invoke(messages)  # Model processes the result
         ```
     </Accordion>
 </Note>
+:::
+
+:::js
+<Note>
+    The `artifact` field stores supplementary data that won't be sent to the
+    model but can be accessed programmatically. This is useful for storing raw
+    results, debugging information, or data for downstream processing without
+    cluttering the model's context.
+
+    <Accordion
+        title="Example: Using artifact for raw data"
+    >
+        ```typescript
+        import { ToolMessage } from "@langchain/core/messages";
+
+        // Tool execution returns structured data
+        const rawData = { temperature: 72, condition: "Sunny" };
+        const toolMessage = new ToolMessage({
+            content: "The weather is sunny with a temperature of 72°F.",
+            tool_call_id: "call_123",
+            name: "get_weather",
+            artifact: { raw_data: rawData }  // Store structured data
+        });
+
+        // Later, access the raw data programmatically
+        const weatherInfo = toolMessage.artifact["raw_data"];
+        console.log(`Raw weather data: ${JSON.stringify(weatherInfo)}`);
+        ```
+    </Accordion>
+</Note>
+:::
 
 ## Content
 
@@ -360,6 +631,7 @@ You can think of a message's content as the actual payload of data that gets
 sent to the model. Within a message, you can content either as a string or a
 list of [content blocks](#content-blocks).
 
+:::python
 ```python
 from langchain_core.messages import HumanMessage
 
@@ -372,12 +644,29 @@ human_message = HumanMessage(content_blocks=[
     {"type": "image", "url": "https://example.com/image.jpg"},
 ])
 ```
+:::
+
+:::js
+```typescript
+import { HumanMessage } from "@langchain/core/messages";
+
+const humanMessage = new HumanMessage("Hello, how are you?");
+
+const humanMessage = new HumanMessage({
+    contentBlocks: [
+        { type: "text", text: "Hello, how are you?" },
+        { type: "image", url: "https://example.com/image.jpg" },
+    ],
+});
+```
+:::
 
 Each provider has their own opinionated format for representing message content.
 This makes it difficult to build applications that need to work across multiple
 AI providers, as each structure means you have to write custom code to handle
 each provider's format.
 
+:::python
 ```python Provider-specific format examples
 # OpenAI format
 openai_message = {
@@ -397,7 +686,31 @@ anthropic_message = {
     ]
 }
 ```
+:::
 
+:::js
+```typescript
+// OpenAI format
+const openaiMessage = {
+    role: "user",
+    content: [
+        { type: "text", text: "What's in this image?" },
+        { type: "image_url", image_url: { url: "..." } }
+    ]
+};
+
+// Anthropic format
+const anthropicMessage = {
+    role: "user",
+    content: [
+        { type: "text", text: "What's in this image?" },
+        { type: "image", source: { type: "url", media_type: "image/jpeg", url: "..." } }
+    ]
+};
+```
+:::
+
+:::python
 By default, `AIMessage` objects will store the output of the model inside of the `content`
 attribute. If you want to access content in a way that won't change between providers, you
 can access the `content_blocks` attribute, which will return a list of content blocks that adhere
@@ -407,20 +720,47 @@ to the [standard content format](#content-block-reference).
 message = model.invoke("Why do parrots have different colors?")
 message.content_blocks
 ```
+:::
+
+:::js
+By default, `AIMessage` objects will store the output of the model inside of the `.content`
+field. If you want to access content in a way that won't change between providers, you
+can access the `.contentBlocks` field, which will return a list of content blocks that adhere
+to the [standard content format](#content-block-reference).
+
+```typescript Access content blocks
+const message = await model.invoke("Why do parrots have different colors?");
+const contentBlocks = message.contentBlocks;
+```
+:::
 
 Because each provider handles `.content` differently, you can also initialize a message
 with a list of content blocks. This will ensure that the message is always in the
 standard format, regardless of the provider.
 
+:::python
 ```python Initialize with content blocks
 universal_message = HumanMessage(content_blocks=[
     {"type": "text", "text": "What's in this image?"},
     {"type": "image", "url": "..."}  # Works with any provider
 ])
 ```
+:::
+
+:::js
+```typescript
+const universalMessage = new HumanMessage({
+    contentBlocks: [
+        { type: "text", text: "What's in this image?" },
+        { type: "image", url: "..." }
+    ],
+});
+```
+:::
 
 ### Examples
 
+:::python
 ```python Multimodal message
 multimodal_message = HumanMessage(content_blocks=[
     {"type": "text", "text": "Compare this image and document:"},
@@ -431,7 +771,24 @@ multimodal_message = HumanMessage(content_blocks=[
 
 response = model.invoke([multimodal_message])
 ```
+:::
 
+:::js
+```typescript Multimodal message
+const universalMessage = new HumanMessage({
+    contentBlocks: [
+        { type: "text", text: "Compare this image and document:" },
+        { type: "image", url: "chart.jpg" },
+        { type: "file", base64: pdfData, mimeType: "application/pdf" },
+        { type: "text", text: "Which data source is more reliable?" }
+    ],
+});
+
+const response = await model.invoke([universalMessage]);
+```
+:::
+
+:::python
 <CodeGroup>
 ```python PDF document analysis
 import base64
@@ -481,6 +838,63 @@ message = HumanMessage(content_blocks=[
 response = model.invoke([message])
 ```
 </CodeGroup>
+:::
+
+:::js
+```typescript PDF document analysis
+import { readFileSync } from 'fs';
+import { HumanMessage } from '@langchain/core/messages';
+
+// Read and encode PDF
+const pdfData = readFileSync("report.pdf");
+const pdfBase64 = pdfData.toString('base64');
+
+const message = new HumanMessage({
+    content: [
+        { type: "text", text: "Summarize the key findings in this report" },
+        { type: "file", data: pdfBase64, mimeType: "application/pdf" }
+    ]
+});
+
+const response = await model.invoke([message]);
+```
+
+```typescript Audio transcription
+import { readFileSync } from 'fs';
+import { HumanMessage } from '@langchain/core/messages';
+
+// Read and encode audio file
+const audioData = readFileSync("meeting.mp3");
+const audioBase64 = audioData.toString('base64');
+
+const message = new HumanMessage({
+    content: [
+        { type: "text", text: "Transcribe this audio and identify the main topics discussed" },
+        { type: "audio", data: audioBase64, mimeType: "audio/mpeg" }
+    ]
+});
+
+const response = await model.invoke([message]);
+```
+
+```typescript Video analysis
+import { readFileSync } from 'fs';
+import { HumanMessage } from '@langchain/core/messages';
+
+// Read and encode video file
+const videoData = readFileSync("demo.mp4");
+const videoBase64 = videoData.toString('base64');
+
+const message = new HumanMessage({
+    content: [
+        { type: "text", text: "Describe what happens in this video" },
+        { type: "video", data: videoBase64, mimeType: "video/mp4" }
+    ]
+});
+
+const response = await model.invoke([message]);
+```
+:::
 
 <Warning>
     Not all models support all file types. Check the model provider's
@@ -489,6 +903,7 @@ response = model.invoke([message])
 
 ### Content block reference
 
+:::python
 Content blocks are represented (either when creating a message or accessing the
 `content_blocks` attribute) as a list of typed dictionaries. Each item in the list
 must adhere to one of the following block types:
@@ -774,6 +1189,284 @@ must adhere to one of the following block types:
         </AccordionGroup>
     </Accordion>
 </AccordionGroup>
+:::
+
+:::js
+Content blocks are represented (either when creating a message or accessing the
+`contentBlocks` field) as a list of typed dictionaries. Each item in the list
+must adhere to one of the following block types:
+
+<AccordionGroup>
+    <Accordion title="Core" icon="cube">
+        <AccordionGroup>
+            <Accordion title="ContentBlock.Text" icon="text">
+                **Purpose:** Standard text output
+                
+                <ParamField body="text" type="string" required>
+                    The text content
+                </ParamField>
+                
+                <ParamField body="annotations" type="Citation[]">
+                    List of annotations for the text
+                </ParamField>
+                
+                **Example:**
+                ```typescript
+                {
+                    type: "text",
+                    text: "Hello world",
+                    annotations: []
+                }
+                ```
+            </Accordion>
+            <Accordion title="ContentBlock.Reasoning" icon="brain">
+                **Purpose:** Model reasoning steps
+                
+                <ParamField body="reasoning" type="string" required>
+                    The reasoning content
+                </ParamField>
+                
+                **Example:**
+                ```typescript
+                {
+                    type: "reasoning",
+                    reasoning: "The user is asking about..."
+                }
+                ```
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+    
+    <Accordion title="Multimodal" icon="images">
+        <AccordionGroup>
+            <Accordion title="ContentBlock.Multimodal.PlainText" icon="align-left">
+                **Purpose:** Document text (`.txt`, `.md`)
+
+                <ParamField body="text" type="string" required>
+                    The text content
+                </ParamField>
+
+                <ParamField body="title" type="string">
+                    Title of the text content
+                </ParamField>
+                
+                <ParamField body="mimeType" type="string">
+                    MIME type of the text (e.g., `text/plain`, `text/markdown`)
+                </ParamField>
+            </Accordion>
+            <Accordion title="ContentBlock.Multimodal.Image" icon="image">
+                **Purpose:** Image data
+                
+                <ParamField body="url" type="string">
+                    URL pointing to the image location.
+                </ParamField>
+                
+                <ParamField body="data" type="string">
+                    Base64-encoded image data.
+                </ParamField>
+                
+                <ParamField body="fileId" type="string">
+                    Reference ID to an externally stored image (e.g., in a
+                    provider's file system or in a bucket).
+                </ParamField>
+                
+                <ParamField body="mimeType" type="string">
+                    Image MIME type (e.g., `image/jpeg`, `image/png`)
+                </ParamField>
+            </Accordion>
+            <Accordion title="ContentBlock.Multimodal.Audio" icon="volume-high">
+                **Purpose:** Audio data
+                
+                <ParamField body="url" type="string">
+                    URL pointing to the audio location.
+                </ParamField>
+                
+                <ParamField body="data" type="string">
+                    Base64-encoded audio data.
+                </ParamField>
+
+                <ParamField body="fileId" type="string">
+                    Reference ID to an externally stored audio file (e.g., in a
+                    provider's file system or in a bucket).
+                </ParamField>
+                
+                <ParamField body="mimeType" type="string">
+                    Audio MIME type (e.g., `audio/mpeg`, `audio/wav`)
+                </ParamField>
+            </Accordion>
+            <Accordion title="ContentBlock.Multimodal.Video" icon="video">
+                **Purpose:** Video data
+                
+                <ParamField body="url" type="string">
+                    URL pointing to the video location.
+                </ParamField>
+                
+                <ParamField body="data" type="string">
+                    Base64-encoded video data.
+                </ParamField>
+
+                <ParamField body="fileId" type="string">
+                    Reference ID to an externally stored video file (e.g., in a
+                    provider's file system or in a bucket).
+                </ParamField>
+                
+                <ParamField body="mimeType" type="string">
+                    Video MIME type (e.g., `video/mp4`, `video/webm`)
+                </ParamField>
+            </Accordion>
+            <Accordion title="ContentBlock.Multimodal.File" icon="file">
+                **Purpose:** Generic files (PDF, etc)
+                
+                <ParamField body="url" type="string">
+                    URL pointing to the file location.
+                </ParamField>
+                
+                <ParamField body="data" type="string">
+                    Base64-encoded file data.
+                </ParamField>
+
+                <ParamField body="fileId" type="string">
+                    Reference ID to an externally stored file (e.g., in a
+                    provider's file system or in a bucket).
+                </ParamField>
+                
+                <ParamField body="mimeType" type="string">
+                    File MIME type (e.g., `application/pdf`)
+                </ParamField>
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+    
+    <Accordion title="Tool Calling" icon="wrench">
+        <AccordionGroup>
+            <Accordion title="ContentBlock.Tools.ToolCall" icon="function">
+                **Purpose:** Function calls
+                
+                <ParamField body="name" type="string" required>
+                    Name of the tool to call
+                </ParamField>
+                
+                <ParamField body="args" type="object" required>
+                    Arguments to pass to the tool
+                </ParamField>
+                
+                <ParamField body="id" type="string" required>
+                    Unique identifier for this tool call
+                </ParamField>
+                
+                **Example:**
+                ```typescript
+                {
+                    type: "tool_call",
+                    name: "search",
+                    args: { query: "weather" },
+                    id: "call_123"
+                }
+                ```
+            </Accordion>
+            <Accordion title="ContentBlock.Tools.ToolCallChunk" icon="puzzle-piece">
+                **Purpose:** Streaming tool fragments
+                
+                <ParamField body="name" type="string">
+                    Name of the tool being called
+                </ParamField>
+                
+                <ParamField body="args" type="string">
+                    Partial tool arguments (may be incomplete JSON)
+                </ParamField>
+                
+                <ParamField body="id" type="string">
+                    Tool call identifier
+                </ParamField>
+                
+                <ParamField body="index" type="number" required>
+                    Position of this chunk in the stream
+                </ParamField>
+            </Accordion>
+            <Accordion title="ContentBlock.Tools.InvalidToolCall" icon="triangle-exclamation">
+                **Purpose:** Malformed calls
+                
+                <ParamField body="name" type="string">
+                    Name of the tool that failed to be called
+                </ParamField>
+                
+                <ParamField body="args" type="string">
+                    Raw arguments that failed to parse
+                </ParamField>
+                
+                <ParamField body="error" type="string" required>
+                    Description of what went wrong
+                </ParamField>
+                
+                **Common errors:** Invalid JSON, missing required fields
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+
+    <Accordion title="Server-Side Tool Execution" icon="server">
+        <AccordionGroup>
+            <Accordion title="ContentBlock.Tools.WebSearchCall" icon="magnifying-glass">
+                **Purpose:** Built-in web search
+                
+                <ParamField body="query" type="string" required>
+                    The search query to execute
+                </ParamField>
+            </Accordion>
+            <Accordion title="ContentBlock.Tools.WebSearchResult" icon="globe">
+                **Purpose:** Search results
+                
+                <ParamField body="urls" type="string[]" required>
+                    URLs of the search results
+                </ParamField>
+                
+                **Returns:** Top search results with optional snippets
+            </Accordion>
+            <Accordion title="ContentBlock.Tools.CodeInterpreterCall" icon="code">
+                **Purpose:** Code execution
+                
+                <ParamField body="language" type="string" required>
+                    Programming language to execute (e.g. `python`,
+                    `javascript`, `sql`)
+                </ParamField>
+                
+                <ParamField body="code" type="string" required>
+                    Code to execute
+                </ParamField>
+            </Accordion>
+            <Accordion title="ContentBlock.Tools.CodeInterpreterResult" icon="terminal">
+                **Purpose:** Execution results
+                
+                <ParamField body="output" type="string" required>
+                    Output from the code execution
+                </ParamField>
+                
+                <ParamField body="error" type="string">
+                    Error message if execution failed
+                </ParamField>
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+</AccordionGroup>
+
+Each of these content blocks mentioned above are indvidually addressable as types when importing the `ContentBlock` type.
+
+```typescript
+import { ContentBlock } from "@langchain/core/messages";
+
+// Text block
+const textBlock: ContentBlock.Text = {
+    type: "text",
+    text: "Hello world",
+}
+
+// Image block
+const imageBlock: ContentBlock.Multimodal.Image = {
+    type: "image",
+    url: "https://example.com/image.png",
+    mimeType: "image/png",
+}
+```
+:::
 
 ## Examples
 
@@ -781,6 +1474,7 @@ must adhere to one of the following block types:
 
 Building conversational applications requires managing message history and context:
 
+:::python
 <CodeGroup>
 ```python Basic chat loop
 from langchain_core.messages import HumanMessage, AIMessage
@@ -829,6 +1523,62 @@ while True:
     messages.append(response)
 ```
 </CodeGroup>
+:::
+
+:::js
+<CodeGroup>
+```typescript Basic chat loop
+import { HumanMessage, SystemMessage } from "@langchain/core/messages";
+
+// Initialize conversation
+const messages = [
+    new SystemMessage("You are a helpful assistant specializing in Python programming")
+]
+
+// Simulate multi-turn conversation
+while (true) {
+    const userInput = await getNextMessage();
+    if (userInput.toLowerCase() === "quit") {
+        break;
+    }
+
+    // Add user message
+    messages.push(new HumanMessage(userInput));
+    
+    // Get model response
+    const response = await model.invoke(messages);
+    
+    // Add assistant response to history
+    messages.push(response);
+    
+    console.log(`Assistant: ${response.content}`);
+}
+```
+
+```typescript Context window management
+import { BaseMessage, filterMessages } from "@langchain/core/messages";
+
+function manageConversationWindow(messages: BaseMessage[], maxMessages: number = 10): BaseMessage[] {
+    const systemMsgs = filterMessages(messages, include_types: "system");
+    const recentMsgs = messages.slice(-(maxMessages - systemMsgs.length));
+    return systemMsgs.concat(recentMsgs);
+}
+
+// Usage in conversation loop
+const messages: BaseMessage[] = [];
+while (true) {
+    const userInput = await getNextMessage();
+    messages.push(new HumanMessage(userInput));
+    
+    // Trim conversation to fit context window
+    messages = manageConversationWindow(messages);
+ 
+    const response = await model.invoke(messages);
+    messages.push(response);
+}
+```
+</CodeGroup>
+:::
 
 ## Message output versions: v0 vs v1
 
@@ -837,13 +1587,21 @@ content formats across providers while maintaining backward compatibility with e
 are not a replacement for the `content` property, but rather a new property that can be used to access the
 content of a message in a standardized format.
 
+:::python
 `.content_blocks` is a computed property that outputs standard blocks based on `.content`. Because of this
 content blocks will not be included in the output when a message gets stringified/serialized by default.
+:::
+
+:::js
+`.contentBlocks` is a computed property that outputs standard blocks based on `.content`. Because of this
+content blocks will not be included in the output when a message gets stringified/serialized by default.
+:::
 
 If you want to serialize a message that uses [standard content blocks](#content-block-reference) (e.g.
 if you were passing messages to a client), there's a couple of different options to instruct the model to
 output a message using standard content blocks:
 
+:::python
 <CodeGroup>
 ```python Model initialization
 # Default v0 (backward compatible)
@@ -860,7 +1618,27 @@ os.environ["LC_OUTPUT_VERSION"] = "v1"
 model = ChatOpenAI()  # Uses v1
 ```
 </CodeGroup>
+:::
 
+:::js
+<CodeGroup>
+```typescript Model initialization
+# Default v0 (backward compatible)
+const model = new ChatOpenAI({ model: "gpt-4o" })
+
+# Explicit v1
+const model = new ChatOpenAI({ model: "gpt-4o", output_version: "v1" })
+```
+
+```typescript Environment variable
+process.env.LC_OUTPUT_VERSION = "v1"
+
+const model = new ChatOpenAI()  # Uses v1
+```
+</CodeGroup>
+:::
+
+:::python
 When instructed, the model will output a message with `.content` as a list of
 [standard content blocks](#content-block-reference) (the same as if you were accessing `.content_blocks`).
 
@@ -871,6 +1649,20 @@ response = model.invoke("Analyze the sales data and show your reasoning")
 response.content  # List of ContentBlock objects
 response.content_blocks  # Same as above, but typed
 ```
+:::
+
+:::js
+When instructed, the model will output a message with `.content` as a list of
+[standard content blocks](#content-block-reference) (the same as if you were accessing `.contentBlocks`).
+
+```typescript
+const model = initChatModel(model="", provider="", output_version="v1")
+const response = await model.invoke("Analyze the sales data and show your reasoning")
+
+response.content  // List of ContentBlock objects
+response.contentBlocks  // Same as above, but typed
+```
+:::
 
 Models can interpret both v0 and v1 content formats, which means that you can use the same model instance
 to invoke messages that might have different content formats.
