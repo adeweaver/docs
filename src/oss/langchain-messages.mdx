@@ -1470,6 +1470,118 @@ const imageBlock: ContentBlock.Multimodal.Image = {
 ```
 :::
 
+<Info>
+    [Content blocks](#content) were introduced as a new property on messages in LangChain v1 to standardize
+    content formats across providers while maintaining backward compatibility with existing code. Content blocks
+    are not a replacement for the `content` property, but rather a new property that can be used to access the
+    content of a message in a standardized format.
+
+    For more information, see the v1 [release notes]() and [migration guide]().
+
+    {/* :::python
+    `.content_blocks` is a computed property that outputs standard blocks based on `content`. Because of this,
+    content blocks will not be included in the output when a message gets stringified/serialized by default.
+    :::
+
+    :::js
+    `.contentBlocks` is a computed property that outputs standard blocks based on `content`. Because of this,
+    content blocks will not be included in the output when a message gets stringified/serialized by default.
+    :::
+
+    If you want to serialize a message that uses [standard content blocks](#content-block-reference) (e.g.
+    if you were passing messages to a client), there's a couple of different options to instruct the model to
+    output a message using standard content blocks:
+
+    :::python
+    <CodeGroup>
+    ```python Model initialization
+    # Default v0 (backward compatible)
+    model = ChatOpenAI()
+
+    # Explicit v1
+    model = ChatOpenAI(output_version="v1")
+    ```
+
+    ```python Environment variable
+    import os
+    os.environ["LC_OUTPUT_VERSION"] = "v1"
+
+    model = ChatOpenAI()  # Uses v1
+    ```
+    </CodeGroup>
+    :::
+
+    :::js
+    <CodeGroup>
+    ```typescript Model initialization
+    // Default v0 (backward compatible)
+    const model = new ChatOpenAI({ model: "gpt-4o" })
+
+    // Explicit v1
+    const model = new ChatOpenAI({ model: "gpt-4o", output_version: "v1" })
+    ```
+
+    ```typescript Environment variable
+    process.env.LC_OUTPUT_VERSION = "v1"
+
+    const model = new ChatOpenAI()  # Uses v1
+    ```
+    </CodeGroup>
+    :::
+
+    :::python
+    When instructed, the model will output a message with `content` as a list of
+    [standard content blocks](#content-block-reference) (the same as if you were accessing `.content_blocks`).
+
+    ```python
+    model = init_chat_model("", {
+        modelProvider: "",
+        outputVersion: "v1",
+    })
+    response = model.invoke("Analyze the sales data and show your reasoning")
+
+    response.content  # List of ContentBlock objects
+    response.content_blocks  # Same as above, but typed
+    ```
+    :::
+
+    :::js
+    When instructed, the model will output a message with `content` as a list of
+    [standard content blocks](#content-block-reference) (the same as if you were accessing `.contentBlocks`).
+
+    ```typescript
+    const model = await initChatModel(model="", provider="", output_version="v1")
+    const response = await model.invoke("Analyze the sales data and show your reasoning")
+
+    response.content  // List of ContentBlock objects
+    response.contentBlocks  // Same as above, but typed
+    ```
+    :::
+
+    Models can interpret both v0 and v1 content formats, which means that you can use the same model instance
+    to invoke messages that might have different content formats.
+
+    :::python
+    | Aspect | v0 | v1 (Standard) |
+    |:--------|:-----------|:-------------|
+    | **Default behavior** | Yes | Accessible through `.content_blocks` |
+    | **Serialization** | `content` is raw model output | `content` is a list of `ContentBlock` objects |
+    | **Content format** | Provider-specific | Standardized `ContentBlock` types |
+    | **Type safety** | Limited | Fully typed |
+    | **Multimodal support** | Basic | Comprehensive |
+    :::
+    :::js
+    | Aspect | v0 | v1 (Standard) |
+    |:--------|:-----------|:-------------|
+    | **Default behavior** | Yes | Accessible through `.contentBlocks` |
+    | **Serialization** | `content` is raw model output | `content` is a list of `ContentBlock` objects |
+    | **Content format** | Provider-specific | Standardized `ContentBlock` types |
+    | **Type safety** | Limited | Fully typed |
+    | **Multimodal support** | Basic | Comprehensive |
+    ::: */}
+</Info>
+
+
 ## Examples
 
 ### Multi-turn conversations
@@ -1581,119 +1693,6 @@ while (true) {
 ```
 </CodeGroup>
 :::
-
-<Info>
-    ## Message output versions
-
-    [Content blocks](#content) were introduced as a new property on messages in LangChain v1 to standardize
-    content formats across providers while maintaining backward compatibility with existing code. Content blocks
-    are not a replacement for the `content` property, but rather a new property that can be used to access the
-    content of a message in a standardized format.
-
-    For more information, see the v1 [release notes]() and [migration guide]().
-
-    {/* :::python
-    `.content_blocks` is a computed property that outputs standard blocks based on `content`. Because of this,
-    content blocks will not be included in the output when a message gets stringified/serialized by default.
-    :::
-
-    :::js
-    `.contentBlocks` is a computed property that outputs standard blocks based on `content`. Because of this,
-    content blocks will not be included in the output when a message gets stringified/serialized by default.
-    :::
-
-    If you want to serialize a message that uses [standard content blocks](#content-block-reference) (e.g.
-    if you were passing messages to a client), there's a couple of different options to instruct the model to
-    output a message using standard content blocks:
-
-    :::python
-    <CodeGroup>
-    ```python Model initialization
-    # Default v0 (backward compatible)
-    model = ChatOpenAI()
-
-    # Explicit v1
-    model = ChatOpenAI(output_version="v1")
-    ```
-
-    ```python Environment variable
-    import os
-    os.environ["LC_OUTPUT_VERSION"] = "v1"
-
-    model = ChatOpenAI()  # Uses v1
-    ```
-    </CodeGroup>
-    :::
-
-    :::js
-    <CodeGroup>
-    ```typescript Model initialization
-    // Default v0 (backward compatible)
-    const model = new ChatOpenAI({ model: "gpt-4o" })
-
-    // Explicit v1
-    const model = new ChatOpenAI({ model: "gpt-4o", output_version: "v1" })
-    ```
-
-    ```typescript Environment variable
-    process.env.LC_OUTPUT_VERSION = "v1"
-
-    const model = new ChatOpenAI()  # Uses v1
-    ```
-    </CodeGroup>
-    :::
-
-    :::python
-    When instructed, the model will output a message with `content` as a list of
-    [standard content blocks](#content-block-reference) (the same as if you were accessing `.content_blocks`).
-
-    ```python
-    model = init_chat_model("", {
-        modelProvider: "",
-        outputVersion: "v1",
-    })
-    response = model.invoke("Analyze the sales data and show your reasoning")
-
-    response.content  # List of ContentBlock objects
-    response.content_blocks  # Same as above, but typed
-    ```
-    :::
-
-    :::js
-    When instructed, the model will output a message with `content` as a list of
-    [standard content blocks](#content-block-reference) (the same as if you were accessing `.contentBlocks`).
-
-    ```typescript
-    const model = await initChatModel(model="", provider="", output_version="v1")
-    const response = await model.invoke("Analyze the sales data and show your reasoning")
-
-    response.content  // List of ContentBlock objects
-    response.contentBlocks  // Same as above, but typed
-    ```
-    :::
-
-    Models can interpret both v0 and v1 content formats, which means that you can use the same model instance
-    to invoke messages that might have different content formats.
-
-    :::python
-    | Aspect | v0 | v1 (Standard) |
-    |:--------|:-----------|:-------------|
-    | **Default behavior** | Yes | Accessible through `.content_blocks` |
-    | **Serialization** | `content` is raw model output | `content` is a list of `ContentBlock` objects |
-    | **Content format** | Provider-specific | Standardized `ContentBlock` types |
-    | **Type safety** | Limited | Fully typed |
-    | **Multimodal support** | Basic | Comprehensive |
-    :::
-    :::js
-    | Aspect | v0 | v1 (Standard) |
-    |:--------|:-----------|:-------------|
-    | **Default behavior** | Yes | Accessible through `.contentBlocks` |
-    | **Serialization** | `content` is raw model output | `content` is a list of `ContentBlock` objects |
-    | **Content format** | Provider-specific | Standardized `ContentBlock` types |
-    | **Type safety** | Limited | Fully typed |
-    | **Multimodal support** | Basic | Comprehensive |
-    ::: */}
-</Info>
 
 {/* TODO: ensure these topics are covered somewhere  */}
 {/*
