@@ -132,7 +132,12 @@
               {
                 "tab": "LangChain",
                 "groups": [
-                  "oss/python/langchain-v1",
+                  {
+                    "group": " ",
+                    "pages": [
+                      "oss/python/langchain-v1"
+                    ]
+                  },
                   {
                     "group": "Get started",
                     "pages": [
@@ -1109,7 +1114,12 @@
               {
                 "tab": "LangChain",
                 "groups": [
-                  "oss/javascript/langchain-v1",
+                  {
+                    "group": " ",
+                    "pages": [
+                      "oss/javascript/langchain-v1"
+                    ]
+                  },
                   {
                     "group": "Get started",
                     "pages": [
@@ -1155,7 +1165,6 @@
                   }
                 ]
               },
-
               {
                 "tab": "LangGraph",
                 "groups": [
@@ -1165,7 +1174,6 @@
                       "oss/javascript/langgraph/overview",
                       "oss/javascript/langgraph/installation",
                       "oss/javascript/langgraph/quickstart"
-
                     ]
                   },
                   {
@@ -1225,7 +1233,6 @@
                   {
                     "group": "LangGraph APIs",
                     "pages": [
-
                       {
                         "group": "Functional API",
                         "pages": [
