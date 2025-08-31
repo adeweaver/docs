@@ -1,0 +1,150 @@
+---
+title: Streaming
+---
+
+import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
+
+<AlphaCallout />
+
+## Overview
+
+Streaming is crucial for enhancing the responsiveness of applications built on LLMs.
+By displaying output progressively, even before a complete response is ready, streaming significantly 
+improves user experience (UX), particularly when dealing with the latency of LLMs.
+
+## Stream from an agent
+
+LangChain's streaming system lets you surface live feedback from agent runs to your application.
+There are three main categories of data you can stream:
+
+1. [Agent progress](/oss/javascript/langchain-streaming#agent-progress) — get state updates after each agent step.
+2. [LLM tokens](/oss/javascript/langchain-streaming#llm-tokens) — stream language model tokens as they're generated.
+3. [Custom updates](/oss/javascript/langchain-streaming#custom-updates) — emit user-defined signals (e.g., “Fetched 10/100 records”).
+
+You can also stream [multiple modes](/oss/javascript/langchain-streaming#stream-multiple-modes) at once.
+
+### Agent progress
+
+
+
+To stream agent progress, use the [`stream()`](https://langchain-ai.github.io/langgraphjs/reference/classes/langgraph.CompiledStateGraph.html#stream) method with `streamMode: "updates"`. This emits an event after every agent step.
+
+
+For example, if you have an agent that calls a tool once, you should see the following updates:
+
+* **LLM node**: AI message with tool call requests
+* **Tool node**: Tool message with execution result
+* **LLM node**: Final AI response
+
+
+
+```typescript
+const agent = createReactAgent({
+  llm: model,
+  tools: [getWeather],
+});
+
+for await (const chunk of await agent.stream(
+  { messages: [{ role: "user", content: "what is the weather in sf" }] },
+  { streamMode: "updates" }
+)) {
+  console.log(chunk);
+  console.log("\n");
+}
+```
+
+
+### LLM tokens
+
+
+
+To stream tokens as they are produced by the LLM, use `streamMode: "messages"`:
+
+```typescript
+const agent = createReactAgent({
+  llm: model,
+  tools: [getWeather],
+});
+
+for await (const [token, metadata] of await agent.stream(
+  { messages: [{ role: "user", content: "what is the weather in sf" }] },
+  { streamMode: "messages" }
+)) {
+  console.log("Token", token);
+  console.log("Metadata", metadata);
+  console.log("\n");
+}
+```
+
+
+### Custom updates
+
+
+
+To stream updates from tools as they are executed, you can use the `writer` parameter from the configuration.
+
+```typescript
+import { LangGraphRunnableConfig } from "@langchain/langgraph";
+
+const getWeather = tool(
+  async (input, config: LangGraphRunnableConfig) => {
+    // Stream any arbitrary data
+    config.writer?.("Looking up data for city: " + input.city);
+    return `It's always sunny in ${input.city}!`;
+  },
+  {
+    name: "get_weather",
+    description: "Get weather for a given city.",
+    schema: z.object({
+      city: z.string().describe("The city to get weather for."),
+    }),
+  }
+);
+
+const agent = createReactAgent({
+  llm: model,
+  tools: [getWeather],
+});
+
+for await (const chunk of await agent.stream(
+  { messages: [{ role: "user", content: "what is the weather in sf" }] },
+  { streamMode: "custom" }
+)) {
+  console.log(chunk);
+  console.log("\n");
+}
+```
+
+<Note>
+  If you add the `writer` parameter to your tool, you won't be able to invoke the tool outside of a LangGraph execution context without providing a writer function.
+</Note>
+
+
+### Stream multiple modes
+
+
+
+You can specify multiple streaming modes by passing streamMode as an array: `streamMode: ["updates", "messages", "custom"]`:
+
+```typescript
+const agent = createReactAgent({
+  llm: model,
+  tools: [getWeather],
+});
+
+for await (const chunk of await agent.stream(
+  { messages: [{ role: "user", content: "what is the weather in sf" }] },
+  { streamMode: ["updates", "messages", "custom"] }
+)) {
+  console.log(chunk);
+  console.log("\n");
+}
+```
+
+
+### Disable streaming
+
+In some applications you might need to disable streaming of individual tokens for a given model.
+This is useful in [multi-agent](/oss/javascript/multi-agent) systems to control which agents stream their output.
+
+See the [Models](/oss/javascript/models#disable-streaming) guide to learn how to disable streaming.
