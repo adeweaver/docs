@@ -1,0 +1,119 @@
+---
+title: Middleware
+---
+
+## Overview
+
+Middleware is new configuration option available for agents.
+It provides a way to more tightly control what happens inside the agent.
+
+The core agent loop involves calling a `model`, letting it choose `tools` to execute, and then finishing when it calls no more tools..
+Middleware provides way to control what happens before and after those steps.
+
+## Using in an agent
+
+
+TODO
+
+
+Middleware is highly flexible and replaces some other functionality in the agent.
+As such, there are some limitations on the the arguments used to create the agent:
+- `model` must be either a string or a BaseChatModel. Will error if a function is passed. If you want to dynamically control the model, use `AgentMiddleware.modify_model_request`
+- `prompt` must be either a string or None. Will error if a function is passed. If you want to dynamically control the prompt, use `AgentMiddleware.modify_model_request`
+- `pre_model_hook` must not be provided. Will error if provided. Use `AgentMiddleware.before_model` instead
+- `post_model_hook` must not be provided. Will error if provided. Use `AgentMiddleware.after_model` instead
+- `pre_model_hook` must not be provided. Will error if provided. Use `AgentMiddleware.before_model` instead
+
+
+
+## AgentMiddleware
+
+AgentMiddleware currently provides three different ways to modify the core agent loop:
+- `before_model`: runs before the model is run. Can update state or exit early with AgentGoto
+- `modify_model_request`: runs before the model is run. Cannot update state or exit early with AgentGoto
+- `after_model`: runs after the model is run. Can update state or exit early with AgentGoto
+
+### `before_model`
+
+Runs before the model is run. Can modify state by returning a new state object or state update.
+Can return AgentGoto to exit early
+
+Signature:
+
+TODO
+
+
+### `modify_model_request`
+
+Runs before the model has run, but after all the `before_model` calls.
+These functions **cannot** modify permanent state or exit early.
+Rather, they are intended to modify calls to the model in a **stateless* way.
+If you want to modify calls to the model in a **stateful** way, you will need to use `before_model`
+
+Modifies the model request. The model request has several key properties:
+- `model` (`BaseChatModel`): the model to use. Note: this needs to the base chat model, not a string.
+- `system_prompt` (`str`): the system prompt to use. Will get appended to `messages`
+- `messages` (list of messages): the message list. Should not include system prompt.
+- `tool_choice` (Any): the tool choice to use
+- `tools` (list of `BaseTool`): the tools to use for this model call
+- `response_format` (`ResponseFormat`): the response format to use for structured output
+
+Signature:
+
+TODO
+
+### `after_model`
+
+Runs after the model is run. Can modify state by returning a new state object or state update.
+Can return AgentGoto to exit early
+
+Signature:
+
+TODO
+
+
+## New state keys
+
+Middleware may require new state keys to exist.
+Middleware can declare new state keys by typing the input or output types.
+
+Example usage:
+
+
+## Middleware execution order
+
+You can provide multiple middlewares. They are executed in the following logic:
+
+**`before_model`**: Are run in the order they are passed in. If an earlier middleware exits early, then following middleware are not run
+**`modify_model_request`**: Are run in the order they are passed in.
+**`after_model`**: Are run in the *reverse* order that they are passed in. If an earlier middleware exits early, then following middleware are not run
+
+## AgentGoto
+
+`before_model` and `after_model` can return AgentGoto.
+AgentGoto contains a `jump_to` value.
+
+This `jump_to` value can be one of:
+- `tools`
+- `model`
+- `__end__`
+
+This specifies the node to jump to.
+
+If this is specified, all subsequent middleware will not run.
+
+If you jump to `model` node, all `before_model` middleware will run (even if jumping from an existing `before_model` middleware).
+
+Example usage:
+
+TODO
+
+
+## Built-in Middleware
+
+LangChain provides several built in middleware to use off-the-shelf
+- Human in the loop
+- Summarization
+- Trimming
+- Anthropic Prompt Caching
+- Usage Tracking
