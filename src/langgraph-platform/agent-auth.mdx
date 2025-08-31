@@ -24,17 +24,32 @@ client = Client(api_key="your-langsmith-api-key")
 
 ### 2. Set up OAuth providers
 
-Before agents can authenticate, you need to configure an OAuth provider:
+Before agents can authenticate, you need to configure an OAuth provider. Here's the complete setup process:
+
+1. **Select a unique provider ID**: Choose a unique identifier for your OAuth provider to use in LangChain's platform (e.g., "github-local-dev", "google-workspace-prod")
+
+2. **Create an OAuth app in the provider**: Go to your OAuth provider's developer console and create a new OAuth application
+
+3. **Configure callback URL**: Set LangChain's API as an available callback URL using this structure:
+   ```
+   http://api.host.langchain.com/v2/auth/callback/{provider_id}
+   ```
+   For example, if your provider_id is "github-local-dev", use:
+   ```
+   http://api.host.langchain.com/v2/auth/callback/github-local-dev
+   ```
+
+4. **Create the provider**: Use `client.create_oauth_provider()` with the credentials from your OAuth app:
 
 ```python
 # Create GitHub provider
 github_provider = await client.create_oauth_provider(
-    provider_id="github", # Provide any unique ID. Not formally tied to the provider.
-    name="GitHub", # Provide any display name
-    client_id="your-github-client-id",
-    client_secret="your-github-client-secret",
-    auth_url="https://github.com/login/oauth/authorize",
-    token_url="https://github.com/login/oauth/access_token",
+    provider_id="{provider_id}", # Provide any unique ID. Not formally tied to the provider.
+    name="{provider_display_name}", # Provide any display name
+    client_id="{your_client_id}",
+    client_secret="{your_client_secret}",
+    auth_url="{auth_url_of_your_provider}",
+    token_url="{token_url_of_your_provider}",
 )
 ```
 
