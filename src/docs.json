@@ -95,7 +95,7 @@
       "youtube": "https://www.youtube.com/@LangChain"
     }
   },
-    "scripts": [
+  "scripts": [
     "/hide-version-picker.js"
   ],
   "styles": [
@@ -106,6 +106,13 @@
     "dismissible": true
   },
   "navbar": {
+    "links": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/langchain-ai",
+        "icon": "github"
+      }
+    ],
     "primary": {
       "type": "button",
       "label": "Forum",
@@ -118,164 +125,216 @@
         "version": "Python",
         "dropdowns": [
           {
-            "dropdown": "LangGraph",
+            "dropdown": "OSS (v1-alpha)",
             "icon": "/images/brand/langgraph-pill.svg",
-            "description": "Framework for building reliable agents and workflows",
+            "description": "LangChain and LangGraph",
             "tabs": [
               {
-                "tab": "Get started",
+                "tab": "LangChain",
                 "groups": [
                   {
                     "group": "Get started",
                     "pages": [
-                      "oss/python/overview",
-                      "oss/python/quickstart",
-                      "oss/python/run-an-agent",
-                      "oss/python/prebuilt-vs-low-level"
+                      "oss/python/langchain-overview",
+                      "oss/python/langchain-installation",
+                      "oss/python/langchain-quickstart",
+                      "oss/python/langchain-philosophy"
                     ]
                   },
                   {
-                    "group": "Common architectures",
+                    "group": "Core concepts",
                     "pages": [
-                      "oss/python/agentic-architectures",
-                      "oss/python/agentic-rag",
-                      "oss/python/agent-supervisor",
-                      "oss/python/sql-agent"
+                      "oss/python/langchain-models",
+                      "oss/python/langchain-messages",
+                      "oss/python/langchain-tools",
+                      "oss/python/langchain-agents",
+                      "oss/python/langchain-short-term-memory",
+                      "oss/python/langchain-streaming"
                     ]
                   },
                   {
-                    "group": "Additional resources",
+                    "group": "Advanced",
                     "pages": [
-                      "oss/python/case-studies",
-                      "oss/python/template-applications"
+                      "oss/python/langchain-long-term-memory",
+                      "oss/python/langchain-context-engineering",
+                      "oss/python/langchain-structured-output",
+                      "oss/python/langchain-mcp",
+                      "oss/python/langchain-human-in-the-loop",
+                      "oss/python/langchain-multi-agent",
+                      "oss/python/langchain-retrieval",
+                      "oss/python/langchain-runtime"
+                    ]
+                  },
+                  {
+                    "group": "Production",
+                    "pages": [
+                      "oss/python/langchain-studio",
+                      "oss/python/langchain-test",
+                      "oss/python/langchain-deploy",
+                      "oss/python/langchain-observability"
                     ]
                   }
                 ]
               },
               {
-                "tab": "Build agents",
+                "tab": "LangGraph",
                 "groups": [
                   {
-                    "group": "Basic configuration",
+                    "group": "Get started",
                     "pages": [
-                      "oss/python/prebuilts"
+                      "oss/python/langgraph/overview",
+                      "oss/python/langgraph/installation",
+                      "oss/python/langgraph/quickstart",
+                      "oss/python/langgraph/philosophy"
                     ]
                   },
                   {
-                    "group": "Low-level configuration",
+                    "group": "Graph API",
                     "pages": [
-                      "oss/python/why-langgraph",
-                      "oss/python/1-build-basic-chatbot",
-                      "oss/python/2-add-tools",
-                      "oss/python/3-add-memory",
-                      "oss/python/4-human-in-the-loop",
-                      "oss/python/5-customize-state",
-                      "oss/python/6-time-travel"
+                      "oss/python/langgraph/graph-api",
+                      "oss/python/langgraph/use-graph-api"
                     ]
                   },
-                  {
-                    "group": "Components",
-                    "pages": [
-                      "oss/python/models",
-                      {
-                        "group": "Tools",
-                        "pages": [
-                          "oss/python/tools",
-                          "oss/python/call-tools"
-                        ]
-                      },
-                      {
-                        "group": "MCP",
-                        "pages": [
-                          "oss/python/mcp",
-                          "oss/python/use-mcp"
-                        ]
-                      },
-                      {
-                        "group": "Multi-agent",
-                        "pages": [
-                          "oss/python/multi-agent",
-                          "oss/python/multi-agent-prebuilts",
-                          "oss/python/multi-agent-custom"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "tab": "Agent runtime",
-                "groups": [
                   {
                     "group": "Capabilities",
                     "pages": [
-                      "oss/python/persistence",
-                      "oss/python/durable-execution",
-                      {
-                        "group": "Streaming",
-                        "pages": [
-                          "oss/python/streaming",
-                          "oss/python/use-streaming"
-                        ]
-                      },
+                      "oss/langgraph/persistence",
+                      "oss/langgraph/durable-execution",
+                      "oss/langgraph/streaming",
                       {
                         "group": "Human-in-the-loop",
                         "pages": [
-                          "oss/python/human-in-the-loop",
-                          "oss/python/add-human-in-the-loop"
+                          "oss/python/langgraph/human-in-the-loop",
+                          "oss/python/langgraph/add-human-in-the-loop"
                         ]
                       },
                       {
                         "group": "Time travel",
                         "pages": [
-                          "oss/python/time-travel",
-                          "oss/python/use-time-travel"
+                          "oss/python/langgraph/time-travel",
+                          "oss/python/langgraph/use-time-travel"
                         ]
                       },
                       {
                         "group": "Memory and context",
                         "pages": [
-                          "oss/python/memory",
-                          "oss/python/context",
-                          "oss/python/add-memory"
+                          "oss/python/langgraph/memory",
+                          "oss/python/langgraph/context",
+                          "oss/python/langgraph/add-memory"
                         ]
                       },
                       {
                         "group": "Subgraphs",
                         "pages": [
-                          "oss/python/subgraphs",
-                          "oss/python/use-subgraphs"
+                          "oss/python/langgraph/subgraphs",
+                          "oss/python/langgraph/use-subgraphs"
                         ]
                       }
                     ]
                   },
                   {
-                    "group": "Run and debug",
+                    "group": "Production",
                     "pages": [
-                      "oss/python/local-server",
-                      "oss/python/ui",
-                      "oss/python/trace-agent",
-                      "oss/python/evals"
+                      "oss/python/langgraph/studio",
+                      "oss/python/langgraph/test",
+                      "oss/python/langgraph/deploy",
+                      "oss/python/langgraph/observability"
                     ]
                   },
                   {
                     "group": "LangGraph APIs",
                     "pages": [
                       {
-                        "group": "Graph API",
+                        "group": "Functional API",
                         "pages": [
-                          "oss/python/graph-api",
-                          "oss/python/use-graph-api"
+                          "oss/python/langgraph/functional-api",
+                          "oss/python/langgraph/use-functional-api"
+                        ]
+                      },
+                      "oss/python/langgraph/pregel"
+                    ]
+                  }
+                ]
+              },
+              {
+                "tab": "Integrations",
+                "groups": [
+                  {
+                    "group": "Providers",
+                    "pages": [
+                      "oss/python/integrations/providers/index",
+                      {
+                        "group": "Anthropic",
+                        "pages": [
+                          "oss/python/integrations/providers/anthropic",
+                          "oss/python/integrations/chat/anthropic"
                         ]
                       },
                       {
-                        "group": "Functional API",
+                        "group": "AWS",
                         "pages": [
-                          "oss/python/functional-api",
-                          "oss/python/use-functional-api"
+                          "oss/python/integrations/providers/aws",
+                          "oss/python/integrations/chat/bedrock",
+                          "oss/python/integrations/text_embedding/bedrock"
                         ]
                       },
-                      "oss/python/pregel"
+                      {
+                        "group": "Google",
+                        "pages": [
+                          "oss/python/integrations/providers/google",
+                          "oss/python/integrations/chat/google_generative_ai",
+                          "oss/python/integrations/chat/google_vertex_ai_palm",
+                          "oss/python/integrations/text_embedding/google_generative_ai",
+                          "oss/python/integrations/text_embedding/google_vertex_ai_palm"
+                        ]
+                      },
+                      {
+                        "group": "Hugging Face",
+                        "pages": [
+                          "oss/python/integrations/providers/huggingface",
+                          "oss/python/integrations/chat/huggingface",
+                          "oss/python/integrations/text_embedding/huggingfacehub"
+                        ]
+                      },
+                      {
+                        "group": "Microsoft",
+                        "pages": [
+                          "oss/python/integrations/providers/microsoft",
+                          "oss/python/integrations/chat/azure_chat_openai/",
+                          "oss/python/integrations/text_embedding/azureopenai",
+                          "oss/python/integrations/chat/azure_ai"
+                        ]
+                      },
+                      {
+                        "group": "OpenAI",
+                        "pages": [
+                          "oss/python/integrations/providers/openai",
+                          "oss/python/integrations/chat/openai",
+                          "oss/python/integrations/text_embedding/openai"
+                        ]
+                      },
+                      "oss/python/integrations/providers/all_providers",
+                      {
+                        "group": "Contribute an integration",
+                        "pages": [
+                          "oss/python/integrations/contributing/index",
+                          "oss/python/integrations/contributing/package",
+                          "oss/python/integrations/contributing/standard_tests",
+                          "oss/python/integrations/contributing/publish"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "Integrations by component",
+                    "pages": [
+                      "oss/python/integrations/chat/index",
+                      "oss/python/integrations/tools/index",
+                      "oss/python/integrations/retrievers/index",
+                      "oss/python/integrations/splitters/text_splitters",
+                      "oss/python/integrations/text_embedding/index",
+                      "oss/python/integrations/vectorstores/index",
+                      "oss/python/integrations/document_loaders/index"
                     ]
                   }
                 ]
@@ -283,6 +342,14 @@
               {
                 "tab": "Reference",
                 "groups": [
+                  {
+                    "group": "Release versions",
+                    "pages": [
+                      "oss/python/releases",
+                      "oss/python/versioning",
+                      "oss/python/release-policy"
+                    ]
+                  },
                   {
                     "group": "LangGraph reference",
                     "pages": [
@@ -313,12 +380,12 @@
                   {
                     "group": "Error troubleshooting",
                     "pages": [
-                      "oss/python/common-errors",
-                      "oss/python/GRAPH_RECURSION_LIMIT",
-                      "oss/python/INVALID_CHAT_HISTORY",
-                      "oss/python/INVALID_CONCURRENT_GRAPH_UPDATE",
-                      "oss/python/INVALID_GRAPH_NODE_RETURN_VALUE",
-                      "oss/python/MULTIPLE_SUBGRAPHS"
+                      "oss/python/langgraph/common-errors",
+                      "oss/python/langgraph/GRAPH_RECURSION_LIMIT",
+                      "oss/python/langgraph/INVALID_CHAT_HISTORY",
+                      "oss/python/langgraph/INVALID_CONCURRENT_GRAPH_UPDATE",
+                      "oss/python/langgraph/INVALID_GRAPH_NODE_RETURN_VALUE",
+                      "oss/python/langgraph/MULTIPLE_SUBGRAPHS"
                     ]
                   }
                 ]
@@ -548,7 +615,8 @@
                     "pages": [
                       "langsmith/observability-quickstart",
                       "langsmith/evaluation-quickstart",
-                      "langsmith/prompt-engineering-quickstart"                    ]
+                      "langsmith/prompt-engineering-quickstart"
+                    ]
                   },
                   {
                     "group": "API & SDKs",
@@ -573,7 +641,6 @@
                   "langsmith/observability",
                   "langsmith/observability-concepts",
                   "langsmith/observability-llm-tutorial",
-
                   {
                     "group": "Set up tracing",
                     "pages": [
@@ -636,7 +703,7 @@
                       "langsmith/export-traces",
                       "langsmith/compare-traces",
                       "langsmith/share-trace",
-                      "langsmith/langgraph-platform-logs", 
+                      "langsmith/langgraph-platform-logs",
                       "langsmith/data-export"
                     ]
                   },
@@ -765,7 +832,8 @@
                       "langsmith/compare-experiment-results",
                       "langsmith/filter-experiments-ui",
                       "langsmith/fetch-perf-metrics-experiment",
-                      "langsmith/upload-existing-experiments"                    ]
+                      "langsmith/upload-existing-experiments"
+                    ]
                   },
                   {
                     "group": "Annotation & human feedback",
@@ -1024,133 +1092,102 @@
         "version": "JavaScript",
         "dropdowns": [
           {
-            "dropdown": "LangGraph",
+            "dropdown": "OSS frameworks",
             "icon": "/images/brand/langgraph-pill.svg",
-            "description": "Framework for building reliable agents and workflows",
+            "description": "LangChain and LangGraph",
             "tabs": [
               {
-                "tab": "Get started",
+                "tab": "LangChain",
                 "groups": [
                   {
                     "group": "Get started",
                     "pages": [
-                      "oss/javascript/overview",
-                      "oss/javascript/quickstart",
-                      "oss/javascript/run-an-agent",
-                      "oss/javascript/prebuilt-vs-low-level"
+                      "oss/javascript/langchain-overview",
+                      "oss/javascript/langchain-installation",
+                      "oss/javascript/langchain-quickstart",
+                      "oss/javascript/langchain-philosophy"
                     ]
                   },
                   {
-                    "group": "Common architectures",
+                    "group": "Core concepts",
                     "pages": [
-                      "oss/javascript/agentic-architectures",
-                      "oss/javascript/agentic-rag",
-                      "oss/javascript/agent-supervisor",
-                      "oss/javascript/sql-agent"
+                      "oss/javascript/langchain-models",
+                      "oss/javascript/langchain-messages",
+                      "oss/javascript/langchain-tools",
+                      "oss/javascript/langchain-agents",
+                      "oss/javascript/langchain-short-term-memory",
+                      "oss/javascript/langchain-streaming"
                     ]
                   },
                   {
-                    "group": "Additional resources",
+                    "group": "Advanced",
                     "pages": [
-                      "oss/javascript/case-studies",
-                      "oss/javascript/template-applications"
+                      "oss/javascript/langchain-long-term-memory",
+                      "oss/javascript/langchain-context-engineering",
+                      "oss/javascript/langchain-structured-output",
+                      "oss/javascript/langchain-mcp",
+                      "oss/javascript/langchain-human-in-the-loop",
+                      "oss/javascript/langchain-multi-agent",
+                      "oss/javascript/langchain-retrieval",
+                      "oss/javascript/langchain-runtime"
+                    ]
+                  },
+                  {
+                    "group": "Production",
+                    "pages": [
+                      "oss/javascript/langchain-studio",
+                      "oss/javascript/langchain-test",
+                      "oss/javascript/langchain-deploy",
+                      "oss/javascript/langchain-observability"
                     ]
                   }
                 ]
               },
               {
-                "tab": "Build agents",
+                "tab": "LangGraph",
                 "groups": [
                   {
-                    "group": "Basic configuration",
+                    "group": "Get started",
                     "pages": [
-                      "oss/javascript/prebuilts"
+                      "oss/javascript/langgraph/overview",
+                      "oss/javascript/langgraph/installation",
+                      "oss/javascript/langgraph/quickstart",
+                      "oss/javascript/langgraph/philosophy"
                     ]
                   },
-                  {
-                    "group": "Low-level configuration",
-                    "pages": [
-                      "oss/javascript/why-langgraph",
-                      "oss/javascript/1-build-basic-chatbot",
-                      "oss/javascript/2-add-tools",
-                      "oss/javascript/3-add-memory",
-                      "oss/javascript/4-human-in-the-loop",
-                      "oss/javascript/5-customize-state",
-                      "oss/javascript/6-time-travel"
-                    ]
-                  },
-                  {
-                    "group": "Components",
-                    "pages": [
-                      "oss/javascript/models",
-                      {
-                        "group": "Tools",
-                        "pages": [
-                          "oss/javascript/tools",
-                          "oss/javascript/call-tools"
-                        ]
-                      },
-                      {
-                        "group": "MCP",
-                        "pages": [
-                          "oss/javascript/mcp",
-                          "oss/javascript/use-mcp"
-                        ]
-                      },
-                      {
-                        "group": "Multi-agent",
-                        "pages": [
-                          "oss/javascript/multi-agent",
-                          "oss/javascript/multi-agent-prebuilts",
-                          "oss/javascript/multi-agent-custom"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "tab": "Agent runtime",
-                "groups": [
                   {
                     "group": "Capabilities",
                     "pages": [
-                      "oss/javascript/persistence",
-                      "oss/javascript/durable-execution",
-                      {
-                        "group": "Streaming",
-                        "pages": [
-                          "oss/javascript/streaming",
-                          "oss/javascript/use-streaming"
-                        ]
-                      },
+                      "oss/langgraph/persistence",
+                      "oss/langgraph/durable-execution",
+                      "oss/langgraph/streaming",
                       {
                         "group": "Human-in-the-loop",
                         "pages": [
-                          "oss/javascript/human-in-the-loop",
-                          "oss/javascript/add-human-in-the-loop"
+                          "oss/javascript/langgraph/human-in-the-loop",
+                          "oss/javascript/langgraph/add-human-in-the-loop"
                         ]
                       },
                       {
                         "group": "Time travel",
                         "pages": [
-                          "oss/javascript/time-travel",
-                          "oss/javascript/use-time-travel"
+                          "oss/javascript/langgraph/time-travel",
+                          "oss/javascript/langgraph/use-time-travel"
                         ]
                       },
                       {
                         "group": "Memory and context",
                         "pages": [
-                          "oss/javascript/memory",
-                          "oss/javascript/context",
-                          "oss/javascript/add-memory"
+                          "oss/javascript/langgraph/memory",
+                          "oss/javascript/langgraph/context",
+                          "oss/javascript/langgraph/add-memory"
                         ]
                       },
                       {
                         "group": "Subgraphs",
                         "pages": [
-                          "oss/javascript/subgraphs",
-                          "oss/javascript/use-subgraphs"
+                          "oss/javascript/langgraph/subgraphs",
+                          "oss/javascript/langgraph/use-subgraphs"
                         ]
                       }
                     ]
@@ -1158,10 +1195,10 @@
                   {
                     "group": "Run and debug",
                     "pages": [
-                      "oss/javascript/local-server",
-                      "oss/javascript/ui",
-                      "oss/javascript/trace-agent",
-                      "oss/javascript/evals"
+                      "oss/javascript/langgraph/local-server",
+                      "oss/javascript/langgraph/ui",
+                      "oss/javascript/langgraph/trace-agent",
+                      "oss/javascript/langgraph/evals"
                     ]
                   },
                   {
@@ -1170,18 +1207,96 @@
                       {
                         "group": "Graph API",
                         "pages": [
-                          "oss/javascript/graph-api",
-                          "oss/javascript/use-graph-api"
+                          "oss/javascript/langgraph/graph-api",
+                          "oss/javascript/langgraph/use-graph-api"
                         ]
                       },
                       {
                         "group": "Functional API",
                         "pages": [
-                          "oss/javascript/functional-api",
-                          "oss/javascript/use-functional-api"
+                          "oss/javascript/langgraph/functional-api",
+                          "oss/javascript/langgraph/use-functional-api"
                         ]
                       },
-                      "oss/javascript/pregel"
+                      "oss/javascript/langgraph/pregel"
+                    ]
+                  }
+                ]
+              },
+              {
+                "tab": "Integrations",
+                "groups": [
+                  {
+                    "group": "Providers",
+                    "pages": [
+                      {
+                        "group": "Anthropic",
+                        "pages": [
+                          "oss/javascript/js-integrations/platforms/anthropic",
+                          "oss/javascript/js-integrations/chat/anthropic"
+                        ]
+                      },
+                      {
+                        "group": "AWS",
+                        "pages": [
+                          "oss/javascript/js-integrations/platforms/aws",
+                          "/oss/javascript/js-integrations/chat/bedrock",
+                          "/oss/javascript/js-integrations/text_embedding/bedrock"
+                        ]
+                      },
+                      {
+                        "group": "Google",
+                        "pages": [
+                          "oss/javascript/js-integrations/platforms/google",
+                          "/oss/javascript/js-integrations/chat/google_generativeai",
+                          "/oss/javascript/js-integrations/text_embedding/google_generativeai"
+                        ]
+                      },
+                      {
+                        "group": "Microsoft",
+                        "pages": [
+                          "oss/javascript/js-integrations/platforms/microsoft",
+                          "/oss/javascript/js-integrations/chat/azure",
+                          "/oss/javascript/js-integrations/text_embedding/azure_openai"
+                        ]
+                      },
+                      {
+                        "group": "OpenAI",
+                        "pages": [
+                          "oss/javascript/js-integrations/platforms/openai",
+                          "/oss/javascript/js-integrations/chat/openai",
+                          "/oss/javascript/js-integrations/text_embedding/openai"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "General integrations",
+                    "pages": [
+                      "oss/javascript/js-integrations/chat/index",
+                      "oss/javascript/js-integrations/tools/index",
+                      "oss/javascript/js-integrations/llms/index",
+                      "oss/javascript/js-integrations/stores/index",
+                      "oss/javascript/js-integrations/document_transformers/index",
+                      "oss/javascript/js-integrations/llm_caching/index",
+                      "oss/javascript/js-integrations/memory/index",
+                      "oss/javascript/js-integrations/callbacks/index"
+                    ]
+                  },
+                  {
+                    "group": "RAG integrations",
+                    "pages": [
+                      "oss/javascript/js-integrations/retrievers/index",
+                      "oss/javascript/js-integrations/text_embedding/index",
+                      "oss/javascript/js-integrations/vectorstores/index",
+                      {
+                        "group": "Document loaders",
+                        "pages": [
+                          "oss/javascript/js-integrations/document_loaders/index",
+                          "oss/javascript/js-integrations/document_loaders/file_loaders/index",
+                          "oss/javascript/js-integrations/document_loaders/web_loaders/index"
+                        ]
+                      }
                     ]
                   }
                 ]
@@ -1189,6 +1304,14 @@
               {
                 "tab": "Reference",
                 "groups": [
+                  {
+                    "group": "Release versions",
+                    "pages": [
+                      "oss/javascript/releases",
+                      "oss/javascript/versioning",
+                      "oss/javascript/release-policy"
+                    ]
+                  },
                   {
                     "group": "LangGraph reference",
                     "pages": [
@@ -1219,12 +1342,12 @@
                   {
                     "group": "Error troubleshooting",
                     "pages": [
-                      "oss/javascript/common-errors",
-                      "oss/javascript/GRAPH_RECURSION_LIMIT",
-                      "oss/javascript/INVALID_CHAT_HISTORY",
-                      "oss/javascript/INVALID_CONCURRENT_GRAPH_UPDATE",
-                      "oss/javascript/INVALID_GRAPH_NODE_RETURN_VALUE",
-                      "oss/javascript/MULTIPLE_SUBGRAPHS"
+                      "oss/javascript/langgraph/common-errors",
+                      "oss/javascript/langgraph/GRAPH_RECURSION_LIMIT",
+                      "oss/javascript/langgraph/INVALID_CHAT_HISTORY",
+                      "oss/javascript/langgraph/INVALID_CONCURRENT_GRAPH_UPDATE",
+                      "oss/javascript/langgraph/INVALID_GRAPH_NODE_RETURN_VALUE",
+                      "oss/javascript/langgraph/MULTIPLE_SUBGRAPHS"
                     ]
                   }
                 ]
@@ -1554,7 +1677,7 @@
                       "langsmith/export-traces",
                       "langsmith/compare-traces",
                       "langsmith/share-trace",
-                      "langsmith/langgraph-platform-logs", 
+                      "langsmith/langgraph-platform-logs",
                       "langsmith/data-export"
                     ]
                   },
@@ -1677,7 +1800,8 @@
                       "langsmith/compare-experiment-results",
                       "langsmith/filter-experiments-ui",
                       "langsmith/fetch-perf-metrics-experiment",
-                      "langsmith/upload-existing-experiments"                    ]
+                      "langsmith/upload-existing-experiments"
+                    ]
                   },
                   {
                     "group": "Annotation & human feedback",

@@ -1,0 +1,33 @@
+---
+title: Writer
+---
+
+LangChain.js supports calling [Writer](https://writer.com/) LLMs.
+
+## Setup
+
+First, you'll need to sign up for an account at https://writer.com/. Create a service account and note your API key.
+
+Next, you'll need to install the official package as a peer dependency:
+
+```bash npm
+yarn add @writerai/writer-sdk
+```
+import IntegrationInstallTooltip from '/snippets/javascript-integrations/integration-install-tooltip.mdx';
+
+<IntegrationInstallTooltip/>
+
+```bash npm
+npm install @langchain/community @langchain/core
+```
+
+## Usage
+
+import Writer from "/snippets/javascript-integrations/examples/models/llm/writer.mdx";
+
+<Writer />
+
+## Related
+
+- LLM [conceptual guide](/oss/concepts/text_llms)
+- LLM [how-to guides](/oss/how-to/#llms)
