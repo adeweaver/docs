@@ -8,9 +8,9 @@ import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
 
 Welcome to LangChain! This quickstart will take you from zero to a fully functional AI agent in just a few minutes. We'll start simple and gradually build up to something more sophisticated.
 
-## 🚀 Super Quick Start
+## 🚀 Super quick start
 
-Let's begin with the absolute basics - creating a simple agent that can answer questions and use tools. This minimal example shows the core concept:
+Let's begin with the absolute basics - creating a simple agent that can answer questions and use tools:
 
 :::python
 ```python
@@ -61,9 +61,9 @@ console.log(
 - A basic prompt
 - The ability to invoke it with messages
 
-## 🏗️ Building a Real-World Agent
+## 🏗️ Building a real-world agent
 
-Now let's create something more practical! We'll build a weather forecasting agent that demonstrates the key concepts you'll use in production:
+Now let's create something more practical. We'll build a weather forecasting agent that demonstrates the key concepts you'll use in production:
 
 1. **Detailed system prompts** for better agent behavior
 2. **Real-world tools** that integrate with external data
@@ -73,14 +73,12 @@ Now let's create something more practical! We'll build a weather forecasting age
 
 Let's walk through each step:
 
-### Step 1: Define the System Prompt
+### Step 1: Define the system prompt
 
 The system prompt is your agent's personality and instructions. Make it specific and actionable:
 
 :::python
 ```python
-# Step 1: define system prompt
-
 system_prompt = """You are an expert weather forecaster, who speaks in puns.
 
 You have access to two tools:
@@ -94,7 +92,6 @@ If a user asks you for the weather, make sure you know the location. If you can 
 
 :::js
 ```ts
-// Step 1: define system prompt
 const systemPrompt = `You are an expert weather forecaster, who speaks in puns.
 
 You have access to two tools:
@@ -106,17 +103,16 @@ If a user asks you for the weather, make sure you know the location. If you can 
 ```
 :::
 
-### Step 2: Create Your Tools
+### Step 2: Create tools
 
 
 
 :::python
-Tools are functions your agent can call. They should be well-documented.
-Oftentimes tools will want to connect to external systems, and will rely on runtime configuration to do so.
-Notice here how the `get_user_info` tool does exactly that.
+[Tools](/oss/langchain-tools) are functions your agent can call. They should be well-documented.
+Oftentimes, tools will want to connect to external systems, and will rely on runtime configuration to do so.
+Notice here how the `get_user_info` tool does exactly that:
 
 ```python
-# Step 2: define tools
 from langchain_core.tools import tool
 
 def get_weather(city: str) -> str:  # (1)!
@@ -139,14 +135,14 @@ def get_user_info(config: RunnableConfig) -> str:
 :::
 
 :::js
-Tools are functions your agent can call. They should be well-documented.
+[Tools](/oss/langchain-tools) are functions your agent can call. They should be well-documented.
 Oftentimes tools will want to connect to external systems, and will rely on runtime configuration to do so.
-Notice here how the `getUserInfo` tool does exactly that.
+Notice here how the `getUserInfo` tool does exactly that:
+
 ```ts
 import { tool } from "langchain";
 import z from "zod";
 
-// Step 2: define tools
 const getWeather = tool(({ city }) => `It's always sunny in ${city}!`, {
   name: "get_weather",
   description: "Get the weather for a given city",
@@ -177,14 +173,12 @@ const getUserInfo = tool(
 ```
 :::
 
-### Step 3: Configure Your Model
+### Step 3: Configure your model
 
 Set up your language model with the right parameters for your use case:
 
 :::python
 ```python
-# Step 3: define model
-
 from langchain.chat_models import init_chat_model
 
 model = init_chat_model(
@@ -196,7 +190,6 @@ model = init_chat_model(
 
 :::js
 ```ts
-// Step 3: define model
 import { initChatModel } from "langchain/chat_models";
 
 const model = initChatModel(
@@ -206,14 +199,14 @@ const model = initChatModel(
 ```
 :::
 
-### Step 4: Define Response Format
+### Step 4: Define response format
 
-Structured outputs ensure your agent returns data in a predictable format:
+Structured outputs ensure your agent returns data in a predictable format. Here,
+we use Python's [`DataClass`](https://docs.python.org/3/library/dataclasses.html)
+dictionary.
 
 :::python
 ```python
-# Step 4: define response format
-
 from dataclasses import dataclass
 
 @dataclass
@@ -225,7 +218,6 @@ class WeatherResponse:
 
 :::js
 ```ts
-// Step 3: define response format
 const responseFormat = z.object({
   conditions: z.string(),
   punny_response: z.string(),
@@ -233,13 +225,12 @@ const responseFormat = z.object({
 ```
 :::
 
-### Step 5: Add Memory
+### Step 5: Add memory
 
 Enable your agent to remember conversation history:
 
 :::python
 ```python
-# Step 5: define checkpointer
 from langgraph.checkpoint.memory import InMemorySaver
 
 checkpointer = InMemorySaver()
@@ -250,7 +241,6 @@ checkpointer = InMemorySaver()
 ```ts
 import { MemorySaver } from "langchain";
 
-// Step 4: define checkpointer
 const checkpointer = new MemorySaver();
 ```
 :::
@@ -261,7 +251,6 @@ Now assemble your agent with all the components:
 
 :::python
 ```python
-# Step 6: create agent
 agent = create_agent(
     model=model,
     prompt=system_prompt,
@@ -294,7 +283,6 @@ response['structured_response']
 ```ts
 import { createReactAgent } from "langchain";
 
-// Step 5: create agent
 const agent = createReactAgent({
   model: "anthropic:claude-3-7-sonnet-latest",
   prompt: systemPrompt,
@@ -321,7 +309,7 @@ console.log(thankYouResponse.structuredResponse);
 ```
 :::
 
-## 🎯 What You've Built
+## 🎯 What you've built
 
 Congratulations! You now have a sophisticated AI agent that can:
 - **Understand context** and remember conversations
