@@ -9,18 +9,38 @@ import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
 To install the core LangChain package
 
 :::python
-```bash
-pip install -U langchain
+<CodeGroup>
+```bash pip
+pip install --pre -U langchain
 ```
+
+```bash uv
+uv add langchain@pre
+```
+</CodeGroup>
 :::
 
 :::js
-```bash
-npm install langchain
+<CodeGroup>
+```bash npm
+npm install langchain@next
 ```
+
+```bash pnpm
+pnpm add langchain@next
+```
+
+```bash yarn
+yarn add langchain@next
+```
+
+```bash bun
+bun add langchain@next
+```
+</CodeGroup>
 :::
 
-LangChain also provides integrations to 100s of LLMs and thousands of other integrations.
-To avoid package bloat, these live in independent provider packages.
-In order to install the package for the provider you would like to work with,
-see the integrations page.
+LangChain provides integrations to hundreds of LLMs and thousands of other integrations.
+
+To avoid package bloat, these live in independent provider packages. In order to
+install the package for the provider you would like to work with, see the [integrations page]([other integrations](/oss/integrations/providers)).
