@@ -132,6 +132,7 @@
               {
                 "tab": "LangChain",
                 "groups": [
+                  "oss/python/langchain-v1",
                   {
                     "group": "Get started",
                     "pages": [
@@ -1108,6 +1109,7 @@
               {
                 "tab": "LangChain",
                 "groups": [
+                  "oss/javascript/langchain-v1",
                   {
                     "group": "Get started",
                     "pages": [
