@@ -1,0 +1,211 @@
+---
+title: Introducing Standard Content Blocks in LangChain
+description: A deep dive into LangChain's new standardized, fully-typed content format.
+---
+
+One of LangChain's core strengths is providing a **"write once, run anywhere"** abstraction for large language models. This abstraction allows developers to build applications that can seamlessly switch between different LLM providers without rewriting code. However, this proposition is diminished when different models return content in inconsistent formats, especially for multimodal interactions.
+
+As LLM APIs evolve with new capabilities (e.g. vision, reasoning, code execution) each provider implements these features differently, creating exactly the kind of portability issues that make developers choose between power and flexibility. We believe the solution isn't to avoid these capabilities, but to standardize how they're represented.
+
+To address this, **`langchain-core>=1.0.0`** introduces **standardized, fully-typed, and backward compatible [content blocks](https://github.com/langchain-ai/standard-types)**.
+
+## The problem
+
+Before standard content blocks, developers faced several challenges:
+
+- **API fragmentation**: Each provider's unique format forces developers to write provider-specific handling code
+- **Type safety gaps**: Content parsing was error-prone without proper typing
+- **Limited extensibility**: No clear path for handling new content types or fields from providers
+
+These issues made it difficult to build robust, provider-agnostic applications that could handle the rich, multimodal outputs that modern LLMs produce.
+
+### Preserving simplicity while solving real problems
+
+We designed standard content blocks with a core principle: **maintain the beautiful simplicity of "messages in, messages out" while eliminating portability barriers**. Rather than adding complexity to the API surface, we standardize the *representation* of content that models already return.
+
+Standard content blocks don't change what models can do—they ensure that **identical capabilities are represented identically** across providers. This means developers can access the full power of modern LLMs without sacrificing the portability that makes LLM applications maintainable.
+
+## What are content blocks?
+
+Standard content blocks are a comprehensive set of typed data structures that normalize content across all LLM providers. At a glance, they include:
+
+- Standard text output from models (including citations)
+- Model reasoning and chain-of-thought output
+- Images, audio, video, and documents from any source (URL, base64, bucket file ID)
+- Tool/function calls and invocations
+- Provider-specific tools including built-in web search capabilities and code execution
+
+## Why we built this
+
+The decision to standardize content blocks came from observing real-world challenges developers faced when building production applications:
+
+<Steps>
+    <Step title="The Portability Crisis">
+        As LLM providers rapidly introduced new capabilities—vision, audio processing, structured outputs—each implemented these features differently. A simple image input might be:
+
+        ```python
+        # Provider A
+        {"type": "image_url", "image_url": {"url": "...", "detail": "high"}}
+
+        # Provider B  
+        {"type": "image", "source_type": "url", "url": "...", "mime_type": "image/jpeg"}
+
+        # Provider C
+        {"image": "data:image/jpeg;base64,...", "format": "jpeg"}
+        ```
+
+        This inconsistency broke the "write once, run anywhere" promise - passing the same code to different providers led to runtime errors and complex conditional logic. Developers were forced to choose between accessing new capabilities and maintaining portability.
+    </Step>
+    <Step title="The Abstraction Principle">
+        We believe the best abstractions are **simple and flexible on the surface, with depth underneath**. APIs should provide clean, consistent interfaces to powerful capabilities.
+
+        Standard content blocks maintain the elegance of "messages in, messages out" while ensuring that the *content* of those messages is portable and typed.
+    </Step>
+    <Step title="The Extensibility Imperative">
+        New provider features shouldn't require waiting for LangChain updates or breaking existing code. Our `NonStandardContentBlock` type provides an escape hatch that wraps unknown content, ensuring applications continue working as the ecosystem evolves.
+
+        This approach means you get immediate access to new provider features while maintaining the type safety and portability benefits of standard content blocks.
+    </Step>
+</Steps>
+
+## How it works
+
+The new system operates on two levels:
+
+**Runtime Content Block Access**
+Every LangChain message now provides a `.content_blocks` property that returns fully-typed content blocks:
+
+```python
+from langchain.chat_models import init_chat_model
+
+model = init_chat_model("openai:gpt-5")
+response = model.invoke([
+    "What's in this image?",
+    {"type": "image", "url": "https://example.com/photo.jpg"}
+])
+
+# Always returns List[ContentBlock] with full type safety
+content_blocks = response.content_blocks
+```
+
+**Configurable Output Versioning**
+You can control the format written to `.content` using the `output_version` parameter.
+
+This is useful for applications that need to serialize the new blocks.
+
+```python
+# `content` left unchanged from previous versions (default for backward compatibility)
+model_v0 = ChatOpenAI(output_version="v0")
+
+# `content` now contains standardized content blocks
+model_v1 = ChatOpenAI(output_version="v1")
+
+# Override per invocation
+response = model.invoke(message, output_version="v1")
+```
+
+## Gradual migration
+
+We designed the migration to be **completely optional** and **non-breaking**:
+
+Keep your existing code unchanged and start using `.content_blocks` for new features:
+
+```python
+# Existing code continues working
+response = model.invoke("Hello world")
+print(response.content)  # Still works as before
+
+# New code gets type safety
+blocks = response.content_blocks:
+```
+
+## Before and after
+
+**Before: provider-specific multimodal handling:**
+```python
+# Different handling needed for each provider.
+if provider == "openai":
+    if content.get("type") == "image_url":
+        url = content["image_url"]["url"]
+elif provider == "anthropic":
+    if content.get("source", {}).get("type") == "base64":
+        data = content["source"]["data"]
+```
+
+**After: unified multimodal handling:**
+```python
+# Works across all providers
+for block in response.content_blocks:
+    if block["type"] == "image":
+        process_image(block)
+    elif block["reasoning"]:
+        process_reasoning(block)
+```
+
+## Type safety and developer experience
+
+The new system provides comprehensive TypeScript-style typing in Python:
+
+```python
+# IDE autocompletion works perfectly
+text_block = create_text_block("Hello world")
+# text_block["text"] ← autocompletes
+# text_block["invalid"] ← type error
+
+# Factory functions provide additional safety
+tool_call = create_tool_call(name="search", args={"query": "python"})
+# Automatic ID generation and argument validation
+```
+
+The `NonStandardContentBlock` ensures your applications won't break when providers introduce new features:
+
+```python
+# New provider feature gets wrapped automatically
+response = model.invoke("Generate a 3D model")
+for block in response.content_blocks:
+    if block["type"] == "non_standard":
+        # Access raw provider data
+        raw_data = block["value"]
+        if raw_data.get("type") == "3d_model":
+            handle_new_3d_feature(raw_data)
+```
+
+## Addressing portability concerns
+
+Standard content blocks directly address the portability issues that arise when LLM APIs become more complex:
+
+**Instead of avoiding new capabilities, we standardize them.** Rather than forcing developers to choose between power and portability, standard content blocks ensure that:
+
+- **Identical features work identically** across providers (images, reasoning, tool calls)
+- **New provider features are immediately accessible**
+- **No vendor lock-in**: Applications built with standard content blocks work across all providers without modification
+
+This approach means you can use cutting-edge model capabilities like native reasoning, vision, or audio processing while maintaining the flexibility to switch providers based on performance, cost, or availability.
+
+## Backward compatibility
+
+- No breaking changes; **100% compatible** with existing LangChain applications
+- `.content_blocks` works on all message types, including legacy ones stored in cache
+
+Standard content blocks work with **all** LangChain-supported providers, including:
+- OpenAI (Chat Completions, Responses APIs)
+- Anthropic (Messages API)
+- Google (Gemini, Vertex AI)
+- Azure OpenAI
+- Ollama and other local providers
+
+## Looking forward
+
+Standard content blocks represent a fundamental step toward more reliable, maintainable LLM applications. They embody our belief that the best abstractions should be simple and flexible on the surface, with depth underneath.
+
+By providing consistent interfaces across providers, we're enabling developers to:
+
+- **Build with confidence**: Type safety catches errors before production
+- **Scale across providers**: Switch models without spending time rewriting application logic
+- **Future-proof applications**: New provider features work immediately without breaking existing code
+
+---
+
+**Ready to try it?** Check out our [migration guide](/oss/python/langchain-migrations-v1-0-0).
+
+**Questions?** Head to our [forum](https://forum.langchain.com/c/help/langchain/14) to discuss.
