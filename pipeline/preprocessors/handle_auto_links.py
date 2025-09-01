@@ -77,13 +77,11 @@ def _transform_link(
         return f"[{title}]({url})"
     # Log error with file location information
     logger.info(
-        "Link '%s' not found in scope '%s'. "
-        "In file: %s, line %d. Available links in scope: %s",
-        link_name,
-        scope,
+        "%s:%d: Link '%s' not found in scope '%s'. ",
         file_path,
         line_number,
-        list(link_map.keys() if link_map else []),
+        link_name,
+        scope,
     )
     return None
 

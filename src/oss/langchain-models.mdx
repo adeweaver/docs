@@ -113,7 +113,9 @@ const response = await model.invoke("Why do parrots talk?");
 ```
 </CodeGroup>
 
-See @[initChatModel][`initChatModel`] for more detail.
+See @[`initChatModel`][initChatModel] for more detail.
+
+
 :::
 
 ### Key methods
@@ -219,7 +221,7 @@ include:
 
 <Info>
     To find all the parameters supported by a given chat model, head to the
-    @[Reference].
+    @[reference docs][Reference].
 </Info>
 
 ## Invocation
@@ -235,13 +237,13 @@ invocation methods, each suited to different use cases.
     
     For example: `ainvoke()`, `astream()`, `abatch()`
     
-    A full list of async methods can be found in the @[Reference].
+    A full list of async methods can be found in the @[reference docs][Reference].
 </Tip>
 :::
 
 ### Invoke
 
-The most straightforward way to call a model is to use @[`invoke()`][invoke] with a single message or a list of messages.
+The most straightforward way to call a model is to use @[`invoke()`][BaseChatModel.invoke] with a single message or a list of messages.
 
 :::python
 ```python Single message
@@ -285,7 +287,7 @@ Most models can stream their output content while it is being generated. By
 displaying output progressively, streaming significantly improves user
 experience, particularly for longer responses.
 
-Calling @[`stream()`][stream] returns an <Tooltip tip="An object that progressively provides access to each item of a collection, in order.">iterator</Tooltip> that yields output chunks as they are produced. You can use a loop to process each chunk in real-time:
+Calling @[`stream()`][BaseChatModel.stream] returns an <Tooltip tip="An object that progressively provides access to each item of a collection, in order.">iterator</Tooltip> that yields output chunks as they are produced. You can use a loop to process each chunk in real-time:
 
 :::python
 <CodeGroup>
@@ -427,7 +429,40 @@ message history and passed back to the model as conversational context.
         :::
     </Accordion>
 
-    <Accordion title="Semantic event stream">
+<Accordion title='"Auto-Streaming" Chat Models'>
+    <Note>
+        This section requires some baseline knowledge of [callbacks]() and
+        [events]().
+    </Note>
+
+    LangChain simplifies streaming from chat models by automatically enabling
+    streaming mode in certain cases, even when you're not explicitly calling the
+    streaming methods. This is particularly useful when you use the
+    non-streaming invoke method but still want to stream the entire application,
+    including intermediate results from the chat model.
+
+    In [LangGraph agents](./langchain-agents), for example, you can
+    call `model.invoke()` within nodes, but LangChain will automatically
+    delegate to streaming if running in a streaming mode.
+
+    #### How it works
+
+    When you `invoke()` a chat model, LangChain will automatically switch to
+    an internal streaming mode if it detects that you are trying to stream the
+    overall application. The result of the invocation will be the same as far as
+    the code that was using invoke is concerned; however, while the chat model
+    is being streamed, LangChain will take care of invoking `on_llm_new_token`
+    events in LangChain's callback system.
+    
+    :::python
+    Callback events allow LangGraph `stream()` and @[`astream_events()`][BaseChatModel.astream_events]
+    to surface the chat model's output in real-time.
+    :::
+    :::js
+    Callback events allow LangGraph `stream()` and @[`streamEvents()`][BaseChatModel.streamEvents]
+    to surface the chat model's output in real-time.
+    :::
+</Accordion>
 
         :::python
         LangChain chat models can also stream semantic events using `astream_events()`.
@@ -468,21 +503,26 @@ message history and passed back to the model as conversational context.
         :::js
         LangChain chat models can also stream semantic events using `streamEvents()`.
 
-        This simplifies filtering based on event types and other metadata, and will
-        aggregate the full message in the background. See below for an example.
+    See the @[`astream_events()`][BaseChatModel.astream_events] reference for event types and other details.
+    :::
 
-        ```typescript
-        const stream = await model.streamEvents("Hello");
-        for await (const event of stream) {
-            if (event.event === "on_chat_model_start") {
-                console.log(`Input: ${event.data.input}`);
-            } 
-            if (event.event === "on_chat_model_stream") {
-                console.log(`Token: ${event.data.chunk.text}`);
-            } 
-            if (event.event === "on_chat_model_end") {
-                console.log(`Full message: ${event.data.output.text}`);
-            }
+    :::js
+    LangChain chat models can also stream semantic events using `streamEvents()`.
+
+    This simplifies filtering based on event types and other metadata, and will
+    aggregate the full message in the background. See below for an example.
+
+    ```typescript
+    const stream = await model.streamEvents("Hello");
+    for await (const event of stream) {
+        if (event.event === "on_chat_model_start") {
+            console.log(`Input: ${event.data.input}`);
+        } 
+        if (event.event === "on_chat_model_stream") {
+            console.log(`Token: ${event.data.chunk.text}`);
+        } 
+        if (event.event === "on_chat_model_end") {
+            console.log(`Full message: ${event.data.output.text}`);
         }
         ```
         ```txt
@@ -497,9 +537,8 @@ message history and passed back to the model as conversational context.
         Full message: Hi there! How can I help today?
         ```
 
-        See the @[`streamEvents()`][streamEvents] reference for event types and other details.
-        :::
-    </Accordion>
+    See the @[`streamEvents()`][BaseChatModel.streamEvents] reference for event types and other details.
+    :::
 </Accordion>
 
 ### Batch
@@ -524,8 +563,8 @@ for response in responses:
     print(response)
 ```
 
-By default, @[`batch()`][batch] will only return the final output for the entire batch. If you want to receive
-the output for each individual input as it is finishes generating, you can stream results with @[`batch_as_completed()`][batch_as_completed]:
+By default, @[`batch()`][BaseChatModel.batch] will only return the final output for the entire batch. If you want to receive
+the output for each individual input as it is finishes generating, you can stream results with @[`batch_as_completed()`][BaseChatModel.batch_as_completed]:
 
 ```python Yield responses upon completion
 for response in model.batch_as_completed([
@@ -556,7 +595,7 @@ for response in model.batch_as_completed([
     )
     ```
 
-    See the @[RunnableConfig][`RunnableConfig`] reference for a full list of supported attributes.
+    See the @[`RunnableConfig`][RunnableConfig] reference for a full list of supported attributes.
 </Tip>
 
 For more details on batching, see the [reference](https://python.langchain.com/api_reference/core/language_models/langchain_core.language_models.chat_models.BaseChatModel.html#langchain_core.language_models.chat_models.BaseChatModel.batch).
@@ -587,7 +626,7 @@ for (const response of responses) {
     )
     ```
 
-    See the @[RunnableConfig][`RunnableConfig`] reference for a full list of supported attributes.
+    See the @[`RunnableConfig`][RunnableConfig] reference for a full list of supported attributes.
 </Tip>
 
 For more details on batching, see the [reference](https://js.langchain.com/api_reference/core/language_models/langchain_core.language_models.chat_models.BaseChatModel.html#langchain_core.language_models.chat_models.BaseChatModel.batch).
@@ -1816,11 +1855,11 @@ with get_usage_metadata_callback() as cb:
 ### Invocation config
 
 :::python
-When invoking a model, you can pass additional configuration through the `config` parameter using a @[RunnableConfig][`RunnableConfig`] dictionary. This provides run-time control over execution behavior, callbacks, and metadata tracking.
+When invoking a model, you can pass additional configuration through the `config` parameter using a @[`RunnableConfig`][RunnableConfig] dictionary. This provides run-time control over execution behavior, callbacks, and metadata tracking.
 :::
 
 :::js
-When invoking a model, you can pass additional configuration through the `config` parameter using a @[RunnableConfig][`RunnableConfig`] object. This provides run-time control over execution behavior, callbacks, and metadata tracking.
+When invoking a model, you can pass additional configuration through the `config` parameter using a @[`RunnableConfig`][RunnableConfig] object. This provides run-time control over execution behavior, callbacks, and metadata tracking.
 :::
 
 Common configuration options include:
@@ -1927,7 +1966,7 @@ These configuration values are particularly useful when:
 - Tracking invocations across complex pipelines
 
 For more information on all supported `RunnableConfig` attributes, see the
-@[RunnableConfig][`RunnableConfig`] reference.
+@[`RunnableConfig`][RunnableConfig] reference.
 
 :::python
 ### Configurable models
