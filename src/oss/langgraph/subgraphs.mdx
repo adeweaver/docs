@@ -49,7 +49,15 @@ The main question when adding subgraphs is how the parent graph and subgraph com
   :::
   :::js
   ```typescript {highlight={13,18}}
-  import { StateGraph, MessagesZodState, START } from "@langchain/langgraph";
+  import { StateGraph, MessagesZodMeta, START } from "@langchain/langgraph";
+  import { registry } from "@langchain/langgraph/zod";
+  import { z } from "zod/v4";
+
+  const MessagesZodState = z.object({
+    messages: z
+      .array(z.custom<BaseMessage>())
+      .register(registry, MessagesZodMeta),
+  });
   
   // Subgraph
   

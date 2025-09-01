@@ -387,13 +387,17 @@ class State(MessagesState):
 :::
 
 :::js
-LangGraph includes a built-in `MessagesZodState` that handles these considerations:
+LangGraph includes a built-in `MessagesZodMeta` that handles these considerations:
 
 ```typescript {highlight={4}}
-import { MessagesZodState } from "@langchain/langgraph";
+import { MessagesZodMeta } from "@langchain/langgraph";
+import { registry } from "@langchain/langgraph/zod";
+import { z } from "zod/v4";
 
 const State = z.object({
-  messages: MessagesZodState.shape.messages,
+  messages: z
+    .array(z.custom<BaseMessage>())
+    .register(registry, MessagesZodMeta),
   extraField: z.number(),
 });
 
@@ -421,12 +425,17 @@ human: Hi
 ai: Hello!
 ```
 
-This is a versatile representation of state for applications involving [chat models](https://js.langchain.com/docs/concepts/chat_models/). LangGraph includes this pre-built `MessagesZodState` for convenience, so that we can have:
+This is a versatile representation of state for applications involving [chat models](https://js.langchain.com/docs/concepts/chat_models/). LangGraph includes this pre-built `MessagesZodMeta` for convenience, so that we can have:
 
 ```typescript
-import { MessagesZodState } from "@langchain/langgraph";
+import { MessagesZodMeta } from "@langchain/langgraph";
+import { registry } from "@langchain/langgraph/zod";
+import { z } from "zod/v4";
 
-const State = MessagesZodState.extend({
+const State = z.object({
+  messages: z
+    .array(z.custom<BaseMessage>())
+    .register(registry, MessagesZodMeta),
   extraField: z.number(),
 });
 ```

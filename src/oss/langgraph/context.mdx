@@ -226,7 +226,7 @@ await graph.invoke(
     });
 ```
     
-    1. Define a custom state schema that extends `MessagesZodState` or creates a new schema.
+    1. Define a custom state schema that adds additional fields alongside the existing `messages` field.
     2. Pass the custom state schema to the agent. This allows the agent to access and modify the state during execution.
     :::
   </Tab>
@@ -260,13 +260,16 @@ await graph.invoke(
     :::
     
     :::js
-    ```python {highlight={5,15}}
+    ```typescript {highlight={6,6,14}}
     import type { BaseMessage } from "@langchain/core/messages";
-    import { StateGraph, MessagesZodState, START } from "@langchain/langgraph";
+    import { StateGraph, MessagesZodMeta, START } from "@langchain/langgraph";
+    import { registry } from "@langchain/langgraph/zod";
     import { z } from "zod/v4";
     
     const CustomState = z.object({ // (1)!
-      messages: MessagesZodState.shape.messages,
+      messages: z
+        .array(z.custom<BaseMessage>())
+        .register(registry, MessagesZodMeta),
       extraField: z.number(),
     });
     
