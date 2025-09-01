@@ -71,12 +71,16 @@ agent.invoke(
 
 :::js
 ```ts
+import { z } from "zod";
 // npm install @langchain/anthropic to call the model
 import { createReactAgent, tool } from "langchain";
 
-const getWeather = tool((city: string) => `It's always sunny in ${city}!`, {
+const getWeather = tool(({ city }) => `It's always sunny in ${city}!`, {
   name: "get_weather",
   description: "Get the weather for a given city",
+  schema: z.object({
+    city: z.string(),
+  }),
 });
 
 const agent = createReactAgent({
