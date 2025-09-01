@@ -299,3 +299,7 @@ h6 span img {
   font-size: inherit !important; /* Match callout text size */
   color: inherit !important; /* Match callout text color */
 }
+
+h2.group > span.cursor-pointer > code {
+  width: auto !important;
+}
