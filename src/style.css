@@ -300,6 +300,6 @@ h6 span img {
   color: inherit !important; /* Match callout text color */
 }
 
-h2.group > span.cursor-pointer > code {
+.group > span.cursor-pointer > code {
   width: auto !important;
 }
