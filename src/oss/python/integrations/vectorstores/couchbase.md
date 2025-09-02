@@ -50,9 +50,9 @@ Before instantiating we need to create a connection.
 
 ### Create Couchbase Connection Object
 
-We create a connection to the Couchbase cluster initially and then pass the cluster object to the Vector Store. 
+We create a connection to the Couchbase cluster initially and then pass the cluster object to the Vector Store.
 
-Here, we are connecting using the username and password from above. You can also connect using any other supported way to your cluster. 
+Here, we are connecting using the username and password from above. You can also connect using any other supported way to your cluster.
 
 For more information on connecting to the Couchbase cluster, please check the [documentation](https://docs.couchbase.com/python-sdk/current/hello-world/start-using-sdk.html#connect).
 
@@ -72,7 +72,7 @@ cluster = Cluster(COUCHBASE_CONNECTION_STRING, options)
 cluster.wait_until_ready(timedelta(seconds=5))
 ```
 
-We will now set the bucket, scope, and collection names in the Couchbase cluster that we want to use for Vector Search. 
+We will now set the bucket, scope, and collection names in the Couchbase cluster that we want to use for Vector Search.
 
 For this example, we are using the default scope & collections.
 
@@ -87,12 +87,12 @@ SEARCH_INDEX_NAME = "langchain-test-index"
 For details on how to create a Search index with support for Vector fields, please refer to the documentation.
 
 - [Couchbase Capella](https://docs.couchbase.com/cloud/vector-search/create-vector-search-index-ui.html)
-  
+
 - [Couchbase Server](https://docs.couchbase.com/server/current/vector-search/create-vector-search-index-ui.html)
 
 ### Simple Instantiation
 
-Below, we create the vector store object with the cluster information and the search index name. 
+Below, we create the vector store object with the cluster information and the search index name.
 
 <EmbeddingTabs/>
 
@@ -287,9 +287,9 @@ for res, score in results:
 ```
 ### Filtering Results
 
-You can filter the search results by specifying any filter on the text or metadata in the document that is supported by the Couchbase Search service. 
+You can filter the search results by specifying any filter on the text or metadata in the document that is supported by the Couchbase Search service.
 
-The `filter` can be any valid [SearchQuery](https://docs.couchbase.com/python-sdk/current/howtos/full-text-searching-with-sdk.html#search-queries) supported by the Couchbase Python SDK. These filters are applied before the Vector Search is performed. 
+The `filter` can be any valid [SearchQuery](https://docs.couchbase.com/python-sdk/current/howtos/full-text-searching-with-sdk.html#search-queries) supported by the Couchbase Python SDK. These filters are applied before the Vector Search is performed.
 
 If you want to filter on one of the fields in the metadata, you need to specify it using `.`
 
@@ -336,7 +336,7 @@ page_content='I had chocolate chip pancakes and scrambled eggs for breakfast thi
 ```
 ### Query by turning into retriever
 
-You can also transform the vector store into a retriever for easier usage in your chains. 
+You can also transform the vector store into a retriever for easier usage in your chains.
 
 Here is how to transform your vector store into a retriever and then invoke the retreiever with a simple query and filter.
 
@@ -359,16 +359,16 @@ retriever.invoke("Stealing from the bank is a crime", filter=filter_on_source)
 
 ### Hybrid Queries
 
-Couchbase allows you to do hybrid searches by combining Vector Search results with searches on non-vector fields of the document like the `metadata` object. 
+Couchbase allows you to do hybrid searches by combining Vector Search results with searches on non-vector fields of the document like the `metadata` object.
 
 The results will be based on the combination of the results from both Vector Search and the searches supported by Search Service. The scores of each of the component searches are added up to get the total score of the result.
 
-To perform hybrid searches, there is an optional parameter, `search_options` that can be passed to all the similarity searches.  
+To perform hybrid searches, there is an optional parameter, `search_options` that can be passed to all the similarity searches.
 The different search/query possibilities for the `search_options` can be found [here](https://docs.couchbase.com/server/current/search/search-request-params.html#query-object).
 
 #### Create Diverse Metadata for Hybrid Search
-In order to simulate hybrid search, let us create some random metadata from the existing documents. 
-We uniformly add three fields to the metadata, `date` between 2010 & 2020, `rating` between 1 & 5 and `author` set to either John Doe or Jane Doe. 
+In order to simulate hybrid search, let us create some random metadata from the existing documents.
+We uniformly add three fields to the metadata, `date` between 2010 & 2020, `rating` between 1 & 5 and `author` set to either John Doe or Jane Doe.
 
 
 ```python
@@ -409,7 +409,7 @@ results = vector_store.similarity_search(
 print(results[0])
 ```
 ```output
-page_content='One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. 
+page_content='One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
 
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.' metadata={'author': 'John Doe'}
 ```
@@ -431,7 +431,7 @@ results = vector_store.similarity_search(
 print(results[0])
 ```
 ```output
-page_content='A former top litigator in private practice. A former federal public defender. And from a family of public school educators and police officers. A consensus builder. Since she’s been nominated, she’s received a broad range of support—from the Fraternal Order of Police to former judges appointed by Democrats and Republicans. 
+page_content='A former top litigator in private practice. A former federal public defender. And from a family of public school educators and police officers. A consensus builder. Since she’s been nominated, she’s received a broad range of support—from the Fraternal Order of Police to former judges appointed by Democrats and Republicans.
 
 And if we are to advance liberty and justice, we need to secure the Border and fix the immigration system.' metadata={'author': 'Jane Doe'}
 ```
@@ -456,13 +456,13 @@ results = vector_store.similarity_search(
 print(results[0])
 ```
 ```output
-page_content='And with 75% of adult Americans fully vaccinated and hospitalizations down by 77%, most Americans can remove their masks, return to work, stay in the classroom, and move forward safely. 
+page_content='And with 75% of adult Americans fully vaccinated and hospitalizations down by 77%, most Americans can remove their masks, return to work, stay in the classroom, and move forward safely.
 
-We achieved this because we provided free vaccines, treatments, tests, and masks. 
+We achieved this because we provided free vaccines, treatments, tests, and masks.
 
-Of course, continuing this costs money. 
+Of course, continuing this costs money.
 
-I will soon send Congress a request. 
+I will soon send Congress a request.
 
 The vast majority of Americans have used these tools and may want to again, so I expect Congress to pass it quickly.' metadata={'author': 'Jane Doe', 'date': '2017-01-01', 'rating': 3, 'source': '../../how_to/state_of_the_union.txt'}
 ```
@@ -513,10 +513,10 @@ print(results[0])
 ```output
 (Document(id='7115a704877a46ad94d661dd9c81cbc3', metadata={'author': 'Jane Doe', 'date': '2017-01-01', 'rating': 3, 'source': '../../how_to/state_of_the_union.txt'}, page_content='And with 75% of adult Americans fully vaccinated and hospitalizations down by 77%, most Americans can remove their masks, return to work, stay in the classroom, and move forward safely. \n\nWe achieved this because we provided free vaccines, treatments, tests, and masks. \n\nOf course, continuing this costs money. \n\nI will soon send Congress a request. \n\nThe vast majority of Americans have used these tools and may want to again, so I expect Congress to pass it quickly.'), 0.6898253780130769)
 ```
-**Note** 
+**Note**
 
-The hybrid search results might contain documents that do not satisfy all the search parameters. This is due to the way the [scoring is calculated](https://docs.couchbase.com/server/current/search/run-searches.html#scoring). 
-The score is a sum of both the vector search score and the queries in the hybrid search. If the Vector Search score is high, the combined score will be more than the results that match all the queries in the hybrid search. 
+The hybrid search results might contain documents that do not satisfy all the search parameters. This is due to the way the [scoring is calculated](https://docs.couchbase.com/server/current/search/run-searches.html#scoring).
+The score is a sum of both the vector search score and the queries in the hybrid search. If the Vector Search score is high, the combined score will be more than the results that match all the queries in the hybrid search.
 To avoid such results, please use the `filter` parameter instead of hybrid search.
 
 ### Combining Hybrid Search Query with Filters
@@ -568,11 +568,11 @@ For guides on how to use this vector store for retrieval-augmented generation (R
 Yes, currently you need to create the Search index before creating the `CouchbaseSearchVectoreStore` object.
 
 
-### Question: I am not seeing all the fields that I specified in my search results. 
+### Question: I am not seeing all the fields that I specified in my search results.
 
 In Couchbase, we can only return the fields stored in the Search index. Please ensure that the field that you are trying to access in the search results is part of the Search index.
 
-One way to handle this is to index and store a document's fields dynamically in the index. 
+One way to handle this is to index and store a document's fields dynamically in the index.
 
 - In Capella, you need to go to "Advanced Mode" then under the chevron "General Settings" you can check "[X] Store Dynamic Fields" or "[X] Index Dynamic Fields"
 - In Couchbase Server, in the Index Editor (not Quick Editor) under the chevron  "Advanced" you can check "[X] Store Dynamic Fields" or "[X] Index Dynamic Fields"
@@ -582,8 +582,8 @@ Note that these options will increase the size of the index.
 For more details on dynamic mappings, please refer to the [documentation](https://docs.couchbase.com/cloud/search/customize-index.html).
 
 
-### Question: I am unable to see the metadata object in my search results. 
-This is most likely due to the `metadata` field in the document not being indexed and/or stored by the Couchbase Search index. In order to index the `metadata` field in the document, you need to add it to the index as a child mapping. 
+### Question: I am unable to see the metadata object in my search results.
+This is most likely due to the `metadata` field in the document not being indexed and/or stored by the Couchbase Search index. In order to index the `metadata` field in the document, you need to add it to the index as a child mapping.
 
 If you select to map all the fields in the mapping, you will be able to search by all metadata fields. Alternatively, to optimize the index, you can select the specific fields inside `metadata` object to be indexed. You can refer to the [docs](https://docs.couchbase.com/cloud/search/customize-index.html) to learn more about indexing child mappings.
 
@@ -592,10 +592,10 @@ Creating Child Mappings
 * [Couchbase Capella](https://docs.couchbase.com/cloud/search/create-child-mapping.html)
 * [Couchbase Server](https://docs.couchbase.com/server/current/search/create-child-mapping.html)
 
-### Question: What is the difference between filter and search_options / hybrid queries? 
+### Question: What is the difference between filter and search_options / hybrid queries?
 Filters are [pre-filters](https://docs.couchbase.com/server/current/vector-search/pre-filtering-vector-search.html#about-pre-filtering) that are used to restrict the documents searched in a Search index. It is available in Couchbase Server 7.6.4 & higher.
 
-Hybrid Queries are additional search queries that can be used to tune the results being returned from the search index. 
+Hybrid Queries are additional search queries that can be used to tune the results being returned from the search index.
 
 Both filters and hybrid search queries have the same capabilites with slightly different syntax. Filters are [SearchQuery](https://docs.couchbase.com/python-sdk/current/howtos/full-text-searching-with-sdk.html#search-queries) objects while the hybrid search queries are [dictionaries](https://docs.couchbase.com/server/current/search/search-request-params.html).
 

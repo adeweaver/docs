@@ -34,7 +34,7 @@ watsonx_api_key = getpass()
 os.environ["WATSONX_APIKEY"] = watsonx_api_key
 ```
 
-Additionally you are able to pass additional secrets as an environment variable. 
+Additionally you are able to pass additional secrets as an environment variable.
 
 
 ```python
@@ -88,7 +88,7 @@ Let's start by initializing a simple vector store retriever and storing the 2023
 
 Initialize the `WatsonxEmbeddings`. For more details see [WatsonxEmbeddings](/oss/integrations/text_embedding/ibm_watsonx).
 
-**Note**: 
+**Note**:
 
 - To provide context for the API call, you must add `project_id` or `space_id`. For more information see [documentation](https://www.ibm.com/docs/en/watsonx-as-a-service?topic=projects).
 - Depending on the region of your provisioned service instance, use one of the urls described [here](https://ibm.github.io/watsonx-ai-python-sdk/setup_cloud.html#authentication).
@@ -128,41 +128,41 @@ pretty_print_docs(docs[:5])  # Printing the first 5 documents
 ```output
 Document 1:
 
-One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. 
+One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
 
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.
 ----------------------------------------------------------------------------------------------------
 Document 2:
 
-I spoke with their families and told them that we are forever in debt for their sacrifice, and we will carry on their mission to restore the trust and safety every community deserves. 
+I spoke with their families and told them that we are forever in debt for their sacrifice, and we will carry on their mission to restore the trust and safety every community deserves.
 
-I’ve worked on these issues a long time. 
+I’ve worked on these issues a long time.
 
-I know what works: Investing in crime prevention and community police officers who’ll walk the beat, who’ll know the neighborhood, and who can restore trust and safety. 
+I know what works: Investing in crime prevention and community police officers who’ll walk the beat, who’ll know the neighborhood, and who can restore trust and safety.
 
 So let’s not abandon our streets. Or choose between safety and equal justice.
 ----------------------------------------------------------------------------------------------------
 Document 3:
 
-He met the Ukrainian people. 
+He met the Ukrainian people.
 
-From President Zelenskyy to every Ukrainian, their fearlessness, their courage, their determination, inspires the world. 
+From President Zelenskyy to every Ukrainian, their fearlessness, their courage, their determination, inspires the world.
 
-Groups of citizens blocking tanks with their bodies. Everyone from students to retirees teachers turned soldiers defending their homeland. 
+Groups of citizens blocking tanks with their bodies. Everyone from students to retirees teachers turned soldiers defending their homeland.
 
 In this struggle as President Zelenskyy said in his speech to the European Parliament “Light will win over darkness.” The Ukrainian Ambassador to the United States is here tonight.
 ----------------------------------------------------------------------------------------------------
 Document 4:
 
-As I said last year, especially to our younger transgender Americans, I will always have your back as your President, so you can be yourself and reach your God-given potential. 
+As I said last year, especially to our younger transgender Americans, I will always have your back as your President, so you can be yourself and reach your God-given potential.
 
 While it often appears that we never agree, that isn’t true. I signed 80 bipartisan bills into law last year. From preventing government shutdowns to protecting Asian-Americans from still-too-common hate crimes to reforming military justice.
 ----------------------------------------------------------------------------------------------------
 Document 5:
 
-To all Americans, I will be honest with you, as I’ve always promised. A Russian dictator, invading a foreign country, has costs around the world. 
+To all Americans, I will be honest with you, as I’ve always promised. A Russian dictator, invading a foreign country, has costs around the world.
 
-And I’m taking robust action to make sure the pain of our sanctions  is targeted at Russia’s economy. And I will use every tool at our disposal to protect American businesses and consumers. 
+And I’m taking robust action to make sure the pain of our sanctions  is targeted at Russia’s economy. And I will use every tool at our disposal to protect American businesses and consumers.
 
 Tonight, I can announce that the United States has worked with 30 other countries to release 60 Million barrels of oil from reserves around the world.
 ```
@@ -199,41 +199,41 @@ pretty_print_docs(compressed_docs[:5])  # Printing the first 5 compressed docume
 ```output
 Document 1:
 
-One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. 
+One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
 
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.
 ----------------------------------------------------------------------------------------------------
 Document 2:
 
-As I said last year, especially to our younger transgender Americans, I will always have your back as your President, so you can be yourself and reach your God-given potential. 
+As I said last year, especially to our younger transgender Americans, I will always have your back as your President, so you can be yourself and reach your God-given potential.
 
 While it often appears that we never agree, that isn’t true. I signed 80 bipartisan bills into law last year. From preventing government shutdowns to protecting Asian-Americans from still-too-common hate crimes to reforming military justice.
 ----------------------------------------------------------------------------------------------------
 Document 3:
 
-To all Americans, I will be honest with you, as I’ve always promised. A Russian dictator, invading a foreign country, has costs around the world. 
+To all Americans, I will be honest with you, as I’ve always promised. A Russian dictator, invading a foreign country, has costs around the world.
 
-And I’m taking robust action to make sure the pain of our sanctions  is targeted at Russia’s economy. And I will use every tool at our disposal to protect American businesses and consumers. 
+And I’m taking robust action to make sure the pain of our sanctions  is targeted at Russia’s economy. And I will use every tool at our disposal to protect American businesses and consumers.
 
 Tonight, I can announce that the United States has worked with 30 other countries to release 60 Million barrels of oil from reserves around the world.
 ----------------------------------------------------------------------------------------------------
 Document 4:
 
-I spoke with their families and told them that we are forever in debt for their sacrifice, and we will carry on their mission to restore the trust and safety every community deserves. 
+I spoke with their families and told them that we are forever in debt for their sacrifice, and we will carry on their mission to restore the trust and safety every community deserves.
 
-I’ve worked on these issues a long time. 
+I’ve worked on these issues a long time.
 
-I know what works: Investing in crime prevention and community police officers who’ll walk the beat, who’ll know the neighborhood, and who can restore trust and safety. 
+I know what works: Investing in crime prevention and community police officers who’ll walk the beat, who’ll know the neighborhood, and who can restore trust and safety.
 
 So let’s not abandon our streets. Or choose between safety and equal justice.
 ----------------------------------------------------------------------------------------------------
 Document 5:
 
-He met the Ukrainian people. 
+He met the Ukrainian people.
 
-From President Zelenskyy to every Ukrainian, their fearlessness, their courage, their determination, inspires the world. 
+From President Zelenskyy to every Ukrainian, their fearlessness, their courage, their determination, inspires the world.
 
-Groups of citizens blocking tanks with their bodies. Everyone from students to retirees teachers turned soldiers defending their homeland. 
+Groups of citizens blocking tanks with their bodies. Everyone from students to retirees teachers turned soldiers defending their homeland.
 
 In this struggle as President Zelenskyy said in his speech to the European Parliament “Light will win over darkness.” The Ukrainian Ambassador to the United States is here tonight.
 ```

@@ -6,11 +6,11 @@ title: Portkey
 
 ## LLMOps for Langchain
 
-Portkey brings production readiness to Langchain. With Portkey, you can 
+Portkey brings production readiness to Langchain. With Portkey, you can
 - [x] Connect to 150+ models through a unified API,
-- [x] View 42+ **metrics & logs** for all requests, 
-- [x] Enable **semantic cache** to reduce latency & costs, 
-- [x] Implement automatic **retries & fallbacks** for failed requests, 
+- [x] View 42+ **metrics & logs** for all requests,
+- [x] Enable **semantic cache** to reduce latency & costs,
+- [x] Implement automatic **retries & fallbacks** for failed requests,
 - [x] Add **custom tags** to requests for better tracking and analysis and [more](https://portkey.ai/docs).
 
 
@@ -33,7 +33,7 @@ from langchain_openai import ChatOpenAI
 from portkey_ai import createHeaders, PORTKEY_GATEWAY_URL
 
 PORTKEY_API_KEY = "..." # Not needed when hosting your own gateway
-PROVIDER_API_KEY = "..." # Add the API key of the AI provider being used 
+PROVIDER_API_KEY = "..." # Add the API key of the AI provider being used
 
 portkey_headers = createHeaders(api_key=PORTKEY_API_KEY,provider="openai")
 
@@ -121,12 +121,12 @@ Portkey's Langchain integration gives you full visibility into the running of an
 We only need to modify the `ChatOpenAI` class to use the AI Gateway as above.
 
 ```python
-from langchain import hub  
-from langchain.agents import AgentExecutor, create_openai_tools_agent  
+from langchain import hub
+from langchain.agents import AgentExecutor, create_openai_tools_agent
 from langchain_openai import ChatOpenAI
 from langchain_core.tools import tool
 from portkey_ai import PORTKEY_GATEWAY_URL, createHeaders
- 
+
 prompt = hub.pull("hwchase17/openai-tools-agent")
 
 portkey_headers = createHeaders(
@@ -139,19 +139,19 @@ portkey_headers = createHeaders(
 def multiply(first_int: int, second_int: int) -> int:
     """Multiply two integers together."""
     return first_int * second_int
-  
-  
-@tool  
-def exponentiate(base: int, exponent: int) -> int:  
-    "Exponentiate the base to the exponent power."  
-    return base**exponent  
-  
-  
+
+
+@tool
+def exponentiate(base: int, exponent: int) -> int:
+    "Exponentiate the base to the exponent power."
+    return base**exponent
+
+
 tools = [multiply, exponentiate]
 
 model = ChatOpenAI(api_key="X", base_url=PORTKEY_GATEWAY_URL, default_headers=portkey_headers, temperature=0)
-  
-# Construct the OpenAI Tools agent  
+
+# Construct the OpenAI Tools agent
 agent = create_openai_tools_agent(model, tools, prompt)
 
 # Create an agent executor by passing in the agent and tools

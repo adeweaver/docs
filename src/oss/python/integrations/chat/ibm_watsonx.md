@@ -16,7 +16,7 @@ The aim of these examples is to show how to communicate with `watsonx.ai` models
 ### Model features
 | [Tool calling](/oss/how-to/tool_calling/) | [Structured output](/oss/how-to/structured_output/) | JSON mode | Image input | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | Native async | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
-| ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ✅ | ✅ | 
+| ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ✅ | ✅ |
 
 ## Setup
 
@@ -38,7 +38,7 @@ watsonx_api_key = getpass()
 os.environ["WATSONX_APIKEY"] = watsonx_api_key
 ```
 
-Additionally you are able to pass additional secrets as an environment variable. 
+Additionally you are able to pass additional secrets as an environment variable.
 
 
 ```python
@@ -75,7 +75,7 @@ parameters = {
 Initialize the `WatsonxLLM` class with the previously set parameters.
 
 
-**Note**: 
+**Note**:
 
 - To provide context for the API call, you must pass the `project_id` or `space_id`. To get your project or space ID, open your project or space, go to the **Manage** tab, and click **General**. For more information see: [Project documentation](https://www.ibm.com/docs/en/watsonx-as-a-service?topic=projects) or [Deployment space documentation](https://www.ibm.com/docs/en/watsonx/saas?topic=spaces-creating-deployment).
 - Depending on the region of your provisioned service instance, use one of the urls listed in [watsonx.ai API Authentication](https://ibm.github.io/watsonx-ai-python-sdk/setup_cloud.html#authentication).
@@ -97,7 +97,7 @@ chat = ChatWatsonx(
 )
 ```
 
-Alternatively, you can use Cloud Pak for Data credentials. For details, see [watsonx.ai software setup](https://ibm.github.io/watsonx-ai-python-sdk/setup_cpd.html).  
+Alternatively, you can use Cloud Pak for Data credentials. For details, see [watsonx.ai software setup](https://ibm.github.io/watsonx-ai-python-sdk/setup_cpd.html).
 
 
 ```python
@@ -223,7 +223,7 @@ AIMessage(content='Ich liebe Python.', additional_kwargs={}, response_metadata={
 ```
 
 
-## Streaming the Model output 
+## Streaming the Model output
 
 You can stream the model output.
 
@@ -240,7 +240,7 @@ for chunk in chat.stream([system_message, human_message]):
 ```output
 The Moon is the fifth largest moon in the solar system and the largest relative to its host planet. It is the fifth brightest object in Earth's night sky after the Sun, the stars, the Milky Way, and the Moon itself. It orbits around the Earth at an average distance of 238,855 miles (384,400 kilometers). The Moon's gravity is about one-sixthth of Earth's and thus allows for the formation of tides on Earth. The Moon is thought to have formed around 4.5 billion years ago from debris from a collision between Earth and a Mars-sized body named Theia. The Moon is effectively immutable, with its current characteristics remaining from formation. Aside from Earth, the Moon is the only other natural satellite of Earth. The most widely accepted theory is that it formed from the debris of a collision
 ```
-## Batch the Model output 
+## Batch the Model output
 
 You can batch the model output.
 

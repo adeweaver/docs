@@ -2,7 +2,7 @@
 title: LLMRails
 ---
 
->[LLMRails](https://www.llmrails.com/) is a API platform for building GenAI applications. It provides an easy-to-use API for document indexing and querying that is managed by LLMRails and is optimized for performance and accuracy. 
+>[LLMRails](https://www.llmrails.com/) is a API platform for building GenAI applications. It provides an easy-to-use API for document indexing and querying that is managed by LLMRails and is optimized for performance and accuracy.
 See the [LLMRails API documentation ](https://docs.llmrails.com/) for more information on how to use the API.
 
 You'll need to install `langchain-community` with `pip install -qU langchain-community` to use this integration
@@ -19,7 +19,7 @@ All of these are supported in this LangChain integration.
 
 You will need a LLMRails account to use LLMRails with LangChain. To get started, use the following steps:
 1. [Sign up](https://console.llmrails.com/signup) for a LLMRails account if you don't already have one.
-2. Next you'll need to create API keys to access the API. Click on the **"API Keys"** tab in the corpus view and then the **"Create API Key"** button. Give your key a name. Click "Create key" and you now have an active API key. Keep this key confidential. 
+2. Next you'll need to create API keys to access the API. Click on the **"API Keys"** tab in the corpus view and then the **"Create API Key"** button. Give your key a name. Click "Create key" and you now have an active API key. Keep this key confidential.
 
 To use LangChain with LLMRails, you'll need to have this value: api_key.
 You can provide those to LangChain in two ways:
@@ -48,7 +48,7 @@ vectorstore = LLMRails(
 ## Adding text
 
 For adding text to your datastore first you have to go to [Datastores](https://console.llmrails.com/datastores) page and create one. Click Create Datastore button and choose a name and embedding model for your datastore. Then get your datastore id from newly created  datastore settings.
- 
+
 
 
 ```python
@@ -90,7 +90,7 @@ llm_rails = LLMRails.from_texts(["Your text here"])
 
 ## Similarity search
 
-The simplest scenario for using LLMRails is to perform a similarity search. 
+The simplest scenario for using LLMRails is to perform a similarity search.
 
 
 ```python

@@ -2,7 +2,7 @@
 title: ClickUp Toolkit
 ---
 
->[ClickUp](https://clickup.com/) is an all-in-one productivity platform that provides small and large teams across industries with flexible and customizable work management solutions, tools, and functions. 
+>[ClickUp](https://clickup.com/) is an all-in-one productivity platform that provides small and large teams across industries with flexible and customizable work management solutions, tools, and functions.
 
 >It is a cloud-based project management solution for businesses of all sizes featuring communication and collaboration tools to help achieve organizational goals.
 
@@ -84,7 +84,7 @@ print(
 ```
 ```output
 Found team_id: 9011010153.
-Most request require the team id, so we store it for you in the toolkit, we assume the first team in your list is the one you want. 
+Most request require the team id, so we store it for you in the toolkit, we assume the first team in your list is the one you want.
 Note: If you know this is the wrong ID, you can pass it at initialization.
 ```
 ### Create Agent

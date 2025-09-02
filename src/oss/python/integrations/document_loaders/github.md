@@ -103,10 +103,10 @@ loader = GithubFileLoader(
 documents = loader.load()
 ```
 
-example output of one of document: 
+example output of one of document:
 
 ```json
-document.metadata: 
+document.metadata:
     {
       "path": "README.md",
       "sha": "82f1c4ea88ecf8d2dfsfx06a700e84be4",

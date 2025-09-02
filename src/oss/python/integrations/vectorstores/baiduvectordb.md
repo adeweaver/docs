@@ -8,7 +8,7 @@ title: Baidu VectorDB
 
 You'll need to install `langchain-community` with `pip install -qU langchain-community` to use this integration
 
-This notebook shows how to use functionality related to the Baidu VectorDB. 
+This notebook shows how to use functionality related to the Baidu VectorDB.
 
 To run, you should have a [Database instance.](https://cloud.baidu.com/doc/VDB/s/hlrsoazuf).
 

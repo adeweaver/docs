@@ -29,7 +29,7 @@ for value in docs:
 ```
 
 ### Query with Pagination
-You get a `after` value if there are more data. You can get values after the curcor by passing in the `after` string in query. 
+You get a `after` value if there are more data. You can get values after the curcor by passing in the `after` string in query.
 
 To learn more following [this link](https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/schema_entities/set/static-paginate)
 

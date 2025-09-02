@@ -120,7 +120,7 @@ Therefore, Plato lived longer than both Socrates and Aristotle.
 ```
 ## Custom parameters
 
-SearchApi wrapper can be customized to use different engines like [Google News](https://www.searchapi.io/docs/google-news), [Google Jobs](https://www.searchapi.io/docs/google-jobs), [Google Scholar](https://www.searchapi.io/docs/google-scholar), or others which can be found in [SearchApi](https://www.searchapi.io/docs/google) documentation. All parameters supported by SearchApi can be passed when executing the query. 
+SearchApi wrapper can be customized to use different engines like [Google News](https://www.searchapi.io/docs/google-news), [Google Jobs](https://www.searchapi.io/docs/google-jobs), [Google Scholar](https://www.searchapi.io/docs/google-scholar), or others which can be found in [SearchApi](https://www.searchapi.io/docs/google) documentation. All parameters supported by SearchApi can be passed when executing the query.
 
 
 ```python

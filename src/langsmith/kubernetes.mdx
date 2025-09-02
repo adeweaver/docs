@@ -4,7 +4,7 @@ sidebarTitle: Install on Kubernetes
 ---
 
 <Info>
-  Self-hosting LangSmith is an add-on to the Enterprise Plan designed for our largest, most security-conscious customers. See our [pricing page](https://www.langchain.com/pricing) for more detail, and [contact our sales team](https://www.langchain.com/contact-sales) if you want to get a license key to trial LangSmith in your environment.
+Self-hosting LangSmith is an add-on to the Enterprise Plan designed for our largest, most security-conscious customers. See our [pricing page](https://www.langchain.com/pricing) for more detail, and [contact our sales team](https://www.langchain.com/contact-sales) if you want to get a license key to trial LangSmith in your environment.
 </Info>
 
 This guide will walk you through the process of deploying LangSmith to a Kubernetes cluster. We will use Helm to install LangSmith and its dependencies.
@@ -62,9 +62,9 @@ Ensure you have the following tools/items ready. Some items are marked optional:
       gp2 (default)   ebs.csi.eks.amazonaws.com   Delete          WaitForFirstConsumer   true                   161d
       ```
 
-      <Note>
-        We highly recommend using a storage class that supports volume expansion. This is because traces can potentially require a lot of disk space and your volumes may need to be resized over time.
-      </Note>
+            <Note>
+            We highly recommend using a storage class that supports volume expansion. This is because traces can potentially require a lot of disk space and your volumes may need to be resized over time.
+            </Note>
 
       Refer to the [Kubernetes documentation](https://kubernetes.io/do/langsmith/observability-concepts/storage/storage-classes/) for more information on storage classes.
 
@@ -135,7 +135,7 @@ Ensure you have the following tools/items ready. Some items are marked optional:
       ```
 
    <Note>
-     If you are using a namespace other than the default namespace, you will need to specify the namespace in the `helm` and `kubectl` commands by using the `-n <namespace>` flag.
+   If you are using a namespace other than the default namespace, you will need to specify the namespace in the `helm` and `kubectl` commands by using the `-n <namespace>` flag.
    </Note>
 
 2. Ensure you have the Langchain Helm repo added. (skip this step if you are using local charts)
@@ -208,7 +208,7 @@ Ensure you have the following tools/items ready. Some items are marked optional:
    ```bash
    curl <external ip>/api/tenants
    ```
-   
+
    Expected output:
    ```json
    [{"id":"00000000-0000-0000-0000-000000000000","has_waitlist_access":true,"created_at":"2023-09-13T18:25:10.488407","display_name":"Personal","config":{"is_personal":true,"max_identities":1},"tenant_handle":"default"}]

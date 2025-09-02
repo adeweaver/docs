@@ -53,7 +53,7 @@ data[:15]
 ```
 
 
-### Example 
+### Example
 In this example, we use data from a dataset to answer a question
 
 

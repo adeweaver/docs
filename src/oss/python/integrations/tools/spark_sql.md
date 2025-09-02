@@ -78,7 +78,7 @@ agent_executor.run("Describe the titanic table")
 ```output
 > Entering new AgentExecutor chain...
 Action: list_tables_sql_db
-Action Input: 
+Action Input:
 Observation: titanic
 Thought:I found the titanic table. Now I need to get the schema and sample rows for the titanic table.
 Action: schema_sql_db
@@ -106,7 +106,7 @@ PassengerId	Survived	Pclass	Name	Sex	Age	SibSp	Parch	Ticket	Fare	Cabin	Embarked
 3	1	3	Heikkinen, Miss. Laina	female	26.0	0	0	STON/O2. 3101282	7.925	None	S
 */
 Thought:I now know the schema and sample rows for the titanic table.
-Final Answer: The titanic table has the following columns: PassengerId (INT), Survived (INT), Pclass (INT), Name (STRING), Sex (STRING), Age (DOUBLE), SibSp (INT), Parch (INT), Ticket (STRING), Fare (DOUBLE), Cabin (STRING), and Embarked (STRING). Here are some sample rows from the table: 
+Final Answer: The titanic table has the following columns: PassengerId (INT), Survived (INT), Pclass (INT), Name (STRING), Sex (STRING), Age (DOUBLE), SibSp (INT), Parch (INT), Ticket (STRING), Fare (DOUBLE), Cabin (STRING), and Embarked (STRING). Here are some sample rows from the table:
 
 1. PassengerId: 1, Survived: 0, Pclass: 3, Name: Braund, Mr. Owen Harris, Sex: male, Age: 22.0, SibSp: 1, Parch: 0, Ticket: A/5 21171, Fare: 7.25, Cabin: None, Embarked: S
 2. PassengerId: 2, Survived: 1, Pclass: 1, Name: Cumings, Mrs. John Bradley (Florence Briggs Thayer), Sex: female, Age: 38.0, SibSp: 1, Parch: 0, Ticket: PC 17599, Fare: 71.2833, Cabin: C85, Embarked: C
@@ -130,7 +130,7 @@ agent_executor.run("whats the square root of the average age?")
 ```output
 > Entering new AgentExecutor chain...
 Action: list_tables_sql_db
-Action Input: 
+Action Input:
 Observation: titanic
 Thought:I should check the schema of the titanic table to see if there is an age column.
 Action: schema_sql_db
@@ -186,7 +186,7 @@ agent_executor.run("What's the name of the oldest survived passenger?")
 ```output
 > Entering new AgentExecutor chain...
 Action: list_tables_sql_db
-Action Input: 
+Action Input:
 Observation: titanic
 Thought:I should check the schema of the titanic table to see what columns are available.
 Action: schema_sql_db

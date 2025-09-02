@@ -16,7 +16,7 @@ This will help you get started with Outlines [chat models](/oss/concepts/chat_mo
 ### Model features
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | Native async | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
-| ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | 
+| ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ |
 
 ## Setup
 
@@ -191,6 +191,6 @@ result
 
 For detailed documentation of all ChatOutlines features and configurations head to the API reference: https://python.langchain.com/api_reference/community/chat_models/langchain_community.chat_models.outlines.ChatOutlines.html
 
-## Full Outlines Documentation: 
+## Full Outlines Documentation:
 
 https://dottxt-ai.github.io/outlines/latest/

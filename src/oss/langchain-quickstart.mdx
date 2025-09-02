@@ -174,31 +174,31 @@ const getUserInfo = tool(
 :::
 
 <Note>
-    [Zod](https://zod.dev/) is a library for validating and parsing pre-defined schemas. You can use it to define the input schema for your tools to make sure the agent only calls the tool with the correct arguments.
+[Zod](https://zod.dev/) is a library for validating and parsing pre-defined schemas. You can use it to define the input schema for your tools to make sure the agent only calls the tool with the correct arguments.
 
-    Alternatively, you can define the `schema` property as a JSON schema object. Keep in mind that JSON schemas won't be validated at runtime.
+Alternatively, you can define the `schema` property as a JSON schema object. Keep in mind that JSON schemas won't be validated at runtime.
 
-    <Accordion title="Example: Using JSON schema for tool input">
-      ```ts
-      const getWeather = tool(
-        ({ city }) => `It's always sunny in ${city}!`,
-        {
-          name: "get_weather",
-          description: "Get the weather for a given city",
-          schema: {
-            type: "object",
-            properties: {
-              city: {
-                type: "string",
-                description: "The city to get the weather for"
-              }
-            },
-            required: ["city"]
-          },
-        }
-      );
-      ```
-    </Accordion>
+<Accordion title="Example: Using JSON schema for tool input">
+```ts
+const getWeather = tool(
+({ city }) => `It's always sunny in ${city}!`,
+{
+name: "get_weather",
+description: "Get the weather for a given city",
+schema: {
+type: "object",
+properties: {
+city: {
+type: "string",
+description: "The city to get the weather for"
+}
+},
+required: ["city"]
+},
+}
+);
+```
+</Accordion>
 </Note>
 
 ### Step 3: Configure Your Model
@@ -221,7 +221,7 @@ model = init_chat_model(
 import { initChatModel } from "langchain/chat_models";
 
 const model = await initChatModel(
-  "anthropic:claude-3-7-sonnet-latest", 
+  "anthropic:claude-3-7-sonnet-latest",
   temperature: 0
 );
 ```

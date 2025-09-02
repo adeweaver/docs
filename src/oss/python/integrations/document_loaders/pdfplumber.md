@@ -9,11 +9,11 @@ Like PyMuPDF, the output Documents contain detailed metadata about the PDF and i
 
 | Class | Package | Local | Serializable | JS support|
 | :--- | :--- | :---: | :---: |  :---: |
-| [PDFPlumberLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.PDFPlumberLoader.html) | [langchain-community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ❌ | 
+| [PDFPlumberLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.PDFPlumberLoader.html) | [langchain-community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ❌ |
 ### Loader features
 | Source | Document Lazy Loading | Native Async Support
-| :---: | :---: | :---: | 
-| PDFPlumberLoader | ✅ | ❌ | 
+| :---: | :---: | :---: |
+| PDFPlumberLoader | ✅ | ❌ |
 
 ## Setup
 

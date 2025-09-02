@@ -2,13 +2,13 @@
 title: Cogniswitch Toolkit
 ---
 
-CogniSwitch is used to build production ready applications that can consume, organize and retrieve knowledge flawlessly. Using the framework of your choice, in this case Langchain, CogniSwitch helps alleviate the stress of decision making when it comes to, choosing the right storage and retrieval formats. It also eradicates reliability issues and hallucinations when it comes to responses that are generated. 
+CogniSwitch is used to build production ready applications that can consume, organize and retrieve knowledge flawlessly. Using the framework of your choice, in this case Langchain, CogniSwitch helps alleviate the stress of decision making when it comes to, choosing the right storage and retrieval formats. It also eradicates reliability issues and hallucinations when it comes to responses that are generated.
 
 ## Setup
 
 Visit [this page](https://www.cogniswitch.ai/developer?utm_source=langchain&utm_medium=langchainbuild&utm_id=dev) to register a Cogniswitch account.
 
-- Signup with your email and verify your registration 
+- Signup with your email and verify your registration
 
 - You will get a mail with a platform token and oauth token for using the services.
 

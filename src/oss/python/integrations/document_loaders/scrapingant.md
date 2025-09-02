@@ -10,12 +10,12 @@ This particular integration uses only Markdown extraction feature, but don't hes
 
 | Class                                                                                                                                                    | Package                                                                                        | Local | Serializable | JS support |
 |:---------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------|:-----:|:------------:|:----------:|
-| [ScrapingAntLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.scrapingant.ScrapingAntLoader.html) | [langchain_community](https://python.langchain.com/api_reference/community/index.html) |   ❌   |      ❌       |     ❌      | 
+| [ScrapingAntLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.scrapingant.ScrapingAntLoader.html) | [langchain_community](https://python.langchain.com/api_reference/community/index.html) |   ❌   |      ❌       |     ❌      |
 
 ### Loader features
 |      Source       | Document Lazy Loading | Async Support |
-|:-----------------:|:---------------------:|:-------------:| 
-| ScrapingAntLoader |           ✅           |       ❌       | 
+|:-----------------:|:---------------------:|:-------------:|
+| ScrapingAntLoader |           ✅           |       ❌       |
 
 
 ## Setup

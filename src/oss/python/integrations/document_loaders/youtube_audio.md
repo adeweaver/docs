@@ -73,7 +73,7 @@ docs = loader.load()
 [info] kCc8FmEb1nY: Downloading 1 format(s): 140
 [dashsegments] Total fragments: 11
 [download] Destination: /Users/31treehaus/Desktop/AI/langchain-fork/docs/modules/indexes/document_loaders/examples/Let's build GPT： from scratch, in code, spelled out..m4a
-[download] 100% of  107.73MiB in 00:00:18 at 5.92MiB/s                   
+[download] 100% of  107.73MiB in 00:00:18 at 5.92MiB/s
 [FixupM4a] Correcting container of "/Users/31treehaus/Desktop/AI/langchain-fork/docs/modules/indexes/document_loaders/examples/Let's build GPT： from scratch, in code, spelled out..m4a"
 [ExtractAudio] Not converting audio /Users/31treehaus/Desktop/AI/langchain-fork/docs/modules/indexes/document_loaders/examples/Let's build GPT： from scratch, in code, spelled out..m4a; file is already in target format m4a
 [youtube] Extracting URL: https://youtu.be/VMj-3S1tku0

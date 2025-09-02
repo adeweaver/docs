@@ -2,11 +2,11 @@
 title: Clarifai
 ---
 
->[Clarifai](https://www.clarifai.com/) is an AI Platform that provides the full AI lifecycle ranging from data exploration, data labeling, model training, evaluation, and inference. A Clarifai application can be used as a vector database after uploading inputs. 
+>[Clarifai](https://www.clarifai.com/) is an AI Platform that provides the full AI lifecycle ranging from data exploration, data labeling, model training, evaluation, and inference. A Clarifai application can be used as a vector database after uploading inputs.
 
 This notebook shows how to use functionality related to the `Clarifai` vector database. Examples are shown to demonstrate text semantic search capabilities. Clarifai also supports semantic search with images, video frames, and localized search (see [Rank](https://docs.clarifai.com/api-guide/search/rank)) and attribute search (see [Filter](https://docs.clarifai.com/api-guide/search/filter)).
 
-To use Clarifai, you must have an account and a Personal Access Token (PAT) key. 
+To use Clarifai, you must have an account and a Personal Access Token (PAT) key.
 [Check here](https://clarifai.com/settings/security) to get or create a PAT.
 
 # Dependencies

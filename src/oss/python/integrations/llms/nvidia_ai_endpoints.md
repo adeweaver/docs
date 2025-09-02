@@ -5,16 +5,16 @@ title: NVIDIA
 This will help you get started with NVIDIA [models](/oss/concepts/text_llms). For detailed documentation of all `NVIDIA` features and configurations head to the [API reference](https://python.langchain.com/api_reference/nvidia_ai_endpoints/llms/langchain_nvidia_ai_endpoints.chat_models.NVIDIA.html).
 
 ## Overview
-The `langchain-nvidia-ai-endpoints` package contains LangChain integrations building applications with models on 
-NVIDIA NIM inference microservice. These models are optimized by NVIDIA to deliver the best performance on NVIDIA 
-accelerated infrastructure and deployed as a NIM, an easy-to-use, prebuilt containers that deploy anywhere using a single 
+The `langchain-nvidia-ai-endpoints` package contains LangChain integrations building applications with models on
+NVIDIA NIM inference microservice. These models are optimized by NVIDIA to deliver the best performance on NVIDIA
+accelerated infrastructure and deployed as a NIM, an easy-to-use, prebuilt containers that deploy anywhere using a single
 command on NVIDIA accelerated infrastructure.
 
-NVIDIA hosted deployments of NIMs are available to test on the [NVIDIA API catalog](https://build.nvidia.com/). After testing, 
-NIMs can be exported from NVIDIA’s API catalog using the NVIDIA AI Enterprise license and run on-premises or in the cloud, 
+NVIDIA hosted deployments of NIMs are available to test on the [NVIDIA API catalog](https://build.nvidia.com/). After testing,
+NIMs can be exported from NVIDIA’s API catalog using the NVIDIA AI Enterprise license and run on-premises or in the cloud,
 giving enterprises ownership and full control of their IP and AI application.
 
-NIMs are packaged as container images on a per model basis and are distributed as NGC container images through the NVIDIA NGC Catalog. 
+NIMs are packaged as container images on a per model basis and are distributed as NGC container images through the NVIDIA NGC Catalog.
 At their core, NIMs provide easy, consistent, and familiar APIs for running inference on an AI model.
 
 This example goes over how to use LangChain to interact with NVIDIA supported via the `NVIDIA` class.
@@ -30,7 +30,7 @@ For more information on accessing the llm models through this api, check out the
 ### Model features
 | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | Native async | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
-| ❌ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | 
+| ❌ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ |
 
 ## Setup
 

@@ -2,9 +2,9 @@
 title: Geopandas
 ---
 
-[Geopandas](https://geopandas.org/en/stable/index.html) is an open-source project to make working with geospatial data in python easier. 
+[Geopandas](https://geopandas.org/en/stable/index.html) is an open-source project to make working with geospatial data in python easier.
 
-GeoPandas extends the datatypes used by pandas to allow spatial operations on geometric types. 
+GeoPandas extends the datatypes used by pandas to allow spatial operations on geometric types.
 
 Geometric operations are performed by shapely. Geopandas further depends on fiona for file access and matplotlib for plotting.
 
@@ -59,7 +59,7 @@ gdf = gdf[
 ]
 ```
 
-Visualization of the sample of SF crime data. 
+Visualization of the sample of SF crime data.
 
 
 ```python
@@ -75,7 +75,7 @@ gdf.plot(ax=ax, color="red", markersize=5)
 plt.show()
 ```
 
-Load GeoPandas dataframe as a `Document` for downstream processing (embedding, chat, etc). 
+Load GeoPandas dataframe as a `Document` for downstream processing (embedding, chat, etc).
 
 The `geometry` will be the default `page_content` columns, and all other columns are placed in `metadata`.
 

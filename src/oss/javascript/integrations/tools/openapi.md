@@ -201,7 +201,7 @@ for await (const event of events) {
 
 Here's a joke for you:
 
-**Why don't skeletons fight each other?**  
+**Why don't skeletons fight each other?**
 They don't have the guts!
 ```
 ## API reference

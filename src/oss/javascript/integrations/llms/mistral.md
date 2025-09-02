@@ -187,7 +187,7 @@ To add these hooks to the chat model, either pass them as arguments and they are
 
 
 ```typescript
-import { ChatMistralAI } from "@langchain/mistralai" 
+import { ChatMistralAI } from "@langchain/mistralai"
 
 const modelWithHooks = new ChatMistralAI({
     model: "mistral-large-latest",
@@ -204,7 +204,7 @@ Or assign and add them manually after instantiation:
 
 
 ```typescript
-import { ChatMistralAI } from "@langchain/mistralai" 
+import { ChatMistralAI } from "@langchain/mistralai"
 
 const model = new ChatMistralAI({
     model: "mistral-large-latest",

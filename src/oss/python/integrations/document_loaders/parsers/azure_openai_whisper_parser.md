@@ -2,7 +2,7 @@
 title: Azure OpenAI Whisper Parser
 ---
 
->[Azure OpenAI Whisper Parser](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/whisper-overview) is a wrapper around the Azure OpenAI Whisper API which utilizes machine learning to transcribe audio files to english text. 
+>[Azure OpenAI Whisper Parser](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/whisper-overview) is a wrapper around the Azure OpenAI Whisper API which utilizes machine learning to transcribe audio files to english text.
 >
 >The Parser supports `.mp3`, `.mp4`, `.mpeg`, `.mpga`, `.m4a`, `.wav`, and `.webm`.
 

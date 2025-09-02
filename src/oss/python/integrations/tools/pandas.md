@@ -113,7 +113,7 @@ Observation: NameError("name 'math' is not defined")
 Thought: I need to import the math library
 Action: python_repl_ast
 Action Input: import math
-Observation: 
+Observation:
 Thought: I now need to calculate the square root of the average age
 Action: python_repl_ast
 Action Input: math.sqrt(df['Age'].mean())

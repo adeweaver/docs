@@ -1,18 +1,18 @@
 ---
-title: NVIDIA NIMs 
+title: NVIDIA NIMs
 ---
 
-The `langchain-nvidia-ai-endpoints` package contains LangChain integrations building applications with models on 
-NVIDIA NIM inference microservice. NIM supports models across domains like chat, embedding, and re-ranking models 
-from the community as well as NVIDIA. These models are optimized by NVIDIA to deliver the best performance on NVIDIA 
-accelerated infrastructure and deployed as a NIM, an easy-to-use, prebuilt containers that deploy anywhere using a single 
+The `langchain-nvidia-ai-endpoints` package contains LangChain integrations building applications with models on
+NVIDIA NIM inference microservice. NIM supports models across domains like chat, embedding, and re-ranking models
+from the community as well as NVIDIA. These models are optimized by NVIDIA to deliver the best performance on NVIDIA
+accelerated infrastructure and deployed as a NIM, an easy-to-use, prebuilt containers that deploy anywhere using a single
 command on NVIDIA accelerated infrastructure.
 
-NVIDIA hosted deployments of NIMs are available to test on the [NVIDIA API catalog](https://build.nvidia.com/). After testing, 
-NIMs can be exported from NVIDIA’s API catalog using the NVIDIA AI Enterprise license and run on-premises or in the cloud, 
+NVIDIA hosted deployments of NIMs are available to test on the [NVIDIA API catalog](https://build.nvidia.com/). After testing,
+NIMs can be exported from NVIDIA’s API catalog using the NVIDIA AI Enterprise license and run on-premises or in the cloud,
 giving enterprises ownership and full control of their IP and AI application.
 
-NIMs are packaged as container images on a per model basis and are distributed as NGC container images through the NVIDIA NGC Catalog. 
+NIMs are packaged as container images on a per model basis and are distributed as NGC container images through the NVIDIA NGC Catalog.
 At their core, NIMs provide easy, consistent, and familiar APIs for running inference on an AI model.
 
 This example goes over how to use LangChain to interact with the supported [NVIDIA Retrieval QA Embedding Model](https://build.nvidia.com/nvidia/embed-qa-4) for [retrieval-augmented generation](https://developer.nvidia.com/blog/build-enterprise-retrieval-augmented-generation-apps-with-nvidia-retrieval-qa-embedding-model/) via the `NVIDIAEmbeddings` class.

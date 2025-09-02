@@ -106,7 +106,7 @@ You can also use an OPML file such as a Feedly export.  Pass in either a URL or 
 
 ```python
 with open("example_data/sample_rss_feeds.opml", "r") as f:
-    loader = RSSFeedLoader(opml=f.read())
+        loader = RSSFeedLoader(opml=f.read())
 data = loader.load()
 print(len(data))
 ```

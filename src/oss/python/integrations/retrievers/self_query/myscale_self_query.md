@@ -5,7 +5,7 @@ title: MyScale
 >[MyScale](https://docs.myscale.com/en/) is an integrated vector database. You can access your database in SQL and also from here, LangChain.
 >`MyScale` can make use of [various data types and functions for filters](https://blog.myscale.com/2023/06/06/why-integrated-database-solution-can-boost-your-llm-apps/#filter-on-anything-without-constraints). It will boost up your LLM app no matter if you are scaling up your data or expand your system to broader application.
 
-In the notebook, we'll demo the `SelfQueryRetriever` wrapped around a `MyScale` vector store with some extra pieces we contributed to LangChain. 
+In the notebook, we'll demo the `SelfQueryRetriever` wrapped around a `MyScale` vector store with some extra pieces we contributed to LangChain.
 
 In short, it can be condensed into 4 points:
 1. Add `contain` comparator to match the list of any if there is more than one element matched

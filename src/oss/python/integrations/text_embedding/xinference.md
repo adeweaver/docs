@@ -15,11 +15,11 @@ Install `Xinference` through PyPI:
 
 ## Deploy Xinference Locally or in a Distributed Cluster.
 
-For local deployment, run `xinference`. 
+For local deployment, run `xinference`.
 
 To deploy Xinference in a cluster, first start an Xinference supervisor using the `xinference-supervisor`. You can also use the option -p to specify the port and -H to specify the host. The default port is 9997.
 
-Then, start the Xinference workers using `xinference-worker` on each server you want to run them on. 
+Then, start the Xinference workers using `xinference-worker` on each server you want to run them on.
 
 You can consult the README file from [Xinference](https://github.com/xorbitsai/inference) for more information.
 

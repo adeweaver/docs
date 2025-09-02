@@ -9,7 +9,7 @@ title: IPEX-LLM
 
 ## IPEX-LLM on Intel GPU
 
-This example goes over how to use LangChain to interact with `ipex-llm` for text generation on Intel GPU. 
+This example goes over how to use LangChain to interact with `ipex-llm` for text generation on Intel GPU.
 
 > **Note**
 >
@@ -120,7 +120,7 @@ output = llm_chain.invoke(question)
 ```
 
 ### Save/Load Low-bit Model
-Alternatively, you might save the low-bit model to disk once and use `from_model_id_low_bit` instead of `from_model_id` to reload it for later use - even across different machines. It is space-efficient, as the low-bit model demands significantly less disk space than the original model. And `from_model_id_low_bit` is also more efficient than `from_model_id` in terms of speed and memory usage, as it skips the model conversion step. You can similarly set `device` to `"xpu"` in `model_kwargs` in order to load the LLM model to Intel GPU. 
+Alternatively, you might save the low-bit model to disk once and use `from_model_id_low_bit` instead of `from_model_id` to reload it for later use - even across different machines. It is space-efficient, as the low-bit model demands significantly less disk space than the original model. And `from_model_id_low_bit` is also more efficient than `from_model_id` in terms of speed and memory usage, as it skips the model conversion step. You can similarly set `device` to `"xpu"` in `model_kwargs` in order to load the LLM model to Intel GPU.
 
 To save the low-bit model, use `save_low_bit` as follows.
 
@@ -131,7 +131,7 @@ llm.model.save_low_bit(saved_lowbit_model_path)
 del llm
 ```
 
-Load the model from saved lowbit model path as follows. 
+Load the model from saved lowbit model path as follows.
 > Note that the saved path for the low-bit model only includes the model itself but not the tokenizers. If you wish to have everything in one place, you will need to manually download or copy the tokenizer files from the original model's directory to the location where the low-bit model is saved.
 
 

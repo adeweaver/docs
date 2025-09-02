@@ -64,7 +64,7 @@ for question in questions:
     print(f"**Answer**: {result['answer']} \n")
 ```
 ```output
--> **Question**: What are patterns in Nvidia's spend over the past three quarters? 
+-> **Question**: What are patterns in Nvidia's spend over the past three quarters?
 
 **Answer**: Based on the provided information, here are the patterns in NVIDIA's spend over the past three quarters:
 
@@ -72,21 +72,21 @@ for question in questions:
    - Q3 2022: Increased by 34% compared to Q3 2021.
    - Q1 2023: Increased by 40% compared to Q1 2022.
    - Q2 2022: Increased by 25% compared to Q2 2021.
-   
+
    Overall, research and development expenses have been consistently increasing over the past three quarters.
 
 2. Sales, General and Administrative Expenses:
    - Q3 2022: Increased by 8% compared to Q3 2021.
    - Q1 2023: Increased by 14% compared to Q1 2022.
    - Q2 2022: Decreased by 16% compared to Q2 2021.
-   
+
    The pattern for sales, general and administrative expenses is not as consistent, with some quarters showing an increase and others showing a decrease.
 
 3. Total Operating Expenses:
    - Q3 2022: Increased by 25% compared to Q3 2021.
    - Q1 2023: Increased by 113% compared to Q1 2022.
    - Q2 2022: Increased by 9% compared to Q2 2021.
-   
+
    Total operating expenses have generally been increasing over the past three quarters, with a significant increase in Q1 2023.
 
 Overall, the pattern indicates a consistent increase in research and development expenses and total operating expenses, while sales, general and administrative expenses show some fluctuations.

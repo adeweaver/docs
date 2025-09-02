@@ -131,11 +131,11 @@ for doc in docs:
 ```
 ```output
 --------------------------------------------------------------------------------
-One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. 
+One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
 
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.
 --------------------------------------------------------------------------------
-As I said last year, especially to our younger transgender Americans, I will always have your back as your President, so you can be yourself and reach your God-given potential. 
+As I said last year, especially to our younger transgender Americans, I will always have your back as your President, so you can be yourself and reach your God-given potential.
 
 While it often appears that we never agree, that isn’t true. I signed 80 bipartisan bills into law last year. From preventing government shutdowns to protecting Asian-Americans from still-too-common hate crimes to reforming military justice.
 ```
@@ -160,11 +160,11 @@ for doc in docs:
 ```
 ```output
 --------------------------------------------------------------------------------
-One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. 
+One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
 
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.
 --------------------------------------------------------------------------------
-As I said last year, especially to our younger transgender Americans, I will always have your back as your President, so you can be yourself and reach your God-given potential. 
+As I said last year, especially to our younger transgender Americans, I will always have your back as your President, so you can be yourself and reach your God-given potential.
 
 While it often appears that we never agree, that isn’t true. I signed 80 bipartisan bills into law last year. From preventing government shutdowns to protecting Asian-Americans from still-too-common hate crimes to reforming military justice.
 ```
@@ -181,13 +181,13 @@ for doc in docs:
 ```
 ```output
 --------------------------------------------------------------------------------
-One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. 
+One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
 
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.
 --------------------------------------------------------------------------------
-Groups of citizens blocking tanks with their bodies. Everyone from students to retirees teachers turned soldiers defending their homeland. 
+Groups of citizens blocking tanks with their bodies. Everyone from students to retirees teachers turned soldiers defending their homeland.
 
-In this struggle as President Zelenskyy said in his speech to the European Parliament “Light will win over darkness.” The Ukrainian Ambassador to the United States is here tonight. 
+In this struggle as President Zelenskyy said in his speech to the European Parliament “Light will win over darkness.” The Ukrainian Ambassador to the United States is here tonight.
 
 Let each of us here tonight in this Chamber send an unmistakable signal to Ukraine and to the world.
 ```
@@ -236,13 +236,13 @@ for doc in docs:
 ```
 ```output
 --------------------------------------------------------------------------------
-One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. 
+One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
 
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.
 --------------------------------------------------------------------------------
-Groups of citizens blocking tanks with their bodies. Everyone from students to retirees teachers turned soldiers defending their homeland. 
+Groups of citizens blocking tanks with their bodies. Everyone from students to retirees teachers turned soldiers defending their homeland.
 
-In this struggle as President Zelenskyy said in his speech to the European Parliament “Light will win over darkness.” The Ukrainian Ambassador to the United States is here tonight. 
+In this struggle as President Zelenskyy said in his speech to the European Parliament “Light will win over darkness.” The Ukrainian Ambassador to the United States is here tonight.
 
 Let each of us here tonight in this Chamber send an unmistakable signal to Ukraine and to the world.
 ```
@@ -713,7 +713,7 @@ cur.close()
 ('VEC_TEXT', 'NCLOB')
 ('VEC_VECTOR', 'REAL_VECTOR')
 ```
-Show the value of the inserted document in the three columns 
+Show the value of the inserted document in the three columns
 
 
 ```python
@@ -731,7 +731,7 @@ cur.close()
 Custom tables must have at least three columns that match the semantics of a standard table
 
 - A column with type `NCLOB` or `NVARCHAR` for the text/context of the embeddings
-- A column with type `NCLOB` or `NVARCHAR` for the metadata 
+- A column with type `NCLOB` or `NVARCHAR` for the metadata
 - A column with type `REAL_VECTOR` for the embedding vector
 
 The table can contain additional columns. When new Documents are inserted into the table, these additional columns must allow NULL values.

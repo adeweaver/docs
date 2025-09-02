@@ -3,12 +3,12 @@ title: Argilla
 ---
 
 >[Argilla](https://argilla.io/) is an open-source data curation platform for LLMs.
-> Using Argilla, everyone can build robust language models through faster data curation 
-> using both human and machine feedback. We provide support for each step in the MLOps cycle, 
+> Using Argilla, everyone can build robust language models through faster data curation
+> using both human and machine feedback. We provide support for each step in the MLOps cycle,
 > from data labeling to model monitoring.
 
 <a target="_blank" href="https://colab.research.google.com/github/langchain-ai/langchain/blob/master/docs/docs/integrations/callbacks/argilla.ipynb">
-  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+    <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
 In this guide we will demonstrate how to track the inputs and responses of your LLM to generate a dataset in Argilla, using the `ArgillaCallbackHandler`.
@@ -220,7 +220,7 @@ agent.run("Who was the first president of the United States of America?")
 > Entering new AgentExecutor chain...
  I need to answer a historical question
 Action: Search
-Action Input: "who was the first president of the United States of America" 
+Action Input: "who was the first president of the United States of America"
 Observation: George Washington
 Thought: George Washington was the first president
 Final Answer: George Washington was the first president of the United States of America.

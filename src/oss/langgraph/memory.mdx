@@ -55,7 +55,7 @@ Different applications require various types of memory. Although the analogy isn
 [Semantic memory](https://en.wikipedia.org/wiki/Semantic_memory), both in humans and AI agents, involves the retention of specific facts and concepts. In humans, it can include information learned in school and the understanding of concepts and their relationships. For AI agents, semantic memory is often used to personalize applications by remembering facts or concepts from past interactions.
 
 <Note>
-  Semantic memory is different from "semantic search," which is a technique for finding similar content using "meaning" (usually as embeddings). Semantic memory is a term from psychology, referring to storing facts and knowledge, while semantic search is a method for retrieving information based on meaning rather than exact matches.
+Semantic memory is different from "semantic search," which is a technique for finding similar content using "meaning" (usually as embeddings). Semantic memory is a term from psychology, referring to storing facts and knowledge, while semantic search is a method for retrieving information based on meaning rather than exact matches.
 </Note>
 
 ##### Profile
@@ -146,8 +146,8 @@ const callModel = async (state: State, store: BaseStore) => {
     const namespace = ["agent_instructions"];
     const instructions = await store.get(namespace, "agent_a");
     // Application logic
-    const prompt = promptTemplate.format({ 
-        instructions: instructions[0].value.instructions 
+    const prompt = promptTemplate.format({
+        instructions: instructions[0].value.instructions
     });
     // ...
 };
@@ -157,14 +157,14 @@ const updateInstructions = async (state: State, store: BaseStore) => {
     const namespace = ["instructions"];
     const currentInstructions = await store.search(namespace);
     // Memory logic
-    const prompt = promptTemplate.format({ 
-        instructions: currentInstructions[0].value.instructions, 
-        conversation: state.messages 
+    const prompt = promptTemplate.format({
+        instructions: currentInstructions[0].value.instructions,
+        conversation: state.messages
     });
     const output = await llm.invoke(prompt);
     const newInstructions = output.new_instructions;
-    await store.put(["agent_instructions"], "agent_a", { 
-        instructions: newInstructions 
+    await store.put(["agent_instructions"], "agent_a", {
+        instructions: newInstructions
     });
     // ...
 };
@@ -266,10 +266,10 @@ const item = await store.get(namespace, "a-memory");
 
 // search for "memories" within this namespace, filtering on content equivalence, sorted by vector similarity
 const items = await store.search(
-    namespace, 
-    { 
-        filter: { "my-key": "my-value" }, 
-        query: "language preferences" 
+    namespace,
+    {
+        filter: { "my-key": "my-value" },
+        query: "language preferences"
     }
 );
 ```

@@ -14,13 +14,13 @@ This will help you getting started with DigitalOcean Gradient Chat Models.
 
 ## Setup
 
-langchain-gradient uses DigitalOcean Gradient Platform.  
+langchain-gradient uses DigitalOcean Gradient Platform.
 
 Create an account on DigitalOcean, acquire a `DIGITALOCEAN_INFERENCE_KEY` API key from the Gradient Platform, and install the `langchain-gradient` integration package.
 
 ### Credentials
 
-Head to [DigitalOcean Login](https://cloud.digitalocean.com/login) 
+Head to [DigitalOcean Login](https://cloud.digitalocean.com/login)
 
 1. Sign up/Login to DigitalOcean Cloud Console
 2. Go to the Gradient Platform and navigate to Serverless Inference.

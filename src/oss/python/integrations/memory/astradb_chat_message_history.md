@@ -2,7 +2,7 @@
 title: Astra DB
 ---
 
-> [DataStax Astra DB](https://docs.datastax.com/en/astra-db-serverless/index.html) is a serverless 
+> [DataStax Astra DB](https://docs.datastax.com/en/astra-db-serverless/index.html) is a serverless
 > AI-ready database built on `Apache Cassandra®` and made conveniently availablev
 > through an easy-to-use JSON API.
 

@@ -8,14 +8,14 @@ The LangSmith package uses Python's built in  mechanism to output logs about its
 ## Ensure logging is configured
 
 <Note>
-  By default, Jupyter notebooks send logs to standard error instead of standard output, which means your logs will not show up in your notebook cell output unless you configure logging as we do below.
+By default, Jupyter notebooks send logs to standard error instead of standard output, which means your logs will not show up in your notebook cell output unless you configure logging as we do below.
 </Note>
 
 If logging is not currently configured to send logs to standard output for your Python environment, you'll need to explicitly turn it on as follows:
 
 ```python
 import logging
-# Note: this will affect _all_ packages that use python's built-in logging mechanism, 
+# Note: this will affect _all_ packages that use python's built-in logging mechanism,
 #       so may increase your log volume. Pick the right log level for your use case.
 logging.basicConfig(level=logging.WARNING)
 ```

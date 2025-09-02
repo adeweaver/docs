@@ -47,7 +47,7 @@ interface SubAgent {
 }
 
 const researchSubAgent: SubAgent = {
-  name: "research-agent", 
+  name: "research-agent",
   description: "Used to research more in depth questions",
   prompt: subResearchPrompt,
 };
@@ -111,7 +111,7 @@ from deepagents import create_deep_agent
 # ... existing agent definitions ...
 
 model = init_chat_model(
-    model="ollama:gpt-oss:20b",  
+    model="ollama:gpt-oss:20b",
 )
 agent = create_deep_agent(
     tools=tools,

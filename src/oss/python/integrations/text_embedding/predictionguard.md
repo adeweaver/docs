@@ -10,11 +10,11 @@ title: PredictionGuardEmbeddings
 This integration shows how to use the Prediction Guard embeddings integration with Langchain. This integration supports text and images, separately or together in matched pairs.
 
 ## Setup
-To access Prediction Guard models, contact us [here](https://predictionguard.com/get-started) to get a Prediction Guard API key and get started. 
+To access Prediction Guard models, contact us [here](https://predictionguard.com/get-started) to get a Prediction Guard API key and get started.
 
 
 ### Credentials
-Once you have a key, you can set it with 
+Once you have a key, you can set it with
 
 
 

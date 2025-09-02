@@ -4,7 +4,7 @@ title: PDFMinerLoader
 
 This guide provides a quick overview for getting started with `PDFMiner` [document loader](https://python.langchain.com/docs/concepts/document_loaders). For detailed documentation of all __ModuleName__Loader features and configurations head to the [API reference](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.PDFMinerLoader.html).
 
-  
+
 
 ## Overview
 ### Integration details
@@ -13,7 +13,7 @@ This guide provides a quick overview for getting started with `PDFMiner` [docume
 |:-----------------------------------------------------------------------------------------------------------------------------------------------------| :--- | :---: | :---: |  :---: |
 | [PDFMinerLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.PDFMinerLoader.html) | [langchain-community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ❌ |
 
----------   
+---------
 
 ### Loader features
 
@@ -21,7 +21,7 @@ This guide provides a quick overview for getting started with `PDFMiner` [docume
 |:--------------:| :---: | :---: | :---: |:---: |
 | PDFMinerLoader | ✅ | ❌ | ✅ | ✅ |
 
-  
+
 
 ## Setup
 
@@ -714,7 +714,7 @@ Diagram illustrating the structure of layout elements with coordinates, text blo
 
 Coordinate
 
-Coordinate 
+Coordinate
 
 start
 x-interval
@@ -733,7 +733,7 @@ Rectangle
 
 (x2, y2)
 
-Quadrilateral 
+Quadrilateral
 
 (x4, y4)
 
@@ -753,8 +753,8 @@ Coordinate
 
 Extra features
 
-Block Text Block Type Reading Order  
-... 
+Block Text Block Type Reading Order
+...
 
 layout
 

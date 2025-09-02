@@ -96,13 +96,13 @@ docs = text_splitter.split_documents(documents)
 embeddings = OpenAIEmbeddings()
 ```
 
-Next, we'll load the service URL for our Timescale database. 
+Next, we'll load the service URL for our Timescale database.
 
 If you haven't already, [signup for Timescale](https://console.cloud.timescale.com/signup?utm_campaign=vectorlaunch&utm_source=langchain&utm_medium=referral), and create a new database.
 
-Then, to connect to your PostgreSQL database, you'll need your service URI, which can be found in the cheatsheet or `.env` file you downloaded after creating a new database. 
+Then, to connect to your PostgreSQL database, you'll need your service URI, which can be found in the cheatsheet or `.env` file you downloaded after creating a new database.
 
-The URI will look something like this: `postgres://tsdbadmin:<password>@<id>.tsdb.cloud.timescale.com:<port>/tsdb?sslmode=require`. 
+The URI will look something like this: `postgres://tsdbadmin:<password>@<id>.tsdb.cloud.timescale.com:<port>/tsdb?sslmode=require`.
 
 
 ```python
@@ -118,7 +118,7 @@ SERVICE_URL = os.environ["TIMESCALE_SERVICE_URL"]
 # SERVICE_URL = os.environ.get("TIMESCALE_SERVICE_URL", "")
 ```
 
-Next we create a TimescaleVector vectorstore. We specify a collection name, which will be the name of the table our data is stored in. 
+Next we create a TimescaleVector vectorstore. We specify a collection name, which will be the name of the table our data is stored in.
 
 Note: When creating a new instance of TimescaleVector, the TimescaleVector Module will try to create a table with the name of the collection. So, make sure that the collection name is unique (i.e it doesn't already exist).
 
@@ -155,49 +155,49 @@ for doc, score in docs_with_score:
 ```output
 --------------------------------------------------------------------------------
 Score:  0.18443380687035138
-Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections. 
+Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections.
 
-Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service. 
+Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service.
 
-One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. 
+One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
 
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 Score:  0.18452197313308139
-Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections. 
+Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections.
 
-Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service. 
+Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service.
 
-One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. 
+One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
 
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 Score:  0.21720781018594182
-A former top litigator in private practice. A former federal public defender. And from a family of public school educators and police officers. A consensus builder. Since she’s been nominated, she’s received a broad range of support—from the Fraternal Order of Police to former judges appointed by Democrats and Republicans. 
+A former top litigator in private practice. A former federal public defender. And from a family of public school educators and police officers. A consensus builder. Since she’s been nominated, she’s received a broad range of support—from the Fraternal Order of Police to former judges appointed by Democrats and Republicans.
 
-And if we are to advance liberty and justice, we need to secure the Border and fix the immigration system. 
+And if we are to advance liberty and justice, we need to secure the Border and fix the immigration system.
 
-We can do both. At our border, we’ve installed new technology like cutting-edge scanners to better detect drug smuggling.  
+We can do both. At our border, we’ve installed new technology like cutting-edge scanners to better detect drug smuggling.
 
-We’ve set up joint patrols with Mexico and Guatemala to catch more human traffickers.  
+We’ve set up joint patrols with Mexico and Guatemala to catch more human traffickers.
 
-We’re putting in place dedicated immigration judges so families fleeing persecution and violence can have their cases heard faster. 
+We’re putting in place dedicated immigration judges so families fleeing persecution and violence can have their cases heard faster.
 
 We’re securing commitments and supporting partners in South and Central America to host more refugees and secure their own borders.
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 Score:  0.21724902288621384
-A former top litigator in private practice. A former federal public defender. And from a family of public school educators and police officers. A consensus builder. Since she’s been nominated, she’s received a broad range of support—from the Fraternal Order of Police to former judges appointed by Democrats and Republicans. 
+A former top litigator in private practice. A former federal public defender. And from a family of public school educators and police officers. A consensus builder. Since she’s been nominated, she’s received a broad range of support—from the Fraternal Order of Police to former judges appointed by Democrats and Republicans.
 
-And if we are to advance liberty and justice, we need to secure the Border and fix the immigration system. 
+And if we are to advance liberty and justice, we need to secure the Border and fix the immigration system.
 
-We can do both. At our border, we’ve installed new technology like cutting-edge scanners to better detect drug smuggling.  
+We can do both. At our border, we’ve installed new technology like cutting-edge scanners to better detect drug smuggling.
 
-We’ve set up joint patrols with Mexico and Guatemala to catch more human traffickers.  
+We’ve set up joint patrols with Mexico and Guatemala to catch more human traffickers.
 
-We’re putting in place dedicated immigration judges so families fleeing persecution and violence can have their cases heard faster. 
+We’re putting in place dedicated immigration judges so families fleeing persecution and violence can have their cases heard faster.
 
 We’re securing commitments and supporting partners in South and Central America to host more refugees and secure their own borders.
 --------------------------------------------------------------------------------
@@ -418,7 +418,7 @@ docs = text_splitter.split_documents(documents)
 
 Next we'll create a Timescale Vector instance from the collection of documents that we finished pre-processsing.
 
-First, we'll define a collection name, which will be the name of our table in the PostgreSQL database. 
+First, we'll define a collection name, which will be the name of our table in the PostgreSQL database.
 
 We'll also define a time delta, which we pass to the `time_partition_interval` argument, which will be used to as the interval for partitioning the data by time. Each partition will consist of data for the specified length of time. We'll use 7 days for simplicity, but you can pick whatever value make sense for your use case -- for example if you query recent vectors frequently you might want to use a smaller time delta like 1 day, or if you query vectors over a decade long time period then you might want to use a larger time delta like 6 months or 1 year.
 
@@ -692,7 +692,7 @@ The following changes were made to the timescaledb functions:
 3. "Move utility functions to _timescaledb_functions schema" - This change was made on Tue Aug 22 12:01:19 2023 +0200.
 4. "Move partitioning functions to _timescaledb_functions schema" - This change was made on Tue Aug 29 10:49:47 2023 +0200.
 ```
-Note that the context the LLM uses to compose an answer are from retrieved documents only within the specified date range. 
+Note that the context the LLM uses to compose an answer are from retrieved documents only within the specified date range.
 
 This shows how you can use Timescale Vector to enhance retrieval augmented generation by retrieving documents within time ranges relevant to your query.
 
@@ -838,7 +838,7 @@ retriever = SelfQueryRetriever.from_llm(
 )
 ```
 
-Now let's test out the self-querying retriever on our gitlog dataset. 
+Now let's test out the self-querying retriever on our gitlog dataset.
 
 Run the queries below and note how you can specify a query, query with a filter, and query with a composite filter (filters with AND, OR) in natural language and the self-query retriever will translate that query into SQL and perform the search on the Timescale Vector PostgreSQL vectorstore.
 
@@ -947,13 +947,13 @@ To work with an existing Timescale Vector store, we need to know the name of the
 COLLECTION_NAME = "timescale_commits"
 embeddings = OpenAIEmbeddings()
 vectorstore = TimescaleVector(
-    collection_name=COLLECTION_NAME,
-    service_url=SERVICE_URL,
-    embedding_function=embeddings,
+        collection_name=COLLECTION_NAME,
+        service_url=SERVICE_URL,
+        embedding_function=embeddings,
 )
 ```
 
-To load new data into the table, we use the `add_document()` function. This function takes a list of documents and a list of metadata. The metadata must contain a unique id for each document. 
+To load new data into the table, we use the `add_document()` function. This function takes a list of documents and a list of metadata. The metadata must contain a unique id for each document.
 
 If you want your documents to be associated with the current date and time, you do not need to create a list of ids. A uuid will be automatically generated for each document.
 
@@ -1004,7 +1004,7 @@ docs_with_score[1]
 ```
 
 
-### Deleting Data 
+### Deleting Data
 
 You can delete data by uuid or by a filter on the metadata.
 
@@ -1027,10 +1027,10 @@ Deleting using metadata is especially useful if you want to periodically update 
 
 ```python
 vectorstore.add_documents(
-    [Document(page_content="Hello World", metadata={"source": "www.example.com/hello"})]
+        [Document(page_content="Hello World", metadata={"source": "www.example.com/hello"})]
 )
 vectorstore.add_documents(
-    [Document(page_content="Adios", metadata={"source": "www.example.com/adios"})]
+        [Document(page_content="Adios", metadata={"source": "www.example.com/adios"})]
 )
 
 vectorstore.delete_by_metadata({"source": "www.example.com/adios"})
@@ -1038,8 +1038,8 @@ vectorstore.delete_by_metadata({"source": "www.example.com/adios"})
 vectorstore.add_documents(
     [
         Document(
-            page_content="Adios, but newer!",
-            metadata={"source": "www.example.com/adios"},
+                        page_content="Adios, but newer!",
+                        metadata={"source": "www.example.com/adios"},
         )
     ]
 )
@@ -1059,11 +1059,11 @@ If you have an existing collection, you override it by doing `from_documents` an
 
 ```python
 db = TimescaleVector.from_documents(
-    documents=docs,
-    embedding=embeddings,
-    collection_name=COLLECTION_NAME,
-    service_url=SERVICE_URL,
-    pre_delete_collection=True,
+        documents=docs,
+        embedding=embeddings,
+        collection_name=COLLECTION_NAME,
+        service_url=SERVICE_URL,
+        pre_delete_collection=True,
 )
 ```
 

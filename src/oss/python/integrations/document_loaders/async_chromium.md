@@ -2,9 +2,9 @@
 title: Async Chromium
 ---
 
-Chromium is one of the browsers supported by Playwright, a library used to control browser automation. 
+Chromium is one of the browsers supported by Playwright, a library used to control browser automation.
 
-By running `p.chromium.launch(headless=True)`, we are launching a headless instance of Chromium. 
+By running `p.chromium.launch(headless=True)`, we are launching a headless instance of Chromium.
 
 Headless mode means that the browser is running without a graphical user interface.
 

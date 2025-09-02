@@ -9,11 +9,11 @@ The `RecursiveUrlLoader` lets you recursively scrape all child links from a root
 
 | Class | Package | Local | Serializable | [JS support](https://js.langchain.com/docs/integrations/document_loaders/web_loaders/recursive_url_loader/)|
 | :--- | :--- | :---: | :---: |  :---: |
-| [RecursiveUrlLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.recursive_url_loader.RecursiveUrlLoader.html) | [langchain-community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ✅ | 
+| [RecursiveUrlLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.recursive_url_loader.RecursiveUrlLoader.html) | [langchain-community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ✅ |
 ### Loader features
 | Source | Document Lazy Loading | Native Async Support
-| :---: | :---: | :---: | 
-| RecursiveUrlLoader | ✅ | ❌ | 
+| :---: | :---: | :---: |
+| RecursiveUrlLoader | ✅ | ❌ |
 
 
 ## Setup
@@ -111,11 +111,11 @@ print(docs[0].page_content[:300])
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" /><title>3.9.19 Documentation</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <link rel="stylesheet" href="_static/pydoctheme.css" type="text/css" />
     <link rel=
 ```
-That certainly looks like HTML that comes from the url https://docs.python.org/3.9/, which is what we expected. Let's now look at some variations we can make to our basic example that can be helpful in different situations. 
+That certainly looks like HTML that comes from the url https://docs.python.org/3.9/, which is what we expected. Let's now look at some variations we can make to our basic example that can be helpful in different situations.
 
 ## Lazy loading
 

@@ -15,7 +15,7 @@ You can configure retention through helm or environment variable settings. There
 <CodeGroup>
 
 ```yaml Helm
-config:  
+config:
   ttl:
     enabled: true
     ttl_period_seconds:
@@ -35,7 +35,7 @@ config:
 As of version **0.11**, a cron job runs on weekends to assist in deleting expired data that may not have been cleaned up by ClickHouse's built-in TTL mechanism.
 
 <Warning>
-  This job uses potentially long running **mutations** (`ALTER TABLE DELETE`), which are expensive operations that can impact ClickHouse's performance. We recommend running these operations only during off-peak hours (nights and weekends). During testing with **1 concurrent active** mutation (default), we did not observe significant CPU, memory, or latency increases.
+This job uses potentially long running **mutations** (`ALTER TABLE DELETE`), which are expensive operations that can impact ClickHouse's performance. We recommend running these operations only during off-peak hours (nights and weekends). During testing with **1 concurrent active** mutation (default), we did not observe significant CPU, memory, or latency increases.
 </Warning>
 
 ### Default Schedule
@@ -70,7 +70,7 @@ queue:
         value: "0 20,22 * * 6"
 ```
 <Tip>
-  To run the job on a single cron schedule, set both `CLICKHOUSE_TTL_CLEANUP_CRON_WEEKEND_EVENING` and `CLICKHOUSE_TTL_CLEANUP_CRON_WEEKEND_MORNING` to the same value. Job locking prevents overlapping executions.
+To run the job on a single cron schedule, set both `CLICKHOUSE_TTL_CLEANUP_CRON_WEEKEND_EVENING` and `CLICKHOUSE_TTL_CLEANUP_CRON_WEEKEND_MORNING` to the same value. Job locking prevents overlapping executions.
 </Tip>
 
 ### Configuring Minimum Expired Rows Per Part
@@ -118,7 +118,7 @@ queue:
 ```
 
 <Warning>
-  Increasing concurrent DELETE operations can severely impact system performance. Monitor your system carefully and only increase this value if you can tolerate potentially slower insert and read latencies.
+Increasing concurrent DELETE operations can severely impact system performance. Monitor your system carefully and only increase this value if you can tolerate potentially slower insert and read latencies.
 </Warning>
 
 ### Emergency: Stopping Running Mutations
@@ -144,7 +144,7 @@ If disk space does not decrease after running this job, or if it continues to in
 
 To verify, check the following directories inside your ClickHouse pod:
 
- - `/var/lib/clickhouse/backup` 
+ - `/var/lib/clickhouse/backup`
  - `/var/lib/clickhouse/shadow`
 
 If backups are present, copy them to an external filesystem or blob storage (e.g., S3), then clear the directories. Within a few minutes, you will notice disk space releasing.

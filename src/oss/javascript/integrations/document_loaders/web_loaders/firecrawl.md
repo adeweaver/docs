@@ -10,11 +10,11 @@ This notebook provides a quick overview for getting started with [FireCrawlLoade
 
 | Class | Package | Local | Serializable | [PY support](https://python.langchain.com/docs/integrations/document_loaders/firecrawl)|
 | :--- | :--- | :---: | :---: |  :---: |
-| [FireCrawlLoader](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_firecrawl.FireCrawlLoader.html) | [@langchain/community](https://api.js.langchain.com/modules/langchain_community_document_loaders_web_firecrawl.html) | 🟠 (see details below) | beta | ✅ | 
+| [FireCrawlLoader](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_firecrawl.FireCrawlLoader.html) | [@langchain/community](https://api.js.langchain.com/modules/langchain_community_document_loaders_web_firecrawl.html) | 🟠 (see details below) | beta | ✅ |
 ### Loader features
 | Source | Web Loader | Node Envs Only
-| :---: | :---: | :---: | 
-| FireCrawlLoader | ✅ | ❌ | 
+| :---: | :---: | :---: |
+| FireCrawlLoader | ✅ | ❌ |
 
 [FireCrawl](https://firecrawl.dev) crawls and convert any website into LLM-ready data. It crawls all accessible sub-pages and give you clean markdown and metadata for each. No sitemap required.
 

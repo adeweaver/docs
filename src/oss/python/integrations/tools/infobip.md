@@ -51,7 +51,7 @@ infobip.run(
 )
 ```
 
-# How to use it inside an Agent 
+# How to use it inside an Agent
 
 
 ```python

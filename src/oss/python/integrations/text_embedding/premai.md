@@ -16,7 +16,7 @@ Before proceeding further, please make sure that you have made an account on Pre
 
 ## PremEmbeddings
 
-In this section we are going to dicuss how we can get access to different embedding model using `PremEmbeddings` with LangChain. Let's start by importing our modules and setting our API Key. 
+In this section we are going to dicuss how we can get access to different embedding model using `PremEmbeddings` with LangChain. Let's start by importing our modules and setting our API Key.
 
 
 ```python

@@ -66,7 +66,7 @@ messages: List[ChatSession] = list(
 
 ### Next Steps
 
-You can then use these messages how you see fit, such as fine-tuning a model, few-shot example selection, or directly make predictions for the next message. 
+You can then use these messages how you see fit, such as fine-tuning a model, few-shot example selection, or directly make predictions for the next message.
 
 
 ```python
@@ -78,9 +78,9 @@ for chunk in llm.stream(messages[1]["messages"]):
     print(chunk.content, end="", flush=True)
 ```
 ```output
-Hi, 
+Hi,
 
-I hope you're doing well. I wanted to reach out and ask if you'd be available to meet up for coffee sometime next week. I'd love to catch up and hear about what's been going on in your life. Let me know if you're interested and we can find a time that works for both of us. 
+I hope you're doing well. I wanted to reach out and ask if you'd be available to meet up for coffee sometime next week. I'd love to catch up and hear about what's been going on in your life. Let me know if you're interested and we can find a time that works for both of us.
 
 Looking forward to hearing from you!
 

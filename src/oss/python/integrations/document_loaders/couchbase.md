@@ -29,7 +29,7 @@ db_password = "Password"  # password for the database user
 
 # query is a valid SQL++ query
 query = """
-    SELECT h.* FROM `travel-sample`.inventory.hotel h 
+    SELECT h.* FROM `travel-sample`.inventory.hotel h
         WHERE h.country = 'United States'
         LIMIT 1
         """

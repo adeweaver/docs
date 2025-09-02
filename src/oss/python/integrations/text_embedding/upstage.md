@@ -37,7 +37,7 @@ from langchain_upstage import UpstageEmbeddings
 embeddings = UpstageEmbeddings(model="solar-embedding-1-large")
 ```
 
-Use `embed_documents` to embed list of texts or documents. 
+Use `embed_documents` to embed list of texts or documents.
 
 
 ```python

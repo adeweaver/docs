@@ -89,7 +89,7 @@ for chunk in chain.stream(question):
 When running on a machine with GPU, you can specify the `device=n` parameter to put the model on the specified device.
 Defaults to `-1` for CPU inference.
 
-If you have multiple-GPUs and/or the model is too large for a single GPU, you can specify `device_map="auto"`, which requires and uses the [Accelerate](https://huggingface.co/docs/accelerate/index) library to automatically determine how to load the model weights. 
+If you have multiple-GPUs and/or the model is too large for a single GPU, you can specify `device_map="auto"`, which requires and uses the [Accelerate](https://huggingface.co/docs/accelerate/index) library to automatically determine how to load the model weights.
 
 *Note*: both `device` and `device_map` should not be specified together and can lead to unexpected behavior.
 

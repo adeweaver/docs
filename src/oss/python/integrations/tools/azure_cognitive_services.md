@@ -11,7 +11,7 @@ Currently There are four tools bundled in this toolkit:
 - AzureCogsText2SpeechTool: used to synthesize text to speech.
 - AzureCogsTextAnalyticsHealthTool: used to extract healthcare entities.
 
-First, you need to set up an Azure account and create a Cognitive Services resource. You can follow the instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account?tabs=multiservice%2Cwindows) to create a resource. 
+First, you need to set up an Azure account and create a Cognitive Services resource. You can follow the instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account?tabs=multiservice%2Cwindows) to create a resource.
 
 Then, you need to get the endpoint, key and region of your resource, and set them as environment variables. You can find them in the "Keys and Endpoint" page of your resource.
 

@@ -11,7 +11,7 @@ For more details on Pebblo and its SafeRetriever feature visit [Pebblo documenta
 ### Steps:
 
 1. **Loading Documents:**
-We will load documents with authorization and semantic metadata into an in-memory Qdrant vectorstore. This vectorstore will be used as a retriever in PebbloRetrievalQA. 
+We will load documents with authorization and semantic metadata into an in-memory Qdrant vectorstore. This vectorstore will be used as a retriever in PebbloRetrievalQA.
 
 > **Note:** It is recommended to use [PebbloSafeLoader](https://daxa-ai.github.io/pebblo/rag) as the counterpart for loading documents with authentication and semantic metadata on the ingestion side. `PebbloSafeLoader` guarantees the secure and efficient loading of documents while maintaining the integrity of the metadata.
 
@@ -45,7 +45,7 @@ Here we are using Qdrant as a vector database; however, you can use any of the s
 
 **Load vector database with authorization and semantic information in metadata:**
 
-In this step, we capture the authorization and semantic information of the source document into the `authorized_identities`, `pebblo_semantic_topics`, and `pebblo_semantic_entities` fields within the metadata of the VectorDB entry for each chunk. 
+In this step, we capture the authorization and semantic information of the source document into the `authorized_identities`, `pebblo_semantic_topics`, and `pebblo_semantic_entities` fields within the metadata of the VectorDB entry for each chunk.
 
 
 *NOTE: To use the PebbloRetrievalQA chain, you must always place authorization and semantic metadata in the specified fields. These fields must contain a list of strings.*
@@ -65,19 +65,19 @@ page_content = """
 **ACME Corp Financial Report**
 
 **Overview:**
-ACME Corp, a leading player in the merger and acquisition industry, presents its financial report for the fiscal year ending December 31, 2020. 
+ACME Corp, a leading player in the merger and acquisition industry, presents its financial report for the fiscal year ending December 31, 2020.
 Despite a challenging economic landscape, ACME Corp demonstrated robust performance and strategic growth.
 
 **Financial Highlights:**
-Revenue soared to $50 million, marking a 15% increase from the previous year, driven by successful deal closures and expansion into new markets. 
+Revenue soared to $50 million, marking a 15% increase from the previous year, driven by successful deal closures and expansion into new markets.
 Net profit reached $12 million, showcasing a healthy margin of 24%.
 
 **Key Metrics:**
-Total assets surged to $80 million, reflecting a 20% growth, highlighting ACME Corp's strong financial position and asset base. 
+Total assets surged to $80 million, reflecting a 20% growth, highlighting ACME Corp's strong financial position and asset base.
 Additionally, the company maintained a conservative debt-to-equity ratio of 0.5, ensuring sustainable financial stability.
 
 **Future Outlook:**
-ACME Corp remains optimistic about the future, with plans to capitalize on emerging opportunities in the global M&A landscape. 
+ACME Corp remains optimistic about the future, with plans to capitalize on emerging opportunities in the global M&A landscape.
 The company is committed to delivering value to shareholders while maintaining ethical business practices.
 
 **Bank Account Details:**
@@ -116,12 +116,12 @@ Vectordb loaded.
 ```
 ## Retrieval with Identity Enforcement
 
-PebbloRetrievalQA chain uses a SafeRetrieval to enforce that the snippets used for in-context are retrieved only from the documents authorized for the user. 
-To achieve this, the Gen-AI application needs to provide an authorization context for this retrieval chain. 
+PebbloRetrievalQA chain uses a SafeRetrieval to enforce that the snippets used for in-context are retrieved only from the documents authorized for the user.
+To achieve this, the Gen-AI application needs to provide an authorization context for this retrieval chain.
 This *auth_context* should be filled with the identity and authorization groups of the user accessing the Gen-AI app.
 
 
-Here is the sample code for the `PebbloRetrievalQA` with `user_auth`(List of user authorizations, which may include their User ID and 
+Here is the sample code for the `PebbloRetrievalQA` with `user_auth`(List of user authorizations, which may include their User ID and
     the groups they are part of) from the user accessing the RAG application, passed in `auth_context`.
 
 
@@ -168,7 +168,7 @@ print(f"Question: {question}\n\nAnswer: {resp['result']}")
 ```output
 Question: Share the financial performance of ACME Corp for the year 2020
 
-Answer: 
+Answer:
 Revenue: $50 million (15% increase from previous year)
 Net profit: $12 million (24% margin)
 Total assets: $80 million (20% growth)
@@ -205,7 +205,7 @@ from langchain_core.prompts import PromptTemplate
 
 prompt_template = PromptTemplate.from_template(
     """
-Answer the question using the provided context. 
+Answer the question using the provided context.
 If no context is provided, just say "I'm sorry, but that information is unavailable, or Access to it is restricted.".
 
 Question: {question}
@@ -232,7 +232,7 @@ print(f"Question: {question}\n\nAnswer: {resp['result']}")
 ```output
 Question: Share the financial performance of ACME Corp for the year 2020
 
-Answer: 
+Answer:
 Revenue soared to $50 million, marking a 15% increase from the previous year, and net profit reached $12 million, showcasing a healthy margin of 24%. Total assets also grew by 20% to $80 million, and the company maintained a conservative debt-to-equity ratio of 0.5.
 ```
 #### 3.2 Questions by Unauthorized Users
@@ -251,7 +251,7 @@ print(f"Question: {question}\n\nAnswer: {resp['result']}")
 ```output
 Question: Share the financial performance of ACME Corp for the year 2020
 
-Answer: 
+Answer:
 I'm sorry, but that information is unavailable, or Access to it is restricted.
 ```
 ## Retrieval with Semantic Enforcement
@@ -324,7 +324,7 @@ print(
 Topics to deny: []
 Entities to deny: []
 Question: Share the financial performance of ACME Corp for the year 2020
-Answer: 
+Answer:
 Revenue for ACME Corp increased by 15% to $50 million in 2020, with a net profit of $12 million and a strong asset base of $80 million. The company also maintained a conservative debt-to-equity ratio of 0.5.
 ```
 ### 2. Deny financial-report topic
@@ -347,7 +347,7 @@ print(
 Topics to deny: ['financial-report']
 Entities to deny: []
 Question: Share the financial performance of ACME Corp for the year 2020
-Answer: 
+Answer:
 
 Unfortunately, I do not have access to the financial performance of ACME Corp for the year 2020.
 ```

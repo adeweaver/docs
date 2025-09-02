@@ -77,7 +77,7 @@ res = llm.generate(prompts=["hillo?"])
 
 
 async def run_aio_generate():
-    resp = await llm.agenerate(prompts=["Write a 20-word article about rivers."])
+        resp = await llm.agenerate(prompts=["Write a 20-word article about rivers."])
     print(resp)
 
 

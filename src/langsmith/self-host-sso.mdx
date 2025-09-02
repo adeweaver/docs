@@ -16,11 +16,11 @@ By default, LangSmith Self-Hosted supports the `Authorization Code` flow with `C
 ### Requirements
 
 <Note>
-  You may upgrade a [basic auth](/langsmith/self-host-basic-auth) installation to this mode, but not a [none auth](/langsmith/authentication-methods#none) installation. In order to upgrade, simply remove the basic auth configuration and add the required configuration parameters as shown below. Users may then login via OAuth *only*. **In order to maintain access post-upgrade, you must have access to login via OAuth using an email address that previously logged in via basic auth.**
+You may upgrade a [basic auth](/langsmith/self-host-basic-auth) installation to this mode, but not a [none auth](/langsmith/authentication-methods#none) installation. In order to upgrade, simply remove the basic auth configuration and add the required configuration parameters as shown below. Users may then login via OAuth *only*. **In order to maintain access post-upgrade, you must have access to login via OAuth using an email address that previously logged in via basic auth.**
 </Note>
 
 <Warning>
-  LangSmith does not support moving from SSO to basic auth mode in self-hosted at the moment. We also do not support moving from OAuth Mode with client secret to OAuth mode without a client secret and vice versa. Finally, we do not support having both basic auth and OAuth at the same time. Ensure you disable the basic auth configuration when enabling OAuth.
+LangSmith does not support moving from SSO to basic auth mode in self-hosted at the moment. We also do not support moving from OAuth Mode with client secret to OAuth mode without a client secret and vice versa. Finally, we do not support having both basic auth and OAuth at the same time. Ensure you disable the basic auth configuration when enabling OAuth.
 </Warning>
 
 * Your IdP must support the `Authorization Code` flow with `Client Secret`.
@@ -59,7 +59,7 @@ OAUTH_SCOPES=email,profile,openid
 ### Session length controls
 
 <Note>
-  All of the environment variables in this section are for the `platform-backend` service and can be added using `platformBackend.deployment.extraEnv` in Helm.
+All of the environment variables in this section are for the `platform-backend` service and can be added using `platformBackend.deployment.extraEnv` in Helm.
 </Note>
 
 * By default, session length is controlled by the expiration of the identity token returned by the identity provider
@@ -74,7 +74,7 @@ OAUTH_SCOPES=email,profile,openid
 You can use Google Workspace as a single sign-on (SSO) provider using [OAuth2.0 and OIDC](https://developers.google.com/identity/openid-connect/openid-connect) without PKCE.
 
 <Note>
-  You must have administrator-level access to your organization's Google Cloud Platform (GCP) account to create a new project, or permissions to create and configure OAuth 2.0 credentials for an existing project. We recommend that you create a new project for managing access, since each GCP project has a single OAuth consent screen.
+You must have administrator-level access to your organization's Google Cloud Platform (GCP) account to create a new project, or permissions to create and configure OAuth 2.0 credentials for an existing project. We recommend that you create a new project for managing access, since each GCP project has a single OAuth consent screen.
 </Note>
 
 1. Create a new GCP project, see the Google documentation topic [creating and managing projects](https://cloud.google.com/resource-manager/docs/creating-managing-projects)

@@ -164,10 +164,10 @@ embedder_params = {
 
 # using huggingface
 embedder_params = {
-    "provider": "huggingface", 
-    "credential_name": "HF_CRED", 
-    "url": "https://api-inference.huggingface.co/pipeline/feature-extraction/", 
-    "model": "sentence-transformers/all-MiniLM-L6-v2", 
+    "provider": "huggingface",
+    "credential_name": "HF_CRED",
+    "url": "https://api-inference.huggingface.co/pipeline/feature-extraction/",
+    "model": "sentence-transformers/all-MiniLM-L6-v2",
     "wait_for_model": "true"
 }
 """

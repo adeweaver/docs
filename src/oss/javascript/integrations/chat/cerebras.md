@@ -28,7 +28,7 @@ See the links in the table headers below for guides on how to use specific featu
 
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: |
-| ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | 
+| ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ |
 
 ## Setup
 
@@ -69,7 +69,7 @@ Now we can instantiate our model object and generate chat completions:
 
 
 ```typescript
-import { ChatCerebras } from "@langchain/cerebras" 
+import { ChatCerebras } from "@langchain/cerebras"
 
 const llm = new ChatCerebras({
     model: "llama-3.3-70b",

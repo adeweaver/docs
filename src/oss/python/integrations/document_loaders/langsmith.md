@@ -9,12 +9,12 @@ This guide provides a quick overview for getting started with the LangSmith [doc
 
 | Class | Package | Local | Serializable | JS support|
 | :--- | :--- | :---: | :---: |  :---: |
-| [LangSmithLoader](https://python.langchain.com/api_reference/core/document_loaders/langchain_core.document_loaders.langsmith.LangSmithLoader.html) | [langchain-core](https://python.langchain.com/api_reference/core/index.html) | ❌ | ❌ | ❌ | 
+| [LangSmithLoader](https://python.langchain.com/api_reference/core/document_loaders/langchain_core.document_loaders.langsmith.LangSmithLoader.html) | [langchain-core](https://python.langchain.com/api_reference/core/index.html) | ❌ | ❌ | ❌ |
 
 ### Loader features
 | Source | Lazy loading | Native async
-| :---: | :---: | :---: | 
-| LangSmithLoader | ✅ | ❌ | 
+| :---: | :---: | :---: |
+| LangSmithLoader | ✅ | ❌ |
 
 ## Setup
 

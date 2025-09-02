@@ -2,7 +2,7 @@
 title: Fiddler
 ---
 
->[Fiddler](https://www.fiddler.ai/) is the pioneer in enterprise Generative and Predictive system ops, offering a unified platform that enables Data Science, MLOps, Risk, Compliance, Analytics, and other LOB teams to monitor, explain, analyze, and improve ML deployments at enterprise scale. 
+>[Fiddler](https://www.fiddler.ai/) is the pioneer in enterprise Generative and Predictive system ops, offering a unified platform that enables Data Science, MLOps, Risk, Compliance, Analytics, and other LOB teams to monitor, explain, analyze, and improve ML deployments at enterprise scale.
 
 ## 1. Installation and Setup
 
@@ -11,7 +11,7 @@ title: Fiddler
 #!pip install langchain langchain-community langchain-openai fiddler-client
 ```
 
-## 2. Fiddler connection details 
+## 2. Fiddler connection details
 
 *Before you can add information about your model with Fiddler*
 

@@ -6,7 +6,7 @@ title: Upstage
 >
 >**Solar Pro** is an enterprise-grade LLM optimized for single-GPU deployment, excelling in instruction-following and processing structured formats like HTML and Markdown. It supports English, Korean, and Japanese with top multilingual performance and offers domain expertise in finance, healthcare, and legal.
 
->Other than Solar, Upstage also offers features for real-world RAG (retrieval-augmented generation), such as **Document Parse** and **Groundedness Check**. 
+>Other than Solar, Upstage also offers features for real-world RAG (retrieval-augmented generation), such as **Document Parse** and **Groundedness Check**.
 
 
 ### Upstage LangChain integrations

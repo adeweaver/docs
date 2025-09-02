@@ -94,39 +94,39 @@ for doc, score in docs_with_score:
 ```output
 --------------------------------------------------------------------------------
 Score:  0.18459301498220004
-Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections. 
+Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections.
 
-Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service. 
+Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service.
 
-One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. 
+One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
 
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 Score:  0.2172729943284636
-A former top litigator in private practice. A former federal public defender. And from a family of public school educators and police officers. A consensus builder. Since she’s been nominated, she’s received a broad range of support—from the Fraternal Order of Police to former judges appointed by Democrats and Republicans. 
+A former top litigator in private practice. A former federal public defender. And from a family of public school educators and police officers. A consensus builder. Since she’s been nominated, she’s received a broad range of support—from the Fraternal Order of Police to former judges appointed by Democrats and Republicans.
 
-And if we are to advance liberty and justice, we need to secure the Border and fix the immigration system. 
+And if we are to advance liberty and justice, we need to secure the Border and fix the immigration system.
 
-We can do both. At our border, we’ve installed new technology like cutting-edge scanners to better detect drug smuggling.  
+We can do both. At our border, we’ve installed new technology like cutting-edge scanners to better detect drug smuggling.
 
-We’ve set up joint patrols with Mexico and Guatemala to catch more human traffickers.  
+We’ve set up joint patrols with Mexico and Guatemala to catch more human traffickers.
 
-We’re putting in place dedicated immigration judges so families fleeing persecution and violence can have their cases heard faster. 
+We’re putting in place dedicated immigration judges so families fleeing persecution and violence can have their cases heard faster.
 
 We’re securing commitments and supporting partners in South and Central America to host more refugees and secure their own borders.
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 Score:  0.2262166799003692
-And for our LGBTQ+ Americans, let’s finally get the bipartisan Equality Act to my desk. The onslaught of state laws targeting transgender Americans and their families is wrong. 
+And for our LGBTQ+ Americans, let’s finally get the bipartisan Equality Act to my desk. The onslaught of state laws targeting transgender Americans and their families is wrong.
 
-As I said last year, especially to our younger transgender Americans, I will always have your back as your President, so you can be yourself and reach your God-given potential. 
+As I said last year, especially to our younger transgender Americans, I will always have your back as your President, so you can be yourself and reach your God-given potential.
 
-While it often appears that we never agree, that isn’t true. I signed 80 bipartisan bills into law last year. From preventing government shutdowns to protecting Asian-Americans from still-too-common hate crimes to reforming military justice. 
+While it often appears that we never agree, that isn’t true. I signed 80 bipartisan bills into law last year. From preventing government shutdowns to protecting Asian-Americans from still-too-common hate crimes to reforming military justice.
 
-And soon, we’ll strengthen the Violence Against Women Act that I first wrote three decades ago. It is important for us to show the nation that we can come together and do big things. 
+And soon, we’ll strengthen the Violence Against Women Act that I first wrote three decades ago. It is important for us to show the nation that we can come together and do big things.
 
-So tonight I’m offering a Unity Agenda for the Nation. Four big things we can do together.  
+So tonight I’m offering a Unity Agenda for the Nation. Four big things we can do together.
 
 First, beat the opioid epidemic.
 --------------------------------------------------------------------------------
@@ -145,25 +145,25 @@ for doc, score in docs_with_relevance_score:
 ```output
 --------------------------------------------------------------------------------
 Score:  0.8154069850178
-Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections. 
+Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections.
 
-Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service. 
+Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service.
 
-One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. 
+One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
 
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 Score:  0.7827270056715364
-A former top litigator in private practice. A former federal public defender. And from a family of public school educators and police officers. A consensus builder. Since she’s been nominated, she’s received a broad range of support—from the Fraternal Order of Police to former judges appointed by Democrats and Republicans. 
+A former top litigator in private practice. A former federal public defender. And from a family of public school educators and police officers. A consensus builder. Since she’s been nominated, she’s received a broad range of support—from the Fraternal Order of Police to former judges appointed by Democrats and Republicans.
 
-And if we are to advance liberty and justice, we need to secure the Border and fix the immigration system. 
+And if we are to advance liberty and justice, we need to secure the Border and fix the immigration system.
 
-We can do both. At our border, we’ve installed new technology like cutting-edge scanners to better detect drug smuggling.  
+We can do both. At our border, we’ve installed new technology like cutting-edge scanners to better detect drug smuggling.
 
-We’ve set up joint patrols with Mexico and Guatemala to catch more human traffickers.  
+We’ve set up joint patrols with Mexico and Guatemala to catch more human traffickers.
 
-We’re putting in place dedicated immigration judges so families fleeing persecution and violence can have their cases heard faster. 
+We’re putting in place dedicated immigration judges so families fleeing persecution and violence can have their cases heard faster.
 
 We’re securing commitments and supporting partners in South and Central America to host more refugees and secure their own borders.
 --------------------------------------------------------------------------------
@@ -290,11 +290,11 @@ for doc in docs_retrieved:
 ```
 ```output
 --------------------------------------------------------------------------------
-Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections. 
+Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections.
 
-Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service. 
+Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service.
 
-One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. 
+One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
 
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.
 --------------------------------------------------------------------------------
@@ -337,7 +337,7 @@ db.tidb_vector_client.execute(
         airplane_type,
         price,
         layover
-    ) VALUES 
+    ) VALUES
     ('JFK', 'DL', 'LAX', 'Non-stop from JFK to LAX.', '06:00:00', 5, 'Boeing 777', 299.99, 'None'),
     ('LAX', 'AA', 'ORD', 'Direct LAX to ORD route.', '04:00:00', 3, 'Airbus A320', 149.99, 'None'),
     ('EFGH', 'UA', 'SEA', 'Daily flights from SFO to SEA.', '02:30:00', 7, 'Boeing 737', 129.99, 'None');
@@ -418,15 +418,15 @@ Alternatively, we can streamline the process by utilizing a single SQL query to 
 
 ```python
 search_query = f"""
-    SELECT 
-        VEC_Cosine_Distance(se.embedding, :query_vector) as distance, 
+    SELECT
+        VEC_Cosine_Distance(se.embedding, :query_vector) as distance,
         ar.*,
         se.document as airport_review
-    FROM 
+    FROM
         airplan_routes ar
-    JOIN 
+    JOIN
         {TABLE_NAME} se ON ar.airport_code = JSON_UNQUOTE(JSON_EXTRACT(se.meta, '$.airport_code'))
-    ORDER BY distance ASC 
+    ORDER BY distance ASC
     LIMIT 5;
 """
 query_vector = embeddings.embed_query(semantic_query)

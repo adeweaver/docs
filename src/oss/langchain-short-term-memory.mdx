@@ -9,8 +9,8 @@ import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
 ## Overview
 
 Memory is a system that remembers information about previous interactions.
-For AI agents, memory is crucial because it lets them remember previous interactions, learn from feedback, 
-and adapt to user preferences. As agents tackle more complex tasks with numerous user interactions, 
+For AI agents, memory is crucial because it lets them remember previous interactions, learn from feedback,
+and adapt to user preferences. As agents tackle more complex tasks with numerous user interactions,
 this capability becomes essential for both efficiency and user satisfaction.
 
 Short term memory lets your application remember previous interactions within a single thread or conversation.
@@ -19,14 +19,14 @@ Short term memory lets your application remember previous interactions within a 
 A thread organizes multiple interactions in a session, similar to the way email groups messages in a single conversation.
 </Note>
 
-Conversation history is the most common form of short-term memory, and long conversations pose a challenge 
-to today's LLMs. A full history may not fit inside an LLM's context window, resulting in an irrecoverable error. 
-Even if your LLM supports the full context length, most LLMs still perform poorly over long contexts. 
+Conversation history is the most common form of short-term memory, and long conversations pose a challenge
+to today's LLMs. A full history may not fit inside an LLM's context window, resulting in an irrecoverable error.
+Even if your LLM supports the full context length, most LLMs still perform poorly over long contexts.
 They get "distracted" by stale or off-topic content, all while suffering from slower response times and higher costs.
 
-Chat models accept context using messages, which include developer provided instructions (a system message) and user 
-inputs (human messages). In chat applications, messages alternate between human inputs and model responses, resulting 
-in a list of messages that grows longer over time. Because context windows are limited and token-rich message lists can 
+Chat models accept context using messages, which include developer provided instructions (a system message) and user
+inputs (human messages). In chat applications, messages alternate between human inputs and model responses, resulting
+in a list of messages that grows longer over time. Because context windows are limited and token-rich message lists can
 be costly, many applications can benefit from using techniques to manually remove or forget stale information.
 
 ## Usage
@@ -38,7 +38,7 @@ an agent.
 LangChain's agent manages short-term memory as a part of your agent's state.
 By storing these in the graph's state, the agent can access the full context for a given conversation while maintaining separation between different threads.
 
-State is persisted to a database (or memory) using a checkpointer so the thread can be resumed at any time. 
+State is persisted to a database (or memory) using a checkpointer so the thread can be resumed at any time.
 Short-term memory updates when the agent is invoked or a step (like a tool call) is completed, and the state is read at the start of each step.
 </Info>
 
@@ -162,9 +162,9 @@ This allows the agent to keep track of the conversation without exceeding the LL
 ### Trim messages
 
 Most LLMs have a maximum supported context window (denominated in tokens).
-One way to decide when to truncate messages is to count the tokens in the message history 
-and truncate whenever it approaches that limit. If you're using LangChain, you can use the 
-trim messages utility and specify the number of tokens to keep from the list, as well as the `strategy` 
+One way to decide when to truncate messages is to count the tokens in the message history
+and truncate whenever it approaches that limit. If you're using LangChain, you can use the
+trim messages utility and specify the number of tokens to keep from the list, as well as the `strategy`
 (e.g., keep the last `maxTokens`) to use for handling the boundary.
 
 :::python
@@ -306,10 +306,10 @@ const deleteMessages = (state) => {
 :::
 
 <Warning>
-  When deleting messages, **make sure** that the resulting message history is valid. Check the limitations of the LLM provider you're using. For example:
-  
-  * some providers expect message history to start with a `user` message
-  * most providers require `assistant` messages with tool calls to be followed by corresponding `tool` result messages.
+When deleting messages, **make sure** that the resulting message history is valid. Check the limitations of the LLM provider you're using. For example:
+
+* some providers expect message history to start with a `user` message
+* most providers require `assistant` messages with tool calls to be followed by corresponding `tool` result messages.
 </Warning>
 
 :::python
@@ -459,7 +459,7 @@ summarization_node = SummarizationNode(
 
 class State(AgentState):
     # Added for the SummarizationNode to be able to keep track of the running summary information
-    context: dict[str, RunningSummary] 
+    context: dict[str, RunningSummary]
 
 
 checkpointer = InMemorySaver()
@@ -578,7 +578,7 @@ console.log(result.messages.at(-1)?.content);
 
 #### Write short-term memory from tools
 
-To modify the agent's short-term memory (state) during execution, you can return state updates directly from the tools. 
+To modify the agent's short-term memory (state) during execution, you can return state updates directly from the tools.
 This is useful for persisting intermediate results or making information accessible to subsequent tools or prompts.
 
 :::python

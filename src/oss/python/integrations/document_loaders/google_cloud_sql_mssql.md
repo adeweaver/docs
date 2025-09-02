@@ -347,7 +347,7 @@ engine.init_document_table(
 )
 ```
 
-Save documents with `MSSQLDocumentSaver.add_documents(<documents>)`. As you can see in this example, 
+Save documents with `MSSQLDocumentSaver.add_documents(<documents>)`. As you can see in this example,
 
 - `document.page_content` will be saved into `description` column.
 - `document.metadata.fruit_name` will be saved into `fruit_name` column.

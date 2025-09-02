@@ -22,7 +22,7 @@ When you create a chain from the chat prompt and execute it, the Kinetica LLM wi
 generate SQL from the input. Optionally you can use ``KineticaSqlOutputParser`` to
 execute the SQL and return the result as a dataframe.
 
-Currently, 2 LLM's are supported for SQL generation: 
+Currently, 2 LLM's are supported for SQL generation:
 
 1. **Kinetica SQL-GPT**: This LLM is based on OpenAI ChatGPT API.
 2. **Kinetica SqlAssist**: This LLM is purpose built to integrate with the Kinetica
@@ -47,7 +47,7 @@ You will need to install the following packages...
 %pip install --upgrade --quiet 'gpudb>=7.2.0.8' typeguard pandas tqdm
 
 # Install packages needed for this tutorial
-%pip install --upgrade --quiet faker ipykernel 
+%pip install --upgrade --quiet faker ipykernel
 ```
 
 ## Database Connection
@@ -103,27 +103,27 @@ print(load_df.head())
 ```
 ```output
          username             name sex  \
-id                                       
-0       eduardo69       Haley Beck   F   
-1        lbarrera  Joshua Stephens   M   
-2         bburton     Paula Kaiser   F   
-3       melissa49      Wendy Reese   F   
-4   melissacarter      Manuel Rios   M   
+id
+0       eduardo69       Haley Beck   F
+1        lbarrera  Joshua Stephens   M
+2         bburton     Paula Kaiser   F
+3       melissa49      Wendy Reese   F
+4   melissacarter      Manuel Rios   M
 
                                               address                    mail  \
-id                                                                              
-0   59836 Carla Causeway Suite 939\nPort Eugene, I...  meltondenise@yahoo.com   
-1   3108 Christina Forges\nPort Timothychester, KY...     erica80@hotmail.com   
-2                    Unit 7405 Box 3052\nDPO AE 09858  timothypotts@gmail.com   
-3   6408 Christopher Hill Apt. 459\nNew Benjamin, ...        dadams@gmail.com   
-4    2241 Bell Gardens Suite 723\nScottside, CA 38463  williamayala@gmail.com   
+id
+0   59836 Carla Causeway Suite 939\nPort Eugene, I...  meltondenise@yahoo.com
+1   3108 Christina Forges\nPort Timothychester, KY...     erica80@hotmail.com
+2                    Unit 7405 Box 3052\nDPO AE 09858  timothypotts@gmail.com
+3   6408 Christopher Hill Apt. 459\nNew Benjamin, ...        dadams@gmail.com
+4    2241 Bell Gardens Suite 723\nScottside, CA 38463  williamayala@gmail.com
 
-    birthdate  
-id             
-0  1997-12-08  
-1  1924-08-03  
-2  1933-12-05  
-3  1988-10-26  
+    birthdate
+id
+0  1997-12-08
+1  1924-08-03
+2  1933-12-05
+3  1988-10-26
 4  1931-03-19
 ```
 ### Create a Kinetica table from the Dataframe
@@ -154,7 +154,7 @@ print(gpudb_table.type_as_df())
 ```
 ### Create the LLM context
 
-You can create an LLM Context using the Kinetica Workbench UI or you can manually create it with the `CREATE OR REPLACE CONTEXT` syntax. 
+You can create an LLM Context using the Kinetica Workbench UI or you can manually create it with the `CREATE OR REPLACE CONTEXT` syntax.
 
 Here we create a context from the SQL syntax referencing the table we created.
 
@@ -191,7 +191,7 @@ CREATE OR REPLACE CONTEXT "demo"."test_llm_ctx" (
     COMMENT = 'Contains user profiles.'
 ),
 (
-    SAMPLES = ( 
+    SAMPLES = (
         'How many male users are there?' = 'select count(1) as num_users
     from demo.user_profiles
     where sex = ''M'';' )

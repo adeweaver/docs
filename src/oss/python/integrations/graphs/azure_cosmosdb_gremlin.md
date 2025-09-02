@@ -17,7 +17,7 @@ Install a library:
 !pip3 install gremlinpython
 ```
 
-You will need an Azure CosmosDB Graph database instance. One option is to create a [free CosmosDB Graph database instance in Azure](https://learn.microsoft.com/en-us/azure/cosmos-db/free-tier). 
+You will need an Azure CosmosDB Graph database instance. One option is to create a [free CosmosDB Graph database instance in Azure](https://learn.microsoft.com/en-us/azure/cosmos-db/free-tier).
 
 When you create your Cosmos DB account and Graph, use `/type` as a partition key.
 

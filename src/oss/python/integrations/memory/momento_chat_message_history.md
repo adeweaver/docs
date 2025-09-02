@@ -2,8 +2,8 @@
 title: Momento Cache
 ---
 
->[Momento Cache](https://docs.momentohq.com/) is the world's first truly serverless caching service. It provides instant elasticity, scale-to-zero 
-> capability, and blazing-fast performance.  
+>[Momento Cache](https://docs.momentohq.com/) is the world's first truly serverless caching service. It provides instant elasticity, scale-to-zero
+> capability, and blazing-fast performance.
 
 
 This notebook goes over how to use [Momento Cache](https://www.gomomento.com/services/cache) to store chat message history using the `MomentoChatMessageHistory` class. See the Momento [docs](https://docs.momentohq.com/getting-started) for more detail on how to get set up with Momento.

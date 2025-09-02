@@ -13,10 +13,10 @@ This notebook covers how to retrieve documents from `Google Drive`.
 
 ## Retrieve the Google Docs
 
-By default, the `GoogleDriveRetriever` expects the `credentials.json` file to be `~/.credentials/credentials.json`, but this is configurable using the `GOOGLE_ACCOUNT_FILE` environment variable. 
+By default, the `GoogleDriveRetriever` expects the `credentials.json` file to be `~/.credentials/credentials.json`, but this is configurable using the `GOOGLE_ACCOUNT_FILE` environment variable.
 The location of `token.json` uses the same directory (or use the parameter `token_path`). Note that `token.json` will be created automatically the first time you use the retriever.
 
-`GoogleDriveRetriever` can retrieve a selection of files with some requests. 
+`GoogleDriveRetriever` can retrieve a selection of files with some requests.
 
 By default, If you use a `folder_id`, all the files inside this folder can be retrieved to `Document`.
 

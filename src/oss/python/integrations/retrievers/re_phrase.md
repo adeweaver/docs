@@ -86,7 +86,7 @@ from langchain_core.prompts import PromptTemplate
 QUERY_PROMPT = PromptTemplate(
     input_variables=["question"],
     template="""You are an assistant tasked with taking a natural languge query from a user
-    and converting it into a query for a vectorstore. In the process, strip out all 
+    and converting it into a query for a vectorstore. In the process, strip out all
     information that is not relevant for the retrieval task and return a new, simplified
     question for vectorstore retrieval. The new user query should be in pirate speech.
     Here is the user query: {question} """,

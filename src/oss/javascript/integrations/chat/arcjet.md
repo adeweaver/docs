@@ -6,7 +6,7 @@ The [Arcjet](https://arcjet.com) redact integration allows you to redact sensiti
 
 Arcjet Redact runs entirely on your own machine and never sends data anywhere else, ensuring best in class privacy and performance.
 
-The Arcjet Redact object is not a chat model itself, instead it wraps an LLM. It redacts the text that is inputted to it and then unredacts the output of the wrapped chat model before returning it. 
+The Arcjet Redact object is not a chat model itself, instead it wraps an LLM. It redacts the text that is inputted to it and then unredacts the output of the wrapped chat model before returning it.
 
 
 

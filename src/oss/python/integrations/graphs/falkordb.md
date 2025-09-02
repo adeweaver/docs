@@ -36,7 +36,7 @@ graph = FalkorDBGraph(database="movies")
 ```python
 graph.query(
     """
-    CREATE 
+    CREATE
         (al:Person {name: 'Al Pacino', birthDate: '1940-04-25'}),
         (robert:Person {name: 'Robert De Niro', birthDate: '1943-08-17'}),
         (tom:Person {name: 'Tom Cruise', birthDate: '1962-07-3'}),

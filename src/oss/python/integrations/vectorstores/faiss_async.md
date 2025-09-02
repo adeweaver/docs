@@ -22,7 +22,7 @@ See `synchronous` version [here](/oss/integrations/vectorstores/faiss).
 %pip install --upgrade --quiet  faiss-cpu # For CPU Installation
 ```
 
-We want to use OpenAIEmbeddings so we have to get the OpenAI API Key. 
+We want to use OpenAIEmbeddings so we have to get the OpenAI API Key.
 
 
 ```python
@@ -181,7 +181,7 @@ Content: foo, Metadata: {'page': 2}, Score: 5.159960813797904e-15
 Content: foo, Metadata: {'page': 3}, Score: 5.159960813797904e-15
 Content: foo, Metadata: {'page': 4}, Score: 5.159960813797904e-15
 ```
-Now we make the same query call but we filter for only `page = 1` 
+Now we make the same query call but we filter for only `page = 1`
 
 
 ```python

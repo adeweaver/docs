@@ -6,7 +6,7 @@ title: DataForSEO
 >
 >The `DataForSeo API` retrieves `SERP` from the most popular search engines like `Google`, `Bing`, `Yahoo`. It also allows to >get SERPs from different search engine types like `Maps`, `News`, `Events`, etc.
 
-This notebook demonstrates how to use the [DataForSeo API](https://dataforseo.com/apis) to obtain search engine results. 
+This notebook demonstrates how to use the [DataForSeo API](https://dataforseo.com/apis) to obtain search engine results.
 
 
 ```python

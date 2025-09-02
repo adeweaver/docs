@@ -42,7 +42,7 @@ we support two ways to embed the documents:
     - `m3e-base`, dimension: 768
     - `text2vec-large-chinese`, dimension: 1024
     - `e5-large-v2`, dimension: 1024
-    - `multilingual-e5-base`, dimension: 768 
+    - `multilingual-e5-base`, dimension: 768
 
 flowing code shows both ways to embed the documents, you can choose one of them by commenting the other:
 

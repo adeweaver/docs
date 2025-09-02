@@ -21,7 +21,7 @@ version of `langchain-tests` to avoid unexpected changes.
 </Note>
 
 <Tabs>
-    <Tab title="Poetry">
+        <Tab title="Poetry">
 If you followed the [previous guide](./package), you should already have these dependencies installed.
 
 ```bash
@@ -29,15 +29,15 @@ poetry add langchain-core
 poetry add --group test langchain-tests==<latest_version>
 poetry install --with test
 ```
-    </Tab>
-    <Tab title="Pip">
+        </Tab>
+        <Tab title="Pip">
 ```bash
 pip install -U langchain-core langchain-tests
 
 # install current package in editable mode
 pip install --editable .
 ```
-    </Tab>
+        </Tab>
 </Tabs>
 
 ## Add and configure standard tests
@@ -65,7 +65,7 @@ each component type:
 
 <Tabs>
 
-    <Tab title="Chat models">
+        <Tab title="Chat models">
 
 To configure standard tests for a chat model, we subclass `ChatModelUnitTests` and `ChatModelIntegrationTests`. On each subclass, we override the following `@property` methods to specify the chat model to be tested and the chat model's configuration:
 
@@ -157,8 +157,8 @@ class TestChatParrotLinkIntegration(ChatModelIntegrationTests):
         }
 ```
 
-    </Tab>
-    <Tab title="Vector stores">
+        </Tab>
+        <Tab title="Vector stores">
 
 
 Here's how you would configure the standard tests for a typical vector store (using
@@ -239,8 +239,8 @@ Details on what tests are run and troubleshooting tips for each test can be foun
 </Note>
 
 
-    </Tab>
-    <Tab title="Embeddings">
+        </Tab>
+        <Tab title="Embeddings">
 
 To configure standard tests for an embeddings model, we subclass `EmbeddingsUnitTests` and `EmbeddingsIntegrationTests`. On each subclass, we override the following `@property` methods to specify the embeddings model to be tested and the embeddings model's configuration:
 
@@ -301,8 +301,8 @@ class TestParrotLinkEmbeddingsIntegration(EmbeddingsIntegrationTests):
         return {"model": "nest-embed-001"}
 ```
 
-    </Tab>
-    <Tab title="Tools">
+        </Tab>
+        <Tab title="Tools">
 
 To configure standard tests for a tool, we subclass `ToolsUnitTests` and
 `ToolsIntegrationTests`. On each subclass, we override the following `@property` methods
@@ -388,9 +388,9 @@ class TestParrotMultiplyToolIntegration(ToolsIntegrationTests):
         return {"a": 2, "b": 3}
 ```
 
-    </Tab>
+        </Tab>
 
-    <Tab title="Retrievers">
+        <Tab title="Retrievers">
 
 To configure standard tests for a retriever, we subclass `RetrieversUnitTests` and
 `RetrieversIntegrationTests`. On each subclass, we override the following `@property` methods
@@ -434,7 +434,7 @@ class TestParrotRetriever(RetrieversIntegrationTests):
         return "example query"
 ```
 
-    </Tab>
+        </Tab>
 </Tabs>
 
 ---
@@ -444,7 +444,7 @@ class TestParrotRetriever(RetrieversIntegrationTests):
 You can run these with the following commands from your project root.
 
 <Tabs>
-    <Tab title="Poetry" default>
+        <Tab title="Poetry" default>
 
 ```bash
 # run unit tests without network access
@@ -454,8 +454,8 @@ poetry run pytest --disable-socket --allow-unix-socket --asyncio-mode=auto tests
 poetry run pytest --asyncio-mode=auto tests/integration_tests
 ```
 
-    </Tab>
-    <Tab title="Pip">
+        </Tab>
+        <Tab title="Pip">
 
 ```bash
 # run unit tests without network access
@@ -465,7 +465,7 @@ pytest --disable-socket --allow-unix-socket --asyncio-mode=auto tests/unit_tests
 pytest --asyncio-mode=auto tests/integration_tests
 ```
 
-    </Tab>
+        </Tab>
 </Tabs>
 
 ## Test suite information and troubleshooting

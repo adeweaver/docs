@@ -64,7 +64,7 @@ When initializing the `GoogleTranslateTransformer`, you can include the followin
 
 - `project_id`: Google Cloud Project ID.
 - `location`: (Optional) Translate model location.
-  - Default: `global` 
+  - Default: `global`
 - `model_id`: (Optional) Translate [model ID][models] to use.
 - `glossary_id`: (Optional) Translate [glossary ID][glossaries] to use.
 - `api_endpoint`: (Optional) [Regional endpoint][endpoints] to use.

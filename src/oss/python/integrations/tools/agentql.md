@@ -130,7 +130,7 @@ This tool uses AgentQL's REST API under the hood, sending the publically availab
 
 - `url`: The URL of the web page you want to extract data from.
 - `query`: The AgentQL query to execute. Use AgentQL query if you want to extract precisely structured data. Learn more about [how to write an AgentQL query in the docs](https://docs.agentql.com/agentql-query) or test one out in the [AgentQL Playground](https://dev.agentql.com/playground).
-- `prompt`: A Natural Language description of the data to extract from the page. AgentQL will infer the data’s structure from your prompt. Use `prompt` if you want to extract data defined by free-form language without defining a particular structure.  
+- `prompt`: A Natural Language description of the data to extract from the page. AgentQL will infer the data’s structure from your prompt. Use `prompt` if you want to extract data defined by free-form language without defining a particular structure.
 
 **Note:** You must define either a `query` or a `prompt` to use AgentQL.
 
@@ -184,7 +184,7 @@ extract_web_data_tool.invoke(
 
 ### `ExtractWebDataBrowserTool`
 - `query`: The AgentQL query to execute. Use AgentQL query if you want to extract precisely structured data. Learn more about [how to write an AgentQL query in the docs](https://docs.agentql.com/agentql-query) or test one out in the [AgentQL Playground](https://dev.agentql.com/playground).
-- `prompt`: A Natural Language description of the data to extract from the page. AgentQL will infer the data’s structure from your prompt. Use `prompt` if you want to extract data defined by free-form language without defining a particular structure.  
+- `prompt`: A Natural Language description of the data to extract from the page. AgentQL will infer the data’s structure from your prompt. Use `prompt` if you want to extract data defined by free-form language without defining a particular structure.
 
 **Note:** You must define either a `query` or a `prompt` to use AgentQL.
 

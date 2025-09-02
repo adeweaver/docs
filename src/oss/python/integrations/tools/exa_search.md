@@ -16,7 +16,7 @@ Install the LangChain Exa integration package:
 
 
 ```python
-%pip install --upgrade --quiet langchain-exa 
+%pip install --upgrade --quiet langchain-exa
 
 # and some deps for this notebook
 %pip install --upgrade --quiet langchain langchain-openai langchain-community

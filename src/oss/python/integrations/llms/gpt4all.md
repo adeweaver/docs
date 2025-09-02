@@ -32,8 +32,8 @@ prompt = PromptTemplate.from_template(template)
 
 ### Specify Model
 
-To run locally, download a compatible ggml-formatted model. 
- 
+To run locally, download a compatible ggml-formatted model.
+
 The [gpt4all page](https://gpt4all.io/index.html) has a useful `Model Explorer` section:
 
 * Select a model of interest
@@ -88,7 +88,7 @@ Token:  was
 Token:  born
 Token:  on
 Token:  March
-Token:  
+Token:
 Token: 1
 Token: ,
 Token:

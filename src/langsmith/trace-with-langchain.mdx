@@ -54,15 +54,15 @@ export OPENAI_API_KEY=<your-openai-api-key>
 </CodeGroup>
 
 <Info>
-  If you are using LangChain.js with LangSmith and are not in a serverless environment, we also recommend setting the following explicitly to reduce latency:
+If you are using LangChain.js with LangSmith and are not in a serverless environment, we also recommend setting the following explicitly to reduce latency:
 
-  `export LANGCHAIN_CALLBACKS_BACKGROUND=true`
+`export LANGCHAIN_CALLBACKS_BACKGROUND=true`
 
-  If you are in a serverless environment, we recommend setting the reverse to allow tracing to finish before your function ends:
+If you are in a serverless environment, we recommend setting the reverse to allow tracing to finish before your function ends:
 
-  `export LANGCHAIN_CALLBACKS_BACKGROUND=false`
+`export LANGCHAIN_CALLBACKS_BACKGROUND=false`
 
-  See [this LangChain.js guide](https://js.langchain.com/docs/how_to/callbacks_serverless) for more information.
+See [this LangChain.js guide](https://js.langchain.com/docs/how_to/callbacks_serverless) for more information.
 </Info>
 
 ### 2. Log a trace
@@ -171,7 +171,7 @@ export LANGSMITH_PROJECT=my-project
 ```
 
 <Warning>
-  The `LANGSMITH_PROJECT` flag is only supported in JS SDK versions >= 0.2.16, use `LANGCHAIN_PROJECT` instead if you are using an older version.
+The `LANGSMITH_PROJECT` flag is only supported in JS SDK versions >= 0.2.16, use `LANGCHAIN_PROJECT` instead if you are using an older version.
 </Warning>
 
 ### Dynamically
@@ -209,7 +209,7 @@ await chain.invoke(
 You can send annotate your traces with arbitrary metadata and tags by providing them in the [Config](https://api.python.langchain.com/en/latest/runnables/langchain_core.runnables.config.RunnableConfig.html#langchain-core-runnables-config-runnableconfig). This is useful for associating additional information with a trace, such as the environment in which it was executed, or the user who initiated it. For information on how to query traces and runs by metadata and tags, see [this guide](/langsmith/export-traces)
 
 <Note>
-  When you attach metadata or tags to a runnable (either through the RunnableConfig or at runtime with invocation params), they are inherited by all child runnables of that runnable.
+When you attach metadata or tags to a runnable (either through the RunnableConfig or at runtime with invocation params), they are inherited by all child runnables of that runnable.
 </Note>
 
 <CodeGroup>
@@ -263,7 +263,7 @@ await chain.invoke({input: "What is the meaning of life?"}, {tags: ["invoke-tag"
 You can customize the name of a given run when invoking or streaming your LangChain code by providing it in the [Config](https://api.python.langchain.com/en/latest/runnables/langchain_core.runnables.config.RunnableConfig.html#langchain-core-runnables-config-runnableconfig). This name is used to identify the run in LangSmith and can be used to filter and group runs. The name is also used as the title of the run in the LangSmith UI. This can be done by setting a `run_name` in the `RunnableConfig` object at construction or by passing a `run_name` in the invocation parameters in JS/TS.
 
 <Note>
-  This feature is not currently supported directly for LLM objects.
+This feature is not currently supported directly for LLM objects.
 </Note>
 
 <CodeGroup>
@@ -293,7 +293,7 @@ await chain.invoke({ input: "What is the meaning of life?" }, {runName: "MyCusto
 You can customize the ID of a given run when invoking or streaming your LangChain code by providing it in the [Config](https://api.python.langchain.com/en/latest/runnables/langchain_core.runnables.config.RunnableConfig.html#langchain-core-runnables-config-runnableconfig). This ID is used to uniquely identify the run in LangSmith and can be used to query specific runs. The ID can be useful for linking runs across different systems or for implementing custom tracking logic. This can be done by setting a `run_id` in the `RunnableConfig` object at construction or by passing a `run_id` in the invocation parameters in JS/TS.
 
 <Note>
-  This feature is not currently supported directly for LLM objects.
+This feature is not currently supported directly for LLM objects.
 </Note>
 
 <CodeGroup>
@@ -573,11 +573,11 @@ const main = traceable(
 ### Tracing LangChain child runs via `traceable` / RunTree API (JS only)
 
 <Note>
-  We're working on improving the interoperability between `traceable` and LangChain. The following limitations are present when using combining LangChain with `traceable`:
+We're working on improving the interoperability between `traceable` and LangChain. The following limitations are present when using combining LangChain with `traceable`:
 
-  1. Mutating RunTree obtained from `getCurrentRunTree()` of the RunnableLambda context will result in a no-op.
-  2. It's discouraged to traverse the RunTree obtained from RunnableLambda via `getCurrentRunTree()` as it may not contain all the RunTree nodes.
-  3. Different child runs may have the same `execution_order` and `child_execution_order` value. Thus in extreme circumstances, some runs may end up in a different order, depending on the `start_time`.
+1. Mutating RunTree obtained from `getCurrentRunTree()` of the RunnableLambda context will result in a no-op.
+2. It's discouraged to traverse the RunTree obtained from RunnableLambda via `getCurrentRunTree()` as it may not contain all the RunTree nodes.
+3. Different child runs may have the same `execution_order` and `child_execution_order` value. Thus in extreme circumstances, some runs may end up in a different order, depending on the `start_time`.
 </Note>
 
 In some uses cases, you might want to run `traceable` functions as part of the RunnableSequence or trace child runs of LangChain run imperatively via the `RunTree` API. Starting with LangSmith 0.1.39 and @langchain/core 0.2.18, you can directly invoke `traceable`-wrapped functions within RunnableLambda.
@@ -633,13 +633,13 @@ const parrot = new RunnableLambda({
     const childRunTree = RunTree.fromRunnableConfig(config, {
       name: "Child Run",
     });
-        
+
     childRunTree.inputs = { input: input.text };
     await childRunTree.postRun();
-        
+
     childRunTree.outputs = { output: `Child Run: ${input.text}` };
     await childRunTree.patchRun();
-        
+
     return input.text;
   },
 });

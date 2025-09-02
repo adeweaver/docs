@@ -8,7 +8,7 @@ This notebook shows you how to retrieve datasets supported by [Kay](https://kay.
 
 ## Installation
 
-First, install the [`kay` package](https://pypi.org/project/kay/). 
+First, install the [`kay` package](https://pypi.org/project/kay/).
 
 
 ```python
@@ -19,7 +19,7 @@ You will also need an API key: you can get one for free at [https://kay.ai](http
 
 `KayAiRetriever` has a static `.create()` factory method that takes the following arguments:
 
-* `dataset_id: string` required -- A Kay dataset id. This is a collection of data about a particular entity such as companies, people, or places. For example, try `"company"` 
+* `dataset_id: string` required -- A Kay dataset id. This is a collection of data about a particular entity such as companies, people, or places. For example, try `"company"`
 * `data_type: List[string]` optional -- This is a category within a  dataset based on its origin or format, such as ‘SEC Filings’, ‘Press Releases’, or ‘Reports’ within the “company” dataset. For example, try ["10-K", "10-Q", "PressRelease"] under the “company” dataset. If left empty, Kay will retrieve the most relevant context across all types.
 * `num_contexts: int` optional, defaults to 6 -- The number of document chunks to retrieve on each call to `get_relevant_documents()`
 
@@ -104,7 +104,7 @@ for question in questions:
     print(f"**Answer**: {result['answer']} \n")
 ```
 ```output
--> **Question**: What were the biggest strategy changes and partnerships made by Roku in 2023? 
+-> **Question**: What were the biggest strategy changes and partnerships made by Roku in 2023?
 
 **Answer**: In 2023, Roku made a strategic partnership with FreeWheel to bring Roku's leading ad tech to FreeWheel customers. This partnership aimed to drive greater interoperability and automation in the advertising-based video on demand (AVOD) space. Key highlights of this collaboration include streamlined integration of Roku's demand application programming interface (dAPI) with FreeWheel's TV platform, allowing for better inventory quality control and improved publisher yield and revenue. Additionally, publishers can now use Roku platform signals to enable advertisers to target audiences and measure campaign performance without relying on cookies. This partnership also involves the use of data clean room technology to enable the activation of additional data sets for better measurement and monetization for publishers and agencies. These partnerships and strategies aim to support Roku's growth in the AVOD market.
 ```

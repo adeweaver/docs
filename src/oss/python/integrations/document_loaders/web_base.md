@@ -2,7 +2,7 @@
 title: WebBaseLoader
 ---
 
-This covers how to use `WebBaseLoader` to load all text from `HTML` webpages into a document format that we can use downstream. For more custom logic for loading webpages look at some child class examples such as `IMSDbLoader`, `AZLyricsLoader`, and `CollegeConfidentialLoader`. 
+This covers how to use `WebBaseLoader` to load all text from `HTML` webpages into a document format that we can use downstream. For more custom logic for loading webpages look at some child class examples such as `IMSDbLoader`, `AZLyricsLoader`, and `CollegeConfidentialLoader`.
 
 If you don't want to worry about website crawling, bypassing JS-blocking sites, and data cleaning, consider using `FireCrawlLoader` or the faster option `SpiderLoader`.
 
@@ -15,11 +15,11 @@ If you don't want to worry about website crawling, bypassing JS-blocking sites, 
 
 | Class | Package | Local | Serializable | JS support|
 | :--- | :--- | :---: | :---: |  :---: |
-| [WebBaseLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.web_base.WebBaseLoader.html) | [langchain-community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ❌ | 
+| [WebBaseLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.web_base.WebBaseLoader.html) | [langchain-community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ❌ |
 ### Loader features
 | Source | Document Lazy Loading | Native Async Support
-| :---: | :---: | :---: | 
-| WebBaseLoader | ✅ | ✅ | 
+| :---: | :---: | :---: |
+| WebBaseLoader | ✅ | ✅ |
 
 ## Setup
 
@@ -196,8 +196,8 @@ Sometimes you might need to use proxies to get around IP blocks. You can pass in
 
 ```python
 loader = WebBaseLoader(
-    "https://www.walmart.com/search?q=parrots",
-    proxies={
+        "https://www.walmart.com/search?q=parrots",
+        proxies={
         "http": "http://{username}:{password}:@proxy.service.com:6666/",
         "https": "https://{username}:{password}:@proxy.service.com:6666/",
     },

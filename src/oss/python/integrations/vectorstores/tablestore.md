@@ -31,7 +31,7 @@ os.environ["access_key_id"] = getpass.getpass("Tablestore access_key_id:")
 os.environ["access_key_secret"] = getpass.getpass("Tablestore access_key_secret:")
 ```
 
-Create vector store. 
+Create vector store.
 
 
 ```python
@@ -151,7 +151,7 @@ store.similarity_search(query="hello world", k=2)
 ```
 
 
-Similarity search with filters. 
+Similarity search with filters.
 
 
 ```python

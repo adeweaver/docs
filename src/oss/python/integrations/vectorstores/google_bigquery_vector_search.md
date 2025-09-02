@@ -2,7 +2,7 @@
 title: Google BigQuery Vector Search
 ---
 
-> [Google Cloud BigQuery Vector Search](https://cloud.google.com/bigquery/docs/vector-search-intro) lets you use GoogleSQL to do semantic search, using vector indexes for fast approximate results, or using brute force for exact results. 
+> [Google Cloud BigQuery Vector Search](https://cloud.google.com/bigquery/docs/vector-search-intro) lets you use GoogleSQL to do semantic search, using vector indexes for fast approximate results, or using brute force for exact results.
 
 This tutorial illustrates how to work with an end-to-end data and embedding management system in LangChain, and provides a scalable semantic search in BigQuery using the`BigQueryVectorStore` class. This class is part of a set of 2 classes capable of providing a unified data storage and flexible vector search in Google Cloud:
 - **BigQuery Vector Search**: with `BigQueryVectorStore` class, which is ideal for rapid prototyping with no infrastructure setup and batch retrieval.

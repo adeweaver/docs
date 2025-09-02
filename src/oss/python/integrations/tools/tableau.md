@@ -2,11 +2,11 @@
 title: Tableau
 ---
 
-This guide provides a quick overview for getting started with [Tableau](https://help.tableau.com/current/api/vizql-data-service/en-us/index.html). 
+This guide provides a quick overview for getting started with [Tableau](https://help.tableau.com/current/api/vizql-data-service/en-us/index.html).
 
 ### Overview
 
-Tableau's VizQL Data Service (aka VDS) provides developers with programmatic access to their Tableau Published Data Sources, allowing them to extend their business semantics for any custom workload or application, including AI Agents. The simple_datasource_qa tool adds VDS to the Langchain framework. This notebook shows you how you can use it to build agents that answer analytical questions grounded on your enterprise semantic models. 
+Tableau's VizQL Data Service (aka VDS) provides developers with programmatic access to their Tableau Published Data Sources, allowing them to extend their business semantics for any custom workload or application, including AI Agents. The simple_datasource_qa tool adds VDS to the Langchain framework. This notebook shows you how you can use it to build agents that answer analytical questions grounded on your enterprise semantic models.
 
 Follow the [tableau-langchain](https://github.com/Tab-SE/tableau_langchain) project for more tools coming soon!
 
@@ -43,7 +43,7 @@ Note you may need to restart your kernal to use updated packages
 You can declare your environment variables explicitly, as shown in several cases in this doc. However, if these parameters are not provided, the simple_datasource_qa tool will attempt to automatically read them from environment variables.
 
 For the Data Source that you choose to query, make sure you've updated the VizqlDataApiAccess permission in Tableau to allow the VDS API to access that Data Source via REST. More info [here](https://help.tableau.com/current/server/en-us/permissions_capabilities.htm#data-sources
-). 
+).
 
 
 ```python
@@ -59,7 +59,7 @@ from langchain.agents import create_agent
 You can declare your environment variables explicitly, as shown in several cases in this cookbook. However, if these parameters are not provided, the simple_datasource_qa tool will attempt to automatically read them from environment variables.
 
 For the Data Source that you choose, make sure you've updated the VizqlDataApiAccess permission in Tableau to allow the VDS API to access that Data Source via REST. More info [here](https://help.tableau.com/current/server/en-us/permissions_capabilities.htm#data-sources
-). 
+).
 
 
 ```python
@@ -124,7 +124,7 @@ tools = [analyze_datasource]
 ```
 
 ## Invocation - Langgraph Example
-First, we'll initlialize the LLM of our choice. Then, we define an agent using a langgraph agent constructor class and invoke it with a query related to the target data source. 
+First, we'll initlialize the LLM of our choice. Then, we define an agent using a langgraph agent constructor class and invoke it with a query related to the target data source.
 
 
 ```python

@@ -35,7 +35,7 @@ for i, doc in enumerate(documents):
 Title page : Summary
 Source : ./example_data/fake.vsdx
 
-==> CONTENT <== 
+==> CONTENT <==
 Created by
 Created the
 Modified by
@@ -57,7 +57,7 @@ This is a bounded arrow
 Title page : Glossary
 Source : ./example_data/fake.vsdx
 
-==> CONTENT <== 
+==> CONTENT <==
 Created by
 Created the
 Modified by
@@ -75,7 +75,7 @@ This is a title
 Title page : blanket page
 Source : ./example_data/fake.vsdx
 
-==> CONTENT <== 
+==> CONTENT <==
 Created by
 Created the
 Modified by
@@ -97,7 +97,7 @@ Third text
 Title page : BLABLABLA
 Source : ./example_data/fake.vsdx
 
-==> CONTENT <== 
+==> CONTENT <==
 Created by
 Created the
 Modified by
@@ -135,7 +135,7 @@ X2
 Title page : What a page !!
 Source : ./example_data/fake.vsdx
 
-==> CONTENT <== 
+==> CONTENT <==
 Created by
 Created the
 Modified by
@@ -165,7 +165,7 @@ Red arrow magic !
 Title page : next page after previous one
 Source : ./example_data/fake.vsdx
 
-==> CONTENT <== 
+==> CONTENT <==
 Created by
 Created the
 Modified by
@@ -204,7 +204,7 @@ qui officia deserunt mollit anim id est laborum.
 Title page : Connector Page
 Source : ./example_data/fake.vsdx
 
-==> CONTENT <== 
+==> CONTENT <==
 Created by
 Created the
 Modified by
@@ -228,7 +228,7 @@ This diagram is a base of many pages in this file. But it is editable in file \"
 Title page : Useful ↔ Useless page
 Source : ./example_data/fake.vsdx
 
-==> CONTENT <== 
+==> CONTENT <==
 Created by
 Created the
 Modified by
@@ -253,7 +253,7 @@ Title of this document : BLABLABLA
 Title page : Alone page
 Source : ./example_data/fake.vsdx
 
-==> CONTENT <== 
+==> CONTENT <==
 Black cloud
 Unidirectional traffic primary path
 Unidirectional traffic backup path
@@ -273,7 +273,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0-\u00a0 incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
 
 
- voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa 
+ voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
 *
 
 
@@ -283,7 +283,7 @@ qui officia deserunt mollit anim id est laborum.
 Title page : BG
 Source : ./example_data/fake.vsdx
 
-==> CONTENT <== 
+==> CONTENT <==
 Best Caption of the worl
 This is an arrow
 This is Earth
@@ -305,7 +305,7 @@ This is a title
 Title page : BG  + caption1
 Source : ./example_data/fake.vsdx
 
-==> CONTENT <== 
+==> CONTENT <==
 Created by
 Created the
 Modified by
@@ -338,7 +338,7 @@ Tests of some exotics characters :\u00a0\u00e3\u00e4\u00e5\u0101\u0103 \u00fc\u2
 Title page : BG+
 Source : ./example_data/fake.vsdx
 
-==> CONTENT <== 
+==> CONTENT <==
 Created by
 Created the
 Modified by
@@ -356,7 +356,7 @@ This is a title
 Title page : BG WITH CONTENT
 Source : ./example_data/fake.vsdx
 
-==> CONTENT <== 
+==> CONTENT <==
 Created by
 Created the
 Modified by
@@ -390,7 +390,7 @@ This is a page with a lot of text
 Title page : 2nd caption with ____________________________________________________________________ content
 Source : ./example_data/fake.vsdx
 
-==> CONTENT <== 
+==> CONTENT <==
 Created by
 Created the
 Modified by

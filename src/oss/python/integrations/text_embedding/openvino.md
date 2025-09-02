@@ -82,7 +82,7 @@ ov_embeddings = OpenVINOEmbeddings(
 Compiling the model to CPU ...
 ```
 ## BGE with OpenVINO
-We can also access BGE embedding models via the ``OpenVINOBgeEmbeddings`` class with OpenVINO. 
+We can also access BGE embedding models via the ``OpenVINOBgeEmbeddings`` class with OpenVINO.
 
 
 ```python

@@ -24,9 +24,9 @@ This combination allows for use cases such as:
 
 LangChain provides tools to interact with Graph Databases:
 
-1. `Construct knowledge graphs from text` using graph transformer and store integrations 
+1. `Construct knowledge graphs from text` using graph transformer and store integrations
 2. `Query a graph database` using chains for query creation and execution
-3. `Interact with a graph database` using agents for robust and flexible querying 
+3. `Interact with a graph database` using agents for robust and flexible querying
 
 ## Setting up
 
@@ -75,7 +75,7 @@ docker run \
     -e NEO4J_AUTH=neo4j/password \
     -e NEO4J_PLUGINS=\[\"apoc\"\]  \
     neo4j:latest
-```    
+```
 If you are using the docker container, you need to wait a couple of second for the database to start.
 
 

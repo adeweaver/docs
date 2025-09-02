@@ -183,7 +183,7 @@ components. Expand the tabs below to see details on each.
 
 <Tabs>
 
-    <Tab title="Chat models">
+        <Tab title="Chat models">
 
         You can start from the following template or `langchain-cli` command:
 
@@ -197,8 +197,8 @@ components. Expand the tabs below to see details on each.
 
         You can find example starter chat model code [here](https://github.com/langchain-ai/langchain/blob/master/libs/cli/langchain_cli/integration_template/integration_template/chat_models.py).
 
-    </Tab>
-    <Tab title="Vector stores">
+        </Tab>
+        <Tab title="Vector stores">
 
         Your vector store implementation will depend on your chosen database technology.
         `langchain-core` includes a minimal
@@ -227,17 +227,17 @@ components. Expand the tabs below to see details on each.
         convenience methods for loading and dumping the object to a file, but this is not
         necessary for all implementations.
 
-        <Tip>
+                <Tip>
 
-        The [in-memory vector store](https://github.com/langchain-ai/langchain/blob/master/libs/core/langchain_core/vectorstores/in_memory.py)
-        is tested against the standard tests in the LangChain GitHub repository.
+                The [in-memory vector store](https://github.com/langchain-ai/langchain/blob/master/libs/core/langchain_core/vectorstores/in_memory.py)
+                is tested against the standard tests in the LangChain GitHub repository.
 
-        </Tip>
+                </Tip>
 
         You can find example starter vector store code [here](https://github.com/langchain-ai/langchain/blob/master/libs/cli/langchain_cli/integration_template/integration_template/vectorstores.py).
 
-    </Tab>
-    <Tab title="Embeddings">
+        </Tab>
+        <Tab title="Embeddings">
 
 Embeddings are used to convert `str` objects from `Document.page_content` fields
 into a vector representation (represented as a list of floats).
@@ -254,8 +254,8 @@ langchain-cli integration new \
 
         You can find example starter embeddings code [here](https://github.com/langchain-ai/langchain/blob/master/libs/cli/langchain_cli/integration_template/integration_template/embeddings.py).
 
-    </Tab>
-    <Tab title="Tools">
+        </Tab>
+        <Tab title="Tools">
 
 Tools are used in 2 main ways:
 
@@ -317,8 +317,8 @@ langchain-cli integration new \
 
         You can find example starter tool code [here](https://github.com/langchain-ai/langchain/blob/master/libs/cli/langchain_cli/integration_template/integration_template/tools.py).
 
-    </Tab>
-    <Tab title="Retrievers">
+        </Tab>
+        <Tab title="Retrievers">
 
 Retrievers are used to retrieve documents from APIs, databases, or other sources
 based on a query. The `Retriever` class must inherit from the [BaseRetriever](https://python.langchain.com/api_reference/core/retrievers/langchain_core.retrievers.BaseRetriever.html) class. This interface has 1 attribute and 2 methods that should be implemented in a subclass.
@@ -367,7 +367,7 @@ langchain-cli integration new \
 
         You can find example starter retriever code [here](https://github.com/langchain-ai/langchain/blob/master/libs/cli/langchain_cli/integration_template/integration_template/retrievers.py).
 
-    </Tab>
+        </Tab>
 </Tabs>
 
 ---

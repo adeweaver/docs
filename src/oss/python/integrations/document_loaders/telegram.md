@@ -31,7 +31,7 @@ loader.load()
 ```
 
 
-`TelegramChatApiLoader` loads data directly from any specified chat from Telegram. In order to export the data, you will need to authenticate your Telegram account. 
+`TelegramChatApiLoader` loads data directly from any specified chat from Telegram. In order to export the data, you will need to authenticate your Telegram account.
 
 You can get the API_HASH and API_ID from https://my.telegram.org/auth?to=apps
 

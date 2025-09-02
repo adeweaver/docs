@@ -16,11 +16,11 @@ However, Cheerio does not simulate a web browser, so it cannot execute JavaScrip
 
 | Class | Package | Local | Serializable | PY support|
 | :--- | :--- | :---: | :---: |  :---: |
-| [CheerioWebBaseLoader](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_cheerio.CheerioWebBaseLoader.html) | @langchain/community | ✅ | ✅ | ❌ | 
+| [CheerioWebBaseLoader](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_cheerio.CheerioWebBaseLoader.html) | @langchain/community | ✅ | ✅ | ❌ |
 ### Loader features
 | Source | Web Support | Node Support
-| :---: | :---: | :---: | 
-| CheerioWebBaseLoader | ✅ | ✅ | 
+| :---: | :---: | :---: |
+| CheerioWebBaseLoader | ✅ | ✅ |
 
 ## Setup
 

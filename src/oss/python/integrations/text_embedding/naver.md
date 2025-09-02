@@ -15,7 +15,7 @@ This notebook covers how to get started with embedding models provided by CLOVA 
 
 Before using embedding models provided by CLOVA Studio, you must go through the three steps below.
 
-1. Creating [NAVER Cloud Platform](https://www.ncloud.com/) account 
+1. Creating [NAVER Cloud Platform](https://www.ncloud.com/) account
 2. Apply to use [CLOVA Studio](https://www.ncloud.com/product/aiService/clovaStudio)
 3. Create a CLOVA Studio Test App or Service App of a model to use (See [here](https://guide.ncloud-docs.com/docs/clovastudio-explorer03#%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%95%B1%EC%83%9D%EC%84%B1).)
 4. Issue a Test or Service API key (See [here](https://guide.ncloud-docs.com/docs/clovastudio-explorer-testapp).)

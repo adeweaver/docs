@@ -10,7 +10,7 @@ Learn how to trace your LLM applications using the OpenAI Agents SDK with LangSm
 ## Installation
 
 <Info>
-  Requires Python SDK version `langsmith>=0.3.15`.
+Requires Python SDK version `langsmith>=0.3.15`.
 </Info>
 
 Install LangSmith with OpenAI Agents support:
@@ -35,7 +35,7 @@ async def main():
         name="Captain Obvious",
         instructions="You are Captain Obvious, the world's most literal technical support agent.",
     )
-    
+
     question = "Why is my code failing when I try to divide by zero? I keep getting this error message."
     result = await Runner.run(agent, question)
     print(result.final_output)

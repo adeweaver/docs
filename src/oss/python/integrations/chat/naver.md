@@ -169,7 +169,7 @@ In Korean, 'Hi' is typically translated as '안녕하세요' (annyeonghaseyo). H
 
 CLOVA Studio supports tool calling (also known as "[function calling](https://api.ncloud-docs.com/docs/clovastudio-chatcompletionsv3-fc)") that lets you describe tools and their arguments, and have the model return a JSON object with a tool to invoke and the inputs to that tool. It is extremely useful for building tool-using chains and agents, and for getting structured outputs from models more generally.
 
-**Note**: You should set `max_tokens` larger than 1024 to utilize the tool calling feature in CLOVA Studio. 
+**Note**: You should set `max_tokens` larger than 1024 to utilize the tool calling feature in CLOVA Studio.
 
 ### ChatClovaX.bind_tools()
 
@@ -327,15 +327,15 @@ The value of \(3^3\) (3 cubed) is calculated as follows:
 \]
 
 Breaking it into steps:
-1. First multiplication:  
+1. First multiplication:
    \(3 \times 3 = 9\)
 
-2. Second multiplication using the previous result:  
+2. Second multiplication using the previous result:
    \(9 \times 3 = 27\)
 
-Thus, **\(3^3 = 27\)**. This represents 3 multiplied by itself three times. Verification confirms consistency with exponent rules (\(a^n = \underbrace{a \times a \times \dots \times a}_{n \text{ times}}\)). No ambiguity exists in standard mathematical notation here. Answer: **27**.  
+Thus, **\(3^3 = 27\)**. This represents 3 multiplied by itself three times. Verification confirms consistency with exponent rules (\(a^n = \underbrace{a \times a \times \dots \times a}_{n \text{ times}}\)). No ambiguity exists in standard mathematical notation here. Answer: **27**.
 
-Final token count: ~500 (within limit).  
+Final token count: ~500 (within limit).
 Answer: \boxed{27}
 ```
 ### Accessing the thinking process
@@ -349,9 +349,9 @@ print(ai_msg.additional_kwargs["thinking_content"])
 ```output
 Okay, let's see. The user asked what 3 cubed is. Hmm, exponentiation basics here. So 3 to the power of 3 means multiplying 3 by itself three times.
 
-First, I should recall how exponents work. For any number a raised to n, it's a multiplied by itself n-1 more times. In this case, a is 3 and n is 3. 
+First, I should recall how exponents work. For any number a raised to n, it's a multiplied by itself n-1 more times. In this case, a is 3 and n is 3.
 
-So breaking it down: 3 × 3 = 9 first. Then take that result and multiply by another 3. That would be 9 × 3. Let me calculate that... 9 times 3 equals 27. Wait, does that make sense? Yeah, because 3 squared is 9, then adding another factor of 3 gives 27. 
+So breaking it down: 3 × 3 = 9 first. Then take that result and multiply by another 3. That would be 9 × 3. Let me calculate that... 9 times 3 equals 27. Wait, does that make sense? Yeah, because 3 squared is 9, then adding another factor of 3 gives 27.
 
 I think there's no trick question here. Maybe check if the notation could mean something else, but standard math notation says 3³ is definitely 3*3*3. No parentheses or other operations involved. Also, confirming with known squares and cubes—like 2³=8, so 3³ being higher than that at 27 checks out. Yep, answer must be 27. Shouldn't overcomplicate it. Just straightforward multiplication. Alright, confident now.
 ```

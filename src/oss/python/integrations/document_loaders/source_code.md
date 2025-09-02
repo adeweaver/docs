@@ -158,7 +158,7 @@ function main() {
 
 main();
 ```
-The parser can be disabled for small files. 
+The parser can be disabled for small files.
 
 The parameter `parser_threshold` indicates the minimum number of lines that the source code file must have to be segmented using the parser.
 

@@ -14,7 +14,7 @@ First install relevant packages:
 
 
 ```python
-! pip install -qU gel langchain-gel 
+! pip install -qU gel langchain-gel
 ```
 
 ## Initialization
@@ -39,7 +39,7 @@ For a comprehensive list of ways to run Gel, take a look at [Running Gel](https:
 
 ### Set up the schema
 
-[Gel schema](https://docs.geldata.com/reference/datamodel) is an explicit high-level description of your application's data model. 
+[Gel schema](https://docs.geldata.com/reference/datamodel) is an explicit high-level description of your application's data model.
 Aside from enabling you to define exactly how your data is going to be laid out, it drives Gel's many powerful features such as links, access policies, functions, triggers, constraints, indexes, and more.
 
 The LangChain's `VectorStore` expects the following layout for the schema:
@@ -48,14 +48,14 @@ The LangChain's `VectorStore` expects the following layout for the schema:
 ```python
 schema_content = """
 using extension pgvector;
-                                    
+
 module default {
     scalar type EmbeddingVector extending ext::pgvector::vector<1536>;
 
     type Record {
         required collection: str;
         text: str;
-        embedding: EmbeddingVector; 
+        embedding: EmbeddingVector;
         external_id: str {
             constraint exclusive;
         };
@@ -63,7 +63,7 @@ module default {
 
         index ext::pgvector::hnsw_cosine(m := 16, ef_construction := 128)
             on (.embedding)
-    } 
+    }
 }
 """.strip()
 
@@ -169,7 +169,7 @@ vector_store.delete(ids=["3"])
 
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 
 ### Filtering Support
 
@@ -243,7 +243,7 @@ for doc, score in results:
 
 ### Query by turning into retriever
 
-You can also transform the vector store into a retriever for easier usage in your chains. 
+You can also transform the vector store into a retriever for easier usage in your chains.
 
 
 ```python

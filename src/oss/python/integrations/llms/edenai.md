@@ -9,7 +9,7 @@ This example goes over how to use LangChain to interact with Eden AI models
 -----------------------------------------------------------------------------------
 
 
-Accessing the EDENAI's API requires an API key, 
+Accessing the EDENAI's API requires an API key,
 
 which you can get by creating an account https://app.edenai.run/user/register  and heading here https://app.edenai.run/admin/account/settings
 
@@ -42,7 +42,7 @@ The EdenAI API brings together various providers, each offering multiple models.
 
 To access a specific model, you can simply add 'model' during instantiation.
 
-For instance, let's explore the models provided by OpenAI, such as GPT3.5 
+For instance, let's explore the models provided by OpenAI, such as GPT3.5
 
 ### text generation
 

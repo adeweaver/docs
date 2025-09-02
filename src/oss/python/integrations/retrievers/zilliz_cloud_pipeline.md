@@ -3,7 +3,7 @@ title: Zilliz Cloud Pipeline
 ---
 
 > [Zilliz Cloud Pipelines](https://docs.zilliz.com/docs/pipelines) transform your unstructured data to a searchable vector collection, chaining up the embedding, ingestion, search, and deletion of your data.
-> 
+>
 > Zilliz Cloud Pipelines are available in the Zilliz Cloud Console and via RestFul APIs.
 
 This notebook demonstrates how to prepare Zilliz Cloud Pipelines and use the them via a LangChain Retriever.
@@ -68,7 +68,7 @@ To add documents, you can use the method `add_texts` or `add_doc_url`, which ins
     - `doc_url`: A document url.
     - `metadata`: A key-value dictionary of metadata will be inserted as preserved fields required by ingestion pipeline. Defaults to None.
 
-The following example works with a document ingestion pipeline, which requires milvus version as metadata. We will use an [example document](https://publicdataset.zillizcloud.com/milvus_doc.md) describing how to delete entities in Milvus v2.3.x. 
+The following example works with a document ingestion pipeline, which requires milvus version as metadata. We will use an [example document](https://publicdataset.zillizcloud.com/milvus_doc.md) describing how to delete entities in Milvus v2.3.x.
 
 
 ```python

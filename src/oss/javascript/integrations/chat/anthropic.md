@@ -19,7 +19,7 @@ See the links in the table headers below for guides on how to use specific featu
 
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: |
-| ✅ | ✅ | ❌ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | 
+| ✅ | ✅ | ❌ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ |
 
 ## Setup
 
@@ -60,7 +60,7 @@ Now we can instantiate our model object and generate chat completions:
 
 
 ```typescript
-import { ChatAnthropic } from "@langchain/anthropic" 
+import { ChatAnthropic } from "@langchain/anthropic"
 
 const llm = new ChatAnthropic({
     model: "claude-3-haiku-20240307",
@@ -944,7 +944,7 @@ const ragTool = tool(
       ],
     },
     {
-      type: "search_result", 
+      type: "search_result",
       title: "Geography of France",
       source: "https://some-uri.com",
       citations: { enabled: true },

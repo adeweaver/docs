@@ -6,7 +6,7 @@ Pinecone's inference API can be accessed via `PineconeEmbeddings`. Providing tex
 
 
 ```python
-!pip install -qU "langchain-pinecone>=0.2.0" 
+!pip install -qU "langchain-pinecone>=0.2.0"
 ```
 
 Next, we [sign up / log in to Pinecone](https://app.pinecone.io) to get our API key:

@@ -86,15 +86,15 @@ for chunk in model.stream(message):
 * **Easy to learn and read**: Python's syntax is clear and concise, making it easier to pick up than many other languages. This is especially helpful for beginners.
 * **Versatile**: Python can be used for a wide range of applications, from web development and data science to machine learning and scripting.
 * **Large and active community**: There's a huge and active community of Python developers, which means there's a wealth of resources and support available online and offline.
-* **Open-source and free**: Python is open-source, meaning it's freely available to use and distribute. 
+* **Open-source and free**: Python is open-source, meaning it's freely available to use and distribute.
 * **Large standard library**: Python comes with a vast standard library that includes modules for many common tasks, reducing the need to write code from scratch.
-* **Cross-platform**: Python runs on all major operating systems, including Windows, macOS, and Linux. 
+* **Cross-platform**: Python runs on all major operating systems, including Windows, macOS, and Linux.
 * **Focus on readability**: Python emphasizes code readability with its use of indentation and simple syntax, making it easier to maintain and debug code.
 
 ### Cons:
 
 * **Slower execution**: Python is often slower than compiled languages like C++ and Java, especially when working with computationally intensive tasks.
-* **Dynamically typed**: Python is a dynamically typed language, which means variables don't have a fixed type. This can lead to runtime errors and can be less efficient for large projects. 
+* **Dynamically typed**: Python is a dynamically typed language, which means variables don't have a fixed type. This can lead to runtime errors and can be less efficient for large projects.
 * **Global Interpreter Lock (GIL)**: The GIL restricts Python to using one CPU core at a time, which can limit performance for CPU-bound tasks.
 * **Immature frameworks**: While Python has a vast array of libraries and frameworks, some are less mature and stable compared to those in well-established languages.
 
@@ -217,7 +217,7 @@ print(chain.invoke({"question": question}))
 
 Therefore, you have 2 apples left.
 ```
-You can use different foundational models for specialized in different tasks. 
+You can use different foundational models for specialized in different tasks.
 For an updated list of available models visit [VertexAI documentation](https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/overview)
 
 
@@ -490,7 +490,7 @@ AIMessage(content="\`\`\`\n[00:00:00]\nSpeaker A: your devices are getting bette
 
 ## Vertex Model Garden
 
-Vertex Model Garden [exposes](https://cloud.google.com/vertex-ai/docs/start/explore-models) open-sourced models that can be deployed and served on Vertex AI. 
+Vertex Model Garden [exposes](https://cloud.google.com/vertex-ai/docs/start/explore-models) open-sourced models that can be deployed and served on Vertex AI.
 
 Hundreds popular [open-sourced models](https://cloud.google.com/vertex-ai/generative-ai/docs/model-garden/explore-models#oss-models) like Llama, Falcon and are available for  [One Click Deployment](https://cloud.google.com/vertex-ai/generative-ai/docs/deploy/overview)
 
@@ -525,7 +525,7 @@ chain = prompt | llm
 print(chain.invoke({"thing": "life"}))
 ```
 
-### Llama on Vertex Model Garden 
+### Llama on Vertex Model Garden
 
 > Llama is a family of open weight models developed by Meta that you can fine-tune and deploy on Vertex AI. Llama models are pre-trained and fine-tuned generative text models. You can deploy Llama 2 and Llama 3 models on Vertex AI.
 [Official documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/open-models/use-llama) for more information about Llama on [Vertex Model Garden](https://cloud.google.com/vertex-ai/generative-ai/docs/model-garden/explore-models)
@@ -578,7 +578,7 @@ What is the meaning of life?
 Output:
  The question is so perplexing that there have been dozens of care
 ```
-### Falcon on Vertex Model Garden 
+### Falcon on Vertex Model Garden
 
 > Falcon is a family of open weight models developed by [Falcon](https://falconllm.tii.ae/) that you can fine-tune and deploy on Vertex AI. Falcon models are pre-trained and fine-tuned generative text models.
 

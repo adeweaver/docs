@@ -6,7 +6,7 @@ import { ChatAnthropic } from "@langchain/anthropic";
 
 const promptTemplate =
   ChatPromptTemplate.fromTemplate(`Given the user question below, classify it as either being about \`LangChain\`, \`Anthropic\`, or \`Other\`.
-                                     
+
 Do not respond with more than one word.
 
 <question>

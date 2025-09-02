@@ -13,7 +13,7 @@ Users can view their logs, requests, and API keys on the [Validator Endpoint Fro
 If you encounter any difficulties or have any questions, please feel free to reach out to our developer on [GitHub](https://github.com/Kunj-2206), [Discord](https://discordapp.com/users/683542109248159777) or join our discord server for latest update and queries [Neural Internet](https://discord.gg/neuralinternet).
 
 
-## Different Parameter and response handling for NIBittensorLLM 
+## Different Parameter and response handling for NIBittensorLLM
 
 
 ```python
@@ -44,7 +44,7 @@ print(f"Response provided by LLM with system prompt set is : {sys_resp}")
                     "uid": Unique Identifier of a miner,
                     "responder_hotkey": Hotkey of a miner,
                     "message":{"role":"assistant","content": Contains actual response},
-                    "response_ms": Time in millisecond required to fetch response from a miner} 
+                    "response_ms": Time in millisecond required to fetch response from a miner}
                 ]
     } """
 

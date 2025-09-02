@@ -4,16 +4,16 @@ title: PyPDFLoader
 
 This notebook provides a quick overview for getting started with `PyPDF` [document loader](https://python.langchain.com/docs/concepts/document_loaders). For detailed documentation of all DocumentLoader features and configurations head to the [API reference](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.PyPDFLoader.html).
 
-  
+
 
 ## Overview
 ### Integration details
 
 | Class | Package | Local | Serializable | JS support|
 | :--- | :--- | :---: | :---: |  :---: |
-| [PyPDFLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.PyPDFLoader.html) | [langchain-community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ❌ |   
-   
----------   
+| [PyPDFLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.PyPDFLoader.html) | [langchain-community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ❌ |
+
+---------
 
 ### Loader features
 
@@ -21,7 +21,7 @@ This notebook provides a quick overview for getting started with `PyPDF` [docume
 |:-----------:| :---: | :---: | :---: |:---: |
 | PyPDFLoader | ✅ | ❌ | ✅ | ❌  |
 
-  
+
 
 ## Setup
 
@@ -602,37 +602,37 @@ transformations or operations on these classes.
 
 
 
-![**Image Summary:**  
+![**Image Summary:**
 Diagram explaining coordinate systems and layout elements with labels for coordinate intervals, rectangle, quadrilateral, textblock with extra features, and layout list. Includes transformation and operation APIs.
 
-**Extracted Text:**  
-Coordinate  
-coordinate  
-start  
-start  
-x-interval  
-end  
-y-interval  
-end  
-(x1, y1)  
-Rectangle  
-(x2, y2)  
-(x1, y1)  
-Quadrilateral  
-(x2, y2)  
-(x4, y4)  
-(x3, y3)  
-The same transformation and operation APIs  
-textblock  
-Coordinate  
-Extra features  
-Block Text  
-Block Type  
-Reading Order  
-...  
-layout  
-coordinate1, textblock1, ...  
-..., textblock2, layout1  
+**Extracted Text:**
+Coordinate
+coordinate
+start
+start
+x-interval
+end
+y-interval
+end
+(x1, y1)
+Rectangle
+(x2, y2)
+(x1, y1)
+Quadrilateral
+(x2, y2)
+(x4, y4)
+(x3, y3)
+The same transformation and operation APIs
+textblock
+Coordinate
+Extra features
+Block Text
+Block Type
+Reading Order
+...
+layout
+coordinate1, textblock1, ...
+..., textblock2, layout1
 A list of the layout elements  ](#)
 ```
 ## Working with Files

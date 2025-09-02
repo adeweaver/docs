@@ -11,11 +11,11 @@ FireCrawl handles complex tasks such as reverse proxies, caching, rate limits, a
 
 | Class | Package | Local | Serializable | [JS support](https://js.langchain.com/docs/integrations/document_loaders/web_loaders/firecrawl/)|
 | :--- | :--- | :---: | :---: |  :---: |
-| [FireCrawlLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.firecrawl.FireCrawlLoader.html) | [langchain-community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ✅ | 
+| [FireCrawlLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.firecrawl.FireCrawlLoader.html) | [langchain-community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ✅ |
 ### Loader features
 | Source | Document Lazy Loading | Native Async Support
-| :---: | :---: | :---: | 
-| FireCrawlLoader | ✅ | ❌ | 
+| :---: | :---: | :---: |
+| FireCrawlLoader | ✅ | ❌ |
 
 
 ## Setup

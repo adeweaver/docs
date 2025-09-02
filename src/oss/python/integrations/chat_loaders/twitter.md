@@ -2,7 +2,7 @@
 title: Twitter (via Apify)
 ---
 
-This notebook shows how to load chat messages from Twitter to fine-tune on. We do this by utilizing Apify. 
+This notebook shows how to load chat messages from Twitter to fine-tune on. We do this by utilizing Apify.
 
 First, use Apify to export tweets. An example
 

@@ -3,7 +3,7 @@ title: Lindorm
 ---
 
 
-This will help you get started with Lindorm embedding models using LangChain. 
+This will help you get started with Lindorm embedding models using LangChain.
 
 ## Overview
 ### Integration details

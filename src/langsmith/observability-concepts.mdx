@@ -3,16 +3,16 @@ title: Observability Concepts
 sidebarTitle: Concepts
 ---
 
-This page covers key concepts that are important to understand when logging traces to LangSmith. 
+This page covers key concepts that are important to understand when logging traces to LangSmith.
 
-A `Trace` contains the series of steps that your application takes - from recieving an input, through intermediate steps, and generating a final output. Each of the individual steps is represented by a `Run`. A `Project` is a collection of traces. 
+A `Trace` contains the series of steps that your application takes - from recieving an input, through intermediate steps, and generating a final output. Each of the individual steps is represented by a `Run`. A `Project` is a collection of traces.
 
-  <Accordion title="Example">
+    <Accordion title="Example">
     The following diagram displays these concepts in the context of a simple RAG app, which retrieves documents from an index and generates an answer.
 
 ![LangSmith Primitives](/langsmith/images/primitives.png)
 
-  </Accordion>
+    </Accordion>
 
 ## Runs
 
@@ -26,7 +26,7 @@ A `Trace` is a collection of runs for a single operation. For example, if you ha
 
 ## Projects
 
-A `Project` is a collection of traces. You can think of a project as a container for all the traces that are related to a single application or service. You can have multiple projects, and each project can have multiple traces. 
+A `Project` is a collection of traces. You can think of a project as a container for all the traces that are related to a single application or service. You can have multiple projects, and each project can have multiple traces.
 
 ![Project](/langsmith/images/project.png)
 
@@ -60,7 +60,7 @@ For traces ingested on or after Wednesday, May 22, 2024, LangSmith (SaaS) retain
 After 400 days, the traces are permanently deleted from LangSmith, with a limited amount of metadata be retained for the purpose of showing accurate statistics such as historic usage and cost.
 
 <Note>
-  If you wish to keep tracing data longer than the data retention period, you can add it to a dataset. A dataset allows you to store the trace inputs and outputs (e.g., as a key-value dataset), and will persist indefinitely, even after the trace gets deleted.
+If you wish to keep tracing data longer than the data retention period, you can add it to a dataset. A dataset allows you to store the trace inputs and outputs (e.g., as a key-value dataset), and will persist indefinitely, even after the trace gets deleted.
 </Note>
 
 ## Deleting traces from LangSmith

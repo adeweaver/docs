@@ -2,7 +2,7 @@
 title: Streamlit
 ---
 
->[Streamlit](https://docs.streamlit.io/) is an open-source Python library that makes it easy to create and share beautiful, 
+>[Streamlit](https://docs.streamlit.io/) is an open-source Python library that makes it easy to create and share beautiful,
 custom web apps for machine learning and data science.
 
 This notebook goes over how to store and use chat message history in a `Streamlit` app. `StreamlitChatMessageHistory` will store messages in
