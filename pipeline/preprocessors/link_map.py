@@ -144,6 +144,8 @@ LINK_MAPS: list[LinkMap] = [
         "host": "https://v03.api.js.langchain.com/",
         "scope": "js",
         "links": {
+            "AIMessage": "classes/_langchain_core.messages_ai_message.AIMessage.html",
+            "AIMessageChunk": "classes/_langchain_core.messages_ai_message.AIMessageChunk.html",
             "BaseChatModel.invoke": "classes/_langchain_core.language_models_chat_models.BaseChatModel.html#invoke",
             "BaseChatModel.stream": "classes/_langchain_core.language_models_chat_models.BaseChatModel.html#stream",
             "BaseChatModel.streamEvents": "classes/_langchain_core.language_models_chat_models.BaseChatModel.html#streamEvents",
