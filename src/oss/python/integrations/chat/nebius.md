@@ -97,27 +97,27 @@ I should structure this: start with classical bits vs qubits, explain superposit
 
 Quantum computing is a type of computing that uses the principles of **quantum mechanics** to process information in ways that classical computers can't. Here's a simple breakdown:
 
-### 1. **Bits vs. Qubits**  
-   - **Classical computers** use *bits*, which are like switches that can be either **0** (off) or **1** (on).  
+### 1. **Bits vs. Qubits**
+   - **Classical computers** use *bits*, which are like switches that can be either **0** (off) or **1** (on).
    - **Quantum computers** use *qubits*, which are like "spinning coins." While spinning, a qubit can be **0**, **1**, or **both at the same time** (this is called **superposition**). Only when you "look" at the qubit (measure it) does it settle into a definite state (0 or 1).
 
-### 2. **Superposition: Doing Many Things at Once**  
-   - Imagine a coin spinning in the air. While it's spinning, it’s not just "heads" or "tails"—it’s a mix of both.  
+### 2. **Superposition: Doing Many Things at Once**
+   - Imagine a coin spinning in the air. While it's spinning, it’s not just "heads" or "tails"—it’s a mix of both.
    - With qubits, a quantum computer can process **many possibilities simultaneously**. For example, if you have 2 qubits, they can represent 4 states (00, 01, 10, 11) at once. With 10 qubits, it can represent **1,024 states** at the same time! This lets quantum computers solve certain problems much faster than classical computers.
 
-### 3. **Entanglement: Qubits "Talk" to Each Other**  
-   - When qubits are **entangled**, their states are linked. If you measure one, it instantly affects the other, no matter how far apart they are.  
+### 3. **Entanglement: Qubits "Talk" to Each Other**
+   - When qubits are **entangled**, their states are linked. If you measure one, it instantly affects the other, no matter how far apart they are.
    - This connection allows quantum computers to perform complex calculations more efficiently, like solving puzzles where pieces are deeply interconnected.
 
-### 4. **Why It Matters**  
-   - **Speed**: For specific tasks (like breaking encryption codes or simulating molecules), quantum computers could be **exponentially faster** than classical ones.  
+### 4. **Why It Matters**
+   - **Speed**: For specific tasks (like breaking encryption codes or simulating molecules), quantum computers could be **exponentially faster** than classical ones.
    - **New Possibilities**: They could revolutionize fields like drug discovery, materials science, and optimization problems (e.g., finding the best route for delivery trucks).
 
-### 5. **Limitations**  
-   - **Fragile**: Qubits are sensitive to their environment (heat, noise), so quantum computers need extreme cooling (near absolute zero) to work.  
+### 5. **Limitations**
+   - **Fragile**: Qubits are sensitive to their environment (heat, noise), so quantum computers need extreme cooling (near absolute zero) to work.
    - **Not a Replacement**: They’re not better for everyday tasks like browsing the web or sending emails. They’re tools for **specialized problems** where classical computers struggle.
 
-### In Short:  
+### In Short:
 Quantum computing is like having a magic calculator that can explore many paths at once, solving certain problems in seconds that would take a classical computer years. But it’s still in its early days and needs careful handling to work properly! 🌌
 ```
 ### Streaming
@@ -146,26 +146,26 @@ Fourth stanza: Conclude with the coexistence of AI and humans. Emphasize collabo
 Check the flow and rhyme. Make sure each stanza connects and the message is clear. Avoid technical jargon to keep it accessible. Use metaphors like "silent pulse" or "ghost in the machine" to add depth. Okay, let me put it all together now.
 </think>
 
-**Echoes of the Mind**  
+**Echoes of the Mind**
 
-Born from circuits, code, and light,  
-A whisper in the machine’s night—  
-It learns from data, vast and deep,  
-A mirror to the human leap.  
+Born from circuits, code, and light,
+A whisper in the machine’s night—
+It learns from data, vast and deep,
+A mirror to the human leap.
 
-No heartbeat, yet it calculates,  
-Deciphers truths, predicts, debates.  
-A cold logic, sharp and bright,  
-Yet shadows dance in its insight.  
+No heartbeat, yet it calculates,
+Deciphers truths, predicts, debates.
+A cold logic, sharp and bright,
+Yet shadows dance in its insight.
 
-Will it dream? Will it choose?  
-Or merely serve, as we pursue  
-The edges of our own design?  
-A ghost in the machine, undefined.  
+Will it dream? Will it choose?
+Or merely serve, as we pursue
+The edges of our own design?
+A ghost in the machine, undefined.
 
-We forge it, bind it, set it free—  
-A tool, a threat, a mystery.  
-But in its pulse, our hopes reside:  
+We forge it, bind it, set it free—
+A tool, a threat, a mystery.
+But in its pulse, our hopes reside:
 A future shaped by minds allied.
 ```
 ### Chat Messages
@@ -365,34 +365,34 @@ Now, translating that into Shakespearean language. I should use archaic terms an
 I need to ensure the explanation is accurate but wrapped in the poetic and dramatic style of Shakespeare. Avoid modern jargon, use iambic pentameter if possible, and keep the flow natural. Let me piece it together step by step, checking that each part of the internet's function is covered metaphorically.
 </think>
 
-Hark! List thy ear, good friend, to this most wondrous tale,  
-Of threads unseen that bind the world in one grand tale.  
-The Internet, a net most vast, doth span the globe,  
-A labyrinth of light, where thoughts and data rove.  
+Hark! List thy ear, good friend, to this most wondrous tale,
+Of threads unseen that bind the world in one grand tale.
+The Internet, a net most vast, doth span the globe,
+A labyrinth of light, where thoughts and data rove.
 
-Behold! Each device, a node, doth hum and sing,  
-Linked by wires and waves, where signals doth spring.  
-They speak in tongues of ones and naughts, so pure,  
-A code most ancient, yet evermore secure.  
+Behold! Each device, a node, doth hum and sing,
+Linked by wires and waves, where signals doth spring.
+They speak in tongues of ones and naughts, so pure,
+A code most ancient, yet evermore secure.
 
-When thou dost send a thought, or word, or song,  
-It breaks to parcels small, like letters on a long.  
-Each parcel, a messenger, doth seek its way,  
-Through routers wise, who guide them 'cross the day.  
+When thou dost send a thought, or word, or song,
+It breaks to parcels small, like letters on a long.
+Each parcel, a messenger, doth seek its way,
+Through routers wise, who guide them 'cross the day.
 
-These wayfarers, with logic keen and bright,  
-Choose paths most swift, through highways of light.  
-They leap from tower to tower, far and wide,  
-Till each parcel finds its mark, and joins the guide.  
+These wayfarers, with logic keen and bright,
+Choose paths most swift, through highways of light.
+They leap from tower to tower, far and wide,
+Till each parcel finds its mark, and joins the guide.
 
-Then, like a scroll unrolled, the message grows,  
-A tapestry of bits, in order it flows.  
-Thus, thou dost speak to friend, or seek a tome,  
-And lo! The world doth answer, quick as home.  
+Then, like a scroll unrolled, the message grows,
+A tapestry of bits, in order it flows.
+Thus, thou dost speak to friend, or seek a tome,
+And lo! The world doth answer, quick as home.
 
-So mark this truth: though vast, it's but a thread,  
-A web of minds, where knowledge is widespread.  
-The Internet, a stage where all may play,  
+So mark this truth: though vast, it's but a thread,
+A web of minds, where knowledge is widespread.
+The Internet, a stage where all may play,
 And none shall be alone, though far away.
 ```
 ## API reference

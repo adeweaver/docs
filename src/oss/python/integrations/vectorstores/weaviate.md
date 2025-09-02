@@ -22,7 +22,7 @@ weaviate_client = weaviate.connect_to_local()
 
 ### Other deployment options
 
-Weaviate can be [deployed in many different ways](https://weaviate.io/developers/weaviate/starter-guides/which-weaviate) such as using [Weaviate Cloud Services (WCS)](https://console.weaviate.cloud), [Docker](https://weaviate.io/developers/weaviate/installation/docker-compose) or [Kubernetes](https://weaviate.io/developers/weaviate/installation/kubernetes). 
+Weaviate can be [deployed in many different ways](https://weaviate.io/developers/weaviate/starter-guides/which-weaviate) such as using [Weaviate Cloud Services (WCS)](https://console.weaviate.cloud), [Docker](https://weaviate.io/developers/weaviate/installation/docker-compose) or [Kubernetes](https://weaviate.io/developers/weaviate/installation/kubernetes).
 
 If your Weaviate instance is deployed in another way, [read more here](https://weaviate.io/developers/weaviate/client-libraries/python#instantiate-a-client) about different ways to connect to Weaviate. You can use different [helper functions](https://weaviate.io/developers/weaviate/client-libraries/python#python-client-v4-helper-functions) or [create a custom instance](https://weaviate.io/developers/weaviate/client-libraries/python#python-client-v4-explicit-connection).
 
@@ -57,7 +57,7 @@ Here is an example of how to find objects by similarity to a query, from data im
 
 ### Step 1: Data import
 
-First, we will create data to add to `Weaviate` by loading and chunking the contents of a long text file. 
+First, we will create data to add to `Weaviate` by loading and chunking the contents of a long text file.
 
 
 ```python
@@ -79,7 +79,7 @@ embeddings = OpenAIEmbeddings()
 /workspaces/langchain-weaviate/.venv/lib/python3.12/site-packages/langchain_core/_api/deprecation.py:117: LangChainDeprecationWarning: The class `langchain_community.embeddings.openai.OpenAIEmbeddings` was deprecated in langchain-community 0.1.0 and will be removed in 0.2.0. An updated version of the class exists in the langchain-openai package and should be used instead. To use it run `pip install -U langchain-openai` and import as `from langchain_openai import OpenAIEmbeddings`.
   warn_deprecated(
 ```
-Now, we can import the data. 
+Now, we can import the data.
 
 To do so, connect to the Weaviate instance and use the resulting `weaviate_client` object. For example, we can import the documents as shown below:
 
@@ -120,7 +120,7 @@ Document 2:
 And so many families are living paycheck to paycheck, struggling to keep up with the rising cost of ...
 
 Document 3:
-Vice President Harris and I ran for office with a new economic vision for America. 
+Vice President Harris and I ran for office with a new economic vision for America.
 
 Invest in Ameri...
 
@@ -157,7 +157,7 @@ assert len(filtered_search_results) <= 3
 
 ### Quantify result similarity
 
-You can optionally retrieve a relevance "score". This is a relative score that indicates how good the particular search results is, amongst the pool of search results. 
+You can optionally retrieve a relevance "score". This is a relative score that indicates how good the particular search results is, amongst the pool of search results.
 
 Note that this is relative score, meaning that it should not be used to determine thresholds for relevance. However, it can be used to compare the relevance of different search results within the entire search result set.
 
@@ -170,10 +170,10 @@ for doc in docs:
 ```
 ```output
 0.935 : For that purpose we’ve mobilized American ground forces, air squadrons, and ship deployments to prot...
-0.500 : And built the strongest, freest, and most prosperous nation the world has ever known. 
+0.500 : And built the strongest, freest, and most prosperous nation the world has ever known.
 
 Now is the h...
-0.462 : If you travel 20 miles east of Columbus, Ohio, you’ll find 1,000 empty acres of land. 
+0.462 : If you travel 20 miles east of Columbus, Ohio, you’ll find 1,000 empty acres of land.
 
 It won’t loo...
 0.450 : And my report is this: the State of the Union is strong—because you, the American people, are strong...
@@ -202,7 +202,7 @@ Document(page_content='Tonight. I call on the Senate to: Pass the Freedom to Vot
 
 ## Persistence
 
-Any data added through `langchain-weaviate` will persist in Weaviate according to its configuration. 
+Any data added through `langchain-weaviate` will persist in Weaviate according to its configuration.
 
 WCS instances, for example, are configured to persist data indefinitely, and Docker instances can be set up to persist data in a volume. Read more about [Weaviate's persistence](https://weaviate.io/developers/weaviate/configuration/persistence).
 
@@ -210,7 +210,7 @@ WCS instances, for example, are configured to persist data indefinitely, and Doc
 
 [Multi-tenancy](https://weaviate.io/developers/weaviate/concepts/data#multi-tenancy) allows you to have a high number of isolated collections of data, with the same collection configuration, in a single Weaviate instance. This is great for multi-user environments such as building a SaaS app, where each end user will have their own isolated data collection.
 
-To use multi-tenancy, the vector store need to be aware of the `tenant` parameter. 
+To use multi-tenancy, the vector store need to be aware of the `tenant` parameter.
 
 So when adding any data, provide the `tenant` parameter as shown below.
 
@@ -302,7 +302,7 @@ Two well-known applications for combining LLMs and vector stores are:
 
 Question answering in langchain can be enhanced by the use of vector stores. Let's see how this can be done.
 
-This section uses the `RetrievalQAWithSourcesChain`, which does the lookup of the documents from an Index. 
+This section uses the `RetrievalQAWithSourcesChain`, which does the lookup of the documents from an Index.
 
 First, we will chunk the text again and import them into the Weaviate vector store.
 
@@ -447,10 +447,10 @@ rag_chain.invoke("What did the president say about Justice Breyer")
 ```
 
 
-But note that since the template is upto you to construct, you can customize it to your needs. 
+But note that since the template is upto you to construct, you can customize it to your needs.
 
 ### Wrap-up & resources
 
-Weaviate is a scalable, production-ready vector store. 
+Weaviate is a scalable, production-ready vector store.
 
 This integration allows Weaviate to be used with LangChain to enhance the capabilities of large language models with a robust data store. Its scalability and production-readiness make it a great choice as a vector store for your LangChain applications, and it will reduce your time to production.

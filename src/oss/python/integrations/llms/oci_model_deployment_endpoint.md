@@ -18,7 +18,7 @@ For authentication, the [oracle-ads](https://accelerated-data-science.readthedoc
 ## Prerequisite
 
 ### Deploy model
-You can easily deploy, fine-tune, and evaluate foundation models using the [AI Quick Actions](https://docs.oracle.com/en-us/iaas/data-science/using/ai-quick-actions.htm) on OCI Data Science Model deployment. For additional deployment examples, please visit the [Oracle GitHub samples repository](https://github.com/oracle-samples/oci-data-science-ai-samples/blob/main/ai-quick-actions/llama3-with-smc.md). 
+You can easily deploy, fine-tune, and evaluate foundation models using the [AI Quick Actions](https://docs.oracle.com/en-us/iaas/data-science/using/ai-quick-actions.htm) on OCI Data Science Model deployment. For additional deployment examples, please visit the [Oracle GitHub samples repository](https://github.com/oracle-samples/oci-data-science-ai-samples/blob/main/ai-quick-actions/llama3-with-smc.md).
 
 ### Policies
 Make sure to have the required [policies](https://docs.oracle.com/en-us/iaas/data-science/using/model-dep-policies-auth.htm#model_dep_policies_auth__predict-endpoint) to access the OCI Data Science Model Deployment endpoint.
@@ -27,12 +27,12 @@ Make sure to have the required [policies](https://docs.oracle.com/en-us/iaas/dat
 
 After having deployed model, you have to set up following required parameters of the call:
 
-- **`endpoint`**: The model HTTP endpoint from the deployed model, e.g. `https://modeldeployment.<region>.oci.customer-oci.com/<md_ocid>/predict`. 
+- **`endpoint`**: The model HTTP endpoint from the deployed model, e.g. `https://modeldeployment.<region>.oci.customer-oci.com/<md_ocid>/predict`.
 
 
 ### Authentication
 
-You can set authentication through either ads or environment variables. When you are working in OCI Data Science Notebook Session, you can leverage resource principal to access other OCI resources. Check out [here](https://accelerated-data-science.readthedocs.io/en/latest/user_guide/cli/authentication.html) to see more options. 
+You can set authentication through either ads or environment variables. When you are working in OCI Data Science Notebook Session, you can leverage resource principal to access other OCI resources. Check out [here](https://accelerated-data-science.readthedocs.io/en/latest/user_guide/cli/authentication.html) to see more options.
 
 ## Examples
 

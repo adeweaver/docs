@@ -2,14 +2,14 @@
 title: MemgraphToolkit
 ---
 
-This will help you get started with the Memgraph [toolkit](/oss/concepts/tools/#toolkits). 
+This will help you get started with the Memgraph [toolkit](/oss/concepts/tools/#toolkits).
 
 Tools within `MemgraphToolkit` are designed for the interaction with the `Memgraph` database.
 
 ## Setup
 
 To be able tot follow the steps below, make sure you have a running Memgraph instance on your local host. For more details on how to run Memgraph, take a look at [Memgraph docs](https://memgraph.com/docs/getting-started)
-  
+
 
 If you want to get automated tracing from runs of individual tools, you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
@@ -25,7 +25,7 @@ This toolkit lives in the `langchain-memgraph` package:
 
 
 ```python
-%pip install -qU langchain-memgraph 
+%pip install -qU langchain-memgraph
 ```
 
 ## Instantiation
@@ -59,7 +59,7 @@ toolkit.get_tools()
 
 ## Invocation
 
-Tools can be individually called by passing an arguments, for QueryMemgraphTool it would be: 
+Tools can be individually called by passing an arguments, for QueryMemgraphTool it would be:
 
 
 

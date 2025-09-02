@@ -4,7 +4,7 @@ title: Anyscale
 
 [Anyscale](https://www.anyscale.com/) is a fully-managed [Ray](https://www.ray.io/) platform, on which you can build, deploy, and manage scalable AI and Python applications
 
-This example goes over how to use LangChain to interact with [Anyscale Endpoint](https://app.endpoints.anyscale.com/). 
+This example goes over how to use LangChain to interact with [Anyscale Endpoint](https://app.endpoints.anyscale.com/).
 
 
 ```python

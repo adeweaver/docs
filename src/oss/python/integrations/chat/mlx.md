@@ -5,7 +5,7 @@ title: MLX
 This notebook shows how to get started using `MLX` LLM's as chat models.
 
 In particular, we will:
-1. Utilize the [MLXPipeline](https://github.com/langchain-ai/langchain/blob/master/libs/community/langchain_community/llms/mlx_pipeline.py), 
+1. Utilize the [MLXPipeline](https://github.com/langchain-ai/langchain/blob/master/libs/community/langchain_community/llms/mlx_pipeline.py),
 2. Utilize the `ChatMLX` class to enable any of these LLMs to interface with LangChain's [Chat Messages](https://python.langchain.com/docs/modules/model_io/chat/#messages) abstraction.
 3. Demonstrate how to use an open-source LLM to power an `ChatAgent` pipeline
 

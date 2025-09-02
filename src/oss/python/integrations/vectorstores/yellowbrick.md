@@ -2,7 +2,7 @@
 title: Yellowbrick
 ---
 
-[Yellowbrick](https://yellowbrick.com/yellowbrick-data-warehouse/) is an elastic, massively parallel processing (MPP) SQL database that runs in the cloud and on-premises, using kubernetes for scale, resilience and cloud portability. Yellowbrick is designed to address the largest and most complex business-critical data warehousing use cases. The efficiency at scale that Yellowbrick provides also enables it to be used as a high performance and scalable vector database to store and search vectors with SQL. 
+[Yellowbrick](https://yellowbrick.com/yellowbrick-data-warehouse/) is an elastic, massively parallel processing (MPP) SQL database that runs in the cloud and on-premises, using kubernetes for scale, resilience and cloud portability. Yellowbrick is designed to address the largest and most complex business-critical data warehousing use cases. The efficiency at scale that Yellowbrick provides also enables it to be used as a high performance and scalable vector database to store and search vectors with SQL.
 
 
 ## Using Yellowbrick as the vector store for ChatGpt
@@ -119,7 +119,7 @@ def print_result_simple(query):
     result = chain(query)
     output_text = f"""### Question:
   {query}
-  ### Answer: 
+  ### Answer:
   {result["text"]}
     """
     display(Markdown(output_text))
@@ -133,8 +133,8 @@ print_result_simple("What's an easy way to add users in bulk to Yellowbrick?")
 
 ## Part 2: Connect to Yellowbrick and create the embedding tables
 
-To load your document embeddings into Yellowbrick, you should create your own table for storing them in. Note that the 
-Yellowbrick database that the table is in has to be UTF-8 encoded. 
+To load your document embeddings into Yellowbrick, you should create your own table for storing them in. Note that the
+Yellowbrick database that the table is in has to be UTF-8 encoded.
 
 Create a table in a UTF-8 database with the following schema, providing a table name of your choice:
 
@@ -298,11 +298,11 @@ chain = RetrievalQAWithSourcesChain.from_chain_type(
 
 def print_result_sources(query):
     result = chain(query)
-    output_text = f"""### Question: 
+    output_text = f"""### Question:
   {query}
-  ### Answer: 
+  ### Answer:
   {result["answer"]}
-  ### Sources: 
+  ### Sources:
   {result["sources"]}
   ### All relevant sources:
   {", ".join(list(set([doc.metadata["source"] for doc in result["source_documents"]])))}
@@ -369,11 +369,11 @@ chain = RetrievalQAWithSourcesChain.from_chain_type(
 
 def print_result_sources(query):
     result = chain(query)
-    output_text = f"""### Question: 
+    output_text = f"""### Question:
   {query}
-  ### Answer: 
+  ### Answer:
   {result["answer"]}
-  ### Sources: 
+  ### Sources:
   {result["sources"]}
   ### All relevant sources:
   {", ".join(list(set([doc.metadata["source"] for doc in result["source_documents"]])))}

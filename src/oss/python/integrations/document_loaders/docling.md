@@ -12,12 +12,12 @@ This integration provides Docling's capabilities via the `DoclingLoader` documen
 
 | Class | Package | Local | Serializable | JS support|
 | :--- | :--- | :---: | :---: |  :---: |
-| langchain_docling.DoclingLoader | langchain-docling | ✅ | ❌ | ❌ | 
+| langchain_docling.DoclingLoader | langchain-docling | ✅ | ❌ | ❌ |
 
 ### Loader features
 | Source | Document Lazy Loading | Native Async Support
-| :---: | :---: | :---: | 
-| DoclingLoader | ✅ | ❌ | 
+| :---: | :---: | :---: |
+| DoclingLoader | ✅ | ❌ |
 
 
 The presented `DoclingLoader` component enables you to:

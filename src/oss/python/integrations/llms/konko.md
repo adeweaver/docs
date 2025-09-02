@@ -16,7 +16,7 @@ To run this notebook, you'll need Konko API key. Sign in to our web app to [crea
 
 #### Set Environment Variables
 
-1. You can set environment variables for 
+1. You can set environment variables for
    1. KONKO_API_KEY (Required)
    2. OPENAI_API_KEY (Optional)
 2. In your current shell session, use the export command:

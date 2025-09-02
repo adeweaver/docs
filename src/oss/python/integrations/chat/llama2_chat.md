@@ -2,7 +2,7 @@
 title: Llama2Chat
 ---
 
-This notebook shows how to augment Llama-2 `LLM`s with the `Llama2Chat` wrapper to support the [Llama-2 chat prompt format](https://huggingface.co/blog/llama2#how-to-prompt-llama-2). Several `LLM` implementations in LangChain can be used as interface to Llama-2 chat models. These include [ChatHuggingFace](/oss/integrations/chat/huggingface), [LlamaCpp](/oss/integrations/chat/llamacpp/), [GPT4All](/oss/integrations/llms/gpt4all), ..., to mention a few examples. 
+This notebook shows how to augment Llama-2 `LLM`s with the `Llama2Chat` wrapper to support the [Llama-2 chat prompt format](https://huggingface.co/blog/llama2#how-to-prompt-llama-2). Several `LLM` implementations in LangChain can be used as interface to Llama-2 chat models. These include [ChatHuggingFace](/oss/integrations/chat/huggingface), [LlamaCpp](/oss/integrations/chat/llamacpp/), [GPT4All](/oss/integrations/llms/gpt4all), ..., to mention a few examples.
 
 `Llama2Chat` is a generic wrapper that implements `BaseChatModel` and can therefore be used in applications as [chat model](/docs/how_to#chat-models). `Llama2Chat` converts a list of Messages into the [required chat prompt format](https://huggingface.co/blog/llama2#how-to-prompt-llama-2) and forwards the formatted prompt as `str` to the wrapped `LLM`.
 
@@ -116,7 +116,7 @@ The cathedral was built in the 12th century and has been the site of many import
 ```
 ## Chat with Llama-2 via `LlamaCPP` LLM
 
-For using a Llama-2 chat model with a [LlamaCPP](/oss/integrations/llms/llamacpp) `LMM`, install the `llama-cpp-python` library using [these installation instructions](/oss/integrations/llms/llamacpp#installation). The following example uses a quantized [llama-2-7b-chat.Q4_0.gguf](https://huggingface.co/TheBloke/Llama-2-7b-Chat-GGUF/resolve/main/llama-2-7b-chat.Q4_0.gguf) model stored locally at `~/Models/llama-2-7b-chat.Q4_0.gguf`. 
+For using a Llama-2 chat model with a [LlamaCPP](/oss/integrations/llms/llamacpp) `LMM`, install the `llama-cpp-python` library using [these installation instructions](/oss/integrations/llms/llamacpp#installation). The following example uses a quantized [llama-2-7b-chat.Q4_0.gguf](https://huggingface.co/TheBloke/Llama-2-7b-Chat-GGUF/resolve/main/llama-2-7b-chat.Q4_0.gguf) model stored locally at `~/Models/llama-2-7b-chat.Q4_0.gguf`.
 
 After creating a `LlamaCpp` instance, the `llm` is again wrapped into `Llama2Chat`
 

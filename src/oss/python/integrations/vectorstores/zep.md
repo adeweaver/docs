@@ -20,13 +20,13 @@ You'll need to install `langchain-community` with `pip install -qU langchain-com
 
 ## Usage
 
-In the examples below, we're using Zep's auto-embedding feature which automatically embeds documents on the Zep server 
+In the examples below, we're using Zep's auto-embedding feature which automatically embeds documents on the Zep server
 using low-latency embedding models.
 
 ## Note
 - These examples use Zep's async interfaces. Call sync interfaces by removing the `a` prefix from the method names.
 - If you pass in an `Embeddings` instance Zep will use this to embed documents rather than auto-embed them.
-You must also set your document collection to `isAutoEmbedded === false`. 
+You must also set your document collection to `isAutoEmbedded === false`.
 - If you set your collection to `isAutoEmbedded === false`, you must pass in an `Embeddings` instance.
 
 ## Load or create a Collection from documents
@@ -127,7 +127,7 @@ than one hundred and sixteen tables. Yet it is not only necessary to
 predict the position of these bodies, but it is likewise expedient to
 tabulate the motions of the four satellites of Jupiter, to predict the
 exact times at which they enter his shadow, and at which their shadows
-cross his disc, as well as the times at which they are interposed  ->  0.9003241539387915 
+cross his disc, as well as the times at which they are interposed  ->  0.9003241539387915
 ====
 
 furnish more than a small fraction of that aid to navigation (in the
@@ -137,7 +137,7 @@ supply.
 
 Tables necessary to determine the places of the planets are not less
 necessary than those for the sun, moon, and stars. Some notion of the
-number and complexity of these tables may be formed, when we state that  ->  0.8911165633479508 
+number and complexity of these tables may be formed, when we state that  ->  0.8911165633479508
 ====
 
 the scheme of notation thus applied, immediately suggested the
@@ -146,7 +146,7 @@ structure, operation, and circulation of the animal system; and we
 entertain no doubt of its adequacy for that purpose. Not only the
 mechanical connexion of the solid members of the bodies of men and
 animals, but likewise the structure and operation of the softer parts,
-including the muscles, integuments, membranes, &c. the nature, motion,  ->  0.8899750214770481 
+including the muscles, integuments, membranes, &c. the nature, motion,  ->  0.8899750214770481
 ====
 ```
 ## Search over Collection Re-ranked by MMR
@@ -168,7 +168,7 @@ than one hundred and sixteen tables. Yet it is not only necessary to
 predict the position of these bodies, but it is likewise expedient to
 tabulate the motions of the four satellites of Jupiter, to predict the
 exact times at which they enter his shadow, and at which their shadows
-cross his disc, as well as the times at which they are interposed 
+cross his disc, as well as the times at which they are interposed
 ====
 
 the scheme of notation thus applied, immediately suggested the
@@ -177,7 +177,7 @@ structure, operation, and circulation of the animal system; and we
 entertain no doubt of its adequacy for that purpose. Not only the
 mechanical connexion of the solid members of the bodies of men and
 animals, but likewise the structure and operation of the softer parts,
-including the muscles, integuments, membranes, &c. the nature, motion, 
+including the muscles, integuments, membranes, &c. the nature, motion,
 ====
 
 resistance, economizing time, harmonizing the mechanism, and giving to
@@ -187,7 +187,7 @@ The system of mechanical contrivances by which the results, here
 attempted to be described, are attained, form only one order of
 expedients adopted in this machinery;--although such is the perfection
 of their action, that in any ordinary case they would be regarded as
-having attained the ends in view with an almost superfluous degree of 
+having attained the ends in view with an almost superfluous degree of
 ====
 ```
 # Filter by Metadata
@@ -244,7 +244,7 @@ of tables, exclusively astronomical, are likewise indispensable. The
 predictions of the astronomer, with respect to the positions and motions
 of the bodies of the firmament, are the means, and the only means, which
 enable the mariner to prosecute his art. By these he is enabled to
-discover the distance of his ship from the Line, and the extent of his  ->  {'source': 'https://www.gutenberg.org/cache/epub/71292/pg71292.txt'} 
+discover the distance of his ship from the Line, and the extent of his  ->  {'source': 'https://www.gutenberg.org/cache/epub/71292/pg71292.txt'}
 ====
 
 possess all knowledge which is likely to be useful to him in his work,
@@ -254,7 +254,7 @@ in a very precise fashion.”
 
 “Yes,” I answered, laughing. “It was a singular document. Philosophy,
 astronomy, and politics were marked at zero, I remember. Botany
-variable, geology profound as regards the mud-stains from any region  ->  {'source': 'https://www.gutenberg.org/files/48320/48320-0.txt'} 
+variable, geology profound as regards the mud-stains from any region  ->  {'source': 'https://www.gutenberg.org/files/48320/48320-0.txt'}
 ====
 
 of astronomy, and its kindred sciences, with the various arts dependent
@@ -263,7 +263,7 @@ astronomy in particular requires;--in none are preparatory facilities
 more needful;--in none is error more detrimental. The practical
 astronomer is interrupted in his pursuit, and diverted from his task of
 observation by the irksome labours of computation, or his diligence in
-observing becomes ineffectual for want of yet greater industry of  ->  {'source': 'https://www.gutenberg.org/cache/epub/71292/pg71292.txt'} 
+observing becomes ineffectual for want of yet greater industry of  ->  {'source': 'https://www.gutenberg.org/cache/epub/71292/pg71292.txt'}
 ====
 ```
 Now, we set up a filter
@@ -291,7 +291,7 @@ in a very precise fashion.”
 
 “Yes,” I answered, laughing. “It was a singular document. Philosophy,
 astronomy, and politics were marked at zero, I remember. Botany
-variable, geology profound as regards the mud-stains from any region  ->  {'source': 'https://www.gutenberg.org/files/48320/48320-0.txt'} 
+variable, geology profound as regards the mud-stains from any region  ->  {'source': 'https://www.gutenberg.org/files/48320/48320-0.txt'}
 ====
 
 the light shining upon his strong-set aquiline features. So he sat as I
@@ -305,7 +305,7 @@ of shag which I had seen upon the previous night.
 
 “Yes.”
 
-“Game for a morning drive?”  ->  {'source': 'https://www.gutenberg.org/files/48320/48320-0.txt'} 
+“Game for a morning drive?”  ->  {'source': 'https://www.gutenberg.org/files/48320/48320-0.txt'}
 ====
 
 “I glanced at the books upon the table, and in spite of my ignorance
@@ -314,7 +314,7 @@ others being volumes of poetry. Then I walked across to the window,
 hoping that I might catch some glimpse of the country-side, but an oak
 shutter, heavily barred, was folded across it. It was a wonderfully
 silent house. There was an old clock ticking loudly somewhere in the
-passage, but otherwise everything was deadly still. A vague feeling of  ->  {'source': 'https://www.gutenberg.org/files/48320/48320-0.txt'} 
+passage, but otherwise everything was deadly still. A vague feeling of  ->  {'source': 'https://www.gutenberg.org/files/48320/48320-0.txt'}
 ====
 ```
 

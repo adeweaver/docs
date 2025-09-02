@@ -178,7 +178,7 @@ const getUserInfo = tool(
 
     Alternatively, you can define the `schema` property as a JSON schema object. Keep in mind that JSON schemas won't be validated at runtime.
 
-    <Accordion title="Example: Using JSON schema for tool input">
+        <Accordion title="Example: Using JSON schema for tool input">
       ```ts
       const getWeather = tool(
         ({ city }) => `It's always sunny in ${city}!`,
@@ -198,7 +198,7 @@ const getUserInfo = tool(
         }
       );
       ```
-    </Accordion>
+        </Accordion>
 </Note>
 
 ### Step 3: Configure Your Model
@@ -221,7 +221,7 @@ model = init_chat_model(
 import { initChatModel } from "langchain/chat_models";
 
 const model = await initChatModel(
-  "anthropic:claude-3-7-sonnet-latest", 
+  "anthropic:claude-3-7-sonnet-latest",
   temperature: 0
 );
 ```

@@ -16,8 +16,8 @@ This guide applies to all LangGraph Platform deployments (Cloud and self-hosted)
 The default security scheme varies by deployment type:
 
 <Tabs>
-  <Tab title="LangGraph Platform">
-  </Tab>
+    <Tab title="LangGraph Platform">
+    </Tab>
 </Tabs>
 
 By default, LangGraph Platform requires a LangSmith API key in the `x-api-key` header:
@@ -36,8 +36,8 @@ security:
 When using one of the LangGraph SDK's, this can be inferred from environment variables.
 
 <Tabs>
-  <Tab title="Self-hosted">
-  </Tab>
+    <Tab title="Self-hosted">
+    </Tab>
 </Tabs>
 
 By default, self-hosted deployments have no security scheme. This means they are to be deployed only on a secured network or with authentication. To add custom authentication, see [How to add custom authentication](/langgraph-platform/custom-auth).
@@ -49,7 +49,7 @@ To customize the security schema in your OpenAPI documentation, add an `openapi`
 Note that LangGraph Platform does not provide authentication endpoints - you'll need to handle user authentication in your client application and pass the resulting credentials to the LangGraph API.
 
 <Tabs>
-  <Tab title="OAuth2 with Bearer Token">
+    <Tab title="OAuth2 with Bearer Token">
     ```json
     {
       "auth": {
@@ -76,8 +76,8 @@ Note that LangGraph Platform does not provide authentication endpoints - you'll 
       }
     }
     ```
-  </Tab>
-  <Tab title="API Key">
+    </Tab>
+    <Tab title="API Key">
     ```json
     {
       "auth": {
@@ -97,7 +97,7 @@ Note that LangGraph Platform does not provide authentication endpoints - you'll 
       }
     }
     ```
-  </Tab>
+    </Tab>
 </Tabs>
 
 ## Testing

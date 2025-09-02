@@ -2,7 +2,7 @@
 title: Etherscan
 ---
 
->[Etherscan](https://docs.etherscan.io/)  is the leading blockchain explorer, search, API and analytics platform for Ethereum, 
+>[Etherscan](https://docs.etherscan.io/)  is the leading blockchain explorer, search, API and analytics platform for Ethereum,
 a decentralized smart contracts platform.
 
 

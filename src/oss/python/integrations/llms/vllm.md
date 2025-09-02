@@ -4,7 +4,7 @@ title: vLLM
 
 [vLLM](https://vllm.readthedocs.io/en/latest/index.html) is a fast and easy-to-use library for LLM inference and serving, offering:
 
-* State-of-the-art serving throughput 
+* State-of-the-art serving throughput
 * Efficient management of attention key and value memory with PagedAttention
 * Continuous batching of incoming requests
 * Optimized CUDA kernels
@@ -69,7 +69,7 @@ Processed prompts: 100%|██████████| 1/1 [00:01<00:00,  1.34s
 ```
 ## Distributed Inference
 
-vLLM supports distributed tensor-parallel inference and serving. 
+vLLM supports distributed tensor-parallel inference and serving.
 
 To run multi-GPU inference with the LLM class, set the `tensor_parallel_size` argument to the number of GPUs you want to use. For example, to run inference on 4 GPUs
 
@@ -78,9 +78,9 @@ To run multi-GPU inference with the LLM class, set the `tensor_parallel_size` ar
 from langchain_community.llms import VLLM
 
 llm = VLLM(
-    model="mosaicml/mpt-30b",
-    tensor_parallel_size=4,
-    trust_remote_code=True,  # mandatory for hf models
+        model="mosaicml/mpt-30b",
+        tensor_parallel_size=4,
+        trust_remote_code=True,  # mandatory for hf models
 )
 
 llm.invoke("What is the future of AI?")
@@ -93,10 +93,10 @@ vLLM supports `awq` quantization. To enable it, pass `quantization` to `vllm_kwa
 
 ```python
 llm_q = VLLM(
-    model="TheBloke/Llama-2-7b-Chat-AWQ",
-    trust_remote_code=True,
-    max_new_tokens=512,
-    vllm_kwargs={"quantization": "awq"},
+        model="TheBloke/Llama-2-7b-Chat-AWQ",
+        trust_remote_code=True,
+        max_new_tokens=512,
+        vllm_kwargs={"quantization": "awq"},
 )
 ```
 
@@ -113,10 +113,10 @@ This server can be queried in the same format as OpenAI API.
 from langchain_community.llms import VLLMOpenAI
 
 llm = VLLMOpenAI(
-    openai_api_key="EMPTY",
-    openai_api_base="http://localhost:8000/v1",
-    model_name="tiiuae/falcon-7b",
-    model_kwargs={"stop": ["."]},
+        openai_api_key="EMPTY",
+        openai_api_base="http://localhost:8000/v1",
+        model_name="tiiuae/falcon-7b",
+        model_kwargs={"stop": ["."]},
 )
 print(llm.invoke("Rome is"))
 ```
@@ -132,12 +132,12 @@ from langchain_community.llms import VLLM
 from vllm.lora.request import LoRARequest
 
 llm = VLLM(
-    model="meta-llama/Llama-3.2-3B-Instruct",
-    max_new_tokens=300,
-    top_k=1,
-    top_p=0.90,
-    temperature=0.1,
-    vllm_kwargs={
+        model="meta-llama/Llama-3.2-3B-Instruct",
+        max_new_tokens=300,
+        top_k=1,
+        top_p=0.90,
+        temperature=0.1,
+        vllm_kwargs={
         "gpu_memory_utilization": 0.5,
         "enable_lora": True,
         "max_model_len": 350,
@@ -147,6 +147,6 @@ LoRA_ADAPTER_PATH = "path/to/adapter"
 lora_adapter = LoRARequest("lora_adapter", 1, LoRA_ADAPTER_PATH)
 
 print(
-    llm.invoke("What are some popular Korean street foods?", lora_request=lora_adapter)
+        llm.invoke("What are some popular Korean street foods?", lora_request=lora_adapter)
 )
 ```

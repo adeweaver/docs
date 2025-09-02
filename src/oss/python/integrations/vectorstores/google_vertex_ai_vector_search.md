@@ -8,7 +8,7 @@ This notebook shows how to use functionality related to the `Google Cloud Vertex
 
 **Note**: Langchain API expects an endpoint and deployed index already created.Index creation time can take upto one hour.
 
-> To see how to create an index refer to the section [Create Index and deploy it to an Endpoint](#create-index-and-deploy-it-to-an-endpoint)  
+> To see how to create an index refer to the section [Create Index and deploy it to an Endpoint](#create-index-and-deploy-it-to-an-endpoint)
 If you already have an index deployed , skip to [Create VectorStore from texts](#create-vector-store-from-texts)
 
 ## Create Index and deploy it to an Endpoint
@@ -56,7 +56,7 @@ aiplatform.init(project=PROJECT_ID, location=REGION, staging_bucket=BUCKET_URI)
 embedding_model = VertexAIEmbeddings(model_name="text-embedding-005")
 ```
 
-### Create an empty Index 
+### Create an empty Index
 
 **Note :** While creating an index you should specify an "index_update_method" from either a "BATCH_UPDATE" or "STREAM_UPDATE"
 > A batch index is for when you want to update your index in a batch, with data which has been stored over a set amount of time, like systems which are processed weekly or monthly. A streaming index is when you want index data to be updated as new data is added to your datastore, for instance, if you have a bookstore and want to show new inventory online as soon as possible. Which type you choose is important, since setup and requirements are different.
@@ -151,7 +151,7 @@ vector_store = VectorSearchVectorStore.from_components(
 vector_store.add_texts(texts=texts)
 ```
 
-### OPTIONAL : You can also create vectore and store chunks in a Datastore 
+### OPTIONAL : You can also create vectore and store chunks in a Datastore
 
 
 ```python

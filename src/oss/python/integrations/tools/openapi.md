@@ -46,7 +46,7 @@ HTTP request sent, awaiting response... 200 OK
 Length: 122995 (120K) [text/plain]
 Saving to: ‘openapi.yaml’
 
-openapi.yaml        100%[===================>] 120.11K  --.-KB/s    in 0.01s   
+openapi.yaml        100%[===================>] 120.11K  --.-KB/s    in 0.01s
 
 2023-03-31 15:45:56 (10.4 MB/s) - ‘openapi.yaml’ saved [122995/122995]
 
@@ -57,7 +57,7 @@ HTTP request sent, awaiting response... 200 OK
 Length: unspecified [application/json]
 Saving to: ‘api-docs’
 
-api-docs                [ <=>                ]   1.87K  --.-KB/s    in 0s      
+api-docs                [ <=>                ]   1.87K  --.-KB/s    in 0s
 
 2023-03-31 15:45:57 (261 MB/s) - ‘api-docs’ saved [1916]
 
@@ -68,7 +68,7 @@ HTTP request sent, awaiting response... 200 OK
 Length: 286747 (280K) [text/plain]
 Saving to: ‘openapi.yaml’
 
-openapi.yaml        100%[===================>] 280.03K  --.-KB/s    in 0.02s   
+openapi.yaml        100%[===================>] 280.03K  --.-KB/s    in 0.02s
 
 2023-03-31 15:45:58 (13.3 MB/s) - ‘openapi.yaml’ saved [286747/286747]
 ```

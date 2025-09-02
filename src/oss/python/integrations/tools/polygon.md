@@ -17,7 +17,7 @@ To use Polygon IO tools, you need to install the `langchain-community` package.
 
 ### Credentials
 
-Get your Polygon IO API key [here](https://polygon.io/), and then set it below. 
+Get your Polygon IO API key [here](https://polygon.io/), and then set it below.
 
 
 ```python

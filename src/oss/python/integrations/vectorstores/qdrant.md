@@ -244,7 +244,7 @@ True
 
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added, you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added, you will most likely wish to query it during the running of your chain or agent.
 
 ### Query directly
 
@@ -447,7 +447,7 @@ for doc in results:
 ```
 ### Query by turning into retriever
 
-You can also transform the vector store into a retriever for easier usage in your chains. 
+You can also transform the vector store into a retriever for easier usage in your chains.
 
 
 ```python

@@ -34,7 +34,7 @@ client = Client()
 results = client.evaluate(
     dummy_target,  # <-- target function
     data="your-dataset-name",
-    evaluators=[evaluator_one, evaluator_two], 
+    evaluators=[evaluator_one, evaluator_two],
     ...
 )
 ```
@@ -51,7 +51,7 @@ results = client.evaluate(
 from langsmith import wrappers
 from openai import OpenAI
 
-# Optionally wrap the OpenAI client to automatically 
+# Optionally wrap the OpenAI client to automatically
 # trace all model calls.
 oai_client = wrappers.wrap_openai(OpenAI())
 
@@ -145,7 +145,7 @@ def target(inputs: dict) -> dict:
 ```typescript TypeScript
 import { traceable } from "langsmith/traceable";
 
-// Optionally wrap in 'traceable' to trace all invocations of this function. 
+// Optionally wrap in 'traceable' to trace all invocations of this function.
 const calculatorTool = traceable(async ({ operation, number1, number2 }) => {
 // Functions must return strings
 if (operation === "add") {

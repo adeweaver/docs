@@ -50,8 +50,8 @@ response = model.invoke("Why do parrots talk?")
 from langchain.chat_models import init_chat_model
 
 model = init_chat_model(
-    model="gpt-5",
-    model_provider="openai"
+        model="gpt-5",
+        model_provider="openai"
 )
 response = model.invoke("Why do parrots talk?")
 ```
@@ -60,8 +60,8 @@ response = model.invoke("Why do parrots talk?")
 from langchain.chat_models import init_chat_model
 
 model = init_chat_model(
-    model="claude-opus-4-0",
-    model_provider="anthropic"
+        model="claude-opus-4-0",
+        model_provider="anthropic"
 )
 response = model.invoke("Why do parrots talk?")
 ```
@@ -70,8 +70,8 @@ response = model.invoke("Why do parrots talk?")
 from langchain.chat_models import init_chat_model
 
 model = init_chat_model(
-    model="gemini-2.5-pro",
-    model_provider="google"
+        model="gemini-2.5-pro",
+        model_provider="google"
 )
 response = model.invoke("Why do parrots talk?")
 ```
@@ -80,8 +80,8 @@ response = model.invoke("Why do parrots talk?")
 from langchain.chat_models import init_chat_model
 
 model = init_chat_model(
-    model="anthropic.claude-opus-4",
-    model_provider="bedrock",
+        model="anthropic.claude-opus-4",
+        model_provider="bedrock",
 )
 response = model.invoke("Why do parrots talk?")
 ```
@@ -90,8 +90,8 @@ response = model.invoke("Why do parrots talk?")
 from langchain.chat_models import init_chat_model
 
 model = init_chat_model(
-    model="gpt-oss",
-    model_provider="ollama",
+        model="gpt-oss",
+        model_provider="ollama",
 )
 response = model.invoke("Why do parrots talk?")
 ``` */}
@@ -293,17 +293,17 @@ Calling @[`stream()`][BaseChatModel.stream] returns an <Tooltip tip="An object t
 <CodeGroup>
     ```python Basic text streaming
     for chunk in model.stream("Why do parrots have colorful feathers?"):
-        print(chunk.text, end="|", flush=True)
+                print(chunk.text, end="|", flush=True)
     ```
 
     ```python Stream tool calls, reasoning, and other content
     for chunk in model.stream("What color is the sky?"):
         for block in chunk.content_blocks:
-            if block["type"] == "reasoning" and (reasoning := block.get("reasoning")):
+                        if block["type"] == "reasoning" and (reasoning := block.get("reasoning")):
                 print(f"Reasoning: {reasoning}")
-            elif block["type"] == "tool_call_chunk":
+                        elif block["type"] == "tool_call_chunk":
                 print(f"Tool call chunk: {block}")
-            elif block["type"] == "text":
+                        elif block["type"] == "text":
                 print(block["text"])
             else:
                 ...
@@ -314,21 +314,21 @@ Calling @[`stream()`][BaseChatModel.stream] returns an <Tooltip tip="An object t
 :::js
 <CodeGroup>
     ```typescript Basic text streaming
-    const stream = await model.stream("Why do parrots have colorful feathers?");
+        const stream = await model.stream("Why do parrots have colorful feathers?");
     for await (const chunk of stream) {
         console.log(chunk.text)
     }
     ```
 
     ```typescript Stream tool calls, reasoning, and other content
-    const stream = await model.stream("What color is the sky?");
+        const stream = await model.stream("What color is the sky?");
     for await (const chunk of stream) {
         for (const block of chunk.contentBlocks) {
-            if (block.type === "reasoning") {
+                        if (block.type === "reasoning") {
               console.log(`Reasoning: ${block.reasoning}`);
-            } else if (block.type === "tool_call_chunk") {
+                        } else if (block.type === "tool_call_chunk") {
                 console.log(`Tool call chunk: ${block}`);
-            } else if (block.type === "text") {
+                        } else if (block.type === "text") {
                 console.log(block.text);
             } else {
                 ...
@@ -350,7 +350,7 @@ full message via summation:
 ```python Construct AIMessage
 full = None  # None | AIMessageChunk
 for chunk in model.stream("What color is the sky?"):
-    full = chunk if full is None else full + chunk
+        full = chunk if full is None else full + chunk
     print(full.text)
 
 # The
@@ -372,7 +372,7 @@ full message using the `.concat()` method on `AIMessageChunk`.
 ```typescript Construct AIMessage
 let full: AIMessageChunk | null = null;
 for await (const chunk of stream) {
-    full = full ? full.concat(chunk) : chunk;
+        full = full ? full.concat(chunk) : chunk;
     console.log(full.text);
 }
 
@@ -473,13 +473,13 @@ message history and passed back to the model as conversational context.
         ```python
         async for event in model.astream_events("Hello"):
 
-            if event["event"] == "on_chat_model_start":
+                        if event["event"] == "on_chat_model_start":
                 print(f"Input: {event['data']['input']}")
 
-            elif event["event"] == "on_chat_model_stream":
+                        elif event["event"] == "on_chat_model_stream":
                 print(f"Token: {event['data']['chunk'].text}")
 
-            elif event["event"] == "on_chat_model_end":
+                        elif event["event"] == "on_chat_model_end":
                 print(f"Full message: {event['data']['output'].text}")
 
             else:
@@ -513,15 +513,15 @@ message history and passed back to the model as conversational context.
     aggregate the full message in the background. See below for an example.
 
     ```typescript
-    const stream = await model.streamEvents("Hello");
+        const stream = await model.streamEvents("Hello");
     for await (const event of stream) {
-        if (event.event === "on_chat_model_start") {
+                if (event.event === "on_chat_model_start") {
             console.log(`Input: ${event.data.input}`);
         }
-        if (event.event === "on_chat_model_stream") {
+                if (event.event === "on_chat_model_stream") {
             console.log(`Token: ${event.data.chunk.text}`);
         }
-        if (event.event === "on_chat_model_end") {
+                if (event.event === "on_chat_model_end") {
             console.log(`Full message: ${event.data.output.text}`);
         }
         ```
@@ -589,7 +589,7 @@ for response in model.batch_as_completed([
     ```python Batch with max concurrency
     model.batch(
         list_of_inputs,
-        config={
+                config={
             'max_concurrency': 5,  # Limit to 5 parallel calls
         }
     )
@@ -694,7 +694,7 @@ import { z } from "zod";
 import { ChatOpenAI } from "@langchain/openai";
 
 const getWeather = tool(
-  (input) => {
+    (input) => {
     return `It's sunny in ${input.location}.`
   },
   {
@@ -734,21 +734,21 @@ Below, we show some common ways you can get use tool calling.
 
         ```python Tool execution loop
         # Bind (potentially multiple) tools to the model
-        model_with_tools = model.bind_tools([get_weather])
+                model_with_tools = model.bind_tools([get_weather])
 
         # Step 1: Model generates tool calls
-        messages = [{"role": "user", "content": "What's the weather in Boston?"}]
-        ai_msg = model_with_tools.invoke(messages)
+                messages = [{"role": "user", "content": "What's the weather in Boston?"}]
+                ai_msg = model_with_tools.invoke(messages)
         messages.append(ai_msg)
 
         # Step 2: Execute tools and collect results
         for tool_call in ai_msg.tool_calls:
             # Execute the tool with the generated arguments
-            tool_result = get_weather.invoke(tool_call)
+                        tool_result = get_weather.invoke(tool_call)
             messages.append(tool_result)
 
         # Step 3: Pass results back to model for final response
-        final_response = model_with_tools.invoke(messages)
+                final_response = model_with_tools.invoke(messages)
         print(final_response.text)
         # "The current weather in Boston is 72°F and sunny."
         ```
@@ -767,11 +767,11 @@ Below, we show some common ways you can get use tool calling.
 
         <CodeGroup>
         ```python Force use of any tool
-        model_with_tools = model.bind_tools([tool_1], tool_choice="any")
+                model_with_tools = model.bind_tools([tool_1], tool_choice="any")
         ```
 
         ```python Force use of specific tools
-        model_with_tools = model.bind_tools([tool_1], tool_choice="tool_1")
+                model_with_tools = model.bind_tools([tool_1], tool_choice="tool_1")
         ```
         </CodeGroup>
     </Accordion>
@@ -782,9 +782,9 @@ Below, we show some common ways you can get use tool calling.
         simultaneously.
 
         ```python Parallel tool calls
-        model_with_tools = model.bind_tools([get_weather])
+                model_with_tools = model.bind_tools([get_weather])
 
-        response = model_with_tools.invoke(
+                response = model_with_tools.invoke(
             "What's the weather in Boston and Tokyo?"
         )
 
@@ -796,10 +796,10 @@ Below, we show some common ways you can get use tool calling.
         # ]
 
         # Execute all tools (can be done in parallel with async)
-        results = []
+                results = []
         for tool_call in response.tool_calls:
-            if tool_call['name'] == 'get_weather':
-                result = get_weather.invoke(tool_call)
+                        if tool_call['name'] == 'get_weather':
+                                result = get_weather.invoke(tool_call)
             ...
             results.append(result)
         ```
@@ -839,9 +839,9 @@ Below, we show some common ways you can get use tool calling.
         You can accumulate chunks to build complete tool calls:
 
         ```python Accumulate tool calls
-        gathered = None
+                gathered = None
         for chunk in model_with_tools.stream("What's the weather in Boston?"):
-            gathered = chunk if gathered is None else gathered + chunk
+                        gathered = chunk if gathered is None else gathered + chunk
             print(gathered.content_blocks)
         ```
     </Accordion>
@@ -857,22 +857,22 @@ Below, we show some common ways you can get use tool calling.
 
         ```typescript Tool execution loop
         //  Bind (potentially multiple) tools to the model
-        const modelWithTools = model.bindTools([get_weather])
+                const modelWithTools = model.bindTools([get_weather])
 
         // Step 1: Model generates tool calls
-        const messages = [{"role": "user", "content": "What's the weather in Boston?"}]
-        const response = await modelWithTools.invoke(messages)
+                const messages = [{"role": "user", "content": "What's the weather in Boston?"}]
+                const response = await modelWithTools.invoke(messages)
         messages.push(response)
 
         // Step 2: Execute tools and collect results
         for (const tool_call of response.tool_calls || []) {
             // Execute the tool with the generated arguments
-            const tool_result = await get_weather.invoke(tool_call)
+                        const tool_result = await get_weather.invoke(tool_call)
             messages.push(tool_result)
         }
 
         // Step 3: Pass results back to model for final response
-        const final_response = await modelWithTools.invoke(messages)
+                const final_response = await modelWithTools.invoke(messages)
         console.log(final_response.text)
         // "The current weather in Boston is 72°F and sunny."
         ```
@@ -891,11 +891,11 @@ Below, we show some common ways you can get use tool calling.
 
         <CodeGroup>
         ```typescript Force use of any tool
-        const modelWithTools = model.bindTools([tool_1], { toolChoice: "any" })
+                const modelWithTools = model.bindTools([tool_1], { toolChoice: "any" })
         ```
 
         ```typescript Force use of specific tools
-        const modelWithTools = model.bindTools([tool_1], { toolChoice: "tool_1" })
+                const modelWithTools = model.bindTools([tool_1], { toolChoice: "tool_1" })
         ```
         </CodeGroup>
     </Accordion>
@@ -906,9 +906,9 @@ Below, we show some common ways you can get use tool calling.
         simultaneously.
 
         ```typescript Parallel tool calls
-        const modelWithTools = model.bind_tools([get_weather])
+                const modelWithTools = model.bind_tools([get_weather])
 
-        const response = await modelWithTools.invoke(
+                const response = await modelWithTools.invoke(
             "What's the weather in Boston and Tokyo?"
         )
 
@@ -920,10 +920,10 @@ Below, we show some common ways you can get use tool calling.
         // ]
 
         // Execute all tools (can be done in parallel with async)
-        const results = []
+                const results = []
         for (const tool_call of response.tool_calls || []) {
-            if (tool_call.name === 'get_weather') {
-                const result = await get_weather.invoke(tool_call)
+                        if (tool_call.name === 'get_weather') {
+                                const result = await get_weather.invoke(tool_call)
                 results.push(result)
             }
         }
@@ -939,7 +939,7 @@ Below, we show some common ways you can get use tool calling.
         generated rather than waiting for the complete response.
 
         ```typescript Streaming tool calls
-        const stream = await modelWithTools.stream(
+                const stream = await modelWithTools.stream(
             "What's the weather in Boston and Tokyo?"
         )
         for await (const chunk of stream) {
@@ -968,10 +968,10 @@ Below, we show some common ways you can get use tool calling.
         You can accumulate chunks to build complete tool calls:
 
         ```typescript Accumulate tool calls
-        let full: AIMessageChunk | null = null
-        const stream = await modelWithTools.stream("What's the weather in Boston?")
+                let full: AIMessageChunk | null = null
+                const stream = await modelWithTools.stream("What's the weather in Boston?")
         for await (const chunk of stream) {
-            full = full ? full.concat(chunk) : chunk
+                        full = full ? full.concat(chunk) : chunk
             console.log(full.contentBlocks)
         }
         ```
@@ -997,14 +997,14 @@ for enforcing structured outputs.
 
         class Movie(BaseModel):
             """A movie with details."""
-            title: str = Field(..., description="The title of the movie")
-            year: int = Field(..., description="The year the movie was released")
-            director: str = Field(..., description="The director of the movie")
-            rating: float = Field(..., description="The movie's rating out of 10")
+                        title: str = Field(..., description="The title of the movie")
+                        year: int = Field(..., description="The year the movie was released")
+                        director: str = Field(..., description="The director of the movie")
+                        rating: float = Field(..., description="The movie's rating out of 10")
 
-        model_with_structure = model.with_structured_output(Movie)
-        response = model_with_structure.invoke("Provide details about the movie Inception")
-        print(response)  # Movie(title="Inception", year=2010, director="Christopher Nolan", rating=8.8)
+                model_with_structure = model.with_structured_output(Movie)
+                response = model_with_structure.invoke("Provide details about the movie Inception")
+                print(response)  # Movie(title="Inception", year=2010, director="Christopher Nolan", rating=8.8)
         ```
     </Tab>
     <Tab title="TypedDict">
@@ -1021,8 +1021,8 @@ for enforcing structured outputs.
             director: Annotated[str, ..., "The director of the movie"]
             rating: Annotated[float, ..., "The movie's rating out of 10"]
 
-        model_with_structure = model.with_structured_output(MovieDict)
-        response = model_with_structure.invoke("Provide details about the movie Inception")
+                model_with_structure = model.with_structured_output(MovieDict)
+                response = model_with_structure.invoke("Provide details about the movie Inception")
         print(response)  # {'title': 'Inception', 'year': 2010, 'director': 'Christopher Nolan', 'rating': 8.8}
         ```
     </Tab>
@@ -1033,7 +1033,7 @@ for enforcing structured outputs.
         ```python
         import json
 
-        json_schema = {
+                json_schema = {
             "title": "Movie",
             "description": "A movie with details",
             "type": "object",
@@ -1058,11 +1058,11 @@ for enforcing structured outputs.
             "required": ["title", "year", "director", "rating"]
         }
 
-        model_with_structure = model.with_structured_output(
+                model_with_structure = model.with_structured_output(
             json_schema,
-            method="json_schema",
+                        method="json_schema",
         )
-        response = model_with_structure.invoke("Provide details about the movie Inception")
+                response = model_with_structure.invoke("Provide details about the movie Inception")
         print(response)  # {'title': 'Inception', 'year': 2010, ...}
         ```
     </Tab>
@@ -1077,16 +1077,16 @@ for enforcing structured outputs.
         ```typescript
         import { z } from "zod";
 
-        const Movie = z.object({
+                const Movie = z.object({
             title: z.string().describe("The title of the movie"),
             year: z.number().describe("The year the movie was released"),
             director: z.string().describe("The director of the movie"),
             rating: z.number().describe("The movie's rating out of 10"),
         });
 
-        const modelWithStructure = model.withStructuredOutput(Movie);
+                const modelWithStructure = model.withStructuredOutput(Movie);
 
-        const response = await modelWithStructure.invoke("Provide details about the movie Inception");
+                const response = await modelWithStructure.invoke("Provide details about the movie Inception");
         console.log(response);
         // {
         //     title: "Inception",
@@ -1100,7 +1100,7 @@ for enforcing structured outputs.
         For maximum control or interoperability, you can provide a raw JSON Schema.
 
         ```typescript
-        const jsonSchema = {
+                const jsonSchema = {
             "title": "Movie",
             "description": "A movie with details",
             "type": "object",
@@ -1125,12 +1125,12 @@ for enforcing structured outputs.
             "required": ["title", "year", "director", "rating"]
         }
 
-        const modelWithStructure = model.withStructuredOutput(
+                const modelWithStructure = model.withStructuredOutput(
             jsonSchema,
             { method: "jsonSchema" }
         )
 
-        const response = await modelWithStructure.invoke("Provide details about the movie Inception")
+                const response = await modelWithStructure.invoke("Provide details about the movie Inception")
         console.log(response)  // {'title': 'Inception', 'year': 2010, ...}
         ```
     </Tab>
@@ -1174,10 +1174,10 @@ from pydantic import BaseModel, Field
 
 class Movie(BaseModel):
     """A movie with details."""
-    title: str = Field(..., description="The title of the movie")
-    year: int = Field(..., description="The year the movie was released")
-    director: str = Field(..., description="The director of the movie")
-    rating: float = Field(..., description="The movie's rating out of 10")
+        title: str = Field(..., description="The title of the movie")
+        year: int = Field(..., description="The year the movie was released")
+        director: str = Field(..., description="The director of the movie")
+        rating: float = Field(..., description="The movie's rating out of 10")
 
 model_with_structure = model.with_structured_output(Movie, include_raw=True)
 response = model_with_structure.invoke("Provide details about the movie Inception")
@@ -1230,9 +1230,9 @@ console.log(response);
         year: int
         cast: list[Actor]
         genres: list[str]
-        budget: float | None = Field(None, description="Budget in millions USD")
+                budget: float | None = Field(None, description="Budget in millions USD")
 
-    model_with_structure = model.with_structured_output(MovieDetails)
+        model_with_structure = model.with_structured_output(MovieDetails)
     ```
 
     ```python TypedDict
@@ -1249,7 +1249,7 @@ console.log(response);
         genres: list[str]
         budget: Annotated[float | None, ..., "Budget in millions USD"]
 
-    model_with_structure = model.with_structured_output(MovieDetails)
+        model_with_structure = model.with_structured_output(MovieDetails)
     ```
 </CodeGroup>
 :::
@@ -1302,13 +1302,13 @@ All LangChain chat models with underlying multimodal capabilities support:
 <CodeGroup>
     ```python Image input
     # From URL
-    response = model.invoke([
+        response = model.invoke([
         {"type": "text", "text": "Describe the content of this image."},
         {"type": "image", "url": "https://example.com/path/to/image.jpg"},
     ])
 
     # From base64 data
-    response = model.invoke([
+        response = model.invoke([
         {"type": "text", "text": "Describe the content of this image."},
         {
             "type": "image",
@@ -1318,7 +1318,7 @@ All LangChain chat models with underlying multimodal capabilities support:
     ])
 
     # From provider-managed File ID
-    response = model.invoke([
+        response = model.invoke([
         {"type": "text", "text": "Describe the content of this image."},
         {"type": "image", "file_id": "file-abc123"},
     ])
@@ -1326,13 +1326,13 @@ All LangChain chat models with underlying multimodal capabilities support:
 
     ```python PDF document input
     # From URL
-    response = model.invoke([
+        response = model.invoke([
         {"type": "text", "text": "Describe the content of this document."},
         {"type": "file", "url": "https://example.com/path/to/document.pdf"},
     ])
 
     # From base64 data
-    response = model.invoke([
+        response = model.invoke([
         {"type": "text", "text": "Describe the content of this document."},
         {
             "type": "file",
@@ -1342,7 +1342,7 @@ All LangChain chat models with underlying multimodal capabilities support:
     ])
 
     # From provider-managed File ID
-    response = model.invoke([
+        response = model.invoke([
         {"type": "text", "text": "Describe the content of this document."},
         {"type": "file", "file_id": "file-abc123"},
     ])
@@ -1350,7 +1350,7 @@ All LangChain chat models with underlying multimodal capabilities support:
 
     ```python Audio input
     # From base64 data
-    response = model.invoke([
+        response = model.invoke([
         {"type": "text", "text": "Describe the content of this audio."},
         {
             "type": "audio",
@@ -1360,7 +1360,7 @@ All LangChain chat models with underlying multimodal capabilities support:
     ])
 
     # From provider-managed File ID
-    response = model.invoke([
+        response = model.invoke([
         {"type": "text", "text": "Describe the content of this audio."},
         {"type": "audio", "file_id": "file-abc123"},
     ])
@@ -1368,7 +1368,7 @@ All LangChain chat models with underlying multimodal capabilities support:
 
     ```python Video input
     # From base64 data
-    response = model.invoke([
+        response = model.invoke([
         {"type": "text", "text": "Describe the content of this video."},
         {
             "type": "video",
@@ -1378,7 +1378,7 @@ All LangChain chat models with underlying multimodal capabilities support:
     ])
 
     # From provider-managed File ID
-    response = model.invoke([
+        response = model.invoke([
         {"type": "text", "text": "Describe the content of this video."},
         {"type": "video", "file_id": "file-abc123"},
     ])
@@ -1390,13 +1390,13 @@ All LangChain chat models with underlying multimodal capabilities support:
 <CodeGroup>
     ```typescript Image input
     // From URL
-    const response = await model.invoke([
+        const response = await model.invoke([
         { type: "text", text: "Describe the content of this image." },
         { type: "image", url: "https://example.com/path/to/image.jpg" },
     ])
 
     // From base64 data
-    const response = await model.invoke([
+        const response = await model.invoke([
         { type: "text", text: "Describe the content of this image." },
         {
             type: "image",
@@ -1406,7 +1406,7 @@ All LangChain chat models with underlying multimodal capabilities support:
     ])
 
     // From provider-managed File ID
-    const response = await model.invoke([
+        const response = await model.invoke([
         { type: "text", text: "Describe the content of this image." },
         { type: "image", fileId: "file-abc123" },
     ])
@@ -1414,13 +1414,13 @@ All LangChain chat models with underlying multimodal capabilities support:
 
     ```typescript PDF document input
     // From URL
-    const response = await model.invoke([
+        const response = await model.invoke([
         { type: "text", text: "Describe the content of this document." },
         { type: "file", url: "https://example.com/path/to/document.pdf" },
     ])
 
     // From base64 data
-    const response = await model.invoke([
+        const response = await model.invoke([
         { type: "text", text: "Describe the content of this document." },
         {
             type: "file",
@@ -1430,7 +1430,7 @@ All LangChain chat models with underlying multimodal capabilities support:
     ])
 
     // From provider-managed File ID
-    const response = await model.invoke([
+        const response = await model.invoke([
         { type: "text", text: "Describe the content of this document." },
         { type: "file", fileId: "file-abc123" },
     ])
@@ -1438,7 +1438,7 @@ All LangChain chat models with underlying multimodal capabilities support:
 
     ```typescript Audio input
     // From base64 data
-    const response = await model.invoke([
+        const response = await model.invoke([
         { type: "text", text: "Describe the content of this audio." },
         {
             type: "audio",
@@ -1448,7 +1448,7 @@ All LangChain chat models with underlying multimodal capabilities support:
     ])
 
     // From provider-managed File ID
-    const response = await model.invoke([
+        const response = await model.invoke([
         { type: "text", text: "Describe the content of this audio." },
         { type: "audio", fileId: "file-abc123" },
     ])
@@ -1456,7 +1456,7 @@ All LangChain chat models with underlying multimodal capabilities support:
 
     ```typescript Video input
     // From base64 data
-    const response = await model.invoke([
+        const response = await model.invoke([
         { type: "text", text: "Describe the content of this video." },
         {
             type: "video",
@@ -1466,7 +1466,7 @@ All LangChain chat models with underlying multimodal capabilities support:
     ])
 
     // From provider-managed File ID
-    const response = await model.invoke([
+        const response = await model.invoke([
         { type: "text", text: "Describe the content of this video." },
         { type: "video", fileId: "file-abc123" },
     ])
@@ -1514,13 +1514,13 @@ better understand how the model arrived at its final answer.
 <CodeGroup>
     ```python Stream reasoning output
     for chunk in model.stream("Why do parrots have colorful feathers?"):
-        reasoning_steps = [r for r in chunk.content_blocks if r["type"] == "reasoning"]
+                reasoning_steps = [r for r in chunk.content_blocks if r["type"] == "reasoning"]
         print(reasoning_steps if reasoning_steps else chunk.text)
     ```
 
     ```python Complete reasoning output
-    response = model.invoke("Why do parrots have colorful feathers?")
-    reasoning_steps = [b for b in response.content_blocks if b["type"] == "reasoning"]
+        response = model.invoke("Why do parrots have colorful feathers?")
+        reasoning_steps = [b for b in response.content_blocks if b["type"] == "reasoning"]
     print(" ".join(step["reasoning"] for step in reasoning_steps))
     ```
 </CodeGroup>
@@ -1529,17 +1529,17 @@ better understand how the model arrived at its final answer.
 :::js
 <CodeGroup>
     ```typescript Stream reasoning output
-    const stream = model.stream("Why do parrots have colorful feathers?");
+        const stream = model.stream("Why do parrots have colorful feathers?");
     for await (const chunk of stream) {
-        const reasoningSteps = chunk.contentBlocks.filter(b => b.type === "reasoning");
+                const reasoningSteps = chunk.contentBlocks.filter(b => b.type === "reasoning");
         console.log(reasoningSteps.length > 0 ? reasoningSteps : chunk.text);
     }
     ```
 
     ```typescript Complete reasoning output
-    const response = await model.invoke("Why do parrots have colorful feathers?");
-    const reasoningSteps = response.contentBlocks.filter(b => b.type === "reasoning");
-    console.log(reasoningSteps.map(step => step.reasoning).join(" "));
+        const response = await model.invoke("Why do parrots have colorful feathers?");
+        const reasoningSteps = response.contentBlocks.filter(b => b.type === "reasoning");
+        console.log(reasoningSteps.map(step => step.reasoning).join(" "));
     ```
 </CodeGroup>
 :::
@@ -1589,8 +1589,8 @@ LangChain provides an optional caching layer for chat model integrations.
 
             set_llm_cache(InMemoryCache())
 
-            response = model.invoke("Tell me a joke")
-            response = model.invoke("Tell me a joke")  # Fast, from cache
+                        response = model.invoke("Tell me a joke")
+                        response = model.invoke("Tell me a joke")  # Fast, from cache
             ```
         </Accordion>
 
@@ -1602,10 +1602,10 @@ LangChain provides an optional caching layer for chat model integrations.
             # We can do the same thing with a SQLite cache
             from langchain_community.cache import SQLiteCache
 
-            set_llm_cache(SQLiteCache(database_path=".langchain.db"))
+                        set_llm_cache(SQLiteCache(database_path=".langchain.db"))
 
-            response = model.invoke("Tell me a joke")
-            response = model.invoke("Tell me a joke")  # Fast, from cache
+                        response = model.invoke("Tell me a joke")
+                        response = model.invoke("Tell me a joke")  # Fast, from cache
             ```
         </Accordion>
     </AccordionGroup>
@@ -1627,13 +1627,13 @@ LangChain provides an optional caching layer for chat model integrations.
             import { InMemoryCache } from "@langchain/core";
             import { ChatOpenAI } from "@langchain/openai";
 
-            const model = new ChatOpenAI({
+                        const model = new ChatOpenAI({
                 model: "gpt-4o",
                 cache: new InMemoryCache(),
             });
 
-            const response = await model.invoke("Tell me a joke");
-            const response = await model.invoke("Tell me a joke");  // Fast, from cache
+                        const response = await model.invoke("Tell me a joke");
+                        const response = await model.invoke("Tell me a joke");  // Fast, from cache
             ```
         </Accordion>
     </AccordionGroup>
@@ -1660,16 +1660,16 @@ which requests are made.
     ```python Define a rate limiter highlight={12}
         from langchain_core.rate_limiters import InMemoryRateLimiter
 
-        rate_limiter = InMemoryRateLimiter(
-            requests_per_second=0.1,  # 1 request every 10s
-            check_every_n_seconds=0.1,  # Check every 100ms whether allowed to make a request
-            max_bucket_size=10,  # Controls the maximum burst size.
+                rate_limiter = InMemoryRateLimiter(
+                        requests_per_second=0.1,  # 1 request every 10s
+                        check_every_n_seconds=0.1,  # Check every 100ms whether allowed to make a request
+                        max_bucket_size=10,  # Controls the maximum burst size.
         )
 
-        model = init_chat_model(
-            model="gpt-5",
-            model_provider="openai",
-            rate_limiter=rate_limiter
+                model = init_chat_model(
+                        model="gpt-5",
+                        model_provider="openai",
+                        rate_limiter=rate_limiter
         )
     ```
 
@@ -1697,10 +1697,10 @@ with these providers by specifying the appropriate `base_url` parameter:
 
 ```python
 model = init_chat_model(
-    model="MODEL_NAME",
-    model_provider="openai",
-    base_url="BASE_URL",
-    api_key="YOUR_API_KEY",
+        model="MODEL_NAME",
+        model_provider="openai",
+        base_url="BASE_URL",
+        api_key="YOUR_API_KEY",
 )
 ```
 :::
@@ -1739,8 +1739,8 @@ configuration:
 from langchain_openai import ChatOpenAI
 
 model = ChatOpenAI(
-    model="gpt-4o",
-    openai_proxy="http://proxy.example.com:8080"
+        model="gpt-4o",
+        openai_proxy="http://proxy.example.com:8080"
 )
 ```
 
@@ -1761,8 +1761,8 @@ setting the `logprobs` parameter when initializing a model:
 
 ```python Log probs
 model = init_chat_model(
-    model="gpt-4o",
-    model_provider="openai"
+        model="gpt-4o",
+        model_provider="openai"
 ).bind(logprobs=True)
 
 response = model.invoke("Why do parrots talk?")
@@ -1868,7 +1868,7 @@ Common configuration options include:
 ```python Invocation with config
 response = model.invoke(
     "Tell me a joke",
-    config={
+        config={
         "run_name": "joke_generation",      # Custom name for this run
         "tags": ["humor", "demo"],          # Tags for categorization
         "metadata": {"user_id": "123"},     # Custom metadata
@@ -1982,11 +1982,11 @@ configurable_model = init_chat_model(temperature=0)
 
 configurable_model.invoke(
     "what's your name",
-    config={"configurable": {"model": "gpt-5-nano"}},  # Run with GPT-5-Nano
+        config={"configurable": {"model": "gpt-5-nano"}},  # Run with GPT-5-Nano
 )
 configurable_model.invoke(
     "what's your name",
-    config={"configurable": {"model": "claude-3-5-sonnet-latest"}},  # Run with Claude
+        config={"configurable": {"model": "claude-3-5-sonnet-latest"}},  # Run with Claude
 )
 ```
 
@@ -1995,10 +1995,10 @@ We can create a configurable model with default model values, specify which
 parameters are configurable, and add prefixes to configurable params:
 ```python
 first_llm = init_chat_model(
-    model="gpt-4.1-mini",
-    temperature=0,
-    configurable_fields=("model", "model_provider", "temperature", "max_tokens"),
-    config_prefix="first",  # Useful when you have a chain with multiple models
+        model="gpt-4.1-mini",
+        temperature=0,
+        configurable_fields=("model", "model_provider", "temperature", "max_tokens"),
+        config_prefix="first",  # Useful when you have a chain with multiple models
 )
 
 first_llm.invoke("what's your name")
@@ -2006,7 +2006,7 @@ first_llm.invoke("what's your name")
 ```python
 first_llm.invoke(
     "what's your name",
-    config={
+        config={
         "configurable": {
             "first_model": "claude-3-5-sonnet-latest",
             "first_temperature": 0.5,
@@ -2028,20 +2028,20 @@ from pydantic import BaseModel, Field
 class GetWeather(BaseModel):
     """Get the current weather in a given location"""
 
-    location: str = Field(..., description="The city and state, e.g. San Francisco, CA")
+        location: str = Field(..., description="The city and state, e.g. San Francisco, CA")
 
 
 class GetPopulation(BaseModel):
     """Get the current population in a given location"""
 
-    location: str = Field(..., description="The city and state, e.g. San Francisco, CA")
+        location: str = Field(..., description="The city and state, e.g. San Francisco, CA")
 
 
 llm = init_chat_model(temperature=0)
 llm_with_tools = llm.bind_tools([GetWeather, GetPopulation])
 
 llm_with_tools.invoke(
-    "what's bigger in 2024 LA or NYC", config={"configurable": {"model": "gpt-4.1-mini"}}
+        "what's bigger in 2024 LA or NYC", config={"configurable": {"model": "gpt-4.1-mini"}}
 ).tool_calls
 ```
 ```
@@ -2063,7 +2063,7 @@ llm_with_tools.invoke(
 ```python
 llm_with_tools.invoke(
     "what's bigger in 2024 LA or NYC",
-    config={"configurable": {"model": "claude-3-5-sonnet-latest"}},
+        config={"configurable": {"model": "claude-3-5-sonnet-latest"}},
 ).tool_calls
 ```
 ```

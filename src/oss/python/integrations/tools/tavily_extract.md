@@ -68,7 +68,7 @@ tool = TavilyExtract(
 
 
 The Tavily extract tool accepts the following arguments during invocation:
-- `urls` (required): A list of URLs to extract content from. 
+- `urls` (required): A list of URLs to extract content from.
 - Both `extract_depth` and `include_images` can also be set during invocation
 
 NOTE: The optional arguments are available for agents to dynamically set, if you set an argument during instantiation and then invoke the tool with a different value, the tool will use the value you passed during invocation.

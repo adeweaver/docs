@@ -20,11 +20,11 @@ This notebook provides a quick overview for getting started with [RecursiveUrlLo
 
 | Class | Package | Local | Serializable | PY support |
 | :--- | :--- | :---: | :---: |  :---: |
-| [RecursiveUrlLoader](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_recursive_url.RecursiveUrlLoader.html) | [@langchain/community](https://api.js.langchain.com/modules/langchain_community_document_loaders_web_recursive_url.html) | ✅ | beta | ❌ | 
+| [RecursiveUrlLoader](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_recursive_url.RecursiveUrlLoader.html) | [@langchain/community](https://api.js.langchain.com/modules/langchain_community_document_loaders_web_recursive_url.html) | ✅ | beta | ❌ |
 ### Loader features
 | Source | Web Loader | Node Envs Only
-| :---: | :---: | :---: | 
-| RecursiveUrlLoader | ✅ | ✅ | 
+| :---: | :---: | :---: |
+| RecursiveUrlLoader | ✅ | ✅ |
 
 When loading content from a website, we may want to process load all URLs on a page.
 

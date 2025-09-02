@@ -59,8 +59,8 @@ data = loader.load()
 print(data[0].page_content[:500])
 ```
 ```output
-abilities: 
-ability: 
+abilities:
+ability:
 name: blaze
 url: https://pokeapi.co/api/v2/ability/66/
 
@@ -68,7 +68,7 @@ is_hidden: False
 slot: 1
 
 
-ability: 
+ability:
 name: solar-power
 url: https://pokeapi.co/api/v2/ability/94/
 
@@ -76,27 +76,27 @@ is_hidden: True
 slot: 3
 
 base_experience: 267
-forms: 
+forms:
 name: charizard
 url: https://pokeapi.co/api/v2/pokemon-form/6/
 
-game_indices: 
+game_indices:
 game_index: 180
-version: 
+version:
 name: red
 url: https://pokeapi.co/api/v2/version/1/
 
 
 
 game_index: 180
-version: 
+version:
 name: blue
 url: https://pokeapi.co/api/v2/version/2/
 
 
 
 game_index: 180
-version: 
+version:
 n
 ```
 

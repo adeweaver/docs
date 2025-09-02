@@ -1,17 +1,17 @@
 ---
-title: SQLServer 
+title: SQLServer
 ---
 
 >Azure SQL provides a dedicated [Vector data type](https:\learn.microsoft.com\sql\t-sql\data-types\vector-data-type?view=azuresqldb-current&viewFallbackFrom=sql-server-ver16&tabs=csharp-sample) that simplifies the creation, storage, and querying of vector embeddings directly within a relational database. This eliminates the need for separate vector databases and related integrations, increasing the security of your solutions while reducing the overall complexity.
 
-Azure SQL is a robust service that combines scalability, security, and high availability, providing all the benefits of a modern database solution. It leverages a sophisticated query optimizer and enterprise features to perform vector similarity searches alongside traditional SQL queries, enhancing data analysis and decision-making.  
-  
+Azure SQL is a robust service that combines scalability, security, and high availability, providing all the benefits of a modern database solution. It leverages a sophisticated query optimizer and enterprise features to perform vector similarity searches alongside traditional SQL queries, enhancing data analysis and decision-making.
+
 Read more on using [Intelligent applications with Azure SQL Database](https://learn.microsoft.com/azure/azure-sql/database/ai-artificial-intelligence-intelligent-applications?view=azuresql)
 
 This notebook shows you how to leverage this integrated SQL [vector database](https://devblogs.microsoft.com/azure-sql/exciting-announcement-public-preview-of-native-vector-support-in-azure-sql-database/) to store documents and perform vector search queries using Cosine (cosine distance), L2 (Euclidean distance), and IP (inner product) to locate documents close to the query vectors
 
 ## Setup
-  
+
 Install the `langchain-sqlserver` python package.
 
 The code lives in an integration package called:[langchain-sqlserver](https:\github.com\langchain-ai\langchain-azure\tree\main\libs\sqlserver).
@@ -105,7 +105,7 @@ embeddings = AzureOpenAIEmbeddings(
 )
 ```
 
-## Manage vector store  
+## Manage vector store
 
 
 ```python
@@ -265,7 +265,7 @@ vector_store.drop()
 ## Load a Document from Azure Blob Storage
 
 Below is example of loading a file from Azure Blob Storage container into the SQL Vector store after splitting the document into chunks.
-[Azure Blog Storage](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction) is Microsoft's object storage solution for the cloud. Blob Storage is optimized for storing massive amounts of unstructured data. 
+[Azure Blog Storage](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction) is Microsoft's object storage solution for the cloud. Blob Storage is optimized for storing massive amounts of unstructured data.
 
 
 ```python
@@ -496,7 +496,7 @@ Sources:
 | 01 Harry Potter and the Sorcerers Stone.txt | As the snake slid swiftly past him, Harry could ha... |
 | 01 Harry Potter and the Sorcerers Stone.txt | Ron reached inside his jacket and pulled out a fat... |
 ```
-## API reference 
+## API reference
 
 For detailed documentation of SQLServer Vectorstore features and configurations head to the API reference: [https://python.langchain.com/api\_reference/sqlserver/index.html](https:\python.langchain.com\api_reference\sqlserver\index.html)
 

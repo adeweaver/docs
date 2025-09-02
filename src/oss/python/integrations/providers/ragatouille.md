@@ -57,10 +57,10 @@ def get_wikipedia_page(title: str):
     :return: str - Full text content of the page as raw string.
     """
     # Wikipedia API endpoint
-    URL = "https://en.wikipedia.org/w/api.php"
+        URL = "https://en.wikipedia.org/w/api.php"
 
     # Parameters for the API request
-    params = {
+        params = {
         "action": "query",
         "format": "json",
         "titles": title,
@@ -69,13 +69,13 @@ def get_wikipedia_page(title: str):
     }
 
     # Custom User-Agent header to comply with Wikipedia's best practices
-    headers = {"User-Agent": "RAGatouille_tutorial/0.0.1 (ben@clavie.eu)"}
+        headers = {"User-Agent": "RAGatouille_tutorial/0.0.1 (ben@clavie.eu)"}
 
-    response = requests.get(URL, params=params, headers=headers)
-    data = response.json()
+        response = requests.get(URL, params=params, headers=headers)
+        data = response.json()
 
     # Extracting page content
-    page = next(iter(data["query"]["pages"].values()))
+        page = next(iter(data["query"]["pages"].values()))
     return page["extract"] if "extract" in page else None
 
 
@@ -87,7 +87,7 @@ texts = text_splitter.create_documents([text])
 
 ```python
 retriever = FAISS.from_documents(texts, OpenAIEmbeddings()).as_retriever(
-    search_kwargs={"k": 10}
+        search_kwargs={"k": 10}
 )
 ```
 
@@ -113,7 +113,7 @@ We can see that the result isn't super relevant to the question asked
 from langchain.retrievers import ContextualCompressionRetriever
 
 compression_retriever = ContextualCompressionRetriever(
-    base_compressor=RAG.as_langchain_document_compressor(), base_retriever=retriever
+        base_compressor=RAG.as_langchain_document_compressor(), base_retriever=retriever
 )
 
 compressed_docs = compression_retriever.invoke(

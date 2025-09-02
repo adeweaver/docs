@@ -42,7 +42,7 @@ In London,GB, the current weather is as follows:
 Detailed status: overcast clouds
 Wind speed: 4.12 m/s, direction: 10°
 Humidity: 51%
-Temperature: 
+Temperature:
   - Current: 12.82°C
   - High: 13.98°C
   - Low: 12.01°C
@@ -96,7 +96,7 @@ In London, the current weather is as follows:
 Detailed status: overcast clouds
 Wind speed: 4.12 m/s, direction: 10°
 Humidity: 51%
-Temperature: 
+Temperature:
   - Current: 12.82°C
   - High: 13.98°C
   - Low: 12.01°C

@@ -2,18 +2,18 @@
 title: Reddit Search
 ---
 
-In this notebook, we learn how the Reddit search tool works.  
-First make sure that you have installed praw with the command below:  
+In this notebook, we learn how the Reddit search tool works.
+First make sure that you have installed praw with the command below:
 
 
 ```python
 %pip install --upgrade --quiet  praw
 ```
 
-Then you need to set you need to set up the proper API keys and environment variables. You would need to create a Reddit user account and get credentials. So, create a Reddit user account by going to https://www.reddit.com  and signing up.  
-Then get your credentials by going to https://www.reddit.com/prefs/apps and creating an app.  
-You should have your client_id and secret from creating the app. Now, you can paste those strings in client_id and client_secret variable.  
-Note: You can put any string for user_agent  
+Then you need to set you need to set up the proper API keys and environment variables. You would need to create a Reddit user account and get credentials. So, create a Reddit user account by going to https://www.reddit.com  and signing up.
+Then get your credentials by going to https://www.reddit.com/prefs/apps and creating an app.
+You should have your client_id and secret from creating the app. Now, you can paste those strings in client_id and client_secret variable.
+Note: You can put any string for user_agent
 
 
 ```python
@@ -59,7 +59,7 @@ result = search.run(tool_input=search_params.dict())
 print(result)
 ```
 
-Here is an example of printing the result.  
+Here is an example of printing the result.
 Note: You may get different output depending on the newest post in the subreddit but the formatting should be similar.
 
 
@@ -95,7 +95,7 @@ Note: You may get different output depending on the newest post in the subreddit
 
 ## Using tool with an agent chain
 
-Reddit search functionality is also provided as a multi-input tool. In this example, we adapt [existing code from the docs](https://python.langchain.com/v0.1/docs/modules/memory/agent_with_memory/), and use ChatOpenAI to create an agent chain with memory. This agent chain is able to pull information from Reddit and use these posts to respond to subsequent input. 
+Reddit search functionality is also provided as a multi-input tool. In this example, we adapt [existing code from the docs](https://python.langchain.com/v0.1/docs/modules/memory/agent_with_memory/), and use ChatOpenAI to create an agent chain with memory. This agent chain is able to pull information from Reddit and use these posts to respond to subsequent input.
 
 To run the example, add your reddit API access information and also get an OpenAI key from the [OpenAI API](https://help.openai.com/en/articles/4936850-where-do-i-find-my-api-key).
 

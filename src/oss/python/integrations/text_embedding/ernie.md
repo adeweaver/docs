@@ -2,12 +2,12 @@
 title: ERNIE
 ---
 
-[ERNIE Embedding-V1](https://cloud.baidu.com/doc/WENXINWORKSHOP/s/alj562vvu) is a text representation model based on `Baidu Wenxin` large-scale model technology, 
+[ERNIE Embedding-V1](https://cloud.baidu.com/doc/WENXINWORKSHOP/s/alj562vvu) is a text representation model based on `Baidu Wenxin` large-scale model technology,
 which converts text into a vector form represented by numerical values, and is used in text retrieval, information recommendation, knowledge mining and other scenarios.
 
 **Deprecated Warning**
 
-We recommend users using `langchain_community.embeddings.ErnieEmbeddings` 
+We recommend users using `langchain_community.embeddings.ErnieEmbeddings`
 to use `langchain_community.embeddings.QianfanEmbeddingsEndpoint` instead.
 
 documentation for `QianfanEmbeddingsEndpoint` is [here](/oss/integrations/text_embedding/baidu_qianfan_endpoint/).

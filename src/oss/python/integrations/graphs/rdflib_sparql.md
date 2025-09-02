@@ -9,7 +9,7 @@ title: RDFLib
 >- a SPARQL 1.1 implementation - supporting SPARQL 1.1 Queries and Update statements
 >- SPARQL function extension mechanisms
 
-Graph databases are an excellent choice for applications based on network-like models. To standardize the syntax and semantics of such graphs, the W3C recommends `Semantic Web Technologies`, cp. [Semantic Web](https://www.w3.org/standards/semanticweb/). 
+Graph databases are an excellent choice for applications based on network-like models. To standardize the syntax and semantics of such graphs, the W3C recommends `Semantic Web Technologies`, cp. [Semantic Web](https://www.w3.org/standards/semanticweb/).
 
 [SPARQL](https://www.w3.org/TR/sparql11-query/) serves as a query language analogously to `SQL` or `Cypher` for these graphs. This notebook demonstrates the application of LLMs as a natural language interface to a graph database by generating `SPARQL`.
 
@@ -57,7 +57,7 @@ graph.load_schema()
 graph.get_schema
 ```
 ```output
-In the following, each IRI is followed by the local name and optionally its description in parentheses. 
+In the following, each IRI is followed by the local name and optionally its description in parentheses.
 The RDF graph supports the following node types:
 <http://xmlns.com/foaf/0.1/PersonalProfileDocument> (PersonalProfileDocument, None), <http://www.w3.org/ns/auth/cert#RSAPublicKey> (RSAPublicKey, None), <http://www.w3.org/2000/10/swap/pim/contact#Male> (Male, None), <http://xmlns.com/foaf/0.1/Person> (Person, None), <http://www.w3.org/2006/vcard/ns#Work> (Work, None)
 The RDF graph supports the following relationships:

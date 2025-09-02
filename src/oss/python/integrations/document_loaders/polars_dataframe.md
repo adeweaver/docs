@@ -33,7 +33,7 @@ df.head()
   text-align: right;
 }
 </style>
-<small>shape: (5, 3)</small><table border="1" class="dataframe"><thead><tr><th>Team</th><th> &quot;Payroll (millions)&quot;</th><th> &quot;Wins&quot;</th></tr><tr><td>str</td><td>f64</td><td>i64</td></tr></thead><tbody><tr><td>&quot;Nationals&quot;</td><td>81.34</td><td>98</td></tr><tr><td>&quot;Reds&quot;</td><td>82.2</td><td>97</td></tr><tr><td>&quot;Yankees&quot;</td><td>197.96</td><td>95</td></tr><tr><td>&quot;Giants&quot;</td><td>117.62</td><td>94</td></tr><tr><td>&quot;Braves&quot;</td><td>83.31</td><td>94</td></tr></tbody></table></div> 
+<small>shape: (5, 3)</small><table border="1" class="dataframe"><thead><tr><th>Team</th><th> &quot;Payroll (millions)&quot;</th><th> &quot;Wins&quot;</th></tr><tr><td>str</td><td>f64</td><td>i64</td></tr></thead><tbody><tr><td>&quot;Nationals&quot;</td><td>81.34</td><td>98</td></tr><tr><td>&quot;Reds&quot;</td><td>82.2</td><td>97</td></tr><tr><td>&quot;Yankees&quot;</td><td>197.96</td><td>95</td></tr><tr><td>&quot;Giants&quot;</td><td>117.62</td><td>94</td></tr><tr><td>&quot;Braves&quot;</td><td>83.31</td><td>94</td></tr></tbody></table></div>
 ```
 
 

@@ -62,9 +62,9 @@ Ensure you have the following tools/items ready. Some items are marked optional:
       gp2 (default)   ebs.csi.eks.amazonaws.com   Delete          WaitForFirstConsumer   true                   161d
       ```
 
-      <Note>
+            <Note>
         We highly recommend using a storage class that supports volume expansion. This is because traces can potentially require a lot of disk space and your volumes may need to be resized over time.
-      </Note>
+            </Note>
 
       Refer to the [Kubernetes documentation](https://kubernetes.io/do/langsmith/observability-concepts/storage/storage-classes/) for more information on storage classes.
 
@@ -208,7 +208,7 @@ Ensure you have the following tools/items ready. Some items are marked optional:
    ```bash
    curl <external ip>/api/tenants
    ```
-   
+
    Expected output:
    ```json
    [{"id":"00000000-0000-0000-0000-000000000000","has_waitlist_access":true,"created_at":"2023-09-13T18:25:10.488407","display_name":"Personal","config":{"is_personal":true,"max_identities":1},"tenant_handle":"default"}]

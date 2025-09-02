@@ -22,11 +22,11 @@ If you want a lighterweight solution, and the webpages you want to load do not r
 
 | Class | Package | Local | Serializable | PY support |
 | :--- | :--- | :---: | :---: |  :---: |
-| [PuppeteerWebBaseLoader](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_puppeteer.PuppeteerWebBaseLoader.html) | [@langchain/community](https://api.js.langchain.com/modules/langchain_community_document_loaders_web_puppeteer.html) | ✅ | beta | ❌ | 
+| [PuppeteerWebBaseLoader](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_puppeteer.PuppeteerWebBaseLoader.html) | [@langchain/community](https://api.js.langchain.com/modules/langchain_community_document_loaders_web_puppeteer.html) | ✅ | beta | ❌ |
 ### Loader features
 | Source | Web Loader | Node Envs Only
-| :---: | :---: | :---: | 
-| PuppeteerWebBaseLoader | ✅ | ✅ | 
+| :---: | :---: | :---: |
+| PuppeteerWebBaseLoader | ✅ | ✅ |
 
 ## Setup
 

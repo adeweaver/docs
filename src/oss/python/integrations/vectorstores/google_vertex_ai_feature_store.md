@@ -5,7 +5,7 @@ title: Google Vertex AI Feature Store
 > [Google Cloud Vertex Feature Store](https://cloud.google.com/vertex-ai/docs/featurestore/latest/overview) streamlines your ML feature management and online serving processes by letting you serve at low-latency your data in [Google Cloud BigQuery](https://cloud.google.com/bigquery?hl=en), including the capacity to perform approximate neighbor retrieval for embeddings
 
 
-This tutorial shows you how to easily perform low-latency vector search and approximate nearest neighbor retrieval directly from your BigQuery data, enabling powerful ML applications with minimal setup. We will do that using the `VertexFSVectorStore` class. 
+This tutorial shows you how to easily perform low-latency vector search and approximate nearest neighbor retrieval directly from your BigQuery data, enabling powerful ML applications with minimal setup. We will do that using the `VertexFSVectorStore` class.
 
 This class is part of a set of 2 classes capable of providing a unified data storage and flexible vector search in Google Cloud:
 - **BigQuery Vector Search**: with `BigQueryVectorStore` class, which is ideal for rapid prototyping with no infrastructure setup and batch retrieval.
@@ -137,7 +137,7 @@ You can also start a sync on demand by executing the `sync_data` method.
 store.sync_data()
 ```
 
-When in a production environment, you can also use `cron_schedule` class parameter to setup an automatic scheduled synchronization. 
+When in a production environment, you can also use `cron_schedule` class parameter to setup an automatic scheduled synchronization.
 For example:
 ```python
 store = VertexFSVectorStore(cron_schedule="TZ=America/Los_Angeles 00 13 11 8 *", ...)

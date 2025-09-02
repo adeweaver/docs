@@ -151,7 +151,7 @@ const textSplitter = new CharacterTextSplitter({
   chunkSize: 400,
   chunkOverlap: 0,
 });
-  
+
 const query = "What did the president say about Ketanji Brown Jackson";
 const text = readFileSync("state_of_the_union.txt", "utf8");
 

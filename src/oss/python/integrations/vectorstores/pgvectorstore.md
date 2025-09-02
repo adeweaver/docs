@@ -230,7 +230,7 @@ print(docs)
 ```
 
 ## Add a Index
-Speed up vector search queries by applying a vector index. Learn more about [vector indexes](https://cloud.google.com/blog/products/databases/faster-similarity-search-performance-with-pgvector-indexes). 
+Speed up vector search queries by applying a vector index. Learn more about [vector indexes](https://cloud.google.com/blog/products/databases/faster-similarity-search-performance-with-pgvector-indexes).
 
 Indexes will use a default index name if a name is not provided. To add multiple indexes, different index names are required.
 
@@ -278,7 +278,7 @@ await store.adrop_vector_index("my-hnsw-index")  # Delete index using the index 
 Customize the vectorstore with special column names or with custom metadata columns.
 
 `ainit_vectorstore_table`
-* Use fields `content_column`, `embedding_column`,`metadata_columns`, `metadata_json_column`, `id_column` to rename the columns. 
+* Use fields `content_column`, `embedding_column`,`metadata_columns`, `metadata_json_column`, `id_column` to rename the columns.
 * Use the `Column` class to create custom id or metadata columns. A Column is defined by a name and data type. Any Postgres [data type](https://www.postgresql.org/docs/current/datatype.html) can be used.
 * Use `store_metadata` to create a JSON column to store extra metadata.
 
@@ -292,7 +292,7 @@ await pg_engine.ainit_vectorstore_table(
 ```
 
 `PGVectorStore`
-* Use fields `content_column`, `embedding_column`,`metadata_columns`, `metadata_json_column`, `id_column` to rename the columns. 
+* Use fields `content_column`, `embedding_column`,`metadata_columns`, `metadata_json_column`, `id_column` to rename the columns.
 * `ignore_metadata_columns` to ignore columns that should not be used for Document metadata. This is helpful when using a preexisting table, where all data columns are not necessary.
 * Use a different `distance_strategy` for the similarity calculation during vector search.
 * Use `index_query_options` to tune local index parameters during vector search.
@@ -383,7 +383,7 @@ A Vector Store can be built up on an existing table.
 Assuming there's a pre-existing table in PG DB: `products`, which stores product details for an eComm venture.
 
 <details>
-  <summary>Click for Table Schema Details</summary>
+    <summary>Click for Table Schema Details</summary>
 
   ### SQL query for table creation
   ```
@@ -454,9 +454,9 @@ custom_store = await PGVectorStore.create(
     metadata_json_column="metadata",
 )
 ```
-Note: 
+Note:
 
-1. Optional: If the `embed` column is newly created or has different dimensions than supported by embedding model, it is required to one-time add the embeddings for the old records, like this: 
+1. Optional: If the `embed` column is newly created or has different dimensions than supported by embedding model, it is required to one-time add the embeddings for the old records, like this:
 
     `ALTER TABLE products ADD COLUMN embed vector(768) DEFAULT NULL`
 

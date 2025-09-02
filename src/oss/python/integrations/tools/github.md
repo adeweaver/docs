@@ -2,8 +2,8 @@
 title: Github Toolkit
 ---
 
-The `Github` toolkit contains tools that enable an LLM agent to interact with a github repository. 
-The tool is a wrapper for the [PyGitHub](https://github.com/PyGithub/PyGithub) library. 
+The `Github` toolkit contains tools that enable an LLM agent to interact with a github repository.
+The tool is a wrapper for the [PyGitHub](https://github.com/PyGithub/PyGithub) library.
 
 For detailed documentation of all GithubToolkit features and configurations head to the [API reference](https://python.langchain.com/api_reference/community/agent_toolkits/langchain_community.agent_toolkits.github.toolkit.GitHubToolkit.html).
 

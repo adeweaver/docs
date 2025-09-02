@@ -6,7 +6,7 @@ This notebook covers how to MongoDB Atlas vector search in LangChain, using the 
 
 >[MongoDB Atlas](https://www.mongodb.com/docs/atlas/) is a fully-managed cloud database available in AWS, Azure, and GCP.  It supports native Vector Search, full text search (BM25), and hybrid search on your MongoDB document data.
 
->[MongoDB Atlas Vector Search](https://www.mongodb.com/products/platform/atlas-vector-search) allows to store your embeddings in MongoDB documents, create a vector search index, and perform KNN search with an approximate nearest neighbor algorithm (`Hierarchical Navigable Small Worlds`). It uses the [$vectorSearch MQL Stage](https://www.mongodb.com/docs/atlas/atlas-vector-search/vector-search-overview/). 
+>[MongoDB Atlas Vector Search](https://www.mongodb.com/products/platform/atlas-vector-search) allows to store your embeddings in MongoDB documents, create a vector search index, and perform KNN search with an approximate nearest neighbor algorithm (`Hierarchical Navigable Small Worlds`). It uses the [$vectorSearch MQL Stage](https://www.mongodb.com/docs/atlas/atlas-vector-search/vector-search-overview/).
 
 ## Setup
 
@@ -210,7 +210,7 @@ True
 
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 
 ### Query directly
 
@@ -293,7 +293,7 @@ There are a variety of other search methods that are not covered in this noteboo
 
 ### Query by turning into retriever
 
-You can also transform the vector store into a retriever for easier usage in your chains. 
+You can also transform the vector store into a retriever for easier usage in your chains.
 
 Here is how to transform your vector store into a retriever and then invoke the retreiever with a simple query and filter.
 
@@ -325,7 +325,7 @@ For guides on how to use this vector store for retrieval-augmented generation (R
 >* More documentation can be found at [MongoDB's LangChain Docs](https://www.mongodb.com/docs/atlas/atlas-vector-search/ai-integrations/langchain/) site
 >* This feature is Generally Available and ready for production deployments.
 >* The langchain version 0.0.305 ([release notes](https://github.com/langchain-ai/langchain/releases/tag/v0.0.305)) introduces the support for $vectorSearch MQL stage, which is available with MongoDB Atlas 6.0.11 and 7.0.2. Users utilizing earlier versions of MongoDB Atlas need to pin their LangChain version to &lt;=0.0.304
-> 
+>
 
 ## API reference
 

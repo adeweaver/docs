@@ -22,7 +22,7 @@ First, you need to install `bibtexparser` and `PyMuPDF`.
 - `file_path`: the path of the `.bib` bibtex file
 - optional `max_docs`: default=None, i.e. not limit. Use it to limit number of retrieved documents.
 - optional `max_content_chars`: default=4000. Use it to limit the number of characters in a single document.
-- optional `load_extra_meta`: default=False. By default only the most important fields from the bibtex entries: `Published` (publication year), `Title`, `Authors`, `Summary`, `Journal`, `Keywords`, and `URL`. If True, it will also try to load return `entry_id`, `note`, `doi`, and `links` fields. 
+- optional `load_extra_meta`: default=False. By default only the most important fields from the bibtex entries: `Published` (publication year), `Title`, `Authors`, `Summary`, `Journal`, `Keywords`, and `URL`. If True, it will also try to load return `entry_id`, `note`, `doi`, and `links` fields.
 - optional `file_pattern`: default=`r'[^:]+\.pdf'`. Regex pattern to find files in the `file` entry. Default pattern supports `Zotero` flavour bibtex style and bare file path.
 
 

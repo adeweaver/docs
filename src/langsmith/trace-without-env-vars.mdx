@@ -75,7 +75,7 @@ const tool = traceable((question: string) => {
 const pipeline = traceable(
     async (question: string) => {
         const context = await tool(question);
-        
+
         const completion = await openai.chat.completions.create({
             model: "gpt-4o-mini",
             messages: [
@@ -83,9 +83,9 @@ const pipeline = traceable(
                 { role: "user" as const, content: `Question: ${question}\nContext: ${context}`}
             ]
         });
-        
+
         return completion.choices[0].message.content;
-    }, 
+    },
     { name: "Chat", client, tracingEnabled: true }
 );
 

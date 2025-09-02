@@ -66,7 +66,7 @@ embeddings = GreenNodeEmbeddings(
 
 ## Indexing and Retrieval
 
-Embedding models play a key role in retrieval-augmented generation (RAG) workflows by enabling both the indexing of content and its efficient retrieval. 
+Embedding models play a key role in retrieval-augmented generation (RAG) workflows by enabling both the indexing of content and its efficient retrieval.
 Below, see how to index and retrieve data using the `embeddings` object we initialized above. In this example, we will index and retrieve a sample document in the `InMemoryVectorStore`.
 
 

@@ -6,7 +6,7 @@ This will help you get started with the Box [retriever](/oss/concepts/retrievers
 
 # Overview
 
-The `BoxRetriever` class helps you get your unstructured content from Box in Langchain's `Document` format. You can do this by searching for files based on a full-text search or using Box AI to retrieve a `Document` containing the result of an AI query against files. This requires including a `List[str]` containing Box file ids, i.e. `["12345","67890"]` 
+The `BoxRetriever` class helps you get your unstructured content from Box in Langchain's `Document` format. You can do this by searching for files based on a full-text search or using Box AI to retrieve a `Document` containing the result of an AI query against files. This requires including a `List[str]` containing Box file ids, i.e. `["12345","67890"]`
 
 <Info>
 Box AI requires an Enterprise Plus license
@@ -74,7 +74,7 @@ from langchain_box import BoxRetriever
 retriever = BoxRetriever(box_developer_token=box_developer_token)
 ```
 
-For more granular search, we offer a series of options to help you filter down the results. This uses the `langchain_box.utilities.SearchOptions` in conjunction with the `langchain_box.utilities.SearchTypeFilter` and `langchain_box.utilities.DocumentFiles` enums to filter on things like created date, which part of the file to search, and even to limit the search scope to a specific folder. 
+For more granular search, we offer a series of options to help you filter down the results. This uses the `langchain_box.utilities.SearchOptions` in conjunction with the `langchain_box.utilities.SearchTypeFilter` and `langchain_box.utilities.DocumentFiles` enums to filter on things like created date, which part of the file to search, and even to limit the search scope to a specific folder.
 
 For more information, check out the [API reference](https://python.langchain.com/v0.2/api_reference/box/utilities/langchain_box.utilities.box.SearchOptions.html).
 
@@ -337,7 +337,7 @@ Total: $920
 ```
 ## Extra fields
 
-All Box connectors offer the ability to select additional fields from the Box `FileFull` object to return as custom LangChain metadata. Each object accepts an optional `List[str]` called `extra_fields` containing the json key from the return object, like `extra_fields=["shared_link"]`. 
+All Box connectors offer the ability to select additional fields from the Box `FileFull` object to return as custom LangChain metadata. Each object accepts an optional `List[str]` called `extra_fields` containing the json key from the return object, like `extra_fields=["shared_link"]`.
 
 The connector will add this field to the list of fields the integration needs to function and then add the results to the metadata returned in the `Document` or `Blob`, like `"metadata" : { "source" : "source, "shared_link" : "shared_link" }`. If the field is unavailable for that file, it will be returned as an empty string, like `"shared_link" : ""`.
 

@@ -117,13 +117,13 @@ print("Cache cleared")
 ```
 ```output
 First call (not cached):
-Result: 
+Result:
 
 Caching is the process of storing frequently accessed data in a temporary storage location for faster retrieval. This helps to reduce the time and resources needed to access the data from its original source. Caching is commonly used in computer systems, web browsers, and databases to improve performance and efficiency.
 Time: 1.16 seconds
 
 Second call (cached):
-Result: 
+Result:
 
 Caching is the process of storing frequently accessed data in a temporary storage location for faster retrieval. This helps to reduce the time and resources needed to access the data from its original source. Caching is commonly used in computer systems, web browsers, and databases to improve performance and efficiency.
 Time: 0.05 seconds
@@ -176,14 +176,14 @@ print("Semantic cache cleared")
 ```output
 Original query:
 Prompt: What is the capital of France?
-Result: 
+Result:
 
 The capital of France is Paris.
 Time: 1.52 seconds
 
 Similar query:
 Prompt: Can you tell me the capital city of France?
-Result: 
+Result:
 
 The capital of France is Paris.
 Time: 0.29 seconds
@@ -251,10 +251,10 @@ print(f"Similar query result: {similar_result}")
 custom_semantic_cache.clear()
 ```
 ```output
-Original result: 
+Original result:
 
 The largest planet in our solar system is Jupiter.
-Similar query result: 
+Similar query result:
 
 The largest planet in our solar system is Jupiter.
 ```

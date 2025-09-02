@@ -12,11 +12,11 @@ Please see [this page](/oss/integrations/providers/unstructured/) for more infor
 
 | Class | Package | Local | Serializable | [JS support](https://js.langchain.com/docs/integrations/document_loaders/file_loaders/unstructured/)|
 | :--- | :--- | :---: | :---: |  :---: |
-| [UnstructuredPDFLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.UnstructuredPDFLoader.html) | [langchain_community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ✅ | 
+| [UnstructuredPDFLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.UnstructuredPDFLoader.html) | [langchain_community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ✅ |
 ### Loader features
 | Source | Document Lazy Loading | Native Async Support
-| :---: | :---: | :---: | 
-| UnstructuredPDFLoader | ✅ | ❌ | 
+| :---: | :---: | :---: |
+| UnstructuredPDFLoader | ✅ | ❌ |
 
 ## Setup
 

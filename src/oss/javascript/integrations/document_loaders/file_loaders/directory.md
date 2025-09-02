@@ -29,7 +29,7 @@ src/document_loaders/example_data/example/
 ## Overview
 ### Integration details
 
-| Class | Package | Compatibility | Local | PY support | 
+| Class | Package | Compatibility | Local | PY support |
 | :--- | :--- | :---: | :---: |  :---: |
 | [DirectoryLoader](https://api.js.langchain.com/classes/langchain.document_loaders_fs_directory.DirectoryLoader.html) | [langchain](https://api.js.langchain.com/modules/langchain.document_loaders_fs_directory.html) | Node-only | ✅ | ✅ |
 

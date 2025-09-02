@@ -18,9 +18,9 @@ First, you need to install `boto3` python package.
 %pip install --upgrade --quiet langchain-community
 ```
 
-In order for an agent to use the tool, you must provide it with the name and description that match the functionality of you lambda function's logic. 
+In order for an agent to use the tool, you must provide it with the name and description that match the functionality of you lambda function's logic.
 
-You must also provide the name of your function. 
+You must also provide the name of your function.
 
 Note that because this tool is effectively just a wrapper around the boto3 library, you will need to run `aws configure` in order to make use of the tool. For more detail, see [here](https://docs.aws.amazon.com/cli/index.html)
 

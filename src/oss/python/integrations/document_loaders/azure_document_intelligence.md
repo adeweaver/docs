@@ -2,7 +2,7 @@
 title: Azure AI Document Intelligence
 ---
 
->[Azure AI Document Intelligence](https://aka.ms/doc-intelligence) (formerly known as `Azure Form Recognizer`) is machine-learning 
+>[Azure AI Document Intelligence](https://aka.ms/doc-intelligence) (formerly known as `Azure Form Recognizer`) is machine-learning
 >based service that extracts texts (including handwriting), tables, document structures (e.g., titles, section headings, etc.) and key-value-pairs from
 >digital or scanned PDFs, images, Office and HTML files.
 >
@@ -40,7 +40,7 @@ loader = AzureAIDocumentIntelligenceLoader(
 documents = loader.load()
 ```
 
-The default output contains one LangChain document with markdown format content: 
+The default output contains one LangChain document with markdown format content:
 
 
 ```python

@@ -24,7 +24,7 @@ hf = HuggingFaceBgeEmbeddings(
 )
 ```
 
-Note that you need to pass `query_instruction=""` for `model_name="BAAI/bge-m3"` see [FAQ BGE M3](https://huggingface.co/BAAI/bge-m3#faq). 
+Note that you need to pass `query_instruction=""` for `model_name="BAAI/bge-m3"` see [FAQ BGE M3](https://huggingface.co/BAAI/bge-m3#faq).
 
 
 ```python

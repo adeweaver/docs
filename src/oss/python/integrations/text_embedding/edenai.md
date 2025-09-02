@@ -9,7 +9,7 @@ This example goes over how to use LangChain to interact with Eden AI embedding m
 -----------------------------------------------------------------------------------
 
 
-Accessing the EDENAI's API requires an API key, 
+Accessing the EDENAI's API requires an API key,
 
 which you can get by creating an account https://app.edenai.run/user/register  and heading here https://app.edenai.run/admin/account/settings
 

@@ -195,7 +195,7 @@ for (const [doc, score] of similaritySearchWithScoreResults) {
 ```
 ### Query by turning into retriever
 
-You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains. 
+You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains.
 
 
 ```typescript

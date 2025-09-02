@@ -8,12 +8,12 @@ title: ZeroxPDFLoader
 
 | Class | Package | Local | Serializable | JS support|
 | :--- | :--- | :---: | :---: |  :---: |
-| [ZeroxPDFLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.ZeroxPDFLoader.html) | [langchain_community](https://python.langchain.com/api_reference/community/index.html) | ❌ | ❌ | ❌ | 
+| [ZeroxPDFLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.ZeroxPDFLoader.html) | [langchain_community](https://python.langchain.com/api_reference/community/index.html) | ❌ | ❌ | ❌ |
 
 ### Loader features
 | Source | Document Lazy Loading | Native Async Support
-| :---: | :---: | :---: | 
-| ZeroxPDFLoader | ✅ | ❌ | 
+| :---: | :---: | :---: |
+| ZeroxPDFLoader | ✅ | ❌ |
 
 ## Setup
 
@@ -92,19 +92,19 @@ OpenAI is an AI research laboratory.
 #ai-models #ai
 
 ## Revenue
-- **$1,000,000,000**  
+- **$1,000,000,000**
   2023
 
 ## Valuation
-- **$28,000,000,000**  
+- **$28,000,000,000**
   2023
 
 ## Growth Rate (Y/Y)
-- **400%**  
+- **400%**
   2023
 
 ## Funding
-- **$11,300,000,000**  
+- **$11,300,000,000**
   2023
 
 ---
@@ -121,8 +121,8 @@ OpenAI is an AI research laboratory.
 ### ARR ($M)  | Growth
 --- | ---
 $1000M  | 456%
-$750M   | 
-$500M   | 
+$750M   |
+$500M   |
 $250M   | $36M
 $0     | $200M
 
@@ -151,7 +151,7 @@ Assuming OpenAI was at roughly $300M in ARR at the time, that would have given t
 | "How do I make an HTTP request in JavaScript?" | "Trained to provide harmless requests" |                                    |
 ```
 ## Lazy Load
-The loader always fetches results lazily. `.load()` method is equivalent to `.lazy_load()` 
+The loader always fetches results lazily. `.load()` method is equivalent to `.lazy_load()`
 
 ## API reference
 
@@ -162,12 +162,12 @@ This loader class initializes with a file path and model type, and supports cust
 **Arguments**:
 - `file_path` (Union[str, Path]): Path to the PDF file.
 - `model` (str): Vision-capable model to use for processing in format `<provider>/<model>`.
-Some examples of valid values are: 
-  - `model = "gpt-4o-mini" ## openai model`
-  - `model = "azure/gpt-4o-mini"`
-  - `model = "gemini/gpt-4o-mini"`
-  - `model="claude-3-opus-20240229"`
-  - `model = "vertex_ai/gemini-1.5-flash-001"`
+Some examples of valid values are:
+    - `model = "gpt-4o-mini" ## openai model`
+    - `model = "azure/gpt-4o-mini"`
+    - `model = "gemini/gpt-4o-mini"`
+    - `model="claude-3-opus-20240229"`
+    - `model = "vertex_ai/gemini-1.5-flash-001"`
   - See more details in [Zerox documentation](https://github.com/getomni-ai/zerox)
   - Defaults to `"gpt-4o-mini".`
 - `**zerox_kwargs` (dict): Additional Zerox-specific parameters such as API key, endpoint, etc.

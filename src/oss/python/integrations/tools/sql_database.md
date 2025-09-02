@@ -4,7 +4,7 @@ title: SQLDatabase Toolkit
 
 This will help you get started with the SQL Database [toolkit](/oss/concepts/tools/#toolkits). For detailed documentation of all `SQLDatabaseToolkit` features and configurations head to the [API reference](https://python.langchain.com/api_reference/community/agent_toolkits/langchain_community.agent_toolkits.sql.toolkit.SQLDatabaseToolkit.html).
 
-Tools within the `SQLDatabaseToolkit` are designed to interact with a `SQL` database. 
+Tools within the `SQLDatabaseToolkit` are designed to interact with a `SQL` database.
 
 A common application is to enable agents to answer questions using data in a relational database, potentially in an iterative fashion (e.g., recovering from errors).
 
@@ -204,20 +204,20 @@ Name: sql_db_schema
 
 
 CREATE TABLE "Customer" (
-	"CustomerId" INTEGER NOT NULL, 
-	"FirstName" NVARCHAR(40) NOT NULL, 
-	"LastName" NVARCHAR(20) NOT NULL, 
-	"Company" NVARCHAR(80), 
-	"Address" NVARCHAR(70), 
-	"City" NVARCHAR(40), 
-	"State" NVARCHAR(40), 
-	"Country" NVARCHAR(40), 
-	"PostalCode" NVARCHAR(10), 
-	"Phone" NVARCHAR(24), 
-	"Fax" NVARCHAR(24), 
-	"Email" NVARCHAR(60) NOT NULL, 
-	"SupportRepId" INTEGER, 
-	PRIMARY KEY ("CustomerId"), 
+	"CustomerId" INTEGER NOT NULL,
+	"FirstName" NVARCHAR(40) NOT NULL,
+	"LastName" NVARCHAR(20) NOT NULL,
+	"Company" NVARCHAR(80),
+	"Address" NVARCHAR(70),
+	"City" NVARCHAR(40),
+	"State" NVARCHAR(40),
+	"Country" NVARCHAR(40),
+	"PostalCode" NVARCHAR(10),
+	"Phone" NVARCHAR(24),
+	"Fax" NVARCHAR(24),
+	"Email" NVARCHAR(60) NOT NULL,
+	"SupportRepId" INTEGER,
+	PRIMARY KEY ("CustomerId"),
 	FOREIGN KEY("SupportRepId") REFERENCES "Employee" ("EmployeeId")
 )
 
@@ -231,16 +231,16 @@ CustomerId	FirstName	LastName	Company	Address	City	State	Country	PostalCode	Phon
 
 
 CREATE TABLE "Invoice" (
-	"InvoiceId" INTEGER NOT NULL, 
-	"CustomerId" INTEGER NOT NULL, 
-	"InvoiceDate" DATETIME NOT NULL, 
-	"BillingAddress" NVARCHAR(70), 
-	"BillingCity" NVARCHAR(40), 
-	"BillingState" NVARCHAR(40), 
-	"BillingCountry" NVARCHAR(40), 
-	"BillingPostalCode" NVARCHAR(10), 
-	"Total" NUMERIC(10, 2) NOT NULL, 
-	PRIMARY KEY ("InvoiceId"), 
+	"InvoiceId" INTEGER NOT NULL,
+	"CustomerId" INTEGER NOT NULL,
+	"InvoiceDate" DATETIME NOT NULL,
+	"BillingAddress" NVARCHAR(70),
+	"BillingCity" NVARCHAR(40),
+	"BillingState" NVARCHAR(40),
+	"BillingCountry" NVARCHAR(40),
+	"BillingPostalCode" NVARCHAR(10),
+	"Total" NUMERIC(10, 2) NOT NULL,
+	PRIMARY KEY ("InvoiceId"),
 	FOREIGN KEY("CustomerId") REFERENCES "Customer" ("CustomerId")
 )
 
@@ -254,13 +254,13 @@ InvoiceId	CustomerId	InvoiceDate	BillingAddress	BillingCity	BillingState	Billing
 
 
 CREATE TABLE "InvoiceLine" (
-	"InvoiceLineId" INTEGER NOT NULL, 
-	"InvoiceId" INTEGER NOT NULL, 
-	"TrackId" INTEGER NOT NULL, 
-	"UnitPrice" NUMERIC(10, 2) NOT NULL, 
-	"Quantity" INTEGER NOT NULL, 
-	PRIMARY KEY ("InvoiceLineId"), 
-	FOREIGN KEY("TrackId") REFERENCES "Track" ("TrackId"), 
+	"InvoiceLineId" INTEGER NOT NULL,
+	"InvoiceId" INTEGER NOT NULL,
+	"TrackId" INTEGER NOT NULL,
+	"UnitPrice" NUMERIC(10, 2) NOT NULL,
+	"Quantity" INTEGER NOT NULL,
+	PRIMARY KEY ("InvoiceLineId"),
+	FOREIGN KEY("TrackId") REFERENCES "Track" ("TrackId"),
 	FOREIGN KEY("InvoiceId") REFERENCES "Invoice" ("InvoiceId")
 )
 
@@ -334,10 +334,10 @@ Name: sql_db_schema
 
 
 CREATE TABLE "Album" (
-	"AlbumId" INTEGER NOT NULL, 
-	"Title" NVARCHAR(160) NOT NULL, 
-	"ArtistId" INTEGER NOT NULL, 
-	PRIMARY KEY ("AlbumId"), 
+	"AlbumId" INTEGER NOT NULL,
+	"Title" NVARCHAR(160) NOT NULL,
+	"ArtistId" INTEGER NOT NULL,
+	PRIMARY KEY ("AlbumId"),
 	FOREIGN KEY("ArtistId") REFERENCES "Artist" ("ArtistId")
 )
 
@@ -351,8 +351,8 @@ AlbumId	Title	ArtistId
 
 
 CREATE TABLE "Artist" (
-	"ArtistId" INTEGER NOT NULL, 
-	"Name" NVARCHAR(120), 
+	"ArtistId" INTEGER NOT NULL,
+	"Name" NVARCHAR(120),
 	PRIMARY KEY ("ArtistId")
 )
 
@@ -366,13 +366,13 @@ ArtistId	Name
 
 
 CREATE TABLE "InvoiceLine" (
-	"InvoiceLineId" INTEGER NOT NULL, 
-	"InvoiceId" INTEGER NOT NULL, 
-	"TrackId" INTEGER NOT NULL, 
-	"UnitPrice" NUMERIC(10, 2) NOT NULL, 
-	"Quantity" INTEGER NOT NULL, 
-	PRIMARY KEY ("InvoiceLineId"), 
-	FOREIGN KEY("TrackId") REFERENCES "Track" ("TrackId"), 
+	"InvoiceLineId" INTEGER NOT NULL,
+	"InvoiceId" INTEGER NOT NULL,
+	"TrackId" INTEGER NOT NULL,
+	"UnitPrice" NUMERIC(10, 2) NOT NULL,
+	"Quantity" INTEGER NOT NULL,
+	PRIMARY KEY ("InvoiceLineId"),
+	FOREIGN KEY("TrackId") REFERENCES "Track" ("TrackId"),
 	FOREIGN KEY("InvoiceId") REFERENCES "Invoice" ("InvoiceId")
 )
 

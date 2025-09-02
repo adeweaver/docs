@@ -283,7 +283,7 @@ The server's core functionality will include an endpoint for webhook reception, 
                       f"GitHub API conflict (PUT content): {e.response.text}. "
                       "This might be due to an outdated SHA or branch protection rules."
                   )
-              elif e.response.status_code == 422: # Unprocessable Entity 
+              elif e.response.status_code == 422: # Unprocessable Entity
                   error_detail = (
                       f"GitHub API Unprocessable Entity (PUT content): {e.response.text}. "
                       f"Ensure the branch '{settings.GITHUB_BRANCH}' exists and the payload is correctly formatted."

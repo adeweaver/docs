@@ -2,14 +2,14 @@
 title: Ray Serve
 ---
 
-[Ray Serve](https://docs.ray.io/en/latest/serve/index.html) is a scalable model serving library for building online inference APIs. Serve is particularly well suited for system composition, enabling you to build a complex inference service consisting of multiple chains and business logic all in Python code. 
+[Ray Serve](https://docs.ray.io/en/latest/serve/index.html) is a scalable model serving library for building online inference APIs. Serve is particularly well suited for system composition, enabling you to build a complex inference service consisting of multiple chains and business logic all in Python code.
 
 ## Goal of this notebook
 This notebook shows a simple example of how to deploy an OpenAI chain into production. You can extend it to deploy your own self-hosted models where you can easily define amount of hardware resources (GPUs and CPUs) needed to run your model in production efficiently. Read more about available options including autoscaling in the Ray Serve [documentation](https://docs.ray.io/en/latest/serve/getting_started.html).
 
 
 ## Setup Ray Serve
-Install ray with `pip install ray[serve]`. 
+Install ray with `pip install ray[serve]`.
 
 ## General Skeleton
 
@@ -97,7 +97,7 @@ Now we can bind the deployment.
 deployment = DeployLLM.bind()
 ```
 
-We can assign the port number and host when we want to run the deployment. 
+We can assign the port number and host when we want to run the deployment.
 
 
 ```python

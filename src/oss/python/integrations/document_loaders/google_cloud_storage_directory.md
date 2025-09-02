@@ -64,7 +64,7 @@ loader.load()
 
 
 ## Continue on failure to load a single file
-Files in a GCS bucket may cause errors during processing. Enable the `continue_on_failure=True` argument to allow silent failure. This means failure to process a single file will not break the function, it will log a warning instead. 
+Files in a GCS bucket may cause errors during processing. Enable the `continue_on_failure=True` argument to allow silent failure. This means failure to process a single file will not break the function, it will log a warning instead.
 
 
 ```python

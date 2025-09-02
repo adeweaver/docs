@@ -113,8 +113,8 @@ File ~/job/zep-proprietary/venv/lib/python3.11/site-packages/pydantic/_internal/
 ``````output
 File ~/job/zep-proprietary/venv/lib/python3.11/site-packages/pydantic/_internal/_model_construction.py:539, in complete_model_class(cls, cls_name, config_wrapper, raise_errors, types_namespace, create_model_module)
     532 # debug(schema)
-    533 cls.__pydantic_core_schema__ = schema
-    535 cls.__pydantic_validator__ = create_schema_validator(
+        533 cls.__pydantic_core_schema__ = schema
+        535 cls.__pydantic_validator__ = create_schema_validator(
     536     schema,
     537     cls,
     538     create_model_module or cls.__module__,
@@ -123,8 +123,8 @@ File ~/job/zep-proprietary/venv/lib/python3.11/site-packages/pydantic/_internal/
     541     core_config,
     542     config_wrapper.plugin_settings,
     543 )
-    544 cls.__pydantic_serializer__ = SchemaSerializer(schema, core_config)
-    545 cls.__pydantic_complete__ = True
+        544 cls.__pydantic_serializer__ = SchemaSerializer(schema, core_config)
+        545 cls.__pydantic_complete__ = True
 ``````output
 File ~/job/zep-proprietary/venv/lib/python3.11/site-packages/pydantic/main.py:626, in __get_pydantic_core_schema__(cls, source, handler)
     611 @classmethod
@@ -132,14 +132,14 @@ File ~/job/zep-proprietary/venv/lib/python3.11/site-packages/pydantic/main.py:62
     613     """This is intended to behave just like `__init_subclass__`, but is called by `ModelMetaclass`
     614     only after the class is actually fully initialized. In particular, attributes like `model_fields` will
     615     be present when this is called.
-    616 
+    616
     617     This is necessary because `__init_subclass__` will always be called by `type.__new__`,
     618     and it would require a prohibitively large refactor to the `ModelMetaclass` to ensure that
     619     `type.__new__` was called in such a manner that the class would already be sufficiently initialized.
-    620 
+    620
     621     This will receive the same `kwargs` that would be passed to the standard `__init_subclass__`, namely,
     622     any kwargs passed to the class definition that aren't used internally by pydantic.
-    623 
+    623
     624     Args:
     625         **kwargs: Any keyword arguments passed to the class definition that aren't used internally
 --> 626             by pydantic.
@@ -160,14 +160,14 @@ File ~/job/zep-proprietary/venv/lib/python3.11/site-packages/pydantic/_internal/
 File ~/job/zep-proprietary/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:753, in _generate_schema_inner(self, obj)
     749 def match_type(self, obj: Any) -> core_schema.CoreSchema:  # noqa: C901
     750     """Main mapping of types to schemas.
-    751 
+    751
     752     The general structure is a series of if statements starting with the simple cases
 --> 753     (non-generic primitive types) and then handling generics and other more complex cases.
-    754 
+    754
     755     Each case either generates a schema directly, calls into a public user-overridable method
     756     (like `GenerateSchema.tuple_variable_schema`) or calls into a private method that handles some
     757     boilerplate before calling into the user-facing method (e.g. `GenerateSchema._tuple_schema`).
-    758 
+    758
     759     The idea is that we'll evolve this into adding more and more user facing methods over time
     760     as they get requested and we figure out what the right API for them is.
     761     """
@@ -191,20 +191,20 @@ File ~/job/zep-proprietary/venv/lib/python3.11/site-packages/pydantic/_internal/
     589 schema = apply_model_validators(schema, model_validators, 'outer')
 ``````output
 File ~/job/zep-proprietary/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:580, in <dictcomp>(.0)
-    574         inner_schema = new_inner_schema
-    575     inner_schema = apply_model_validators(inner_schema, model_validators, 'inner')
-    577     model_schema = core_schema.model_schema(
+        574         inner_schema = new_inner_schema
+        575     inner_schema = apply_model_validators(inner_schema, model_validators, 'inner')
+        577     model_schema = core_schema.model_schema(
     578         cls,
     579         inner_schema,
 --> 580         custom_init=getattr(cls, '__pydantic_custom_init__', None),
-    581         root_model=False,
-    582         post_init=getattr(cls, '__pydantic_post_init__', None),
-    583         config=core_config,
-    584         ref=model_ref,
-    585         metadata=metadata,
+        581         root_model=False,
+        582         post_init=getattr(cls, '__pydantic_post_init__', None),
+        583         config=core_config,
+        584         ref=model_ref,
+        585         metadata=metadata,
     586     )
-    588 schema = self._apply_model_serializers(model_schema, decorators.model_serializers.values())
-    589 schema = apply_model_validators(schema, model_validators, 'outer')
+        588 schema = self._apply_model_serializers(model_schema, decorators.model_serializers.values())
+        589 schema = apply_model_validators(schema, model_validators, 'outer')
 ``````output
 File ~/job/zep-proprietary/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:916, in _generate_md_field_schema(self, name, field_info, decorators)
     906     common_field = self._common_field_schema(name, field_info, decorators)
@@ -416,7 +416,7 @@ print_messages(memory.chat_memory.messages)
 Octavia Estelle Butler was an acclaimed American science fiction author. While none of her books were directly adapted into movies, her novel Kindred was adapted into a TV series on FX. Butler was part of a generation of prominent science fiction writers in the 20th century, including contemporaries such as Ursula K. Le Guin, Samuel R. Delany, Chip Delany, and Nalo Hopkinson.
 
 
-Conversation Facts: 
+Conversation Facts:
 Octavia Butler's contemporaries included Ursula K. Le Guin, Samuel R. Delany, and Joanna Russ.
 
 Octavia Butler won the Hugo Award, the Nebula Award, and the MacArthur Fellowship.

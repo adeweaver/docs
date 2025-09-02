@@ -72,7 +72,7 @@ const embeddings = new OpenAIEmbeddings({
 });
 
 const weaviateClient = weaviate.connectToWeaviateCloud({
-   clusterURL: process.env.WEAVIATE_URL!, 
+   clusterURL: process.env.WEAVIATE_URL!,
 	 options : {
       authCredentials: new weaviate.ApiKey(process.env.WEAVIATE_API_KEY || ""),
       headers: {
@@ -88,7 +88,7 @@ To create a collection, specify at least the collection name. If you don't speci
 
 ```typescript
 const vectorStore = new WeaviateStore(embeddings, {
-  client: weaviateClient, 
+  client: weaviateClient,
   // Must start with a capital letter
   indexName: "Langchainjs_test",
 });
@@ -98,7 +98,7 @@ To use Weaviate's named vectors, vectorizers, reranker, generative-models etc., 
 
 ```typescript
 const vectorStore = new WeaviateStore(embeddings, {
-  client: weaviateClient, 
+  client: weaviateClient,
   schema: {
     name: "Langchainjs_test",
     description: "A simple dataset",
@@ -179,11 +179,11 @@ await vectorStore.delete({ ids: [uuids[3]] });
 
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 In weaviate's v3, the client interacts with `collections` as the primary way to work with objects in the database. The `collection` object can be re-used throughout the codebase
 ### Query directly
 
-Performing a simple similarity search can be done as follows. The `Filter` helper class makes it easier to use filters with conditions. The v3 client streamlines how you use `Filter` so your code is cleaner and more concise. 
+Performing a simple similarity search can be done as follows. The `Filter` helper class makes it easier to use filters with conditions. The v3 client streamlines how you use `Filter` so your code is cleaner and more concise.
 
 See [this page](https://weaviate.io/developers/weaviate/api/graphql/filters) for more on Weaviate filter syntax.
 
@@ -220,13 +220,13 @@ for (const [doc, score] of similaritySearchWithScoreResults) {
 * [SIM=0.852] Mitochondria are made out of lipids [{"source":"https://example.com"}]
 ```
 ### Hybrid Search
-In Weaviate, `Hybrid search` combines the results of a vector search and a keyword (BM25F) search by fusing the two result sets. To change the relative weights of the keyword and vector components, set the `alpha` value in your query. 
+In Weaviate, `Hybrid search` combines the results of a vector search and a keyword (BM25F) search by fusing the two result sets. To change the relative weights of the keyword and vector components, set the `alpha` value in your query.
 
-Check __[docs](https://weaviate.io/developers/weaviate/search/hybrid)__ for the full list of hybrid search options. 
+Check __[docs](https://weaviate.io/developers/weaviate/search/hybrid)__ for the full list of hybrid search options.
 
 
 ```typescript
-const results = await vectorStore.hybridSearch("biology", 
+const results = await vectorStore.hybridSearch("biology",
   {
     limit: 1,
     alpha: 0.25,
@@ -266,7 +266,7 @@ const results = await vectorStore.generate("hello world",
 
 ### Query by turning into retriever
 
-You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains. 
+You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains.
 
 
 ```typescript

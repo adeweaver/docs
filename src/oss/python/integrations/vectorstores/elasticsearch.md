@@ -2,7 +2,7 @@
 title: Elasticsearch
 ---
 
->[Elasticsearch](https://www.elastic.co/elasticsearch/) is a distributed, RESTful search and analytics engine, capable of performing both vector and lexical search. It is built on top of the Apache Lucene library. 
+>[Elasticsearch](https://www.elastic.co/elasticsearch/) is a distributed, RESTful search and analytics engine, capable of performing both vector and lexical search. It is built on top of the Apache Lucene library.
 
 This notebook shows how to use functionality related to the `Elasticsearch` vector store.
 
@@ -28,7 +28,7 @@ embedding object to the constructor.
 2. Local Install Elasticsearch: Get started with Elasticsearch by running it locally. The easiest way is to use the official Elasticsearch Docker image. See the [Elasticsearch Docker documentation](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html) for more information.
 
 
-### Running Elasticsearch via Docker 
+### Running Elasticsearch via Docker
 Example: Run a single-node Elasticsearch instance with security disabled. This is not recommended for production use.
 
 
@@ -270,7 +270,7 @@ for doc, score in results:
 ```
 ### Query by turning into retriever
 
-You can also transform the vector store into a retriever for easier usage in your chains. 
+You can also transform the vector store into a retriever for easier usage in your chains.
 
 
 ```python

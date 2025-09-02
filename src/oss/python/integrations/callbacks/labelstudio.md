@@ -38,7 +38,7 @@ os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
 
 ## Collecting LLMs prompts and responses
 
-The data used for labeling is stored in projects within Label Studio. Every project is identified by an XML configuration that details the specifications for input and output data. 
+The data used for labeling is stored in projects within Label Studio. Every project is identified by an XML configuration that details the specifications for input and output data.
 
 Create a project that takes human input in text format and outputs an editable LLM response in a text area:
 
@@ -65,7 +65,7 @@ Create a project that takes human input in text format and outputs an editable L
 </View>
 ```
 
-1. To create a project in Label Studio, click on the "Create" button. 
+1. To create a project in Label Studio, click on the "Create" button.
 2. Enter a name for your project in the "Project Name" field, such as `My Project`.
 3. Navigate to `Labeling Setup > Custom Template` and paste the XML configuration provided above.
 
@@ -88,7 +88,7 @@ llm = OpenAI(
 print(llm.invoke("Tell me a joke"))
 ```
 
-In the Label Studio, open `My Project`. You will see the prompts, responses, and metadata like the model name. 
+In the Label Studio, open `My Project`. You will see the prompts, responses, and metadata like the model name.
 
 ## Collecting Chat model Dialogues
 

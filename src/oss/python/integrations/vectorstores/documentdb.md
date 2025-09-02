@@ -12,7 +12,7 @@ This notebook shows you how to use [Amazon Document DB Vector Search](https://do
 To use DocumentDB, you must first deploy a cluster. Please refer to the [Developer Guide](https://docs.aws.amazon.com/documentdb/latest/developerguide/what-is.html) for more details.
 
 [Sign Up](https://aws.amazon.com/free/) for free to get started today.
-        
+
 
 
 ```python
@@ -32,7 +32,7 @@ NAMESPACE = "izzy_test_db.izzy_test_collection"
 DB_NAME, COLLECTION_NAME = NAMESPACE.split(".")
 ```
 
-We want to use `OpenAIEmbeddings` so we need to set up our OpenAI environment variables. 
+We want to use `OpenAIEmbeddings` so we need to set up our OpenAI environment variables.
 
 
 ```python
@@ -137,11 +137,11 @@ docs = vectorstore.similarity_search(query)
 print(docs[0].page_content)
 ```
 ```output
-Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections. 
+Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections.
 
-Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service. 
+Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service.
 
-One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. 
+One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
 
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.
 ```
@@ -166,11 +166,11 @@ docs = vectorstore.similarity_search(query)
 print(docs[0].page_content)
 ```
 ```output
-Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections. 
+Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections.
 
-Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service. 
+Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service.
 
-One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. 
+One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
 
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.
 ```
@@ -186,16 +186,16 @@ docs = vectorstore.similarity_search(query)
 print(docs[0].page_content)
 ```
 ```output
-And unlike the $2 Trillion tax cut passed in the previous administration that benefitted the top 1% of Americans, the American Rescue Plan helped working people—and left no one behind. 
+And unlike the $2 Trillion tax cut passed in the previous administration that benefitted the top 1% of Americans, the American Rescue Plan helped working people—and left no one behind.
 
-And it worked. It created jobs. Lots of jobs. 
+And it worked. It created jobs. Lots of jobs.
 
-In fact—our economy created over 6.5 Million new jobs just last year, more jobs created in one year  
-than ever before in the history of America. 
+In fact—our economy created over 6.5 Million new jobs just last year, more jobs created in one year
+than ever before in the history of America.
 
-Our economy grew at a rate of 5.7% last year, the strongest growth in nearly 40 years, the first step in bringing fundamental change to an economy that hasn’t worked for the working people of this nation for too long.  
+Our economy grew at a rate of 5.7% last year, the strongest growth in nearly 40 years, the first step in bringing fundamental change to an economy that hasn’t worked for the working people of this nation for too long.
 
-For the past 40 years we were told that if we gave tax breaks to those at the very top, the benefits would trickle down to everyone else. 
+For the past 40 years we were told that if we gave tax breaks to those at the very top, the benefits would trickle down to everyone else.
 
 But that trickle-down theory led to weaker economic growth, lower wages, bigger deficits, and the widest gap between those at the top and everyone else in nearly a century.
 ```

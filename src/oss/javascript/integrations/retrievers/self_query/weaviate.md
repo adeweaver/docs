@@ -142,7 +142,7 @@ const attributeInfo: AttributeInfo[] = [
  * We also need to provide an embeddings object. This is used to embed the documents.
  */
 const client = weaviate.connectToWeaviateCloud({
-   clusterURL: process.env.WEAVIATE_URL!, 
+   clusterURL: process.env.WEAVIATE_URL!,
 	 options : {
       authCredentials: new weaviate.ApiKey(process.env.WEAVIATE_API_KEY || "")
     },

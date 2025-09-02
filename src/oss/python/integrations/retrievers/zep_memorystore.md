@@ -24,7 +24,7 @@ This notebook demonstrates how to search historical chat message histories using
 We'll demonstrate:
 
 1. Adding conversation history to the Zep memory store.
-2. Vector search over the conversation history: 
+2. Vector search over the conversation history:
     1. With a similarity search over chat messages
     2. Using maximal marginal relevance re-ranking of a chat message search
     3. Filtering a search using metadata filters

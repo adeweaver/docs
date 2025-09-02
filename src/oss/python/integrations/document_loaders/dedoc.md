@@ -19,8 +19,8 @@ Full list of supported formats can be found [here](https://dedoc.readthedocs.io/
 | Class                                                                                                                                                | Package                                                                                        | Local | Serializable | JS support |
 |:-----------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------|:-----:|:------------:|:----------:|
 | [DedocFileLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.dedoc.DedocFileLoader.html)       | [langchain_community](https://python.langchain.com/api_reference/community/index.html) |   ❌   |     beta     |     ❌      |
-| [DedocPDFLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.DedocPDFLoader.html)           | [langchain_community](https://python.langchain.com/api_reference/community/index.html) |   ❌   |     beta     |     ❌      | 
-| [DedocAPIFileLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.dedoc.DedocAPIFileLoader.html) | [langchain_community](https://python.langchain.com/api_reference/community/index.html) |   ❌   |     beta     |     ❌      | 
+| [DedocPDFLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.DedocPDFLoader.html)           | [langchain_community](https://python.langchain.com/api_reference/community/index.html) |   ❌   |     beta     |     ❌      |
+| [DedocAPIFileLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.dedoc.DedocAPIFileLoader.html) | [langchain_community](https://python.langchain.com/api_reference/community/index.html) |   ❌   |     beta     |     ❌      |
 
 
 ### Loader features
@@ -28,15 +28,15 @@ Full list of supported formats can be found [here](https://dedoc.readthedocs.io/
 Methods for lazy loading and async loading are available, but in fact, document loading is executed synchronously.
 
 |       Source       | Document Lazy Loading | Async Support |
-|:------------------:|:---------------------:|:-------------:| 
+|:------------------:|:---------------------:|:-------------:|
 |  DedocFileLoader   |           ❌           |       ❌       |
-|   DedocPDFLoader   |           ❌           |       ❌       | 
-| DedocAPIFileLoader |           ❌           |       ❌       | 
+|   DedocPDFLoader   |           ❌           |       ❌       |
+| DedocAPIFileLoader |           ❌           |       ❌       |
 
 ## Setup
 
 * To access `DedocFileLoader` and `DedocPDFLoader` document loaders, you'll need to install the `dedoc` integration package.
-* To access `DedocAPIFileLoader`, you'll need to run the `Dedoc` service, e.g. `Docker` container (please see [the documentation](https://dedoc.readthedocs.io/en/latest/getting_started/installation.html#install-and-run-dedoc-using-docker) 
+* To access `DedocAPIFileLoader`, you'll need to run the `Dedoc` service, e.g. `Docker` container (please see [the documentation](https://dedoc.readthedocs.io/en/latest/getting_started/installation.html#install-and-run-dedoc-using-docker)
 for more details):
 
 ```bash
@@ -93,7 +93,7 @@ Madam Speaker, Madam Vice President, our First Lady and Second Gentleman. Member
 ```
 ## API reference
 
-For detailed information on configuring and calling `Dedoc` loaders, please see the API references: 
+For detailed information on configuring and calling `Dedoc` loaders, please see the API references:
 
 * https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.dedoc.DedocFileLoader.html
 * https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.DedocPDFLoader.html
@@ -106,9 +106,9 @@ For automatic handling of any file in a [supported format](https://dedoc.readthe
 The file loader automatically detects the file type with a correct extension.
 
 File parsing process can be configured through `dedoc_kwargs` during the `DedocFileLoader` class initialization.
-Here the basic examples of some options usage are given, 
-please see the documentation of `DedocFileLoader` and 
-[dedoc documentation](https://dedoc.readthedocs.io/en/latest/parameters/parameters.html) 
+Here the basic examples of some options usage are given,
+please see the documentation of `DedocFileLoader` and
+[dedoc documentation](https://dedoc.readthedocs.io/en/latest/parameters/parameters.html)
 to get more details about configuration parameters.
 
 ### Basic example
@@ -162,11 +162,11 @@ len(docs)
 
 ### Handling tables
 
-`DedocFileLoader` supports tables handling when `with_tables` parameter is 
-set to `True` during loader initialization (`with_tables=True` by default). 
+`DedocFileLoader` supports tables handling when `with_tables` parameter is
+set to `True` during loader initialization (`with_tables=True` by default).
 
 Tables are not split - each table corresponds to one langchain `Document` object.
-For tables, `Document` object has additional `metadata` fields `type="table"` 
+For tables, `Document` object has additional `metadata` fields `type="table"`
 and `text_as_html` with table `HTML` representation.
 
 
@@ -188,11 +188,11 @@ docs[1].metadata["type"], docs[1].metadata["text_as_html"][:200]
 
 ### Handling attached files
 
-`DedocFileLoader` supports attached files handling when `with_attachments` is set 
-to `True` during loader initialization (`with_attachments=False` by default). 
+`DedocFileLoader` supports attached files handling when `with_attachments` is set
+to `True` during loader initialization (`with_attachments=False` by default).
 
 Attachments are split according to the `split` parameter.
-For attachments, langchain `Document` object has an additional metadata 
+For attachments, langchain `Document` object has an additional metadata
 field `type="attachment"`.
 
 
@@ -220,11 +220,11 @@ docs[1].metadata["type"], docs[1].page_content
 If you want to handle only `PDF` documents, you can use `DedocPDFLoader` with only `PDF` support.
 The loader supports the same parameters for document split, tables and attachments extraction.
 
-`Dedoc` can extract `PDF` with or without a textual layer, 
+`Dedoc` can extract `PDF` with or without a textual layer,
 as well as automatically detect its presence and correctness.
-Several `PDF` handlers are available, you can use `pdf_with_text_layer` 
+Several `PDF` handlers are available, you can use `pdf_with_text_layer`
 parameter to choose one of them.
-Please see [parameters description](https://dedoc.readthedocs.io/en/latest/parameters/pdf_handling.html) 
+Please see [parameters description](https://dedoc.readthedocs.io/en/latest/parameters/pdf_handling.html)
 to get more details.
 
 For `PDF` without a textual layer, `Tesseract OCR` and its language packages should be installed.
@@ -257,7 +257,7 @@ If you want to get up and running with less set up, you can use `Dedoc` as a ser
 The loader supports the same parameters as `DedocFileLoader` and
 also automatically detects input file types.
 
-To use `DedocAPIFileLoader`, you should run the `Dedoc` service, e.g. `Docker` container (please see [the documentation](https://dedoc.readthedocs.io/en/latest/getting_started/installation.html#install-and-run-dedoc-using-docker) 
+To use `DedocAPIFileLoader`, you should run the `Dedoc` service, e.g. `Docker` container (please see [the documentation](https://dedoc.readthedocs.io/en/latest/getting_started/installation.html#install-and-run-dedoc-using-docker)
 for more details):
 
 ```bash

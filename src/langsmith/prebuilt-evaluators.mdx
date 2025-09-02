@@ -64,11 +64,11 @@ def test_correctness():
     inputs = "How much has the price of doodads changed in the past year?"
     reference_outputs = "The price of doodads has decreased by 50% in the past year."
     outputs = my_llm_app(inputs)
-    
+
     t.log_inputs({"question": inputs})
     t.log_outputs({"answer": outputs})
     t.log_reference_outputs({"answer": reference_outputs})
-    
+
     correctness_evaluator(
         inputs=inputs,
         outputs=outputs,

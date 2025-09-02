@@ -18,7 +18,7 @@ This notebook provides a quick overview for getting started with `TextLoader` [d
 ## Overview
 ### Integration details
 
-| Class | Package | Compatibility | Local | PY support | 
+| Class | Package | Compatibility | Local | PY support |
 | :--- | :--- | :---: | :---: |  :---: |
 | [TextLoader](https://api.js.langchain.com/classes/langchain.document_loaders_fs_text.TextLoader.html) | [langchain](https://api.js.langchain.com/modules/langchain.document_loaders_fs_text.html) | Node-only | ✅ | ❌ |
 

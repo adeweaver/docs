@@ -4,7 +4,7 @@ title: Redis
 
 >[Redis](https://redis.com) is an open-source key-value store that can be used as a cache, message broker, database, vector database and more.
 
-In the notebook, we'll demo the `SelfQueryRetriever` wrapped around a `Redis` vector store. 
+In the notebook, we'll demo the `SelfQueryRetriever` wrapped around a `Redis` vector store.
 
 ## Creating a Redis vector store
 First we'll want to create a Redis vector store and seed it with some data. We've created a small demo set of documents that contain summaries of movies.
@@ -260,8 +260,8 @@ retriever = SelfQueryRetriever.from_llm(
     vectorstore,
     document_content_description,
     metadata_field_info,
-    enable_limit=True,
-    verbose=True,
+        enable_limit=True,
+        verbose=True,
 )
 ```
 

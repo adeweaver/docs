@@ -18,7 +18,7 @@ This notebook provides a quick overview for getting started with `UnstructuredLo
 ## Overview
 ### Integration details
 
-| Class | Package | Compatibility | Local | [PY support](https://python.langchain.com/docs/integrations/document_loaders/unstructured_file) | 
+| Class | Package | Compatibility | Local | [PY support](https://python.langchain.com/docs/integrations/document_loaders/unstructured_file) |
 | :--- | :--- | :---: | :---: |  :---: |
 | [UnstructuredLoader](https://api.js.langchain.com/classes/langchain_community_document_loaders_fs_unstructured.UnstructuredLoader.html) | [@langchain/community](https://api.js.langchain.com/modules/langchain_community_document_loaders_fs_unstructured.html) | Node-only | ✅ | ✅ |
 

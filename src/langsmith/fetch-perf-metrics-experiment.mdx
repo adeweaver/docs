@@ -165,9 +165,9 @@ const results = await evaluate(
     }
 );
 
-const resp = await client.readProject({ 
-    projectName: results.experimentName, 
-    includeStats: true 
+const resp = await client.readProject({
+    projectName: results.experimentName,
+    includeStats: true
 })
 console.log(JSON.stringify(resp, null, 2))
 ```

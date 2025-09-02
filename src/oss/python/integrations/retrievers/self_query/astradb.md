@@ -2,8 +2,8 @@
 title: Astra DB
 ---
 
-> [DataStax Astra DB](https://docs.datastax.com/en/astra-db-serverless/index.html) is a serverless 
-> AI-ready database built on `Apache Cassandra®` and made conveniently available 
+> [DataStax Astra DB](https://docs.datastax.com/en/astra-db-serverless/index.html) is a serverless
+> AI-ready database built on `Apache Cassandra®` and made conveniently available
 > through an easy-to-use JSON API.
 
 In the walkthrough, we'll demo the `SelfQueryRetriever` with an `Astra DB` vector store.

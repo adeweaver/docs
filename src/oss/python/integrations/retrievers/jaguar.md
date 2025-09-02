@@ -38,8 +38,8 @@ from langchain_community.vectorstores.jaguar import Jaguar
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import CharacterTextSplitter
 
-""" 
-Load a text file into a set of documents 
+"""
+Load a text file into a set of documents
 """
 loader = TextLoader("../../how_to/state_of_the_union.txt")
 documents = loader.load()

@@ -76,7 +76,7 @@ llm("I am a cat and I want")
 **The above request should now appear on your [PromptLayer dashboard](https://www.promptlayer.com).**
 
 ## Using PromptLayer Track
-If you would like to use any of the [PromptLayer tracking features](https://magniv.notion.site/Track-4deee1b1f7a34c1680d085f82567dab9), you need to pass the argument `return_pl_id` when instantiating the PromptLayer LLM to get the request id.  
+If you would like to use any of the [PromptLayer tracking features](https://magniv.notion.site/Track-4deee1b1f7a34c1680d085f82567dab9), you need to pass the argument `return_pl_id` when instantiating the PromptLayer LLM to get the request id.
 
 
 ```python

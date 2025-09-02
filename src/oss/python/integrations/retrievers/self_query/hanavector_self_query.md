@@ -37,8 +37,8 @@ cur.execute(
     (
         """CREATE TABLE "LANGCHAIN_DEMO_SELF_QUERY"  (
         "name" NVARCHAR(100), "is_active" BOOLEAN, "id" INTEGER, "height" DOUBLE,
-        "VEC_TEXT" NCLOB, 
-        "VEC_META" NCLOB, 
+        "VEC_TEXT" NCLOB,
+        "VEC_META" NCLOB,
         "VEC_VECTOR" REAL_VECTOR
         )"""
     )

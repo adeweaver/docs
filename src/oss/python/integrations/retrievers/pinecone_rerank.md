@@ -142,9 +142,9 @@ docs_simple = [
 ]
 
 reranked = reranker.rerank(
-    documents=docs_simple,
-    query="Explain the concept of quantum entanglement.",
-    truncate="END",
+        documents=docs_simple,
+        query="Explain the concept of quantum entanglement.",
+        truncate="END",
 )
 # Print reranked IDs and scores
 for res in reranked:

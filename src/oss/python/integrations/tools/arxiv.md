@@ -2,7 +2,7 @@
 title: ArXiv
 ---
 
-This notebook goes over how to use the `arxiv` tool with an agent. 
+This notebook goes over how to use the `arxiv` tool with an agent.
 
 First, you need to install the `arxiv` python package.
 
@@ -78,7 +78,7 @@ The ArxivAPIWrapper returns these article fields:
 - Authors
 - Summary
 
-The following query returns information about one article with the arxiv ID "1605.08386". 
+The following query returns information about one article with the arxiv ID "1605.08386".
 
 
 ```python

@@ -33,7 +33,7 @@ watsonx_api_key = getpass()
 os.environ["WATSONX_APIKEY"] = watsonx_api_key
 ```
 
-Additionaly you are able to pass additional secrets as an environment variable. 
+Additionaly you are able to pass additional secrets as an environment variable.
 
 
 ```python
@@ -74,7 +74,7 @@ parameters = {
 Initialize the `WatsonxLLM` class with previously set parameters.
 
 
-**Note**: 
+**Note**:
 
 - To provide context for the API call, you must add `project_id` or `space_id`. For more information see [documentation](https://www.ibm.com/docs/en/watsonx-as-a-service?topic=projects).
 - Depending on the region of your provisioned service instance, use one of the urls described [here](https://ibm.github.io/watsonx-ai-python-sdk/setup_cloud.html#authentication).
@@ -96,7 +96,7 @@ watsonx_llm = WatsonxLLM(
 )
 ```
 
-Alternatively you can use Cloud Pak for Data credentials. For details, see [documentation](https://ibm.github.io/watsonx-ai-python-sdk/setup_cpd.html).    
+Alternatively you can use Cloud Pak for Data credentials. For details, see [documentation](https://ibm.github.io/watsonx-ai-python-sdk/setup_cpd.html).
 
 
 ```python
@@ -185,7 +185,7 @@ LLMResult(generations=[[Generation(text='The fastest dog in the world is the gre
 ```
 
 
-## Streaming the Model output 
+## Streaming the Model output
 
 You can stream the model output.
 

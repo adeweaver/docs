@@ -5,7 +5,7 @@ title: Weaviate
 >[Weaviate](https://weaviate.io/) is an open-source vector database. It allows you to store data objects and vector embeddings from
 >your favorite ML models, and scale seamlessly into billions of data objects.
 
-In the notebook, we'll demo the `SelfQueryRetriever` wrapped around a `Weaviate` vector store. 
+In the notebook, we'll demo the `SelfQueryRetriever` wrapped around a `Weaviate` vector store.
 
 ## Creating a Weaviate vector store
 First we'll want to create a Weaviate vector store and seed it with some data. We've created a small demo set of documents that contain summaries of movies.

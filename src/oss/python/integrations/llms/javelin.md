@@ -2,10 +2,10 @@
 title: Javelin AI Gateway Tutorial
 ---
 
-This Jupyter Notebook will explore how to interact with the Javelin AI Gateway using the Python SDK. 
-The Javelin AI Gateway facilitates the utilization of large language models (LLMs) like OpenAI, Cohere, Anthropic, and others by 
-providing a secure and unified endpoint. The gateway itself provides a centralized mechanism to roll out models systematically, 
-provide access security, policy & cost guardrails for enterprises, etc., 
+This Jupyter Notebook will explore how to interact with the Javelin AI Gateway using the Python SDK.
+The Javelin AI Gateway facilitates the utilization of large language models (LLMs) like OpenAI, Cohere, Anthropic, and others by
+providing a secure and unified endpoint. The gateway itself provides a centralized mechanism to roll out models systematically,
+provide access security, policy & cost guardrails for enterprises, etc.,
 
 For a complete listing of all the features & benefits of Javelin, please visit www.getjavelin.io
 
@@ -16,7 +16,7 @@ For a complete listing of all the features & benefits of Javelin, please visit w
 
 
 ## Step 2: Installation
-Before we begin, we must install the `javelin_sdk` and set up the Javelin API key as an environment variable. 
+Before we begin, we must install the `javelin_sdk` and set up the Javelin API key as an environment variable.
 
 
 ```python
@@ -84,8 +84,8 @@ This section demonstrates how to use the Javelin AI Gateway to obtain embeddings
 from langchain_community.embeddings import JavelinAIGatewayEmbeddings
 
 embeddings = JavelinAIGatewayEmbeddings(
-    gateway_uri="http://localhost:8000",  # replace with service URL or host/port of Javelin
-    route="embeddings",
+        gateway_uri="http://localhost:8000",  # replace with service URL or host/port of Javelin
+        route="embeddings",
 )
 
 print(embeddings.embed_query("hello"))
@@ -100,9 +100,9 @@ ImportError                               Traceback (most recent call last)
 Cell In[9], line 1
 ----> 1 from langchain.embeddings import JavelinAIGatewayEmbeddings
       2 from langchain.embeddings.openai import OpenAIEmbeddings
-      4 embeddings = JavelinAIGatewayEmbeddings(
-      5     gateway_uri="http://localhost:8000", # replace with service URL or host/port of Javelin
-      6     route="embeddings",
+            4 embeddings = JavelinAIGatewayEmbeddings(
+            5     gateway_uri="http://localhost:8000", # replace with service URL or host/port of Javelin
+            6     route="embeddings",
       7 )
 ``````output
 ImportError: cannot import name 'JavelinAIGatewayEmbeddings' from 'langchain.embeddings' (/usr/local/Caskroom/miniconda/base/lib/python3.11/site-packages/langchain/embeddings/__init__.py)
@@ -155,7 +155,7 @@ ImportError: cannot import name 'ChatJavelinAIGateway' from 'langchain.chat_mode
 ```
 
 Step 6: Conclusion
-This tutorial introduced the Javelin AI Gateway and demonstrated how to interact with it using the Python SDK. 
+This tutorial introduced the Javelin AI Gateway and demonstrated how to interact with it using the Python SDK.
 Remember to check the Javelin [Python SDK](https://www.github.com/getjavelin.io/javelin-python) for more examples and to explore the official documentation for additional details.
 
 Happy coding!

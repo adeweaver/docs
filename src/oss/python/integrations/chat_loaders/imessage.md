@@ -4,8 +4,8 @@ title: iMessage
 
 This notebook shows how to use the iMessage chat loader. This class helps convert iMessage conversations to LangChain chat messages.
 
-On MacOS, iMessage stores conversations in a sqlite database at `~/Library/Messages/chat.db` (at least for macOS Ventura 13.4). 
-The `IMessageChatLoader` loads from this database file. 
+On MacOS, iMessage stores conversations in a sqlite database at `~/Library/Messages/chat.db` (at least for macOS Ventura 13.4).
+The `IMessageChatLoader` loads from this database file.
 
 1. Create the `IMessageChatLoader` with the file path pointed to `chat.db` database you'd like to process.
 2. Call `loader.load()` (or `loader.lazy_load()`) to perform the conversion. Optionally use `merge_chat_runs` to combine message from the same sender in sequence, and/or `map_ai_messages` to convert messages from the specified sender to the "AIMessage" class.
@@ -64,7 +64,7 @@ loader = IMessageChatLoader(
 
 ## 3. Load messages
 
-The `load()` (or `lazy_load`) methods return a list of "ChatSessions" that currently just contain a list of messages per loaded conversation. All messages are mapped to "HumanMessage" objects to start. 
+The `load()` (or `lazy_load`) methods return a list of "ChatSessions" that currently just contain a list of messages per loaded conversation. All messages are mapped to "HumanMessage" objects to start.
 
 You can optionally choose to merge message "runs" (consecutive messages from the same sender) and select a sender to represent the "AI". The fine-tuned LLM will learn to generate these AI messages.
 

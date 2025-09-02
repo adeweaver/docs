@@ -10,9 +10,9 @@ This notebook shows how to use a retriever that uses `Embedchain`.
 
 # Installation
 
-First you will need to install the [`embedchain` package](https://pypi.org/project/embedchain/). 
+First you will need to install the [`embedchain` package](https://pypi.org/project/embedchain/).
 
-You can install the package by running 
+You can install the package by running
 
 
 ```python

@@ -2,7 +2,7 @@
 title: Kafka
 ---
 
-[Kafka](https://github.com/apache/kafka) is a distributed messaging system that is used to publish and subscribe to streams of records. 
+[Kafka](https://github.com/apache/kafka) is a distributed messaging system that is used to publish and subscribe to streams of records.
 This demo shows how to use `KafkaChatMessageHistory` to store and retrieve chat messages from a Kafka cluster.
 
 A running Kafka cluster is required to run the demo. You can follow this [instruction](https://developer.confluent.io/get-started/python) to create a Kafka cluster locally.

@@ -55,7 +55,7 @@ answer_relevancy_metric = AnswerRelevancy(minimum_score=0.5)
 
 ## Get Started
 
-To use the `DeepEvalCallbackHandler`, we need the `implementation_name`. 
+To use the `DeepEvalCallbackHandler`, we need the `implementation_name`.
 
 
 ```python
@@ -102,7 +102,7 @@ answer_relevancy_metric.is_successful()
 # returns True/False
 ```
 
-Once you have ran that, you should be able to see our dashboard below. 
+Once you have ran that, you should be able to see our dashboard below.
 
 ![Dashboard](https://docs.confident-ai.com/assets/images/dashboard-screenshot-b02db73008213a211b1158ff052d969e.png)
 
@@ -158,7 +158,7 @@ answer_relevancy_metric.is_successful()
 
 ### What's next?
 
-You can create your own custom metrics [here](https://docs.confident-ai.com/docs/quickstart/custom-metrics). 
+You can create your own custom metrics [here](https://docs.confident-ai.com/docs/quickstart/custom-metrics).
 
 DeepEval also offers other features such as being able to [automatically create unit tests](https://docs.confident-ai.com/docs/quickstart/synthetic-data-creation), [tests for hallucination](https://docs.confident-ai.com/docs/measuring_llm_performance/factual_consistency).
 

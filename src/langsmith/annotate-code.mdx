@@ -28,7 +28,7 @@ LangSmith makes it easy to log traces with minimal changes to your existing code
 
 The `@traceable` decorator is a simple way to log traces from the LangSmith Python SDK. Simply decorate any function with `@traceable`.
 
-Note that when wrapping a sync function with `traceable`, (e.g. `formatPrompt` in the example below), you should use the `await` keyword when calling it to 
+Note that when wrapping a sync function with `traceable`, (e.g. `formatPrompt` in the example below), you should use the `await` keyword when calling it to
   ensure the trace is logged correctly.
 
 <CodeGroup>
@@ -277,7 +277,7 @@ def traceable_cls(cls: Type[T]) -> Type[T]:
         if callable(method) and not name.startswith("__"):
             return traceable(name=f"{cls.__name__}.{name}")(method)
         return method
-    
+
     # Handle __dict__ case
     for name in dir(cls):
         if not name.startswith("_"):
@@ -287,7 +287,7 @@ def traceable_cls(cls: Type[T]) -> Type[T]:
             except AttributeError:
                 # Skip attributes that can't be set (e.g., some descriptors)
                 pass
-    
+
     # Handle __slots__ case
     if hasattr(cls, "__slots__"):
         for slot in cls.__slots__:  # type: ignore[attr-defined]
@@ -298,14 +298,14 @@ def traceable_cls(cls: Type[T]) -> Type[T]:
                 except AttributeError:
                     # Skip slots that don't have a value yet
                     pass
-    
+
     return cls
 
 @traceable_cls
 class MyClass:
     def __init__(self, some_val: int):
         self.some_val = some_val
-    
+
     def combine(self, other_val: int):
         return self.some_val + other_val
 

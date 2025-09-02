@@ -11,11 +11,11 @@ This guide provides a quick overview for getting started with UnstructuredXMLLoa
 
 | Class | Package | Local | Serializable | [JS support](https://js.langchain.com/docs/integrations/document_loaders/file_loaders/unstructured/)|
 | :--- | :--- | :---: | :---: |  :---: |
-| [UnstructuredXMLLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.xml.UnstructuredXMLLoader.html) | [langchain_community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ✅ | 
+| [UnstructuredXMLLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.xml.UnstructuredXMLLoader.html) | [langchain_community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ✅ |
 ### Loader features
 | Source | Document Lazy Loading | Native Async Support
-| :---: | :---: | :---: | 
-| UnstructuredXMLLoader | ✅ | ❌ | 
+| :---: | :---: | :---: |
+| UnstructuredXMLLoader | ✅ | ❌ |
 
 ## Setup
 

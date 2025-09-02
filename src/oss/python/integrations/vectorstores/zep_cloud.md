@@ -12,7 +12,7 @@ title: Zep Cloud
 
 ## Usage
 
-In the examples below, we're using Zep's auto-embedding feature which automatically embeds documents on the Zep server 
+In the examples below, we're using Zep's auto-embedding feature which automatically embeds documents on the Zep server
 using low-latency embedding models.
 
 ## Note
@@ -97,7 +97,7 @@ than one hundred and sixteen tables. Yet it is not only necessary to
 predict the position of these bodies, but it is likewise expedient to
 tabulate the motions of the four satellites of Jupiter, to predict the
 exact times at which they enter his shadow, and at which their shadows
-cross his disc, as well as the times at which they are interposed  ->  0.78691166639328 
+cross his disc, as well as the times at which they are interposed  ->  0.78691166639328
 ====
 
 are reduced to a system of wheel-work. We are, nevertheless, not without
@@ -107,7 +107,7 @@ satisfactory notions of a general nature on this subject.
 _Thirdly_, To explain the actual state of the machinery at the present
 time; what progress has been made towards its completion; and what are
 the probable causes of those delays in its progress, which must be a
-subject of regret to all friends of science. We shall indicate what  ->  0.7853284478187561 
+subject of regret to all friends of science. We shall indicate what  ->  0.7853284478187561
 ====
 
 from the improved state of astronomy, he found it necessary to recompute
@@ -119,7 +119,7 @@ that tables of their motions were published. They have lately appeared
 in Encke's Ephemeris.
 
 We have thus attempted to convey some notion (though necessarily a very
-inadequate one) of the immense extent of numerical tables which it has  ->  0.7840130925178528 
+inadequate one) of the immense extent of numerical tables which it has  ->  0.7840130925178528
 ====
 ```
 ## Search over Collection Re-ranked by MMR
@@ -141,7 +141,7 @@ than one hundred and sixteen tables. Yet it is not only necessary to
 predict the position of these bodies, but it is likewise expedient to
 tabulate the motions of the four satellites of Jupiter, to predict the
 exact times at which they enter his shadow, and at which their shadows
-cross his disc, as well as the times at which they are interposed 
+cross his disc, as well as the times at which they are interposed
 ====
 
 are reduced to a system of wheel-work. We are, nevertheless, not without
@@ -151,7 +151,7 @@ satisfactory notions of a general nature on this subject.
 _Thirdly_, To explain the actual state of the machinery at the present
 time; what progress has been made towards its completion; and what are
 the probable causes of those delays in its progress, which must be a
-subject of regret to all friends of science. We shall indicate what 
+subject of regret to all friends of science. We shall indicate what
 ====
 
 general commerce. But the science in which, above all others, the most
@@ -160,7 +160,7 @@ improvement and perfection of which is inseparably connected that of the
 kindred art of Navigation. We scarcely dare hope to convey to the
 general reader any thing approaching to an adequate notion of the
 multiplicity and complexity of the tables necessary for the purposes of
-the astronomer and navigator. We feel, nevertheless, that the truly 
+the astronomer and navigator. We feel, nevertheless, that the truly
 ====
 ```
 # Filter by Metadata
@@ -211,7 +211,7 @@ astronomy in particular requires;--in none are preparatory facilities
 more needful;--in none is error more detrimental. The practical
 astronomer is interrupted in his pursuit, and diverted from his task of
 observation by the irksome labours of computation, or his diligence in
-observing becomes ineffectual for want of yet greater industry of  ->  {'source': 'https://www.gutenberg.org/cache/epub/71292/pg71292.txt'} 
+observing becomes ineffectual for want of yet greater industry of  ->  {'source': 'https://www.gutenberg.org/cache/epub/71292/pg71292.txt'}
 ====
 
 possess all knowledge which is likely to be useful to him in his work,
@@ -221,7 +221,7 @@ in a very precise fashion.”
 
 “Yes,” I answered, laughing. “It was a singular document. Philosophy,
 astronomy, and politics were marked at zero, I remember. Botany
-variable, geology profound as regards the mud-stains from any region  ->  {'source': 'https://www.gutenberg.org/files/48320/48320-0.txt'} 
+variable, geology profound as regards the mud-stains from any region  ->  {'source': 'https://www.gutenberg.org/files/48320/48320-0.txt'}
 ====
 
 easily admitted, that an assembly of eminent naturalists and physicians,
@@ -230,7 +230,7 @@ mathematicians, were not precisely the persons best qualified to
 appreciate such an instrument of mechanical investigation as we have
 here described. We shall not therefore be understood as intending the
 slightest disrespect for these distinguished persons, when we express
-our regret, that a discovery of such paramount practical value, in a  ->  {'source': 'https://www.gutenberg.org/cache/epub/71292/pg71292.txt'} 
+our regret, that a discovery of such paramount practical value, in a  ->  {'source': 'https://www.gutenberg.org/cache/epub/71292/pg71292.txt'}
 ====
 ```
 Now, we set up a filter
@@ -258,7 +258,7 @@ in a very precise fashion.”
 
 “Yes,” I answered, laughing. “It was a singular document. Philosophy,
 astronomy, and politics were marked at zero, I remember. Botany
-variable, geology profound as regards the mud-stains from any region  ->  {'source': 'https://www.gutenberg.org/files/48320/48320-0.txt'} 
+variable, geology profound as regards the mud-stains from any region  ->  {'source': 'https://www.gutenberg.org/files/48320/48320-0.txt'}
 ====
 
 the evening than in the daylight, for he said that he hated to be
@@ -267,7 +267,7 @@ gentle. He’d had the quinsy and swollen glands when he was young, he
 told me, and it had left him with a weak throat, and a hesitating,
 whispering fashion of speech. He was always well dressed, very neat and
 plain, but his eyes were weak, just as mine are, and he wore tinted
-glasses against the glare.”  ->  {'source': 'https://www.gutenberg.org/files/48320/48320-0.txt'} 
+glasses against the glare.”  ->  {'source': 'https://www.gutenberg.org/files/48320/48320-0.txt'}
 ====
 
 which was characteristic of him. “It is perhaps less suggestive than
@@ -276,7 +276,7 @@ which are very distinct, and a few others which represent at least a
 strong balance of probability. That the man was highly intellectual
 is of course obvious upon the face of it, and also that he was fairly
 well-to-do within the last three years, although he has now fallen upon
-evil days. He had foresight, but has less now than formerly, pointing  ->  {'source': 'https://www.gutenberg.org/files/48320/48320-0.txt'} 
+evil days. He had foresight, but has less now than formerly, pointing  ->  {'source': 'https://www.gutenberg.org/files/48320/48320-0.txt'}
 ====
 ```
 

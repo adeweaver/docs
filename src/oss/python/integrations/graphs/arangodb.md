@@ -12,7 +12,7 @@ This notebook shows how to use LLMs to provide a natural language interface to a
 
 ## Setting up
 
-You can get a local `ArangoDB` instance running via the [ArangoDB Docker image](https://hub.docker.com/_/arangodb):  
+You can get a local `ArangoDB` instance running via the [ArangoDB Docker image](https://hub.docker.com/_/arangodb):
 
 ```
 docker run -p 8529:8529 -e ARANGO_ROOT_PASSWORD= arangodb/arangodb

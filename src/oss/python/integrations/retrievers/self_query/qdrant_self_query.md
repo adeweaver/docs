@@ -4,7 +4,7 @@ title: Qdrant
 
 >[Qdrant](https://qdrant.tech/documentation/) (read: quadrant) is a vector similarity search engine. It provides a production-ready service with a convenient API to store, search, and manage points - vectors with an additional payload. `Qdrant` is tailored to extended filtering support.
 
-In the notebook, we'll demo the `SelfQueryRetriever` wrapped around a `Qdrant` vector store. 
+In the notebook, we'll demo the `SelfQueryRetriever` wrapped around a `Qdrant` vector store.
 
 ## Creating a Qdrant vector store
 First we'll want to create a Qdrant vector store and seed it with some data. We've created a small demo set of documents that contain summaries of movies.

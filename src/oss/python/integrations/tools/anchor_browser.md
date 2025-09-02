@@ -22,7 +22,7 @@ Anchor Browser package for LangChain is [langchain-anchorbrowser](https://pypi.o
 
 The parameters allowed in `langchain-anchorbrowser` are only a subset of those listed in the Anchor Browser API reference respectively: [Get Webpage Content](https://docs.anchorbrowser.io/sdk-reference/tools/get-webpage-content?utm=langchain), [Screenshot Webpage](https://docs.anchorbrowser.io/sdk-reference/tools/screenshot-webpage?utm=langchain), and [Perform Web Task](https://docs.anchorbrowser.io/sdk-reference/ai-tools/perform-web-task?utm=langchain).
 
-**Info:** Anchor currently implements `SimpleAnchorWebTaskTool` and `AdvancedAnchorWebTaskTool` tools for langchain with `browser_use` agent. For 
+**Info:** Anchor currently implements `SimpleAnchorWebTaskTool` and `AdvancedAnchorWebTaskTool` tools for langchain with `browser_use` agent. For
 
 #### AnchorWebTaskToolKit Tools
 

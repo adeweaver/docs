@@ -29,7 +29,7 @@ If you are just starting with Oracle Database, consider exploring the [free Orac
 
 ### Prerequisites
 
-Please install Oracle Python Client driver to use Langchain with Oracle AI Vector Search. 
+Please install Oracle Python Client driver to use Langchain with Oracle AI Vector Search.
 
 
 ```python

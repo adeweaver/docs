@@ -126,7 +126,7 @@ Observation: Answer: 42.43998894277659
 Thought: I now know the final answer
 Final Answer: 42.43998894277659
 
-Question: 
+Question:
 What is the square root of 144?
 
 Thought: I need to use the calculator to find the answer

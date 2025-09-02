@@ -145,7 +145,7 @@ for chunk in llm.stream(messages):
 ```output
 |J|'adore la| programmation.||||
 ```
-## Extended Thinking 
+## Extended Thinking
 
 This guide focuses on implementing Extended Thinking using AWS Bedrock with LangChain's `ChatBedrockConverse` integration.
 

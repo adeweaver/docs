@@ -201,11 +201,11 @@ grounded_model = init_chat_model(model="gpt-4o").with_structured_output(Grade)
 def lt_280_chars(outputs: dict) -> bool:
     messages = convert_to_openai_messages(outputs["messages"])
     return len(messages[-1]['content']) <= 280
-    
+
 def gte_3_emojis(outputs: dict) -> bool:
     messages = convert_to_openai_messages(outputs["messages"])
     return len(emoji.emoji_list(messages[-1]['content'])) >= 3
-    
+
 async def is_grounded(outputs: dict) -> bool:
     context = ""
     messages = convert_to_openai_messages(outputs["messages"])

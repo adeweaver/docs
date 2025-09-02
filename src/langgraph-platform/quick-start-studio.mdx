@@ -48,11 +48,11 @@ You will see the following logs:
 
 ```
 > Ready!
-> 
+>
 > - API: [http://localhost:2024](http://localhost:2024/)
-> 
+>
 > - Docs: http://localhost:2024/docs
-> 
+>
 > - LangGraph Studio Web UI: https://smith.langchain.com/studio/?baseUrl=http://127.0.0.1:2024
 ```
 
@@ -80,9 +80,9 @@ langgraph dev --debug-port 5678
 Then attach your preferred debugger:
 
 <Tabs>
-  <Tab title="VS Code">
+    <Tab title="VS Code">
     Add this configuration to `launch.json`:
-    
+
     ```json
     {
         "name": "Attach to LangGraph",
@@ -94,14 +94,14 @@ Then attach your preferred debugger:
         }
     }
     ```
-  </Tab>
-  <Tab title="PyCharm">
-    1. Go to Run → Edit Configurations 
-    2. Click + and select "Python Debug Server" 
-    3. Set IDE host name: `localhost` 
-    4. Set port: `5678` (or the port number you chose in the previous step) 
+    </Tab>
+    <Tab title="PyCharm">
+    1. Go to Run → Edit Configurations
+    2. Click + and select "Python Debug Server"
+    3. Set IDE host name: `localhost`
+    4. Set port: `5678` (or the port number you chose in the previous step)
     5. Click "OK" and start debugging
-  </Tab>
+    </Tab>
 </Tabs>
 
 ## Troubleshooting

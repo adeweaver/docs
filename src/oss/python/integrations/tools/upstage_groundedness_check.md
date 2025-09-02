@@ -4,7 +4,7 @@ title: Upstage Groundedness Check
 
 This notebook covers how to get started with Upstage groundedness check models.
 
-## Installation  
+## Installation
 
 Install `langchain-upstage` package.
 

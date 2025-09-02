@@ -48,7 +48,7 @@ It's also helpful (but not needed) to set up [LangSmith](https://smith.langchain
 
 ## Instantiation
 
-Here we show how to instantiate an instance of the LinkupSearchTool tool, with 
+Here we show how to instantiate an instance of the LinkupSearchTool tool, with
 
 
 ```python

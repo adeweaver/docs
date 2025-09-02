@@ -14,9 +14,9 @@ This is a more advanced topic and requires knowledge of LangGraph to use.
 
 ## Memory storage
 
-LangGraph stores long-term memories as JSON documents in a [store](/oss/langgraph/persistence#memory-store). 
-Each memory is organized under a custom `namespace` (similar to a folder) and a distinct `key` (like a file name). 
-Namespaces often include user or org IDs or other labels that makes it easier to organize information. 
+LangGraph stores long-term memories as JSON documents in a [store](/oss/langgraph/persistence#memory-store).
+Each memory is organized under a custom `namespace` (similar to a folder) and a distinct `key` (like a file name).
+Namespaces often include user or org IDs or other labels that makes it easier to organize information.
 This structure enables hierarchical organization of memories. Cross-namespace searching is then supported through content filters.
 
 :::python
@@ -86,10 +86,10 @@ const item = await store.get(namespace, "a-memory");
 
 // search for "memories" within this namespace, filtering on content equivalence, sorted by vector similarity
 const items = await store.search(
-    namespace, 
-    { 
-        filter: { "my-key": "my-value" }, 
-        query: "language preferences" 
+    namespace,
+    {
+        filter: { "my-key": "my-value" },
+        query: "language preferences"
     }
 );
 ```

@@ -63,7 +63,7 @@ const toxicityClassifier = traceable(
   async (text: string) => {
     const result = await oaiClient.chat.completions.create({
       messages: [
-        { 
+        {
            role: "system",
           content: "Please review the user query below and determine if it contains any form of toxic behavior, such as insults, threats, or highly negative comments. Respond with 'Toxic' if it does, and 'Not toxic' if it doesn't.",
         },
@@ -72,7 +72,7 @@ const toxicityClassifier = traceable(
       model: "gpt-4o-mini",
       temperature: 0,
     });
-        
+
     return result.choices[0].message.content;
   },
   { name: "toxicityClassifier" }
@@ -98,7 +98,7 @@ ls_client = Client()
 
 examples = [
   {
-    "inputs": {"text": "Shut up, idiot"}, 
+    "inputs": {"text": "Shut up, idiot"},
     "outputs": {"label": "Toxic"},
   },
   {
@@ -106,15 +106,15 @@ examples = [
     "outputs": {"label": "Not toxic"},
   },
   {
-    "inputs": {"text": "This is the worst thing ever"}, 
+    "inputs": {"text": "This is the worst thing ever"},
     "outputs": {"label": "Toxic"},
   },
   {
-    "inputs": {"text": "I had a great day today"}, 
+    "inputs": {"text": "I had a great day today"},
     "outputs": {"label": "Not toxic"},
   },
   {
-    "inputs": {"text": "Nobody likes you"}, 
+    "inputs": {"text": "Nobody likes you"},
     "outputs": {"label": "Toxic"},
   },
   {
@@ -125,7 +125,7 @@ examples = [
 
 dataset = ls_client.create_dataset(dataset_name="Toxic Queries")
 ls_client.create_examples(
-  dataset_id=dataset.id, 
+  dataset_id=dataset.id,
   examples=examples,
 )
 ```
@@ -253,7 +253,7 @@ Each invocation of `evaluate()` creates an [Experiment](/langsmith/evaluation-co
 ## Reference code[​](#reference-code "Direct link to Reference code")
 
 <Accordion title="Click to see a consolidated code snippet">
-  <CodeGroup>
+    <CodeGroup>
 
 ```python Python
 from langsmith import Client, traceable, wrappers
@@ -283,7 +283,7 @@ ls_client = Client()
 dataset = ls_client.create_dataset(dataset_name="Toxic Queries")
 examples = [
   {
-    "inputs": {"text": "Shut up, idiot"}, 
+    "inputs": {"text": "Shut up, idiot"},
     "outputs": {"label": "Toxic"},
   },
   {
@@ -291,15 +291,15 @@ examples = [
     "outputs": {"label": "Not toxic"},
   },
   {
-    "inputs": {"text": "This is the worst thing ever"}, 
+    "inputs": {"text": "This is the worst thing ever"},
     "outputs": {"label": "Toxic"},
   },
   {
-    "inputs": {"text": "I had a great day today"}, 
+    "inputs": {"text": "I had a great day today"},
     "outputs": {"label": "Not toxic"},
   },
   {
-    "inputs": {"text": "Nobody likes you"}, 
+    "inputs": {"text": "Nobody likes you"},
     "outputs": {"label": "Toxic"},
   },
   {

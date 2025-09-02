@@ -174,21 +174,21 @@ Supercharge your AI applications with Dappier's pre-trained RAG models and natur
 
 ### Instantiation
 
-- data_model_id: str  
-  The data model ID to use for recommendations. Data model IDs always start with the prefix "dm_". Defaults to "dm_01j0pb465keqmatq9k83dthx34".  
-  Multiple data model IDs are available, which can be found at [Dappier marketplace](https://marketplace.dappier.com/marketplace).  
+- data_model_id: str
+  The data model ID to use for recommendations. Data model IDs always start with the prefix "dm_". Defaults to "dm_01j0pb465keqmatq9k83dthx34".
+  Multiple data model IDs are available, which can be found at [Dappier marketplace](https://marketplace.dappier.com/marketplace).
 
-- similarity_top_k: int  
-  The number of top documents to retrieve based on similarity. Defaults to "9".  
+- similarity_top_k: int
+  The number of top documents to retrieve based on similarity. Defaults to "9".
 
 - ref: Optional[str]
-  The site domain where AI recommendations should be displayed. Defaults to "None".  
+  The site domain where AI recommendations should be displayed. Defaults to "None".
 
 - num_articles_ref: int
-  The minimum number of articles to return from the specified reference domain ("ref"). The remaining articles will come from other sites in the RAG model. Defaults to "0".  
+  The minimum number of articles to return from the specified reference domain ("ref"). The remaining articles will come from other sites in the RAG model. Defaults to "0".
 
 - search_algorithm: Literal["most_recent", "semantic", "most_recent_semantic", "trending"]
-  The search algorithm to use for retrieving articles. Defaults to "most_recent".  
+  The search algorithm to use for retrieving articles. Defaults to "most_recent".
 
 
 ```python

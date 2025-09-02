@@ -26,7 +26,7 @@ if "FRIENDLI_TOKEN" not in os.environ:
     os.environ["FRIENDLI_TOKEN"] = getpass.getpass("Friendi Personal Access Token: ")
 ```
 
-You can initialize a Friendli chat model with selecting the model you want to use.  
+You can initialize a Friendli chat model with selecting the model you want to use.
 The default model is `meta-llama-3.1-8b-instruct`. You can check the available models at [friendli.ai/docs](https://friendli.ai/docs/guides/serverless_endpoints/pricing#text-generation-models).
 
 

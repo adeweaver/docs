@@ -134,7 +134,7 @@ const State = z.object({
   bar: z.array(z.string()).register(registry, {
     reducer: {
       fn: (x, y) => x.concat(y),
-    },  
+    },
     default: () => [] as string[],
   }),
 });

@@ -10,11 +10,11 @@ This notebook provides a quick overview for getting started with [WebPDFLoader](
 
 | Class | Package | Local | Serializable | PY support |
 | :--- | :--- | :---: | :---: |  :---: |
-| [WebPDFLoader](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_pdf.WebPDFLoader.html) | [@langchain/community](https://api.js.langchain.com/modules/langchain_community_document_loaders_web_pdf.html) | ✅ | beta | ❌ | 
+| [WebPDFLoader](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_pdf.WebPDFLoader.html) | [@langchain/community](https://api.js.langchain.com/modules/langchain_community_document_loaders_web_pdf.html) | ✅ | beta | ❌ |
 ### Loader features
 | Source | Web Loader | Node Envs Only
-| :---: | :---: | :---: | 
-| WebPDFLoader | ✅ | ❌ | 
+| :---: | :---: | :---: |
+| WebPDFLoader | ✅ | ❌ |
 
 You can use this version of the popular PDFLoader in web environments.
 By default, one document will be created for each page in the PDF file, you can change this behavior by setting the `splitPages` option to `false`.

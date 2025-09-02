@@ -9,7 +9,7 @@ title: Amazon MemoryDB
 MemoryDB is compatible with Redis OSS, a popular open source data store, enabling you to quickly build applications using the same flexible and friendly Redis OSS data structures, APIs, and commands that they already use today. With MemoryDB, all of your data is stored in memory, which enables you to achieve microsecond read and single-digit millisecond write latency and high throughput. MemoryDB also stores data durably across multiple Availability Zones (AZs) using a Multi-AZ transactional log to enable fast failover, database recovery, and node restarts.
 
 
-## Vector search for MemoryDB 
+## Vector search for MemoryDB
 
 Vector search for MemoryDB extends the functionality of MemoryDB. Vector search can be used in conjunction with existing MemoryDB functionality. Applications that do not use vector search are unaffected by its presence. Vector search is available in all Regions that MemoryDB is available. You can use your existing MemoryDB data or Redis OSS API to build machine learning and generative AI use cases, such as retrieval-augmented generation, anomaly detection, document retrieval, and real-time recommendations.
 
@@ -90,7 +90,7 @@ index_name = "users"
 
 ### Create MemoryDB vector store
 
-The InMemoryVectorStore instance can be initialized using the below methods 
+The InMemoryVectorStore instance can be initialized using the below methods
 - ``InMemoryVectorStore.__init__`` - Initialize directly
 - ``InMemoryVectorStore.from_documents`` - Initialize from a list of ``Langchain.docstore.Document`` objects
 - ``InMemoryVectorStore.from_texts`` - Initialize from a list of texts (optionally with metadata)

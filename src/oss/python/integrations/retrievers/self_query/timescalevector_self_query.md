@@ -1,14 +1,14 @@
 ---
-title: Timescale Vector (Postgres) 
+title: Timescale Vector (Postgres)
 ---
 
 >[Timescale Vector](https://www.timescale.com/ai) is `PostgreSQL++` for AI applications. It enables you to efficiently store and query billions of vector embeddings in `PostgreSQL`.
 >
 >[PostgreSQL](https://en.wikipedia.org/wiki/PostgreSQL) also known as `Postgres`,
-> is a free and open-source relational database management system (RDBMS) 
+> is a free and open-source relational database management system (RDBMS)
 > emphasizing extensibility and `SQL` compliance.
 
-This notebook shows how to use the Postgres vector database (`TimescaleVector`) to perform self-querying. In the notebook we'll demo the `SelfQueryRetriever` wrapped around a TimescaleVector vector store. 
+This notebook shows how to use the Postgres vector database (`TimescaleVector`) to perform self-querying. In the notebook we'll demo the `SelfQueryRetriever` wrapped around a TimescaleVector vector store.
 
 ## What is Timescale Vector?
 **[Timescale Vector](https://www.timescale.com/ai) is PostgreSQL++ for AI applications.**
@@ -66,7 +66,7 @@ OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 # os.environ["OPENAI_API_KEY"] = getpass.getpass("OpenAI API Key:")
 ```
 
-To connect to your PostgreSQL database, you'll need your service URI, which can be found in the cheatsheet or `.env` file you downloaded after creating a new database. 
+To connect to your PostgreSQL database, you'll need your service URI, which can be found in the cheatsheet or `.env` file you downloaded after creating a new database.
 
 If you haven't already, [signup for Timescale](https://console.cloud.timescale.com/signup?utm_campaign=vectorlaunch&utm_source=langchain&utm_medium=referral), and create a new database.
 
@@ -291,8 +291,8 @@ retriever = SelfQueryRetriever.from_llm(
     vectorstore,
     document_content_description,
     metadata_field_info,
-    enable_limit=True,
-    verbose=True,
+        enable_limit=True,
+        verbose=True,
 )
 ```
 

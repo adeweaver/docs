@@ -2,7 +2,7 @@
 title: JSON Toolkit
 ---
 
-This notebook showcases an agent interacting with large `JSON/dict` objects. 
+This notebook showcases an agent interacting with large `JSON/dict` objects.
 This is useful when you want to answer questions about a JSON blob that's too large to fit in the context window of an LLM. The agent is able to iteratively explore the blob to find what it needs to answer the user's question.
 
 In the below example, we are using the OpenAPI spec for the OpenAI API, which you can find [here](https://github.com/openai/openai-openapi/blob/master/openapi.yaml).

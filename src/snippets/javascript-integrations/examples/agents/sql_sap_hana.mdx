@@ -37,9 +37,9 @@ export const run = async () => {
         Only use the below tools. Only use the information returned by the below tools to construct your final answer.
         You MUST double check your query before executing it. If you get an error while executing a query, rewrite the query and try again.
         Always use a schema name when running a query.
-        
+
         DO NOT make any DML statements (INSERT, UPDATE, DELETE, DROP etc.) to the database.
-        
+
         If the question does not seem related to the database, just return "I don't know" as the answer.`;
 
   const db = await SqlDatabase.fromDataSourceParams({

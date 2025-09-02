@@ -96,7 +96,7 @@ TABLE_NAME = "vectors_search_data"  # @param {type: "string"}
 ```
 
 ### Initialize a table
-The `SpannerVectorStore` class instance requires a database table with id, content and embeddings columns. 
+The `SpannerVectorStore` class instance requires a database table with id, content and embeddings columns.
 
 The helper method `init_vector_store_table()` that can be used to create a table with the proper schema for you.
 

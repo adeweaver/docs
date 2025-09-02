@@ -6,7 +6,7 @@ title: PromptLayer
 >
 >While `PromptLayer` does have LLMs that integrate directly with LangChain (e.g. [`PromptLayerOpenAI`](/oss/integrations/llms/promptlayer_openai)), using a callback is the recommended way to integrate `PromptLayer` with LangChain.
 
-In this guide, we will go over how to setup the `PromptLayerCallbackHandler`. 
+In this guide, we will go over how to setup the `PromptLayerCallbackHandler`.
 
 See [PromptLayer docs](https://docs.promptlayer.com/languages/langchain) for more information.
 

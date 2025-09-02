@@ -4,8 +4,8 @@ title: Astra DB Vector Store
 
 This page provides a quickstart for using Astra DB as a Vector Store.
 
-> [DataStax Astra DB](https://docs.datastax.com/en/astra-db-serverless/index.html) is a serverless 
-> AI-ready database built on `Apache Cassandra®` and made conveniently available 
+> [DataStax Astra DB](https://docs.datastax.com/en/astra-db-serverless/index.html) is a serverless
+> AI-ready database built on `Apache Cassandra®` and made conveniently available
 > through an easy-to-use JSON API.
 
 ## Setup
@@ -24,7 +24,7 @@ Use of the integration requires the `langchain-astradb` partner package:
 
 ### Credentials
 
-In order to use the AstraDB vector store, you must first head to the [AstraDB website](https://astra.datastax.com), create an account, and then create a new database - the initialization might take a few minutes. 
+In order to use the AstraDB vector store, you must first head to the [AstraDB website](https://astra.datastax.com), create an account, and then create a new database - the initialization might take a few minutes.
 
 Once the database has been initialized, retrieve your [connection secrets](https://docs.datastax.com/en/astra-db-serverless/get-started/quickstart.html#create-a-database-and-store-your-credentials), which you'll need momentarily. These are:
 - an **`API Endpoint`**, such as `"https://01234567-89ab-cdef-0123-456789abcdef-us-east1.apps.astra.datastax.com/"`
@@ -365,7 +365,7 @@ For a full list of the search modes available in `AstraDBVectorStore` check out 
 
 ### Query by turning into retriever
 
-You can also make the vector store into a retriever, for easier usage in your chains. 
+You can also make the vector store into a retriever, for easier usage in your chains.
 
 Transform the vector store into a retriever and invoke it with a simple query + metadata filter:
 

@@ -19,7 +19,7 @@ Purchase OpenSearch Vector Search Edition from [Alibaba Cloud](https://opensearc
 
 To run, you should have an [OpenSearch Vector Search Edition](https://opensearch.console.aliyun.com) instance up and running.
 
-  
+
 ### Alibaba Cloud OpenSearch Vector Store class
                                                                                                                 `AlibabaCloudOpenSearch` class supports functions:
 - `add_texts`

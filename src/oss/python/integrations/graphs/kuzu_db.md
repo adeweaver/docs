@@ -80,7 +80,7 @@ from langchain_openai import ChatOpenAI
 
 # Define the LLMGraphTransformer
 llm_transformer = LLMGraphTransformer(
-    llm=ChatOpenAI(model="gpt-4o-mini", temperature=0, api_key=OPENAI_API_KEY),  
+    llm=ChatOpenAI(model="gpt-4o-mini", temperature=0, api_key=OPENAI_API_KEY),
     allowed_nodes=allowed_nodes,
     allowed_relationships=allowed_relationships,
 )
@@ -123,7 +123,7 @@ from langchain_kuzu.chains.graph_qa.kuzu import KuzuQAChain
 
 # Create the KuzuQAChain with verbosity enabled to see the generated Cypher queries
 chain = KuzuQAChain.from_llm(
-    llm=ChatOpenAI(model="gpt-4o-mini", temperature=0.3, api_key=OPENAI_API_KEY),  
+    llm=ChatOpenAI(model="gpt-4o-mini", temperature=0.3, api_key=OPENAI_API_KEY),
     graph=graph,
     verbose=True,
     allow_dangerous_requests=True,

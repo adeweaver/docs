@@ -98,9 +98,9 @@ For the first configuration, simply initialize the handler like this:
 
 ```python
 ratelimit = Ratelimit(
-    redis=Redis.from_env(),
+        redis=Redis.from_env(),
     # 1000 tokens per window, where window size is 60 seconds:
-    limiter=FixedWindow(max_requests=1000, window=60),
+        limiter=FixedWindow(max_requests=1000, window=60),
 )
 
 handler = UpstashRatelimitHandler(identifier=user_id, token_ratelimit=ratelimit)
@@ -111,15 +111,15 @@ For the second configuration, here is how to initialize the handler:
 
 ```python
 ratelimit = Ratelimit(
-    redis=Redis.from_env(),
+        redis=Redis.from_env(),
     # 1000 tokens per window, where window size is 60 seconds:
-    limiter=FixedWindow(max_requests=1000, window=60),
+        limiter=FixedWindow(max_requests=1000, window=60),
 )
 
 handler = UpstashRatelimitHandler(
-    identifier=user_id,
-    token_ratelimit=ratelimit,
-    include_output_tokens=True,  # set to True
+        identifier=user_id,
+        token_ratelimit=ratelimit,
+        include_output_tokens=True,  # set to True
 )
 ```
 
@@ -144,9 +144,9 @@ from upstash_redis import Redis
 
 # create ratelimit
 ratelimit = Ratelimit(
-    redis=Redis.from_env(),
+        redis=Redis.from_env(),
     # 500 tokens per window, where window size is 60 seconds:
-    limiter=FixedWindow(max_requests=500, window=60),
+        limiter=FixedWindow(max_requests=500, window=60),
 )
 
 # create handler
@@ -161,7 +161,7 @@ chain = as_str | model
 
 # invoke chain with handler:
 try:
-    result = chain.invoke("Hello world!", config={"callbacks": [handler]})
+        result = chain.invoke("Hello world!", config={"callbacks": [handler]})
 except UpstashRatelimitError:
     print("Handling ratelimit.", UpstashRatelimitError)
 ```

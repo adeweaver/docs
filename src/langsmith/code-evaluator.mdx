@@ -103,10 +103,10 @@ async def valid_reasoning(inputs: dict, outputs: dict) -> bool:
     instructions = """\
 Given the following question, answer, and reasoning, determine if the reasoning for the \
 answer is logically valid and consistent with question and the answer."""
-    
+
     class Response(BaseModel):
         reasoning_is_valid: bool
-    
+
     msg = f"Question: {inputs['question']}\nAnswer: {outputs['answer']}\nReasoning: {outputs['reasoning']}"
     response = await oai_client.beta.chat.completions.parse(
         model="gpt-4o-mini",
@@ -174,11 +174,11 @@ async function validReasoning({
     const instructions = `\
   Given the following question, answer, and reasoning, determine if the reasoning for the \
   answer is logically valid and consistent with question and the answer.`;
-    
+
     const msg = `Question: ${inputs.question}
 Answer: ${outputs.answer}
 Reasoning: ${outputs.reasoning}`;
-    
+
     const response = await openai.chat.completions.create({
         model: "gpt-4",
         messages: [
@@ -200,7 +200,7 @@ Reasoning: ${outputs.reasoning}`;
             }
         }]
     });
-    
+
     const parsed = JSON.parse(response.choices[0].message.content ?? "{}") as Response;
     return {
         key: "valid_reasoning",

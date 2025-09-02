@@ -65,7 +65,7 @@ const chatModel = new ChatOpenAI({
   apiKey: process.env.OPENAI_API_KEY
 })
 
-const retriever = new AzionRetriever(embeddingModel, 
+const retriever = new AzionRetriever(embeddingModel,
   {dbName:"langchain",
    vectorTable:"documents", // table where the vector embeddings are stored
    ftsTable:"documents_fts", // table where the fts index is stored

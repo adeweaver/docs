@@ -45,10 +45,10 @@ for model_type, model in models.items():
             return model.invoke(
                 [("system", prompt), ("user", example["question"])]
             )
-        
+
         model_provider = model_type.split("-")[0]
         model_name = model_type[len(model_provider) + 1:]
-        
+
         evaluate(
             predict,
             data=dataset_name,

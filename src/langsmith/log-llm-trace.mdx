@@ -28,10 +28,10 @@ To make your custom LLM traces appear well-formatted in the LangSmith UI, your t
 * A list of messages in [OpenAI](https://platform.openai.com/docs/api-reference/messages) or [Anthropic](https://docs.anthropic.com/en/api/messages) format, represented as Python dictionaries or TypeScript objects.
 
   * Each message must contain the key `role` and `content`.
-  * Messages with the `"assistant"` role may optionally contain `tool_calls`. These `tool_calls` may be in [OpenAI](https://platform.openai.com/docs/guides/function-calling?api-mode=chat) format or [LangChain's format](https://python.langchain.com/api_reference/core/messages/langchain_core.messages.tool.ToolCall.html#langchain_core.messages.tool.ToolCall).
+    * Messages with the `"assistant"` role may optionally contain `tool_calls`. These `tool_calls` may be in [OpenAI](https://platform.openai.com/docs/guides/function-calling?api-mode=chat) format or [LangChain's format](https://python.langchain.com/api_reference/core/messages/langchain_core.messages.tool.ToolCall.html#langchain_core.messages.tool.ToolCall).
 
 * An dict/object containing `"messages"` key with a list of messages in the above format.
-  * LangSmith may use additional parameters in this input dict that match OpenAI's [chat completion endpoint](https://platform.openai.com/docs/guides/text?api-mode=chat) for rendering in the trace view, such as a list of available `tools` for the model to call.
+    * LangSmith may use additional parameters in this input dict that match OpenAI's [chat completion endpoint](https://platform.openai.com/docs/guides/text?api-mode=chat) for rendering in the trace view, such as a list of available `tools` for the model to call.
 
 Here are some examples:
 
@@ -225,12 +225,12 @@ output = {
 #         "content": "Sure, what time would you like to book the table for?"
 #     }
 # }
-# 
+#
 # output = {
 #     "role": "assistant",
 #     "content": "Sure, what time would you like to book the table for?"
 # }
-# 
+#
 # output = ["assistant", "Sure, what time would you like to book the table for?"]
 
 @traceable(
@@ -285,13 +285,13 @@ const chatModel = traceable(
     async ({ messages }: { messages: { role: string; content: string }[] }) => {
         return output;
     },
-    { 
-        run_type: "llm", 
-        name: "chat_model", 
-        metadata: { 
-            ls_provider: "my_provider", 
-            ls_model_name: "my_model" 
-        } 
+    {
+        run_type: "llm",
+        name: "chat_model",
+        metadata: {
+            ls_provider: "my_provider",
+            ls_model_name: "my_model"
+        }
     }
 );
 
@@ -393,7 +393,7 @@ Note that the usage data can also include cost information, in case you do not w
 You can [modify the current run's metadata](/langsmith/add-metadata-tags) with usage information within your traced function. The advantage of this approach is that you do not need to change your traced function's runtime outputs. Here's an example:
 
 <Note>
-  Requires `langsmith>=0.3.43` (Python) and `langsmith>=0.3.30` (JS/TS).
+    Requires `langsmith>=0.3.43` (Python) and `langsmith>=0.3.30` (JS/TS).
 </Note>
 
 <CodeGroup>
@@ -472,13 +472,13 @@ const chatModel = traceable(
         runTree.metadata.usage_metadata = llmOutput.usage_metadata;
         return llmOutput.choices[0].message;
     },
-    { 
-        run_type: "llm", 
-        name: "chat_model", 
-        metadata: { 
-            ls_provider: "my_provider", 
-            ls_model_name: "my_model" 
-        } 
+    {
+        run_type: "llm",
+        name: "chat_model",
+        metadata: {
+            ls_provider: "my_provider",
+            ls_model_name: "my_model"
+        }
     }
 );
 
@@ -563,13 +563,13 @@ const chatModel = traceable(
     }) => {
         return output;
     },
-    { 
-        run_type: "llm", 
-        name: "chat_model", 
-        metadata: { 
-            ls_provider: "my_provider", 
-            ls_model_name: "my_model" 
-        } 
+    {
+        run_type: "llm",
+        name: "chat_model",
+        metadata: {
+            ls_provider: "my_provider",
+            ls_model_name: "my_model"
+        }
     }
 );
 

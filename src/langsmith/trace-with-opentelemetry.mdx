@@ -180,7 +180,7 @@ For non-LangChain applications or custom instrumentation, you can trace your app
 While LangSmith is the default destination for OpenTelemetry traces, you can also configure OpenTelemetry to send traces to other observability platforms.
 
 <Info>
-  In langsmith Python SDK version ≥ 0.4.1, setting LANGSMITH\_OTEL\_ENABLED=true will by default send traces to both LangSmith and your instrumented OTEL endpoint. No extra code is needed for fan-out.
+    In langsmith Python SDK version ≥ 0.4.1, setting LANGSMITH\_OTEL\_ENABLED=true will by default send traces to both LangSmith and your instrumented OTEL endpoint. No extra code is needed for fan-out.
 </Info>
 
 ### Use environment variables for global configuration
@@ -238,7 +238,7 @@ print(result.content)
 <Info>
   To disable hybrid tracing behavior after 0.4.1 and send traces only to your OTEL endpoint and exclude sending to LangSmith, add an additional env var:
 
-  LANGSMITH\_OTEL\_ONLY = "true"
+    LANGSMITH\_OTEL\_ONLY = "true"
 </Info>
 
 ## Supported OpenTelemetry attribute and event mapping

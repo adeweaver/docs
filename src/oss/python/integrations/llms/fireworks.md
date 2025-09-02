@@ -9,7 +9,7 @@ title: Fireworks
 You may be looking for [this page instead](/oss/integrations/chat/fireworks/).
 </Warning>
 
->[Fireworks](https://app.fireworks.ai/) accelerates product development on generative AI by creating an innovative AI experiment and production platform. 
+>[Fireworks](https://app.fireworks.ai/) accelerates product development on generative AI by creating an innovative AI experiment and production platform.
 
 This example goes over how to use LangChain to interact with `Fireworks` models.
 
@@ -22,7 +22,7 @@ This example goes over how to use LangChain to interact with `Fireworks` models.
 
 ## Setup
 
-### Credentials 
+### Credentials
 
 Sign in to [Fireworks AI](http://fireworks.ai) for the an API Key to access our models, and make sure it is set as the `FIREWORKS_API_KEY` environment variable.
 3. Set up your model using a model id. If the model is not set, the default model is fireworks-llama-v2-7b-chat. See the full, most up-to-date model list on [fireworks.ai](https://fireworks.ai).

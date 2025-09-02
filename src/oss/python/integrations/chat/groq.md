@@ -52,7 +52,7 @@ The LangChain Groq integration lives in the `langchain-groq` package:
 
 ## Instantiation
 
-Now we can instantiate our model object and generate chat completions. 
+Now we can instantiate our model object and generate chat completions.
 
 
 <Note>

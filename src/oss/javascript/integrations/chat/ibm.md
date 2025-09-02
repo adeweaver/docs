@@ -16,7 +16,7 @@ This will help you getting started with IBM watsonx.ai [chat models](/oss/concep
 
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: |
-| ✅ | ✅ | ✅  | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | 
+| ✅ | ✅ | ✅  | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ |
 
 ## Setup
 
@@ -285,7 +285,7 @@ const calculatorSchema = z.object({
     number1: z.number().describe("The first number to operate on."),
     number2: z.number().describe("The second number to operate on."),
   });
-  
+
 const calculatorTool = tool(
 async ({ operation, number1, number2 }) => {
     if (operation === "add") {

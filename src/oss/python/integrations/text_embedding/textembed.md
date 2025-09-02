@@ -31,7 +31,7 @@ Ensure you have Python 3.10 or higher installed. You will also need to install t
 2. **Start the TextEmbed server with your desired models:**
 
     ```bash
-    python -m textembed.server --models sentence-transformers/all-MiniLM-L12-v2 --workers 4 --api-key TextEmbed 
+    python -m textembed.server --models sentence-transformers/all-MiniLM-L12-v2 --workers 4 --api-key TextEmbed
     ```
 
 For more information, please read the [documentation](https://github.com/kevaldekivadiya2415/textembed/blob/main/docs/setup.md).

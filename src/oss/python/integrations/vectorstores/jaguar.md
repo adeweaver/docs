@@ -25,7 +25,7 @@ There are two requirements for running the examples in this file.
    ```
        pip install -U jaguardb-http-client
    ```
-   
+
 3. You'll need to install `langchain-community` with `pip install -qU langchain-community` to use this integration
 
 
@@ -45,8 +45,8 @@ from langchain_core.runnables import RunnablePassthrough
 from langchain_openai import ChatOpenAI, OpenAI, OpenAIEmbeddings
 from langchain_text_splitters import CharacterTextSplitter
 
-""" 
-Load a text file into a set of documents 
+"""
+Load a text file into a set of documents
 """
 loader = TextLoader("../../how_to/state_of_the_union.txt")
 documents = loader.load()

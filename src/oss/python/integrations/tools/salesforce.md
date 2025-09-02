@@ -13,7 +13,7 @@ from LangChain applications.
 ### Key Features
 
 - **SOQL Queries**: Execute Salesforce Object Query Language (SOQL) queries
-- **Object Management**: Create, read, update, and delete (CRUD) operations on Salesforce objects  
+- **Object Management**: Create, read, update, and delete (CRUD) operations on Salesforce objects
 - **Schema Exploration**: Describe object schemas and list available objects
 - **Async Support**: Asynchronous operation support
 - **Error Handling**: Detailed error messages
@@ -22,27 +22,27 @@ from LangChain applications.
 ## Setup
 
 Install the required dependencies:
- 
+
 ```bash
  pip install langchain-salesforce
  ```
- 
+
 ## Authentication Setup
 
 These environment variables will be automatically picked up by the integration.
- 
+
 ## Getting Your Security Token
- 
+
 If you need a security token:
  1. Log into Salesforce
  2. Go to Settings
  3. Click on "Reset My Security Token" under "My Personal Information"
  4. Check your email for the new token
- 
+
 ### Environment Variables (Recommended)
- 
+
  Set up your Salesforce credentials as environment variables:
- 
+
  ```bash
  export SALESFORCE_USERNAME="your-username@company.com"
  export SALESFORCE_PASSWORD="your-password"
@@ -175,9 +175,9 @@ if contacts_result and "records" in contacts_result:
     # Create a message asking the LLM to analyze the contact data
     analysis_prompt = f"""
     Please analyze the following Salesforce contact data and provide insights:
-    
+
     Contact Data: {contact_data}
-    
+
     Please provide:
     1. A summary of the contacts
     2. Any patterns you notice

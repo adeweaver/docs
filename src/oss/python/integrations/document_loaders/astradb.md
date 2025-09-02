@@ -2,8 +2,8 @@
 title: AstraDB
 ---
 
-> [DataStax Astra DB](https://docs.datastax.com/en/astra-db-serverless/index.html) is a serverless 
-> AI-ready database built on `Apache Cassandra®` and made conveniently available 
+> [DataStax Astra DB](https://docs.datastax.com/en/astra-db-serverless/index.html) is a serverless
+> AI-ready database built on `Apache Cassandra®` and made conveniently available
 > through an easy-to-use JSON API.
 
 ## Overview
@@ -25,8 +25,8 @@ The loader sets the following metadata for the documents it reads:
 
 ```python
 metadata={
-    "namespace": "...", 
-    "api_endpoint": "...", 
+    "namespace": "...",
+    "api_endpoint": "...",
     "collection": "..."
 }
 ```

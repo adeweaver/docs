@@ -2,9 +2,9 @@
 title: Tencent Hunyuan
 ---
 
->[Tencent's hybrid model API](https://cloud.tencent.com/document/product/1729) (`Hunyuan API`) 
-> implements dialogue communication, content generation, 
-> analysis and understanding, and can be widely used in various scenarios such as intelligent 
+>[Tencent's hybrid model API](https://cloud.tencent.com/document/product/1729) (`Hunyuan API`)
+> implements dialogue communication, content generation,
+> analysis and understanding, and can be widely used in various scenarios such as intelligent
 > customer service, intelligent marketing, role playing, advertising copywriting, product description,
 > script creation, resume generation, article writing, code generation, data analysis, and content
 > analysis.

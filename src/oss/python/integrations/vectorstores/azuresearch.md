@@ -29,7 +29,7 @@ from langchain_openai import AzureOpenAIEmbeddings, OpenAIEmbeddings
 ```
 
 ## Configure OpenAI settings
-Set variables for your OpenAI provider. You need either an [OpenAI account](https://platform.openai.com/docs/quickstart?context=python) or an [Azure OpenAI account](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/create-resource) to generate the embeddings. 
+Set variables for your OpenAI provider. You need either an [OpenAI account](https://platform.openai.com/docs/quickstart?context=python) or an [Azure OpenAI account](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/create-resource) to generate the embeddings.
 
 
 ```python
@@ -51,7 +51,7 @@ azure_deployment: str = "text-embedding-ada-002"
 ## Configure vector store settings
 
 You need an [Azure subscription](https://azure.microsoft.com/en-us/free/search) and [Azure AI Search service](https://learn.microsoft.com/azure/search/search-create-service-portal) to use this vector store integration. No-cost versions are available for small and limited workloads.
- 
+
 Set variables for your Azure AI Search URL and admin API key. You can get these variables from the [Azure portal](https://portal.azure.com/#blade/HubsExtension/BrowseResourceBlade/resourceType/Microsoft.Search%2FsearchServices).
 
 
@@ -61,7 +61,7 @@ vector_store_password: str = "YOUR_AZURE_SEARCH_ADMIN_KEY"
 ```
 
 ## Create embeddings and vector store instances
- 
+
 Create instances of the OpenAIEmbeddings and AzureSearch classes. When you complete this step, you should have an empty search index on your Azure AI Search resource. The integration module provides a default schema.
 
 
@@ -84,7 +84,7 @@ embeddings: AzureOpenAIEmbeddings = AzureOpenAIEmbeddings(
 ```
 
 ## Create vector store instance
- 
+
 Create instance of the AzureSearch class using the embeddings from above
 
 
@@ -112,7 +112,7 @@ vector_store: AzureSearch = AzureSearch(
 ```
 
 ## Insert text and embeddings into vector store
- 
+
 This step loads, chunks, and vectorizes the sample document, and then indexes the content into a search index on Azure AI Search.
 
 
@@ -178,7 +178,7 @@ vector_store.add_documents(documents=docs)
 
 
 ## Perform a vector similarity search
- 
+
 Execute a pure vector similarity search using the similarity_search() method:
 
 
@@ -192,16 +192,16 @@ docs = vector_store.similarity_search(
 print(docs[0].page_content)
 ```
 ```output
-Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections. 
+Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections.
 
-Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service. 
+Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service.
 
-One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. 
+One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
 
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.
 ```
 ## Perform a vector similarity search with relevance scores
- 
+
 Execute a pure vector similarity search using the similarity_search_with_relevance_scores() method. Queries that don't meet the threshold requirements are exluded.
 
 
@@ -240,11 +240,11 @@ docs = vector_store.similarity_search(
 print(docs[0].page_content)
 ```
 ```output
-Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections. 
+Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections.
 
-Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service. 
+Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service.
 
-One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. 
+One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
 
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.
 ```
@@ -257,11 +257,11 @@ docs = vector_store.hybrid_search(
 print(docs[0].page_content)
 ```
 ```output
-Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections. 
+Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections.
 
-Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service. 
+Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service.
 
-One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. 
+One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
 
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.
 ```
@@ -270,7 +270,7 @@ And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketan
 This section shows you how to replace the default schema with a custom schema.
 
 
-### Create a new index with custom filterable fields 
+### Create a new index with custom filterable fields
 
 This schema shows field definitions. It's the default schema, plus several new fields attributed as filterable. Because it's using the default vector configuration, you won't see vector configuration or vector profile overrides here. The name of the default vector profile is "myHnswProfile" and it's using a vector configuration of Hierarchical Navigable Small World (HNSW) for indexing and queries against the content_vector field.
 

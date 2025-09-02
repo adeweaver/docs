@@ -37,7 +37,7 @@ To access AzureOpenAI models you'll need to create an Azure account, get an API 
 
 ### Credentials
 
-Head to [azure.microsoft.com](https://azure.microsoft.com/) to sign up to AzureOpenAI and generate an API key. 
+Head to [azure.microsoft.com](https://azure.microsoft.com/) to sign up to AzureOpenAI and generate an API key.
 
 You'll also need to have an Azure OpenAI instance deployed. You can deploy a version on Azure Portal following [this guide](https://learn.microsoft.com/azure/ai-services/openai/how-to/create-resource?pivots=web-portal).
 

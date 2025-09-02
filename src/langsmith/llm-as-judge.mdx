@@ -37,10 +37,10 @@ def valid_reasoning(inputs: dict, outputs: dict) -> bool:
     instructions = """\
 Given the following question, answer, and reasoning, determine if the reasoning \
 for the answer is logically valid and consistent with question and the answer.\"""
-    
+
     class Response(BaseModel):
         reasoning_is_valid: bool
-    
+
     msg = f"Question: {inputs['question']}\nAnswer: {outputs['answer']}\nReasoning: {outputs['reasoning']}"
     response = oai_client.beta.chat.completions.parse(
         model="gpt-4o",

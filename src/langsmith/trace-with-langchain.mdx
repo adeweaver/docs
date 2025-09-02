@@ -56,11 +56,11 @@ export OPENAI_API_KEY=<your-openai-api-key>
 <Info>
   If you are using LangChain.js with LangSmith and are not in a serverless environment, we also recommend setting the following explicitly to reduce latency:
 
-  `export LANGCHAIN_CALLBACKS_BACKGROUND=true`
+    `export LANGCHAIN_CALLBACKS_BACKGROUND=true`
 
   If you are in a serverless environment, we recommend setting the reverse to allow tracing to finish before your function ends:
 
-  `export LANGCHAIN_CALLBACKS_BACKGROUND=false`
+    `export LANGCHAIN_CALLBACKS_BACKGROUND=false`
 
   See [this LangChain.js guide](https://js.langchain.com/docs/how_to/callbacks_serverless) for more information.
 </Info>
@@ -171,7 +171,7 @@ export LANGSMITH_PROJECT=my-project
 ```
 
 <Warning>
-  The `LANGSMITH_PROJECT` flag is only supported in JS SDK versions >= 0.2.16, use `LANGCHAIN_PROJECT` instead if you are using an older version.
+    The `LANGSMITH_PROJECT` flag is only supported in JS SDK versions >= 0.2.16, use `LANGCHAIN_PROJECT` instead if you are using an older version.
 </Warning>
 
 ### Dynamically
@@ -633,13 +633,13 @@ const parrot = new RunnableLambda({
     const childRunTree = RunTree.fromRunnableConfig(config, {
       name: "Child Run",
     });
-        
+
     childRunTree.inputs = { input: input.text };
     await childRunTree.postRun();
-        
+
     childRunTree.outputs = { output: `Child Run: ${input.text}` };
     await childRunTree.patchRun();
-        
+
     return input.text;
   },
 });

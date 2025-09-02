@@ -32,27 +32,27 @@ In this guide, we’ll show how to trigger a webhook after streaming a run.
 Before making API calls, set up your assistant and thread.
 
 <Tabs>
-  <Tab title="Python">
+    <Tab title="Python">
     ```python
     from langgraph_sdk import get_client
-    
+
     client = get_client(url=<DEPLOYMENT_URL>)
     assistant_id = "agent"
     thread = await client.threads.create()
     print(thread)
     ```
-  </Tab>
-  <Tab title="JavaScript">
+    </Tab>
+    <Tab title="JavaScript">
     ```js
     import { Client } from "@langchain/langgraph-sdk";
-    
+
     const client = new Client({ apiUrl: <DEPLOYMENT_URL> });
     const assistantID = "agent";
     const thread = await client.threads.create();
     console.log(thread);
     ```
-  </Tab>
-  <Tab title="CURL">
+    </Tab>
+    <Tab title="CURL">
     ```bash
     curl --request POST \
         --url <DEPLOYMENT_URL>/assistants/search \
@@ -63,7 +63,7 @@ Before making API calls, set up your assistant and thread.
         --header 'Content-Type: application/json' \
         --data '{}'
     ```
-  </Tab>
+    </Tab>
 </Tabs>
 
 Example response:
@@ -87,10 +87,10 @@ To use a webhook, specify the `webhook` parameter in your API request. When the 
 For example, if your server listens for webhook events at `https://my-server.app/my-webhook-endpoint`, include this in your request:
 
 <Tabs>
-  <Tab title="Python">
+    <Tab title="Python">
     ```python
     input = { "messages": [{ "role": "user", "content": "Hello!" }] }
-    
+
     async for chunk in client.runs.stream(
         thread_id=thread["thread_id"],
         assistant_id=assistant_id,
@@ -100,11 +100,11 @@ For example, if your server listens for webhook events at `https://my-server.app
     ):
         pass
     ```
-  </Tab>
-  <Tab title="JavaScript">
+    </Tab>
+    <Tab title="JavaScript">
     ```js
     const input = { messages: [{ role: "human", content: "Hello!" }] };
-    
+
     const streamResponse = client.runs.stream(
       thread["thread_id"],
       assistantID,
@@ -113,13 +113,13 @@ For example, if your server listens for webhook events at `https://my-server.app
         webhook: "https://my-server.app/my-webhook-endpoint"
       }
     );
-    
+
     for await (const chunk of streamResponse) {
       // Handle stream output
     }
     ```
-  </Tab>
-  <Tab title="CURL">
+    </Tab>
+    <Tab title="CURL">
     ```bash
     curl --request POST \
         --url <DEPLOYMENT_URL>/threads/<THREAD_ID>/runs/stream \
@@ -130,7 +130,7 @@ For example, if your server listens for webhook events at `https://my-server.app
             "webhook": "https://my-server.app/my-webhook-endpoint"
         }'
     ```
-  </Tab>
+    </Tab>
 </Tabs>
 
 ## Webhook payload

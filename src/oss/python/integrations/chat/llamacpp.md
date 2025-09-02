@@ -29,14 +29,14 @@ title: Llama.cpp
 ### Model features
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | Image input | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | Native async | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
-| ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ✅ | 
+| ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ✅ |
 
 ## Setup
 
 To get started and use **all** the features shown below, we recommend using a model that has been fine-tuned for tool-calling.
 
 We will use [
-Hermes-2-Pro-Llama-3-8B-GGUF](https://huggingface.co/NousResearch/Hermes-2-Pro-Llama-3-8B-GGUF) from NousResearch. 
+Hermes-2-Pro-Llama-3-8B-GGUF](https://huggingface.co/NousResearch/Hermes-2-Pro-Llama-3-8B-GGUF) from NousResearch.
 
 > Hermes 2 Pro is an upgraded version of Nous Hermes 2, consisting of an updated and cleaned version of the OpenHermes 2.5 Dataset, as well as a newly introduced Function Calling and JSON Mode dataset developed in-house. This new version of Hermes maintains its excellent general task and conversation capabilities - but also excels at Function Calling
 
@@ -105,9 +105,9 @@ ai_msg
 print(ai_msg.content)
 ```
 ```output
-J'aime programmer. (In France, "programming" is often used in its original sense of scheduling or organizing events.) 
+J'aime programmer. (In France, "programming" is often used in its original sense of scheduling or organizing events.)
 
-If you meant computer-programming: 
+If you meant computer-programming:
 Je suis amoureux de la programmation informatique.
 
 (You might also say simply 'programmation', which would be understood as both meanings - depending on context).
@@ -166,8 +166,8 @@ from pydantic import BaseModel, Field
 
 
 class WeatherInput(BaseModel):
-    location: str = Field(description="The city and state, e.g. San Francisco, CA")
-    unit: str = Field(enum=["celsius", "fahrenheit"])
+        location: str = Field(description="The city and state, e.g. San Francisco, CA")
+        unit: str = Field(enum=["celsius", "fahrenheit"])
 
 
 @tool("get_current_weather", args_schema=WeatherInput)
@@ -177,8 +177,8 @@ def get_weather(location: str, unit: str):
 
 
 llm_with_tools = llm.bind_tools(
-    tools=[get_weather],
-    tool_choice={"type": "function", "function": {"name": "get_current_weather"}},
+        tools=[get_weather],
+        tool_choice={"type": "function", "function": {"name": "get_current_weather"}},
 )
 ```
 
@@ -206,7 +206,7 @@ ai_msg.tool_calls
 
 ```python
 class MagicFunctionInput(BaseModel):
-    magic_function_input: int = Field(description="The input value for magic function")
+        magic_function_input: int = Field(description="The input value for magic function")
 
 
 @tool("get_magic_function", args_schema=MagicFunctionInput)
@@ -216,8 +216,8 @@ def magic_function(magic_function_input: int):
 
 
 llm_with_tools = llm.bind_tools(
-    tools=[magic_function],
-    tool_choice={"type": "function", "function": {"name": "get_magic_function"}},
+        tools=[magic_function],
+        tool_choice={"type": "function", "function": {"name": "get_magic_function"}},
 )
 
 ai_msg = llm_with_tools.invoke(
@@ -281,7 +281,7 @@ result
 
 ```python
 for chunk in llm.stream("what is 25x5"):
-    print(chunk.content, end="\n", flush=True)
+        print(chunk.content, end="\n", flush=True)
 ```
 
 ## API reference

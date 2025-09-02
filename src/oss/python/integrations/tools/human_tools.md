@@ -2,7 +2,7 @@
 title: Human as a tool
 ---
 
-Human are AGI so they can certainly be used as a tool to help out AI agent 
+Human are AGI so they can certainly be used as a tool to help out AI agent
 when it is confused.
 
 
@@ -133,10 +133,10 @@ Action Input: "The quote is 'Veni, vidi, vici'"
 The quote is 'Veni, vidi, vici'
 Insert your text. Enter 'q' or press Ctrl-D (or Ctrl-Z on Windows) to end.
 ``````output
- oh who said it 
+ oh who said it
  q
 ``````output
-Observation: oh who said it 
+Observation: oh who said it
 Thought:I can use DuckDuckGo Search to find out who said the quote
 Action: DuckDuckGo Search
 Action Input: "Who said 'Veni, vidi, vici'?"

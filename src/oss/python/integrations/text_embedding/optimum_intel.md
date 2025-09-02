@@ -22,7 +22,7 @@ model = QuantizedBiEncoderEmbeddings(
 )
 ```
 ```output
-loading configuration file inc_config.json from cache at 
+loading configuration file inc_config.json from cache at
 INCConfig {
   "distillation": {},
   "neural_compressor_version": "2.4.1",
@@ -39,7 +39,7 @@ INCConfig {
 
 Using `INCModel` to load a TorchScript model will be deprecated in v1.15.0, to load your model please use `IPEXModel` instead.
 ```
-Let's ask a question, and compare to 2 documents. The first contains the answer to the question, and the second one does not. 
+Let's ask a question, and compare to 2 documents. The first contains the answer to the question, and the second one does not.
 
 We can check better suits our query.
 

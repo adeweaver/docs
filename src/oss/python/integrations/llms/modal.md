@@ -2,7 +2,7 @@
 title: Modal
 ---
 
-The [Modal cloud platform](https://modal.com/docs/guide) provides convenient, on-demand access to serverless cloud compute from Python scripts on your local computer. 
+The [Modal cloud platform](https://modal.com/docs/guide) provides convenient, on-demand access to serverless cloud compute from Python scripts on your local computer.
 Use `modal` to run your own custom LLM models instead of depending on LLM APIs.
 
 This example goes over how to use LangChain to interact with a `modal` HTTPS [web endpoint](https://modal.com/docs/guide/webhooks).

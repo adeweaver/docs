@@ -1,13 +1,13 @@
 ---
 title: Deep Lake
---- 
+---
 
 >[Deep Lake](https://www.activeloop.ai) is a multimodal database for building AI applications
 >[Deep Lake](https://github.com/activeloopai/deeplake) is a database for AI.
 >Store Vectors, Images, Texts, Videos, etc. Use with LLMs/LangChain. Store, query, version,
 > & visualize any AI data. Stream data in real time to PyTorch/TensorFlow.
 
-In the notebook, we'll demo the `SelfQueryRetriever` wrapped around a `Deep Lake` vector store. 
+In the notebook, we'll demo the `SelfQueryRetriever` wrapped around a `Deep Lake` vector store.
 
 ## Creating a Deep Lake vector store
 First we'll want to create a Deep Lake vector store and seed it with some data. We've created a small demo set of documents that contain summaries of movies.
@@ -96,10 +96,10 @@ Your Deep Lake dataset has been successfully created!
 Dataset(path='hub://adilkhan/self_queery', tensors=['embedding', 'id', 'metadata', 'text'])
 
   tensor      htype      shape     dtype  compression
-  -------    -------    -------   -------  ------- 
- embedding  embedding  (6, 1536)  float32   None   
-    id        text      (6, 1)      str     None   
- metadata     json      (6, 1)      str     None   
+  -------    -------    -------   -------  -------
+ embedding  embedding  (6, 1536)  float32   None
+    id        text      (6, 1)      str     None
+ metadata     json      (6, 1)      str     None
    text       text      (6, 1)      str     None
 ```
 ## Creating our self-querying retriever

@@ -16,7 +16,7 @@ Bring-your-own data (i.e., index and search a custom corpus of documents):
 
 ## Setup
 
-For cognee default setup, only thing you need is your OpenAI API key. 
+For cognee default setup, only thing you need is your OpenAI API key.
 
 
 If you want to get automated tracing from individual queries, you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:

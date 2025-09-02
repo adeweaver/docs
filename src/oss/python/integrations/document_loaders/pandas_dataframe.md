@@ -83,7 +83,7 @@ df.head()
     </tr>
   </tbody>
 </table>
-</div> 
+</div>
 ```
 
 
