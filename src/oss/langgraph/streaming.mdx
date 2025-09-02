@@ -476,8 +476,8 @@ The streamed output from [`messages` mode](#supported-stream-modes) is a tuple `
 > If your LLM is not available as a LangChain integration, you can stream its outputs using `custom` mode instead. See [use with any LLM](#use-with-any-llm) for details.
 
 <Warning>
-  **Manual config required for async in Python < 3.11**
-  When using Python < 3.11 with async code, you must explicitly pass `RunnableConfig` to `ainvoke()` to enable proper streaming. See [Async with Python < 3.11](#async) for details or upgrade to Python 3.11+.
+**Manual config required for async in Python < 3.11**
+When using Python < 3.11 with async code, you must explicitly pass `RunnableConfig` to `ainvoke()` to enable proper streaming. See [Async with Python < 3.11](#async) for details or upgrade to Python 3.11+.
 </Warning>
 
 ```python {highlight={17,33}}
@@ -893,10 +893,10 @@ To send **custom user-defined data** from inside a LangGraph node or tool, follo
 2. Set `stream_mode="custom"` when calling `.stream()` or `.astream()` to get the custom data in the stream. You can combine multiple modes (e.g., `["updates", "custom"]`), but at least one must be `"custom"`.
 
 <Warning>
-  **No `get_stream_writer()` in async for Python < 3.11**
-  In async code running on Python < 3.11, `get_stream_writer()` will not work.
-  Instead, add a `writer` parameter to your node or tool and pass it manually.
-  See [Async with Python < 3.11](#async) for usage examples.
+**No `get_stream_writer()` in async for Python < 3.11**
+In async code running on Python < 3.11, `get_stream_writer()` will not work.
+Instead, add a `writer` parameter to your node or tool and pass it manually.
+See [Async with Python < 3.11](#async) for usage examples.
 </Warning>
 
 <Tabs>

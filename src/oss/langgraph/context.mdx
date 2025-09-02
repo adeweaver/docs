@@ -16,14 +16,14 @@ import AlphaCallout from '/snippets/alpha-lg-callout.mdx';
   * **Cross-conversation context**: Data that persists across multiple conversations or sessions
 
 <Tip>
-  **Runtime context vs LLM context**
-  Runtime context refers to local context: data and dependencies your code needs to run. It does **not** refer to:
+**Runtime context vs LLM context**
+Runtime context refers to local context: data and dependencies your code needs to run. It does **not** refer to:
 
-  * The LLM context, which is the data passed into the LLM's prompt.
-  * The "context window", which is the maximum number of tokens that can be passed to the LLM.
+* The LLM context, which is the data passed into the LLM's prompt.
+* The "context window", which is the maximum number of tokens that can be passed to the LLM.
 
-  Runtime context can be used to optimize the LLM context. For example, you can use user metadata
-  in the runtime context to fetch user preferences and feed them into the context window.
+Runtime context can be used to optimize the LLM context. For example, you can use user metadata
+in the runtime context to fetch user preferences and feed them into the context window.
 </Tip>
 
 LangGraph provides three ways to manage context, which combines the mutability and lifetime dimensions:
@@ -40,9 +40,9 @@ LangGraph provides three ways to manage context, which combines the mutability a
 **Static runtime context** represents immutable data like user metadata, tools, and database connections that are passed to an application at the start of a run via the `context` argument to `invoke`/`stream`. This data does not change during execution.
 
 <Tip>
-  **New in LangGraph v0.6: `context` replaces `config['configurable']`**
-  Runtime context is now passed to the `context` argument of `invoke`/`stream`,
-  which replaces the previous pattern of passing application configuration to `config['configurable']`.
+**New in LangGraph v0.6: `context` replaces `config['configurable']`**
+Runtime context is now passed to the `context` argument of `invoke`/`stream`,
+which replaces the previous pattern of passing application configuration to `config['configurable']`.
 </Tip>
 
 ```python {highlight={7}}
@@ -117,8 +117,8 @@ graph.invoke( # (1)!
 </Tabs>
 
 <Tip>
-  The `Runtime` object can be used to access static context and other utilities like the active store and stream writer.
-  See the [Runtime][langgraph.runtime.Runtime] documentation for details.
+The `Runtime` object can be used to access static context and other utilities like the active store and stream writer.
+See the [Runtime][langgraph.runtime.Runtime] documentation for details.
 </Tip>
 :::
 
@@ -294,8 +294,8 @@ await graph.invoke(
 </Tabs>
 
 <Tip>
-  **Turning on memory**
-  Please see the [memory guide](/oss/langgraph/add-memory) for more details on how to enable memory. This is a powerful feature that allows you to persist the agent's state across multiple invocations. Otherwise, the state is scoped only to a single run.
+**Turning on memory**
+Please see the [memory guide](/oss/langgraph/add-memory) for more details on how to enable memory. This is a powerful feature that allows you to persist the agent's state across multiple invocations. Otherwise, the state is scoped only to a single run.
 </Tip>
 
 <a id="store"></a>

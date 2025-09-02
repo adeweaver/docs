@@ -11,8 +11,8 @@ import AlphaCallout from '/snippets/alpha-lg-callout.mdx';
 LangGraph's built-in [persistence](/oss/langgraph/persistence) layer provides durable execution for workflows, ensuring that the state of each execution step is saved to a durable store. This capability guarantees that if a workflow is interrupted -- whether by a system failure or for [human-in-the-loop](/oss/langgraph/human-in-the-loop) interactions -- it can be resumed from its last recorded state.
 
 <Tip>
-  If you are using LangGraph with a checkpointer, you already have durable execution enabled. You can pause and resume workflows at any point, even after interruptions or failures.
-  To make the most of durable execution, ensure that your workflow is designed to be [deterministic](#determinism-and-consistent-replay) and [idempotent](#determinism-and-consistent-replay) and wrap any side effects or non-deterministic operations inside [tasks](/oss/langgraph/functional-api#task). You can use [tasks](/oss/langgraph/functional-api#task) from both the [StateGraph (Graph API)](/oss/langgraph/graph-api) and the [Functional API](/oss/langgraph/functional-api).
+If you are using LangGraph with a checkpointer, you already have durable execution enabled. You can pause and resume workflows at any point, even after interruptions or failures.
+To make the most of durable execution, ensure that your workflow is designed to be [deterministic](#determinism-and-consistent-replay) and [idempotent](#determinism-and-consistent-replay) and wrap any side effects or non-deterministic operations inside [tasks](/oss/langgraph/functional-api#task). You can use [tasks](/oss/langgraph/functional-api#task) from both the [StateGraph (Graph API)](/oss/langgraph/graph-api) and the [Functional API](/oss/langgraph/functional-api).
 </Tip>
 
 ## Requirements
@@ -63,16 +63,16 @@ LangGraph supports three durability modes that allow you to balance performance 
 A higher durability mode add more overhead to the workflow execution.
 
 <Tip>
-  **Added in v0.6.0**
-  Use the `durability` parameter instead of `checkpoint_during` (deprecated in v0.6.0) for persistence policy management:
+**Added in v0.6.0**
+Use the `durability` parameter instead of `checkpoint_during` (deprecated in v0.6.0) for persistence policy management:
 
-    * `durability="async"` replaces `checkpoint_during=True`
-    * `durability="exit"` replaces `checkpoint_during=False`
+* `durability="async"` replaces `checkpoint_during=True`
+* `durability="exit"` replaces `checkpoint_during=False`
 
-  for persistence policy management, with the following mapping:
+for persistence policy management, with the following mapping:
 
-    * `checkpoint_during=True` -> `durability="async"`
-    * `checkpoint_during=False` -> `durability="exit"`
+* `checkpoint_during=True` -> `durability="async"`
+* `checkpoint_during=False` -> `durability="exit"`
 </Tip>
 
 ### `"exit"`

@@ -31,7 +31,7 @@ Specify `DD_API_KEY` (your [Datadog API Key](https://docs.datadoghq.com/account_
 If `DD_API_KEY` is specified, the application process is wrapped in the [`ddtrace-run` command](https://ddtrace.readthedocs.io/en/stable/installation_quickstart.html). Other `DD_*` environment variables (e.g. `DD_SITE`, `DD_ENV`, `DD_SERVICE`, `DD_TRACE_ENABLED`) are typically needed to properly configure the tracing instrumentation. See [`DD_*` environment variables](https://ddtrace.readthedocs.io/en/stable/configuration.html) for more details.
 
 <Note>
-  Enabling `DD_API_KEY` (and thus `ddtrace-run`) can override or interfere with other auto-instrumentation solutions (such as OpenTelemetry) that you may have instrumented into your application code.
+Enabling `DD_API_KEY` (and thus `ddtrace-run`) can override or interfere with other auto-instrumentation solutions (such as OpenTelemetry) that you may have instrumented into your application code.
 </Note>
 
 ## `LANGCHAIN_TRACING_SAMPLING_RATE`
@@ -83,8 +83,8 @@ Set `LOG_JSON` to `true` to render all log messages as JSON objects using the co
 ## `MOUNT_PREFIX`
 
 <Info>
-  **Only Allowed in Self-Hosted Deployments**
-  The `MOUNT_PREFIX` environment variable is only allowed in Self-Hosted Deployment models, LangGraph Platform SaaS will not allow this environment variable.
+**Only Allowed in Self-Hosted Deployments**
+The `MOUNT_PREFIX` environment variable is only allowed in Self-Hosted Deployment models, LangGraph Platform SaaS will not allow this environment variable.
 </Info>
 
 Set `MOUNT_PREFIX` to serve the LangGraph Server under a specific path prefix. This is useful for deployments where the server is behind a reverse proxy or load balancer that requires a specific path prefix.
@@ -98,8 +98,8 @@ Number of jobs per worker for the LangGraph Server task queue. Defaults to `10`.
 ## `POSTGRES_URI_CUSTOM`
 
 <Info>
-  **Only for Hybrid and Self-Hosted**
-  Custom Postgres instances are only available for [Hybrid](/langgraph-platform/hybrid) and [Self-Hosted](/langgraph-platform/self-hosted) deployments.
+**Only for Hybrid and Self-Hosted**
+Custom Postgres instances are only available for [Hybrid](/langgraph-platform/hybrid) and [Self-Hosted](/langgraph-platform/self-hosted) deployments.
 </Info>
 
 Specify `POSTGRES_URI_CUSTOM` to use a custom Postgres instance. The value of `POSTGRES_URI_CUSTOM` must be a valid [Postgres connection URI](https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNSTRING-URIS).
@@ -124,8 +124,8 @@ Database Connectivity:
 ## `REDIS_CLUSTER`
 
 <Info>
-  **Only Allowed in Self-Hosted Deployments**
-  Redis Cluster mode is only available in Self-Hosted Deployment models, LangGraph Platform SaaS will provision a redis instance for you by default.
+**Only Allowed in Self-Hosted Deployments**
+Redis Cluster mode is only available in Self-Hosted Deployment models, LangGraph Platform SaaS will provision a redis instance for you by default.
 </Info>
 
 Set `REDIS_CLUSTER` to `True` to enable Redis Cluster mode. When enabled, the system will connect to Redis using cluster mode. This is useful when connecting to a Redis Cluster deployment.
@@ -135,8 +135,8 @@ Defaults to `False`.
 ## `REDIS_KEY_PREFIX`
 
 <Info>
-  **Available in API Server version 0.1.9+**
-  This environment variable is supported in API Server version 0.1.9 and above.
+**Available in API Server version 0.1.9+**
+This environment variable is supported in API Server version 0.1.9 and above.
 </Info>
 
 Specify a prefix for Redis keys. This allows multiple LangGraph Server instances to share the same Redis instance by using different key prefixes.
@@ -146,8 +146,8 @@ Defaults to `''`.
 ## `REDIS_URI_CUSTOM`
 
 <Info>
-  **Only for Hybrid and Self-Hosted**
-  Custom Redis instances are only available for [Hybrid](/langgraph-platform/hybrid) and [Self-Hosted](/langgraph-platform/self-hosted) deployments.
+**Only for Hybrid and Self-Hosted**
+Custom Redis instances are only available for [Hybrid](/langgraph-platform/hybrid) and [Self-Hosted](/langgraph-platform/self-hosted) deployments.
 </Info>
 
 Specify `REDIS_URI_CUSTOM` to use a custom Redis instance. The value of `REDIS_URI_CUSTOM` must be a valid [Redis connection URI](https://redis-py.readthedocs.io/en/stable/connections.html#redis.Redis.from_url).

@@ -4,7 +4,7 @@ sidebarTitle: Export LangSmith telemetry to your observability backend
 ---
 
 <Warning>
-  **This section is only applicable for Kubernetes deployments.**
+**This section is only applicable for Kubernetes deployments.**
 </Warning>
 
 Self-Hosted LangSmith instances produce telemetry data in the form of logs, metrics and traces. This section will show you how to access and export that data to an observability collector or backend.
@@ -42,7 +42,7 @@ You can use a [Prometheus](https://prometheus.io/docs/prometheus/latest/getting_
 The frontend service exposes its Nginx metrics at the following endpoint: `langsmith-frontend.langsmith.svc.cluster.local:80/nginx_status`. You can either scrape them yourself, or bring up a Prometheus Nginx exporter using the [LangSmith Observability Helm Chart](/langsmith/observability-stack)
 
 <Warning>
-  **The following sections apply for in-cluster databases only. If you are using external databases, you will need to configure exposing and fetching metrics.**
+**The following sections apply for in-cluster databases only. If you are using external databases, you will need to configure exposing and fetching metrics.**
 </Warning>
 
 ## Postgres + Redis

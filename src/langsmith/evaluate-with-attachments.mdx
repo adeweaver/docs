@@ -159,11 +159,11 @@ await langsmithClient.uploadExamplesMultipart(dataset.id, [example]);
 ```
 
 <Info>
-    Along with being passed in as bytes, attachments can be specified as paths to local files. To do so pass in a path for the attachment `data` value and specify arg `dangerously_allow_filesystem=True`:
+Along with being passed in as bytes, attachments can be specified as paths to local files. To do so pass in a path for the attachment `data` value and specify arg `dangerously_allow_filesystem=True`:
 
-  ```python
-  client.create_examples(..., dangerously_allow_filesystem=True)
-  ```
+```python
+client.create_examples(..., dangerously_allow_filesystem=True)
+```
 </Info>
 
 ## 2. Run evaluations
@@ -537,7 +537,7 @@ First, click the file icon in the message where you want to add multimodal conte
 ### Define custom evaluators
 
 <Note>
-  The LangSmith playground does not currently support pulling multimodal content into evaluators. If this would be helpful for your use case, please let us know in the [LangChain Forum](https://forum.langchain.com/) (sign up [here](https://www.langchain.com/join-community) if you're not already a member)!
+The LangSmith playground does not currently support pulling multimodal content into evaluators. If this would be helpful for your use case, please let us know in the [LangChain Forum](https://forum.langchain.com/) (sign up [here](https://www.langchain.com/join-community) if you're not already a member)!
 </Note>
 
 You can evaluate a model's text output by adding an evaluator that takes in the example's inputs and outputs. Even without multimodal support in your evaluators, you can still run text-only evaluations. For example:
@@ -550,7 +550,7 @@ For more information on defining custom evaluators, see the [LLM as Judge](/lang
 ### Update examples with attachments
 
 <Note>
-  Attachments are limited to 20MB in size in the UI.
+Attachments are limited to 20MB in size in the UI.
 </Note>
 
 When editing an example in the UI, you can:

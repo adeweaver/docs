@@ -24,7 +24,7 @@ df = pd.read_parquet("hf://datasets/princeton-nlp/SWE-bench/" + splits["dev"])
 ### Editing the 'version' column
 
 <Note>
-  This is a very important step! If you skip, the rest of the code WILL NOT WORK!
+This is a very important step! If you skip, the rest of the code WILL NOT WORK!
 </Note>
 
 The `version` column contains all string values but all are in float format so they get converted to floats when you upload the CSV to create a LangSmith dataset. Although you can convert the values to strings during your experiments, the issue arises with values like `"0.10"`. When getting converted to a float, you get the value `0.1`, which would become `"0.1"` if you converted it to a string - causing a key error during execution of your proposed patch.
@@ -32,7 +32,7 @@ The `version` column contains all string values but all are in float format so t
 In order to fix this, we need LangSmith to stop trying to convert the `version` column to floats. In order to do this, we can just append a string prefix to each of them that is not float compatible. We then need to split on this prefix when doing evaluation to get the actual `version` value. The prefix we choose here is the string `"version:"`.
 
 <Note>
-  The ability to select column types when uploading a CSV to LangSmith will be added in the future to avoid having to use this workaround.
+The ability to select column types when uploading a CSV to LangSmith will be added in the future to avoid having to use this workaround.
 </Note>
 
 ```python

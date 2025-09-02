@@ -4,7 +4,7 @@ sidebarTitle: Calculate token-based costs for traces
 ---
 
 <Info>
-  * [Providing token counts for LLM runs (spans)](/langsmith/log-llm-trace#provide-token-and-cost-information)
+* [Providing token counts for LLM runs (spans)](/langsmith/log-llm-trace#provide-token-and-cost-information)
 </Info>
 
 LangSmith allows you to track token-based costs for LLM runs. The costs are rolled up to the trace and project level.
@@ -58,7 +58,7 @@ Here, you can specify the following fields:
 Once you have set up the model pricing map, LangSmith will automatically calculate and aggregate the token-based costs for traces based on the token counts provided in the LLM invocations.
 
 <Note>
-  Please note that updates to the model pricing map are will not be reflected in the costs for traces already logged. We do not currently support backfilling model pricing changes.
+Please note that updates to the model pricing map are will not be reflected in the costs for traces already logged. We do not currently support backfilling model pricing changes.
 </Note>
 
 For specifying pricing breakdowns, here are the detailed token count types used by LangChain chat model integrations and LangSmith SDK wrappers:

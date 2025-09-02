@@ -20,7 +20,7 @@ LangSmith uses Redis to back our queuing/caching operations. By default, LangSmi
 * By default, we recommend an instance with at least 2 vCPUs and 8GB of memory. However, the actual requirements will depend on your tracing workload. We recommend monitoring your Redis instance and scaling up as needed.
 
 <Info>
-  Certain tiers of managed Redis services may use Redis Cluster under the hood, but you can point to a single node in the cluster. For example on Azure Cache for Redis, the `Premium` tier and above use Redis Cluster, so you will need to use a lower tier.
+Certain tiers of managed Redis services may use Redis Cluster under the hood, but you can point to a single node in the cluster. For example on Azure Cache for Redis, the `Premium` tier and above use Redis Cluster, so you will need to use a lower tier.
 </Info>
 
 ## Connection String

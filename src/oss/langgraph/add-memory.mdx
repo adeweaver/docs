@@ -1389,10 +1389,10 @@ const deleteMessages = (state) => {
 :::
 
 <Warning>
-  When deleting messages, **make sure** that the resulting message history is valid. Check the limitations of the LLM provider you're using. For example:
+When deleting messages, **make sure** that the resulting message history is valid. Check the limitations of the LLM provider you're using. For example:
 
-  * some providers expect message history to start with a `user` message
-  * most providers require `assistant` messages with tool calls to be followed by corresponding `tool` result messages.
+* some providers expect message history to start with a `user` message
+* most providers require `assistant` messages with tool calls to be followed by corresponding `tool` result messages.
 </Warning>
 
 <Accordion title="Full example: delete messages">

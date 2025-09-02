@@ -54,7 +54,7 @@ For the EU region, use `eu.api.smith.langchain.com`.
 Both the `backend` and `queue` services require write access to the destination bucket:
 
 - The `backend` service attempts to write a test file to the destination bucket when the export destination is created.
-  It will delete the test file if it has permission to do so (delete access is optional).
+It will delete the test file if it has permission to do so (delete access is optional).
 - The `queue` service is responsible for bulk export execution and uploading the files to the bucket.
 </Note>
 

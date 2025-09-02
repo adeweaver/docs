@@ -26,7 +26,7 @@ The Functional API uses two key building blocks:
 This provides a minimal abstraction for building workflows with state management and streaming.
 
 <Tip>
-  For information on how to use the functional API, see [Use Functional API](/oss/langgraph/use-functional-api).
+For information on how to use the functional API, see [Use Functional API](/oss/langgraph/use-functional-api).
 </Tip>
 
 ## Functional API vs. Graph API
@@ -341,8 +341,8 @@ const myWorkflow = entrypoint(
 :::
 
 <Warning>
-  **Serialization**
-  The **inputs** and **outputs** of entrypoints must be JSON-serializable to support checkpointing. Please see the [serialization](#serialization) section for more details.
+**Serialization**
+The **inputs** and **outputs** of entrypoints must be JSON-serializable to support checkpointing. Please see the [serialization](#serialization) section for more details.
 </Warning>
 
 :::python
@@ -358,7 +358,7 @@ When declaring an `entrypoint`, you can request access to additional parameters 
 | **config**   | For accessing run time configuration. See [RunnableConfig](https://python.langchain.com/docs/concepts/runnables/#runnableconfig) for information.                  |
 
 <Warning>
-  Declare the parameters with the appropriate name and type annotation.
+Declare the parameters with the appropriate name and type annotation.
 </Warning>
 
 <Accordion title="Requesting Injectable Parameters">
@@ -818,8 +818,8 @@ const slowComputation = task("slowComputation", async (inputValue: any) => {
 :::
 
 <Warning>
-  **Serialization**
-  The **outputs** of tasks must be JSON-serializable to support checkpointing.
+**Serialization**
+The **outputs** of tasks must be JSON-serializable to support checkpointing.
 </Warning>
 
 ### Execution

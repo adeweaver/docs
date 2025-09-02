@@ -5,7 +5,7 @@ sidebarTitle: Streaming API
 [LangGraph SDK](/langgraph-platform/python-sdk) allows you to [stream outputs](/oss/langgraph/streaming/) from the LangGraph API server.
 
 <Note>
-  LangGraph SDK and LangGraph Server are a part of [LangGraph Platform](/langgraph-platform/index).
+LangGraph SDK and LangGraph Server are a part of [LangGraph Platform](/langgraph-platform/index).
 </Note>
 
 ## Basic usage
@@ -303,45 +303,45 @@ Use the stream modes `updates` and `values` to stream the state of the graph as 
 </Accordion>
 
 <Note>
-  **Stateful runs**
-  Examples below assume that you want to **persist the outputs** of a streaming run in the [checkpointer](/oss/langgraph/persistence) DB and have created a thread. To create a thread:
+**Stateful runs**
+Examples below assume that you want to **persist the outputs** of a streaming run in the [checkpointer](/oss/langgraph/persistence) DB and have created a thread. To create a thread:
 
-    <Tabs>
-        <Tab title="Python">
-      ```python
-      from langgraph_sdk import get_client
-      client = get_client(url=<DEPLOYMENT_URL>)
+<Tabs>
+<Tab title="Python">
+```python
+from langgraph_sdk import get_client
+client = get_client(url=<DEPLOYMENT_URL>)
 
-      # Using the graph deployed with the name "agent"
-      assistant_id = "agent"
-      # create a thread
-      thread = await client.threads.create()
-      thread_id = thread["thread_id"]
-      ```
-        </Tab>
-        <Tab title="JavaScript">
-      ```js
-      import { Client } from "@langchain/langgraph-sdk";
-      const client = new Client({ apiUrl: <DEPLOYMENT_URL> });
+# Using the graph deployed with the name "agent"
+assistant_id = "agent"
+# create a thread
+thread = await client.threads.create()
+thread_id = thread["thread_id"]
+```
+</Tab>
+<Tab title="JavaScript">
+```js
+import { Client } from "@langchain/langgraph-sdk";
+const client = new Client({ apiUrl: <DEPLOYMENT_URL> });
 
-      // Using the graph deployed with the name "agent"
-      const assistantID = "agent";
-      // create a thread
-      const thread = await client.threads.create();
-      const threadID = thread["thread_id"]
-      ```
-        </Tab>
-        <Tab title="cURL">
-      ```bash
-      curl --request POST \
-      --url <DEPLOYMENT_URL>/threads \
-      --header 'Content-Type: application/json' \
-      --data '{}'
-      ```
-        </Tab>
-    </Tabs>
+// Using the graph deployed with the name "agent"
+const assistantID = "agent";
+// create a thread
+const thread = await client.threads.create();
+const threadID = thread["thread_id"]
+```
+</Tab>
+<Tab title="cURL">
+```bash
+curl --request POST \
+--url <DEPLOYMENT_URL>/threads \
+--header 'Content-Type: application/json' \
+--data '{}'
+```
+</Tab>
+</Tabs>
 
-  If you don't need to persist the outputs of a run, you can pass `None` instead of `thread_id` when streaming.
+If you don't need to persist the outputs of a run, you can pass `None` instead of `thread_id` when streaming.
 </Note>
 
 ### Stream Mode: `updates`
@@ -922,8 +922,8 @@ LangGraph Platform allows you to join an active [background run](/langgraph-plat
 </Tabs>
 
 <Warning>
-  **Outputs not buffered**
-  When you use `.join_stream`, output is not buffered, so any output produced before joining will not be received.
+**Outputs not buffered**
+When you use `.join_stream`, output is not buffered, so any output produced before joining will not be received.
 </Warning>
 
 ## API Reference

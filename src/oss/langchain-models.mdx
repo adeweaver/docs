@@ -132,9 +132,9 @@ See @[`initChatModel`][initChatModel] for more detail.
 </Card>
 
 <Info>
-    In addition to chat models, LangChain provides support for other adjacent
-    technologies, such as embedding models and vector stores. See the
-    [integrations page](/oss/integrations/providers) for details.
+In addition to chat models, LangChain provides support for other adjacent
+technologies, such as embedding models and vector stores. See the
+[integrations page](/oss/integrations/providers) for details.
 </Info>
 
 ## Parameters
@@ -220,8 +220,8 @@ include:
 :::
 
 <Info>
-    To find all the parameters supported by a given chat model, head to the
-    @[reference docs][Reference].
+To find all the parameters supported by a given chat model, head to the
+@[reference docs][Reference].
 </Info>
 
 ## Invocation
@@ -231,13 +231,13 @@ invocation methods, each suited to different use cases.
 
 :::python
 <Tip>
-    Each invocation method has an
-    <Tooltip tip="Asynchronous methods are useful for non-blocking operations, especially in web servers or applications that handle multiple tasks concurrently.">asynchronous</Tooltip>
-    equivalent, typically prefixed with the letter `'a'`
+Each invocation method has an
+<Tooltip tip="Asynchronous methods are useful for non-blocking operations, especially in web servers or applications that handle multiple tasks concurrently.">asynchronous</Tooltip>
+equivalent, typically prefixed with the letter `'a'`
 
-    For example: `ainvoke()`, `astream()`, `abatch()`
+For example: `ainvoke()`, `astream()`, `abatch()`
 
-    A full list of async methods can be found in the @[reference docs][Reference].
+A full list of async methods can be found in the @[reference docs][Reference].
 </Tip>
 :::
 
@@ -394,10 +394,10 @@ generated with [`invoke()`](#invoke) - for example, it can be aggregated into a
 message history and passed back to the model as conversational context.
 
 <Warning>
-    Streaming only works if all steps in the program know how to process an
-    stream of chunks. For instance, an application that isn't streaming-capable
-    would be one that needs to store the entire output in memory before it can
-    be processed.
+Streaming only works if all steps in the program know how to process an
+stream of chunks. For instance, an application that isn't streaming-capable
+would be one that needs to store the entire output in memory before it can
+be processed.
 </Warning>
 <Accordion title="Advanced streaming topics">
     <Accordion title='"Auto-Streaming" Chat Models'>
@@ -432,8 +432,8 @@ message history and passed back to the model as conversational context.
 
 <Accordion title='"Auto-Streaming" Chat Models'>
     <Note>
-        This section requires some baseline knowledge of [callbacks]() and
-        [events]().
+    This section requires some baseline knowledge of [callbacks]() and
+    [events]().
     </Note>
 
     LangChain simplifies streaming from chat models by automatically enabling
@@ -539,9 +539,9 @@ message history and passed back to the model as conversational context.
 ### Batch
 
 <Note>
-    This section describes a chat model method `batch()`, which parallelizes model
-    calls client-side. It is distinct from batch APIs supported by inference
-    providers.
+This section describes a chat model method `batch()`, which parallelizes model
+calls client-side. It is distinct from batch APIs supported by inference
+providers.
 </Note>
 
 Batching a collection of independent requests to a model can significantly
@@ -570,27 +570,27 @@ for response in model.batch_as_completed([
     print(response)
 ```
 <Note>
-    When using `batch_as_completed()`, results may arrive out of order. Each
-    includes the input index for matching to reconstruct the original order if
-    needed.
+When using `batch_as_completed()`, results may arrive out of order. Each
+includes the input index for matching to reconstruct the original order if
+needed.
 </Note>
 
 <Tip>
-    When processing a large number of inputs using `batch()` or
-    `batch_as_completed()`, you may want to control the maximum number of
-    parallel calls. This can be done by setting the `max_concurrency` attribute
-    in the `RunnableConfig` dictionary.
+When processing a large number of inputs using `batch()` or
+`batch_as_completed()`, you may want to control the maximum number of
+parallel calls. This can be done by setting the `max_concurrency` attribute
+in the `RunnableConfig` dictionary.
 
-    ```python Batch with max concurrency
-    model.batch(
-        list_of_inputs,
-                config={
-            'max_concurrency': 5,  # Limit to 5 parallel calls
-        }
-    )
-    ```
+```python Batch with max concurrency
+model.batch(
+list_of_inputs,
+config={
+'max_concurrency': 5,  # Limit to 5 parallel calls
+}
+)
+```
 
-    See the @[`RunnableConfig`][RunnableConfig] reference for a full list of supported attributes.
+See the @[`RunnableConfig`][RunnableConfig] reference for a full list of supported attributes.
 </Tip>
 
 For more details on batching, see the [reference](https://python.langchain.com/api_reference/core/language_models/langchain_core.language_models.chat_models.BaseChatModel.html#langchain_core.language_models.chat_models.BaseChatModel.batch).
@@ -609,19 +609,19 @@ for (const response of responses) {
 ```
 
 <Tip>
-    When processing a large number of inputs using `batch()`, you may want to control the maximum number of
-    parallel calls. This can be done by setting the `maxConcurrency` attribute in the `RunnableConfig` dictionary.
+When processing a large number of inputs using `batch()`, you may want to control the maximum number of
+parallel calls. This can be done by setting the `maxConcurrency` attribute in the `RunnableConfig` dictionary.
 
-    ```typescript Batch with max concurrency
-    model.batch(
-        listOfInputs,
-        {
-            maxConcurrency: 5,  // Limit to 5 parallel calls
-        }
-    )
-    ```
+```typescript Batch with max concurrency
+model.batch(
+listOfInputs,
+{
+maxConcurrency: 5,  // Limit to 5 parallel calls
+}
+)
+```
 
-    See the @[`RunnableConfig`][RunnableConfig] reference for a full list of supported attributes.
+See the @[`RunnableConfig`][RunnableConfig] reference for a full list of supported attributes.
 </Tip>
 
 For more details on batching, see the [reference](https://js.langchain.com/api_reference/core/language_models/langchain_core.language_models.chat_models.BaseChatModel.html#langchain_core.language_models.chat_models.BaseChatModel.batch).
@@ -639,8 +639,8 @@ definitions (often a JSON schema)
 to execute.
 
 <Note>
-    You may hear the term `function calling`. We use this
-    interchangeably with `tool calling`.
+You may hear the term `function calling`. We use this
+interchangeably with `tool calling`.
 </Note>
 
 :::python
@@ -1130,27 +1130,27 @@ for enforcing structured outputs.
 
 :::python
 <Note>
-    **Key considerations for structured outputs:**
+**Key considerations for structured outputs:**
 
-    - **Method parameter**: Some providers support different methods
-    (`'json_schema'`, `'function_calling'`, `'json_mode'`)
-    - **Include raw**: Use `include_raw=True` to get both the parsed output and
-    the raw AI message
-    - **Validation**: Pydantic models provide automatic validation, while
-    `TypedDict` and JSON Schema require manual validation
+- **Method parameter**: Some providers support different methods
+(`'json_schema'`, `'function_calling'`, `'json_mode'`)
+- **Include raw**: Use `include_raw=True` to get both the parsed output and
+the raw AI message
+- **Validation**: Pydantic models provide automatic validation, while
+`TypedDict` and JSON Schema require manual validation
 </Note>
 :::
 
 :::js
 <Note>
-    **Key considerations for structured outputs:**
+**Key considerations for structured outputs:**
 
-    - **Method parameter**: Some providers support different methods
-    (`'jsonSchema'`, `'functionCalling'`, `'jsonMode'`)
-    - **Include raw**: Use `includeRaw=true` to get both the parsed output and
-    the raw AI message
-    - **Validation**: Zod models provide automatic validation, while
-    JSON Schema requires manual validation
+- **Method parameter**: Some providers support different methods
+(`'jsonSchema'`, `'functionCalling'`, `'jsonMode'`)
+- **Include raw**: Use `includeRaw=true` to get both the parsed output and
+the raw AI message
+- **Validation**: Zod models provide automatic validation, while
+JSON Schema requires manual validation
 </Note>
 :::
 
@@ -1665,9 +1665,9 @@ which requests are made.
     ```
 
     <Warning>
-        The provided rate limiter can only limit the number of requests per unit
-        time. It will not help if you need to also limit based on the size of
-        the requests.
+    The provided rate limiter can only limit the number of requests per unit
+    time. It will not help if you need to also limit based on the size of
+    the requests.
     </Warning>
 </Accordion>
 :::
@@ -1715,8 +1715,8 @@ model = initChatModel(
 :::
 
 <Note>
-    When using direct chat model class instantiation, the parameter name may
-    vary by provider. Check the respective [reference](/oss/integrations/providers) for details.
+When using direct chat model class instantiation, the parameter name may
+vary by provider. Check the respective [reference](/oss/integrations/providers) for details.
 </Note>
 </Accordion>
 
@@ -1736,8 +1736,8 @@ model = ChatOpenAI(
 ```
 
 <Note>
-    Proxy support varies by integration. Check the specific model provider's
-    [reference](/oss/integrations/providers) for proxy configuration options.
+Proxy support varies by integration. Check the specific model provider's
+[reference](/oss/integrations/providers) for proxy configuration options.
 </Note>
 
 </Accordion>

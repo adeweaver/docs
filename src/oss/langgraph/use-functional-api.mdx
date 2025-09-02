@@ -9,7 +9,7 @@ import AlphaCallout from '/snippets/alpha-lg-callout.mdx';
 The [**Functional API**](/oss/langgraph/functional-api) allows you to add LangGraph's key features — [persistence](/oss/langgraph/persistence), [memory](/oss/langgraph/add-memory), [human-in-the-loop](/oss/langgraph/human-in-the-loop), and [streaming](/oss/langgraph/streaming) — to your applications with minimal changes to your existing code.
 
 <Tip>
-  For conceptual information on the functional API, see [Functional API](/oss/langgraph/functional-api).
+For conceptual information on the functional API, see [Functional API](/oss/langgraph/functional-api).
 </Tip>
 
 ## Creating a simple workflow
@@ -570,16 +570,16 @@ for mode, chunk in main.stream( # (5)!
 ```
 
 <Warning>
-  **Async with Python < 3.11**
-  If using Python < 3.11 and writing async code, using `get_stream_writer()` will not work. Instead please
-  use the `StreamWriter` class directly. See [Async with Python < 3.11](/oss/langgraph/streaming#async) for more details.
+**Async with Python < 3.11**
+If using Python < 3.11 and writing async code, using `get_stream_writer()` will not work. Instead please
+use the `StreamWriter` class directly. See [Async with Python < 3.11](/oss/langgraph/streaming#async) for more details.
 
-  ```python {highlight={4}}
-  from langgraph.types import StreamWriter
+```python {highlight={4}}
+from langgraph.types import StreamWriter
 
-  @entrypoint(checkpointer=checkpointer)
-  async def main(inputs: dict, writer: StreamWriter) -> int:
-      ...
+@entrypoint(checkpointer=checkpointer)
+async def main(inputs: dict, writer: StreamWriter) -> int:
+...
 ```
 </Warning>
 :::

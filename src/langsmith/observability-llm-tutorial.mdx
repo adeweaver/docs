@@ -95,9 +95,9 @@ export LANGSMITH_PROJECT=default
 ```
 
 <Note>
-  You may see these variables referenced as `LANGCHAIN_*` in other places. These are all equivalent, however the best practice is to use `LANGSMITH_TRACING`, `LANGSMITH_API_KEY`, `LANGSMITH_PROJECT`.
+You may see these variables referenced as `LANGCHAIN_*` in other places. These are all equivalent, however the best practice is to use `LANGSMITH_TRACING`, `LANGSMITH_API_KEY`, `LANGSMITH_PROJECT`.
 
-    The `LANGSMITH_PROJECT` flag is only supported in JS SDK versions >= 0.2.16, use `LANGCHAIN_PROJECT` instead if you are using an older version.
+The `LANGSMITH_PROJECT` flag is only supported in JS SDK versions >= 0.2.16, use `LANGCHAIN_PROJECT` instead if you are using an older version.
 </Note>
 
 ### Trace your LLM calls
@@ -354,7 +354,7 @@ If you click on the `Monitor` tab in a project, you will see a series of monitor
 ### A/B Testing
 
 <Note>
-  Group-by functionality for A/B testing requires at least 2 different values to exist for a given metadata key.
+Group-by functionality for A/B testing requires at least 2 different values to exist for a given metadata key.
 </Note>
 
 You can also use this tab to perform a version of A/B Testing. In the previous tutorial we starting tracking a few different metadata attributes - one of which was `llm`. We can group the monitoring charts by ANY metadata attribute, and instantly get grouped charts over time. This allows us to experiment with different LLMs (or prompts, or other) and track their performance over time.

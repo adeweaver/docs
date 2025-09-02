@@ -127,7 +127,7 @@ def my_node(state, config):
 ```
 
 <Note>
-  Fetch user credentials from a secure secret store. Storing secrets in graph state is not recommended.
+Fetch user credentials from a secure secret store. Storing secrets in graph state is not recommended.
 </Note>
 
 ### Authorizing a Studio user
@@ -135,7 +135,7 @@ def my_node(state, config):
 By default, if you add custom authorization on your resources, this will also apply to interactions made from the Studio. If you want, you can handle logged-in Studio users differently by checking [is_studio_user()](https://langchain-ai.github.io/langgraph/cloud/reference/sdk/python_sdk_ref/#langgraph_sdk.auth.types.StudioUser).
 
 <Note>
-  `is_studio_user` was added in version 0.1.73 of the langgraph-sdk. If you're on an older version, you can still check whether `isinstance(ctx.user, StudioUser)`.
+`is_studio_user` was added in version 0.1.73 of the langgraph-sdk. If you're on an older version, you can still check whether `isinstance(ctx.user, StudioUser)`.
 </Note>
 
 ```python

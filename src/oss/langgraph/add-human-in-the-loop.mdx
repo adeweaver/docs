@@ -9,7 +9,7 @@ import AlphaCallout from '/snippets/alpha-lg-callout.mdx';
 To review, edit, and approve tool calls in an agent or workflow, use interrupts to pause a graph and wait for human input. Interrupts use LangGraph's [persistence](/oss/langgraph/persistence) layer, which saves the graph state, to indefinitely pause graph execution until you resume.
 
 <Info>
-  For more information about human-in-the-loop workflows, see the [Human-in-the-Loop](/oss/langgraph/human-in-the-loop) conceptual guide.
+For more information about human-in-the-loop workflows, see the [Human-in-the-Loop](/oss/langgraph/human-in-the-loop) conceptual guide.
 </Info>
 
 ## Pause using `interrupt`
@@ -18,7 +18,7 @@ To review, edit, and approve tool calls in an agent or workflow, use interrupts 
 [Dynamic interrupts](/oss/langgraph/human-in-the-loop#key-capabilities) (also known as dynamic breakpoints) are triggered based on the current state of the graph. You can set dynamic interrupts by calling @[`interrupt` function][interrupt] in the appropriate place. The graph will pause, which allows for human intervention, and then resumes the graph with their input. It's useful for tasks like approvals, edits, or gathering additional context.
 
 <Note>
-  As of v1.0, `interrupt` is the recommended way to pause a graph. `NodeInterrupt` is deprecated and will be removed in v2.0.
+As of v1.0, `interrupt` is the recommended way to pause a graph. `NodeInterrupt` is deprecated and will be removed in v2.0.
 </Note>
 :::
 
@@ -241,31 +241,31 @@ console.log(await graph.invoke(new Command({ resume: "Edited text" }), config));
 </Accordion>
 
 <Tip>
-  **New in 0.4.0**
-  :::python
-  `__interrupt__` is a special key that will be returned when running the graph if the graph is interrupted. Support for `__interrupt__` in `invoke` and `ainvoke` has been added in version 0.4.0. If you're on an older version, you will only see `__interrupt__` in the result if you use `stream` or `astream`. You can also use `graph.get_state(thread_id)` to get the interrupt value(s).
-  :::
+**New in 0.4.0**
+:::python
+`__interrupt__` is a special key that will be returned when running the graph if the graph is interrupted. Support for `__interrupt__` in `invoke` and `ainvoke` has been added in version 0.4.0. If you're on an older version, you will only see `__interrupt__` in the result if you use `stream` or `astream`. You can also use `graph.get_state(thread_id)` to get the interrupt value(s).
+:::
 
-  :::js
-  `__interrupt__` is a special key that will be returned when running the graph if the graph is interrupted. Support for `__interrupt__` in `invoke` has been added in version 0.4.0. If you're on an older version, you will only see `__interrupt__` in the result if you use `stream`. You can also use `graph.getState(config)` to get the interrupt value(s).
-  :::
+:::js
+`__interrupt__` is a special key that will be returned when running the graph if the graph is interrupted. Support for `__interrupt__` in `invoke` has been added in version 0.4.0. If you're on an older version, you will only see `__interrupt__` in the result if you use `stream`. You can also use `graph.getState(config)` to get the interrupt value(s).
+:::
 </Tip>
 
 <Warning>
-  :::python
-  Interrupts resemble Python's input() function in terms of developer experience, but they do not automatically resume execution from the interruption point. Instead, they rerun the entire node where the interrupt was used. For this reason, interrupts are typically best placed at the start of a node or in a dedicated node.
-  :::
+:::python
+Interrupts resemble Python's input() function in terms of developer experience, but they do not automatically resume execution from the interruption point. Instead, they rerun the entire node where the interrupt was used. For this reason, interrupts are typically best placed at the start of a node or in a dedicated node.
+:::
 
-  :::js
-  Interrupts are both powerful and ergonomic, but it's important to note that they do not automatically resume execution from the interrupt point. Instead, they rerun the entire where the interrupt was used. For this reason, interrupts are typically best placed at the state of a node or in a dedicated node.
-  :::
+:::js
+Interrupts are both powerful and ergonomic, but it's important to note that they do not automatically resume execution from the interrupt point. Instead, they rerun the entire where the interrupt was used. For this reason, interrupts are typically best placed at the state of a node or in a dedicated node.
+:::
 </Warning>
 
 ## Resume using the `Command` primitive
 
 :::python
 <Warning>
-  Resuming from an `interrupt` is different from Python's `input()` function, where execution resumes from the exact point where the `input()` function was called.
+Resuming from an `interrupt` is different from Python's `input()` function, where execution resumes from the exact point where the `input()` function was called.
 </Warning>
 :::
 
@@ -1480,7 +1480,7 @@ graphBuilder.addNode("humanNode", (state) => {
 To debug and test a graph, use [static interrupts](/oss/langgraph/human-in-the-loop#key-capabilities) (also known as static breakpoints) to step through the graph execution one node at a time or to pause the graph execution at specific nodes. Static interrupts are triggered at defined points either before or after a node executes. You can set static interrupts by specifying `interrupt_before` and `interrupt_after` at compile time or run time.
 
 <Warning>
-  Static interrupts are **not** recommended for human-in-the-loop workflows. Use [dynamic interrupts](#pause-using-interrupt) instead.
+Static interrupts are **not** recommended for human-in-the-loop workflows. Use [dynamic interrupts](#pause-using-interrupt) instead.
 </Warning>
 
 <Tabs>
@@ -1543,8 +1543,8 @@ To debug and test a graph, use [static interrupts](/oss/langgraph/human-in-the-l
     5. The graph is resumed by passing in `None` for the input. This will run the graph until the next breakpoint is hit.
 
         <Note>
-      You cannot set static breakpoints at runtime for **sub-graphs**.
-      If you have a sub-graph, you must set the breakpoints at compilation time.
+        You cannot set static breakpoints at runtime for **sub-graphs**.
+        If you have a sub-graph, you must set the breakpoints at compilation time.
         </Note>
     </Tab>
 </Tabs>

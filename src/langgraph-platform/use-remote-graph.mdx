@@ -3,9 +3,9 @@ title: How to interact with the deployment using RemoteGraph
 sidebarTitle: Interact with the deployment using RemoteGraph
 ---
 <Info>
-  **Prerequisites**
-  * [LangGraph Platform](/langgraph-platform/index)
-  * [LangGraph Server](/langgraph-platform/langgraph-server)
+**Prerequisites**
+* [LangGraph Platform](/langgraph-platform/index)
+* [LangGraph Server](/langgraph-platform/langgraph-server)
 </Info>
 
 `RemoteGraph` is an interface that allows you to interact with your LangGraph Platform deployment as if it were a regular, locally-defined LangGraph graph (e.g. a `CompiledGraph`). This guide shows you how you can initialize a `RemoteGraph` and interact with it.
@@ -24,7 +24,7 @@ Additionally, you have to provide one of the following:
 * `sync_client`: a `SyncLangGraphClient` instance for interacting with the deployment synchronously (e.g. using `.stream()`, `.invoke()`, `.get_state()`, `.update_state()`, etc.)
 
 <Note>
-  If you pass both `client` or `sync_client` as well as `url` argument, they will take precedence over the `url` argument. If none of the `client` / `sync_client` / `url` arguments are provided, `RemoteGraph` will raise a `ValueError` at runtime.
+If you pass both `client` or `sync_client` as well as `url` argument, they will take precedence over the `url` argument. If none of the `client` / `sync_client` / `url` arguments are provided, `RemoteGraph` will raise a `ValueError` at runtime.
 </Note>
 
 ### Using URL
@@ -108,7 +108,7 @@ Since `RemoteGraph` is a `Runnable` that implements the same methods as `Compile
 ### Asynchronously
 
 <Note>
-  To use the graph asynchronously, you must provide either the `url` or `client` when initializing the `RemoteGraph`.
+To use the graph asynchronously, you must provide either the `url` or `client` when initializing the `RemoteGraph`.
 </Note>
 
 <Tabs>
@@ -145,7 +145,7 @@ Since `RemoteGraph` is a `Runnable` that implements the same methods as `Compile
 ### Synchronously
 
 <Note>
-  To use the graph synchronously, you must provide either the `url` or `sync_client` when initializing the `RemoteGraph`.
+To use the graph synchronously, you must provide either the `url` or `sync_client` when initializing the `RemoteGraph`.
 </Note>
 
 <Tabs>
@@ -221,7 +221,7 @@ By default, the graph runs (i.e. `.invoke()` or `.stream()` invocations) are sta
 ## Using as a subgraph
 
 <Note>
-  If you need to use a `checkpointer` with a graph that has a `RemoteGraph` subgraph node, make sure to use UUIDs as thread IDs.
+If you need to use a `checkpointer` with a graph that has a `RemoteGraph` subgraph node, make sure to use UUIDs as thread IDs.
 </Note>
 
 Since the `RemoteGraph` behaves the same way as a regular `CompiledGraph`, it can be also used as a subgraph in another graph. For example:
