@@ -50,13 +50,13 @@ bun add langchain@next
 ```python
 # pip install -qU "langchain[anthropic]" to call the model
 
-from langchain.agents import create_react_agent
+from langchain.agents import create_agent
 
 def get_weather(city: str) -> str:
     """Get weather for a given city."""
     return f"It's always sunny in {city}!"
 
-agent = create_react_agent(
+agent = create_agent(
     model="anthropic:claude-3-7-sonnet-latest",
     tools=[get_weather],
     prompt="You are a helpful assistant",
@@ -73,7 +73,7 @@ agent.invoke(
 ```ts
 import { z } from "zod";
 // npm install @langchain/anthropic to call the model
-import { createReactAgent, tool } from "langchain";
+import { createAgent, tool } from "langchain";
 
 const getWeather = tool(({ city }) => `It's always sunny in ${city}!`, {
   name: "get_weather",
@@ -83,7 +83,7 @@ const getWeather = tool(({ city }) => `It's always sunny in ${city}!`, {
   }),
 });
 
-const agent = createReactAgent({
+const agent = createAgent({
   model: "anthropic:claude-3-7-sonnet-latest",
   tools: [getWeather],
 });
