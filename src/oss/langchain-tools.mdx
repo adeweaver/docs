@@ -643,8 +643,7 @@ You can initialize an `InMemoryStore` to store long-term memory:
 
 ```ts wrap
 import { z } from "zod";
-import { InMemoryStore } from "@langchain/langgraph-checkpoint";
-import { createReactAgent } from "langchain";
+import { createReactAgent, InMemoryStore } from "langchain";
 import { ChatOpenAI } from "@langchain/openai";
 
 const store = new InMemoryStore();
@@ -722,16 +721,16 @@ agent.invoke({
 :::js
 ```ts wrap expandable
 import { z } from "zod";
-import { InMemoryStore } from "@langchain/langgraph-checkpoint";
-import { createReactAgent, tool } from "langchain";
+import { createReactAgent, tool, InMemoryStore } from "langchain";
 import { ChatOpenAI } from "@langchain/openai";
 
 const store = new InMemoryStore();
 
 const getUserInfo = tool(
   async ({ user_id }) => {
-    console.log("get_user_info", user_id, await store.get(["users"], user_id));
-    return store.get(["users"], user_id);
+    const value = await store.get(["users"], user_id);
+    console.log("get_user_info", user_id, value);
+    return value;
   },
   {
     name: "get_user_info",

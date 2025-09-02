@@ -61,8 +61,7 @@ agent.invoke(
 :::
 :::js
 ```ts {highlight={2,4, 9,14}}
-import { createReactAgent } from "langchain";
-import { MemorySaver } from "@langchain/langgraph";
+import { createReactAgent, MemorySaver } from "langchain";
 
 const checkpointer = new MemorySaver();
 
@@ -133,8 +132,7 @@ agent = create_react_agent(
 :::js
 ```typescript highlight={4-7,13}
 import { z } from "zod";
-import { createReactAgent } from "langchain";
-import { MemorySaver } from "@langchain/langgraph";
+import { createReactAgent, MemorySaver } from "langchain";
 
 const stateSchema = z.object({
   messages: z.array(z.any()),
@@ -367,8 +365,7 @@ for event in agent.stream(
 :::js
 ```typescript
 import { RemoveMessage } from "@langchain/core/messages";
-import { MemorySaver } from "@langchain/langgraph";
-import { AgentState, createReactAgent } from "langchain";
+import { AgentState, createReactAgent, MemorySaver } from "langchain";
 
 const deleteMessages = (state: AgentState) => {
   const messages = state.messages;

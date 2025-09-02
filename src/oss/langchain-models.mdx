@@ -270,10 +270,10 @@ A list of messages can be provided to a model to represent conversation history.
 import { HumanMessage, AIMessage, SystemMessage } from "langchain";
 
 const conversation = [
-    new SystemMessage("You are a helpful assistant that translates English to French."),
-    new HumanMessage("Translate: I love programming."),
-    new AIMessage("J'adore la programmation."),
-    new HumanMessage("Translate: I love building applications.")
+  new SystemMessage("You are a helpful assistant that translates English to French."),
+  new HumanMessage("Translate: I love programming."),
+  new AIMessage("J'adore la programmation."),
+  new HumanMessage("Translate: I love building applications.")
 ];
 
 const response = await model.invoke(conversation);
@@ -316,7 +316,7 @@ Calling @[`stream()`][BaseChatModel.stream] returns an <Tooltip tip="An object t
     ```typescript Basic text streaming
         const stream = await model.stream("Why do parrots have colorful feathers?");
     for await (const chunk of stream) {
-        console.log(chunk.text)
+      console.log(chunk.text)
     }
     ```
 
@@ -334,6 +334,7 @@ Calling @[`stream()`][BaseChatModel.stream] returns an <Tooltip tip="An object t
                 ...
             }
         }
+      }
     }
     ```
 </CodeGroup>
@@ -424,7 +425,7 @@ message history and passed back to the model as conversational context.
         to surface the chat model's output in real-time.
         :::
         :::js
-        Callback events allow LangGraph `stream()` and @[streamEvents][`streamEvents()`]
+        Callback events allow LangGraph `stream()` and @[BaseChatModel.streamEvents][`streamEvents()`]
         to surface the chat model's output in real-time.
         :::
     </Accordion>
@@ -464,50 +465,44 @@ message history and passed back to the model as conversational context.
     :::
 </Accordion>
 
-        :::python
-        LangChain chat models can also stream semantic events using `astream_events()`.
+    :::python
+    LangChain chat models can also stream semantic events using `astream_events()`.
 
-        This simplifies filtering based on event types and other metadata, and will
-        aggregate the full message in the background. See below for an example.
+    This simplifies filtering based on event types and other metadata, and will
+    aggregate the full message in the background. See below for an example.
 
-        ```python
-        async for event in model.astream_events("Hello"):
+    ```python
+    async for event in model.astream_events("Hello"):
 
-                        if event["event"] == "on_chat_model_start":
-                print(f"Input: {event['data']['input']}")
+        if event["event"] == "on_chat_model_start":
+            print(f"Input: {event['data']['input']}")
 
-                        elif event["event"] == "on_chat_model_stream":
-                print(f"Token: {event['data']['chunk'].text}")
+        elif event["event"] == "on_chat_model_stream":
+            print(f"Token: {event['data']['chunk'].text}")
 
-                        elif event["event"] == "on_chat_model_end":
-                print(f"Full message: {event['data']['output'].text}")
+        elif event["event"] == "on_chat_model_end":
+            print(f"Full message: {event['data']['output'].text}")
 
-            else:
-                pass
-        ```
-        ```txt
-        Input: Hello
-        Token: Hi
-        Token:  there
-        Token: !
-        Token:  How
-        Token:  can
-        Token:  I
-        ...
-        Full message: Hi there! How can I help today?
-        ```
+        else:
+            pass
+    ```
+    ```txt
+    Input: Hello
+    Token: Hi
+    Token:  there
+    Token: !
+    Token:  How
+    Token:  can
+    Token:  I
+    ...
+    Full message: Hi there! How can I help today?
+    ```
 
-        See the @[astream_events][`astream_events()`] reference for event types and other details.
-        :::
-
-        :::js
-        LangChain chat models can also stream semantic events using `streamEvents()`.
-
-    See the @[`astream_events()`][BaseChatModel.astream_events] reference for event types and other details.
+    See the @[astream_events][`astream_events()`] reference for event types and other details.
     :::
 
     :::js
-    LangChain chat models can also stream semantic events using `streamEvents()`.
+    LangChain chat models can also stream semantic events using [`streamEvents()`][BaseChatModel.streamEvents].
 
     This simplifies filtering based on event types and other metadata, and will
     aggregate the full message in the background. See below for an example.
@@ -604,12 +599,12 @@ For more details on batching, see the [reference](https://python.langchain.com/a
 :::js
 ```typescript Batch
 const responses = await model.batch([
-    "Why do parrots have colorful feathers?",
-    "How do airplanes fly?",
-    "What is quantum computing?"
+  "Why do parrots have colorful feathers?",
+  "How do airplanes fly?",
+  "What is quantum computing?"
 ]);
 for (const response of responses) {
-    console.log(response);
+  console.log(response);
 }
 ```
 
@@ -712,9 +707,9 @@ const modelWithTools = model.bindTools([getWeather])
 const response = await modelWithTools.invoke("What's the weather like in Boston?")
 const toolCalls = response.tool_calls || []
 for (const tool_call of toolCalls) {
-    // View tool calls made by the model
-    console.log(`Tool: ${tool_call.name}`);
-    console.log(`Args: ${tool_call.args}`);
+  // View tool calls made by the model
+  console.log(`Tool: ${tool_call.name}`);
+  console.log(`Args: ${tool_call.args}`);
 }
 ```
 :::
@@ -907,7 +902,6 @@ Below, we show some common ways you can get use tool calling.
 
         ```typescript Parallel tool calls
                 const modelWithTools = model.bind_tools([get_weather])
-
                 const response = await modelWithTools.invoke(
             "What's the weather in Boston and Tokyo?"
         )
@@ -943,13 +937,13 @@ Below, we show some common ways you can get use tool calling.
             "What's the weather in Boston and Tokyo?"
         )
         for await (const chunk of stream) {
-            // Tool call chunks arrive progressively
-            if (chunk.tool_call_chunks) {
-                for (const tool_chunk of chunk.tool_call_chunks) {
-                    console.log(`Tool: ${tool_chunk.get('name', '')}`)
-                    console.log(`Args: ${tool_chunk.get('args', '')}`)
-                }
+          // Tool call chunks arrive progressively
+          if (chunk.tool_call_chunks) {
+            for (const tool_chunk of chunk.tool_call_chunks) {
+              console.log(`Tool: ${tool_chunk.get('name', '')}`)
+              console.log(`Args: ${tool_chunk.get('args', '')}`)
             }
+          }
         }
 
         // Output:
@@ -1076,7 +1070,6 @@ for enforcing structured outputs.
 
         ```typescript
         import { z } from "zod";
-
                 const Movie = z.object({
             title: z.string().describe("The title of the movie"),
             year: z.number().describe("The year the movie was released"),
@@ -1121,10 +1114,8 @@ for enforcing structured outputs.
                     "type": "number",
                     "description": "The movie's rating out of 10"
                 }
-            },
-            "required": ["title", "year", "director", "rating"]
+          "required": ["title", "year", "director", "rating"]
         }
-
                 const modelWithStructure = model.withStructuredOutput(
             jsonSchema,
             { method: "jsonSchema" }
@@ -1195,10 +1186,10 @@ response
 import { z } from "zod";
 
 const Movie = z.object({
-    title: z.string().describe("The title of the movie"),
-    year: z.number().describe("The year the movie was released"),
-    director: z.string().describe("The director of the movie"),
-    rating: z.number().describe("The movie's rating out of 10"),
+  title: z.string().describe("The title of the movie"),
+  year: z.number().describe("The year the movie was released"),
+  director: z.string().describe("The director of the movie"),
+  rating: z.number().describe("The movie's rating out of 10"),
 });
 
 const modelWithStructure = model.withStructuredOutput(Movie, { includeRaw: true });
@@ -1259,16 +1250,16 @@ console.log(response);
 import { z } from "zod";
 
 const Actor = z.object({
-    name: str
-    role: z.string(),
+  name: str
+  role: z.string(),
 });
 
 const MovieDetails = z.object({
-    title: z.string(),
-    year: z.number(),
-    cast: z.array(Actor),
-    genres: z.array(z.string()),
-    budget: z.number().nullable().describe("Budget in millions USD"),
+  title: z.string(),
+  year: z.number(),
+  cast: z.array(Actor),
+  genres: z.array(z.string()),
+  budget: z.number().nullable().describe("Budget in millions USD"),
 });
 
 const modelWithStructure = model.withStructuredOutput(MovieDetails);
@@ -1493,8 +1484,8 @@ print(response.content_blocks)
 const response = await model.invoke("Create a picture of a cat");
 console.log(response.contentBlocks);
 // [
-//     { type: "text", text: "Here's a picture of a cat" },
-//     { type: "image", data: "...", mimeType: "image/jpeg" },
+//   { type: "text", text: "Here's a picture of a cat" },
+//   { type: "image", data: "...", mimeType: "image/jpeg" },
 // ]
 ```
 :::
@@ -1713,12 +1704,12 @@ with these providers by specifying the appropriate `base_url` parameter:
 
 ```python
 model = initChatModel(
-    "MODEL_NAME",
-    {
-      modelProvider: "openai",
-      baseUrl: "BASE_URL",
-      apiKey: "YOUR_API_KEY",
-    }
+  "MODEL_NAME",
+  {
+    modelProvider: "openai",
+    baseUrl: "BASE_URL",
+    apiKey: "YOUR_API_KEY",
+  }
 )
 ```
 :::
