@@ -1061,7 +1061,7 @@ console.log(JSON.stringify(resWithSplits.content, null, 2));
     "citations": [
       {
         "type": "content_block_location",
-        "cited_text": "[Tutorial](https://js.langchain.com/docs/tutorials/)walkthroughs",
+        "cited_text": "[Tutorial](https://js.langchain.com/docs/tutorials/) walkthroughs",
         "document_index": 0,
         "document_title": null,
         "start_block_index": 191,
