@@ -37,7 +37,6 @@ To access Contextual's reranker models you'll need to create a/an Contextual AI 
 
 Head to [app.contextual.ai](https://app.contextual.ai) to sign up to Contextual and generate an API key. Once you've done this set the CONTEXTUAL_AI_API_KEY environment variable:
 
-
 ```python
 import getpass
 import os
@@ -51,7 +50,6 @@ if not os.getenv("CONTEXTUAL_AI_API_KEY"):
 ## Installation
 
 The LangChain Contextual integration lives in the `langchain-contextual` package:
-
 
 ```python
 %pip install -qU langchain-contextual
@@ -70,7 +68,6 @@ The Contextual Reranker arguments are:
 | instruction | Optional[str] | The instruction to be used for the reranker. |
 | callbacks | Optional[Callbacks] | Callbacks to run during the compression process. |
 
-
 ```python
 from langchain_contextual import ContextualRerank
 
@@ -86,7 +83,6 @@ compressor = ContextualRerank(
 ## Usage
 
 First, we will set up the global variables and examples we'll use, and instantiate our reranker client.
-
 
 ```python
 from langchain_core.documents import Document
@@ -131,4 +127,4 @@ Examples coming soon.
 
 ## API reference
 
-For detailed documentation of all ChatContextual features and configurations head to the Github page: https://github.com/ContextualAI//langchain-contextual
+For detailed documentation of all ChatContextual features and configurations head to the Github page: <https://github.com/ContextualAI//langchain-contextual>

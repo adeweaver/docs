@@ -6,7 +6,6 @@ title: Figma
 
 This notebook covers how to load data from the `Figma` REST API into a format that can be ingested into LangChain, along with example usage for code generation.
 
-
 ```python
 import os
 
@@ -22,12 +21,11 @@ from langchain_openai import ChatOpenAI
 
 The Figma API Requires an access token, node_ids, and a file key.
 
-The file key can be pulled from the URL.  https://www.figma.com/file/\{filekey\}/sampleFilename
+The file key can be pulled from the URL.  <https://www.figma.com/file/\{filekey\}/sampleFilename>
 
 Node IDs are also available in the URL. Click on anything and look for the '?node-id=\{node_id\}' param.
 
-Access token instructions are in the Figma help center article: https://help.figma.com/hc/en-us/articles/8085703771159-Manage-personal-access-tokens
-
+Access token instructions are in the Figma help center article: <https://help.figma.com/hc/en-us/articles/8085703771159-Manage-personal-access-tokens>
 
 ```python
 figma_loader = FigmaFileLoader(
@@ -37,13 +35,11 @@ figma_loader = FigmaFileLoader(
 )
 ```
 
-
 ```python
 # see https://python.langchain.com/en/latest/modules/data_connection/getting_started.html for more details
 index = VectorstoreIndexCreator().from_loaders([figma_loader])
 figma_doc_retriever = index.vectorstore.as_retriever()
 ```
-
 
 ```python
 def generate_code(human_input):
@@ -74,12 +70,12 @@ def generate_code(human_input):
     return response
 ```
 
-
 ```python
 response = generate_code("page top header")
 ```
 
 Returns the following in `response.content`:
+
 ```
 <!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <style>\n        @import url(\'https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Inter:wght@600&display=swap\');\n\n        body {\n            margin: 0;\n            font-family: \'DM Sans\', sans-serif;\n        }\n\n        .header {\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n            padding: 20px;\n            background-color: #fff;\n            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n        }\n\n        .header h1 {\n            font-size: 16px;\n            font-weight: 700;\n            margin: 0;\n        }\n\n        .header nav {\n            display: flex;\n            align-items: center;\n        }\n\n        .header nav a {\n            font-size: 14px;\n            font-weight: 500;\n            text-decoration: none;\n            color: #000;\n            margin-left: 20px;\n        }\n\n        @media (max-width: 768px) {\n            .header nav {\n                display: none;\n            }\n        }\n    </style>\n</head>\n<body>\n    <header class="header">\n        <h1>Company Contact</h1>\n        <nav>\n            <a href="#">Lorem Ipsum</a>\n            <a href="#">Lorem Ipsum</a>\n            <a href="#">Lorem Ipsum</a>\n        </nav>\n    </header>\n</body>\n</html>
 ```

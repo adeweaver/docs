@@ -26,7 +26,6 @@ The Loader takes the following parameters:
 
 ## Load documents with the Document Loader
 
-
 ```python
 from langchain_community.document_loaders import CassandraLoader
 ```
@@ -34,7 +33,6 @@ from langchain_community.document_loaders import CassandraLoader
 ### Init from a cassandra driver Session
 
 You need to create a `cassandra.cluster.Session` object, as described in the [Cassandra driver documentation](https://docs.datastax.com/en/developer/python-driver/latest/api/cassandra/cluster/#module-cassandra.cluster). The details vary (e.g. with network settings and authentication), but this might be something like:
-
 
 ```python
 from cassandra.cluster import Cluster
@@ -45,13 +43,11 @@ session = cluster.connect()
 
 You need to provide the name of an existing keyspace of the Cassandra instance:
 
-
 ```python
 CASSANDRA_KEYSPACE = input("CASSANDRA_KEYSPACE = ")
 ```
 
 Creating the document loader:
-
 
 ```python
 loader = CassandraLoader(
@@ -61,27 +57,21 @@ loader = CassandraLoader(
 )
 ```
 
-
 ```python
 docs = loader.load()
 ```
-
 
 ```python
 docs[0]
 ```
 
-
-
 ```output
 Document(page_content='Row(_id=\'659bdffa16cbc4586b11a423\', title=\'Dangerous Men\', reviewtext=\'"Dangerous Men,"  the picture\\\'s production notes inform, took 26 years to reach the big screen. After having seen it, I wonder: What was the rush?\')', metadata={'table': 'movie_reviews', 'keyspace': 'default_keyspace'})
 ```
 
-
 ### Init from cassio
 
 It's also possible to use cassio to configure the session and keyspace.
-
 
 ```python
 import cassio

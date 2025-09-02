@@ -21,12 +21,12 @@ Azure OpenAI has several chat models. You can find information about their lates
 <Info>
 **Azure OpenAI vs OpenAI**
 
-
 Azure OpenAI refers to OpenAI models hosted on the [Microsoft Azure platform](https://azure.microsoft.com/en-us/products/ai-services/openai-service). OpenAI also provides its own model APIs. To access OpenAI services directly, use the [ChatOpenAI integration](/oss/integrations/chat/openai/).
 
 </Info>
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [JS support](https://js.langchain.com/docs/integrations/chat/azure) | Package downloads | Package latest |
@@ -34,6 +34,7 @@ Azure OpenAI refers to OpenAI models hosted on the [Microsoft Azure platform](ht
 | [AzureChatOpenAI](https://python.langchain.com/api_reference/openai/chat_models/langchain_openai.chat_models.azure.AzureChatOpenAI.html) | [langchain-openai](https://python.langchain.com/api_reference/openai/index.html) | ❌ | beta | ✅ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-openai?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-openai?style=flat-square&label=%20) |
 
 ### Model features
+
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | Native async | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
 | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
@@ -45,7 +46,6 @@ To access AzureOpenAI models you'll need to create an Azure account, create a de
 ### Credentials
 
 Head to the [Azure docs](https://learn.microsoft.com/en-us/azure/ai-services/openai/chatgpt-quickstart?tabs=command-line%2Cpython-new&pivots=programming-language-python) to create your deployment and generate an API key. Once you've done this set the AZURE_OPENAI_API_KEY and AZURE_OPENAI_ENDPOINT environment variables:
-
 
 ```python
 import getpass
@@ -60,7 +60,6 @@ os.environ["AZURE_OPENAI_ENDPOINT"] = "https://YOUR-ENDPOINT.openai.azure.com/"
 
 To enable automated tracing of your model calls, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
-
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
 # os.environ["LANGSMITH_TRACING"] = "true"
@@ -70,7 +69,6 @@ To enable automated tracing of your model calls, set your [LangSmith](https://do
 
 The LangChain AzureOpenAI integration lives in the `langchain-openai` package:
 
-
 ```python
 %pip install -qU langchain-openai
 ```
@@ -78,9 +76,9 @@ The LangChain AzureOpenAI integration lives in the `langchain-openai` package:
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions.
-- Replace `azure_deployment` with the name of your deployment,
-- You can find the latest supported `api_version` here: https://learn.microsoft.com/en-us/azure/ai-services/openai/reference.
 
+- Replace `azure_deployment` with the name of your deployment,
+- You can find the latest supported `api_version` here: <https://learn.microsoft.com/en-us/azure/ai-services/openai/reference>.
 
 ```python
 from langchain_openai import AzureChatOpenAI
@@ -98,7 +96,6 @@ llm = AzureChatOpenAI(
 
 ## Invocation
 
-
 ```python
 messages = [
     (
@@ -111,24 +108,21 @@ ai_msg = llm.invoke(messages)
 ai_msg
 ```
 
-
-
 ```output
 AIMessage(content="J'adore la programmation.", response_metadata={'token_usage': {'completion_tokens': 8, 'prompt_tokens': 31, 'total_tokens': 39}, 'model_name': 'gpt-35-turbo', 'system_fingerprint': None, 'prompt_filter_results': [{'prompt_index': 0, 'content_filter_results': {'hate': {'filtered': False, 'severity': 'safe'}, 'self_harm': {'filtered': False, 'severity': 'safe'}, 'sexual': {'filtered': False, 'severity': 'safe'}, 'violence': {'filtered': False, 'severity': 'safe'}}}], 'finish_reason': 'stop', 'logprobs': None, 'content_filter_results': {'hate': {'filtered': False, 'severity': 'safe'}, 'self_harm': {'filtered': False, 'severity': 'safe'}, 'sexual': {'filtered': False, 'severity': 'safe'}, 'violence': {'filtered': False, 'severity': 'safe'}}}, id='run-bea4b46c-e3e1-4495-9d3a-698370ad963d-0', usage_metadata={'input_tokens': 31, 'output_tokens': 8, 'total_tokens': 39})
 ```
 
-
-
 ```python
 print(ai_msg.content)
 ```
+
 ```output
 J'adore la programmation.
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate
@@ -153,12 +147,9 @@ chain.invoke(
 )
 ```
 
-
-
 ```output
 AIMessage(content='Ich liebe das Programmieren.', response_metadata={'token_usage': {'completion_tokens': 6, 'prompt_tokens': 26, 'total_tokens': 32}, 'model_name': 'gpt-35-turbo', 'system_fingerprint': None, 'prompt_filter_results': [{'prompt_index': 0, 'content_filter_results': {'hate': {'filtered': False, 'severity': 'safe'}, 'self_harm': {'filtered': False, 'severity': 'safe'}, 'sexual': {'filtered': False, 'severity': 'safe'}, 'violence': {'filtered': False, 'severity': 'safe'}}}], 'finish_reason': 'stop', 'logprobs': None, 'content_filter_results': {'hate': {'filtered': False, 'severity': 'safe'}, 'self_harm': {'filtered': False, 'severity': 'safe'}, 'sexual': {'filtered': False, 'severity': 'safe'}, 'violence': {'filtered': False, 'severity': 'safe'}}}, id='run-cbc44038-09d3-40d4-9da2-c5910ee636ca-0', usage_metadata={'input_tokens': 26, 'output_tokens': 6, 'total_tokens': 32})
 ```
-
 
 ## Specifying model version
 
@@ -166,11 +157,9 @@ Azure OpenAI responses contain `model_name` response metadata property, which is
 
 To solve this problem, you can pass `model_version` parameter to `AzureChatOpenAI` class, which will be added to the model name in the llm output. This way you can easily distinguish between different versions of the model.
 
-
 ```python
 %pip install -qU langchain-community
 ```
-
 
 ```python
 from langchain_community.callbacks import get_openai_callback
@@ -181,6 +170,7 @@ with get_openai_callback() as cb:
         f"Total Cost (USD): ${format(cb.total_cost, '.6f')}"
     )  # without specifying the model version, flat-rate 0.002 USD per 1k input and output tokens is used
 ```
+
 ```output
 Total Cost (USD): $0.000063
 ```
@@ -195,9 +185,11 @@ with get_openai_callback() as cb:
     llm_0301.invoke(messages)
     print(f"Total Cost (USD): ${format(cb.total_cost, '.6f')}")
 ```
+
 ```output
 Total Cost (USD): $0.000074
 ```
+
 ## API reference
 
-For detailed documentation of all AzureChatOpenAI features and configurations head to the API reference: https://python.langchain.com/api_reference/openai/chat_models/langchain_openai.chat_models.azure.AzureChatOpenAI.html
+For detailed documentation of all AzureChatOpenAI features and configurations head to the API reference: <https://python.langchain.com/api_reference/openai/chat_models/langchain_openai.chat_models.azure.AzureChatOpenAI.html>

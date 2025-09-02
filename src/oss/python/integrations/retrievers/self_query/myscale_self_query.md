@@ -8,23 +8,23 @@ title: MyScale
 In the notebook, we'll demo the `SelfQueryRetriever` wrapped around a `MyScale` vector store with some extra pieces we contributed to LangChain.
 
 In short, it can be condensed into 4 points:
+
 1. Add `contain` comparator to match the list of any if there is more than one element matched
 2. Add `timestamp` data type for datetime match (ISO-format, or YYYY-MM-DD)
 3. Add `like` comparator for string pattern search
 4. Add arbitrary function capability
 
 ## Creating a MyScale vector store
+
 MyScale has already been integrated to LangChain for a while. So you can follow [this notebook](/oss/integrations/vectorstores/myscale) to create your own vectorstore for a self-query retriever.
 
 **Note:** All self-query retrievers requires you to have `lark` installed (`pip install lark`). We use `lark` for grammar definition. Before you proceed to the next step, we also want to remind you that `clickhouse-connect` is also needed to interact with your MyScale backend.
-
 
 ```python
 %pip install --upgrade --quiet  lark clickhouse-connect
 ```
 
 In this tutorial we follow other example's setting and use `OpenAIEmbeddings`. Remember to get an OpenAI API Key for valid access to LLMs.
-
 
 ```python
 import getpass
@@ -42,7 +42,6 @@ if "MYSCALE_PASSWORD" not in os.environ:
     os.environ["MYSCALE_PASSWORD"] = getpass.getpass("MyScale Password:")
 ```
 
-
 ```python
 from langchain_community.vectorstores import MyScale
 from langchain_core.documents import Document
@@ -52,10 +51,10 @@ embeddings = OpenAIEmbeddings()
 ```
 
 ## Create some sample data
+
 As you can see, the data we created has some differences compared to other self-query retrievers. We replaced the keyword `year` with `date` which gives you finer control on timestamps. We also changed the type of the keyword `gerne` to a list of strings, where an LLM can use a new `contain` comparator to construct filters. We also provide the `like` comparator and arbitrary function support to filters, which will be introduced in next few cells.
 
 Now let's look at the data first.
-
 
 ```python
 docs = [
@@ -96,8 +95,8 @@ vectorstore = MyScale.from_documents(
 ```
 
 ## Creating our self-querying retriever
-Just like other retrievers... simple and nice.
 
+Just like other retrievers... simple and nice.
 
 ```python
 from langchain.chains.query_constructor.schema import AttributeInfo
@@ -142,32 +141,28 @@ retriever = SelfQueryRetriever.from_llm(
 ```
 
 ## Testing it out with self-query retriever's existing functionalities
-And now we can try actually using our retriever!
 
+And now we can try actually using our retriever!
 
 ```python
 # This example only specifies a relevant query
 retriever.invoke("What are some movies about dinosaurs")
 ```
 
-
 ```python
 # This example only specifies a filter
 retriever.invoke("I want to watch a movie rated higher than 8.5")
 ```
-
 
 ```python
 # This example specifies a query and a filter
 retriever.invoke("Has Greta Gerwig directed any movies about women")
 ```
 
-
 ```python
 # This example specifies a composite filter
 retriever.invoke("What's a highly rated (above 8.5) science fiction film?")
 ```
-
 
 ```python
 # This example specifies a query and composite filter
@@ -180,24 +175,20 @@ retriever.invoke(
 
 Self-query retriever with MyScale can do more! Let's find out.
 
-
 ```python
 # You can use length(genres) to do anything you want
 retriever.invoke("What's a movie that have more than 1 genres?")
 ```
-
 
 ```python
 # Fine-grained datetime? You got it already.
 retriever.invoke("What's a movie that release after feb 1995?")
 ```
 
-
 ```python
 # Don't know what your exact filter should be? Use string pattern match!
 retriever.invoke("What's a movie whose name is like Andrei?")
 ```
-
 
 ```python
 # Contain works for lists: so you can match a list with contain comparator!
@@ -210,7 +201,6 @@ We can also use the self query retriever to specify `k`: the number of documents
 
 We can do this by passing `enable_limit=True` to the constructor.
 
-
 ```python
 retriever = SelfQueryRetriever.from_llm(
     llm,
@@ -221,7 +211,6 @@ retriever = SelfQueryRetriever.from_llm(
     verbose=True,
 )
 ```
-
 
 ```python
 # This example only specifies a relevant query

@@ -12,7 +12,6 @@ This loader is not compatible with all `Blackboard` courses. It is only
     cookie by logging into the course and then copying the value of the
     BbRouter cookie from the browser's developer tools.
 
-
 ```python
 from langchain_community.document_loaders import BlackboardLoader
 

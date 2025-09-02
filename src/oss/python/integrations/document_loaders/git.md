@@ -8,11 +8,9 @@ This notebook shows how to load text files from `Git` repository.
 
 ## Load existing repository from disk
 
-
 ```python
 %pip install --upgrade --quiet  GitPython
 ```
-
 
 ```python
 from git import Repo
@@ -23,40 +21,35 @@ repo = Repo.clone_from(
 branch = repo.head.reference
 ```
 
-
 ```python
 from langchain_community.document_loaders import GitLoader
 ```
-
 
 ```python
 loader = GitLoader(repo_path="./example_data/test_repo1/", branch=branch)
 ```
 
-
 ```python
 data = loader.load()
 ```
-
 
 ```python
 len(data)
 ```
 
-
 ```python
 print(data[0])
 ```
+
 ```output
 page_content='.venv\n.github\n.git\n.mypy_cache\n.pytest_cache\nDockerfile' metadata={'file_path': '.dockerignore', 'file_name': '.dockerignore', 'file_type': ''}
 ```
-## Clone repository from url
 
+## Clone repository from url
 
 ```python
 from langchain_community.document_loaders import GitLoader
 ```
-
 
 ```python
 loader = GitLoader(
@@ -66,25 +59,19 @@ loader = GitLoader(
 )
 ```
 
-
 ```python
 data = loader.load()
 ```
-
 
 ```python
 len(data)
 ```
 
-
-
 ```output
 1074
 ```
 
-
 ## Filtering files to load
-
 
 ```python
 from langchain_community.document_loaders import GitLoader
@@ -95,7 +82,6 @@ loader = GitLoader(
     file_filter=lambda file_path: file_path.endswith(".py"),
 )
 ```
-
 
 ```python
 

@@ -11,8 +11,8 @@ This notebook shows how to retrieve wiki pages from `wikipedia.org` into the [Do
 <ItemTable category="external_retrievers" item="WikipediaRetriever" />
 
 ## Setup
-To enable automated tracing of individual tools, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
+To enable automated tracing of individual tools, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -23,7 +23,6 @@ To enable automated tracing of individual tools, set your [LangSmith](https://do
 
 The integration lives in the `langchain-community` package. We also need to install the `wikipedia` python package itself.
 
-
 ```python
 %pip install -qU langchain-community wikipedia
 ```
@@ -33,12 +32,12 @@ The integration lives in the `langchain-community` package. We also need to inst
 Now we can instantiate our retriever:
 
 `WikipediaRetriever` parameters include:
+
 - optional `lang`: default="en". Use it to search in a specific language part of Wikipedia
 - optional `load_max_docs`: default=100. Use it to limit number of downloaded documents. It takes time to download all 100 documents, so use a small number for experiments. There is a hard limit of 300 for now.
 - optional `load_all_available_meta`: default=False. By default only the most important fields downloaded: `Published` (date when document was published/last updated), `title`, `Summary`. If True, other fields also downloaded.
 
 `get_relevant_documents()` has one argument, `query`: free text which used to find documents in Wikipedia
-
 
 ```python
 from langchain_community.retrievers import WikipediaRetriever
@@ -48,26 +47,25 @@ retriever = WikipediaRetriever()
 
 ## Usage
 
-
 ```python
 docs = retriever.invoke("TOKYO GHOUL")
 ```
 
-
 ```python
 print(docs[0].page_content[:400])
 ```
+
 ```output
 Tokyo Ghoul (Japanese: 東京喰種（トーキョーグール）, Hepburn: Tōkyō Gūru) is a Japanese dark fantasy manga series written and illustrated by Sui Ishida. It was serialized in Shueisha's seinen manga magazine Weekly Young Jump from September 2011 to September 2014, with its chapters collected in 14 tankōbon volumes. The story is set in an alternate version of Tokyo where humans coexist with ghouls, beings who loo
 ```
+
 ## Use within a chain
+
 Like other retrievers, `WikipediaRetriever` can be incorporated into LLM applications via [chains](/oss/how-to/sequence/).
 
 We will need a LLM or chat model:
 
 <ChatModelTabs customVarName="llm" />
-
-
 
 ```python
 # | output: false
@@ -77,7 +75,6 @@ from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
 ```
-
 
 ```python
 from langchain_core.output_parsers import StrOutputParser
@@ -105,19 +102,15 @@ chain = (
 )
 ```
 
-
 ```python
 chain.invoke(
     "Who is the main character in `Tokyo Ghoul` and does he transform into a ghoul?"
 )
 ```
 
-
-
 ```output
 'The main character in Tokyo Ghoul is Ken Kaneki, who transforms into a ghoul after receiving an organ transplant from a ghoul named Rize.'
 ```
-
 
 ## API reference
 

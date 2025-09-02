@@ -10,14 +10,14 @@ This notebook shows how to use functionality related to the Milvus vector databa
 
 You'll need to install `langchain-milvus` with `pip install -qU langchain-milvus` to use this integration.
 
-
-
 ```python
 pip install -qU langchain-milvus
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
+
 ### Credentials
 
 No credentials are needed to use the `Milvus` vector store.
@@ -25,8 +25,6 @@ No credentials are needed to use the `Milvus` vector store.
 ## Initialization
 
 <EmbeddingTabs/>
-
-
 
 ```python
 # | output: false
@@ -39,7 +37,6 @@ embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
 ### Milvus Lite
 
 The easiest way to prototype is to use Milvus Lite, where everything is stored in a local vector database file. Only the Flat index can be used.
-
 
 ```python
 from langchain_milvus import Milvus
@@ -61,17 +58,17 @@ The Milvus server offers support for a variety of [indexes](https://milvus.io/do
 
 As an illustration, consider the case of Milvus Standalone. To initiate the Docker container, you can run the following command:
 
-
 ```python
 !curl -sfL https://raw.githubusercontent.com/milvus-io/milvus/master/scripts/standalone_embed.sh -o standalone_embed.sh
 
 !bash standalone_embed.sh start
 ```
+
 ```output
 Password:
 ```
-Here we create a Milvus database:
 
+Here we create a Milvus database:
 
 ```python
 from pymilvus import Collection, MilvusException, connections, db, utility
@@ -104,14 +101,15 @@ try:
 except MilvusException as e:
     print(f"An error occurred: {e}")
 ```
+
 ```output
 Database 'milvus_demo' does not exist.
 Database 'milvus_demo' created successfully.
 ```
-Note the change in the URI below. Once the instance is initialized, navigate to http://127.0.0.1:9091/webui to view the local web UI.
+
+Note the change in the URI below. Once the instance is initialized, navigate to <http://127.0.0.1:9091/webui> to view the local web UI.
 
 Here is an example of how you create your vector store instance with the Milvus database serivce:
-
 
 ```python
 from langchain_milvus import BM25BuiltInFunction, Milvus
@@ -135,7 +133,6 @@ You can store unrelated documents in different collections within the same Milvu
 
 Here's how you can create a new collection:
 
-
 ```python
 from langchain_core.documents import Document
 
@@ -148,7 +145,6 @@ vector_store_saved = Milvus.from_documents(
 ```
 
 And here is how you retrieve that stored collection:
-
 
 ```python
 vector_store_loaded = Milvus(
@@ -165,7 +161,6 @@ Once you have created your vector store, we can interact with it by adding and d
 ### Add items to vector store
 
 We can add items to our vector store by using the `add_documents` function.
-
 
 ```python
 from uuid import uuid4
@@ -241,17 +236,13 @@ vector_store.add_documents(documents=documents, ids=uuids)
 
 ### Delete items from vector store
 
-
 ```python
 vector_store.delete(ids=[uuids[-1]])
 ```
 
-
-
 ```output
 (insert count: 0, delete count: 1, upsert count: 0, timestamp: 0, success count: 0, err count: 0, cost: 0)
 ```
-
 
 ## Query vector store
 
@@ -263,7 +254,6 @@ Once your vector store has been created and the relevant documents have been add
 
 Performing a simple similarity search with filtering on metadata can be done as follows:
 
-
 ```python
 results = vector_store.similarity_search(
     "LangChain provides abstractions to make working with LLMs easy",
@@ -273,14 +263,15 @@ results = vector_store.similarity_search(
 for res in results:
     print(f"* {res.page_content} [{res.metadata}]")
 ```
+
 ```output
 * Building an exciting new project with LangChain - come check it out! [{'pk': '9905001c-a4a3-455e-ab94-72d0ed11b476', 'source': 'tweet'}]
 * LangGraph is the best framework for building stateful, agentic applications! [{'pk': '1206d237-ee3a-484f-baf2-b5ac38eeb314', 'source': 'tweet'}]
 ```
+
 #### Similarity search with score
 
 You can also search with score:
-
 
 ```python
 results = vector_store.similarity_search_with_score(
@@ -289,41 +280,37 @@ results = vector_store.similarity_search_with_score(
 for res, score in results:
     print(f"* [SIM={score:3f}] {res.page_content} [{res.metadata}]")
 ```
+
 ```output
 * [SIM=21192.628906] bar [{'pk': '2', 'source': 'https://example.com'}]
 ```
+
 For a full list of all the search options available when using the `Milvus` vector store, you can visit the [API reference](https://python.langchain.com/api_reference/milvus/vectorstores/langchain_milvus.vectorstores.milvus.Milvus.html).
 
 ### Query by turning into retriever
 
 You can also transform the vector store into a retriever for easier usage in your chains.
 
-
 ```python
 retriever = vector_store.as_retriever(search_type="mmr", search_kwargs={"k": 1})
 retriever.invoke("Stealing from the bank is a crime", filter={"source": "news"})
 ```
 
-
-
 ```output
 [Document(metadata={'pk': 'eacc7256-d7fa-4036-b1f7-83d7a4bee0c5', 'source': 'news'}, page_content='Robbers broke into the city bank and stole $1 million in cash.')]
 ```
-
-
 
 ## Hybrid Search
 
 The most common hybrid search scenario is the dense + sparse hybrid search, where candidates are retrieved using both semantic vector similarity and precise keyword matching. Results from these methods are merged, reranked, and passed to an LLM to generate the final answer. This approach balances precision and semantic understanding, making it highly effective for diverse query scenarios.
 
-
 ### Full-text search
+
 Since [Milvus 2.5](https://milvus.io/blog/introduce-milvus-2-5-full-text-search-powerful-metadata-filtering-and-more.md), full-text search is natively supported through the Sparse-BM25 approach, by representing the BM25 algorithm as sparse vectors. Milvus accepts raw text as input and automatically converts it into sparse vectors stored in a specified field, eliminating the need for manual sparse embedding generation.
 
 For full-text search Milvus VectorStore accepts a `builtin_function` parameter. Through this parameter, you can pass in an instance of the `BM25BuiltInFunction`. This is different than semantic search which usually passes dense embeddings to the `VectorStore`,
 
 Here is a simple example of hybrid search in Milvus with OpenAI dense embedding for semantic search and BM25 for full-text search:
-
 
 ```python
 from langchain_milvus import BM25BuiltInFunction, Milvus
@@ -343,17 +330,17 @@ vectorstore = Milvus.from_documents(
 )
 ```
 
-> - When you use `BM25BuiltInFunction`, please note that the full-text search is available in Milvus Standalone and Milvus Distributed, but not in Milvus Lite, although it is on the roadmap for future inclusion. It will also be available in Zilliz Cloud (fully-managed Milvus) soon. Please reach out to support@zilliz.com for more information.
+> - When you use `BM25BuiltInFunction`, please note that the full-text search is available in Milvus Standalone and Milvus Distributed, but not in Milvus Lite, although it is on the roadmap for future inclusion. It will also be available in Zilliz Cloud (fully-managed Milvus) soon. Please reach out to <support@zilliz.com> for more information.
 
 In the code above, we define an instance of `BM25BuiltInFunction` and pass it to the `Milvus` object. `BM25BuiltInFunction` is a lightweight wrapper class for [`Function`](https://milvus.io/docs/manage-collections.md#Function) in Milvus. We can use it with `OpenAIEmbeddings`  to initialize a dense + sparse hybrid search Milvus vector store instance.
 
 `BM25BuiltInFunction` does not require the client to pass corpus or training, all are automatically processed at the Milvus server's end, so users do not need to care about any vocabulary and corpus. In addition, users can also customize the [analyzer](https://milvus.io/docs/analyzer-overview.md#Analyzer-Overview) to implement the custom text processing in the BM25.
 
 ### Rerank the candidates
+
 After the first stage of retrieval, we need to rerank the candidates to get a better result. You can refer to the [Reranking](https://milvus.io/docs/reranking.md#Reranking) for more information.
 
 Here is an example for weighted reranking:
-
 
 ```python
 query = "What are the novels Lila has written and what are their contents?"
@@ -377,7 +364,6 @@ When building a retrieval app, you often have to build it with multiple users in
 
 Milvus recommends using [partition_key](https://milvus.io/docs/multi_tenancy.md#Partition-key-based-multi-tenancy) to implement multi-tenancy. Here is an example:
 > The Partition key feature is not available in Milvus Lite, if you want to use it, you need to start Milvus server, as mentioned above.
-
 
 ```python
 from langchain_core.documents import Document
@@ -405,8 +391,6 @@ Do replace `<partition_key>` with the name of the field that is designated as th
 
 Milvus changes to a partition based on the specified partition key, filters entities according to the partition key, and searches among the filtered entities.
 
-
-
 ```python
 # This will only get documents for Ankush
 vectorstore.as_retriever(search_kwargs={"expr": 'namespace == "ankush"'}).invoke(
@@ -414,13 +398,9 @@ vectorstore.as_retriever(search_kwargs={"expr": 'namespace == "ankush"'}).invoke
 )
 ```
 
-
-
 ```output
 [Document(page_content='i worked at facebook', metadata={'namespace': 'ankush'})]
 ```
-
-
 
 ```python
 # This will only get documents for Harrison
@@ -429,13 +409,10 @@ vectorstore.as_retriever(search_kwargs={"expr": 'namespace == "harrison"'}).invo
 )
 ```
 
-
-
 ```output
 [Document(page_content='i worked at kensho', metadata={'namespace': 'harrison'})]
 ```
 
-
 ## API reference
 
-For detailed documentation of all __ModuleName__VectorStore features and configurations head to the API reference: https://python.langchain.com/api_reference/milvus/vectorstores/langchain_milvus.vectorstores.milvus.Milvus.html
+For detailed documentation of all __ModuleName__VectorStore features and configurations head to the API reference: <https://python.langchain.com/api_reference/milvus/vectorstores/langchain_milvus.vectorstores.milvus.Milvus.html>

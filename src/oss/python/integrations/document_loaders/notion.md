@@ -14,6 +14,7 @@ title: Notion DB 2/2
 ## Setup
 
 ### 1. Create a Notion Table Database
+
 Create a new table database in Notion. You can add any column to the database and they will be treated as metadata. For example you can add the following columns:
 
 - Title: set Title as the default property.
@@ -23,6 +24,7 @@ Create a new table database in Notion. You can add any column to the database an
 Add your content to the body of each page in the database. The NotionDBLoader will extract the content and metadata from these pages.
 
 ## 2. Create a Notion Integration
+
 To create a Notion Integration, follow these steps:
 
 1. Visit the [Notion Developers](https://www.notion.com/my-integrations) page and log in with your Notion account.
@@ -33,6 +35,7 @@ To create a Notion Integration, follow these steps:
 Once the integration is created, you'll be provided with an `Integration Token (API key)`. Copy this token and keep it safe, as you'll need it to use the NotionDBLoader.
 
 ### 3. Connect the Integration to the Database
+
 To connect your integration to the database, follow these steps:
 
 1. Open your database in Notion.
@@ -41,14 +44,14 @@ To connect your integration to the database, follow these steps:
 4. Find your integration, you may need to start typing its name in the search box.
 5. Click on the "Connect" button to connect the integration to the database.
 
-
 ### 4. Get the Database ID
+
 To get the database ID, follow these steps:
 
 1. Open your database in Notion.
 2. Click on the three-dot menu icon in the top right corner of the database view.
 3. Select "Copy link" from the menu to copy the database URL to your clipboard.
-4. The database ID is the long string of alphanumeric characters found in the URL. It typically looks like this: https://www.notion.so/username/8935f9d140a04f95a872520c4f123456?v=.... In this example, the database ID is 8935f9d140a04f95a872520c4f123456.
+4. The database ID is the long string of alphanumeric characters found in the URL. It typically looks like this: <https://www.notion.so/username/8935f9d140a04f95a872520c4f123456?v=>.... In this example, the database ID is 8935f9d140a04f95a872520c4f123456.
 
 With the database properly set up and the integration token and database ID in hand, you can now use the NotionDBLoader code to load content and metadata from your Notion database.
 
@@ -56,16 +59,13 @@ With the database properly set up and the integration token and database ID in h
 
 Instaall the `langchain-community` integration package.
 
-
-
 ```python
 %pip install -qU langchain-community
 ```
 
-
 ## Notion Database Loader
-NotionDBLoader is part of the langchain package's document loaders. You can use it as follows:
 
+NotionDBLoader is part of the langchain package's document loaders. You can use it as follows:
 
 ```python
 from getpass import getpass
@@ -73,6 +73,7 @@ from getpass import getpass
 NOTION_TOKEN = getpass()
 DATABASE_ID = getpass()
 ```
+
 ```output
 ········
 ········
@@ -82,7 +83,6 @@ DATABASE_ID = getpass()
 from langchain_community.document_loaders import NotionDBLoader
 ```
 
-
 ```python
 loader = NotionDBLoader(
     integration_token=NOTION_TOKEN,
@@ -91,11 +91,9 @@ loader = NotionDBLoader(
 )
 ```
 
-
 ```python
 docs = loader.load()
 ```
-
 
 ```python
 print(docs)
@@ -121,13 +119,11 @@ unzip Export-d3adfe0f-3131-4bf3-8987-a52017fc1bae.zip -d Notion_DB
 
 Run the following command to ingest the data you just downloaded.
 
-
 ```python
 from langchain_community.document_loaders import NotionDirectoryLoader
 
 loader = NotionDirectoryLoader("Notion_DB")
 ```
-
 
 ```python
 docs = loader.load()

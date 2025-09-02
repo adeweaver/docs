@@ -9,8 +9,8 @@ ScaNN includes search space pruning and quantization for Maximum Inner Product S
 You'll need to install `langchain-community` with `pip install -qU langchain-community` to use this integration
 
 ## Installation
-Install ScaNN through pip. Alternatively, you can follow instructions on the [ScaNN Website](https://github.com/google-research/google-research/tree/master/scann#building-from-source) to install from source.
 
+Install ScaNN through pip. Alternatively, you can follow instructions on the [ScaNN Website](https://github.com/google-research/google-research/tree/master/scann#building-from-source) to install from source.
 
 ```python
 %pip install --upgrade --quiet  scann
@@ -19,7 +19,6 @@ Install ScaNN through pip. Alternatively, you can follow instructions on the [Sc
 ## Retrieval Demo
 
 Below we show how to use ScaNN in conjunction with Huggingface Embeddings.
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -47,8 +46,7 @@ docs[0]
 
 Next, we demonstrate using ScaNN in conjunction with Google PaLM API.
 
-You can obtain an API key from https://developers.generativeai.google/tutorials/setup
-
+You can obtain an API key from <https://developers.generativeai.google/tutorials/setup>
 
 ```python
 from langchain.chains import RetrievalQA
@@ -63,10 +61,10 @@ qa = RetrievalQA.from_chain_type(
 )
 ```
 
-
 ```python
 print(qa.run("What did the president say about Ketanji Brown Jackson?"))
 ```
+
 ```output
 The president said that Ketanji Brown Jackson is one of our nation's top legal minds, who will continue Justice Breyer's legacy of excellence.
 ```
@@ -74,11 +72,12 @@ The president said that Ketanji Brown Jackson is one of our nation's top legal m
 ```python
 print(qa.run("What did the president say about Michael Phelps?"))
 ```
+
 ```output
 The president did not mention Michael Phelps in his speech.
 ```
-## Save and loading local retrieval index
 
+## Save and loading local retrieval index
 
 ```python
 db.save_local("/tmp/db", "state_of_union")

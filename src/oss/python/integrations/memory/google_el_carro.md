@@ -14,18 +14,17 @@ Learn more about the package on [GitHub](https://github.com/googleapis/langchain
 
 To run this notebook, you will need to do the following:
 
- * Complete the [Getting Started](https://github.com/googleapis/langchain-google-el-carro-python/tree/main/README.md#getting-started) section if you would like to run your Oracle database with El Carro.
+* Complete the [Getting Started](https://github.com/googleapis/langchain-google-el-carro-python/tree/main/README.md#getting-started) section if you would like to run your Oracle database with El Carro.
 
 ### 🦜🔗 Library Installation
-The integration lives in its own `langchain-google-el-carro` package, so we need to install it.
 
+The integration lives in its own `langchain-google-el-carro` package, so we need to install it.
 
 ```python
 %pip install --upgrade --quiet langchain-google-el-carro langchain-google-vertexai langchain
 ```
 
 **Colab only:** Uncomment the following cell to restart the kernel or use the button to restart the kernel. For Vertex AI Workbench you can restart the terminal using the button on top.
-
 
 ```python
 # # Automatically restart kernel after installs so that your environment can access the new packages
@@ -36,11 +35,11 @@ The integration lives in its own `langchain-google-el-carro` package, so we need
 ```
 
 ### 🔐 Authentication
+
 Authenticate to Google Cloud as the IAM user logged into this notebook in order to access your Google Cloud Project.
 
 * If you are using Colab to run this notebook, use the cell below and continue.
 * If you are using Vertex AI Workbench, check out the setup instructions [here](https://github.com/GoogleCloudPlatform/generative-ai/tree/main/setup-env).
-
 
 ```python
 # from google.colab import auth
@@ -49,6 +48,7 @@ Authenticate to Google Cloud as the IAM user logged into this notebook in order 
 ```
 
 ### ☁ Set Your Google Cloud Project
+
 Set your Google Cloud project so that you can leverage Google Cloud resources within this notebook.
 
 If you don't know your project ID, try the following:
@@ -56,7 +56,6 @@ If you don't know your project ID, try the following:
 * Run `gcloud config list`.
 * Run `gcloud projects list`.
 * See the support page: [Locate the project ID](https://support.google.com/googleapi/answer/7014113).
-
 
 ```python
 # @markdown Please fill in the value below with your Google Cloud project ID and then run the cell.
@@ -70,8 +69,8 @@ PROJECT_ID = "my-project-id"  # @param {type:"string"}
 ## Basic Usage
 
 ### Set Up Oracle Database Connection
-Fill out the following variable with your Oracle database connections details.
 
+Fill out the following variable with your Oracle database connections details.
 
 ```python
 # @title Set Your Values Here { display-mode: "form" }
@@ -82,7 +81,6 @@ TABLE_NAME = "message_store"  # @param {type: "string"}
 USER = "my-user"  # @param {type: "string"}
 PASSWORD = input("Please provide a password to be used for the database user: ")
 ```
-
 
 If you are using `El Carro`, you can find the hostname and port values in the
 status of the `El Carro` Kubernetes instance.
@@ -97,7 +95,6 @@ mydb   Oracle      18c       Express      mydb-svc.db   34.71.69.25:6021        
 
 `ElCarroEngine` configures a connection pool to your Oracle database, enabling successful connections from your application and following industry best practices.
 
-
 ```python
 from langchain_google_el_carro import ElCarroEngine
 
@@ -111,13 +108,13 @@ elcarro_engine = ElCarroEngine.from_instance(
 ```
 
 ### Initialize a table
+
 The `ElCarroChatMessageHistory` class requires a database table with a specific
 schema in order to store the chat message history.
 
 The `ElCarroEngine` class has a
 method `init_chat_history_table()` that can be used to create a table with the
 proper schema for you.
-
 
 ```python
 elcarro_engine.init_chat_history_table(table_name=TABLE_NAME)
@@ -134,7 +131,6 @@ things:
 1. `table_name` : The name of the table within the Oracle database to store the
    chat message history.
 
-
 ```python
 from langchain_google_el_carro import ElCarroChatMessageHistory
 
@@ -145,16 +141,15 @@ history.add_user_message("hi!")
 history.add_ai_message("whats up?")
 ```
 
-
 ```python
 history.messages
 ```
 
 #### Cleaning up
+
 When the history of a specific session is obsolete and can be deleted, it can be done the following way.
 
 **Note:** Once deleted, the data is no longer stored in your database and is gone forever.
-
 
 ```python
 history.clear()
@@ -166,20 +161,16 @@ We can easily combine this message history class with [LCEL Runnables](/oss/how-
 
 To do this we will use one of [Google's Vertex AI chat models](/oss/integrations/chat/google_vertex_ai_palm) which requires that you [enable the Vertex AI API](https://console.cloud.google.com/flows/enableapi?apiid=aiplatform.googleapis.com) in your Google Cloud Project.
 
-
-
 ```python
 # enable Vertex AI API
 !gcloud services enable aiplatform.googleapis.com
 ```
-
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_google_vertexai import ChatVertexAI
 ```
-
 
 ```python
 prompt = ChatPromptTemplate.from_messages(
@@ -192,7 +183,6 @@ prompt = ChatPromptTemplate.from_messages(
 
 chain = prompt | ChatVertexAI(project=PROJECT_ID)
 ```
-
 
 ```python
 chain_with_history = RunnableWithMessageHistory(
@@ -207,17 +197,14 @@ chain_with_history = RunnableWithMessageHistory(
 )
 ```
 
-
 ```python
 # This is where we configure the session id
 config = {"configurable": {"session_id": "test_session"}}
 ```
 
-
 ```python
 chain_with_history.invoke({"question": "Hi! I'm bob"}, config=config)
 ```
-
 
 ```python
 chain_with_history.invoke({"question": "Whats my name"}, config=config)

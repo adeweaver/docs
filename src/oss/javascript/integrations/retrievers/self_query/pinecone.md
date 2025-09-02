@@ -49,10 +49,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/pinecone langchain @langchain/openai @langchain/core @pinecone-database/pinecone
 </Npm2Yarn>
 ```
+
 ## Instantiation
 
 First, initialize your Pinecone vector store with some documents that contain metadata:
-
 
 ```typescript
 import { Pinecone } from "@pinecone-database/pinecone";
@@ -150,11 +150,13 @@ const vectorStore = await PineconeStore.fromDocuments(docs, embeddings, {
   pineconeIndex: pineconeIndex,
 });
 ```
+
 Now we can instantiate our retriever:
 
 ```{=mdx}
 <ChatModelTabs customVarName="llm" />
 ```
+
 ```typescript
 // @lc-docs-hide-cell
 
@@ -165,7 +167,6 @@ const llm = new ChatOpenAI({
   temperature: 0,
 });
 ```
-
 
 ```typescript
 import { SelfQueryRetriever } from "langchain/retrievers/self_query";
@@ -192,12 +193,12 @@ const selfQueryRetriever = SelfQueryRetriever.fromLLM({
 
 Now, ask a question that requires some knowledge of the document's metadata to answer. You can see that the retriever will generate the correct result:
 
-
 ```typescript
 await selfQueryRetriever.invoke(
   "Which movies are rated higher than 8.5?"
 );
 ```
+
 ```output
 [
   Document {
@@ -217,12 +218,12 @@ await selfQueryRetriever.invoke(
   }
 ]
 ```
+
 ## Use within a chain
 
 Like other retrievers, Pinecone self-query retrievers can be incorporated into LLM applications via [chains](/oss/how-to/sequence/).
 
 Note that because their returned answers can heavily depend on document metadata, we format the retrieved documents differently to include that information.
-
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts";
@@ -254,17 +255,17 @@ const ragChain = RunnableSequence.from([
 ]);
 ```
 
-
 ```typescript
 await ragChain.invoke("Which movies are rated higher than 8.5?")
 ```
+
 ```output
 The movies rated higher than 8.5 are the ones directed by Satoshi Kon (rating: 8.6) and Andrei Tarkovsky (rating: 9.9).
 ```
+
 ## Default search params
 
 You can also pass a `searchParams` field into the above method that provides default filters applied in addition to any generated query. The filter syntax is the same as the backing Pinecone vector store:
-
 
 ```typescript
 const selfQueryRetrieverWithDefaultParams = SelfQueryRetriever.fromLLM({

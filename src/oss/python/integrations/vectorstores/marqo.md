@@ -16,18 +16,15 @@ docker rm -f marqo
 docker run --name marqo -it --privileged -p 8882:8882 --add-host host.docker.internal:host-gateway marqoai/marqo:latest
 ```
 
-
 ```python
 %pip install --upgrade --quiet  marqo
 ```
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
 from langchain_community.vectorstores import Marqo
 from langchain_text_splitters import CharacterTextSplitter
 ```
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -37,7 +34,6 @@ documents = loader.load()
 text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
 docs = text_splitter.split_documents(documents)
 ```
-
 
 ```python
 import marqo
@@ -55,6 +51,7 @@ docsearch = Marqo.from_documents(docs, index_name=index_name)
 query = "What did the president say about Ketanji Brown Jackson"
 result_docs = docsearch.similarity_search(query)
 ```
+
 ```output
 Index langchain-demo exists.
 ```
@@ -62,6 +59,7 @@ Index langchain-demo exists.
 ```python
 print(result_docs[0].page_content)
 ```
+
 ```output
 Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections.
 
@@ -76,6 +74,7 @@ And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketan
 result_docs = docsearch.similarity_search_with_score(query)
 print(result_docs[0][0].page_content, result_docs[0][1], sep="\n")
 ```
+
 ```output
 Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections.
 
@@ -86,6 +85,7 @@ One of the most serious constitutional responsibilities a President has is nomin
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.
 0.68647254
 ```
+
 ## Additional features
 
 One of the powerful features of Marqo as a vectorstore is that you can use indexes created externally. For example:
@@ -97,7 +97,6 @@ One of the powerful features of Marqo as a vectorstore is that you can use index
 The documents that are returned are customised by passing your own function to the `page_content_builder` callback in the search methods.
 
 #### Multimodal Example
-
 
 ```python
 # use a new index
@@ -128,8 +127,6 @@ client.index(index_name).add_documents(
 )
 ```
 
-
-
 ```output
 {'errors': False,
  'processingTimeMs': 2090.2822139996715,
@@ -141,8 +138,6 @@ client.index(index_name).add_documents(
    'result': 'created',
    'status': 201}]}
 ```
-
-
 
 ```python
 def get_content(res):
@@ -157,17 +152,17 @@ query = "vehicles that fly"
 doc_results = docsearch.similarity_search(query)
 ```
 
-
 ```python
 for doc in doc_results:
     print(doc.page_content)
 ```
+
 ```output
 Plane: https://raw.githubusercontent.com/marqo-ai/marqo/mainline/examples/ImageSearchGuide/data/image2.jpg
 Bus: https://raw.githubusercontent.com/marqo-ai/marqo/mainline/examples/ImageSearchGuide/data/image4.jpg
 ```
-#### Text only example
 
+#### Text only example
 
 ```python
 # use a new index
@@ -197,8 +192,6 @@ client.index(index_name).add_documents(
 )
 ```
 
-
-
 ```output
 {'errors': False,
  'processingTimeMs': 139.2144540004665,
@@ -210,8 +203,6 @@ client.index(index_name).add_documents(
    'result': 'created',
    'status': 201}]}
 ```
-
-
 
 ```python
 # Note text indexes retain the ability to use add_texts despite different field names in documents
@@ -230,13 +221,9 @@ docsearch = Marqo(client, index_name, page_content_builder=get_content)
 docsearch.add_texts(["This is a document that is about elephants"])
 ```
 
-
-
 ```output
 ['9986cc72-adcd-4080-9d74-265c173a9ec3']
 ```
-
-
 
 ```python
 query = "modern communications devices"
@@ -244,6 +231,7 @@ doc_results = docsearch.similarity_search(query)
 
 print(doc_results[0].page_content)
 ```
+
 ```output
 A smartphone is a portable computer device that combines mobile telephone functions and computing functions into one unit.
 ```
@@ -254,19 +242,21 @@ doc_results = docsearch.similarity_search(query, page_content_builder=get_conten
 
 print(doc_results[0].page_content)
 ```
+
 ```output
 This is a document that is about elephants
 ```
+
 ## Weighted Queries
 
 We also expose marqos weighted queries which are a powerful way to compose complex semantic searches.
-
 
 ```python
 query = {"communications devices": 1.0}
 doc_results = docsearch.similarity_search(query)
 print(doc_results[0].page_content)
 ```
+
 ```output
 A smartphone is a portable computer device that combines mobile telephone functions and computing functions into one unit.
 ```
@@ -276,13 +266,14 @@ query = {"communications devices": 1.0, "technology post 2000": -1.0}
 doc_results = docsearch.similarity_search(query)
 print(doc_results[0].page_content)
 ```
+
 ```output
 A telephone is a telecommunications device that permits two or more users toconduct a conversation when they are too far apart to be easily heard directly.
 ```
+
 # Question Answering with Sources
 
 This section shows how to use Marqo as part of a `RetrievalQAWithSourcesChain`. Marqo will perform the searches for information in the sources.
-
 
 ```python
 import getpass
@@ -294,6 +285,7 @@ from langchain_openai import OpenAI
 if "OPENAI_API_KEY" not in os.environ:
     os.environ["OPENAI_API_KEY"] = getpass.getpass("OpenAI API Key:")
 ```
+
 ```output
 OpenAI API Key:········
 ```
@@ -305,11 +297,11 @@ text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
 texts = text_splitter.split_text(state_of_the_union)
 ```
 
-
 ```python
 index_name = "langchain-qa-with-retrieval"
 docsearch = Marqo.from_documents(docs, index_name=index_name)
 ```
+
 ```output
 Index langchain-qa-with-retrieval exists.
 ```
@@ -320,15 +312,12 @@ chain = RetrievalQAWithSourcesChain.from_chain_type(
 )
 ```
 
-
 ```python
 chain(
     {"question": "What did the president say about Justice Breyer"},
     return_only_outputs=True,
 )
 ```
-
-
 
 ```output
 {'answer': ' The president honored Justice Breyer, thanking him for his service and noting that he is a retiring Justice of the United States Supreme Court.\n',

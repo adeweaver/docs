@@ -6,7 +6,6 @@ title: Google AI
 <Warning>
 **You are currently on a page documenting the use of Google models as [text completion models](/oss/concepts/text_llms). Many popular Google models are [chat completion models](/oss/concepts/chat_models).**
 
-
 You may be looking for [this page instead](/oss/integrations/chat/google_generative_ai/).
 </Warning>
 
@@ -14,26 +13,21 @@ A guide on using [Google Generative AI](https://developers.generativeai.google/)
 
 ## Setting up
 
-
 To use Google Generative AI you must install the `langchain-google-genai` Python package and generate an API key. [Read more details](https://developers.generativeai.google/).
-
 
 ```python
 %pip install --upgrade --quiet  langchain-google-genai
 ```
 
-
 ```python
 from langchain_google_genai import GoogleGenerativeAI
 ```
-
 
 ```python
 from getpass import getpass
 
 api_key = getpass()
 ```
-
 
 ```python
 llm = GoogleGenerativeAI(model="models/text-bison-001", google_api_key=api_key)
@@ -43,6 +37,7 @@ print(
     )
 )
 ```
+
 ```output
 **Pros of Python:**
 
@@ -70,6 +65,7 @@ print(
     )
 )
 ```
+
 ```output
 **Pros:**
 
@@ -95,13 +91,12 @@ print(
 
 * **Package Management:** While Python has a vast ecosystem of libraries and packages, managing dependencies and package versions can be challenging. The Python Package Index (PyPI) is the official repository for Python packages, but it can be difficult to ensure compatibility and avoid conflicts between different versions of packages.
 ```
-## Using in a chain
 
+## Using in a chain
 
 ```python
 from langchain_core.prompts import PromptTemplate
 ```
-
 
 ```python
 template = """Question: {question}
@@ -114,11 +109,12 @@ chain = prompt | llm
 question = "How much is 2+2?"
 print(chain.invoke({"question": question}))
 ```
+
 ```output
 4
 ```
-## Streaming calls
 
+## Streaming calls
 
 ```python
 import sys
@@ -127,6 +123,7 @@ for chunk in llm.stream("Tell me a short poem about snow"):
     sys.stdout.write(chunk)
     sys.stdout.flush()
 ```
+
 ```output
 In winter's embrace, a silent ballet,
 Snowflakes descend, a celestial display.
@@ -153,10 +150,10 @@ As snowflakes fall, with a gentle kiss.
 For in their embrace, we find a peace profound,
 A frozen world, with magic all around.
 ```
+
 ### Safety Settings
 
 Gemini models have default safety settings that can be overridden. If you are receiving lots of "Safety Warnings" from your models, you can try tweaking the `safety_settings` attribute of the model. For example, to turn off safety blocking for dangerous content, you can construct your LLM as follows:
-
 
 ```python
 from langchain_google_genai import GoogleGenerativeAI, HarmBlockThreshold, HarmCategory

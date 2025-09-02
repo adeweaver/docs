@@ -2,8 +2,7 @@
 title: Baichuan LLM
 ---
 
-Baichuan Inc. (https://www.baichuan-ai.com/) is a Chinese startup in the era of AGI, dedicated to addressing fundamental human needs: Efficiency, Health, and Happiness.
-
+Baichuan Inc. (<https://www.baichuan-ai.com/>) is a Chinese startup in the era of AGI, dedicated to addressing fundamental human needs: Efficiency, Health, and Happiness.
 
 ```python
 ##Installing the langchain packages needed to use the integration
@@ -11,17 +10,16 @@ Baichuan Inc. (https://www.baichuan-ai.com/) is a Chinese startup in the era of 
 ```
 
 ## Prerequisite
-An API key is required to access Baichuan LLM API. Visit https://platform.baichuan-ai.com/ to get your API key.
+
+An API key is required to access Baichuan LLM API. Visit <https://platform.baichuan-ai.com/> to get your API key.
 
 ## Use Baichuan LLM
-
 
 ```python
 import os
 
 os.environ["BAICHUAN_API_KEY"] = "YOUR_API_KEY"
 ```
-
 
 ```python
 from langchain_community.llms import BaichuanLLM
@@ -33,18 +31,15 @@ res = llm.invoke("What's your name?")
 print(res)
 ```
 
-
 ```python
 res = llm.generate(prompts=["你好！"])
 res
 ```
 
-
 ```python
 for res in llm.stream("Who won the second world war?"):
     print(res)
 ```
-
 
 ```python
 import asyncio

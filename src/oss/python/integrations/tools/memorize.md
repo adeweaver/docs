@@ -8,7 +8,6 @@ This tool requires LLMs that support fine-tuning. Currently, only `langchain.llm
 
 ## Imports
 
-
 ```python
 import os
 
@@ -19,8 +18,8 @@ from langchain_community.llms import GradientLLM
 ```
 
 ## Set the Environment API Key
-Make sure to get your API key from Gradient AI. You are given $10 in free credits to test and fine-tune different models.
 
+Make sure to get your API key from Gradient AI. You are given $10 in free credits to test and fine-tune different models.
 
 ```python
 from getpass import getpass
@@ -40,8 +39,8 @@ if not os.environ.get("GRADIENT_MODEL_ADAPTER_ID", None):
 Optional: Validate your Environment variables ```GRADIENT_ACCESS_TOKEN``` and ```GRADIENT_WORKSPACE_ID``` to get currently deployed models.
 
 ## Create the `GradientLLM` instance
-You can specify different parameters such as the model name, max tokens generated, temperature, etc.
 
+You can specify different parameters such as the model name, max tokens generated, temperature, etc.
 
 ```python
 llm = GradientLLM(
@@ -54,13 +53,11 @@ llm = GradientLLM(
 
 ## Load tools
 
-
 ```python
 tools = load_tools(["memorize"], llm=llm)
 ```
 
 ## Initiate the Agent
-
 
 ```python
 agent = initialize_agent(
@@ -73,14 +70,15 @@ agent = initialize_agent(
 ```
 
 ## Run the agent
-Ask the agent to memorize a piece of text.
 
+Ask the agent to memorize a piece of text.
 
 ```python
 agent.run(
     "Please remember the fact in detail:\nWith astonishing dexterity, Zara Tubikova set a world record by solving a 4x4 Rubik's Cube variation blindfolded in under 20 seconds, employing only their feet."
 )
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 I should memorize this fact.
@@ -92,7 +90,6 @@ Final Answer: Zara Tubikova set a world
 
 > Finished chain.
 ```
-
 
 ```output
 'Zara Tubikova set a world'

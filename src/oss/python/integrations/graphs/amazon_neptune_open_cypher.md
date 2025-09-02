@@ -17,10 +17,7 @@ Neptune Database is a serverless graph database designed for optimal scalability
 
 Neptune Analytics is an analytics database engine that can quickly analyze large amounts of graph data in memory to get insights and find trends. Neptune Analytics is a solution for quickly analyzing existing graph databases or graph datasets stored in a data lake. It uses popular graph analytic algorithms and low-latency analytic queries.
 
-
-
 ## Using Neptune Database
-
 
 ```python
 from langchain_aws.graphs import NeptuneGraph
@@ -34,7 +31,6 @@ graph = NeptuneGraph(host=host, port=port, use_https=use_https)
 
 ### Using Neptune Analytics
 
-
 ```python
 from langchain_aws.graphs import NeptuneAnalyticsGraph
 
@@ -44,7 +40,6 @@ graph = NeptuneAnalyticsGraph(graph_identifier="<neptune-analytics-graph-id>")
 ## Using the Neptune openCypher QA Chain
 
 This QA chain queries the Neptune graph database using openCypher and returns a human-readable response.
-
 
 ```python
 from langchain_aws import ChatBedrockConverse
@@ -61,17 +56,18 @@ chain = create_neptune_opencypher_qa_chain(llm=llm, graph=graph)
 result = chain.invoke("How many outgoing routes does the Austin airport have?")
 print(result["result"].content)
 ```
+
 ```output
 Austin airport has 98 outgoing routes.
 ```
+
 ### Adding Message History
 
 The Neptune openCypher QA chain has the ability to be wrapped by [`RunnableWithMessageHistory`](https://python.langchain.com/v0.2/api_reference/core/runnables/langchain_core.runnables.history.RunnableWithMessageHistory.html#langchain_core.runnables.history.RunnableWithMessageHistory). This adds message history to the chain, allowing us to create a chatbot that retains conversation state across multiple invocations.
 
 To start, we need a way to store and load the message history. For this purpose, each thread will be created as an instance of [`InMemoryChatMessageHistory`](https://python.langchain.com/api_reference/core/chat_history/langchain_core.chat_history.InMemoryChatMessageHistory.html), and stored into a dictionary for repeated access.
 
-(Also see: https://python.langchain.com/docs/versions/migrating_memory/chat_history/#chatmessagehistory)
-
+(Also see: <https://python.langchain.com/docs/versions/migrating_memory/chat_history/#chatmessagehistory>)
 
 ```python
 from langchain_core.chat_history import InMemoryChatMessageHistory
@@ -89,7 +85,6 @@ def get_chat_history(session_id: str) -> InMemoryChatMessageHistory:
 
 Now, the QA chain and message history storage can be used to create the new `RunnableWithMessageHistory`. Note that we must set `query` as the input key to match the format expected by the base chain.
 
-
 ```python
 from langchain_core.runnables.history import RunnableWithMessageHistory
 
@@ -102,7 +97,6 @@ runnable_with_history = RunnableWithMessageHistory(
 
 Before invoking the chain, a unique `session_id` needs to be generated for the conversation that the new `InMemoryChatMessageHistory` will remember.
 
-
 ```python
 import uuid
 
@@ -111,7 +105,6 @@ session_id = uuid.uuid4()
 
 Finally, invoke the message history enabled chain with the `session_id`.
 
-
 ```python
 result = runnable_with_history.invoke(
     {"query": "How many destinations can I fly to directly from Austin airport?"},
@@ -119,12 +112,12 @@ result = runnable_with_history.invoke(
 )
 print(result["result"].content)
 ```
+
 ```output
 You can fly directly to 98 destinations from Austin airport.
 ```
+
 As the chain continues to be invoked with the same `session_id`, responses will be returned in the context of previous queries in the conversation.
-
-
 
 ```python
 result = runnable_with_history.invoke(
@@ -133,6 +126,7 @@ result = runnable_with_history.invoke(
 )
 print(result["result"].content)
 ```
+
 ```output
 You can fly directly to 4 destinations in Europe from Austin airport.
 ```
@@ -144,6 +138,7 @@ result = runnable_with_history.invoke(
 )
 print(result["result"].content)
 ```
+
 ```output
 The four European destinations you can fly to directly from Austin airport are:
 - AMS (Amsterdam Airport Schiphol)

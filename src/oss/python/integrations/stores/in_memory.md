@@ -18,7 +18,6 @@ The `InMemoryByteStore` is a non-persistent implementation of a `ByteStore` that
 
 The LangChain `InMemoryByteStore` integration lives in the `langchain-core` package:
 
-
 ```python
 %pip install -qU langchain-core
 ```
@@ -26,7 +25,6 @@ The LangChain `InMemoryByteStore` integration lives in the `langchain-core` pack
 ## Instantiation
 
 Now you can instantiate your byte store:
-
 
 ```python
 from langchain_core.stores import InMemoryByteStore
@@ -37,7 +35,6 @@ kv_store = InMemoryByteStore()
 ## Usage
 
 You can set data under keys like this using the `mset` method:
-
 
 ```python
 kv_store.mset(
@@ -55,15 +52,11 @@ kv_store.mget(
 )
 ```
 
-
-
 ```output
 [b'value1', b'value2']
 ```
 
-
 And you can delete data using the `mdelete` method:
-
 
 ```python
 kv_store.mdelete(
@@ -81,13 +74,10 @@ kv_store.mget(
 )
 ```
 
-
-
 ```output
 [None, None]
 ```
 
-
 ## API reference
 
-For detailed documentation of all `InMemoryByteStore` features and configurations, head to the API reference: https://python.langchain.com/api_reference/core/stores/langchain_core.stores.InMemoryByteStore.html
+For detailed documentation of all `InMemoryByteStore` features and configurations, head to the API reference: <https://python.langchain.com/api_reference/core/stores/langchain_core.stores.InMemoryByteStore.html>

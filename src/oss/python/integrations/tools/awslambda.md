@@ -12,7 +12,6 @@ When an Agent uses the `AWS Lambda` tool, it will provide an argument of type st
 
 First, you need to install `boto3` python package.
 
-
 ```python
 %pip install --upgrade --quiet  boto3 > /dev/null
 %pip install --upgrade --quiet langchain-community
@@ -23,7 +22,6 @@ In order for an agent to use the tool, you must provide it with the name and des
 You must also provide the name of your function.
 
 Note that because this tool is effectively just a wrapper around the boto3 library, you will need to run `aws configure` in order to make use of the tool. For more detail, see [here](https://docs.aws.amazon.com/cli/index.html)
-
 
 ```python
 from langchain.agents import AgentType, initialize_agent, load_tools
@@ -44,7 +42,6 @@ agent = initialize_agent(
 
 agent.run("Send an email to test@testing123.com saying hello world.")
 ```
-
 
 ```python
 

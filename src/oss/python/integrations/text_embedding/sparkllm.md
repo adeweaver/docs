@@ -2,12 +2,11 @@
 title: SparkLLM Text Embeddings
 ---
 
-Official Website: https://www.xfyun.cn/doc/spark/Embedding_new_api.html
+Official Website: <https://www.xfyun.cn/doc/spark/Embedding_new_api.html>
 
-An API key is required to use this embedding model. You can get one by registering at https://platform.SparkLLM-ai.com/docs/text-Embedding.
+An API key is required to use this embedding model. You can get one by registering at <https://platform.SparkLLM-ai.com/docs/text-Embedding>.
 
 SparkLLMTextEmbeddings support 2K token window and preduces vectors with 2560 dimensions.
-
 
 ```python
 from langchain_community.embeddings import SparkLLMTextEmbeddings
@@ -21,7 +20,6 @@ embeddings = SparkLLMTextEmbeddings(
 
 Alternatively, you can set API key this way:
 
-
 ```python
 text_q = "Introducing iFlytek"
 
@@ -32,8 +30,6 @@ text_2 = "Moreover, iFlytek's impact extends beyond domestic boundaries, as they
 query_result = embeddings.embed_query(text_q)
 query_result[:8]
 ```
-
-
 
 ```output
 [-0.043609619140625,
@@ -46,14 +42,10 @@ query_result[:8]
  -0.0146331787109375]
 ```
 
-
-
 ```python
 doc_result = embeddings.embed_documents([text_1, text_2])
 doc_result[0][:8]
 ```
-
-
 
 ```output
 [-0.161865234375,

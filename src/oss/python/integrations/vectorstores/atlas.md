@@ -8,23 +8,19 @@ You'll need to install `langchain-community` with `pip install -qU langchain-com
 
 This notebook shows you how to use functionality related to the `AtlasDB` vectorstore.
 
-
 ```python
 %pip install --upgrade --quiet  spacy
 ```
 
-
 ```python
 !python3 -m spacy download en_core_web_sm
 ```
-
 
 ```python
 %pip install --upgrade --quiet  nomic
 ```
 
 ### Load Packages
-
 
 ```python
 import time
@@ -34,13 +30,11 @@ from langchain_community.vectorstores import AtlasDB
 from langchain_text_splitters import SpacyTextSplitter
 ```
 
-
 ```python
 ATLAS_TEST_API_KEY = "7xDPkYXSYDc1_ErdTPIcoAR9RNd8YDlkS3nVNXcVoIMZ6"
 ```
 
 ### Prepare the Data
-
 
 ```python
 loader = TextLoader("../../how_to/state_of_the_union.txt")
@@ -55,7 +49,6 @@ texts = [e.strip() for e in texts]
 
 ### Map the Data using Nomic's Atlas
 
-
 ```python
 db = AtlasDB.from_texts(
     texts=texts,
@@ -66,15 +59,13 @@ db = AtlasDB.from_texts(
 )
 ```
 
-
 ```python
 db.project.wait_for_project_lock()
 ```
-
 
 ```python
 db.project
 ```
 
 Here is a map with the result of this code. This map displays the texts of the State of the Union.
-https://atlas.nomic.ai/map/3e4de075-89ff-486a-845c-36c23f30bb67/d8ce2284-8edb-4050-8b9b-9bb543d7f647
+<https://atlas.nomic.ai/map/3e4de075-89ff-486a-845c-36c23f30bb67/d8ce2284-8edb-4050-8b9b-9bb543d7f647>

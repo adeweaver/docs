@@ -4,7 +4,7 @@ title: Jira Toolkit
 
 This notebook goes over how to use the `Jira` toolkit.
 
-The `Jira` toolkit allows agents to interact with a given Jira instance, performing actions such as searching for issues and creating issues, the tool wraps the atlassian-python-api library, for more see: https://atlassian-python-api.readthedocs.io/jira.html
+The `Jira` toolkit allows agents to interact with a given Jira instance, performing actions such as searching for issues and creating issues, the tool wraps the atlassian-python-api library, for more see: <https://atlassian-python-api.readthedocs.io/jira.html>
 
 ## Installation and setup
 
@@ -13,19 +13,17 @@ To use this tool, you must first set as environment variables:
     JIRA_CLOUD
 
 You have the choice between two authentication methods:
+
 - API token authentication: set the JIRA_API_TOKEN (and JIRA_USERNAME if needed) environment variables
 - OAuth2.0 authentication: set the JIRA_OAUTH2 environment variable as a dict having as fields "client_id" and "token" which is a dict containing at least "access_token" and "token_type"
-
 
 ```python
 %pip install --upgrade --quiet  atlassian-python-api
 ```
 
-
 ```python
 %pip install -qU langchain-community langchain-openai
 ```
-
 
 ```python
 import os
@@ -38,7 +36,6 @@ from langchain_openai import OpenAI
 
 For authentication with API token
 
-
 ```python
 os.environ["JIRA_API_TOKEN"] = "abc"
 os.environ["JIRA_USERNAME"] = "123"
@@ -49,7 +46,6 @@ os.environ["JIRA_CLOUD"] = "True"
 
 For authentication with a Oauth2.0
 
-
 ```python
 os.environ["JIRA_OAUTH2"] = (
     '{"client_id": "123", "token": {"access_token": "abc", "token_type": "bearer"}}'
@@ -58,7 +54,6 @@ os.environ["JIRA_INSTANCE_URL"] = "https://jira.atlassian.com"
 os.environ["OPENAI_API_KEY"] = "xyz"
 os.environ["JIRA_CLOUD"] = "True"
 ```
-
 
 ```python
 llm = OpenAI(temperature=0)
@@ -70,12 +65,9 @@ toolkit = JiraToolkit.from_jira_api_wrapper(jira)
 
 Let's see what individual tools are in the Jira toolkit:
 
-
 ```python
 [(tool.name, tool.description) for tool in toolkit.get_tools()]
 ```
-
-
 
 ```output
 [('JQL Query',
@@ -90,18 +82,16 @@ Let's see what individual tools are in the Jira toolkit:
   'This tool is a wrapper around atlassian-python-api\'s Confluence \natlassian-python-api API, useful when you need to create a Confluence page. The input to this tool is a dictionary \nspecifying the fields of the Confluence page, and will be passed into atlassian-python-api\'s Confluence `create_page` \nfunction. For example, to create a page in the DEMO space titled "This is the title" with body "This is the body. You can use \n<strong>HTML tags</strong>!", you would pass in the following dictionary: {{"space": "DEMO", "title":"This is the \ntitle","body":"This is the body. You can use <strong>HTML tags</strong>!"}} ')]
 ```
 
-
-
 ```python
 agent = initialize_agent(
     toolkit.get_tools(), llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True
 )
 ```
 
-
 ```python
 agent.run("make a new issue in project PW to remind me to make more fried rice")
 ```
+
 ```output
 > Entering new AgentExecutor chain...
  I need to create an issue in project PW
@@ -113,7 +103,6 @@ Final Answer: A new issue has been created in project PW with the summary "Make 
 
 > Finished chain.
 ```
-
 
 ```output
 'A new issue has been created in project PW with the summary "Make more fried rice" and description "Reminder to make more fried rice".'

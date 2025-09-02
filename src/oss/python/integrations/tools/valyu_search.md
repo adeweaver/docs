@@ -11,24 +11,20 @@ First, get an Valyu API key and add it as an environment variable. Get $10 free 
 ## Overview
 
 ### Integration details
+
 | Class                                                         | Package                                                        | Serializable | JS support |  Package latest |
 |:--------------------------------------------------------------|:---------------------------------------------------------------| :---: | :---: | :---: |
 | [Valyu Search](https://github.com/valyu-network/langchain-valyu) | [langchain-valyu](https://pypi.org/project/langchain-valyu/) | ✅ | ❌  |  ![PyPI - Version](https://img.shields.io/pypi/v/langchain-valyu?style=flat-square&label=%20) |
 
-
-
-
 ## Setup
 
 The integration lives in the `langchain-valyu` package.
-
 
 ```python
 %pip install -qU langchain-valyu
 ```
 
 In order to use the package, you will also need to set the `VALYU_API_KEY` environment variable to your Valyu API key.
-
 
 ```python
 import getpass
@@ -42,9 +38,6 @@ if not os.environ.get("VALYU_API_KEY"):
 
 Here we show how to instantiate an instance of the Valyu search tool. This tool allows you to complete search queries using Valyu's Context API endpoint.
 
-
-
-
 ```python
 from langchain_valyu import ValyuSearchTool
 
@@ -56,6 +49,7 @@ tool = ValyuSearchTool()
 ### Invoke directly with args
 
 The Valyu search tool accepts the following arguments during invocation:
+
 - `query` (required): A natural language search query
 - `search_type` (optional): Type of search, e.g., "all"
 - `max_num_results` (optional): Maximum number of results to return
@@ -64,7 +58,6 @@ The Valyu search tool accepts the following arguments during invocation:
 - `max_price` (optional): Maximum price for the search
 
 For reliability and performance reasons, certain parameters may be required or restricted. See the [Valyu API documentation](https://docs.valyu.network/overview) for details.
-
 
 ```python
 search_results = tool._run(
@@ -83,12 +76,10 @@ print("Search Results:", search_results)
 
 We can use our tools directly with an agent executor by binding the tool to the agent. This gives the agent the ability to dynamically set the available arguments to the Valyu search tool.
 
-
 ```python
 if not os.environ.get("OPENAI_API_KEY"):
     os.environ["OPENAI_API_KEY"] = getpass.getpass("OPENAI_API_KEY:\n")
 ```
-
 
 ```python
 # | output: false
@@ -99,7 +90,6 @@ from langchain.chat_models import init_chat_model
 
 llm = init_chat_model(model="gpt-4o", model_provider="openai", temperature=0)
 ```
-
 
 ```python
 from langchain_valyu import ValyuSearchTool
@@ -120,4 +110,4 @@ for step in agent.stream(
 
 ## API reference
 
-For detailed documentation of all Valyu Context API features and configurations head to the API reference: https://docs.valyu.network/overview
+For detailed documentation of all Valyu Context API features and configurations head to the API reference: <https://docs.valyu.network/overview>

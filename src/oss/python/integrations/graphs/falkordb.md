@@ -4,9 +4,7 @@ title: FalkorDB
 
 >[FalkorDB](https://www.falkordb.com/) is a low-latency Graph Database that delivers knowledge to GenAI.
 
-
 This notebook shows how to use LLMs to provide a natural language interface to `FalkorDB` database.
-
 
 ## Setting up
 
@@ -18,7 +16,6 @@ docker run -p 6379:6379 -it --rm falkordb/falkordb
 
 Once launched, you create a database on the local machine and connect to it.
 
-
 ```python
 from langchain.chains import FalkorDBQAChain
 from langchain_community.graphs import FalkorDBGraph
@@ -27,11 +24,9 @@ from langchain_openai import ChatOpenAI
 
 ## Create a graph connection and insert the demo data
 
-
 ```python
 graph = FalkorDBGraph(database="movies")
 ```
-
 
 ```python
 graph.query(
@@ -61,15 +56,11 @@ graph.query(
 )
 ```
 
-
-
 ```output
 []
 ```
 
-
 ## Creating FalkorDBQAChain
-
 
 ```python
 graph.refresh_schema()
@@ -79,6 +70,7 @@ import os
 
 os.environ["OPENAI_API_KEY"] = "API_KEY_HERE"
 ```
+
 ```output
 Node properties: [[OrderedDict([('label', None), ('properties', ['name', 'birthDate', 'title'])])]]
 Relationships properties: [[OrderedDict([('type', None), ('properties', [])])]]
@@ -91,10 +83,10 @@ chain = FalkorDBQAChain.from_llm(ChatOpenAI(temperature=0), graph=graph, verbose
 
 ## Querying the graph
 
-
 ```python
 chain.run("Who played in Top Gun?")
 ```
+
 ```output
 > Entering new FalkorDBQAChain chain...
 Generated Cypher:
@@ -107,16 +99,14 @@ Full Context:
 > Finished chain.
 ```
 
-
 ```output
 'Tom Cruise, Val Kilmer, Anthony Edwards, and Meg Ryan played in Top Gun.'
 ```
 
-
-
 ```python
 chain.run("Who is the oldest actor who played in The Godfather: Part II?")
 ```
+
 ```output
 > Entering new FalkorDBQAChain chain...
 Generated Cypher:
@@ -131,16 +121,14 @@ Full Context:
 > Finished chain.
 ```
 
-
 ```output
 'The oldest actor who played in The Godfather: Part II is Al Pacino.'
 ```
 
-
-
 ```python
 chain.run("Robert De Niro played in which movies?")
 ```
+
 ```output
 > Entering new FalkorDBQAChain chain...
 Generated Cypher:
@@ -151,7 +139,6 @@ Full Context:
 
 > Finished chain.
 ```
-
 
 ```output
 'Robert De Niro played in "The Godfather: Part II".'

@@ -7,8 +7,8 @@ title: Embaas
 In this tutorial, we will show you how to use the embaas Embeddings API to generate embeddings for a given text.
 
 ### Prerequisites
-Create your free embaas account at [https://embaas.io/register](https://embaas.io/register) and generate an [API key](https://embaas.io/dashboard/api-keys).
 
+Create your free embaas account at [https://embaas.io/register](https://embaas.io/register) and generate an [API key](https://embaas.io/dashboard/api-keys).
 
 ```python
 import os
@@ -19,16 +19,13 @@ embaas_api_key = "YOUR_API_KEY"
 os.environ["EMBAAS_API_KEY"] = "YOUR_API_KEY"
 ```
 
-
 ```python
 from langchain_community.embeddings import EmbaasEmbeddings
 ```
 
-
 ```python
 embeddings = EmbaasEmbeddings()
 ```
-
 
 ```python
 # Create embeddings for a single document
@@ -36,12 +33,10 @@ doc_text = "This is a test document."
 doc_text_embedding = embeddings.embed_query(doc_text)
 ```
 
-
 ```python
 # Print created embedding
 print(doc_text_embedding)
 ```
-
 
 ```python
 # Create embeddings for multiple documents
@@ -49,13 +44,11 @@ doc_texts = ["This is a test document.", "This is another test document."]
 doc_texts_embeddings = embeddings.embed_documents(doc_texts)
 ```
 
-
 ```python
 # Print created embeddings
 for i, doc_text_embedding in enumerate(doc_texts_embeddings):
     print(f"Embedding for document {i + 1}: {doc_text_embedding}")
 ```
-
 
 ```python
 # Using a different model and/or custom instruction

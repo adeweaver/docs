@@ -9,13 +9,11 @@ In the below example, we are using the OpenAPI spec for the OpenAI API, which yo
 
 We will use the JSON agent to answer some questions about the API spec.
 
-
 ```python
 %pip install -qU langchain-community
 ```
 
 ## Initialization
-
 
 ```python
 import yaml
@@ -23,7 +21,6 @@ from langchain_community.agent_toolkits import JsonToolkit, create_json_agent
 from langchain_community.tools.json.tool import JsonSpec
 from langchain_openai import OpenAI
 ```
-
 
 ```python
 with open("openai_openapi.yml") as f:
@@ -40,12 +37,9 @@ json_agent_executor = create_json_agent(
 
 Let's see what individual tools are inside the Jira toolkit.
 
-
 ```python
 [(el.name, el.description) for el in json_toolkit.get_tools()]
 ```
-
-
 
 ```output
 [('json_spec_list_keys',
@@ -54,15 +48,14 @@ Let's see what individual tools are inside the Jira toolkit.
   '\n    Can be used to see value in string format at a given path.\n    Before calling this you should be SURE that the path to this exists.\n    The input is a text representation of the path to the dict in Python syntax (e.g. data["key1"][0]["key2"]).\n    ')]
 ```
 
-
 ## Example: getting the required POST parameters for a request
-
 
 ```python
 json_agent_executor.run(
     "What are the required parameters in the request body to the /completions endpoint?"
 )
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 Action: json_spec_list_keys
@@ -118,12 +111,9 @@ Final Answer: The required parameters in the request body to the /completions en
 > Finished chain.
 ```
 
-
 ```output
 "The required parameters in the request body to the /completions endpoint are 'model'."
 ```
-
-
 
 ```python
 

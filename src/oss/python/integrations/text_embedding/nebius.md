@@ -22,7 +22,6 @@ The `NebiusEmbeddings` class provides access to Nebius AI Studio's embedding mod
 
 The Nebius integration can be installed via pip:
 
-
 ```python
 %pip install --upgrade langchain-nebius
 ```
@@ -30,7 +29,6 @@ The Nebius integration can be installed via pip:
 ### Credentials
 
 Nebius requires an API key that can be passed as an initialization parameter `api_key` or set as the environment variable `NEBIUS_API_KEY`. You can obtain an API key by creating an account on [Nebius AI Studio](https://studio.nebius.ai/).
-
 
 ```python
 import getpass
@@ -45,7 +43,6 @@ if "NEBIUS_API_KEY" not in os.environ:
 
 The `NebiusEmbeddings` class can be instantiated with optional parameters for the API key and model name:
 
-
 ```python
 from langchain_nebius import NebiusEmbeddings
 
@@ -58,12 +55,11 @@ embeddings = NebiusEmbeddings(
 
 ### Available Models
 
-The list of supported models is available at https://studio.nebius.com/?modality=embedding
+The list of supported models is available at <https://studio.nebius.com/?modality=embedding>
 
 ## Indexing and Retrieval
 
 Embedding models are often used in retrieval-augmented generation (RAG) flows, both for indexing data and later retrieving it. The following example demonstrates how to use `NebiusEmbeddings` with a vector store for document retrieval.
-
 
 ```python
 from langchain_community.vectorstores import FAISS
@@ -92,15 +88,16 @@ print("Search results for query:", query)
 for i, doc in enumerate(results):
     print(f"Result {i + 1}: {doc.page_content}")
 ```
+
 ```output
 Search results for query: How does the brain influence AI?
 Result 1: Neural networks are inspired by the human brain's structure
 Result 2: Deep learning uses neural networks with many layers
 ```
+
 ### Using with InMemoryVectorStore
 
 You can also use the `InMemoryVectorStore` for lightweight applications:
-
 
 ```python
 from langchain_core.vectorstores import InMemoryVectorStore
@@ -121,9 +118,11 @@ retriever = vectorstore.as_retriever()
 docs = retriever.invoke("What is LangChain?")
 print(f"Retrieved document: {docs[0].page_content}")
 ```
+
 ```output
 Retrieved document: LangChain is a framework for developing applications powered by language models
 ```
+
 ## Direct Usage
 
 You can directly use the `NebiusEmbeddings` class to generate embeddings for text without using a vector store.
@@ -131,7 +130,6 @@ You can directly use the `NebiusEmbeddings` class to generate embeddings for tex
 ### Embedding a Single Text
 
 You can use the `embed_query` method to embed a single piece of text:
-
 
 ```python
 query = "What is machine learning?"
@@ -141,14 +139,15 @@ query_embedding = embeddings.embed_query(query)
 print(f"Embedding dimension: {len(query_embedding)}")
 print(f"First few values: {query_embedding[:5]}")
 ```
+
 ```output
 Embedding dimension: 4096
 First few values: [0.007419586181640625, 0.002246856689453125, 0.00193023681640625, -0.0066070556640625, -0.0179901123046875]
 ```
+
 ### Embedding Multiple Texts
 
 You can embed multiple texts at once using the `embed_documents` method:
-
 
 ```python
 documents = [
@@ -163,14 +162,15 @@ document_embeddings = embeddings.embed_documents(documents)
 print(f"Number of document embeddings: {len(document_embeddings)}")
 print(f"Each embedding has {len(document_embeddings[0])} dimensions")
 ```
+
 ```output
 Number of document embeddings: 3
 Each embedding has 4096 dimensions
 ```
+
 ### Async Support
 
 NebiusEmbeddings supports async operations:
-
 
 ```python
 import asyncio
@@ -193,12 +193,13 @@ async def generate_embeddings_async():
 
 await generate_embeddings_async()
 ```
+
 ```output
 Async query embedding dimension: 4096
 Async document embeddings count: 3
 ```
-### Document Similarity Example
 
+### Document Similarity Example
 
 ```python
 import numpy as np
@@ -230,6 +231,7 @@ for i, emb_i in enumerate(embeddings_list):
         similarities.append(f"{similarity:.4f}")
     print(f"Document {i + 1}: {similarities}")
 ```
+
 ```output
 Document Similarity Matrix:
 Document 1: ['1.0000', '0.8282', '0.5811', '0.7985']
@@ -237,6 +239,7 @@ Document 2: ['0.8282', '1.0000', '0.5897', '0.8315']
 Document 3: ['0.5811', '0.5897', '1.0000', '0.5918']
 Document 4: ['0.7985', '0.8315', '0.5918', '1.0000']
 ```
+
 ## API Reference
 
 For more details about the Nebius AI Studio API, visit the [Nebius AI Studio Documentation](https://studio.nebius.ai/docs/api-reference).

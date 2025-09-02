@@ -10,13 +10,11 @@ This notebook shows how to interact with the `Google Cloud Text-to-Speech API` t
 
 First, you need to set up an Google Cloud project. You can follow the instructions [here](https://cloud.google.com/text-to-speech/docs/before-you-begin).
 
-
 ```python
 !pip install --upgrade langchain-google-community[texttospeech]
 ```
 
 ## Instantiation
-
 
 ```python
 from langchain_google_community import TextToSpeechTool
@@ -24,11 +22,9 @@ from langchain_google_community import TextToSpeechTool
 
 ## Deprecated GoogleCloudTextToSpeechTool
 
-
 ```python
 from langchain_community.tools import GoogleCloudTextToSpeechTool
 ```
-
 
 ```python
 text_to_speak = "Hello world!"
@@ -38,7 +34,6 @@ tts.name
 ```
 
 We can generate audio, save it to the temporary file and then play it.
-
 
 ```python
 speech_file = tts.run(text_to_speak)

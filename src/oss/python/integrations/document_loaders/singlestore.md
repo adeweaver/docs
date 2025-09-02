@@ -13,6 +13,7 @@ The `SingleStoreLoader` allows you to load documents directly from a SingleStore
 | `SingleStoreLoader` | `langchain_singlestore` | ❌ |
 
 ### Features
+
 - Load documents lazily to handle large datasets efficiently.
 - Supports native asynchronous operations.
 - Easily configurable to work with different database schemas.
@@ -25,7 +26,6 @@ To use the `SingleStoreLoader`, you need to install the `langchain-singlestore` 
 
 Install **langchain_singlestore**.
 
-
 ```python
 %pip install -qU langchain_singlestore
 ```
@@ -34,21 +34,25 @@ Install **langchain_singlestore**.
 
 To initialize `SingleStoreLoader`, you need to provide connection parameters for the SingleStore database and specify the table and fields to load documents from.
 
-### Required Parameters:
+### Required Parameters
+
 - **host** (`str`): Hostname, IP address, or URL for the database.
 - **table_name** (`str`): Name of the table to query. Defaults to `embeddings`.
 - **content_field** (`str`): Field containing document content. Defaults to `content`.
 - **metadata_field** (`str`): Field containing document metadata. Defaults to `metadata`.
 
-### Optional Parameters:
+### Optional Parameters
+
 - **id_field** (`str`): Field containing document IDs. Defaults to `id`.
 
-### Connection Pool Parameters:
+### Connection Pool Parameters
+
 - **pool_size** (`int`): Number of active connections in the pool. Defaults to `5`.
 - **max_overflow** (`int`): Maximum connections beyond `pool_size`. Defaults to `10`.
 - **timeout** (`float`): Connection timeout in seconds. Defaults to `30`.
 
-### Additional Options:
+### Additional Options
+
 - **pure_python** (`bool`): Enables pure Python mode.
 - **local_infile** (`bool`): Allows local file uploads.
 - **charset** (`str`): Character set for string values.
@@ -58,7 +62,6 @@ To initialize `SingleStoreLoader`, you need to provide connection parameters for
 - **ssl_verify_identity** (`bool`): Verifies server's identity.
 - **autocommit** (`bool`): Enables autocommits.
 - **results_type** (`str`): Structure of query results (e.g., `tuples`, `dicts`).
-
 
 ```python
 from langchain_singlestore.document_loaders import SingleStoreLoader
@@ -74,19 +77,16 @@ loader = SingleStoreLoader(
 
 ## Load
 
-
 ```python
 docs = loader.load()
 docs[0]
 ```
-
 
 ```python
 print(docs[0].metadata)
 ```
 
 ## Lazy Load
-
 
 ```python
 page = []

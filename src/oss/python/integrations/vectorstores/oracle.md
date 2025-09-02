@@ -8,19 +8,19 @@ This is not only powerful but also significantly more effective because you don'
 
 In addition, your vectors can benefit from all of Oracle Database’s most powerful features, like the following:
 
- * [Partitioning Support](https://www.oracle.com/database/technologies/partitioning.html)
- * [Real Application Clusters scalability](https://www.oracle.com/database/real-application-clusters/)
- * [Exadata smart scans](https://www.oracle.com/database/technologies/exadata/software/smartscan/)
- * [Shard processing across geographically distributed databases](https://www.oracle.com/database/distributed-database/)
- * [Transactions](https://docs.oracle.com/en/database/oracle/oracle-database/23/cncpt/transactions.html)
- * [Parallel SQL](https://docs.oracle.com/en/database/oracle/oracle-database/21/vldbg/parallel-exec-intro.html#GUID-D28717E4-0F77-44F5-BB4E-234C31D4E4BA)
- * [Disaster recovery](https://www.oracle.com/database/data-guard/)
- * [Security](https://www.oracle.com/security/database-security/)
- * [Oracle Machine Learning](https://www.oracle.com/artificial-intelligence/database-machine-learning/)
- * [Oracle Graph Database](https://www.oracle.com/database/integrated-graph-database/)
- * [Oracle Spatial and Graph](https://www.oracle.com/database/spatial/)
- * [Oracle Blockchain](https://docs.oracle.com/en/database/oracle/oracle-database/23/arpls/dbms_blockchain_table.html#GUID-B469E277-978E-4378-A8C1-26D3FF96C9A6)
- * [JSON](https://docs.oracle.com/en/database/oracle/oracle-database/23/adjsn/json-in-oracle-database.html)
+* [Partitioning Support](https://www.oracle.com/database/technologies/partitioning.html)
+* [Real Application Clusters scalability](https://www.oracle.com/database/real-application-clusters/)
+* [Exadata smart scans](https://www.oracle.com/database/technologies/exadata/software/smartscan/)
+* [Shard processing across geographically distributed databases](https://www.oracle.com/database/distributed-database/)
+* [Transactions](https://docs.oracle.com/en/database/oracle/oracle-database/23/cncpt/transactions.html)
+* [Parallel SQL](https://docs.oracle.com/en/database/oracle/oracle-database/21/vldbg/parallel-exec-intro.html#GUID-D28717E4-0F77-44F5-BB4E-234C31D4E4BA)
+* [Disaster recovery](https://www.oracle.com/database/data-guard/)
+* [Security](https://www.oracle.com/security/database-security/)
+* [Oracle Machine Learning](https://www.oracle.com/artificial-intelligence/database-machine-learning/)
+* [Oracle Graph Database](https://www.oracle.com/database/integrated-graph-database/)
+* [Oracle Spatial and Graph](https://www.oracle.com/database/spatial/)
+* [Oracle Blockchain](https://docs.oracle.com/en/database/oracle/oracle-database/23/arpls/dbms_blockchain_table.html#GUID-B469E277-978E-4378-A8C1-26D3FF96C9A6)
+* [JSON](https://docs.oracle.com/en/database/oracle/oracle-database/23/adjsn/json-in-oracle-database.html)
 
 If you are just starting with Oracle Database, consider exploring the [free Oracle 23 AI](https://www.oracle.com/database/free/#resources) which provides a great introduction to setting up your database environment. While working with the database, it is often advisable to avoid using the system user by default; instead, you can create your own user for enhanced security and customization. For detailed steps on user creation, refer to our [end-to-end guide](https://github.com/langchain-ai/langchain/blob/master/cookbook/oracleai_demo.ipynb) which also shows how to set up a user in Oracle. Additionally, understanding user privileges is crucial for managing database security effectively. You can learn more about this topic in the official [Oracle guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/admqs/administering-user-accounts-and-security.html#GUID-36B21D72-1BBB-46C9-A0C9-F0D2A8591B8D) on administering user accounts and security.
 
@@ -30,7 +30,6 @@ You'll need to install `langchain-community` with `pip install -qU langchain-com
 
 Please install Oracle Python Client driver to use Langchain with Oracle AI Vector Search.
 
-
 ```python
 # pip install oracledb
 ```
@@ -38,7 +37,6 @@ Please install Oracle Python Client driver to use Langchain with Oracle AI Vecto
 ### Connect to Oracle AI Vector Search
 
 The following sample code will show how to connect to Oracle Database. By default, python-oracledb runs in a ‘Thin’ mode which connects directly to Oracle Database. This mode does not need Oracle Client libraries. However, some additional functionality is available when python-oracledb uses them. Python-oracledb is said to be in ‘Thick’ mode when Oracle Client libraries are used. Both modes have comprehensive functionality supporting the Python Database API v2.0 Specification. See the following [guide](https://python-oracledb.readthedocs.io/en/latest/user_guide/appendix_a.html#featuresummary) that talks about features supported in each mode. You might want to switch to thick-mode if you are unable to use thin-mode.
-
 
 ```python
 import oracledb
@@ -56,7 +54,6 @@ except Exception as e:
 
 ### Import the required dependencies to use Oracle AI Vector Search
 
-
 ```python
 from langchain_community.vectorstores import oraclevs
 from langchain_community.vectorstores.oraclevs import OracleVS
@@ -66,7 +63,6 @@ from langchain_huggingface import HuggingFaceEmbeddings
 ```
 
 ### Load Documents
-
 
 ```python
 # Define a list of documents (The examples below are 5 random documents from Oracle Concepts Manual )
@@ -95,7 +91,6 @@ documents_json_list = [
 ]
 ```
 
-
 ```python
 # Create Langchain Documents
 
@@ -116,7 +111,6 @@ Documents_DOT, Documents_COSINE and Documents_EUCLIDEAN.
 
 We will then create three additional tables Documents_DOT_IVF, Documents_COSINE_IVF and Documents_EUCLIDEAN_IVF which will be used
 to create IVF indicies on the tables instead of HNSW indices.
-
 
 ```python
 # Ingest documents into Oracle Vector Store using different distance strategies
@@ -175,8 +169,6 @@ vector_store_euclidean_ivf = OracleVS.from_documents(
 
 ### Demonstrating add and delete operations for texts, along with basic similarity search
 
-
-
 ```python
 def manage_texts(vector_stores):
     """
@@ -221,8 +213,6 @@ manage_texts(vector_store_list)
 ```
 
 ### Demonstrating index creation with specific parameters for each distance strategy
-
-
 
 ```python
 def create_search_indices(connection):
@@ -305,7 +295,6 @@ create_search_indices(connection)
 
 ### Demonstrate advanced searches on all six vector stores, with and without attribute filtering – with filtering, we only select the document id 101 and nothing else
 
-
 ```python
 # Conduct advanced searches after creating the indices
 def conduct_advanced_searches(vector_stores):
@@ -349,4 +338,5 @@ conduct_advanced_searches(vector_store_list)
 ```
 
 ### End to End Demo
+
 Please refer to our complete demo guide [Oracle AI Vector Search End-to-End Demo Guide](https://github.com/langchain-ai/langchain/tree/master/cookbook/oracleai_demo.ipynb) to build an end to end RAG pipeline with the help of Oracle AI Vector Search.

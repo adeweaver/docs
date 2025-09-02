@@ -10,11 +10,9 @@ To use this toolkit, you will need to have your Amadeus API keys ready, explaine
 
 Note: Amadeus Self-Service APIs offers a test environment with [free limited data](https://amadeus4dev.github.io/developer-guides/test-data/). This allows developers to build and test their applications before deploying them to production. To access real-time data, you will need to [move to the production environment](https://amadeus4dev.github.io/developer-guides/API-Keys/moving-to-production/).
 
-
 ```python
 %pip install --upgrade --quiet  amadeus > /dev/null
 ```
-
 
 ```python
 %pip install -qU langchain-community
@@ -23,7 +21,6 @@ Note: Amadeus Self-Service APIs offers a test environment with [free limited dat
 ## Assign Environmental Variables
 
 The toolkit will read the AMADEUS_CLIENT_ID and AMADEUS_CLIENT_SECRET environmental variables to authenticate the user, so you need to set them here.
-
 
 ```python
 # Set environmental variables here
@@ -41,12 +38,9 @@ To start, you need to create the toolkit, so you can access its tools later.
 
 By default, `AmadeusToolkit` uses `ChatOpenAI` to identify airports closest to a given location. To use it, just set `OPENAI_API_KEY`.
 
-
-
 ```python
 os.environ["OPENAI_API_KEY"] = "YOUR_OPENAI_API_KEY"
 ```
-
 
 ```python
 from langchain_community.agent_toolkits.amadeus.toolkit import AmadeusToolkit
@@ -56,7 +50,6 @@ tools = toolkit.get_tools()
 ```
 
 Alternatively, you can use any LLM supported by langchain, e.g. `HuggingFaceHub`.
-
 
 ```python
 from langchain_community.llms import HuggingFaceHub
@@ -73,7 +66,6 @@ toolkit_hf = AmadeusToolkit(llm=llm)
 
 ## Use Amadeus Toolkit within an Agent
 
-
 ```python
 from langchain import hub
 from langchain.agents import AgentExecutor, create_agent
@@ -81,7 +73,6 @@ from langchain.agents.output_parsers import ReActJsonSingleInputOutputParser
 from langchain.tools.render import render_text_description_and_args
 from langchain_openai import ChatOpenAI
 ```
-
 
 ```python
 llm = ChatOpenAI(temperature=0)
@@ -102,10 +93,10 @@ agent_executor = AgentExecutor(
 )
 ```
 
-
 ```python
 agent_executor.invoke({"input": "What is the name of the airport in Cali, Colombia?"})
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 I should use the closest_airport tool to find the airport in Cali, Colombia.
@@ -116,13 +107,10 @@ Final Answer: CLO
 > Finished chain.
 ```
 
-
 ```output
 {'input': 'What is the name of the airport in Cali, Colombia?',
  'output': 'CLO'}
 ```
-
-
 
 ```python
 agent_executor.invoke(
@@ -131,6 +119,7 @@ agent_executor.invoke(
     }
 )
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 Question: What is the departure time of the cheapest flight on March 10, 2024 leaving Dallas, Texas before noon to Lincoln, Nebraska?
@@ -162,13 +151,10 @@ Final Answer: The departure time of the cheapest flight on March 10, 2024, leavi
 > Finished chain.
 ```
 
-
 ```output
 {'input': 'What is the departure time of the cheapest flight on March 10, 2024 leaving Dallas, Texas before noon to Lincoln, Nebraska?',
  'output': 'The departure time of the cheapest flight on March 10, 2024, leaving Dallas, Texas before noon to Lincoln, Nebraska is 10:54 AM.'}
 ```
-
-
 
 ```python
 agent_executor.invoke(
@@ -177,6 +163,7 @@ agent_executor.invoke(
     }
 )
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 Question: At what time does the earliest flight on March 10, 2024, leaving Dallas, Texas, to Lincoln, Nebraska land in Nebraska?
@@ -213,13 +200,10 @@ Final Answer: The earliest flight on March 10, 2024, leaving Dallas, Texas to Li
 > Finished chain.
 ```
 
-
 ```output
 {'input': 'At what time does earliest flight on March 10, 2024 leaving Dallas, Texas to Lincoln, Nebraska land in Nebraska?',
  'output': 'The earliest flight on March 10, 2024, leaving Dallas, Texas to Lincoln, Nebraska lands in Nebraska at 14:19 on March 11, 2024.'}
 ```
-
-
 
 ```python
 # to execute api correctly, change the querying date to feature
@@ -229,6 +213,7 @@ agent_executor.invoke(
     }
 )
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 Question: What is the full travel time for the cheapest flight between Portland, Oregon to Dallas, TX on March 10, 2024?
@@ -279,13 +264,10 @@ Final Answer: The full travel time for the cheapest flight between Portland, Ore
 > Finished chain.
 ```
 
-
 ```output
 {'input': 'What is the full travel time for the cheapest flight between Portland, Oregon to Dallas, TX on March 10, 2024?',
  'output': 'The full travel time for the cheapest flight between Portland, Oregon and Dallas, TX on March 10, 2024, is approximately 21 hours and 2 minutes.'}
 ```
-
-
 
 ```python
 agent_executor.invoke(
@@ -294,6 +276,7 @@ agent_executor.invoke(
     }
 )
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 Question: Please draft a concise email from Santiago to Paul, Santiago's travel agent, asking him to book the earliest flight from DFW to DCA on March 10, 2024. Include all flight details in the email.
@@ -345,13 +328,10 @@ Action:
 > Finished chain.
 ```
 
-
 ```output
 {'input': "Please draft a concise email from Santiago to Paul, Santiago's travel agent, asking him to book the earliest flight from DFW to DCA on March 10, 2024. Include all flight details in the email.",
  'output': 'We have found several flight options from Dallas Fort Worth (DFW) to Washington D.C. (DCA) on March 10, 2024. The earliest flight is with United Airlines, departing from DFW at 06:00 and arriving at DCA at 13:19 with flight numbers 1517 and 4431. The total price is 303.31 EURO.'}
 ```
-
-
 
 ```python
 

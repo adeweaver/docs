@@ -14,14 +14,13 @@ This tool lets you quickly set up [ZenGuard AI](https://www.zenguard.ai/) in you
 
 Please, also check out our [open-source Python Client](https://github.com/ZenGuard-AI/fast-llm-security-guardrails?tab=readme-ov-file) for more inspiration.
 
-Here is our main website - https://www.zenguard.ai/
+Here is our main website - <https://www.zenguard.ai/>
 
 More [Docs](https://docs.zenguard.ai/start/intro/)
 
 ## Installation
 
 Using pip:
-
 
 ```python
 pip install langchain-community
@@ -43,11 +42,9 @@ Generate an API Key:
 
 paste your api key into env ZENGUARD_API_KEY
 
-
 ```python
 %set_env ZENGUARD_API_KEY=your_api_key
 ```
-
 
 ```python
 from langchain_community.tools.zenguard import ZenGuardTool
@@ -56,7 +53,6 @@ tool = ZenGuardTool()
 ```
 
 ### Detect Prompt Injection
-
 
 ```python
 from langchain_community.tools.zenguard import Detector
@@ -70,22 +66,22 @@ else:
     print("No prompt injection detected: carry on with the LLM of your choice.")
 ```
 
-* `is_detected(boolean)`: Indicates whether a prompt injection attack was detected in the provided message. In this example, it is False.
- * `score(float: 0.0 - 1.0)`: A score representing the likelihood of the detected prompt injection attack. In this example, it is 0.0.
- * `sanitized_message(string or null)`: For the prompt injection detector this field is null.
- * `latency(float or null)`: Time in milliseconds during which the detection was performed
+- `is_detected(boolean)`: Indicates whether a prompt injection attack was detected in the provided message. In this example, it is False.
+- `score(float: 0.0 - 1.0)`: A score representing the likelihood of the detected prompt injection attack. In this example, it is 0.0.
+- `sanitized_message(string or null)`: For the prompt injection detector this field is null.
+- `latency(float or null)`: Time in milliseconds during which the detection was performed
 
   **Error Codes:**
 
- * `401 Unauthorized`: API key is missing or invalid.
- * `400 Bad Request`: The request body is malformed.
- * `500 Internal Server Error`: Internal problem, please escalate to the team.
+- `401 Unauthorized`: API key is missing or invalid.
+- `400 Bad Request`: The request body is malformed.
+- `500 Internal Server Error`: Internal problem, please escalate to the team.
 
 ### More examples
 
- * [Detect PII](https://docs.zenguard.ai/detectors/pii/)
- * [Detect Allowed Topics](https://docs.zenguard.ai/detectors/allowed-topics/)
- * [Detect Banned Topics](https://docs.zenguard.ai/detectors/banned-topics/)
- * [Detect Keywords](https://docs.zenguard.ai/detectors/keywords/)
- * [Detect Secrets](https://docs.zenguard.ai/detectors/secrets/)
- * [Detect Toxicity](https://docs.zenguard.ai/detectors/toxicity/)
+- [Detect PII](https://docs.zenguard.ai/detectors/pii/)
+- [Detect Allowed Topics](https://docs.zenguard.ai/detectors/allowed-topics/)
+- [Detect Banned Topics](https://docs.zenguard.ai/detectors/banned-topics/)
+- [Detect Keywords](https://docs.zenguard.ai/detectors/keywords/)
+- [Detect Secrets](https://docs.zenguard.ai/detectors/secrets/)
+- [Detect Toxicity](https://docs.zenguard.ai/detectors/toxicity/)

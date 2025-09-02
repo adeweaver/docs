@@ -15,15 +15,14 @@ Furthermore, Connery, supported by our community, provides a diverse collection 
 
 Learn more about Connery:
 
-- GitHub: https://github.com/connery-io/connery
-- Documentation: https://docs.connery.io
+- GitHub: <https://github.com/connery-io/connery>
+- Documentation: <https://docs.connery.io>
 
 ## Setup
 
 ### Installation
 
 You need to install the `langchain_community` package to use the Connery tools.
-
 
 ```python
 %pip install -qU langchain-community
@@ -36,7 +35,6 @@ To use Connery Actions in your LangChain agent, you need to do some preparation:
 1. Set up the Connery runner using the [Quickstart](https://docs.connery.io/docs/runner/quick-start/) guide.
 2. Install all the plugins with the actions you want to use in your agent.
 3. Set environment variables `CONNERY_RUNNER_URL` and `CONNERY_RUNNER_API_KEY` so the toolkit can communicate with the Connery Runner.
-
 
 ```python
 import getpass
@@ -55,7 +53,6 @@ In the example below, we create an agent that uses two Connery Actions to summar
 2. **Send email** action from the [Gmail](https://github.com/connery-io/gmail) plugin.
 
 You can see a LangSmith trace of this example [here](https://smith.langchain.com/public/4af5385a-afe9-46f6-8a53-57fe2d63c5bc/r).
-
 
 ```python
 import os
@@ -90,6 +87,7 @@ and send it to {recepient_email}. Include the link to the webpage into the body 
 )
 print(result)
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 
@@ -105,10 +103,10 @@ Invoking: `CABC80BB79C15067CA983495324AE709` with `{'recipient': 'test@example.c
 > Finished chain.
 I have sent the email with the summary of the webpage to test@example.com. Please check your inbox.
 ```
+
 NOTE: Connery Action is a structured tool, so you can only use it in the agents supporting structured tools.
 
 ## Tool
-
 
 ```python
 import os
@@ -134,7 +132,6 @@ send_email_action = connery_service.get_action("CABC80BB79C15067CA983495324AE709
 
 Run the action manually.
 
-
 ```python
 manual_run_result = send_email_action.run(
     {
@@ -150,7 +147,6 @@ Run the action using the OpenAI Functions agent.
 
 You can see a LangSmith trace of this example [here](https://smith.langchain.com/public/a37d216f-c121-46da-a428-0e09dc19b1dc/r).
 
-
 ```python
 llm = ChatOpenAI(temperature=0)
 agent = initialize_agent(
@@ -161,6 +157,7 @@ agent_run_result = agent.run(
 )
 print(agent_run_result)
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 
@@ -172,11 +169,12 @@ Invoking: `CABC80BB79C15067CA983495324AE709` with `{'recipient': 'test@example.c
 > Finished chain.
 I have sent an email to test@example.com informing them that you will be late for the meeting.
 ```
+
 NOTE: Connery Action is a structured tool, so you can only use it in the agents supporting structured tools.
 
 ## API reference
 
 For detailed documentation of all Connery features and configurations head to the API reference:
 
-- Toolkit: https://python.langchain.com/api_reference/community/agent_toolkits/langchain_community.agent_toolkits.connery.toolkit.ConneryToolkit.html
-- Tool: https://python.langchain.com/api_reference/community/tools/langchain_community.tools.connery.service.ConneryService.html
+- Toolkit: <https://python.langchain.com/api_reference/community/agent_toolkits/langchain_community.agent_toolkits.connery.toolkit.ConneryToolkit.html>
+- Tool: <https://python.langchain.com/api_reference/community/tools/langchain_community.tools.connery.service.ConneryService.html>

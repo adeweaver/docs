@@ -8,11 +8,9 @@ title: Fleet AI Context
 
 Let's take a look at how we can use these embeddings to power a docs retrieval system and ultimately a simple code-generating chain!
 
-
 ```python
 %pip install --upgrade --quiet  langchain fleet-context langchain-openai pandas faiss-cpu # faiss-gpu for CUDA supported GPU
 ```
-
 
 ```python
 from operator import itemgetter
@@ -87,8 +85,7 @@ def _populate_docstore(df: pd.DataFrame, docstore: BaseStore) -> None:
 
 As part of their embedding process, the Fleet AI team first chunked long documents before embedding them. This means the vectors correspond to sections of pages in the LangChain docs, not entire pages. By default, when we spin up a retriever from these embeddings, we'll be retrieving these embedded chunks.
 
-We will be using Fleet Context's `download_embeddings()` to grab Langchain's documentation embeddings. You can view all supported libraries' documentation at https://fleet.so/context.
-
+We will be using Fleet Context's `download_embeddings()` to grab Langchain's documentation embeddings. You can view all supported libraries' documentation at <https://fleet.so/context>.
 
 ```python
 from context import download_embeddings
@@ -96,7 +93,6 @@ from context import download_embeddings
 df = download_embeddings("langchain")
 vecstore_retriever = load_fleet_retriever(df)
 ```
-
 
 ```python
 vecstore_retriever.invoke("How does the multi vector retriever work")
@@ -110,7 +106,6 @@ You can download and use other embeddings from [this Dropbox link](https://www.d
 
 The embeddings provided by Fleet AI contain metadata that indicates which embedding chunks correspond to the same original document page. If we'd like we can use this information to retrieve whole parent documents, and not just embedded chunks. Under the hood, we'll use a MultiVectorRetriever and a BaseStore object to search for relevant chunks and then map them to their parent document.
 
-
 ```python
 from langchain.storage import InMemoryStore
 
@@ -120,7 +115,6 @@ parent_retriever = load_fleet_retriever(
 )
 ```
 
-
 ```python
 parent_retriever.invoke("How does the multi vector retriever work")
 ```
@@ -128,7 +122,6 @@ parent_retriever.invoke("How does the multi vector retriever work")
 ## Putting it in a chain
 
 Let's try using our retrieval systems in a simple chain!
-
 
 ```python
 from langchain_core.output_parsers import StrOutputParser
@@ -169,7 +162,6 @@ chain = (
     | StrOutputParser()
 )
 ```
-
 
 ```python
 for chunk in chain.invoke(

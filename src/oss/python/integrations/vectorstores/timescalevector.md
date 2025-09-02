@@ -9,11 +9,13 @@ This notebook shows how to use the Postgres vector database `Timescale Vector`. 
 ## What is Timescale Vector?
 
 `Timescale Vector` enables you to efficiently store and query millions of vector embeddings in `PostgreSQL`.
+
 - Enhances `pgvector` with faster and more accurate similarity search on 100M+ vectors via `DiskANN` inspired indexing algorithm.
 - Enables fast time-based vector search via automatic time-based partitioning and indexing.
 - Provides a familiar SQL interface for querying vector embeddings and relational data.
 
 `Timescale Vector` is cloud `PostgreSQL` for AI that scales with you from POC to production:
+
 - Simplifies operations by enabling you to store relational metadata, vector embeddings, and time-series data in a single database.
 - Benefits from rock-solid PostgreSQL foundation with enterprise-grade features like streaming backups and replication, high availability and row-level security.
 - Enables a worry-free experience with enterprise-grade security and compliance.
@@ -23,6 +25,7 @@ This notebook shows how to use the Postgres vector database `Timescale Vector`. 
 `Timescale Vector` is available on [Timescale](https://www.timescale.com/ai?utm_campaign=vectorlaunch&utm_source=langchain&utm_medium=referral), the cloud PostgreSQL platform. (There is no self-hosted version at this time.)
 
 LangChain users get a 90-day free trial for Timescale Vector.
+
 - To get started, [signup](https://console.cloud.timescale.com/signup?utm_campaign=vectorlaunch&utm_source=langchain&utm_medium=referral) to Timescale, create a new database and follow this notebook!
 - See the [Timescale Vector explainer blog](https://www.timescale.com/blog/how-we-made-postgresql-the-best-vector-database/?utm_campaign=vectorlaunch&utm_source=langchain&utm_medium=referral) for more details and performance benchmarks.
 - See the [installation instructions](https://github.com/timescale/python-vector) for more details on using Timescale Vector in Python.
@@ -30,7 +33,6 @@ LangChain users get a 90-day free trial for Timescale Vector.
 ## Setup
 
 Follow these steps to get ready to follow this tutorial.
-
 
 ```python
 # Pip install necessary packages
@@ -40,7 +42,6 @@ Follow these steps to get ready to follow this tutorial.
 ```
 
 In this example, we'll use `OpenAIEmbeddings`, so let's load your OpenAI API key.
-
 
 ```python
 import os
@@ -53,7 +54,6 @@ _ = load_dotenv(find_dotenv())
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 ```
 
-
 ```python
 # Get the API key and save it as an environment variable
 # import os
@@ -62,13 +62,11 @@ OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 
 ```
 
-
 ```python
 from typing import Tuple
 ```
 
 Next we'll import the needed Python libraries and libraries from LangChain. Note that we import the `timescale-vector` library as well as the TimescaleVector LangChain vectorstore.
-
 
 ```python
 from datetime import datetime, timedelta
@@ -84,7 +82,6 @@ from langchain_text_splitters import CharacterTextSplitter
 ## 1. Similarity Search with Euclidean Distance (Default)
 
 First, we'll look at an example of doing a similarity search query on the State of the Union speech to find the most similar sentences to a given query sentence. We'll use the [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance) as our similarity metric.
-
 
 ```python
 # Load the text and split it into chunks
@@ -104,7 +101,6 @@ Then, to connect to your PostgreSQL database, you'll need your service URI, whic
 
 The URI will look something like this: `postgres://tsdbadmin:<password>@<id>.tsdb.cloud.timescale.com:<port>/tsdb?sslmode=require`.
 
-
 ```python
 # Timescale Vector needs the service url to your cloud database. You can see this as soon as you create the
 # service in the cloud UI or in your credentials.sql file
@@ -122,7 +118,6 @@ Next we create a TimescaleVector vectorstore. We specify a collection name, whic
 
 Note: When creating a new instance of TimescaleVector, the TimescaleVector Module will try to create a table with the name of the collection. So, make sure that the collection name is unique (i.e it doesn't already exist).
 
-
 ```python
 # The TimescaleVector Module will create a table with the name of the collection.
 COLLECTION_NAME = "state_of_the_union_test"
@@ -138,12 +133,10 @@ db = TimescaleVector.from_documents(
 
 Now that we've loaded our data, we can perform a similarity search.
 
-
 ```python
 query = "What did the president say about Ketanji Brown Jackson"
 docs_with_score = db.similarity_search_with_score(query)
 ```
-
 
 ```python
 for doc, score in docs_with_score:
@@ -152,6 +145,7 @@ for doc, score in docs_with_score:
     print(doc.page_content)
     print("-" * 80)
 ```
+
 ```output
 --------------------------------------------------------------------------------
 Score:  0.18443380687035138
@@ -202,28 +196,29 @@ We’re putting in place dedicated immigration judges so families fleeing persec
 We’re securing commitments and supporting partners in South and Central America to host more refugees and secure their own borders.
 --------------------------------------------------------------------------------
 ```
-### Using a Timescale Vector as a Retriever
-After initializing a TimescaleVector store, you can use it as a [retriever](/docs/how_to#retrievers).
 
+### Using a Timescale Vector as a Retriever
+
+After initializing a TimescaleVector store, you can use it as a [retriever](/docs/how_to#retrievers).
 
 ```python
 # Use TimescaleVector as a retriever
 retriever = db.as_retriever()
 ```
 
-
 ```python
 print(retriever)
 ```
+
 ```output
 tags=['TimescaleVector', 'OpenAIEmbeddings'] metadata=None vectorstore=<langchain_community.vectorstores.timescalevector.TimescaleVector object at 0x10fc8d070> search_type='similarity' search_kwargs={}
 ```
+
 Let's look at an example of using Timescale Vector as a retriever with the RetrievalQA chain and the stuff documents chain.
 
 In this example, we'll ask the same query as above, but this time we'll pass the relevant documents returned from Timescale Vector to an LLM to use as context to answer our question.
 
 First we'll create our stuff chain:
-
 
 ```python
 # Initialize GPT3.5 model
@@ -242,11 +237,11 @@ qa_stuff = RetrievalQA.from_chain_type(
 )
 ```
 
-
 ```python
 query = "What did the president say about Ketanji Brown Jackson?"
 response = qa_stuff.run(query)
 ```
+
 ```output
 > Entering new RetrievalQA chain...
 
@@ -256,14 +251,17 @@ response = qa_stuff.run(query)
 ```python
 print(response)
 ```
+
 ```output
 The President said that he nominated Circuit Court of Appeals Judge Ketanji Brown Jackson, who is one of our nation's top legal minds and will continue Justice Breyer's legacy of excellence. He also mentioned that since her nomination, she has received a broad range of support from various groups, including the Fraternal Order of Police and former judges appointed by Democrats and Republicans.
 ```
+
 ## 2. Similarity Search with time-based filtering
 
 A key use case for Timescale Vector is efficient time-based vector search. Timescale Vector enables this by automatically partitioning vectors (and associated metadata) by time. This allows you to efficiently query vectors by both similarity to a query vector and time.
 
 Time-based vector search functionality is helpful for applications like:
+
 - Storing and retrieving LLM response history (e.g. chatbots)
 - Finding the most recent embeddings that are similar to a query vector (e.g recent news).
 - Constraining similarity search to a relevant time range (e.g asking time-based questions about a knowledge base)
@@ -271,8 +269,8 @@ Time-based vector search functionality is helpful for applications like:
 To illustrate how to use TimescaleVector's time-based vector search functionality, we'll ask questions about the git log history for TimescaleDB . We'll illustrate how to add documents with a time-based uuid and how run similarity searches with time range filters.
 
 ### Extract content and metadata from git log JSON
-First lets load in the git log data into a new collection in our PostgreSQL database named `timescale_commits`.
 
+First lets load in the git log data into a new collection in our PostgreSQL database named `timescale_commits`.
 
 ```python
 ```
@@ -280,7 +278,6 @@ First lets load in the git log data into a new collection in our PostgreSQL data
 We'll define a helper function to create a uuid for a document and associated vector embedding based on its timestamp. We'll use this function to create a uuid for each git log entry.
 
 Important note: If you are working with documents and want the current date and time associated with vector for time-based search, you can skip this step. A uuid will be automatically generated when the documents are ingested by default.
-
 
 ```python
 from timescale_vector import client
@@ -295,8 +292,8 @@ def create_uuid(date_string: str):
     uuid = client.uuid_from_time(datetime_obj)
     return str(uuid)
 ```
-Next, we'll define a metadata function to extract the relevant metadata from the JSON record. We'll pass this function to the JSONLoader. See the [JSON document loader docs](/oss/how-to/document_loader_json) for more details.
 
+Next, we'll define a metadata function to extract the relevant metadata from the JSON record. We'll pass this function to the JSONLoader. See the [JSON document loader docs](/oss/how-to/document_loader_json) for more details.
 
 ```python
 # Helper function to split name and email given an author string consisting of Name Lastname <email>
@@ -357,18 +354,18 @@ def extract_metadata(record: dict, metadata: dict) -> dict:
     metadata["commit_hash"] = record["commit"]
     return metadata
 ```
+
 Next, you'll need to [download the sample dataset](https://s3.amazonaws.com/assets.timescale.com/ai/ts_git_log.json) and place it in the same directory as this notebook.
 
 You can use following command:
-
 
 ```python
 # Download the file using curl and save it as commit_history.csv
 # Note: Execute this command in your terminal, in the same directory as the notebook
 !curl -O https://s3.amazonaws.com/assets.timescale.com/ai/ts_git_log.json
 ```
-Finally we can initialize the JSON loader to parse the JSON records. We also remove empty records for simplicity.
 
+Finally we can initialize the JSON loader to parse the JSON records. We also remove empty records for simplicity.
 
 ```python
 # Define path to the JSON file relative to this notebook
@@ -387,17 +384,20 @@ documents = loader.load()
 # Remove documents with None dates
 documents = [doc for doc in documents if doc.metadata["date"] is not None]
 ```
+
 ```python
 print(documents[0])
 ```
+
 ```output
 page_content='{"commit": "44e41c12ab25e36c202f58e068ced262eadc8d16", "author": "Lakshmi Narayanan Sreethar<lakshmi@timescale.com>", "date": "Tue Sep 5 21:03:21 2023 +0530", "change summary": "Fix segfault in set_integer_now_func", "change details": "When an invalid function oid is passed to set_integer_now_func, it finds out that the function oid is invalid but before throwing the error, it calls ReleaseSysCache on an invalid tuple causing a segfault. Fixed that by removing the invalid call to ReleaseSysCache.  Fixes #6037 "}' metadata={'source': '/Users/avtharsewrathan/sideprojects2023/timescaleai/tsv-langchain/ts_git_log.json', 'seq_num': 1, 'id': '8b407680-4c01-11ee-96a6-b82284ddccc6', 'date': '2023-09-5 21:03:21+0850', 'author_name': 'Lakshmi Narayanan Sreethar', 'author_email': 'lakshmi@timescale.com', 'commit_hash': '44e41c12ab25e36c202f58e068ced262eadc8d16'}
 ```
+
 ### Load documents and metadata into TimescaleVector vectorstore
+
 Now that we have prepared our documents, let's process them and load them, along with their vector embedding representations into our TimescaleVector vectorstore.
 
 Since this is a demo, we will only load the first 500 records. In practice, you can load as many records as you want.
-
 
 ```python
 NUM_RECORDS = 500
@@ -405,7 +405,6 @@ documents = documents[:NUM_RECORDS]
 ```
 
 Then we use the CharacterTextSplitter to split the documents into smaller chunks if needed for easier embedding. Note that this splitting process retains the metadata for each document.
-
 
 ```python
 # Split the documents into chunks for embedding
@@ -423,7 +422,6 @@ First, we'll define a collection name, which will be the name of our table in th
 We'll also define a time delta, which we pass to the `time_partition_interval` argument, which will be used to as the interval for partitioning the data by time. Each partition will consist of data for the specified length of time. We'll use 7 days for simplicity, but you can pick whatever value make sense for your use case -- for example if you query recent vectors frequently you might want to use a smaller time delta like 1 day, or if you query vectors over a decade long time period then you might want to use a larger time delta like 6 months or 1 year.
 
 Finally, we'll create the TimescaleVector instance. We specify the `ids` argument to be the `uuid` field in our metadata that we created in the pre-processing step above. We do this because we want the time part of our uuids to reflect dates in the past (i.e when the commit was made). However, if we wanted the current date and time to be associated with our document, we can remove the id argument and uuid's will be automatically created with the current date and time.
-
 
 ```python
 # Define collection name
@@ -449,7 +447,6 @@ TimescaleVector provides multiple methods for querying vectors by doing similari
 
 Let's take a look at each method below:
 
-
 ```python
 # Time filter variables
 start_dt = datetime(2023, 8, 1, 22, 10, 35)  # Start date = 1 August 2023, 22:10:35
@@ -460,8 +457,6 @@ query = "What's new with TimescaleDB functions?"
 ```
 
 Method 1: Filter within a provided start date and end date.
-
-
 
 ```python
 # Method 1: Query for vectors between start_date and end_date
@@ -476,6 +471,7 @@ for doc, score in docs_with_score:
     print(doc.page_content)
     print("-" * 80)
 ```
+
 ```output
 --------------------------------------------------------------------------------
 Score:  0.17488396167755127
@@ -498,10 +494,10 @@ Date:  2023-08-9 15:26:03+0500
 {"commit": " 44eab9cf9bef34274c88efd37a750eaa74cd8044", "author": "Konstantina Skovola<konstantina@timescale.com>", "date": "Wed Aug 9 15:26:03 2023 +0300", "change summary": "Release 2.11.2", "change details": "This release contains bug fixes since the 2.11.1 release. We recommend that you upgrade at the next available opportunity.  **Features** * #5923 Feature flags for TimescaleDB features  **Bugfixes** * #5680 Fix DISTINCT query with JOIN on multiple segmentby columns * #5774 Fixed two bugs in decompression sorted merge code * #5786 Ensure pg_config --cppflags are passed * #5906 Fix quoting owners in sql scripts. * #5912 Fix crash in 1-step integer policy creation  **Thanks** * @mrksngl for submitting a PR to fix extension upgrade scripts * @ericdevries for reporting an issue with DISTINCT queries using segmentby columns of compressed hypertable "}
 --------------------------------------------------------------------------------
 ```
+
 Note how the query only returns results within the specified date range.
 
 Method 2: Filter within a provided start date, and a time delta later.
-
 
 ```python
 # Method 2: Query for vectors between start_dt and a time delta td later
@@ -517,6 +513,7 @@ for doc, score in docs_with_score:
     print(doc.page_content)
     print("-" * 80)
 ```
+
 ```output
 --------------------------------------------------------------------------------
 Score:  0.18458807468414307
@@ -539,10 +536,10 @@ Date:  2023-08-2 20:24:14+0140
 {"commit": " 3af0d282ea71d9a8f27159a6171e9516e62ec9cb", "author": "Lakshmi Narayanan Sreethar<lakshmi@timescale.com>", "date": "Wed Aug 2 20:24:14 2023 +0100", "change summary": "PG16: ExecInsertIndexTuples requires additional parameter", "change details": "PG16 adds a new boolean parameter to the ExecInsertIndexTuples function to denote if the index is a BRIN index, which is then used to determine if the index update can be skipped. The fix also removes the INDEX_ATTR_BITMAP_ALL enum value.  Adapt these changes by updating the compat function to accommodate the new parameter added to the ExecInsertIndexTuples function and using an alternative for the removed INDEX_ATTR_BITMAP_ALL enum value.  postgres/postgres@19d8e23 "}
 --------------------------------------------------------------------------------
 ```
+
 Once again, notice how we get results within the specified time filter, different from the previous query.
 
 Method 3: Filter within a provided end date and a time delta earlier.
-
 
 ```python
 # Method 3: Query for vectors between end_dt and a time delta td earlier
@@ -556,6 +553,7 @@ for doc, score in docs_with_score:
     print(doc.page_content)
     print("-" * 80)
 ```
+
 ```output
 --------------------------------------------------------------------------------
 Score:  0.17488396167755127
@@ -578,10 +576,10 @@ Date:  2023-08-27 13:20:04+0320
 {"commit": " e02b1f348eb4c48def00b7d5227238b4d9d41a4a", "author": "Sven Klemm<sven@timescale.com>", "date": "Sun Aug 27 13:20:04 2023 +0200", "change summary": "Simplify schema move update script", "change details": "Use dynamic sql to create the ALTER FUNCTION statements for those functions that may not exist in previous versions. "}
 --------------------------------------------------------------------------------
 ```
+
 Method 4: We can also filter for all vectors after a given date by only specifying a start date in our query.
 
 Method 5: Similarly, we can filter for or all vectors before a given date by only specify an end date in our query.
-
 
 ```python
 # Method 4: Query all vectors after start_date
@@ -594,6 +592,7 @@ for doc, score in docs_with_score:
     print(doc.page_content)
     print("-" * 80)
 ```
+
 ```output
 --------------------------------------------------------------------------------
 Score:  0.17488396167755127
@@ -628,6 +627,7 @@ for doc, score in docs_with_score:
     print(doc.page_content)
     print("-" * 80)
 ```
+
 ```output
 --------------------------------------------------------------------------------
 Score:  0.16723191738128662
@@ -650,16 +650,15 @@ Date:  2023-08-29 18:13:24+0320
 {"commit": " e4facda540286b0affba47ccc63959fefe2a7b26", "author": "Sven Klemm<sven@timescale.com>", "date": "Tue Aug 29 18:13:24 2023 +0200", "change summary": "Add compatibility layer for _timescaledb_internal functions", "change details": "With timescaledb 2.12 all the functions present in _timescaledb_internal were moved into the _timescaledb_functions schema to improve schema security. This patch adds a compatibility layer so external callers of these internal functions will not break and allow for more flexibility when migrating. "}
 --------------------------------------------------------------------------------
 ```
+
 The main takeaway is that in each result above, only vectors within the specified time range are returned. These queries are very efficient as they only need to search the relevant partitions.
 
 We can also use this functionality for question answering, where we want to find the most relevant vectors within a specified time range to use as context for answering a question. Let's take a look at an example below, using Timescale Vector as a retriever:
-
 
 ```python
 # Set timescale vector as a retriever and specify start and end dates via kwargs
 retriever = db.as_retriever(search_kwargs={"start_date": start_dt, "end_date": end_dt})
 ```
-
 
 ```python
 from langchain_openai import ChatOpenAI
@@ -681,6 +680,7 @@ query = (
 response = qa_stuff.run(query)
 print(response)
 ```
+
 ```output
 > Entering new RetrievalQA chain...
 
@@ -692,6 +692,7 @@ The following changes were made to the timescaledb functions:
 3. "Move utility functions to _timescaledb_functions schema" - This change was made on Tue Aug 22 12:01:19 2023 +0200.
 4. "Move partitioning functions to _timescaledb_functions schema" - This change was made on Tue Aug 29 10:49:47 2023 +0200.
 ```
+
 Note that the context the LLM uses to compose an answer are from retrieved documents only within the specified date range.
 
 This shows how you can use Timescale Vector to enhance retrieval augmented generation by retrieving documents within time ranges relevant to your query.
@@ -701,12 +702,12 @@ This shows how you can use Timescale Vector to enhance retrieval augmented gener
 You can speed up similarity queries by creating an index on the embedding column. You should only do this once you have ingested a large part of your data.
 
 Timescale Vector supports the following indexes:
+
 - timescale_vector index (tsv): a disk-ann inspired graph index for fast similarity search (default).
 - pgvector's HNSW index: a hierarchical navigable small world graph index for fast similarity search.
 - pgvector's IVFFLAT index: an inverted file index for fast similarity search.
 
 Important note: In PostgreSQL, each table can only have one index on a particular column. So if you'd like to test the performance of different index types, you can do so either by (1) creating multiple tables with different indexes, (2) creating multiple vector columns in the same table and creating different indexes on each column, or (3) by dropping and recreating the index on the same column and comparing results.
-
 
 ```python
 # Initialize an existing TimescaleVector store
@@ -721,7 +722,6 @@ db = TimescaleVector(
 
 Using the `create_index()` function without additional arguments will create a timescale_vector_index by default, using the default parameters.
 
-
 ```python
 # create an index
 # by default this will create a Timescale Vector (DiskANN) index
@@ -732,7 +732,6 @@ You can also specify the parameters for the index. See the Timescale Vector docu
 
 Note: You don't need to specify parameters as we set smart defaults. But you can always specify your own parameters if you want to experiment eek out more performance for your specific dataset.
 
-
 ```python
 # drop the old index
 db.drop_index()
@@ -742,9 +741,7 @@ db.drop_index()
 db.create_index(index_type="tsv", max_alpha=1.0, num_neighbors=50)
 ```
 
-
 Timescale Vector also supports the HNSW ANN indexing algorithm, as well as the ivfflat ANN indexing algorithm. Simply specify in the `index_type` argument which index you'd like to create, and optionally specify the parameters for the index.
-
 
 ```python
 # drop the old index
@@ -754,7 +751,6 @@ db.drop_index()
 # Note: You don't need to specify m and ef_construction parameters as we set smart defaults.
 db.create_index(index_type="hnsw", m=16, ef_construction=64)
 ```
-
 
 ```python
 # drop the old index
@@ -766,7 +762,6 @@ db.create_index(index_type="ivfflat", num_lists=20, num_records=1000)
 ```
 
 In general, we recommend using the default timescale vector index, or the HNSW index.
-
 
 ```python
 # drop the old index
@@ -783,7 +778,6 @@ For more on self-querying, [see the docs](/oss/how-to/self_query).
 
 To illustrate self-querying with Timescale Vector, we'll use the same gitlog dataset from Part 3.
 
-
 ```python
 COLLECTION_NAME = "timescale_commits"
 vectorstore = TimescaleVector(
@@ -794,7 +788,6 @@ vectorstore = TimescaleVector(
 ```
 
 Next we'll create our self-querying retriever. To do this we'll need to provide some information upfront about the metadata fields that our documents support and a short description of the document contents.
-
 
 ```python
 from langchain.chains.query_constructor.base import AttributeInfo
@@ -844,18 +837,17 @@ Run the queries below and note how you can specify a query, query with a filter,
 
 This illustrates the power of the self-query retriever. You can use it to perform complex searches over your vectorstore without you or your users having to write any SQL directly!
 
-
 ```python
 # This example specifies a relevant query
 retriever.invoke("What are improvements made to continuous aggregates?")
 ```
+
 ```output
 /Users/avtharsewrathan/sideprojects2023/timescaleai/tsv-langchain/langchain/libs/langchain/langchain/chains/llm.py:275: UserWarning: The predict_and_parse method is deprecated, instead pass an output parser directly to LLMChain.
   warnings.warn(
 ``````output
 query='improvements to continuous aggregates' filter=None limit=None
 ```
-
 
 ```output
 [Document(page_content='{"commit": " 35c91204987ccb0161d745af1a39b7eb91bc65a5", "author": "Fabr\\u00edzio de Royes Mello<fabriziomello@gmail.com>", "date": "Thu Nov 24 13:19:36 2022 -0300", "change summary": "Add Hierarchical Continuous Aggregates validations", "change details": "Commit 3749953e introduce Hierarchical Continuous Aggregates (aka Continuous Aggregate on top of another Continuous Aggregate) but it lacks of some basic validations.  Validations added during the creation of a Hierarchical Continuous Aggregate:  * Forbid create a continuous aggregate with fixed-width bucket on top of   a continuous aggregate with variable-width bucket.  * Forbid incompatible bucket widths:   - should not be equal;   - bucket width of the new continuous aggregate should be greater than     the source continuous aggregate;   - bucket width of the new continuous aggregate should be multiple of     the source continuous aggregate. "}', metadata={'id': 'c98d1c00-6c13-11ed-9bbe-23925ce74d13', 'date': '2022-11-24 13:19:36+-500', 'source': '/Users/avtharsewrathan/sideprojects2023/timescaleai/tsv-langchain/langchain/docs/docs/modules/ts_git_log.json', 'seq_num': 446, 'author_name': 'Fabrízio de Royes Mello', 'commit_hash': ' 35c91204987ccb0161d745af1a39b7eb91bc65a5', 'author_email': 'fabriziomello@gmail.com'}),
@@ -864,16 +856,14 @@ query='improvements to continuous aggregates' filter=None limit=None
  Document(page_content='{"commit": " 5bba74a2ec083728f8e93e09d03d102568fd72b5", "author": "Fabr\\u00edzio de Royes Mello<fabriziomello@gmail.com>", "date": "Mon Aug 7 19:49:47 2023 -0300", "change summary": "Relax strong table lock when refreshing a CAGG", "change details": "When refreshing a Continuous Aggregate we take a table lock on _timescaledb_catalog.continuous_aggs_invalidation_threshold when processing the invalidation logs (the first transaction of the refresh Continuous Aggregate procedure). It means that even two different Continuous Aggregates over two different hypertables will wait each other in the first phase of the refreshing procedure. Also it lead to problems when a pg_dump is running because it take an AccessShareLock on tables so Continuous Aggregate refresh execution will wait until the pg_dump finish.  Improved it by relaxing the strong table-level lock to a row-level lock so now the Continuous Aggregate refresh procedure can be executed in multiple sessions with less locks.  Fix #3554 "}', metadata={'id': 'b5583780-3574-11ee-a5ba-2e305874a58f', 'date': '2023-08-7 19:49:47+-500', 'source': '/Users/avtharsewrathan/sideprojects2023/timescaleai/tsv-langchain/langchain/docs/docs/modules/ts_git_log.json', 'seq_num': 27, 'author_name': 'Fabrízio de Royes Mello', 'commit_hash': ' 5bba74a2ec083728f8e93e09d03d102568fd72b5', 'author_email': 'fabriziomello@gmail.com'})]
 ```
 
-
-
 ```python
 # This example specifies a filter
 retriever.invoke("What commits did Sven Klemm add?")
 ```
+
 ```output
 query=' ' filter=Comparison(comparator=<Comparator.EQ: 'eq'>, attribute='author_name', value='Sven Klemm') limit=None
 ```
-
 
 ```output
 [Document(page_content='{"commit": " e2e7ae304521b74ac6b3f157a207da047d44ab06", "author": "Sven Klemm<sven@timescale.com>", "date": "Fri Mar 3 11:22:06 2023 +0100", "change summary": "Don\'t run sanitizer test on individual PRs", "change details": "Sanitizer tests take a long time to run so we don\'t want to run them on individual PRs but instead run them nightly and on commits to master. "}', metadata={'id': '3f401b00-b9ad-11ed-b5ea-a3fd40b9ac16', 'date': '2023-03-3 11:22:06+0140', 'source': '/Users/avtharsewrathan/sideprojects2023/timescaleai/tsv-langchain/langchain/docs/docs/modules/ts_git_log.json', 'seq_num': 295, 'author_name': 'Sven Klemm', 'commit_hash': ' e2e7ae304521b74ac6b3f157a207da047d44ab06', 'author_email': 'sven@timescale.com'}),
@@ -882,16 +872,14 @@ query=' ' filter=Comparison(comparator=<Comparator.EQ: 'eq'>, attribute='author_
  Document(page_content='{"commit": " b1314e63f2ff6151ab5becfb105afa3682286a4d", "author": "Sven Klemm<sven@timescale.com>", "date": "Thu Dec 22 12:03:35 2022 +0100", "change summary": "Fix RPM package test for PG15 on centos 7", "change details": "Installing PG15 on Centos 7 requires the EPEL repository to satisfy the dependencies. "}', metadata={'id': '477b1d80-81e8-11ed-9c8c-9b5abbd67c98', 'date': '2022-12-22 12:03:35+0140', 'source': '/Users/avtharsewrathan/sideprojects2023/timescaleai/tsv-langchain/langchain/docs/docs/modules/ts_git_log.json', 'seq_num': 408, 'author_name': 'Sven Klemm', 'commit_hash': ' b1314e63f2ff6151ab5becfb105afa3682286a4d', 'author_email': 'sven@timescale.com'})]
 ```
 
-
-
 ```python
 # This example specifies a query and filter
 retriever.invoke("What commits about timescaledb_functions did Sven Klemm add?")
 ```
+
 ```output
 query='timescaledb_functions' filter=Comparison(comparator=<Comparator.EQ: 'eq'>, attribute='author_name', value='Sven Klemm') limit=None
 ```
-
 
 ```output
 [Document(page_content='{"commit": " 04f43335dea11e9c467ee558ad8edfc00c1a45ed", "author": "Sven Klemm<sven@timescale.com>", "date": "Thu Apr 6 13:00:00 2023 +0200", "change summary": "Move aggregate support function into _timescaledb_functions", "change details": "This patch moves the support functions for histogram, first and last into the _timescaledb_functions schema. Since we alter the schema of the existing functions in upgrade scripts and do not change the aggregates this should work completely transparently for any user objects using those aggregates. "}', metadata={'id': '2cb47800-d46a-11ed-8f0e-2b624245c561', 'date': '2023-04-6 13:00:00+0320', 'source': '/Users/avtharsewrathan/sideprojects2023/timescaleai/tsv-langchain/langchain/docs/docs/modules/ts_git_log.json', 'seq_num': 233, 'author_name': 'Sven Klemm', 'commit_hash': ' 04f43335dea11e9c467ee558ad8edfc00c1a45ed', 'author_email': 'sven@timescale.com'}),
@@ -900,16 +888,14 @@ query='timescaledb_functions' filter=Comparison(comparator=<Comparator.EQ: 'eq'>
  Document(page_content='{"commit": " 56ea8b4de93cefc38e002202d8ac96947dcbaa77", "author": "Sven Klemm<sven@timescale.com>", "date": "Thu Apr 13 13:16:14 2023 +0200", "change summary": "Move trigger functions to _timescaledb_functions schema", "change details": "To increase schema security we do not want to mix our own internal objects with user objects. Since chunks are created in the _timescaledb_internal schema our internal functions should live in a different dedicated schema. This patch make the necessary adjustments for our trigger functions. "}', metadata={'id': '9a255300-d9ec-11ed-988f-7086c8ca463a', 'date': '2023-04-13 13:16:14+0320', 'source': '/Users/avtharsewrathan/sideprojects2023/timescaleai/tsv-langchain/langchain/docs/docs/modules/ts_git_log.json', 'seq_num': 44, 'author_name': 'Sven Klemm', 'commit_hash': ' 56ea8b4de93cefc38e002202d8ac96947dcbaa77', 'author_email': 'sven@timescale.com'})]
 ```
 
-
-
 ```python
 # This example specifies a time-based filter
 retriever.invoke("What commits were added in July 2023?")
 ```
+
 ```output
 query=' ' filter=Operation(operator=<Operator.AND: 'and'>, arguments=[Comparison(comparator=<Comparator.GTE: 'gte'>, attribute='date', value='2023-07-01T00:00:00Z'), Comparison(comparator=<Comparator.LTE: 'lte'>, attribute='date', value='2023-07-31T23:59:59Z')]) limit=None
 ```
-
 
 ```output
 [Document(page_content='{"commit": " 5cf354e2469ee7e43248bed382a4b49fc7ccfecd", "author": "Markus Engel<engel@sero-systems.de>", "date": "Mon Jul 31 11:28:25 2023 +0200", "change summary": "Fix quoting owners in sql scripts.", "change details": "When referring to a role from a string type, it must be properly quoted using pg_catalog.quote_ident before it can be casted to regrole. Fixed this, especially in update scripts. "}', metadata={'id': '99590280-2f84-11ee-915b-5715b2447de4', 'date': '2023-07-31 11:28:25+0320', 'source': '/Users/avtharsewrathan/sideprojects2023/timescaleai/tsv-langchain/langchain/docs/docs/modules/ts_git_log.json', 'seq_num': 76, 'author_name': 'Markus Engel', 'commit_hash': ' 5cf354e2469ee7e43248bed382a4b49fc7ccfecd', 'author_email': 'engel@sero-systems.de'}),
@@ -918,29 +904,25 @@ query=' ' filter=Operation(operator=<Operator.AND: 'and'>, arguments=[Comparison
  Document(page_content='{"commit": " 61c288ec5eb966a9b4d8ed90cd026ffc5e3543c9", "author": "Lakshmi Narayanan Sreethar<lakshmi@timescale.com>", "date": "Tue Jul 25 16:11:35 2023 +0530", "change summary": "Fix broken CI after PG12 removal", "change details": "The commit cdea343cc updated the gh_matrix_builder.py script but failed to import PG_LATEST variable into the script thus breaking the CI. Import that variable to fix the CI tests. "}', metadata={'id': 'd3835980-2ad7-11ee-b98d-c4e3092e076e', 'date': '2023-07-25 16:11:35+0850', 'source': '/Users/avtharsewrathan/sideprojects2023/timescaleai/tsv-langchain/langchain/docs/docs/modules/ts_git_log.json', 'seq_num': 84, 'author_name': 'Lakshmi Narayanan Sreethar', 'commit_hash': ' 61c288ec5eb966a9b4d8ed90cd026ffc5e3543c9', 'author_email': 'lakshmi@timescale.com'})]
 ```
 
-
-
 ```python
 # This example specifies a query and a LIMIT value
 retriever.invoke("What are two commits about hierarchical continuous aggregates?")
 ```
+
 ```output
 query='hierarchical continuous aggregates' filter=None limit=2
 ```
-
 
 ```output
 [Document(page_content='{"commit": " 35c91204987ccb0161d745af1a39b7eb91bc65a5", "author": "Fabr\\u00edzio de Royes Mello<fabriziomello@gmail.com>", "date": "Thu Nov 24 13:19:36 2022 -0300", "change summary": "Add Hierarchical Continuous Aggregates validations", "change details": "Commit 3749953e introduce Hierarchical Continuous Aggregates (aka Continuous Aggregate on top of another Continuous Aggregate) but it lacks of some basic validations.  Validations added during the creation of a Hierarchical Continuous Aggregate:  * Forbid create a continuous aggregate with fixed-width bucket on top of   a continuous aggregate with variable-width bucket.  * Forbid incompatible bucket widths:   - should not be equal;   - bucket width of the new continuous aggregate should be greater than     the source continuous aggregate;   - bucket width of the new continuous aggregate should be multiple of     the source continuous aggregate. "}', metadata={'id': 'c98d1c00-6c13-11ed-9bbe-23925ce74d13', 'date': '2022-11-24 13:19:36+-500', 'source': '/Users/avtharsewrathan/sideprojects2023/timescaleai/tsv-langchain/langchain/docs/docs/modules/ts_git_log.json', 'seq_num': 446, 'author_name': 'Fabrízio de Royes Mello', 'commit_hash': ' 35c91204987ccb0161d745af1a39b7eb91bc65a5', 'author_email': 'fabriziomello@gmail.com'}),
  Document(page_content='{"commit": " 3749953e9704e45df8f621607989ada0714ce28d", "author": "Fabr\\u00edzio de Royes Mello<fabriziomello@gmail.com>", "date": "Wed Oct 5 18:45:40 2022 -0300", "change summary": "Hierarchical Continuous Aggregates", "change details": "Enable users create Hierarchical Continuous Aggregates (aka Continuous Aggregates on top of another Continuous Aggregates).  With this PR users can create levels of aggregation granularity in Continuous Aggregates making the refresh process even faster.  A problem with this feature can be in upper levels we can end up with the \\"average of averages\\". But to get the \\"real average\\" we can rely on \\"stats_aggs\\" TimescaleDB Toolkit function that calculate and store the partials that can be finalized with other toolkit functions like \\"average\\" and \\"sum\\".  Closes #1400 "}', metadata={'id': '0df31a00-44f7-11ed-9794-ebcc1227340f', 'date': '2022-10-5 18:45:40+-500', 'source': '/Users/avtharsewrathan/sideprojects2023/timescaleai/tsv-langchain/langchain/docs/docs/modules/ts_git_log.json', 'seq_num': 470, 'author_name': 'Fabrízio de Royes Mello', 'commit_hash': ' 3749953e9704e45df8f621607989ada0714ce28d', 'author_email': 'fabriziomello@gmail.com'})]
 ```
 
-
 ## 5. Working with an existing TimescaleVector vectorstore
 
 In the examples above, we created a vectorstore from a collection of documents. However, often we want to work insert data into and query data from an existing vectorstore. Let's see how to initialize, add documents to, and query an existing collection of documents in a TimescaleVector vector store.
 
 To work with an existing Timescale Vector store, we need to know the name of the table we want to query (`COLLECTION_NAME`) and the URL of the cloud PostgreSQL database (`SERVICE_URL`).
-
 
 ```python
 # Initialize the existing
@@ -959,55 +941,41 @@ If you want your documents to be associated with the current date and time, you 
 
 If you want your documents to be associated with a past date and time, you can create a list of ids using the `uuid_from_time` function in the `timecale-vector` python library, as shown in Section 2 above. This function takes a datetime object and returns a uuid with the date and time encoded in the uuid.
 
-
 ```python
 # Add documents to a collection in TimescaleVector
 ids = vectorstore.add_documents([Document(page_content="foo")])
 ids
 ```
 
-
-
 ```output
 ['a34f2b8a-53d7-11ee-8cc3-de1e4b2a0118']
 ```
-
-
 
 ```python
 # Query the vectorstore for similar documents
 docs_with_score = vectorstore.similarity_search_with_score("foo")
 ```
 
-
 ```python
 docs_with_score[0]
 ```
-
-
 
 ```output
 (Document(page_content='foo', metadata={}), 5.006789860928507e-06)
 ```
 
-
-
 ```python
 docs_with_score[1]
 ```
-
-
 
 ```output
 (Document(page_content='{"commit": " 00b566dfe478c11134bcf1e7bcf38943e7fafe8f", "author": "Fabr\\u00edzio de Royes Mello<fabriziomello@gmail.com>", "date": "Mon Mar 6 15:51:03 2023 -0300", "change summary": "Remove unused functions", "change details": "We don\'t use `ts_catalog_delete[_only]` functions anywhere and instead we rely on `ts_catalog_delete_tid[_only]` functions so removing it from our code base. "}', metadata={'id': 'd7f5c580-bc4f-11ed-9712-ffa0126a201a', 'date': '2023-03-6 15:51:03+-500', 'source': '/Users/avtharsewrathan/sideprojects2023/timescaleai/tsv-langchain/langchain/docs/docs/modules/ts_git_log.json', 'seq_num': 285, 'author_name': 'Fabrízio de Royes Mello', 'commit_hash': ' 00b566dfe478c11134bcf1e7bcf38943e7fafe8f', 'author_email': 'fabriziomello@gmail.com'}),
  0.23607668446580354)
 ```
 
-
 ### Deleting Data
 
 You can delete data by uuid or by a filter on the metadata.
-
 
 ```python
 ids = vectorstore.add_documents([Document(page_content="Bar")])
@@ -1015,15 +983,11 @@ ids = vectorstore.add_documents([Document(page_content="Bar")])
 vectorstore.delete(ids)
 ```
 
-
-
 ```output
 True
 ```
 
-
 Deleting using metadata is especially useful if you want to periodically update information scraped from a particular source, or particular date or some other metadata attribute.
-
 
 ```python
 vectorstore.add_documents(
@@ -1045,17 +1009,13 @@ vectorstore.add_documents(
 )
 ```
 
-
-
 ```output
 ['c6367004-53d7-11ee-8cc3-de1e4b2a0118']
 ```
 
-
 ### Overriding a vectorstore
 
 If you have an existing collection, you override it by doing `from_documents` and setting `pre_delete_collection` = True
-
 
 ```python
 db = TimescaleVector.from_documents(
@@ -1067,11 +1027,9 @@ db = TimescaleVector.from_documents(
 )
 ```
 
-
 ```python
 docs_with_score = db.similarity_search_with_score("foo")
 ```
-
 
 ```python
 docs_with_score[0]

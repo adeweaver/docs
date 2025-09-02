@@ -16,14 +16,11 @@ To run our example app, there are two simple steps to take:
 
 Note: If you want to use a different model than the [available models](https://octoai.cloud/text?selectedTags=Chat), you can containerize the model and make a custom OctoAI endpoint yourself, by following [Build a Container from Python](https://octo.ai/docs/bring-your-own-model/advanced-build-a-container-from-scratch-in-python) and [Create a Custom Endpoint from a Container](https://octo.ai/docs/bring-your-own-model/create-custom-endpoints-from-a-container/create-custom-endpoints-from-a-container) and then updating your `OCTOAI_API_BASE` environment variable.
 
-
-
 ```python
 import os
 
 os.environ["OCTOAI_API_TOKEN"] = "OCTOAI_API_TOKEN"
 ```
-
 
 ```python
 from langchain_community.chat_models import ChatOctoAI
@@ -32,11 +29,9 @@ from langchain_core.messages import HumanMessage, SystemMessage
 
 ## Example
 
-
 ```python
 chat = ChatOctoAI(max_tokens=300, model_name="mixtral-8x7b-instruct")
 ```
-
 
 ```python
 messages = [

@@ -8,7 +8,6 @@ title: SAP HANA Cloud Vector Engine
 
 Install the `langchain-hana` external integration package, as well as the other packages used throughout this notebook.
 
-
 ```python
 %pip install -qU langchain-hana
 ```
@@ -16,7 +15,6 @@ Install the `langchain-hana` external integration package, as well as the other 
 ### Credentials
 
 Ensure your SAP HANA instance is running. Load your credentials from environment variables and create a connection:
-
 
 ```python
 import os
@@ -39,12 +37,12 @@ connection = dbapi.connect(
 Learn more about SAP HANA in [What is SAP HANA?](https://www.sap.com/products/data-cloud/hana/what-is-sap-hana.html).
 
 ### Initialization
+
 To initialize a `HanaDB` vector store, you need a database connection and an embedding instance. SAP HANA Cloud Vector Engine supports both external and internal embeddings.
 
 - #### Using External Embeddings
 
 <EmbeddingTabs/>
-
 
 ```python
 # | output: false
@@ -60,7 +58,6 @@ Alternatively, you can compute embeddings directly in SAP HANA using its native 
 
 > **Caution:** Ensure NLP is enabled in your SAP HANA Cloud instance.
 
-
 ```python
 from langchain_hana import HanaInternalEmbeddings
 
@@ -68,7 +65,6 @@ embeddings = HanaInternalEmbeddings(internal_embedding_model_id="SAP_NEB.2024071
 ```
 
 Once you have your connection and embedding instance, create the vector store by passing them to `HanaDB` along with a table name for storing vectors:
-
 
 ```python
 from langchain_hana import HanaDB
@@ -81,7 +77,6 @@ db = HanaDB(
 ## Example
 
 Load the sample document "state_of_the_union.txt" and create chunks from it.
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -96,11 +91,12 @@ text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=0)
 text_chunks = text_splitter.split_documents(text_documents)
 print(f"Number of document chunks: {len(text_chunks)}")
 ```
+
 ```output
 Number of document chunks: 88
 ```
-Add the loaded document chunks to the table. For this example, we delete any previous content from the table which might exist from previous runs.
 
+Add the loaded document chunks to the table. For this example, we delete any previous content from the table which might exist from previous runs.
 
 ```python
 # Delete already existing documents from the table
@@ -110,16 +106,12 @@ db.delete(filter={})
 db.add_documents(text_chunks)
 ```
 
-
-
 ```output
 []
 ```
 
-
 Perform a query to get the two best-matching document chunks from the ones that were added in the previous step.
 By default "Cosine Similarity" is used for the search.
-
 
 ```python
 query = "What did the president say about Ketanji Brown Jackson"
@@ -129,6 +121,7 @@ for doc in docs:
     print("-" * 80)
     print(doc.page_content)
 ```
+
 ```output
 --------------------------------------------------------------------------------
 One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
@@ -139,8 +132,8 @@ As I said last year, especially to our younger transgender Americans, I will alw
 
 While it often appears that we never agree, that isn’t true. I signed 80 bipartisan bills into law last year. From preventing government shutdowns to protecting Asian-Americans from still-too-common hate crimes to reforming military justice.
 ```
-Query the same content with "Euclidian Distance". The results shoud be the same as with "Cosine Similarity".
 
+Query the same content with "Euclidian Distance". The results shoud be the same as with "Cosine Similarity".
 
 ```python
 from langchain_hana.utils import DistanceStrategy
@@ -158,6 +151,7 @@ for doc in docs:
     print("-" * 80)
     print(doc.page_content)
 ```
+
 ```output
 --------------------------------------------------------------------------------
 One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
@@ -168,10 +162,10 @@ As I said last year, especially to our younger transgender Americans, I will alw
 
 While it often appears that we never agree, that isn’t true. I signed 80 bipartisan bills into law last year. From preventing government shutdowns to protecting Asian-Americans from still-too-common hate crimes to reforming military justice.
 ```
+
 ## Maximal Marginal Relevance Search (MMR)
 
 `Maximal marginal relevance` optimizes for similarity to query AND diversity among selected documents. The first 20 (fetch_k) items will be retrieved from the DB. The MMR algorithm will then find the best 2 (k) matches.
-
 
 ```python
 docs = db.max_marginal_relevance_search(query, k=2, fetch_k=20)
@@ -179,6 +173,7 @@ for doc in docs:
     print("-" * 80)
     print(doc.page_content)
 ```
+
 ```output
 --------------------------------------------------------------------------------
 One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
@@ -191,14 +186,12 @@ In this struggle as President Zelenskyy said in his speech to the European Parli
 
 Let each of us here tonight in this Chamber send an unmistakable signal to Ukraine and to the world.
 ```
+
 ## Creating an HNSW Vector Index
 
 A vector index can significantly speed up top-k nearest neighbor queries for vectors. Users can create a Hierarchical Navigable Small World (HNSW) vector index using the `create_hnsw_index` function.
 
 For more information about creating an index at the database level, please refer to the [official documentation](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-vector-engine-guide/create-vector-index-statement-data-definition).
-
-
-
 
 ```python
 # HanaDB instance uses cosine similarity as default:
@@ -234,6 +227,7 @@ for doc in docs:
     print("-" * 80)
     print(doc.page_content)
 ```
+
 ```output
 --------------------------------------------------------------------------------
 One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
@@ -248,13 +242,11 @@ Let each of us here tonight in this Chamber send an unmistakable signal to Ukrai
 ```
 
 **Key Points**:
+
 - **Similarity Function**: The similarity function for the index is **cosine similarity** by default. If you want to use a different similarity function (e.g., `L2` distance), you need to specify it when initializing the `HanaDB` instance.
 - **Default Parameters**: In the `create_hnsw_index` function, if the user does not provide custom values for parameters like `m`, `ef_construction`, or `ef_search`, the default values (e.g., `m=64`, `ef_construction=128`, `ef_search=200`) will be used automatically. These values ensure the index is created with reasonable performance without requiring user intervention.
 
-
-
 ## Basic Vectorstore Operations
-
 
 ```python
 db = HanaDB(
@@ -265,30 +257,22 @@ db = HanaDB(
 db.delete(filter={})
 ```
 
-
-
 ```output
 True
 ```
 
-
 We can add simple text documents to the existing table.
-
 
 ```python
 docs = [Document(page_content="Some text"), Document(page_content="Other docs")]
 db.add_documents(docs)
 ```
 
-
-
 ```output
 []
 ```
 
-
 Add documents with metadata.
-
 
 ```python
 docs = [
@@ -304,15 +288,11 @@ docs = [
 db.add_documents(docs)
 ```
 
-
-
 ```output
 []
 ```
 
-
 Query documents with specific metadata.
-
 
 ```python
 docs = db.similarity_search("foobar", k=2, filter={"quality": "bad"})
@@ -322,13 +302,14 @@ for doc in docs:
     print(doc.page_content)
     print(doc.metadata)
 ```
+
 ```output
 --------------------------------------------------------------------------------
 foo
 {'start': 100, 'end': 150, 'doc_name': 'foo.txt', 'quality': 'bad'}
 ```
-Delete documents with specific metadata.
 
+Delete documents with specific metadata.
 
 ```python
 db.delete(filter={"quality": "bad"})
@@ -337,10 +318,13 @@ db.delete(filter={"quality": "bad"})
 docs = db.similarity_search("foobar", k=2, filter={"quality": "bad"})
 print(len(docs))
 ```
+
 ```output
 0
 ```
+
 ## Advanced filtering
+
 In addition to the basic value-based filtering capabilities, it is possible to use more advanced filtering.
 The table below shows the available filter operators.
 
@@ -359,7 +343,6 @@ The table below shows the available filter operators.
 | `$contains` | Filters documents containing a specific keyword |
 | `$and`   | Logical "and", supporting 2 or more operands |
 | `$or`    | Logical "or", supporting 2 or more operands |
-
 
 ```python
 # Prepare some test documents
@@ -399,7 +382,6 @@ def print_filter_result(result):
 
 Filtering with `$ne`, `$gt`, `$gte`, `$lt`, `$lte`
 
-
 ```python
 advanced_filter = {"id": {"$ne": 1}}
 print(f"Filter: {advanced_filter}")
@@ -421,6 +403,7 @@ advanced_filter = {"id": {"$lte": 1}}
 print(f"Filter: {advanced_filter}")
 print_filter_result(db.similarity_search("just testing", k=5, filter=advanced_filter))
 ```
+
 ```output
 Filter: {'id': {'$ne': 1}}
 {'name': 'Jane Doe', 'is_active': True, 'id': 3, 'height': 2.4}
@@ -437,8 +420,8 @@ Filter: {'id': {'$lt': 1}}
 Filter: {'id': {'$lte': 1}}
 {'name': 'Adam Smith', 'is_active': True, 'id': 1, 'height': 10.0}
 ```
-Filtering with `$between`, `$in`, `$nin`
 
+Filtering with `$between`, `$in`, `$nin`
 
 ```python
 advanced_filter = {"id": {"$between": (1, 2)}}
@@ -453,6 +436,7 @@ advanced_filter = {"name": {"$nin": ["Adam Smith", "Bob Johnson"]}}
 print(f"Filter: {advanced_filter}")
 print_filter_result(db.similarity_search("just testing", k=5, filter=advanced_filter))
 ```
+
 ```output
 Filter: {'id': {'$between': (1, 2)}}
 {'name': 'Adam Smith', 'is_active': True, 'id': 1, 'height': 10.0}
@@ -463,8 +447,8 @@ Filter: {'name': {'$in': ['Adam Smith', 'Bob Johnson']}}
 Filter: {'name': {'$nin': ['Adam Smith', 'Bob Johnson']}}
 {'name': 'Jane Doe', 'is_active': True, 'id': 3, 'height': 2.4}
 ```
-Text filtering with `$like`
 
+Text filtering with `$like`
 
 ```python
 advanced_filter = {"name": {"$like": "a%"}}
@@ -475,6 +459,7 @@ advanced_filter = {"name": {"$like": "%a%"}}
 print(f"Filter: {advanced_filter}")
 print_filter_result(db.similarity_search("just testing", k=5, filter=advanced_filter))
 ```
+
 ```output
 Filter: {'name': {'$like': 'a%'}}
 <empty result>
@@ -482,8 +467,8 @@ Filter: {'name': {'$like': '%a%'}}
 {'name': 'Adam Smith', 'is_active': True, 'id': 1, 'height': 10.0}
 {'name': 'Jane Doe', 'is_active': True, 'id': 3, 'height': 2.4}
 ```
-Text filtering with `$contains`
 
+Text filtering with `$contains`
 
 ```python
 advanced_filter = {"name": {"$contains": "bob"}}
@@ -502,6 +487,7 @@ advanced_filter = {"name": {"$contains": "Adam Smith"}}
 print(f"Filter: {advanced_filter}")
 print_filter_result(db.similarity_search("just testing", k=5, filter=advanced_filter))
 ```
+
 ```output
 Filter: {'name': {'$contains': 'bob'}}
 {'name': 'Bob Johnson', 'is_active': False, 'id': 2, 'height': 5.7}
@@ -512,8 +498,8 @@ Filter: {'name': {'$contains': 'Adam Johnson'}}
 Filter: {'name': {'$contains': 'Adam Smith'}}
 {'name': 'Adam Smith', 'is_active': True, 'id': 1, 'height': 10.0}
 ```
-Combined filtering with `$and`, `$or`
 
+Combined filtering with `$and`, `$or`
 
 ```python
 advanced_filter = {"$or": [{"id": 1}, {"name": "bob"}]}
@@ -534,6 +520,7 @@ advanced_filter = {
 print(f"Filter: {advanced_filter}")
 print_filter_result(db.similarity_search("just testing", k=5, filter=advanced_filter))
 ```
+
 ```output
 Filter: {'$or': [{'id': 1}, {'name': 'bob'}]}
 {'name': 'Adam Smith', 'is_active': True, 'id': 1, 'height': 10.0}
@@ -546,8 +533,8 @@ Filter: {'$or': [{'id': 1}, {'id': 2}, {'id': 3}]}
 Filter: {'$and': [{'name': {'$contains': 'bob'}}, {'name': {'$contains': 'johnson'}}]}
 {'name': 'Bob Johnson', 'is_active': False, 'id': 2, 'height': 5.7}
 ```
-## Using a VectorStore as a retriever in chains for retrieval augmented generation (RAG)
 
+## Using a VectorStore as a retriever in chains for retrieval augmented generation (RAG)
 
 ```python
 # Access the vector DB with a new table
@@ -568,7 +555,6 @@ retriever = db.as_retriever()
 ```
 
 Define the prompt.
-
 
 ```python
 from langchain_core.prompts import PromptTemplate
@@ -592,7 +578,6 @@ chain_type_kwargs = {"prompt": PROMPT}
 
 Create the ConversationalRetrievalChain, which handles the chat history and the retrieval of similar document chunks to be added to the prompt.
 
-
 ```python
 from langchain.chains import ConversationalRetrievalChain
 from langchain.memory import ConversationBufferMemory
@@ -614,7 +599,6 @@ qa_chain = ConversationalRetrievalChain.from_llm(
 
 Ask the first question (and verify how many text chunks have been used).
 
-
 ```python
 question = "What about Mexico and Guatemala?"
 
@@ -627,6 +611,7 @@ source_docs = result["source_documents"]
 print("================")
 print(f"Number of used source document chunks: {len(source_docs)}")
 ```
+
 ```output
 Answer from LLM:
 ================
@@ -634,8 +619,8 @@ The United States has set up joint patrols with Mexico and Guatemala to catch mo
 ================
 Number of used source document chunks: 5
 ```
-Examine the used chunks of the chain in detail. Check if the best ranked chunk contains info about "Mexico and Guatemala" as mentioned in the question.
 
+Examine the used chunks of the chain in detail. Check if the best ranked chunk contains info about "Mexico and Guatemala" as mentioned in the question.
 
 ```python
 for doc in source_docs:
@@ -646,7 +631,6 @@ for doc in source_docs:
 
 Ask another question on the same conversational chain. The answer should relate to the previous answer given.
 
-
 ```python
 question = "How many casualties were reported after that?"
 
@@ -655,11 +639,13 @@ print("Answer from LLM:")
 print("================")
 print(result["answer"])
 ```
+
 ```output
 Answer from LLM:
 ================
 Countries like Mexico and Guatemala are participating in joint patrols to catch human traffickers. The United States is also working with partners in South and Central America to host more refugees and secure their borders. Additionally, the U.S. is working with twenty-seven members of the European Union, as well as countries like France, Germany, Italy, the United Kingdom, Canada, Japan, Korea, Australia, New Zealand, and Switzerland.
 ```
+
 ## Standard tables vs. "custom" tables with vector data
 
 As default behaviour, the table for the embeddings is created with 3 columns:
@@ -667,7 +653,6 @@ As default behaviour, the table for the embeddings is created with 3 columns:
 - A column `VEC_TEXT`, which contains the text of the Document
 - A column `VEC_META`, which contains the metadata of the Document
 - A column `VEC_VECTOR`, which contains the embeddings-vector of the Document's text
-
 
 ```python
 # Access the vector DB with a new table
@@ -688,15 +673,11 @@ docs = [
 db.add_documents(docs)
 ```
 
-
-
 ```output
 []
 ```
 
-
 Show the columns in table "LANGCHAIN_DEMO_NEW_TABLE"
-
 
 ```python
 cur = connection.cursor()
@@ -708,13 +689,14 @@ for row in rows:
     print(row)
 cur.close()
 ```
+
 ```output
 ('VEC_META', 'NCLOB')
 ('VEC_TEXT', 'NCLOB')
 ('VEC_VECTOR', 'REAL_VECTOR')
 ```
-Show the value of the inserted document in the three columns
 
+Show the value of the inserted document in the three columns
 
 ```python
 cur = connection.cursor()
@@ -735,7 +717,6 @@ Custom tables must have at least three columns that match the semantics of a sta
 - A column with type `REAL_VECTOR` for the embedding vector
 
 The table can contain additional columns. When new Documents are inserted into the table, these additional columns must allow NULL values.
-
 
 ```python
 # Create a new table "MY_OWN_TABLE_ADD" with three "standard" columns and one additional column
@@ -780,14 +761,15 @@ print(rows[0][3])  # The vector
 
 cur.close()
 ```
+
 ```output
 None
 Some other text
 {"start": 400, "end": 450, "doc_name": "other.txt"}
 <memory at 0x110f856c0>
 ```
-Add another document and perform a similarity search on the custom table.
 
+Add another document and perform a similarity search on the custom table.
 
 ```python
 docs = [
@@ -804,16 +786,17 @@ for doc in docs:
     print("-" * 80)
     print(doc.page_content)
 ```
+
 ```output
 --------------------------------------------------------------------------------
 Some more text
 --------------------------------------------------------------------------------
 Some other text
 ```
+
 ### Filter Performance Optimization with Custom Columns
 
 To allow flexible metadata values, all metadata is stored as JSON in the metadata column by default. If some of the used metadata keys and value types are known, they can be stored in additional columns instead by creating the target table with the key names as column names and passing them to the HanaDB constructor via the specific_metadata_columns list. Metadata keys that match those values are copied into the special column during insert. Filters use the special columns instead of the metadata JSON column for keys in the specific_metadata_columns list.
-
 
 ```python
 # Create a new table "PERFORMANT_CUSTOMTEXT_FILTER" with three "standard" columns and one additional column
@@ -868,14 +851,15 @@ print(rows[0][3])  # The vector
 
 cur.close()
 ```
+
 ```output
 Filters on this value are very performant
 Some other text
 {"start": 400, "end": 450, "doc_name": "other.txt", "CUSTOMTEXT": "Filters on this value are very performant"}
 <memory at 0x110f859c0>
 ```
-The special columns are completely transparent to the rest of the langchain interface. Everything works as it did before, just more performant.
 
+The special columns are completely transparent to the rest of the langchain interface. Everything works as it did before, just more performant.
 
 ```python
 docs = [
@@ -898,6 +882,7 @@ for doc in docs:
     print("-" * 80)
     print(doc.page_content)
 ```
+
 ```output
 --------------------------------------------------------------------------------
 Some more text

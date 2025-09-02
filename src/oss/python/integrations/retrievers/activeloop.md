@@ -7,14 +7,11 @@ title: Activeloop Deep Memory
 `Retrieval-Augmented Generatation` (`RAG`) has recently gained significant attention. As advanced RAG techniques and agents emerge, they expand the potential of what RAGs can accomplish. However, several challenges may limit the integration of RAGs into production. The primary factors to consider when implementing RAGs in production settings are accuracy (recall), cost, and latency. For basic use cases, OpenAI's Ada model paired with a naive similarity search can produce satisfactory results. Yet, for higher accuracy or recall during searches, one might need to employ advanced retrieval techniques. These methods might involve varying data chunk sizes, rewriting queries multiple times, and more, potentially increasing latency and costs.  Activeloop's [Deep Memory](https://www.activeloop.ai/resources/use-deep-memory-to-boost-rag-apps-accuracy-by-up-to-22/) a feature available to `Activeloop Deep Lake` users, addresses these issuea by introducing a tiny neural network layer trained to match user queries with relevant data from a corpus. While this addition incurs minimal latency during search, it can boost retrieval accuracy by up to 27
 % and remains cost-effective and simple to use, without requiring any additional advanced rag techniques.
 
-
 For this tutorial we will parse `DeepLake` documentation, and create a RAG system that could answer the question from the docs.
-
 
 ## 1. Dataset Creation
 
 We will parse activeloop's docs for this tutorial using `BeautifulSoup` library and LangChain's document parsers like `Html2TextTransformer`, `AsyncHtmlLoader`. So we will need to install the following libraries:
-
 
 ```python
 %pip install --upgrade --quiet  tiktoken langchain-openai python-dotenv datasets langchain deeplake beautifulsoup4 html2text ragas
@@ -22,18 +19,15 @@ We will parse activeloop's docs for this tutorial using `BeautifulSoup` library 
 
 Also you'll need to create a [Activeloop](https://activeloop.ai) account.
 
-
 ```python
 ORG_ID = "..."
 ```
-
 
 ```python
 from langchain.chains import RetrievalQA
 from langchain_community.vectorstores import DeepLake
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 ```
-
 
 ```python
 import getpass
@@ -51,7 +45,6 @@ token = os.getenv("ACTIVELOOP_TOKEN")
 openai_embeddings = OpenAIEmbeddings()
 ```
 
-
 ```python
 db = DeepLake(
     dataset_path=f"hub://{ORG_ID}/deeplake-docs-deepmemory",  # org_id stands for your username or organization from activeloop
@@ -64,7 +57,6 @@ db = DeepLake(
 ```
 
 parsing all links in the webpage using `BeautifulSoup`
-
 
 ```python
 from urllib.parse import urljoin
@@ -95,7 +87,6 @@ all_links = get_all_links(base_url)
 
 Loading data:
 
-
 ```python
 from langchain_community.document_loaders.async_html import AsyncHtmlLoader
 
@@ -103,12 +94,10 @@ loader = AsyncHtmlLoader(all_links)
 docs = loader.load()
 ```
 
-
 ```python
 ```
 
 Converting data into user readable format:
-
 
 ```python
 from langchain_community.document_transformers import Html2TextTransformer
@@ -116,8 +105,8 @@ from langchain_community.document_transformers import Html2TextTransformer
 html2text = Html2TextTransformer()
 docs_transformed = html2text.transform_documents(docs)
 ```
-Now, let us chunk further the documents as some of the contain too much text:
 
+Now, let us chunk further the documents as some of the contain too much text:
 
 ```python
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -136,12 +125,13 @@ for doc in docs_transformed:
         docs = text_splitter.create_documents([doc.page_content])
         docs_new.extend(docs)
 ```
-Populating VectorStore:
 
+Populating VectorStore:
 
 ```python
 docs = db.add_documents(docs_new)
 ```
+
 ## 2. Generating synthetic queries and training Deep Memory
 
 Next step would be to train a deep_memory model that will align your users queries with the dataset that you already have. If you don't have any user queries yet, no worries, we will generate them using LLM!
@@ -155,7 +145,6 @@ Here above we showed the overall schema how deep_memory works. So as you can see
 
 Now, let us generate synthetic questions and relevance:
 
-
 ```python
 from typing import List
 
@@ -167,12 +156,12 @@ from langchain_core.prompts import ChatPromptTemplate, HumanMessagePromptTemplat
 from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, Field
 ```
+
 ```python
 # fetch dataset docs and ids if they exist (optional you can also ingest)
 docs = db.vectorstore.dataset.text.data(fetch_chunks=True, aslist=True)["value"]
 ids = db.vectorstore.dataset.id.data(fetch_chunks=True, aslist=True)["value"]
 ```
-
 
 ```python
 # If we pass in a model explicitly, we need to make sure it supports the OpenAI function-calling API.
@@ -202,7 +191,6 @@ text = "# Understanding Hallucinations and Bias ## **Introduction** In this less
 questions = chain.run(input=text)
 print(questions)
 ```
-
 
 ```python
 import random
@@ -239,7 +227,6 @@ test_questions, test_relevances = questions[100:], relevances[100:]
 
 Now we created 100 training queries as well as 100 queries for testing. Now let us train the deep_memory:
 
-
 ```python
 job_id = db.vectorstore.deep_memory.train(
     queries=train_questions,
@@ -249,10 +236,10 @@ job_id = db.vectorstore.deep_memory.train(
 
 Let us track the training progress:
 
-
 ```python
 db.vectorstore.deep_memory.status("6538939ca0b69a9ca45c528c")
 ```
+
 ```output
 --------------------------------------------------------------
 |                  6538e02ecda4691033a51c5b                  |
@@ -265,6 +252,7 @@ db.vectorstore.deep_memory.status("6538939ca0b69a9ca45c528c")
 | results                    | recall@10: 79.00% (+34.00%)   |
 --------------------------------------------------------------
 ```
+
 ## 3. Evaluating Deep Memory performance
 
 Great we've trained the model! It's showing some substantial improvement in recall, but how can we use it now and evaluate on unseen new data? In this section we will delve into model evaluation and inference part and see how it can be used with LangChain in order to increase retrieval accuracy
@@ -275,34 +263,34 @@ For the beginning we can use deep_memory's builtin evaluation method.
 It calculates several `recall` metrics.
 It can be done easily in a few lines of code.
 
-
 ```python
 recall = db.vectorstore.deep_memory.evaluate(
     queries=test_questions,
     relevance=test_relevances,
 )
 ```
+
 ```output
 Embedding queries took 0.81 seconds
 ---- Evaluating without model ----
-Recall@1:	  9.0%
-Recall@3:	  19.0%
-Recall@5:	  24.0%
-Recall@10:	  42.0%
-Recall@50:	  93.0%
-Recall@100:	  98.0%
+Recall@1:   9.0%
+Recall@3:   19.0%
+Recall@5:   24.0%
+Recall@10:   42.0%
+Recall@50:   93.0%
+Recall@100:   98.0%
 ---- Evaluating with model ----
-Recall@1:	  19.0%
-Recall@3:	  42.0%
-Recall@5:	  49.0%
-Recall@10:	  69.0%
-Recall@50:	  97.0%
-Recall@100:	  97.0%
+Recall@1:   19.0%
+Recall@3:   42.0%
+Recall@5:   49.0%
+Recall@10:   69.0%
+Recall@50:   97.0%
+Recall@100:   97.0%
 ```
+
 It is showing quite substatntial improvement on an unseen test dataset too!!!
 
 ### 3.2 Deep Memory + RAGas
-
 
 ```python
 from ragas.langchain import RagasEvaluatorChain
@@ -312,7 +300,6 @@ from ragas.metrics import (
 ```
 
 Let us convert recall into ground truths:
-
 
 ```python
 def convert_relevance_to_ground_truth(docs, relevance):
@@ -325,7 +312,6 @@ def convert_relevance_to_ground_truth(docs, relevance):
         ground_truths.append(ground_truth)
     return ground_truths
 ```
-
 
 ```python
 ground_truths = convert_relevance_to_ground_truth(docs, test_relevances)
@@ -362,6 +348,7 @@ for deep_memory in [False, True]:
         print(f"{metric}: {metrics[metric]}")
     print("===================================")
 ```
+
 ```output
 Evaluating with deep_memory = False
 ===================================
@@ -373,12 +360,12 @@ Evaluating with deep_memory = True
 context_recall_score = 0.5634545323
 ===================================
 ```
+
 ### 3.3 Deep Memory Inference
 
 #### TODO: Add image
 
 with deep_memory
-
 
 ```python
 retriever = db.as_retriever()
@@ -391,11 +378,12 @@ qa = RetrievalQA.from_chain_type(
 )
 print(qa.run(query))
 ```
+
 ```output
 The base htype of the 'video_seq' tensor is 'video'.
 ```
-without deep_memory
 
+without deep_memory
 
 ```python
 retriever = db.as_retriever()
@@ -408,9 +396,11 @@ qa = RetrievalQA.from_chain_type(
 )
 qa.run(query)
 ```
+
 ```output
 The text does not provide information on the base htype of the 'video_seq' tensor.
 ```
+
 ### 3.4 Deep Memory cost savings
 
 Deep Memory increases retrieval accuracy without altering your existing workflow. Additionally, by reducing the top_k input into the LLM, you can significantly cut inference costs via lower token usage.

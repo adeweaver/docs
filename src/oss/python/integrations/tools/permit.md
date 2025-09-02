@@ -12,7 +12,6 @@ This package provides two Langchain tools for JWT validation and permission chec
 
 * LangchainPermissionsCheckTool: Checks user permissions using Permit
 
-
 ## Setup
 
 Set up the following environment variables:
@@ -40,6 +39,7 @@ It's also helpful (but not needed) to set up [LangSmith](https://smith.langchain
 ## Instantiation
 
 ### JWT Validation Tool
+
 The JWT Validation tool verifies JWT tokens against a JWKS (JSON Web Key Set) endpoint.
 
 ```python
@@ -52,6 +52,7 @@ jwt_validator = LangchainJWTValidationTool(
 ```
 
 ### Configuration Options
+
 You can initialize the tool with either:
 
 * A JWKS URL
@@ -74,6 +75,7 @@ jwt_validator = LangchainJWTValidationTool(
 ```
 
 ### Permissions Check Tool
+
 The Permissions Check tool integrates with Permit.io to verify user permissions against resources.
 
 ```python
@@ -129,6 +131,7 @@ async def check_user_permission():
 ```
 
 #### Input Formats
+
 The permissions checker accepts different input formats:
 
 1. Simple string for user (converts to user key):
@@ -162,19 +165,17 @@ result = await permissions_checker._arun(
 )
 ```
 
-
 ### [Invoke with ToolCall](https://docs.permit.io/)
 
 (TODO)
 
 ## Chaining
 
-- TODO: Add user question and run cells
+* TODO: Add user question and run cells
 
 We can use our tool in a chain by first binding it to a [tool-calling model](https://docs.permit.io/) and then calling it:
 
 <ChatModelTabs customVarName="llm" />
-
 
 ### Additional Demo Scripts
 
@@ -188,4 +189,4 @@ Just run `python demo_jwt_validation.py` or `python demo_permissions_check.py` (
 
 ## API reference
 
-For detailed documentation of all Permit features and configurations head to the API reference: https://docs.permit.io/
+For detailed documentation of all Permit features and configurations head to the API reference: <https://docs.permit.io/>

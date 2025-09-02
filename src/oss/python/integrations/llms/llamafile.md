@@ -16,7 +16,6 @@ wget https://huggingface.co/jartine/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/T
 
 2. Make the llamafile executable. First, if you haven't done so already, open a terminal. **If you're using MacOS, Linux, or BSD,** you'll need to grant permission for your computer to execute this new file using `chmod` (see below). **If you're on Windows,** rename the file by adding ".exe" to the end (model file should be named `TinyLlama-1.1B-Chat-v1.0.Q5_K_M.llamafile.exe`).
 
-
 ```bash
 chmod +x TinyLlama-1.1B-Chat-v1.0.Q5_K_M.llamafile  # run if you're on MacOS, Linux, or BSD
 ```
@@ -27,11 +26,9 @@ chmod +x TinyLlama-1.1B-Chat-v1.0.Q5_K_M.llamafile  # run if you're on MacOS, Li
 ./TinyLlama-1.1B-Chat-v1.0.Q5_K_M.llamafile --server --nobrowser
 ```
 
-Now you can make calls to the llamafile's REST API. By default, the llamafile server listens at http://localhost:8080. You can find full server documentation [here](https://github.com/Mozilla-Ocho/llamafile/blob/main/llama.cpp/server/README.md#api-endpoints). You can interact with the llamafile directly via the REST API, but here we'll show how to interact with it using LangChain.
-
+Now you can make calls to the llamafile's REST API. By default, the llamafile server listens at <http://localhost:8080>. You can find full server documentation [here](https://github.com/Mozilla-Ocho/llamafile/blob/main/llama.cpp/server/README.md#api-endpoints). You can interact with the llamafile directly via the REST API, but here we'll show how to interact with it using LangChain.
 
 ## Usage
-
 
 ```python
 from langchain_community.llms.llamafile import Llamafile
@@ -41,15 +38,11 @@ llm = Llamafile()
 llm.invoke("Tell me a joke")
 ```
 
-
-
 ```output
 '? \nI\'ve got a thing for pink, but you know that.\n"Can we not talk about work anymore?" - What did she say?\nI don\'t want to be a burden on you.\nIt\'s hard to keep a good thing going.\nYou can\'t tell me what I want, I have a life too!'
 ```
 
-
 To stream tokens, use the `.stream(...)` method:
-
 
 ```python
 query = "Tell me a joke"
@@ -59,6 +52,7 @@ for chunks in llm.stream(query):
 
 print()
 ```
+
 ```output
 .
 - She said, "I’m tired of my life. What should I do?"
@@ -69,4 +63,5 @@ print()
 - The woman's eyes softened. "Thank you for your advice. It's so important to keep moving forward in life," she said. - He nodded once again. "You’re welcome. I hope your journey is filled with laughter and joy."
 - They both smiled and left the bar, ready to embark on their respective adventures.
 ```
+
 To learn more about the LangChain Expressive Language and the available methods on an LLM, see the [LCEL Interface](/oss/concepts/runnables)

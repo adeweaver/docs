@@ -18,9 +18,7 @@ Bring-your-own data (i.e., index and search a custom corpus of documents):
 
 For cognee default setup, only thing you need is your OpenAI API key.
 
-
 If you want to get automated tracing from individual queries, you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
-
 
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -31,11 +29,9 @@ If you want to get automated tracing from individual queries, you can also set y
 
 This retriever lives in the `langchain-cognee` package:
 
-
 ```python
 %pip install -qU langchain-cognee
 ```
-
 
 ```python
 import nest_asyncio
@@ -46,7 +42,6 @@ nest_asyncio.apply()
 ## Instantiation
 
 Now we can instantiate our retriever:
-
 
 ```python
 from langchain_cognee import CogneeRetriever
@@ -61,7 +56,6 @@ retriever = CogneeRetriever(
 ## Usage
 
 Add some documents, process them, and then run queries. Cognee retrieves relevant knowledge to your queries and generates final answers.
-
 
 ```python
 # Example of adding and processing documents
@@ -91,13 +85,11 @@ We will need a LLM or chat model:
 
 <ChatModelTabs customVarName="llm" />
 
-
 ```python
 from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
 ```
-
 
 ```python
 from langchain_cognee import CogneeRetriever
@@ -141,7 +133,6 @@ chain = (
     | StrOutputParser()
 )
 ```
-
 
 ```python
 answer = chain.invoke("What companies do Elon Musk own?")

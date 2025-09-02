@@ -4,11 +4,11 @@ title: Titan Takeoff
 
 `TitanML` helps businesses build and deploy better, smaller, cheaper, and faster NLP models through our training, compression, and inference optimization platform.
 
-Our inference server, [Titan Takeoff](https://docs.titanml.co/docs/intro) enables deployment of LLMs locally on your hardware in a single command. Most generative model architectures are supported, such as Falcon, Llama 2, GPT2, T5 and many more. If you experience trouble with a specific model, please let us know at hello@titanml.co.
+Our inference server, [Titan Takeoff](https://docs.titanml.co/docs/intro) enables deployment of LLMs locally on your hardware in a single command. Most generative model architectures are supported, such as Falcon, Llama 2, GPT2, T5 and many more. If you experience trouble with a specific model, please let us know at <hello@titanml.co>.
 
 ## Example usage
-Here are some helpful examples to get started using Titan Takeoff Server. You need to make sure Takeoff Server has been started in the background before running these commands. For more information see [docs page for launching Takeoff](https://docs.titanml.co/docs/Docs/launching/).
 
+Here are some helpful examples to get started using Titan Takeoff Server. You need to make sure Takeoff Server has been started in the background before running these commands. For more information see [docs page for launching Takeoff](https://docs.titanml.co/docs/Docs/launching/).
 
 ```python
 import time
@@ -23,8 +23,6 @@ from langchain_core.prompts import PromptTemplate
 
 Basic use assuming Takeoff is running on your machine using its default ports (ie localhost:3000).
 
-
-
 ```python
 llm = TitanTakeoff()
 output = llm.invoke("What is the weather in London in August?")
@@ -34,7 +32,6 @@ print(output)
 ### Example 2
 
 Specifying a port and other generation parameters
-
 
 ```python
 llm = TitanTakeoff(port=3000)
@@ -59,7 +56,6 @@ print(output)
 
 Using generate for multiple inputs
 
-
 ```python
 llm = TitanTakeoff()
 rich_output = llm.generate(["What is Deep Learning?", "What is Machine Learning?"])
@@ -69,7 +65,6 @@ print(rich_output.generations)
 ### Example 4
 
 Streaming output
-
 
 ```python
 llm = TitanTakeoff(
@@ -84,7 +79,6 @@ print(output)
 
 Using LCEL
 
-
 ```python
 llm = TitanTakeoff()
 prompt = PromptTemplate.from_template("Tell me about {topic}")
@@ -96,7 +90,6 @@ print(output)
 ### Example 6
 
 Starting readers using TitanTakeoff Python Wrapper. If you haven't created any readers with first launching Takeoff, or you want to add another you can do so when you initialize the TitanTakeoff object. Just pass a list of model configs you want to start as the `models` parameter.
-
 
 ```python
 # Model config for the llama model, where you can specify the following parameters:

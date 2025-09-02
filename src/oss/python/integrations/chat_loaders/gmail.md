@@ -12,11 +12,9 @@ To use:
 
 - Install the Google Client Library: Run the following command to install the Google Client Library:
 
-
 ```python
 %pip install --upgrade --quiet  google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
 ```
-
 
 ```python
 import os.path
@@ -50,41 +48,32 @@ if not creds or not creds.valid:
         token.write(creds.to_json())
 ```
 
-
 ```python
 from langchain_community.chat_loaders.gmail import GMailLoader
 ```
-
 
 ```python
 loader = GMailLoader(creds=creds, n=3)
 ```
 
-
 ```python
 data = loader.load()
 ```
-
 
 ```python
 # Sometimes there can be errors which we silently ignore
 len(data)
 ```
 
-
-
 ```output
 2
 ```
-
-
 
 ```python
 from langchain_community.chat_loaders.utils import (
     map_ai_messages,
 )
 ```
-
 
 ```python
 # This makes messages sent by hchase@langchain.com the AI Messages
@@ -93,7 +82,6 @@ training_data = list(
     map_ai_messages(data, sender="Harrison Chase <hchase@langchain.com>")
 )
 ```
-
 
 ```python
 

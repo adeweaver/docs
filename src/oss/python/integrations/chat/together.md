@@ -8,6 +8,7 @@ This page will help you get started with Together AI [chat models](../../concept
 [Together AI](https://www.together.ai/) offers an API to query [50+ leading open-source models](https://docs.together.ai/docs/chat-models)
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [JS support](https://js.langchain.com/docs/integrations/chat/togetherai) | Package downloads | Package latest |
@@ -15,6 +16,7 @@ This page will help you get started with Together AI [chat models](../../concept
 | [ChatTogether](https://python.langchain.com/api_reference/together/chat_models/langchain_together.chat_models.ChatTogether.html) | [langchain-together](https://python.langchain.com/api_reference/together/index.html) | ❌ | beta | ✅ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-together?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-together?style=flat-square&label=%20) |
 
 ### Model features
+
 | [Tool calling](../../how_to/tool_calling.ipynb) | [Structured output](../../how_to/structured_output.ipynb) | JSON mode | [Image input](../../how_to/multimodal_inputs.ipynb) | Audio input | Video input | [Token-level streaming](../../how_to/chat_streaming.ipynb) | Native async | [Token usage](../../how_to/chat_token_usage_tracking.ipynb) | [Logprobs](../../how_to/logprobs.ipynb) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
@@ -27,7 +29,6 @@ To access Together models you'll need to create a/an Together account, get an AP
 
 Head to [this page](https://api.together.ai) to sign up to Together and generate an API key. Once you've done this, set the TOGETHER_API_KEY environment variable:
 
-
 ```python
 import getpass
 import os
@@ -38,7 +39,6 @@ if "TOGETHER_API_KEY" not in os.environ:
 
 To enable automated tracing of your model calls, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
-
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
 # os.environ["LANGSMITH_TRACING"] = "true"
@@ -48,7 +48,6 @@ To enable automated tracing of your model calls, set your [LangSmith](https://do
 
 The LangChain Together integration is included in the `langchain-together` package:
 
-
 ```python
 %pip install -qU langchain-together
 ```
@@ -56,7 +55,6 @@ The LangChain Together integration is included in the `langchain-together` packa
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```python
 from langchain_together import ChatTogether
@@ -73,7 +71,6 @@ llm = ChatTogether(
 
 ## Invocation
 
-
 ```python
 messages = [
     (
@@ -86,24 +83,21 @@ ai_msg = llm.invoke(messages)
 ai_msg
 ```
 
-
-
 ```output
 AIMessage(content="J'adore la programmation.", response_metadata={'token_usage': {'completion_tokens': 9, 'prompt_tokens': 35, 'total_tokens': 44}, 'model_name': 'meta-llama/Llama-3-70b-chat-hf', 'system_fingerprint': None, 'finish_reason': 'stop', 'logprobs': None}, id='run-eabcbe33-cdd8-45b8-ab0b-f90b6e7dfad8-0', usage_metadata={'input_tokens': 35, 'output_tokens': 9, 'total_tokens': 44})
 ```
 
-
-
 ```python
 print(ai_msg.content)
 ```
+
 ```output
 J'adore la programmation.
 ```
+
 ## Chaining
 
 We can [chain](../../how_to/sequence.ipynb) our model with a prompt template as follows:
-
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate
@@ -128,13 +122,10 @@ chain.invoke(
 )
 ```
 
-
-
 ```output
 AIMessage(content='Ich liebe das Programmieren.', response_metadata={'token_usage': {'completion_tokens': 7, 'prompt_tokens': 30, 'total_tokens': 37}, 'model_name': 'meta-llama/Llama-3-70b-chat-hf', 'system_fingerprint': None, 'finish_reason': 'stop', 'logprobs': None}, id='run-a249aa24-ee31-46ba-9bf9-f4eb135b0a95-0', usage_metadata={'input_tokens': 30, 'output_tokens': 7, 'total_tokens': 37})
 ```
 
-
 ## API reference
 
-For detailed documentation of all ChatTogether features and configurations, head to the API reference: https://python.langchain.com/api_reference/together/chat_models/langchain_together.chat_models.ChatTogether.html
+For detailed documentation of all ChatTogether features and configurations, head to the API reference: <https://python.langchain.com/api_reference/together/chat_models/langchain_together.chat_models.ChatTogether.html>

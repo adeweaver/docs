@@ -5,11 +5,10 @@ title: MLX
 This notebook shows how to get started using `MLX` LLM's as chat models.
 
 In particular, we will:
+
 1. Utilize the [MLXPipeline](https://github.com/langchain-ai/langchain/blob/master/libs/community/langchain_community/llms/mlx_pipeline.py),
 2. Utilize the `ChatMLX` class to enable any of these LLMs to interface with LangChain's [Chat Messages](https://python.langchain.com/docs/modules/model_io/chat/#messages) abstraction.
 3. Demonstrate how to use an open-source LLM to power an `ChatAgent` pipeline
-
-
 
 ```python
 %pip install --upgrade --quiet  mlx-lm transformers huggingface_hub
@@ -18,7 +17,6 @@ In particular, we will:
 ## 1. Instantiate an LLM
 
 There are three LLM options to choose from.
-
 
 ```python
 from langchain_community.llms.mlx_pipeline import MLXPipeline
@@ -32,7 +30,6 @@ llm = MLXPipeline.from_model_id(
 ## 2. Instantiate the `ChatMLX` to apply chat templates
 
 Instantiate the chat model and some messages to pass.
-
 
 ```python
 from langchain_community.chat_models.mlx import ChatMLX
@@ -49,25 +46,22 @@ chat_model = ChatMLX(llm=llm)
 
 Inspect how the chat messages are formatted for the LLM call.
 
-
 ```python
 chat_model._to_chat_prompt(messages)
 ```
 
 Call the model.
 
-
 ```python
 res = chat_model.invoke(messages)
 print(res.content)
 ```
 
-## 3. Take it for a spin as an agent!
+## 3. Take it for a spin as an agent
 
 Here we'll test out `gemma-2b-it` as a zero-shot `ReAct` Agent. The example below is taken from [here](https://python.langchain.com/docs/modules/agents/agent_types/react#using-chat-models).
 
 > Note: To run this section, you'll need to have a [SerpAPI Token](https://serpapi.com/) saved as an environment variable: `SERPAPI_API_KEY`
-
 
 ```python
 from langchain import hub
@@ -81,7 +75,6 @@ from langchain_community.utilities import SerpAPIWrapper
 ```
 
 Configure the agent with a `react-json` style prompt and access to a search engine and calculator.
-
 
 ```python
 # setup tools
@@ -149,7 +142,6 @@ agent = (
 # instantiate AgentExecutor
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 ```
-
 
 ```python
 agent_executor.invoke(

@@ -22,7 +22,6 @@ To create a `ElasticsearchEmbeddingsCache` byte store, you'll need an Elasticsea
 
 The LangChain `ElasticsearchEmbeddingsCache` integration lives in the `langchain-elasticsearch` package:
 
-
 ```python
 %pip install -qU langchain-elasticsearch
 ```
@@ -30,7 +29,6 @@ The LangChain `ElasticsearchEmbeddingsCache` integration lives in the `langchain
 ## Instantiation
 
 Now we can instantiate our byte store:
-
 
 ```python
 from langchain_elasticsearch import ElasticsearchEmbeddingsCache
@@ -53,7 +51,6 @@ kv_store = ElasticsearchEmbeddingsCache(
 
 You can set data under keys like this using the `mset` method:
 
-
 ```python
 kv_store.mset(
     [
@@ -70,15 +67,11 @@ kv_store.mget(
 )
 ```
 
-
-
 ```output
 [b'value1', b'value2']
 ```
 
-
 And you can delete data using the `mdelete` method:
-
 
 ```python
 kv_store.mdelete(
@@ -96,12 +89,9 @@ kv_store.mget(
 )
 ```
 
-
-
 ```output
 [None, None]
 ```
-
 
 ## Use as an embeddings cache
 
@@ -110,7 +100,6 @@ Like other `ByteStores`, you can use an `ElasticsearchEmbeddingsCache` instance 
 However, cached vectors won't be searchable by default. The developer can customize the building of the Elasticsearch document in order to add indexed vector field.
 
 This can be done by subclassing and overriding methods:
-
 
 ```python
 from typing import Any, Dict, List
@@ -138,4 +127,4 @@ When overriding the mapping and the document building, please only make additive
 
 ## API reference
 
-For detailed documentation of all `ElasticsearchEmbeddingsCache` features and configurations, head to the API reference: https://python.langchain.com/api_reference/elasticsearch/cache/langchain_elasticsearch.cache.ElasticsearchEmbeddingsCache.html
+For detailed documentation of all `ElasticsearchEmbeddingsCache` features and configurations, head to the API reference: <https://python.langchain.com/api_reference/elasticsearch/cache/langchain_elasticsearch.cache.ElasticsearchEmbeddingsCache.html>

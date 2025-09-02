@@ -9,7 +9,6 @@ This example showcases how to connect to the different Endpoints types.
 
 In particular, text generation inference is powered by [Text Generation Inference](https://github.com/huggingface/text-generation-inference): a custom-built Rust, Python and gRPC server for blazing-faset text generation inference.
 
-
 ```python
 from langchain_huggingface import HuggingFaceEndpoint
 ```
@@ -18,11 +17,9 @@ from langchain_huggingface import HuggingFaceEndpoint
 
 To use, you should have the ``huggingface_hub`` python [package installed](https://huggingface.co/docs/huggingface_hub/installation).
 
-
 ```python
 %pip install --upgrade --quiet huggingface_hub
 ```
-
 
 ```python
 # get a token: https://huggingface.co/docs/api-inference/quicktour#get-your-api-token
@@ -32,7 +29,6 @@ from getpass import getpass
 HUGGINGFACEHUB_API_TOKEN = getpass()
 ```
 
-
 ```python
 import os
 
@@ -41,17 +37,14 @@ os.environ["HUGGINGFACEHUB_API_TOKEN"] = HUGGINGFACEHUB_API_TOKEN
 
 ## Prepare Examples
 
-
 ```python
 from langchain_huggingface import HuggingFaceEndpoint
 ```
-
 
 ```python
 from langchain.chains import LLMChain
 from langchain_core.prompts import PromptTemplate
 ```
-
 
 ```python
 question = "Who won the FIFA World Cup in the year 1994? "
@@ -66,8 +59,6 @@ prompt = PromptTemplate.from_template(template)
 ## Examples
 
 Here is an example of how you can access `HuggingFaceEndpoint` integration of the serverless [Inference Providers](https://huggingface.co/docs/inference-providers) API.
-
-
 
 ```python
 repo_id = "deepseek-ai/DeepSeek-R1-0528"
@@ -88,20 +79,15 @@ print(llm_chain.invoke({"question": question}))
 
 ## Dedicated Endpoint
 
-
 The free serverless API lets you implement solutions and iterate in no time, but it may be rate limited for heavy use cases, since the loads are shared with other requests.
 
 For enterprise workloads, the best is to use [Inference Endpoints - Dedicated](https://huggingface.co/inference-endpoints/dedicated).
 This gives access to a fully managed infrastructure that offer more flexibility and speed. These resoucres come with continuous support and uptime guarantees, as well as options like AutoScaling
 
-
-
-
 ```python
 # Set the url to your Inference Endpoint below
 your_endpoint_url = "https://fayjubiy2xqn36z0.us-east-1.aws.endpoints.huggingface.cloud"
 ```
-
 
 ```python
 llm = HuggingFaceEndpoint(
@@ -117,7 +103,6 @@ llm("What did foo say about bar?")
 ```
 
 ### Streaming
-
 
 ```python
 from langchain_core.callbacks import StreamingStdOutCallbackHandler

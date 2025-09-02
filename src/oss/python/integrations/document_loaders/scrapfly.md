@@ -5,13 +5,14 @@ title: ScrapFly
 [ScrapFly](https://scrapfly.io/) is a web scraping API with headless browser capabilities, proxies, and anti-bot bypass. It allows for extracting web page data into accessible LLM markdown or text.
 
 #### Installation
+
 Install ScrapFly Python SDK and he required Langchain packages using pip:
+
 ```shell
 pip install scrapfly-sdk langchain langchain-community
 ```
 
 #### Usage
-
 
 ```python
 from langchain_community.document_loaders import ScrapflyLoader
@@ -27,8 +28,7 @@ documents = scrapfly_loader.load()
 print(documents)
 ```
 
-The ScrapflyLoader also allows passing ScrapeConfig object for customizing the scrape request. See the documentation for the full feature details and their API params: https://scrapfly.io/docs/scrape-api/getting-started
-
+The ScrapflyLoader also allows passing ScrapeConfig object for customizing the scrape request. See the documentation for the full feature details and their API params: <https://scrapfly.io/docs/scrape-api/getting-started>
 
 ```python
 from langchain_community.document_loaders import ScrapflyLoader

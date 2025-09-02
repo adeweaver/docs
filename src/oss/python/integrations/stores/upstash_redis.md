@@ -24,7 +24,6 @@ You'll first need to [sign up for an Upstash account](https://upstash.com/docs/r
 
 Once you've created your database, get your database URL (don't forget the `https://`!) and token:
 
-
 ```python
 from getpass import getpass
 
@@ -36,7 +35,6 @@ TOKEN = getpass("Enter your Upstash REST token")
 
 The LangChain Upstash integration lives in the `langchain-community` package. You'll also need to install the `upstash-redis` package as a peer dependency:
 
-
 ```python
 %pip install -qU langchain-community upstash-redis
 ```
@@ -44,7 +42,6 @@ The LangChain Upstash integration lives in the `langchain-community` package. Yo
 ## Instantiation
 
 Now we can instantiate our byte store:
-
 
 ```python
 from langchain_community.storage import UpstashRedisByteStore
@@ -57,7 +54,6 @@ kv_store = UpstashRedisByteStore(client=redis_client, ttl=None, namespace="test-
 ## Usage
 
 You can set data under keys like this using the `mset` method:
-
 
 ```python
 kv_store.mset(
@@ -75,15 +71,11 @@ kv_store.mget(
 )
 ```
 
-
-
 ```output
 [b'value1', b'value2']
 ```
 
-
 And you can delete data using the `mdelete` method:
-
 
 ```python
 kv_store.mdelete(
@@ -101,13 +93,10 @@ kv_store.mget(
 )
 ```
 
-
-
 ```output
 [None, None]
 ```
 
-
 ## API reference
 
-For detailed documentation of all `UpstashRedisByteStore` features and configurations, head to the API reference: https://python.langchain.com/api_reference/community/storage/langchain_community.storage.upstash_redis.UpstashRedisByteStore.html
+For detailed documentation of all `UpstashRedisByteStore` features and configurations, head to the API reference: <https://python.langchain.com/api_reference/community/storage/langchain_community.storage.upstash_redis.UpstashRedisByteStore.html>

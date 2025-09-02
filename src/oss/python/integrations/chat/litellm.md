@@ -12,6 +12,7 @@ This integration contains two main classes:
 - ```ChatLiteLLMRouter```: A ```ChatLiteLLM``` wrapper that leverages LiteLLM's Router ([docs](https://docs.litellm.ai/docs/routing)).
 
 ## Table of Contents
+
 1. [Overview](#overview)
    - [Integration Details](#integration-details)
    - [Model Features](#model-features)
@@ -26,6 +27,7 @@ This integration contains two main classes:
 8. [API Reference](#api-reference)
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | JS support| Package downloads | Package latest |
@@ -34,11 +36,13 @@ This integration contains two main classes:
 | [ChatLiteLLMRouter](https://python.langchain.com/docs/integrations/chat/litellm/#chatlitellmrouter) | [langchain-litellm](https://pypi.org/project/langchain-litellm/)| ❌ | ❌ | ❌ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-litellm?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-litellm?style=flat-square&label=%20) |
 
 ### Model features
+
 | [Tool calling](https://python.langchain.com/docs/how_to/tool_calling/) | [Structured output](https://python.langchain.com/docs/how_to/structured_output/) | JSON mode | Image input | Audio input | Video input | [Token-level streaming](https://python.langchain.com/docs/integrations/chat/litellm/#chatlitellm-also-supports-async-and-streaming-functionality) | [Native async](https://python.langchain.com/docs/integrations/chat/litellm/#chatlitellm-also-supports-async-and-streaming-functionality) | [Token usage](https://python.langchain.com/docs/how_to/chat_token_usage_tracking/) | [Logprobs](https://python.langchain.com/docs/how_to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ |
 
 ### Setup
+
 To access ```ChatLiteLLM``` and ```ChatLiteLLMRouter``` models, you'll need to install the `langchain-litellm` package and create an OpenAI, Anthropic, Azure, Replicate, OpenRouter, Hugging Face, Together AI, or Cohere account. Then, you have to get an API key and export it as an environment variable.
 
 ## Credentials
@@ -46,12 +50,12 @@ To access ```ChatLiteLLM``` and ```ChatLiteLLMRouter``` models, you'll need to i
 You have to choose the LLM provider you want and sign up with them to get their API key.
 
 ### Example - Anthropic
-Head to https://console.anthropic.com/ to sign up for Anthropic and generate an API key. Once you've done this, set the ANTHROPIC_API_KEY environment variable.
 
+Head to <https://console.anthropic.com/> to sign up for Anthropic and generate an API key. Once you've done this, set the ANTHROPIC_API_KEY environment variable.
 
 ### Example - OpenAI
-Head to https://platform.openai.com/api-keys to sign up for OpenAI and generate an API key. Once you've done this, set the OPENAI_API_KEY environment variable.
 
+Head to <https://platform.openai.com/api-keys> to sign up for OpenAI and generate an API key. Once you've done this, set the OPENAI_API_KEY environment variable.
 
 ```python
 ## Set ENV variables
@@ -65,7 +69,6 @@ os.environ["ANTHROPIC_API_KEY"] = "your-anthropic-key"
 
 The LangChain LiteLLM integration is available in the `langchain-litellm` package:
 
-
 ```python
 %pip install -qU langchain-litellm
 ```
@@ -73,8 +76,8 @@ The LangChain LiteLLM integration is available in the `langchain-litellm` packag
 ## Instantiation
 
 ### ChatLiteLLM
-You can instantiate a ```ChatLiteLLM``` model by providing a ```model``` name [supported by LiteLLM](https://docs.litellm.ai/docs/providers).
 
+You can instantiate a ```ChatLiteLLM``` model by providing a ```model``` name [supported by LiteLLM](https://docs.litellm.ai/docs/providers).
 
 ```python
 from langchain_litellm import ChatLiteLLM
@@ -83,8 +86,8 @@ llm = ChatLiteLLM(model="gpt-4.1-nano", temperature=0.1)
 ```
 
 ### ChatLiteLLMRouter
-You can also leverage LiteLLM's routing capabilities by defining your model list as specified [here](https://docs.litellm.ai/docs/routing).
 
+You can also leverage LiteLLM's routing capabilities by defining your model list as specified [here](https://docs.litellm.ai/docs/routing).
 
 ```python
 from langchain_litellm import ChatLiteLLMRouter
@@ -115,8 +118,8 @@ llm = ChatLiteLLMRouter(router=litellm_router, model_name="gpt-4.1", temperature
 ```
 
 ## Invocation
-Whether you've instantiated a `ChatLiteLLM` or a `ChatLiteLLMRouter`, you can now use the ChatModel through Langchain's API.
 
+Whether you've instantiated a `ChatLiteLLM` or a `ChatLiteLLMRouter`, you can now use the ChatModel through Langchain's API.
 
 ```python
 response = await llm.ainvoke(
@@ -124,17 +127,20 @@ response = await llm.ainvoke(
 )
 print(response)
 ```
+
 ```output
 content='Neutral' additional_kwargs={} response_metadata={'token_usage': Usage(completion_tokens=2, prompt_tokens=30, total_tokens=32, completion_tokens_details=CompletionTokensDetailsWrapper(accepted_prediction_tokens=0, audio_tokens=0, reasoning_tokens=0, rejected_prediction_tokens=0, text_tokens=None), prompt_tokens_details=PromptTokensDetailsWrapper(audio_tokens=0, cached_tokens=0, text_tokens=None, image_tokens=None)), 'model': 'gpt-3.5-turbo', 'finish_reason': 'stop', 'model_name': 'gpt-3.5-turbo'} id='run-ab6a3b21-eae8-4c27-acb2-add65a38221a-0' usage_metadata={'input_tokens': 30, 'output_tokens': 2, 'total_tokens': 32}
 ```
-## Async and Streaming Functionality
-`ChatLiteLLM` and `ChatLiteLLMRouter` also support async and streaming functionality:
 
+## Async and Streaming Functionality
+
+`ChatLiteLLM` and `ChatLiteLLMRouter` also support async and streaming functionality:
 
 ```python
 async for token in llm.astream("Hello, please explain how antibiotics work"):
     print(token.text(), end="")
 ```
+
 ```output
 Antibiotics are medications that fight bacterial infections in the body. They work by targeting specific bacteria and either killing them or preventing their growth and reproduction.
 
@@ -142,5 +148,7 @@ There are several different mechanisms by which antibiotics work. Some antibioti
 
 It is important to note that antibiotics only work against bacterial infections and not viral infections. It is also crucial to take antibiotics as prescribed by a healthcare professional and to complete the full course of treatment, even if symptoms improve before the medication is finished. This helps to prevent antibiotic resistance, where bacteria become resistant to the effects of antibiotics.
 ```
+
 ## API reference
-For detailed documentation of all `ChatLiteLLM` and `ChatLiteLLMRouter` features and configurations, head to the API reference: https://github.com/Akshay-Dongare/langchain-litellm
+
+For detailed documentation of all `ChatLiteLLM` and `ChatLiteLLMRouter` features and configurations, head to the API reference: <https://github.com/Akshay-Dongare/langchain-litellm>

@@ -21,7 +21,6 @@ For more information on accessing the chat models through this API, check out th
 
 ## Installation
 
-
 ```python
 %pip install --upgrade --quiet  langchain-nvidia-ai-endpoints
 ```
@@ -37,7 +36,6 @@ For more information on accessing the chat models through this API, check out th
 3. Under `Input` select the `Python` tab, and click `Get API Key`. Then click `Generate Key`.
 
 4. Copy and save the generated key as `NVIDIA_API_KEY`. From there, you should have access to the endpoints.
-
 
 ```python
 import getpass
@@ -58,7 +56,6 @@ We should be able to see an embedding model among that list which can be used in
 
 When initializing an embedding model you can select a model by passing it, e.g. `NV-Embed-QA` below, or use the default by not passing any arguments.
 
-
 ```python
 from langchain_nvidia_ai_endpoints import NVIDIAEmbeddings
 
@@ -74,11 +71,10 @@ This model is a fine-tuned E5-large model which supports the expected `Embedding
 - `aembed_query`/`aembed_documents`: Asynchronous versions of the above.
 
 ## Working with self-hosted NVIDIA NIMs
+
 When ready to deploy, you can self-host models with NVIDIA NIM—which is included with the NVIDIA AI Enterprise software license—and run them anywhere, giving you ownership of your customizations and full control of your intellectual property (IP) and AI applications.
 
 [Learn more about NIMs](https://developer.nvidia.com/blog/nvidia-nim-offers-optimized-inference-microservices-for-deploying-ai-models-at-scale/)
-
-
 
 ```python
 from langchain_nvidia_ai_endpoints import NVIDIAEmbeddings
@@ -117,7 +113,6 @@ The following is a quick test of the similarity for these data points:
 
 ### Embedding Runtimes
 
-
 ```python
 print("\nSequential Embedding: ")
 q_embeddings = [
@@ -131,7 +126,6 @@ print("Shape:", (len(q_embeddings), len(q_embeddings[0])))
 ```
 
 ### Document Embedding
-
 
 ```python
 print("\nBatch Document Embedding: ")
@@ -149,11 +143,9 @@ print("Shape:", (len(q_embeddings), len(q_embeddings[0])))
 
 Now that we've generated our embeddings, we can do a simple similarity check on the results to see which documents would have triggered as reasonable answers in a retrieval task:
 
-
 ```python
 %pip install --upgrade --quiet  matplotlib scikit-learn
 ```
-
 
 ```python
 import matplotlib.pyplot as plt
@@ -212,15 +204,14 @@ Since models operate on tokens and applications usually work with text, it can b
 To assist with this, NVIDIA's NIMs (API Catalog or local) provide a `truncate` parameter that truncates the input on the server side if it's too large.
 
 The `truncate` parameter has three options:
- - "NONE": The default option. An exception is thrown if the input is too large.
- - "START": The server truncates the input from the start (left), discarding tokens as necessary.
- - "END": The server truncates the input from the end (right), discarding tokens as necessary.
 
+- "NONE": The default option. An exception is thrown if the input is too large.
+- "START": The server truncates the input from the start (left), discarding tokens as necessary.
+- "END": The server truncates the input from the end (right), discarding tokens as necessary.
 
 ```python
 long_text = "AI is amazing, amazing is " * 100
 ```
-
 
 ```python
 strict_embedder = NVIDIAEmbeddings()
@@ -230,19 +221,17 @@ except Exception as e:
     print("Error:", e)
 ```
 
-
 ```python
 truncating_embedder = NVIDIAEmbeddings(truncate="END")
 truncating_embedder.embed_query(long_text)[:5]
 ```
 
-## RAG Retrieval:
+## RAG Retrieval
 
 The following is a repurposing of the initial example of the [LangChain Expression Language Retrieval Cookbook entry](
 https://python.langchain.com/docs/expression_language/cookbook/retrieval), but executed with the AI Foundation Models' [Mixtral 8x7B Instruct](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/ai-foundation/models/mixtral-8x7b) and [NVIDIA Retrieval QA Embedding](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/ai-foundation/models/nvolve-40k) models available in their playground environments. The subsequent examples in the cookbook also run as expected, and we encourage you to explore with these options.
 
 **TIP:** We would recommend using Mixtral for internal reasoning (i.e. instruction following for data extraction, tool selection, etc.) and Llama-Chat for a single final "wrap-up by making a simple response that works for this user based on the history and context" response.
-
 
 ```python
 %pip install --upgrade --quiet  langchain faiss-cpu tiktoken langchain-community
@@ -255,7 +244,6 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_nvidia_ai_endpoints import ChatNVIDIA
 ```
-
 
 ```python
 vectorstore = FAISS.from_texts(
@@ -285,7 +273,6 @@ chain = (
 
 chain.invoke("where did harrison work?")
 ```
-
 
 ```python
 prompt = ChatPromptTemplate.from_messages(

@@ -14,8 +14,6 @@ title: ZepCloudChatMessageHistory
 
 This notebook demonstrates how to use [Zep](https://www.getzep.com/) to persist chat history and use Zep Memory with your chain.
 
-
-
 ```python
 from uuid import uuid4
 
@@ -35,23 +33,19 @@ session_id = str(uuid4())  # This is a unique identifier for the session
 
 Provide your OpenAI key
 
-
 ```python
 import getpass
 
 openai_key = getpass.getpass()
 ```
 
-Provide your Zep API key. See https://help.getzep.com/projects#api-keys
-
-
+Provide your Zep API key. See <https://help.getzep.com/projects#api-keys>
 
 ```python
 zep_api_key = getpass.getpass()
 ```
 
 Preload some messages into the memory. The default message window is 4 messages. We want to push beyond this to demonstrate auto-summarization.
-
 
 ```python
 test_history = [
@@ -138,7 +132,6 @@ It’s important that this variable name aligns with the history_messages_key in
 
 **question** must match input_messages_key in `RunnableWithMessageHistory“ chain.
 
-
 ```python
 template = """Be helpful and answer the question below using the provided context:
     """
@@ -152,7 +145,6 @@ answer_prompt = ChatPromptTemplate.from_messages(
 ```
 
 We use RunnableWithMessageHistory to incorporate Zep’s Chat History into our chain. This class requires a session_id as a parameter when you activate the chain.
-
 
 ```python
 inputs = RunnableParallel(
@@ -173,7 +165,6 @@ chain = RunnableWithMessageHistory(
 )
 ```
 
-
 ```python
 chain.invoke(
     {
@@ -182,16 +173,14 @@ chain.invoke(
     config={"configurable": {"session_id": session_id}},
 )
 ```
+
 ```output
 Parent run 622c6f75-3e4a-413d-ba20-558c1fea0d50 not found for run af12a4b1-e882-432d-834f-e9147465faf6. Treating as a root run.
 ```
 
-
 ```output
 '"Parable of the Sower" is relevant to the challenges facing contemporary society as it explores themes of environmental degradation, economic inequality, social unrest, and the search for hope and community in the face of chaos. The novel\'s depiction of a dystopian future where society has collapsed due to environmental and economic crises serves as a cautionary tale about the potential consequences of our current societal and environmental challenges. By addressing issues such as climate change, social injustice, and the impact of technology on humanity, Octavia Butler\'s work prompts readers to reflect on the pressing issues of our time and the importance of resilience, empathy, and collective action in building a better future.'
 ```
-
-
 
 ```python
 

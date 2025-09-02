@@ -5,6 +5,7 @@ title: AzureOpenAIEmbeddings
 This will help you get started with AzureOpenAI embedding models using LangChain. For detailed documentation on `AzureOpenAIEmbeddings` features and configuration options, please refer to the [API reference](https://python.langchain.com/api_reference/openai/embeddings/langchain_openai.embeddings.azure.AzureOpenAIEmbeddings.html).
 
 ## Overview
+
 ### Integration details
 
 <ItemTable category="text_embedding" item="AzureOpenAI" />
@@ -25,7 +26,6 @@ AZURE_OPENAI_API_KEY=<YOUR_KEY>
 AZURE_OPENAI_API_VERSION="2024-02-01"
 ```
 
-
 ```python
 import getpass
 import os
@@ -38,7 +38,6 @@ if not os.getenv("AZURE_OPENAI_API_KEY"):
 
 To enable automated tracing of your model calls, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
-
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -48,7 +47,6 @@ To enable automated tracing of your model calls, set your [LangSmith](https://do
 
 The LangChain AzureOpenAI integration lives in the `langchain-openai` package:
 
-
 ```python
 %pip install -qU langchain-openai
 ```
@@ -56,7 +54,6 @@ The LangChain AzureOpenAI integration lives in the `langchain-openai` package:
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```python
 from langchain_openai import AzureOpenAIEmbeddings
@@ -75,7 +72,6 @@ embeddings = AzureOpenAIEmbeddings(
 Embedding models are often used in retrieval-augmented generation (RAG) flows, both as part of indexing data as well as later retrieving it. For more detailed instructions, please see our [RAG tutorials](/oss/tutorials/rag).
 
 Below, see how to index and retrieve data using the `embeddings` object we initialized above. In this example, we will index and retrieve a sample document in the `InMemoryVectorStore`.
-
 
 ```python
 # Create a vector store with a sample text
@@ -98,12 +94,9 @@ retrieved_documents = retriever.invoke("What is LangChain?")
 retrieved_documents[0].page_content
 ```
 
-
-
 ```output
 'LangChain is the framework for building context-aware reasoning applications'
 ```
-
 
 ## Direct Usage
 
@@ -115,18 +108,18 @@ You can directly call these methods to get embeddings for your own use cases.
 
 You can embed single texts or documents with `embed_query`:
 
-
 ```python
 single_vector = embeddings.embed_query(text)
 print(str(single_vector)[:100])  # Show the first 100 characters of the vector
 ```
+
 ```output
 [-0.0011676070280373096, 0.007125577889382839, -0.014674457721412182, -0.034061674028635025, 0.01128
 ```
+
 ### Embed multiple texts
 
 You can embed multiple texts with `embed_documents`:
-
 
 ```python
 text2 = (
@@ -136,10 +129,12 @@ two_vectors = embeddings.embed_documents([text, text2])
 for vector in two_vectors:
     print(str(vector)[:100])  # Show the first 100 characters of the vector
 ```
+
 ```output
 [-0.0011966148158535361, 0.007160289213061333, -0.014659193344414234, -0.03403077274560928, 0.011280
 [-0.005595256108790636, 0.016757294535636902, -0.011055258102715015, -0.031094247475266457, -0.00363
 ```
+
 ## API Reference
 
 For detailed documentation on `AzureOpenAIEmbeddings` features and configuration options, please refer to the [API reference](https://python.langchain.com/api_reference/openai/embeddings/langchain_openai.embeddings.azure.AzureOpenAIEmbeddings.html).

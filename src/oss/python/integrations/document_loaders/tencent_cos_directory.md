@@ -10,20 +10,16 @@ title: Tencent COS Directory
 > command line tool, and graphical tools. It works well with Amazon S3 APIs, allowing you to quickly
 > access community tools and plugins.
 
-
 This covers how to load document objects from a `Tencent COS Directory`.
-
 
 ```python
 %pip install --upgrade --quiet  cos-python-sdk-v5
 ```
 
-
 ```python
 from langchain_community.document_loaders import TencentCOSDirectoryLoader
 from qcloud_cos import CosConfig
 ```
-
 
 ```python
 conf = CosConfig(
@@ -34,19 +30,17 @@ conf = CosConfig(
 loader = TencentCOSDirectoryLoader(conf=conf, bucket="you_cos_bucket")
 ```
 
-
 ```python
 loader.load()
 ```
 
 ## Specifying a prefix
-You can also specify a prefix for more fine-grained control over what files to load.
 
+You can also specify a prefix for more fine-grained control over what files to load.
 
 ```python
 loader = TencentCOSDirectoryLoader(conf=conf, bucket="you_cos_bucket", prefix="fake")
 ```
-
 
 ```python
 loader.load()

@@ -6,7 +6,6 @@ title: Iugu
 
 This notebook covers how to load data from the `Iugu REST API` into a format that can be ingested into LangChain, along with example usage for vectorization.
 
-
 ```python
 from langchain.indexes import VectorstoreIndexCreator
 from langchain_community.document_loaders import IuguLoader
@@ -20,12 +19,9 @@ Following resources are available:
 
 `Documentation` [Documentation](https://dev.iugu.com/reference/metadados)
 
-
-
 ```python
 iugu_loader = IuguLoader("charges")
 ```
-
 
 ```python
 # Create a vectorstore retriever from the loader

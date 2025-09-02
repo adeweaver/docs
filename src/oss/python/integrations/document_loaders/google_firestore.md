@@ -20,7 +20,6 @@ To run this notebook, you will need to do the following:
 
 After confirmed access to database in the runtime environment of this notebook, filling the following values and run the cell before running example scripts.
 
-
 ```python
 # @markdown Please specify a source for demo purpose.
 SOURCE = "test"  # @param {type:"Query"|"CollectionGroup"|"DocumentReference"|"string"}
@@ -30,13 +29,11 @@ SOURCE = "test"  # @param {type:"Query"|"CollectionGroup"|"DocumentReference"|"s
 
 The integration lives in its own `langchain-google-firestore` package, so we need to install it.
 
-
 ```python
 %pip install --upgrade --quiet langchain-google-firestore
 ```
 
 **Colab only**: Uncomment the following cell to restart the kernel or use the button to restart the kernel. For Vertex AI Workbench you can restart the terminal using the button on top.
-
 
 ```python
 # # Automatically restart kernel after installs so that your environment can access the new packages
@@ -47,6 +44,7 @@ The integration lives in its own `langchain-google-firestore` package, so we nee
 ```
 
 ### ☁ Set Your Google Cloud Project
+
 Set your Google Cloud project so that you can leverage Google Cloud resources within this notebook.
 
 If you don't know your project ID, try the following:
@@ -54,7 +52,6 @@ If you don't know your project ID, try the following:
 * Run `gcloud config list`.
 * Run `gcloud projects list`.
 * See the support page: [Locate the project ID](https://support.google.com/googleapi/answer/7014113).
-
 
 ```python
 # @markdown Please fill in the value below with your Google Cloud project ID and then run the cell.
@@ -69,9 +66,8 @@ PROJECT_ID = "my-project-id"  # @param {type:"string"}
 
 Authenticate to Google Cloud as the IAM user logged into this notebook in order to access your Google Cloud Project.
 
-- If you are using Colab to run this notebook, use the cell below and continue.
-- If you are using Vertex AI Workbench, check out the setup instructions [here](https://github.com/GoogleCloudPlatform/generative-ai/tree/main/setup-env).
-
+* If you are using Colab to run this notebook, use the cell below and continue.
+* If you are using Vertex AI Workbench, check out the setup instructions [here](https://github.com/GoogleCloudPlatform/generative-ai/tree/main/setup-env).
 
 ```python
 from google.colab import auth
@@ -86,7 +82,6 @@ auth.authenticate_user()
 `FirestoreSaver` can store Documents into Firestore. By default it will try to extract the Document reference from the metadata
 
 Save langchain documents with `FirestoreSaver.upsert_documents(<documents>)`.
-
 
 ```python
 from langchain_core.documents import Document
@@ -103,7 +98,6 @@ saver.upsert_documents(data)
 
 If a collection is specified the documents will be stored with an auto generated id.
 
-
 ```python
 saver = FirestoreSaver("Collection")
 
@@ -111,7 +105,6 @@ saver.upsert_documents(data)
 ```
 
 #### Save documents with other references
-
 
 ```python
 doc_ids = ["AnotherCollection/doc_id", "foo/bar"]
@@ -126,7 +119,6 @@ Load langchain documents with `FirestoreLoader.load()` or `Firestore.lazy_load()
 
 1. `source` - An instance of a Query, CollectionGroup, DocumentReference or the single `\`-delimited path to a Firestore collection.
 
-
 ```python
 from langchain_google_firestore import FirestoreLoader
 
@@ -140,7 +132,6 @@ data_subcollection = loader_subcollection.load()
 
 ### Load a single Document
 
-
 ```python
 from google.cloud import firestore
 
@@ -153,7 +144,6 @@ data = loader_document.load()
 ```
 
 ### Load from CollectionGroup or Query
-
 
 ```python
 from google.cloud.firestore import CollectionGroup, FieldFilter, Query
@@ -175,7 +165,6 @@ Delete a list of langchain documents from Firestore collection with `FirestoreSa
 
 If document ids is provided, the Documents will be ignored.
 
-
 ```python
 saver = FirestoreSaver()
 
@@ -190,7 +179,6 @@ saver.delete_documents(data, doc_ids)
 ### Load documents with customize document page content & metadata
 
 The arguments of `page_content_fields` and `metadata_fields` will specify the Firestore Document fields to be written into LangChain Document `page_content` and `metadata`.
-
 
 ```python
 loader = FirestoreLoader(
@@ -207,7 +195,6 @@ data = loader.load()
 When the `page_content` contains only one field the information will be the field value only. Otherwise the `page_content` will be in JSON format.
 
 ### Customize Connection & Authentication
-
 
 ```python
 from google.auth import compute_engine

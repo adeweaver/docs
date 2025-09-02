@@ -15,16 +15,18 @@ This integration provides Docling's capabilities via the `DoclingLoader` documen
 | langchain_docling.DoclingLoader | langchain-docling | ✅ | ❌ | ❌ |
 
 ### Loader features
+
 | Source | Document Lazy Loading | Native Async Support
 | :---: | :---: | :---: |
 | DoclingLoader | ✅ | ❌ |
 
-
 The presented `DoclingLoader` component enables you to:
+
 - use various document types in your LLM applications with ease and speed, and
 - leverage Docling's rich format for advanced, document-native grounding.
 
 `DoclingLoader` supports two different export modes:
+
 - `ExportType.DOC_CHUNKS` (default): if you want to have each input document chunked and
   to then capture each individual chunk as a separate LangChain Document downstream, or
 - `ExportType.MARKDOWN`: if you want to capture each input document as a separate
@@ -35,19 +37,19 @@ value set, the example pipeline is then set up accordingly.
 
 ## Setup
 
-
 ```python
 %pip install -qU langchain-docling
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
+
 > For best conversion speed, use GPU acceleration whenever available; e.g. if running on Colab, use a GPU-enabled runtime.
 
 ## Initialization
 
 Basic initialization looks as follows:
-
 
 ```python
 from langchain_docling import DoclingLoader
@@ -58,6 +60,7 @@ loader = DoclingLoader(file_path=FILE_PATH)
 ```
 
 For advanced usage, `DoclingLoader` has the following parameters:
+
 - `file_path`: source as single str (URL or local file) or iterable thereof
 - `converter` (optional): any specific Docling converter instance to use
 - `convert_kwargs` (optional): any specific kwargs for conversion execution
@@ -68,36 +71,36 @@ For advanced usage, `DoclingLoader` has the following parameters:
     mode)
 - `meta_extractor` (optional): any specific metadata extractor to use
 
-
 ## Load
-
 
 ```python
 docs = loader.load()
 ```
+
 ```output
 Token indices sequence length is longer than the specified maximum sequence length for this model (1041 > 512). Running this sequence through the model will result in indexing errors
 ```
+
 > Note: a message saying `"Token indices sequence length is longer than the specified
 maximum sequence length..."` can be ignored in this case — more details
 [here](https://github.com/DS4SD/docling-core/issues/119#issuecomment-2577418826).
 
 Inspecting some sample docs:
 
-
 ```python
 for d in docs[:3]:
     print(f"- {d.page_content=}")
 ```
+
 ```output
 - d.page_content='arXiv:2408.09869v5  [cs.CL]  9 Dec 2024'
 - d.page_content='Docling Technical Report\nVersion 1.0\nChristoph Auer Maksym Lysak Ahmed Nassar Michele Dolfi Nikolaos Livathinos Panos Vagenas Cesar Berrospi Ramis Matteo Omenetti Fabian Lindlbauer Kasper Dinkla Lokesh Mishra Yusik Kim Shubham Gupta Rafael Teixeira de Lima Valery Weber Lucas Morin Ingmar Meijer Viktor Kuropiatnyk Peter W. J. Staar\nAI4K Group, IBM Research R¨uschlikon, Switzerland'
 - d.page_content='Abstract\nThis technical report introduces Docling , an easy to use, self-contained, MITlicensed open-source package for PDF document conversion. It is powered by state-of-the-art specialized AI models for layout analysis (DocLayNet) and table structure recognition (TableFormer), and runs efficiently on commodity hardware in a small resource budget. The code interface allows for easy extensibility and addition of new features and models.'
 ```
+
 ## Lazy Load
 
 Documents can also be loaded in a lazy fashion:
-
 
 ```python
 doc_iter = loader.lazy_load()
@@ -107,8 +110,6 @@ for doc in doc_iter:
 
 ## End-to-end Example
 
-
-
 ```python
 import os
 
@@ -116,19 +117,18 @@ import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 ```
 
-
 > - The following example pipeline uses HuggingFace's Inference API; for increased LLM quota, token can be provided via env var `HF_TOKEN`.
 > - Dependencies for this pipeline can be installed as shown below (`--no-warn-conflicts` meant for Colab's pre-populated Python env; feel free to remove for stricter usage):
-
 
 ```python
 %pip install -q --progress-bar off --no-warn-conflicts langchain-core langchain-huggingface langchain-milvus langchain python-dotenv
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
-Defining the pipeline parameters:
 
+Defining the pipeline parameters:
 
 ```python
 from pathlib import Path
@@ -169,7 +169,6 @@ MILVUS_URI = str(Path(mkdtemp()) / "docling.db")
 
 Now we can instantiate our loader and load documents:
 
-
 ```python
 from docling.chunking import HybridChunker
 from langchain_docling import DoclingLoader
@@ -182,11 +181,12 @@ loader = DoclingLoader(
 
 docs = loader.load()
 ```
+
 ```output
 Token indices sequence length is longer than the specified maximum sequence length for this model (1041 > 512). Running this sequence through the model will result in indexing errors
 ```
-Determining the splits:
 
+Determining the splits:
 
 ```python
 if EXPORT_TYPE == ExportType.DOC_CHUNKS:
@@ -208,20 +208,20 @@ else:
 
 Inspecting some sample splits:
 
-
 ```python
 for d in splits[:3]:
     print(f"- {d.page_content=}")
 print("...")
 ```
+
 ```output
 - d.page_content='arXiv:2408.09869v5  [cs.CL]  9 Dec 2024'
 - d.page_content='Docling Technical Report\nVersion 1.0\nChristoph Auer Maksym Lysak Ahmed Nassar Michele Dolfi Nikolaos Livathinos Panos Vagenas Cesar Berrospi Ramis Matteo Omenetti Fabian Lindlbauer Kasper Dinkla Lokesh Mishra Yusik Kim Shubham Gupta Rafael Teixeira de Lima Valery Weber Lucas Morin Ingmar Meijer Viktor Kuropiatnyk Peter W. J. Staar\nAI4K Group, IBM Research R¨uschlikon, Switzerland'
 - d.page_content='Abstract\nThis technical report introduces Docling , an easy to use, self-contained, MITlicensed open-source package for PDF document conversion. It is powered by state-of-the-art specialized AI models for layout analysis (DocLayNet) and table structure recognition (TableFormer), and runs efficiently on commodity hardware in a small resource budget. The code interface allows for easy extensibility and addition of new features and models.'
 ...
 ```
-### Ingestion
 
+### Ingestion
 
 ```python
 import json
@@ -246,7 +246,6 @@ vectorstore = Milvus.from_documents(
 
 ### RAG
 
-
 ```python
 from langchain.chains import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
@@ -260,12 +259,10 @@ llm = HuggingFaceEndpoint(
 )
 ```
 
-
 ```python
 def clip_text(text, threshold=100):
     return f"{text[:threshold]}..." if len(text) > threshold else text
 ```
-
 
 ```python
 question_answer_chain = create_stuff_documents_chain(llm, PROMPT)
@@ -284,6 +281,7 @@ for i, doc in enumerate(resp_dict["context"]):
             clipped_val = clip_text(val) if isinstance(val, str) else val
             print(f"  {key}: {clipped_val}")
 ```
+
 ```output
 Question:
 Which are the main AI models in Docling?
@@ -306,6 +304,7 @@ Source 3:
   dl_meta: {'schema_name': 'docling_core.transforms.chunker.DocMeta', 'version': '1.0.0', 'doc_items': [{'self_ref': '#/texts/76', 'parent': {'$ref': '#/body'}, 'children': [], 'label': 'text', 'prov': [{'page_no': 5, 'bbox': {'l': 108.0, 't': 322.468994140625, 'r': 504.00299072265625, 'b': 259.0169982910156, 'coord_origin': 'BOTTOMLEFT'}, 'charspan': [0, 543]}]}, {'self_ref': '#/texts/77', 'parent': {'$ref': '#/body'}, 'children': [], 'label': 'text', 'prov': [{'page_no': 5, 'bbox': {'l': 108.0, 't': 251.6540069580078, 'r': 504.00299072265625, 'b': 198.99200439453125, 'coord_origin': 'BOTTOMLEFT'}, 'charspan': [0, 402]}]}], 'headings': ['6 Future work and contributions'], 'origin': {'mimetype': 'application/pdf', 'binary_hash': 11465328351749295394, 'filename': '2408.09869v5.pdf'}}
   source: https://arxiv.org/pdf/2408.09869
 ```
+
 Notice that the sources contain rich grounding information, including the passage
 headings (i.e. section), page, and precise bounding box.
 

@@ -10,7 +10,6 @@ This notebook demonstrates how to use the `ArceeRetriever` class to retrieve rel
 
 Before using `ArceeRetriever`, make sure the Arcee API key is set as `ARCEE_API_KEY` environment variable. You can also pass the api key as a named parameter.
 
-
 ```python
 from langchain_community.retrievers import ArceeRetriever
 
@@ -24,7 +23,6 @@ retriever = ArceeRetriever(
 
 You can also configure `ArceeRetriever`'s parameters such as `arcee_api_url`, `arcee_app_url`, and `model_kwargs` as needed.
 Setting the `model_kwargs` at the object initialization uses the filters and size as default for all the subsequent retrievals.
-
 
 ```python
 retriever = ArceeRetriever(
@@ -46,8 +44,8 @@ retriever = ArceeRetriever(
 ```
 
 ### Retrieving documents
-You can retrieve relevant documents from uploaded contexts by providing a query. Here's an example:
 
+You can retrieve relevant documents from uploaded contexts by providing a query. Here's an example:
 
 ```python
 query = "Can AI-driven music therapy contribute to the rehabilitation of patients with disorders of consciousness?"
@@ -57,7 +55,6 @@ documents = retriever.invoke(query)
 ### Additional parameters
 
 Arcee allows you to apply `filters` and set the `size` (in terms of count) of retrieved document(s). Filters help narrow down the results. Here's how to use these parameters:
-
 
 ```python
 # Define filters
