@@ -6,14 +6,11 @@ import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
 
 <AlphaCallout />
 
-Welcome to LangChain! This quickstart will take you from zero to a fully
-functional AI agent in just a few minutes. We'll start simple and gradually
-build up to something more sophisticated.
+Welcome to LangChain! This quickstart will take you from zero to a fully functional AI agent in just a few minutes. We'll start simple and gradually build up to something more sophisticated.
 
 ## Super quick start
 
-Let's begin with the absolute basics - creating a simple agent that can answer
-questions and use tools:
+Let's begin with the absolute basics - creating a simple agent that can answer questions and use tools:
 
 :::python
 ```python
@@ -66,8 +63,7 @@ console.log(
 
 ## Building a real-world agent
 
-Now let's create something more practical. We'll build a weather forecasting
-agent that demonstrates the key concepts you'll use in production:
+Now let's create something more practical. We'll build a weather forecasting agent that demonstrates the key concepts you'll use in production:
 
 1. **Detailed system prompts** for better agent behavior
 2. **Real-world tools** that integrate with external data
@@ -110,10 +106,7 @@ Let's walk through each step:
     </Step>
     <Step title="Create tools">
         :::python
-        [Tools](/oss/langchain-tools) are functions your agent can call. They
-        should be well-documented. Oftentimes, tools will want to connect to
-        external systems, and will rely on runtime configuration to do so.
-        Notice here how the `get_user_info` tool does exactly that:
+        [Tools](/oss/langchain-tools) are functions your agent can call. They should be well-documented. Oftentimes, tools will want to connect to external systems, and will rely on runtime configuration to do so. Notice here how the `get_user_info` tool does exactly that:
 
         ```python
         from langchain_core.tools import tool
@@ -138,10 +131,7 @@ Let's walk through each step:
         :::
 
         :::js
-        [Tools](/oss/langchain-tools) are functions your agent can call. They
-        should be well-documented. Oftentimes tools will want to connect to
-        external systems, and will rely on runtime configuration to do so.
-        Notice here how the `getUserInfo` tool does exactly that:
+        [Tools](/oss/langchain-tools) are functions your agent can call. They should be well-documented. Oftentimes tools will want to connect to external systems, and will rely on runtime configuration to do so. Notice here how the `getUserInfo` tool does exactly that:
 
         ```ts
         import { tool } from "langchain";
@@ -177,14 +167,9 @@ Let's walk through each step:
         ```
 
         <Note>
-            [Zod](https://zod.dev/) is a library for validating and parsing
-            pre-defined schemas. You can use it to define the input schema for
-            your tools to make sure the agent only calls the tool with the
-            correct arguments.
+            [Zod](https://zod.dev/) is a library for validating and parsing pre-defined schemas. You can use it to define the input schema for your tools to make sure the agent only calls the tool with the correct arguments.
 
-            Alternatively, you can define the `schema` property as a JSON schema
-            object. Keep in mind that JSON schemas *won't* be validated at
-            runtime.
+            Alternatively, you can define the `schema` property as a JSON schema object. Keep in mind that JSON schemas *won't* be validated at runtime.
 
             <Accordion title="Example: Using JSON schema for tool input">
                 ```ts

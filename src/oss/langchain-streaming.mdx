@@ -9,8 +9,8 @@ import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
 ## Overview
 
 Streaming is crucial for enhancing the responsiveness of applications built on LLMs.
-By displaying output progressively, even before a complete response is ready, streaming significantly
-improves user experience (UX), particularly when dealing with the latency of LLMs.
+
+By displaying output progressively, even before a complete response is ready, streaming significantly improves user experience (UX), particularly when dealing with the latency of LLMs.
 
 ## Stream from an agent
 
@@ -350,7 +350,7 @@ Acquired data for city: San Francisco
 ```
 
 <Note>
-If you add `get_stream_writer` inside your tool, you won't be able to invoke the tool outside of a LangGraph execution context.
+    If you add `get_stream_writer` inside your tool, you won't be able to invoke the tool outside of a LangGraph execution context.
 </Note>
 :::
 
@@ -398,7 +398,7 @@ Acquired data for city: San Francisco
 ```
 
 <Note>
-If you add the `writer` parameter to your tool, you won't be able to invoke the tool outside of a LangGraph execution context without providing a writer function.
+    If you add the `writer` parameter to your tool, you won't be able to invoke the tool outside of a LangGraph execution context without providing a writer function.
 </Note>
 :::
 
@@ -496,6 +496,7 @@ for await (const [streamMode, chunk] of await agent.stream(
 ### Disable streaming
 
 In some applications you might need to disable streaming of individual tokens for a given model.
+
 This is useful in [multi-agent](/oss/multi-agent) systems to control which agents stream their output.
 
 See the [Models](/oss/models#disable-streaming) guide to learn how to disable streaming.
