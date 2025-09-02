@@ -170,13 +170,13 @@ await store.put(
 
 const getUserInfo = tool(
   // Look up user info.
-  async (_, config: AgentRuntime<z.infer<typeof contextSchema>>) => {
+  async (_, runtime: AgentRuntime<z.infer<typeof contextSchema>>) => {
     // Same as that provided to `createReactAgent`
-    const userId = config.context?.userId;
+    const userId = runtime.context?.userId;
     if (!userId) {
       throw new Error("userId is required");
     }
-    const userInfo = await config.store?.get(["users"], userId);
+    const userInfo = await runtime.store?.get(["users"], userId);
     return userInfo?.value ? JSON.stringify(userInfo.value) : "Unknown user";
   },
   {
@@ -284,13 +284,13 @@ const UserInfo = z.object({
 });
 
 const saveUserInfo = tool(
-  async (userInfo, config: AgentRuntime<z.infer<typeof contextSchema>>) => {
-    const userId = config.context?.userId;
+  async (userInfo, runtime: AgentRuntime<z.infer<typeof contextSchema>>) => {
+    const userId = runtime.context?.userId;
     if (!userId) {
       throw new Error("userId is required");
     }
     // Same as that provided to `createReactAgent`
-    await config.store?.put(["users"], userId, userInfo);
+    await runtime.store?.put(["users"], userId, userInfo);
     return "Successfully saved user info.";
   },
   {
