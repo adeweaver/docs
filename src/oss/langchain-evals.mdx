@@ -203,7 +203,7 @@ To run an evaluator, you will first need to create a [LangSmith dataset](https:/
 :::python
 ```python
 from langsmith import Client
-from langgraph.prebuilt import create_agent
+from langchain.agents import create_agent
 from agentevals.trajectory.match import create_trajectory_match_evaluator
 
 client = Client()
