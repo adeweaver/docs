@@ -85,8 +85,9 @@ YAML: 2 spaces
 For the best writing experience in VSCode, consider installing:
 
 - **EditorConfig for VS Code** - Automatically applies .editorconfig settings
+- **markdownlint** - Markdown editing enhancements
 - **Markdown All in One** - Markdown editing enhancements
-- **MDX** - Syntax highlighting for .mdx files
+- **MDX** - Syntax highlighting for `.mdx` files
 - **Prettier - Code formatter** (disabled for markdown in our settings)
 
 ## Why These Settings?
