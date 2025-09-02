@@ -4,7 +4,7 @@ sidebarTitle: Make conversations private
 ---
 In this tutorial, you will extend [the chatbot created in the last tutorial](/langgraph-platform/set-up-custom-auth) to give each user their own private conversations. You'll add [resource-level access control](/langgraph-platform/auth#single-owner-resources) so users can only see their own threads.
 
-![Authorization handlers](/langgraph-platform/images/authorization.png)
+![Authorization flow: after authentication, an authorization handler tags each resource with owner=user id and returns a filter so users only see their own threads.](/langgraph-platform/images/authorization.png)
 
 ## Prerequisites
 
