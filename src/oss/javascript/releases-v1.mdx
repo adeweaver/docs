@@ -23,7 +23,7 @@ import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
 
 ### Core exports from `langchain`
 
-The `langchain` package now exports the most important user primitives, including `tool`, `BaseMessage`, `AIMessage`, `SystemMessage`, `HumanMessage`, `ToolMessage` (as well as their chunk counterparts, e.g. `AIMessageChunk` etc.), `ToolNode`, `createAgent`, and more from the root `langchain` package.
+The `langchain` package now exports key primitives like `tool`, message types, `ToolNode`, `createAgent`, and more directly from the root package.
 
 ```ts
 import { tool, HumanMessage, createAgent } from "langchain";
@@ -31,7 +31,7 @@ import { tool, HumanMessage, createAgent } from "langchain";
 
 ### `createAgent` in core `langchain`
 
-The React-style agent is now part of the core `langchain` project. Import directly from `langchain`:
+The [React-style agent](./langchain-agents) is now part of the core `langchain` project. Import directly from `langchain`:
 
 ```ts
 import { createAgent, HumanMessage, tool } from "langchain";
@@ -60,24 +60,23 @@ You can now pass a **"model as string"** option to define the model to use. This
 
 ### `ToolNode` exported from `langchain`
 
-Build agent graphs that execute tools as a node. This makes tool execution composable within LCEL/graph flows.
+Build agent graphs that execute tools as a node. This makes tool execution composable within graph workflows.
 
 ```ts
-import { ToolNode, tool, HumanMessage } from "langchain";
+import { StateGraph } from "@langchain/langgraph";
+import { ToolNode, tool } from "langchain";
 
-const fail = tool(
-  async () => {
-    throw new Error("Boom");
-  },
-  {
-    name: "alwaysFails",
-    description: "Demo failing tool",
-    schema: {},
-  }
-);
+const tools = [tool(async ({ query }) => `Results for: ${query}`, {
+  name: "search", schema: z.object({ query: z.string() })
+})];
 
-const node = new ToolNode([fail]);
-const out = await node.invoke({ messages: [new HumanMessage("Try it")] });
+const graph = new StateGraph({ channels: { messages: [] } })
+  .addNode("tools", new ToolNode(tools))
+  .addEdge("__start__", "tools");
+
+const result = await graph.compile().invoke({
+  messages: [/* tool call messages */]
+});
 ```
 
 ### Default tool-error handling in agents
@@ -85,39 +84,32 @@ const out = await node.invoke({ messages: [new HumanMessage("Try it")] });
 When `handleToolErrors` is **`true` (default)**, tool exceptions are caught and converted into a **`ToolMessage`** so the agent can recover. Set it to `false` to surface raw errors for strict workflows.
 
 ```ts
-import { ToolNode, ToolMessage } from "langchain";
+import { ToolNode, ToolMessage, tool } from "langchain";
+
+const tools = [
+  tool(/* ... */),
+  // ...
+];
 
 // default: handleToolErrors: true → returns a ToolMessage with error text
-const forgiving = new ToolNode([
-  /* tools */
-]);
+const forgiving = new ToolNode(tools);
 
 // strict: throw on tool error
-const strict = new ToolNode(
-  [
-    /* tools */
-  ],
-  { handleToolErrors: false }
-);
+const strict = new ToolNode(tools, { handleToolErrors: false });
 
 // dynamic: custom error handling
-const dynamic = new ToolNode(
-  [
-    /* tools */
-  ],
-  {
-    handleToolErrors: (error, toolCall) => {
-      if (error instanceof Error && error.message.includes("Fetch Failed")) {
-        return new ToolMessage({
-          content: "Fetch Failed. Please try again.",
-          tool_call_id: toolCall.id!,
-        });
-      }
+const dynamic = new ToolNode(tools, {
+  handleToolErrors: (error, toolCall) => {
+    if (error instanceof Error && error.message.includes("Fetch Failed")) {
+      return new ToolMessage({
+        content: "Fetch Failed. Please try again.",
+        tool_call_id: toolCall.id!,
+      });
+    }
 
-      throw error;
-    },
-  }
-);
+    throw error;
+  },
+});
 ```
 
 ### Standard typed message content
@@ -169,7 +161,7 @@ new AIMessage("Hello, world").contentBlocks
     Use the separate `langsmith` package and opt-in (see fixes section below).
 </Accordion>
 
-<Accordion title="Callbacks removed from `langchain`" icon="phone-slash">
+<Accordion title="Prebuilt Callbacks removed from `langchain`" icon="phone-slash">
     The `./callbacks` entrypoint is gone. Prefer LCEL observability (runnables), agent/tool messages, or provider-native hooks instead.
 
     ```diff
@@ -215,27 +207,6 @@ new AIMessage("Hello, world").contentBlocks
     +   },
     + });
     ```
-</Accordion>
-
-<Accordion title="Pre-bound models no longer supported in `createAgent`" icon="link-slash">
-    To better support structured output, `createAgent` no longer supports pre-bound models with tools or configuration:
-
-    ```ts
-    // No longer supported
-    const modelWithTools = new ChatOpenAI().bindTools([someTool]);
-    const agent = createAgent({ llm: modelWithTools, tools: [] });
-
-    // Use instead
-    const agent = createAgent({
-      model: "openai:gpt-4o-mini",
-      tools: [someTool]
-    });
-    ```
-
-    <Note>
-        Dynamic model functions can return pre-bound models if structured output is
-        *not* used.
-    </Note>
 </Accordion>
 
 ## <Icon icon="bug" /> Fixes
@@ -343,16 +314,6 @@ const forgiving = new ToolNode([/* tools */], { handleToolErrors: true });
 // Strict: throw on tool error
 const strict = new ToolNode([/* tools */], { handleToolErrors: false });
 ```
-
-### 5. LangSmith & dependencies
-
-Add `langsmith` explicitly if you use tracing/eval/hub:
-
-```bash
-pnpm add langsmith
-```
-
-If you previously relied on `js-tiktoken`, remove it from your app unless you need it directly.
 
 ## <Icon icon="bullhorn" /> Reporting issues
 
