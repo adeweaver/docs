@@ -38,19 +38,19 @@ agent.invoke(
 import { createAgent, tool } from "langchain";
 
 const getWeather = tool((city: string) => `It's always sunny in ${city}!`, {
-  name: "get_weather",
-  description: "Get the weather for a given city",
+    name: "get_weather",
+    description: "Get the weather for a given city",
 });
 
 const agent = createAgent({
-  model: "anthropic:claude-3-7-sonnet-latest",
-  tools: [getWeather],
+    model: "anthropic:claude-3-7-sonnet-latest",
+    tools: [getWeather],
 });
 
 console.log(
-  await agent.invoke({
-    messages: [{ role: "user", content: "What's the weather in Tokyo?" }],
-  })
+    await agent.invoke({
+        messages: [{ role: "user", content: "What's the weather in Tokyo?" }],
+    })
 );
 ```
 :::
@@ -138,31 +138,31 @@ Let's walk through each step:
         import { z } from "zod";
 
         const getWeather = tool(({ city }) => `It's always sunny in ${city}!`, {
-          name: "get_weather",
-          description: "Get the weather for a given city",
-          schema: z.object({
-            city: z.string(),
-          }),
+            name: "get_weather",
+            description: "Get the weather for a given city",
+            schema: z.object({
+                city: z.string(),
+            }),
         });
 
         const USER_LOCATION = {
-          "1": "Florida",
-          "2": "SF",
+            "1": "Florida",
+            "2": "SF",
         } as const;
 
         const getUserInfo = tool(
-          (_, config) => {
-            const { user_id } = config.context as {
-              user_id: keyof typeof USER_LOCATION;
-            };
-            console.log("user_id", config.context);
-            return USER_LOCATION[user_id];
-          },
-          {
-            name: "get_user_info",
-            description: "Retrieve user information based on user ID",
-            schema: z.object({}),
-          }
+            (_, config) => {
+                const { user_id } = config.context as {
+                user_id: keyof typeof USER_LOCATION;
+                };
+                console.log("user_id", config.context);
+                return USER_LOCATION[user_id];
+            },
+            {
+                name: "get_user_info",
+                description: "Retrieve user information based on user ID",
+                schema: z.object({}),
+            }
         );
         ```
 
@@ -241,8 +241,8 @@ Let's walk through each step:
 
         ```ts
         const responseFormat = z.object({
-          conditions: z.string(),
-          punny_response: z.string(),
+            conditions: z.string(),
+            punny_response: z.string(),
         });
         ```
         :::
@@ -304,26 +304,26 @@ Let's walk through each step:
         import { createAgent } from "langchain";
 
         const agent = createAgent({
-          model: "anthropic:claude-3-7-sonnet-latest",
-          prompt: systemPrompt,
-          tools: [getUserInfo, getWeather],
-          responseFormat,
-          checkpointer,
+            model: "anthropic:claude-3-7-sonnet-latest",
+            prompt: systemPrompt,
+            tools: [getUserInfo, getWeather],
+            responseFormat,
+            checkpointer,
         });
 
         const config = {
-          configurable: { thread_id: "1" },
-          context: { user_id: "1" },
+            configurable: { thread_id: "1" },
+            context: { user_id: "1" },
         };
         const response = await agent.invoke(
-          { messages: [{ role: "user", content: "what is the weather outside?" }] },
-          config
+            { messages: [{ role: "user", content: "what is the weather outside?" }] },
+            config
         );
         console.log(response.structuredResponse);
 
         const thankYouResponse = await agent.invoke(
-          { messages: [{ role: "user", content: "thank you!" }] },
-          config
+            { messages: [{ role: "user", content: "thank you!" }] },
+            config
         );
         console.log(thankYouResponse.structuredResponse);
         ```
