@@ -73,6 +73,8 @@ README.md             # This file
 - `make test` - Run the test suite
 - `make lint` - Check code style and formatting
 - `make format` - Auto-format code
+- `make lint_md` - Lint markdown files
+- `make lint_md_fix` - Lint and fix markdown files
 - `make help` - Show all available commands
 
 #### docs CLI Tool
@@ -136,6 +138,7 @@ Before submitting changes, ensure your code passes linting:
 ```bash
 make lint
 make format
+make lint_md_fix
 ```
 
 ## Development Workflow
