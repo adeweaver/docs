@@ -233,6 +233,26 @@ button.version-picker-button svg {
   ) !important; /* Original h-12 (3rem) + added top padding */
 }
 
+/* Adjust main content to account for taller navbar */
+main {
+  padding-top: 1rem !important;
+}
+
+/* Fix breadcrumbs and page title positioning */
+.breadcrumb,
+[class*="breadcrumb"],
+#page-title {
+  margin-top: 0.5rem !important;
+}
+
+/* Add padding to assistant panel to match increased navbar height */
+[class*="assistant"],
+[class*="chat"],
+.assistant-panel,
+aside[class*="assistant"] {
+  padding-top: 1rem !important;
+}
+
 /* Target span elements within each header type */
 h1 span,
 h2 span,
