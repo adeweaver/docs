@@ -313,7 +313,7 @@ def execute_code(code: str) -> str:
     return "27"
 
 
-llm = ChatOpenAI(model="gpt-5", use_responses_api=True, output_version="v1")
+llm = ChatOpenAI(model="gpt-5", use_responses_api=True)
 
 agent = create_agent(llm, [execute_code])
 
@@ -330,10 +330,10 @@ for step in agent.stream(
 Use the tool to calculate 3^3.
 ================================== Ai Message ==================================
 
-[{'id': 'rs_68af67a342f881a08980957bcf6d9ec208ee034b81b03765', 'type': 'reasoning'}, {'type': 'non_standard', 'value': {'call_id': 'call_lxgZev0vahouTtOd4YGQgIau', 'input': 'print(3**3)', 'name': 'execute_code', 'type': 'custom_tool_call', 'id': 'ctc_68af67a7648c81a0b8c7795439668b7e08ee034b81b03765', 'status': 'completed'}}]
+[{'id': 'rs_68b7336cb72081a080da70bf5e980e4e0d6082d28f91357a', 'summary': [], 'type': 'reasoning'}, {'call_id': 'call_qyKsJ4XlGRudbIJDrXVA2nQa', 'input': 'print(3**3)', 'name': 'execute_code', 'type': 'custom_tool_call', 'id': 'ctc_68b7336f718481a0b39584cd35fbaa5d0d6082d28f91357a', 'status': 'completed'}]
 Tool Calls:
-  execute_code (call_lxgZev0vahouTtOd4YGQgIau)
- Call ID: call_lxgZev0vahouTtOd4YGQgIau
+  execute_code (call_qyKsJ4XlGRudbIJDrXVA2nQa)
+ Call ID: call_qyKsJ4XlGRudbIJDrXVA2nQa
   Args:
     __arg1: print(3**3)
 ================================= Tool Message =================================
@@ -342,7 +342,7 @@ Name: execute_code
 [{'type': 'custom_tool_call_output', 'output': '27'}]
 ================================== Ai Message ==================================
 
-[{'type': 'text', 'text': '27', 'annotations': [], 'id': 'msg_68af67a82d8081a0a73c901b865e358e08ee034b81b03765'}]
+[{'type': 'text', 'text': '27', 'annotations': [], 'id': 'msg_68b73371e9e081a0927f54f88f2cd7a20d6082d28f91357a'}]
 ```
 <Accordion title="Context-free grammars">
 
@@ -375,7 +375,7 @@ def do_math(input_string: str) -> str:
     return "27"
 
 
-llm = ChatOpenAI(model="gpt-5", output_version="v1")
+llm = ChatOpenAI(model="gpt-5", use_responses_api=True)
 
 agent = create_agent(llm, [do_math])
 
@@ -392,10 +392,10 @@ for step in agent.stream(
 Use the tool to calculate 3^3.
 ================================== Ai Message ==================================
 
-[{'id': 'rs_68b04e3492a08191bd087e2e754c849b08f1d4c187735236', 'type': 'reasoning'}, {'type': 'non_standard', 'value': {'call_id': 'call_aRTi7Ho65kf5xMWFHrl3rnLd', 'input': '3 * 3 * 3', 'name': 'do_math', 'type': 'custom_tool_call', 'id': 'ctc_68b04e39308c8191ba595c4e3c65194208f1d4c187735236', 'status': 'completed'}}]
+[{'id': 'rs_68b733f066a48194a41001c0cc1081760811f11b6f4bae47', 'summary': [], 'type': 'reasoning'}, {'call_id': 'call_7hTYtlTj9NgWyw8AQGqETtV9', 'input': '3 * 3 * 3', 'name': 'do_math', 'type': 'custom_tool_call', 'id': 'ctc_68b733f3a0a08194968b8338d33ad89f0811f11b6f4bae47', 'status': 'completed'}]
 Tool Calls:
-  do_math (call_aRTi7Ho65kf5xMWFHrl3rnLd)
- Call ID: call_aRTi7Ho65kf5xMWFHrl3rnLd
+  do_math (call_7hTYtlTj9NgWyw8AQGqETtV9)
+ Call ID: call_7hTYtlTj9NgWyw8AQGqETtV9
   Args:
     __arg1: 3 * 3 * 3
 ================================= Tool Message =================================
@@ -404,7 +404,7 @@ Name: do_math
 [{'type': 'custom_tool_call_output', 'output': '27'}]
 ================================== Ai Message ==================================
 
-[{'type': 'text', 'text': '27', 'annotations': [], 'id': 'msg_68b04e3aecb48191b81218124ef21ebc08f1d4c187735236'}]
+[{'type': 'text', 'text': '27', 'annotations': [], 'id': 'msg_68b733f4bb008194937130796372bd0f0811f11b6f4bae47'}]
 ```
 </Accordion>
 
@@ -417,17 +417,6 @@ Name: do_math
 OpenAI supports a [Responses](https://platform.openai.com/docs/guides/responses-vs-chat-completions) API that is oriented toward building [agentic](/oss/concepts/agents/) applications. It includes a suite of [built-in tools](https://platform.openai.com/docs/guides/tools?api-mode=responses), including web and file search. It also supports management of [conversation state](https://platform.openai.com/docs/guides/conversation-state?api-mode=responses), allowing you to continue a conversational thread without explicitly passing in previous messages, as well as the output from [reasoning processes](https://platform.openai.com/docs/guides/reasoning?api-mode=responses).
 
 `ChatOpenAI` will route to the Responses API if one of these features is used. You can also specify `use_responses_api=True` when instantiating `ChatOpenAI`.
-
-<Note>
-**`langchain-openai >= 0.3.26` allows users to opt-in to an updated AIMessage format when using the Responses API. Setting**
-
-
-```python
-llm = ChatOpenAI(model="...", output_version="responses/v1")
-```
-will format output from reasoning summaries, built-in tool invocations, and other response items into the message's `content` field, rather than `additional_kwargs`. We recommend this format for new applications.
-
-</Note>
 
 ### Web search
 
@@ -446,7 +435,7 @@ llm.invoke("...", tools=[{"type": "web_search_preview"}])
 ```python
 from langchain_openai import ChatOpenAI
 
-llm = ChatOpenAI(model="gpt-4.1-mini", output_version="v1")
+llm = ChatOpenAI(model="gpt-4.1-mini")
 
 tool = {"type": "web_search_preview"}
 llm_with_tools = llm.bind_tools([tool])
@@ -521,7 +510,7 @@ llm.invoke("...", tools=[{"type": "image_generation"}])
 ```python
 from langchain_openai import ChatOpenAI
 
-llm = ChatOpenAI(model="gpt-4.1-mini", output_version="v1")
+llm = ChatOpenAI(model="gpt-4.1-mini")
 
 tool = {"type": "image_generation", "quality": "low"}
 
@@ -559,7 +548,7 @@ To trigger a file search, pass a [file search tool](https://platform.openai.com/
 ```python
 from langchain_openai import ChatOpenAI
 
-llm = ChatOpenAI(model="gpt-4.1-mini", output_version="v1")
+llm = ChatOpenAI(model="gpt-4.1-mini")
 
 openai_vector_store_ids = [
     "vs_...",  # your IDs here
@@ -664,11 +653,7 @@ screenshot_2_base64 = load_png_as_base64(
 from langchain_openai import ChatOpenAI
 
 # Initialize model
-llm = ChatOpenAI(
-    model="computer-use-preview",
-    truncation="auto",
-    output_version="responses/v1",
-)
+llm = ChatOpenAI(model="computer-use-preview", truncation="auto")
 
 # Bind computer-use tool
 tool = {
@@ -823,7 +808,7 @@ Example use:
 ```python
 from langchain_openai import ChatOpenAI
 
-llm = ChatOpenAI(model="o4-mini", output_version="v1")
+llm = ChatOpenAI(model="gpt-4.1-mini")
 
 llm_with_tools = llm.bind_tools(
     [
@@ -870,7 +855,7 @@ Example use:
 ```python
 from langchain_openai import ChatOpenAI
 
-llm = ChatOpenAI(model="o4-mini", output_version="responses/v1")
+llm = ChatOpenAI(model="gpt-4.1-mini")
 
 llm_with_tools = llm.bind_tools(
     [
@@ -955,7 +940,7 @@ You can manage the state manually or using [LangGraph](/oss/tutorials/chatbot/),
 ```python
 from langchain_openai import ChatOpenAI
 
-llm = ChatOpenAI(model="gpt-4.1-mini", output_version="responses/v1")
+llm = ChatOpenAI(model="gpt-4.1-mini", use_responses_api=True)
 
 first_query = "Hi, I'm Bob."
 messages = [{"role": "user", "content": first_query}]
@@ -1013,7 +998,6 @@ from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(
     model="gpt-4.1-mini",
-    output_version="responses/v1",
     use_previous_response_id=True,
 )
 ```
@@ -1050,7 +1034,7 @@ reasoning = {
     "summary": "auto",  # 'detailed', 'auto', or None
 }
 
-llm = ChatOpenAI(model="gpt-5-nano", reasoning=reasoning, output_version="v1")
+llm = ChatOpenAI(model="gpt-5-nano", reasoning=reasoning)
 response = llm.invoke("What is 3^3?")
 
 # Output
