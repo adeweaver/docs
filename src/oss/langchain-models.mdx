@@ -429,40 +429,7 @@ message history and passed back to the model as conversational context.
         :::
     </Accordion>
 
-<Accordion title='"Auto-Streaming" Chat Models'>
-    <Note>
-        This section requires some baseline knowledge of [callbacks]() and
-        [events]().
-    </Note>
-
-    LangChain simplifies streaming from chat models by automatically enabling
-    streaming mode in certain cases, even when you're not explicitly calling the
-    streaming methods. This is particularly useful when you use the
-    non-streaming invoke method but still want to stream the entire application,
-    including intermediate results from the chat model.
-
-    In [LangGraph agents](./langchain-agents), for example, you can
-    call `model.invoke()` within nodes, but LangChain will automatically
-    delegate to streaming if running in a streaming mode.
-
-    #### How it works
-
-    When you `invoke()` a chat model, LangChain will automatically switch to
-    an internal streaming mode if it detects that you are trying to stream the
-    overall application. The result of the invocation will be the same as far as
-    the code that was using invoke is concerned; however, while the chat model
-    is being streamed, LangChain will take care of invoking `on_llm_new_token`
-    events in LangChain's callback system.
-
-    :::python
-    Callback events allow LangGraph `stream()` and @[`astream_events()`][BaseChatModel.astream_events]
-    to surface the chat model's output in real-time.
-    :::
-    :::js
-    Callback events allow LangGraph `stream()` and @[`streamEvents()`][BaseChatModel.streamEvents]
-    to surface the chat model's output in real-time.
-    :::
-</Accordion>
+    <Accordion title="Streaming events">
 
         :::python
         LangChain chat models can also stream semantic events using `astream_events()`.
@@ -539,6 +506,9 @@ message history and passed back to the model as conversational context.
 
     See the @[`streamEvents()`][BaseChatModel.streamEvents] reference for event types and other details.
     :::
+
+    </Accordion>
+
 </Accordion>
 
 ### Batch
