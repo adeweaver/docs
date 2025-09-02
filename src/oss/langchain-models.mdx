@@ -2,145 +2,90 @@
 title: Models
 ---
 
-import ConversationHistory from '/snippets/oss/langchain-conversation-history.mdx';
 import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
 
 <AlphaCallout />
 
-
 ## Overview
 
-[LLMs](https://en.wikipedia.org/wiki/Large_language_model) are machine learning models that can interpret and generate text like humans. They're versatile enough to write content, translate languages, summarize, and answer questions without needing special training for each task.
+[LLMs](https://en.wikipedia.org/wiki/Large_language_model) are powerful AI tools
+that can interpret and generate text like humans. They're versatile enough to
+write content, translate languages, summarize, and answer questions
+without needing specialized training for each task.
 
 In addition to text generation, many models support:
 
-* <Icon icon="hammer" size={16} /> [Tool calling](#tool-calling) - where models call external tools (like databases queries or API calls) and use results in their responses.
+* <Icon icon="hammer" size={16} /> [Tool calling](#tool-calling) - where models
+call external tools (like databases queries or API calls) and use the results in
+their responses.
 * <Icon icon="shapes" size={16} /> [Structured output](#structured-outputs) -
-where the model's response is constrained match a schema.
-* <Icon icon="image" size={16} /> [Multimodal](#multimodal) - where models can process and return data other than text, such as images, audio, and video.
-* <Icon icon="brain" size={16} /> [Reasoning](#reasoning) - where models are able to perform multi-step reasoning to arrive at a conclusion.
-
-{/*  TODO I really don't like how verbose and bulky this is, as well as its positioning
-(we should get to the basic usage as quick as possible IMO)
-
-Maybe this is better suited somewhere else
-
-Providers like OpenAI, Anthropic, and Google offer access to a range of models each
-suited to different tasks. Consequently, providers tend to each have unique interaction
-patterns for their models, typically through a user interface or an API where [messages](./langchain-messages.mdx) are exchanged with a user.
-Because the APIs are not unified, it can be difficult to swap between models and providers without significant code changes.
-LangChain simplifies this by providing a chat model abstraction to interact with models across a number of providers and models.
-This lets you focus on the logic of your application rather than the implementation details of the underlying provider API. */}
-
+where the model's response follows a defined format.
+* <Icon icon="image" size={16} /> [Multimodal](#multimodal) - where models can
+process and return data other than text, such as images, audio, and video.
+* <Icon icon="brain" size={16} /> [Reasoning](#reasoning) - where models are
+able to perform multi-step reasoning to arrive at a conclusion.
 
 ## Basic usage
 
 :::python
-The easiest way to get started with a model in LangChain is to use `init_chat_model` to initialize one from a [provider](/oss/integrations/providers) of your choice:
+The easiest way to get started with a model in LangChain is to use
+`init_chat_model` to initialize one from a [provider](/oss/integrations/providers)
+of your choice:
 
 <CodeGroup>
-```python Initialize a chat model
-from langchain.chat_models import init_chat_model
+    ```python Initialize a chat model
+    from langchain.chat_models import init_chat_model
 
-model = init_chat_model("openai:gpt-5-nano")
-response = model.invoke("Why do parrots talk?")
-```
-
-{/* ```python OpenAI icon="openai"
-from langchain.chat_models import init_chat_model
-
-model = init_chat_model(
-        model="gpt-5",
-        model_provider="openai"
-)
-response = model.invoke("Why do parrots talk?")
-```
-
-```python Anthropic icon="anthropic"
-from langchain.chat_models import init_chat_model
-
-model = init_chat_model(
-        model="claude-opus-4-0",
-        model_provider="anthropic"
-)
-response = model.invoke("Why do parrots talk?")
-```
-
-```python Google icon="google"
-from langchain.chat_models import init_chat_model
-
-model = init_chat_model(
-        model="gemini-2.5-pro",
-        model_provider="google"
-)
-response = model.invoke("Why do parrots talk?")
-```
-
-```python AWS Bedrock icon="aws"
-from langchain.chat_models import init_chat_model
-
-model = init_chat_model(
-        model="anthropic.claude-opus-4",
-        model_provider="bedrock",
-)
-response = model.invoke("Why do parrots talk?")
-```
-
-```python Ollama icon="ollama"
-from langchain.chat_models import init_chat_model
-
-model = init_chat_model(
-        model="gpt-oss",
-        model_provider="ollama",
-)
-response = model.invoke("Why do parrots talk?")
-``` */}
+    model = init_chat_model("openai:gpt-5-nano")
+    response = model.invoke("Why do parrots talk?")
+    ```
+{/* TODO: a code block that has, instead of a language switcher, a provider
+switcher to change the code for the respective language to display init_chat
+using the respect `model_provider` and `model` name*/}
 </CodeGroup>
 
-See [`init_chat_model`](https://python.langchain.com/api_reference/langchain/chat_models/langchain.chat_models.base.init_chat_model.html)
-for more detail.
+See @[`init_chat_model`][init_chat_model] for more detail.
 :::
 
 :::js
-The easiest way to get started with a model in LangChain is to use `initChatModel` to initialize one from a [provider](/oss/integrations/providers) of your choice.
+The easiest way to get started with a model in LangChain is to use `initChatModel`
+to initialize one from a [provider](/oss/integrations/providers) of your choice.
 
 <CodeGroup>
-```typescript Initialize a chat model
-import { initChatModel } from "langchain";
+    ```typescript Initialize a chat model
+    import { initChatModel } from "langchain";
 
-const model = initChatModel("openai:gpt-5-nano");
-const response = await model.invoke("Why do parrots talk?");
-```
+    const model = initChatModel("openai:gpt-5-nano");
+    const response = await model.invoke("Why do parrots talk?");
+    ```
 </CodeGroup>
 
 See @[`initChatModel`][initChatModel] for more detail.
-
-
 :::
 
 ### Key methods
 
 <Card title="Invoke" href="#invoke" icon="paper-plane" arrow="true" horizontal>
-    The model takes messages as input and returns messages after generating a
-    full response.
+    The model takes messages as input and outputs messages after generating a
+    complete response.
 </Card>
 <Card title="Stream" href="#stream" icon="tower-broadcast" arrow="true" horizontal>
-    Invoke the model, but stream the response as it is generated in real-time.
+    Invoke the model, but stream the output as it is generated in real-time.
 </Card>
-<Card title="Batch" href="#batch" icon="folder-open" arrow="true" horizontal>
+<Card title="Batch" href="#batch" icon="grip" arrow="true" horizontal>
     Send multiple requests to a model in a batch for more efficient processing.
 </Card>
 
 <Info>
-In addition to chat models, LangChain provides support for other adjacent
-technologies, such as embedding models and vector stores. See the
-[integrations page](/oss/integrations/providers) for details.
+    In addition to chat models, LangChain provides support for other adjacent
+    technologies, such as embedding models and vector stores. See the
+    [integrations page](/oss/integrations/providers) for details.
 </Info>
 
 ## Parameters
 
 A chat model takes parameters that can be used to configure its behavior. The
-full set of supported parameters vary by model and provider, but common ones
+full set of supported parameters vary by model and provider, but standard ones
 include:
 
 :::python
@@ -221,29 +166,32 @@ include:
 
 <Info>
 To find all the parameters supported by a given chat model, head to the
-@[reference docs][Reference].
+respective provider's [reference docs](/oss/integrations/providers).
 </Info>
+
+---
 
 ## Invocation
 
-A chat model must be invoked to generate an output. There are three main
+A chat model must be invoked to generate an output. There are three primary
 invocation methods, each suited to different use cases.
 
 :::python
 <Tip>
-Each invocation method has an
-<Tooltip tip="Asynchronous methods are useful for non-blocking operations, especially in web servers or applications that handle multiple tasks concurrently.">asynchronous</Tooltip>
-equivalent, typically prefixed with the letter `'a'`
+    Each invocation method has an
+    <Tooltip tip="Asynchronous methods are useful for non-blocking operations, especially in web servers or applications that handle multiple tasks concurrently.">asynchronous</Tooltip>
+    equivalent, typically prefixed with the letter `'a'`.
 
-For example: `ainvoke()`, `astream()`, `abatch()`
+    For example: `ainvoke()`, `astream()`, `abatch()`.
 
-A full list of async methods can be found in the @[reference docs][Reference].
+    A full list of async methods can be found in the @[reference docs][Reference].
 </Tip>
 :::
 
 ### Invoke
 
-The most straightforward way to call a model is to use @[`invoke()`][BaseChatModel.invoke] with a single message or a list of messages.
+The most straightforward way to call a model is to use
+@[`invoke()`][BaseChatModel.invoke] with a single message or a list of messages.
 
 :::python
 ```python Single message
@@ -259,10 +207,25 @@ console.log(response);
 ```
 :::
 
-A list of messages can be provided to a model to represent conversation history. Each message has a role that models use to indicate who sent the message in the conversation. See the [messages](./langchain-messages.mdx) guide for more detail on roles, types, and content.
+A list of messages can be provided to a model to represent conversation history.
+Each message has a role that models use to indicate who sent the message in the
+conversation. See the [messages](/oss/langchain-messages) guide for more detail
+on roles, types, and content.
 
 :::python
-<ConversationHistory/>
+```python Conversation history
+from langchain.messages import HumanMessage, AIMessage, SystemMessage
+
+conversation = [
+    SystemMessage("You are a helpful assistant that translates English to French."),
+    HumanMessage("Translate: I love programming."),
+    AIMessage("J'adore la programmation."),
+    HumanMessage("Translate: I love building applications.")
+]
+
+response = model.invoke(conversation)
+print(response)  # AIMessage("J'adore créer des applications.")
+```
 :::
 
 :::js
@@ -270,10 +233,10 @@ A list of messages can be provided to a model to represent conversation history.
 import { HumanMessage, AIMessage, SystemMessage } from "langchain";
 
 const conversation = [
-  new SystemMessage("You are a helpful assistant that translates English to French."),
-  new HumanMessage("Translate: I love programming."),
-  new AIMessage("J'adore la programmation."),
-  new HumanMessage("Translate: I love building applications.")
+    new SystemMessage("You are a helpful assistant that translates English to French."),
+    new HumanMessage("Translate: I love programming."),
+    new AIMessage("J'adore la programmation."),
+    new HumanMessage("Translate: I love building applications.")
 ];
 
 const response = await model.invoke(conversation);
@@ -287,7 +250,9 @@ Most models can stream their output content while it is being generated. By
 displaying output progressively, streaming significantly improves user
 experience, particularly for longer responses.
 
-Calling @[`stream()`][BaseChatModel.stream] returns an <Tooltip tip="An object that progressively provides access to each item of a collection, in order.">iterator</Tooltip> that yields output chunks as they are produced. You can use a loop to process each chunk in real-time:
+Calling @[`stream()`][BaseChatModel.stream] returns an <Tooltip tip="An object that progressively provides access to each item of a collection, in order.">iterator</Tooltip>
+that yields output chunks as they are produced. You can use a loop to process
+each chunk in real-time:
 
 :::python
 <CodeGroup>
@@ -317,22 +282,22 @@ Calling @[`stream()`][BaseChatModel.stream] returns an <Tooltip tip="An object t
         const stream = await model.stream("Why do parrots have colorful feathers?");
     for await (const chunk of stream) {
       console.log(chunk.text)
+      console.log(chunk.text)
     }
     ```
 
     ```typescript Stream tool calls, reasoning, and other content
         const stream = await model.stream("What color is the sky?");
     for await (const chunk of stream) {
-        for (const block of chunk.contentBlocks) {
-                        if (block.type === "reasoning") {
-              console.log(`Reasoning: ${block.reasoning}`);
-                        } else if (block.type === "tool_call_chunk") {
-                console.log(`Tool call chunk: ${block}`);
-                        } else if (block.type === "text") {
-                console.log(block.text);
-            } else {
-                ...
-            }
+      for (const block of chunk.contentBlocks) {
+        if (block.type === "reasoning") {
+          console.log(`Reasoning: ${block.reasoning}`);
+        } else if (block.type === "tool_call_chunk") {
+          console.log(`Tool call chunk: ${block}`);
+        } else if (block.type === "text") {
+          console.log(block.text);
+        } else {
+          ...
         }
       }
     }
@@ -340,15 +305,16 @@ Calling @[`stream()`][BaseChatModel.stream] returns an <Tooltip tip="An object t
 </CodeGroup>
 :::
 
-As opposed to `invoke()`, which returns a single @[`AIMessage`][AIMessage] after the model has
-finished generating its full response, `stream()` returns multiple
-@[`AIMessageChunk`][AIMessageChunk] objects, each containing a portion of the output text.
+As opposed to `invoke()`, which returns a single @[`AIMessage`][AIMessage] after
+the model has finished generating its full response, `stream()` returns multiple
+@[`AIMessageChunk`][AIMessageChunk] objects, each containing a portion of the
+output text.
 
 :::python
 Importantly, each `AIMessageChunk` in a stream is designed to be gathered into a
 full message via summation:
 
-```python Construct AIMessage
+```python Construct an AIMessage
 full = None  # None | AIMessageChunk
 for chunk in model.stream("What color is the sky?"):
         full = chunk if full is None else full + chunk
@@ -373,8 +339,8 @@ full message using the `.concat()` method on `AIMessageChunk`.
 ```typescript Construct AIMessage
 let full: AIMessageChunk | null = null;
 for await (const chunk of stream) {
-        full = full ? full.concat(chunk) : chunk;
-    console.log(full.text);
+  full = full ? full.concat(chunk) : chunk;
+  console.log(full.text);
 }
 
 // The
@@ -394,44 +360,46 @@ generated with [`invoke()`](#invoke) - for example, it can be aggregated into a
 message history and passed back to the model as conversational context.
 
 <Warning>
-Streaming only works if all steps in the program know how to process an
-stream of chunks. For instance, an application that isn't streaming-capable
-would be one that needs to store the entire output in memory before it can
-be processed.
+    Streaming only works if all steps in the program know how to process an
+    stream of chunks. For instance, an application that isn't streaming-capable
+    would be one that needs to store the entire output in memory before it can
+    be processed.
 </Warning>
-<Accordion title="Advanced streaming topics">
-    <Accordion title='"Auto-Streaming" Chat Models'>
-        LangChain simplifies streaming from chat models by automatically enabling
-        streaming mode in certain cases, even when you're not explicitly calling the
-        streaming methods. This is particularly useful when you use the
-        non-streaming invoke method but still want to stream the entire application,
-        including intermediate results from the chat model.
 
-        In [LangGraph agents](./langchain-agents), for example, you can
+<Accordion title="Advanced streaming topics">
+    <Accordion title='"Auto-streaming" chat models'>
+        LangChain simplifies streaming from chat models by automatically
+        enabling streaming mode in certain cases, even when you're not
+        explicitly calling the streaming methods. This is particularly useful
+        when you use the non-streaming invoke method but still want to stream
+        the entire application, including intermediate results from the chat
+        model.
+
+        In [LangGraph agents](/oss/langchain-agents), for example, you can
         call `model.invoke()` within nodes, but LangChain will automatically
         delegate to streaming if running in a streaming mode.
 
         #### How it works
 
         When you `invoke()` a chat model, LangChain will automatically switch to
-        an internal streaming mode if it detects that you are trying to stream the
-        overall application. The result of the invocation will be the same as far as
-        the code that was using invoke is concerned; however, while the chat model
-        is being streamed, LangChain will take care of invoking `on_llm_new_token`
-        events in LangChain's callback system.
+        an internal streaming mode if it detects that you are trying to stream
+        the overall application. The result of the invocation will be the same
+        as far as the code that was using invoke is concerned; however, while
+        the chat model is being streamed, LangChain will take care of invoking
+        `on_llm_new_token` events in LangChain's callback system.
 
         :::python
-        Callback events allow LangGraph `stream()` and @[astream_events][`astream_events()`]
-        to surface the chat model's output in real-time.
+        Callback events allow LangGraph `stream()` and
+        @[`astream_events()`][BaseChatModel.astream_events] to surface the chat
+        model's output in real-time.
         :::
         :::js
-        Callback events allow LangGraph `stream()` and @[BaseChatModel.streamEvents][`streamEvents()`]
-        to surface the chat model's output in real-time.
+        Callback events allow LangGraph `stream()` and
+        @[`streamEvents()`][BaseChatModel.streamEvents] to surface the chat
+        model's output in real-time.
         :::
     </Accordion>
-
     <Accordion title="Streaming events">
-
     :::python
     LangChain chat models can also stream semantic events using `astream_events()`.
 
@@ -443,10 +411,16 @@ be processed.
 
         if event["event"] == "on_chat_model_start":
             print(f"Input: {event['data']['input']}")
+        if event["event"] == "on_chat_model_start":
+            print(f"Input: {event['data']['input']}")
 
         elif event["event"] == "on_chat_model_stream":
             print(f"Token: {event['data']['chunk'].text}")
+        elif event["event"] == "on_chat_model_stream":
+            print(f"Token: {event['data']['chunk'].text}")
 
+        elif event["event"] == "on_chat_model_end":
+            print(f"Full message: {event['data']['output'].text}")
         elif event["event"] == "on_chat_model_end":
             print(f"Full message: {event['data']['output'].text}")
 
@@ -465,11 +439,13 @@ be processed.
     Full message: Hi there! How can I help today?
     ```
 
-    See the @[astream_events][`astream_events()`] reference for event types and other details.
+    See the @[`astream_events()`][BaseChatModel.astream_events]
+    reference for event types and other details.
     :::
 
     :::js
-    LangChain chat models can also stream semantic events using [`streamEvents()`][BaseChatModel.streamEvents].
+    LangChain chat models can also stream semantic events using
+    [`streamEvents()`][BaseChatModel.streamEvents].
 
     This simplifies filtering based on event types and other metadata, and will
     aggregate the full message in the background. See below for an example.
@@ -477,45 +453,40 @@ be processed.
     ```typescript
         const stream = await model.streamEvents("Hello");
     for await (const event of stream) {
-                if (event.event === "on_chat_model_start") {
-            console.log(`Input: ${event.data.input}`);
-        }
-                if (event.event === "on_chat_model_stream") {
-            console.log(`Token: ${event.data.chunk.text}`);
-        }
-                if (event.event === "on_chat_model_end") {
-            console.log(`Full message: ${event.data.output.text}`);
-        }
-        ```
-        ```txt
-        Input: Hello
-        Token: Hi
-        Token:  there
-        Token: !
-        Token:  How
-        Token:  can
-        Token:  I
-        ...
-        Full message: Hi there! How can I help today?
-        ```
+      if (event.event === "on_chat_model_start") {
+        console.log(`Input: ${event.data.input}`);
+      }
+      if (event.event === "on_chat_model_stream") {
+        console.log(`Token: ${event.data.chunk.text}`);
+      }
+      if (event.event === "on_chat_model_end") {
+        console.log(`Full message: ${event.data.output.text}`);
+      }
+    }
+    ```
+    ```txt
+    Input: Hello
+    Token: Hi
+    Token:  there
+    Token: !
+    Token:  How
+    Token:  can
+    Token:  I
+    ...
+    Full message: Hi there! How can I help today?
+    ```
 
-    See the @[`streamEvents()`][BaseChatModel.streamEvents] reference for event types and other details.
+    See the @[`streamEvents()`][BaseChatModel.streamEvents] reference for event
+    types and other details.
     :::
-
     </Accordion>
-
 </Accordion>
 
 ### Batch
 
-<Note>
-This section describes a chat model method `batch()`, which parallelizes model
-calls client-side. It is distinct from batch APIs supported by inference
-providers.
-</Note>
-
 Batching a collection of independent requests to a model can significantly
-improve performance, as the processing can be done in parallel:
+improve performance and reduce costs, as the processing can be done in
+parallel:
 
 :::python
 ```python Batch
@@ -528,10 +499,21 @@ for response in responses:
     print(response)
 ```
 
-By default, @[`batch()`][BaseChatModel.batch] will only return the final output for the entire batch. If you want to receive
-the output for each individual input as it is finishes generating, you can stream results with @[`batch_as_completed()`][BaseChatModel.batch_as_completed]:
+<Note>
+    This section describes a chat model method `batch()`, which parallelizes
+    model calls client-side.
 
-```python Yield responses upon completion
+    It is **distinct** from batch APIs supported by inference providers, such as
+    [OpenAI](https://platform.openai.com/docs/guides/batch) or
+    [Anthropic](https://docs.anthropic.com/en/docs/build-with-claude/batch-processing#message-batches-api).
+</Note>
+
+By default, @[`batch()`][BaseChatModel.batch] will only return the final output
+for the entire batch. If you want to receive the output for each individual
+input as it is finishes generating, you can stream results with
+@[`batch_as_completed()`][BaseChatModel.batch_as_completed]:
+
+```python Yield batch responses upon completion
 for response in model.batch_as_completed([
     "Why do parrots have colorful feathers?",
     "How do airplanes fly?",
@@ -540,27 +522,28 @@ for response in model.batch_as_completed([
     print(response)
 ```
 <Note>
-When using `batch_as_completed()`, results may arrive out of order. Each
-includes the input index for matching to reconstruct the original order if
-needed.
+    When using `batch_as_completed()`, results may arrive out of order. Each
+    includes the input index for matching to reconstruct the original order if
+    needed.
 </Note>
 
 <Tip>
-When processing a large number of inputs using `batch()` or
-`batch_as_completed()`, you may want to control the maximum number of
-parallel calls. This can be done by setting the `max_concurrency` attribute
-in the `RunnableConfig` dictionary.
+    When processing a large number of inputs using `batch()` or
+    `batch_as_completed()`, you may want to control the maximum number of
+    parallel calls. This can be done by setting the `max_concurrency` attribute
+    in the `RunnableConfig` dictionary.
 
-```python Batch with max concurrency
-model.batch(
-list_of_inputs,
-config={
-'max_concurrency': 5,  # Limit to 5 parallel calls
-}
-)
-```
+    ```python Batch with max concurrency
+    model.batch(
+        list_of_inputs,
+        config={
+            'max_concurrency': 5,  # Limit to 5 parallel calls
+        }
+    )
+    ```
 
-See the @[`RunnableConfig`][RunnableConfig] reference for a full list of supported attributes.
+    See the @[`RunnableConfig`][RunnableConfig] reference for a full list of
+    supported attributes.
 </Tip>
 
 For more details on batching, see the [reference](https://python.langchain.com/api_reference/core/language_models/langchain_core.language_models.chat_models.BaseChatModel.html#langchain_core.language_models.chat_models.BaseChatModel.batch).
@@ -572,31 +555,38 @@ const responses = await model.batch([
   "Why do parrots have colorful feathers?",
   "How do airplanes fly?",
   "What is quantum computing?"
+  "Why do parrots have colorful feathers?",
+  "How do airplanes fly?",
+  "What is quantum computing?"
 ]);
 for (const response of responses) {
+  console.log(response);
   console.log(response);
 }
 ```
 
 <Tip>
-When processing a large number of inputs using `batch()`, you may want to control the maximum number of
-parallel calls. This can be done by setting the `maxConcurrency` attribute in the `RunnableConfig` dictionary.
+    When processing a large number of inputs using `batch()`, you may want to
+    control the maximum number of parallel calls. This can be done by setting
+    the `maxConcurrency` attribute in the `RunnableConfig` dictionary.
 
-```typescript Batch with max concurrency
-model.batch(
-listOfInputs,
-{
-maxConcurrency: 5,  // Limit to 5 parallel calls
-}
-)
-```
+    ```typescript Batch with max concurrency
+    model.batch(
+        listOfInputs,
+        {
+            maxConcurrency: 5,  // Limit to 5 parallel calls
+        }
+    )
+    ```
 
-See the @[`RunnableConfig`][RunnableConfig] reference for a full list of supported attributes.
+    See the @[`RunnableConfig`][RunnableConfig] reference for a full list of
+    supported attributes.
 </Tip>
 
 For more details on batching, see the [reference](https://js.langchain.com/api_reference/core/language_models/langchain_core.language_models.chat_models.BaseChatModel.html#langchain_core.language_models.chat_models.BaseChatModel.batch).
 :::
 
+---
 
 ## Tool calling
 
@@ -609,27 +599,29 @@ definitions (often a JSON schema)
 to execute.
 
 <Note>
-You may hear the term `function calling`. We use this
-interchangeably with `tool calling`.
+    You may hear the term "function calling". We use this interchangeably with
+    "tool calling".
 </Note>
 
 :::python
-To make tools that you have defined available for use by a model, you must bind them using `bindTools()`. In subsequent invocations, the model can choose to call any of the bound tools
-as needed.
+To make tools that you have defined available for use by a model, you must bind
+them using @[`bind_tools()`][BaseChatModel.bind_tools]. In subsequent
+invocations, the model can choose to call any of the bound tools as needed.
 :::
 
 :::js
-To make tools that you have defined available for use by a model, you must bind them using `bindTools()`. In subsequent invocations, the model can choose to call any of the bound tools as needed.
+To make tools that you have defined available for use by a model, you must bind
+them using @[`bindTools()`][BaseChatModel.bindTools]. In subsequent invocations,
+the model can choose to call any of the bound tools as needed.
 :::
 
 Some model providers offer built-in tools that can be enabled via model
-parameters. Check the respective [provider reference](./integrations/providers.mdx) for details.
+parameters. Check the respective [provider reference](/oss/integrations/providers)
+for details.
 
 <Tip>
-
-See the [tools guide](/oss/langchain-tools) for details and other options for
-creating tools.
-
+    See the [tools guide](/oss/langchain-tools) for details and other options
+    for creating tools.
 </Tip>
 
 :::python
@@ -680,6 +672,9 @@ for (const tool_call of toolCalls) {
   // View tool calls made by the model
   console.log(`Tool: ${tool_call.name}`);
   console.log(`Args: ${tool_call.args}`);
+  // View tool calls made by the model
+  console.log(`Tool: ${tool_call.name}`);
+  console.log(`Args: ${tool_call.args}`);
 }
 ```
 :::
@@ -688,7 +683,7 @@ When binding user-defined tools, the model's response includes a **request** to
 execute a tool. It is up to you to perform the requested action and return the
 result back to the model for use in subsequent reasoning.
 
-Below, we show some common ways you can get use tool calling.
+Below, we show some common ways you can use tool calling.
 
 :::python
 <AccordionGroup>
@@ -699,21 +694,21 @@ Below, we show some common ways you can get use tool calling.
 
         ```python Tool execution loop
         # Bind (potentially multiple) tools to the model
-                model_with_tools = model.bind_tools([get_weather])
+        model_with_tools = model.bind_tools([get_weather])
 
         # Step 1: Model generates tool calls
-                messages = [{"role": "user", "content": "What's the weather in Boston?"}]
-                ai_msg = model_with_tools.invoke(messages)
+        messages = [{"role": "user", "content": "What's the weather in Boston?"}]
+        ai_msg = model_with_tools.invoke(messages)
         messages.append(ai_msg)
 
         # Step 2: Execute tools and collect results
         for tool_call in ai_msg.tool_calls:
             # Execute the tool with the generated arguments
-                        tool_result = get_weather.invoke(tool_call)
+            tool_result = get_weather.invoke(tool_call)
             messages.append(tool_result)
 
         # Step 3: Pass results back to model for final response
-                final_response = model_with_tools.invoke(messages)
+        final_response = model_with_tools.invoke(messages)
         print(final_response.text)
         # "The current weather in Boston is 72°F and sunny."
         ```
@@ -722,7 +717,6 @@ Below, we show some common ways you can get use tool calling.
         matches the original tool call, helping the model correlate results with
         requests.
     </Accordion>
-
     <Accordion title="Forcing tool calls" icon="asterisk">
 
         By default, the model has the freedom to choose which bound tool to use
@@ -732,26 +726,26 @@ Below, we show some common ways you can get use tool calling.
 
         <CodeGroup>
         ```python Force use of any tool
-                model_with_tools = model.bind_tools([tool_1], tool_choice="any")
+        model_with_tools = model.bind_tools([tool_1], tool_choice="any")
         ```
 
         ```python Force use of specific tools
-                model_with_tools = model.bind_tools([tool_1], tool_choice="tool_1")
+        model_with_tools = model.bind_tools([tool_1], tool_choice="tool_1")
         ```
         </CodeGroup>
     </Accordion>
-
     <Accordion title="Parallel tool calls" icon="layer-group">
         Many models support calling multiple tools in parallel when appropriate.
         This allows the model to gather information from different sources
         simultaneously.
 
         ```python Parallel tool calls
-                model_with_tools = model.bind_tools([get_weather])
+        model_with_tools = model.bind_tools([get_weather])
 
-                response = model_with_tools.invoke(
+        response = model_with_tools.invoke(
             "What's the weather in Boston and Tokyo?"
         )
+
 
         # The model may generate multiple tool calls
         print(response.tool_calls)
@@ -760,11 +754,12 @@ Below, we show some common ways you can get use tool calling.
         #   {'name': 'get_time', 'args': {'location': 'Tokyo'}, 'id': 'call_2'}
         # ]
 
+
         # Execute all tools (can be done in parallel with async)
-                results = []
+        results = []
         for tool_call in response.tool_calls:
-                        if tool_call['name'] == 'get_weather':
-                                result = get_weather.invoke(tool_call)
+            if tool_call['name'] == 'get_weather':
+                result = get_weather.invoke(tool_call)
             ...
             results.append(result)
         ```
@@ -772,7 +767,6 @@ Below, we show some common ways you can get use tool calling.
         The model intelligently determines when parallel execution is
         appropriate based on the independence of the requested operations.
     </Accordion>
-
     <Accordion title="Streaming tool calls" icon="rss">
         When streaming responses, tool calls are progressively built through
         `ToolCallChunk`. This allows you to see tool calls as they're being
@@ -791,22 +785,25 @@ Below, we show some common ways you can get use tool calling.
         # Output:
         # Tool: get_weather            # Loop 1
         # Args:
+        # Args:
         # Tool:                        # Loop 2
         # Args: {"loc
         # Tool:                        # Loop 3
         # Args: ation": "BOS"}
         # Tool: get_time               # Loop 4
         # Args:
+        # Args:
         # Tool:                        # Loop 5
+        # Args: {"timezone": "Tokyo"}
         # Args: {"timezone": "Tokyo"}
         ```
 
         You can accumulate chunks to build complete tool calls:
 
         ```python Accumulate tool calls
-                gathered = None
+        gathered = None
         for chunk in model_with_tools.stream("What's the weather in Boston?"):
-                        gathered = chunk if gathered is None else gathered + chunk
+            gathered = chunk if gathered is None else gathered + chunk
             print(gathered.content_blocks)
         ```
     </Accordion>
@@ -831,9 +828,9 @@ Below, we show some common ways you can get use tool calling.
 
         // Step 2: Execute tools and collect results
         for (const tool_call of response.tool_calls || []) {
-            // Execute the tool with the generated arguments
-                        const tool_result = await get_weather.invoke(tool_call)
-            messages.push(tool_result)
+          // Execute the tool with the generated arguments
+          const tool_result = await get_weather.invoke(tool_call)
+          messages.push(tool_result)
         }
 
         // Step 3: Pass results back to model for final response
@@ -846,9 +843,7 @@ Below, we show some common ways you can get use tool calling.
         matches the original tool call, helping the model correlate results with
         requests.
     </Accordion>
-
     <Accordion title="Forcing tool calls" icon="asterisk">
-
         By default, the model has the freedom to choose which bound tool to use
         based on the user's input. However, you might want to force choosing a
         tool, ensuring the model uses either a particular tool or *any* tool
@@ -864,17 +859,18 @@ Below, we show some common ways you can get use tool calling.
         ```
         </CodeGroup>
     </Accordion>
-
     <Accordion title="Parallel tool calls" icon="layer-group">
         Many models support calling multiple tools in parallel when appropriate.
         This allows the model to gather information from different sources
         simultaneously.
 
         ```typescript Parallel tool calls
-                const modelWithTools = model.bind_tools([get_weather])
-                const response = await modelWithTools.invoke(
-            "What's the weather in Boston and Tokyo?"
+        const modelWithTools = model.bind_tools([get_weather])
+
+        const response = await modelWithTools.invoke(
+          "What's the weather in Boston and Tokyo?"
         )
+
 
         // The model may generate multiple tool calls
         console.log(response.tool_calls)
@@ -883,30 +879,37 @@ Below, we show some common ways you can get use tool calling.
         //   { name: 'get_time', args: { location: 'Tokyo' }, id: 'call_2' }
         // ]
 
+
         // Execute all tools (can be done in parallel with async)
                 const results = []
         for (const tool_call of response.tool_calls || []) {
-                        if (tool_call.name === 'get_weather') {
-                                const result = await get_weather.invoke(tool_call)
-                results.push(result)
-            }
+          if (tool_call.name === 'get_weather') {
+            const result = await get_weather.invoke(tool_call)
+            results.push(result)
+          }
         }
         ```
 
         The model intelligently determines when parallel execution is
         appropriate based on the independence of the requested operations.
     </Accordion>
-
     <Accordion title="Streaming tool calls" icon="rss">
         When streaming responses, tool calls are progressively built through
         `ToolCallChunk`. This allows you to see tool calls as they're being
         generated rather than waiting for the complete response.
 
         ```typescript Streaming tool calls
-                const stream = await modelWithTools.stream(
-            "What's the weather in Boston and Tokyo?"
+        const stream = await modelWithTools.stream(
+          "What's the weather in Boston and Tokyo?"
         )
         for await (const chunk of stream) {
+          // Tool call chunks arrive progressively
+          if (chunk.tool_call_chunks) {
+            for (const tool_chunk of chunk.tool_call_chunks) {
+              console.log(`Tool: ${tool_chunk.get('name', '')}`)
+              console.log(`Args: ${tool_chunk.get('args', '')}`)
+            }
+          }
           // Tool call chunks arrive progressively
           if (chunk.tool_call_chunks) {
             for (const tool_chunk of chunk.tool_call_chunks) {
@@ -920,9 +923,17 @@ Below, we show some common ways you can get use tool calling.
         // Tool: get_weather
         // Args:
         // Tool:
+        // Tool: get_weather
+        // Args:
+        // Tool:
         // Args: {"loc
         // Tool:
+        // Tool:
         // Args: ation": "BOS"}
+        // Tool: get_time
+        // Args:
+        // Tool:
+        // Args: {"timezone": "Tokyo"}
         // Tool: get_time
         // Args:
         // Tool:
@@ -935,13 +946,15 @@ Below, we show some common ways you can get use tool calling.
                 let full: AIMessageChunk | null = null
                 const stream = await modelWithTools.stream("What's the weather in Boston?")
         for await (const chunk of stream) {
-                        full = full ? full.concat(chunk) : chunk
-            console.log(full.contentBlocks)
+          full = full ? full.concat(chunk) : chunk
+          console.log(full.contentBlocks)
         }
         ```
     </Accordion>
 </AccordionGroup>
 :::
+
+---
 
 ## Structured outputs
 
@@ -954,21 +967,22 @@ for enforcing structured outputs.
 <Tabs>
     <Tab title="Pydantic">
         [Pydantic models](https://docs.pydantic.dev/latest/concepts/models/#basic-model-usage)
-        provide the richest feature set with field validation, descriptions, and nested structures.
+        provide the richest feature set with field validation, descriptions, and
+        nested structures.
 
         ```python
         from pydantic import BaseModel, Field
 
         class Movie(BaseModel):
             """A movie with details."""
-                        title: str = Field(..., description="The title of the movie")
-                        year: int = Field(..., description="The year the movie was released")
-                        director: str = Field(..., description="The director of the movie")
-                        rating: float = Field(..., description="The movie's rating out of 10")
+            title: str = Field(..., description="The title of the movie")
+            year: int = Field(..., description="The year the movie was released")
+            director: str = Field(..., description="The director of the movie")
+            rating: float = Field(..., description="The movie's rating out of 10")
 
-                model_with_structure = model.with_structured_output(Movie)
-                response = model_with_structure.invoke("Provide details about the movie Inception")
-                print(response)  # Movie(title="Inception", year=2010, director="Christopher Nolan", rating=8.8)
+        model_with_structure = model.with_structured_output(Movie)
+        response = model_with_structure.invoke("Provide details about the movie Inception")
+        print(response)  # Movie(title="Inception", year=2010, director="Christopher Nolan", rating=8.8)
         ```
     </Tab>
     <Tab title="TypedDict">
@@ -985,8 +999,8 @@ for enforcing structured outputs.
             director: Annotated[str, ..., "The director of the movie"]
             rating: Annotated[float, ..., "The movie's rating out of 10"]
 
-                model_with_structure = model.with_structured_output(MovieDict)
-                response = model_with_structure.invoke("Provide details about the movie Inception")
+        model_with_structure = model.with_structured_output(MovieDict)
+        response = model_with_structure.invoke("Provide details about the movie Inception")
         print(response)  # {'title': 'Inception', 'year': 2010, 'director': 'Christopher Nolan', 'rating': 8.8}
         ```
     </Tab>
@@ -997,7 +1011,7 @@ for enforcing structured outputs.
         ```python
         import json
 
-                json_schema = {
+        json_schema = {
             "title": "Movie",
             "description": "A movie with details",
             "type": "object",
@@ -1022,11 +1036,11 @@ for enforcing structured outputs.
             "required": ["title", "year", "director", "rating"]
         }
 
-                model_with_structure = model.with_structured_output(
+        model_with_structure = model.with_structured_output(
             json_schema,
-                        method="json_schema",
+            method="json_schema",
         )
-                response = model_with_structure.invoke("Provide details about the movie Inception")
+        response = model_with_structure.invoke("Provide details about the movie Inception")
         print(response)  # {'title': 'Inception', 'year': 2010, ...}
         ```
     </Tab>
@@ -1036,20 +1050,23 @@ for enforcing structured outputs.
 :::js
 <Tabs>
     <Tab title="Zod">
-        A [zod schema](https://zod.dev/) is the preferred method of defining an output schema. Note that when a zod schema is provided, the model output will also be validated against the schema using zod's parse methods.
+        A [zod schema](https://zod.dev/) is the preferred method of defining an
+        output schema. Note that when a zod schema is provided, the model output
+        will also be validated against the schema using zod's parse methods.
 
         ```typescript
         import { z } from "zod";
-                const Movie = z.object({
-            title: z.string().describe("The title of the movie"),
-            year: z.number().describe("The year the movie was released"),
-            director: z.string().describe("The director of the movie"),
-            rating: z.number().describe("The movie's rating out of 10"),
+
+        const Movie = z.object({
+          title: z.string().describe("The title of the movie"),
+          year: z.number().describe("The year the movie was released"),
+          director: z.string().describe("The director of the movie"),
+          rating: z.number().describe("The movie's rating out of 10"),
         });
 
-                const modelWithStructure = model.withStructuredOutput(Movie);
+        const modelWithStructure = model.withStructuredOutput(Movie);
 
-                const response = await modelWithStructure.invoke("Provide details about the movie Inception");
+        const response = await modelWithStructure.invoke("Provide details about the movie Inception");
         console.log(response);
         // {
         //     title: "Inception",
@@ -1060,38 +1077,41 @@ for enforcing structured outputs.
         ```
     </Tab>
     <Tab title="JSON Schema">
-        For maximum control or interoperability, you can provide a raw JSON Schema.
+        For maximum control or interoperability, you can provide a raw JSON
+        Schema.
 
         ```typescript
-                const jsonSchema = {
-            "title": "Movie",
-            "description": "A movie with details",
-            "type": "object",
-            "properties": {
-                "title": {
-                    "type": "string",
-                    "description": "The title of the movie"
-                },
-                "year": {
-                    "type": "integer",
-                    "description": "The year the movie was released"
-                },
-                "director": {
-                    "type": "string",
-                    "description": "The director of the movie"
-                },
-                "rating": {
-                    "type": "number",
-                    "description": "The movie's rating out of 10"
-                }
+        const jsonSchema = {
+          "title": "Movie",
+          "description": "A movie with details",
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "The title of the movie"
+            },
+            "year": {
+              "type": "integer",
+              "description": "The year the movie was released"
+            },
+            "director": {
+              "type": "string",
+              "description": "The director of the movie"
+            },
+            "rating": {
+              "type": "number",
+              "description": "The movie's rating out of 10"
+            }
+          },
           "required": ["title", "year", "director", "rating"]
         }
-                const modelWithStructure = model.withStructuredOutput(
-            jsonSchema,
-            { method: "jsonSchema" }
+
+        const modelWithStructure = model.withStructuredOutput(
+          jsonSchema,
+          { method: "jsonSchema" }
         )
 
-                const response = await modelWithStructure.invoke("Provide details about the movie Inception")
+        const response = await modelWithStructure.invoke("Provide details about the movie Inception")
         console.log(response)  // {'title': 'Inception', 'year': 2010, ...}
         ```
     </Tab>
@@ -1100,163 +1120,177 @@ for enforcing structured outputs.
 
 :::python
 <Note>
-**Key considerations for structured outputs:**
+    **Key considerations for structured outputs:**
 
-- **Method parameter**: Some providers support different methods
-(`'json_schema'`, `'function_calling'`, `'json_mode'`)
-- **Include raw**: Use `include_raw=True` to get both the parsed output and
-the raw AI message
-- **Validation**: Pydantic models provide automatic validation, while
-`TypedDict` and JSON Schema require manual validation
+    - **Method parameter**: Some providers support different methods
+    (`'json_schema'`, `'function_calling'`, `'json_mode'`)
+    - **Include raw**: Use `include_raw=True` to get both the parsed output and
+    the raw AI message
+    - **Validation**: Pydantic models provide automatic validation, while
+    `TypedDict` and JSON Schema require manual validation
 </Note>
 :::
 
 :::js
-<Note>
-**Key considerations for structured outputs:**
+    <Note>
+    **Key considerations for structured outputs:**
 
-- **Method parameter**: Some providers support different methods
-(`'jsonSchema'`, `'functionCalling'`, `'jsonMode'`)
-- **Include raw**: Use `includeRaw=true` to get both the parsed output and
-the raw AI message
-- **Validation**: Zod models provide automatic validation, while
-JSON Schema requires manual validation
+    - **Method parameter**: Some providers support different methods
+    (`'jsonSchema'`, `'functionCalling'`, `'jsonMode'`)
+    - **Include raw**: Use `includeRaw=true` to get both the parsed output and
+    the raw AI message
+    - **Validation**: Zod models provide automatic validation, while
+    JSON Schema requires manual validation
 </Note>
 :::
 
 <Accordion title="Example: Message output alongside parsed structure">
+    It can be useful to return the raw `AIMessage` object alongside the parsed
+    representation to access response metadata such as [token counts](#token-usage):
 
-It can be useful to return the raw `AIMessage` object alongside the parsed
-representation to access response metadata such as [token counts](#token-usage):
+    :::python
+    ```python highlight={10}
+    from pydantic import BaseModel, Field
 
-:::python
-```python highlight={10}
-from pydantic import BaseModel, Field
-
-class Movie(BaseModel):
-    """A movie with details."""
+    class Movie(BaseModel):
+        """A movie with details."""
         title: str = Field(..., description="The title of the movie")
         year: int = Field(..., description="The year the movie was released")
         director: str = Field(..., description="The director of the movie")
         rating: float = Field(..., description="The movie's rating out of 10")
 
-model_with_structure = model.with_structured_output(Movie, include_raw=True)
-response = model_with_structure.invoke("Provide details about the movie Inception")
-response
-# {
-#     "raw": AIMessage(...),
-#     "parsed": Movie(title=..., year=..., ...),
-#     "parsing_error": None,
-# }
-```
-:::
+    model_with_structure = model.with_structured_output(Movie, include_raw=True)
+    response = model_with_structure.invoke("Provide details about the movie Inception")
+    response
+    # {
+    #     "raw": AIMessage(...),
+    #     "parsed": Movie(title=..., year=..., ...),
+    #     "parsing_error": None,
+    # }
+    ```
+    :::
 
-:::js
-```typescript highlight={10}
-import { z } from "zod";
+    :::js
+    ```typescript highlight={10}
+    import { z } from "zod";
 
-const Movie = z.object({
-  title: z.string().describe("The title of the movie"),
-  year: z.number().describe("The year the movie was released"),
-  director: z.string().describe("The director of the movie"),
-  rating: z.number().describe("The movie's rating out of 10"),
-});
+    const Movie = z.object({
+      title: z.string().describe("The title of the movie"),
+      year: z.number().describe("The year the movie was released"),
+      director: z.string().describe("The director of the movie"),
+      rating: z.number().describe("The movie's rating out of 10"),
+      title: z.string().describe("The title of the movie"),
+      year: z.number().describe("The year the movie was released"),
+      director: z.string().describe("The director of the movie"),
+      rating: z.number().describe("The movie's rating out of 10"),
+    });
 
-const modelWithStructure = model.withStructuredOutput(Movie, { includeRaw: true });
+    const modelWithStructure = model.withStructuredOutput(Movie, { includeRaw: true });
 
-const response = await modelWithStructure.invoke("Provide details about the movie Inception");
-console.log(response);
-// {
-//     raw: AIMessage { ... },
-//     parsed: { title: "Inception", ... }
-// }
-```
-:::
-
+    const response = await modelWithStructure.invoke("Provide details about the movie Inception");
+    console.log(response);
+    // {
+    //     raw: AIMessage { ... },
+    //     parsed: { title: "Inception", ... }
+    // }
+    ```
+    :::
 </Accordion>
-
 <Accordion title="Example: Nested structures">
+    :::python
+    <CodeGroup>
+        ```python Pydantic BaseModel
+        from pydantic import BaseModel, Field
 
-:::python
-<CodeGroup>
-    ```python Pydantic BaseModel
-    from pydantic import BaseModel, Field
+        class Actor(BaseModel):
+            name: str
+            role: str
 
-    class Actor(BaseModel):
-        name: str
-        role: str
+        class MovieDetails(BaseModel):
+            title: str
+            year: int
+            cast: list[Actor]
+            genres: list[str]
+            budget: float | None = Field(None, description="Budget in millions USD")
 
-    class MovieDetails(BaseModel):
-        title: str
-        year: int
-        cast: list[Actor]
-        genres: list[str]
-                budget: float | None = Field(None, description="Budget in millions USD")
+            model_with_structure = model.with_structured_output(MovieDetails)
+        ```
 
-        model_with_structure = model.with_structured_output(MovieDetails)
+        ```python TypedDict
+        from typing_extensions import Annotated, TypedDict
+
+        class Actor(TypedDict):
+            name: str
+            role: str
+
+        class MovieDetails(TypedDict):
+            title: str
+            year: int
+            cast: list[Actor]
+            genres: list[str]
+            budget: Annotated[float | None, ..., "Budget in millions USD"]
+
+            model_with_structure = model.with_structured_output(MovieDetails)
+        ```
+    </CodeGroup>
+    :::
+
+    :::js
+    ```typescript
+    import { z } from "zod";
+
+    const Actor = z.object({
+    name: str
+    role: z.string(),
+    name: str
+    role: z.string(),
+    });
+
+    const MovieDetails = z.object({
+      title: z.string(),
+      year: z.number(),
+      cast: z.array(Actor),
+      genres: z.array(z.string()),
+      budget: z.number().nullable().describe("Budget in millions USD"),
+      title: z.string(),
+      year: z.number(),
+      cast: z.array(Actor),
+      genres: z.array(z.string()),
+      budget: z.number().nullable().describe("Budget in millions USD"),
+    });
+
+    const modelWithStructure = model.withStructuredOutput(MovieDetails);
     ```
-
-    ```python TypedDict
-    from typing_extensions import Annotated, TypedDict
-
-    class Actor(TypedDict):
-        name: str
-        role: str
-
-    class MovieDetails(TypedDict):
-        title: str
-        year: int
-        cast: list[Actor]
-        genres: list[str]
-        budget: Annotated[float | None, ..., "Budget in millions USD"]
-
-        model_with_structure = model.with_structured_output(MovieDetails)
-    ```
-</CodeGroup>
-:::
-
-:::js
-```typescript
-import { z } from "zod";
-
-const Actor = z.object({
-  name: str
-  role: z.string(),
-});
-
-const MovieDetails = z.object({
-  title: z.string(),
-  year: z.number(),
-  cast: z.array(Actor),
-  genres: z.array(z.string()),
-  budget: z.number().nullable().describe("Budget in millions USD"),
-});
-
-const modelWithStructure = model.withStructuredOutput(MovieDetails);
-```
-:::
+    :::
 </Accordion>
 
+---
 
 ## Supported models
 
 LangChain supports all major model providers, including OpenAI, Anthropic,
 Google, Azure, AWS Bedrock, and more. Each provider offers a variety of models
 with different capabilities. For a full list of supported models in LangChain,
-see the [integrations page](./integrations/providers).
+see the [integrations page](/oss/integrations/providers).
+
+---
 
 ## Advanced configuration
 
 ### Multimodal
 
-Certain models can process and return non-textual data such as images, audio, and video. You can pass non-textual data to a model by providing [content blocks](./langchain-messages.mdx#content).
+Certain models can process and return non-textual data such as images, audio,
+and video. You can pass non-textual data to a model by providing
+[content blocks](/oss/langchain-messages#content).
 
 <Tip>
-All LangChain chat models with underlying multimodal capabilities support:
+    All LangChain chat models with underlying multimodal capabilities support:
 
-1. Data in the cross-provider standard format (shown below)
-2. OpenAI [chat completions](https://platform.openai.com/docs/guides/images-vision?api-mode=chat) format
-3. Any format that is native to that specific provider (e.g., Anthropic models accept Anthropic native format)
+    1. Data in the cross-provider standard format (shown below)
+    2. OpenAI [chat completions](https://platform.openai.com/docs/guides/images-vision?api-mode=chat)
+    format
+    3. Any format that is native to that specific provider (e.g., Anthropic models
+    accept Anthropic native format)
 </Tip>
 
 :::python
@@ -1351,92 +1385,92 @@ All LangChain chat models with underlying multimodal capabilities support:
 <CodeGroup>
     ```typescript Image input
     // From URL
-        const response = await model.invoke([
-        { type: "text", text: "Describe the content of this image." },
-        { type: "image", url: "https://example.com/path/to/image.jpg" },
+    const response = await model.invoke([
+      { type: "text", text: "Describe the content of this image." },
+      { type: "image", url: "https://example.com/path/to/image.jpg" },
     ])
 
     // From base64 data
-        const response = await model.invoke([
-        { type: "text", text: "Describe the content of this image." },
-        {
-            type: "image",
-            data: "AAAAIGZ0eXBtcDQyAAAAAGlzb21tcDQyAAACAGlzb2...",
-            mimeType: "image/jpeg",
-        },
+    const response = await model.invoke([
+      { type: "text", text: "Describe the content of this image." },
+      {
+        type: "image",
+        data: "AAAAIGZ0eXBtcDQyAAAAAGlzb21tcDQyAAACAGlzb2...",
+        mimeType: "image/jpeg",
+      },
     ])
 
     // From provider-managed File ID
-        const response = await model.invoke([
-        { type: "text", text: "Describe the content of this image." },
-        { type: "image", fileId: "file-abc123" },
+    const response = await model.invoke([
+      { type: "text", text: "Describe the content of this image." },
+      { type: "image", fileId: "file-abc123" },
     ])
     ```
 
     ```typescript PDF document input
     // From URL
-        const response = await model.invoke([
-        { type: "text", text: "Describe the content of this document." },
-        { type: "file", url: "https://example.com/path/to/document.pdf" },
+    const response = await model.invoke([
+      { type: "text", text: "Describe the content of this document." },
+      { type: "file", url: "https://example.com/path/to/document.pdf" },
     ])
 
     // From base64 data
-        const response = await model.invoke([
-        { type: "text", text: "Describe the content of this document." },
-        {
-            type: "file",
-            data: "AAAAIGZ0eXBtcDQyAAAAAGlzb21tcDQyAAACAGlzb2...",
-            mimeType: "application/pdf",
-        },
+    const response = await model.invoke([
+      { type: "text", text: "Describe the content of this document." },
+      {
+        type: "file",
+        data: "AAAAIGZ0eXBtcDQyAAAAAGlzb21tcDQyAAACAGlzb2...",
+        mimeType: "application/pdf",
+      },
     ])
 
     // From provider-managed File ID
-        const response = await model.invoke([
-        { type: "text", text: "Describe the content of this document." },
-        { type: "file", fileId: "file-abc123" },
+    const response = await model.invoke([
+      { type: "text", text: "Describe the content of this document." },
+      { type: "file", fileId: "file-abc123" },
     ])
     ```
 
     ```typescript Audio input
     // From base64 data
-        const response = await model.invoke([
-        { type: "text", text: "Describe the content of this audio." },
-        {
-            type: "audio",
-            data: "AAAAIGZ0eXBtcDQyAAAAAGlzb21tcDQyAAACAGlzb2...",
-            mimeType: "audio/wav",
-        },
+    const response = await model.invoke([
+      { type: "text", text: "Describe the content of this audio." },
+      {
+        type: "audio",
+        data: "AAAAIGZ0eXBtcDQyAAAAAGlzb21tcDQyAAACAGlzb2...",
+        mimeType: "audio/wav",
+      },
     ])
 
     // From provider-managed File ID
-        const response = await model.invoke([
-        { type: "text", text: "Describe the content of this audio." },
-        { type: "audio", fileId: "file-abc123" },
+    const response = await model.invoke([
+      { type: "text", text: "Describe the content of this audio." },
+      { type: "audio", fileId: "file-abc123" },
     ])
     ```
 
     ```typescript Video input
     // From base64 data
-        const response = await model.invoke([
-        { type: "text", text: "Describe the content of this video." },
-        {
-            type: "video",
-            data: "AAAAIGZ0eXBtcDQyAAAAAGlzb21tcDQyAAACAGlzb2...",
-            mimeType: "video/mp4",
-        },
+    const response = await model.invoke([
+      { type: "text", text: "Describe the content of this video." },
+      {
+        type: "video",
+        data: "AAAAIGZ0eXBtcDQyAAAAAGlzb21tcDQyAAACAGlzb2...",
+        mimeType: "video/mp4",
+      },
     ])
 
     // From provider-managed File ID
-        const response = await model.invoke([
-        { type: "text", text: "Describe the content of this video." },
-        { type: "video", fileId: "file-abc123" },
+    const response = await model.invoke([
+      { type: "text", text: "Describe the content of this video." },
+      { type: "video", fileId: "file-abc123" },
     ])
     ```
 </CodeGroup>
 :::
 
-Some models can also return multimodal data as part of their response. In such cases,
-the resulting `AIMessage` will have content blocks with multimodal types.
+Some models can also return multimodal data as part of their response. In such
+cases, the resulting `AIMessage` will have content blocks with multimodal types.
 
 :::python
 ```python Multimodal output
@@ -1456,11 +1490,14 @@ console.log(response.contentBlocks);
 // [
 //   { type: "text", text: "Here's a picture of a cat" },
 //   { type: "image", data: "...", mimeType: "image/jpeg" },
+//   { type: "text", text: "Here's a picture of a cat" },
+//   { type: "image", data: "...", mimeType: "image/jpeg" },
 // ]
 ```
 :::
 
-See the [integrations page](./integrations/providers) for details on specific providers.
+See the [integrations page](/oss/integrations/providers) for details on specific
+providers.
 
 ### Reasoning
 
@@ -1475,13 +1512,13 @@ better understand how the model arrived at its final answer.
 <CodeGroup>
     ```python Stream reasoning output
     for chunk in model.stream("Why do parrots have colorful feathers?"):
-                reasoning_steps = [r for r in chunk.content_blocks if r["type"] == "reasoning"]
+        reasoning_steps = [r for r in chunk.content_blocks if r["type"] == "reasoning"]
         print(reasoning_steps if reasoning_steps else chunk.text)
     ```
 
     ```python Complete reasoning output
-        response = model.invoke("Why do parrots have colorful feathers?")
-        reasoning_steps = [b for b in response.content_blocks if b["type"] == "reasoning"]
+    response = model.invoke("Why do parrots have colorful feathers?")
+    reasoning_steps = [b for b in response.content_blocks if b["type"] == "reasoning"]
     print(" ".join(step["reasoning"] for step in reasoning_steps))
     ```
 </CodeGroup>
@@ -1490,17 +1527,17 @@ better understand how the model arrived at its final answer.
 :::js
 <CodeGroup>
     ```typescript Stream reasoning output
-        const stream = model.stream("Why do parrots have colorful feathers?");
+    const stream = model.stream("Why do parrots have colorful feathers?");
     for await (const chunk of stream) {
-                const reasoningSteps = chunk.contentBlocks.filter(b => b.type === "reasoning");
-        console.log(reasoningSteps.length > 0 ? reasoningSteps : chunk.text);
+      const reasoningSteps = chunk.contentBlocks.filter(b => b.type === "reasoning");
+      console.log(reasoningSteps.length > 0 ? reasoningSteps : chunk.text);
     }
     ```
 
     ```typescript Complete reasoning output
-        const response = await model.invoke("Why do parrots have colorful feathers?");
-        const reasoningSteps = response.contentBlocks.filter(b => b.type === "reasoning");
-        console.log(reasoningSteps.map(step => step.reasoning).join(" "));
+    const response = await model.invoke("Why do parrots have colorful feathers?");
+    const reasoningSteps = response.contentBlocks.filter(b => b.type === "reasoning");
+    console.log(reasoningSteps.map(step => step.reasoning).join(" "));
     ```
 </CodeGroup>
 :::
@@ -1511,7 +1548,7 @@ reasoning entirely. This may take the form of categorical "tiers" of reasoning
 (e.g., `'low'` or `'high'`) or integer token budgets.
 
 For details, see the relevant chat model in the
-[integrations page](./integrations/providers).
+[integrations page](/oss/integrations/providers).
 
 
 ### Local models
@@ -1520,9 +1557,9 @@ LangChain supports running models locally on your own hardware. This is useful
 for scenarios where data privacy is critical, or when you want to avoid the cost
 of using a cloud-based model.
 
-[Ollama](./integrations/providers/ollama.mdx) is one of the easiest ways to run
+[Ollama](/oss/integrations/providers/ollama) is one of the easiest ways to run
 models locally. See the full list of local integrations on the
-[integrations page](./integrations/providers).
+[integrations page](/oss/integrations/providers).
 
 ### Caching
 
@@ -1550,11 +1587,10 @@ LangChain provides an optional caching layer for chat model integrations.
 
             set_llm_cache(InMemoryCache())
 
-                        response = model.invoke("Tell me a joke")
-                        response = model.invoke("Tell me a joke")  # Fast, from cache
+            response = model.invoke("Tell me a joke")
+            response = model.invoke("Tell me a joke")  # Fast, from cache
             ```
         </Accordion>
-
         <Accordion title="SQLite Cache" icon="database">
             Uses a SQLite database to store responses, and will last across
             process restarts
@@ -1563,21 +1599,20 @@ LangChain provides an optional caching layer for chat model integrations.
             # We can do the same thing with a SQLite cache
             from langchain_community.cache import SQLiteCache
 
-                        set_llm_cache(SQLiteCache(database_path=".langchain.db"))
+            set_llm_cache(SQLiteCache(database_path=".langchain.db"))
 
-                        response = model.invoke("Tell me a joke")
-                        response = model.invoke("Tell me a joke")  # Fast, from cache
+            response = model.invoke("Tell me a joke")
+            response = model.invoke("Tell me a joke")  # Fast, from cache
             ```
         </Accordion>
     </AccordionGroup>
-
 </Accordion>
 :::
 
 :::js
 <Accordion title="Enable caching for your model" icon="database">
-
-    To enable caching, you can provide a cache object when initializing the model:
+    To enable caching, you can provide a cache object when initializing the
+    model:
 
     <AccordionGroup>
         <Accordion title="In Memory Cache" icon="memory">
@@ -1588,17 +1623,16 @@ LangChain provides an optional caching layer for chat model integrations.
             import { InMemoryCache } from "@langchain/core";
             import { ChatOpenAI } from "@langchain/openai";
 
-                        const model = new ChatOpenAI({
-                model: "gpt-4o",
-                cache: new InMemoryCache(),
+            const model = new ChatOpenAI({
+              model: "gpt-4o",
+              cache: new InMemoryCache(),
             });
 
-                        const response = await model.invoke("Tell me a joke");
-                        const response = await model.invoke("Tell me a joke");  // Fast, from cache
+            const response = await model.invoke("Tell me a joke");
+            const response = await model.invoke("Tell me a joke");  // Fast, from cache
             ```
         </Accordion>
     </AccordionGroup>
-
 </Accordion>
 :::
 
@@ -1615,23 +1649,24 @@ parameter that can be provided during initialization to control the rate at
 which requests are made.
 
 <Accordion title="Initialize and use a rate limiter" icon="gauge-high">
-    LangChain in comes with a built-in in memory rate limiter. This rate limiter
-    is thread safe and can be shared by multiple threads in the same process.
+    LangChain in comes with (an optional) built-in in memory rate limiter. This
+    limiter is thread safe and can be shared by multiple threads in the same
+    process.
 
     ```python Define a rate limiter highlight={12}
-        from langchain_core.rate_limiters import InMemoryRateLimiter
+    from langchain_core.rate_limiters import InMemoryRateLimiter
 
-                rate_limiter = InMemoryRateLimiter(
-                        requests_per_second=0.1,  # 1 request every 10s
-                        check_every_n_seconds=0.1,  # Check every 100ms whether allowed to make a request
-                        max_bucket_size=10,  # Controls the maximum burst size.
-        )
+    rate_limiter = InMemoryRateLimiter(
+            requests_per_second=0.1,  # 1 request every 10s
+            check_every_n_seconds=0.1,  # Check every 100ms whether allowed to make a request
+            max_bucket_size=10,  # Controls the maximum burst size.
+    )
 
-                model = init_chat_model(
-                        model="gpt-5",
-                        model_provider="openai",
-                        rate_limiter=rate_limiter
-        )
+    model = init_chat_model(
+        model="gpt-5",
+        model_provider="openai",
+        rate_limiter=rate_limiter
+    )
     ```
 
     <Warning>
@@ -1649,67 +1684,71 @@ requests, which allows you to use model providers that have OpenAI-compatible
 APIs or to use a proxy server.
 
 <Accordion title="Base URL" icon="link">
+    :::python
+    Many model providers offer OpenAI-compatible APIs (e.g.,
+    [Together AI](https://www.together.ai/),
+    [vLLM](https://github.com/vllm-project/vllm)). You can use `init_chat_model`
+    with these providers by specifying the appropriate `base_url` parameter:
 
-:::python
-Many model providers offer OpenAI-compatible APIs (e.g.,
-[Together AI](https://www.together.ai/),
-[vLLM](https://github.com/vllm-project/vllm)). You can use `init_chat_model`
-with these providers by specifying the appropriate `base_url` parameter:
-
-```python
-model = init_chat_model(
+    ```python
+    model = init_chat_model(
         model="MODEL_NAME",
         model_provider="openai",
         base_url="BASE_URL",
         api_key="YOUR_API_KEY",
-)
-```
-:::
+    )
+    ```
+    :::
 
-:::js
-Many model providers offer OpenAI-compatible APIs (e.g.,
-[Together AI](https://www.together.ai/),
-[vLLM](https://github.com/vllm-project/vllm)). You can use `initChatModel`
-with these providers by specifying the appropriate `base_url` parameter:
+    :::js
+    Many model providers offer OpenAI-compatible APIs (e.g.,
+    [Together AI](https://www.together.ai/),
+    [vLLM](https://github.com/vllm-project/vllm)). You can use `initChatModel`
+    with these providers by specifying the appropriate `base_url` parameter:
 
-```python
-model = initChatModel(
-  "MODEL_NAME",
-  {
-    modelProvider: "openai",
-    baseUrl: "BASE_URL",
-    apiKey: "YOUR_API_KEY",
-  }
-)
-```
-:::
+    ```python
+    model = initChatModel(
+        "MODEL_NAME",
+        {
+            modelProvider: "openai",
+            baseUrl: "BASE_URL",
+            apiKey: "YOUR_API_KEY",
+        }
+        "MODEL_NAME",
+        {
+            modelProvider: "openai",
+            baseUrl: "BASE_URL",
+            apiKey: "YOUR_API_KEY",
+        }
+    )
+    ```
+    :::
 
-<Note>
-When using direct chat model class instantiation, the parameter name may
-vary by provider. Check the respective [reference](/oss/integrations/providers) for details.
-</Note>
+    <Note>
+        When using direct chat model class instantiation, the parameter name may
+        vary by provider. Check the respective
+        [reference](/oss/integrations/providers) for details.
+    </Note>
 </Accordion>
 
 :::python
 <Accordion title="Proxy configuration" icon="shield">
+    For deployments requiring HTTP proxies, some model integrations support proxy
+    configuration:
 
-For deployments requiring HTTP proxies, some model integrations support proxy
-configuration:
+    ```python
+    from langchain_openai import ChatOpenAI
 
-```python
-from langchain_openai import ChatOpenAI
-
-model = ChatOpenAI(
+    model = ChatOpenAI(
         model="gpt-4o",
         openai_proxy="http://proxy.example.com:8080"
-)
-```
+    )
+    ```
 
-<Note>
-Proxy support varies by integration. Check the specific model provider's
-[reference](/oss/integrations/providers) for proxy configuration options.
-</Note>
-
+    <Note>
+        Proxy support varies by integration. Check the specific model provider's
+        [reference](/oss/integrations/providers) for proxy configuration options.
+    </Note>
 </Accordion>
 :::
 
@@ -1722,8 +1761,8 @@ setting the `logprobs` parameter when initializing a model:
 
 ```python Log probs
 model = init_chat_model(
-        model="gpt-4o",
-        model_provider="openai"
+    model="gpt-4o",
+    model_provider="openai"
 ).bind(logprobs=True)
 
 response = model.invoke("Why do parrots talk?")
@@ -1736,91 +1775,95 @@ print(response.response_metadata["logprobs"])
 A number of model providers return token usage information as part of the
 invocation response. When available, this information will be included on the
 `AIMessage` objects produced by the corresponding model. For more details, see
-the [messages](./langchain-messages) guide.
+the [messages](/oss/langchain-messages) guide.
 
 <Note>
-
-Some provider APIs, notably OpenAI and Azure OpenAI chat completions, require
-users opt-in to receiving token usage data in streaming contexts. See
-[this section](/oss/integrations/chat/openai#streaming-usage-metadata) of the
-integration guide for details.
-
+    Some provider APIs, notably OpenAI and Azure OpenAI chat completions, require
+    users opt-in to receiving token usage data in streaming contexts. See
+    [this section](/oss/integrations/chat/openai#streaming-usage-metadata) of the
+    integration guide for details.
 </Note>
 
-You can track aggregate token counts across models in an application using either
-a callback or context manager, as shown below:
+You can track aggregate token counts across models in an application using
+either a callback or context manager, as shown below:
 
 :::python
 <Tabs>
-<Tab title="Callback handler">
-```python Callback handler
-from langchain.chat_models import init_chat_model
-from langchain_core.callbacks import UsageMetadataCallbackHandler
+    <Tab title="Callback handler">
+        ```python Callback handler
+        from langchain.chat_models import init_chat_model
+        from langchain_core.callbacks import UsageMetadataCallbackHandler
 
-llm_1 = init_chat_model(model="openai:gpt-4o-mini")
-llm_2 = init_chat_model(model="anthropic:claude-3-5-haiku-latest")
+        llm_1 = init_chat_model(model="openai:gpt-4o-mini")
+        llm_2 = init_chat_model(model="anthropic:claude-3-5-haiku-latest")
 
-callback = UsageMetadataCallbackHandler()
-result_1 = llm_1.invoke("Hello", config={"callbacks": [callback]})
-result_2 = llm_2.invoke("Hello", config={"callbacks": [callback]})
-callback.usage_metadata
-```
-```
-{
-    'gpt-4o-mini-2024-07-18': {
-        'input_tokens': 8,
-        'output_tokens': 10,
-        'total_tokens': 18,
-        'input_token_details': {'audio': 0, 'cache_read': 0},
-        'output_token_details': {'audio': 0, 'reasoning': 0}},
-        'claude-3-5-haiku-20241022': {'input_tokens': 8,
-        'output_tokens': 21,
-        'total_tokens': 29,
-        'input_token_details': {'cache_read': 0, 'cache_creation': 0}
-    }
-}
-```
-</Tab>
-<Tab title="Context manager">
-```python Context manager
-from langchain.chat_models import init_chat_model
-from langchain_core.callbacks import get_usage_metadata_callback
+        callback = UsageMetadataCallbackHandler()
+        result_1 = llm_1.invoke("Hello", config={"callbacks": [callback]})
+        result_2 = llm_2.invoke("Hello", config={"callbacks": [callback]})
+        callback.usage_metadata
+        ```
+        ```
+        {
+            'gpt-4o-mini-2024-07-18': {
+                'input_tokens': 8,
+                'output_tokens': 10,
+                'total_tokens': 18,
+                'input_token_details': {'audio': 0, 'cache_read': 0},
+                'output_token_details': {'audio': 0, 'reasoning': 0}},
+                'claude-3-5-haiku-20241022': {'input_tokens': 8,
+                'output_tokens': 21,
+                'total_tokens': 29,
+                'input_token_details': {'cache_read': 0, 'cache_creation': 0}
+            }
+        }
+        ```
+    </Tab>
+    <Tab title="Context manager">
+        ```python Context manager
+        from langchain.chat_models import init_chat_model
+        from langchain_core.callbacks import get_usage_metadata_callback
 
-llm_1 = init_chat_model(model="openai:gpt-4o-mini")
-llm_2 = init_chat_model(model="anthropic:claude-3-5-haiku-latest")
+        llm_1 = init_chat_model(model="openai:gpt-4o-mini")
+        llm_2 = init_chat_model(model="anthropic:claude-3-5-haiku-latest")
 
-with get_usage_metadata_callback() as cb:
-    llm_1.invoke("Hello")
-    llm_2.invoke("Hello")
-    print(cb.usage_metadata)
-```
-```
-{
-    'gpt-4o-mini-2024-07-18': {
-        'input_tokens': 8,
-        'output_tokens': 10,
-        'total_tokens': 18,
-        'input_token_details': {'audio': 0, 'cache_read': 0},
-        'output_token_details': {'audio': 0, 'reasoning': 0}},
-        'claude-3-5-haiku-20241022': {'input_tokens': 8,
-        'output_tokens': 21,
-        'total_tokens': 29,
-        'input_token_details': {'cache_read': 0, 'cache_creation': 0}
-    }
-}
-```
-</Tab>
+        with get_usage_metadata_callback() as cb:
+            llm_1.invoke("Hello")
+            llm_2.invoke("Hello")
+            print(cb.usage_metadata)
+        ```
+        ```
+        {
+            'gpt-4o-mini-2024-07-18': {
+                'input_tokens': 8,
+                'output_tokens': 10,
+                'total_tokens': 18,
+                'input_token_details': {'audio': 0, 'cache_read': 0},
+                'output_token_details': {'audio': 0, 'reasoning': 0}},
+                'claude-3-5-haiku-20241022': {'input_tokens': 8,
+                'output_tokens': 21,
+                'total_tokens': 29,
+                'input_token_details': {'cache_read': 0, 'cache_creation': 0}
+            }
+        }
+        ```
+    </Tab>
 </Tabs>
 :::
 
 ### Invocation config
 
 :::python
-When invoking a model, you can pass additional configuration through the `config` parameter using a @[`RunnableConfig`][RunnableConfig] dictionary. This provides run-time control over execution behavior, callbacks, and metadata tracking.
+When invoking a model, you can pass additional configuration through the
+`config` parameter using a @[`RunnableConfig`][RunnableConfig] dictionary. This
+provides run-time control over execution behavior, callbacks, and metadata
+tracking.
 :::
 
 :::js
-When invoking a model, you can pass additional configuration through the `config` parameter using a @[`RunnableConfig`][RunnableConfig] object. This provides run-time control over execution behavior, callbacks, and metadata tracking.
+When invoking a model, you can pass additional configuration through the
+`config` parameter using a @[`RunnableConfig`][RunnableConfig] object. This
+provides run-time control over execution behavior, callbacks, and metadata
+tracking.
 :::
 
 Common configuration options include:
@@ -1857,30 +1900,36 @@ const response = await model.invoke(
 <Accordion title="Key configuration attributes">
     <ParamField body="run_name" type="string">
         Identifies this specific invocation in logs and traces. Not inherited by
+        Identifies this specific invocation in logs and traces. Not inherited by
         sub-calls.
     </ParamField>
 
     <ParamField body="tags" type="string[]">
+        Labels inherited by all sub-calls for filtering and organization in
         Labels inherited by all sub-calls for filtering and organization in
         debugging tools.
     </ParamField>
 
     <ParamField body="metadata" type="object">
         Custom key-value pairs for tracking additional context, inherited by all
+        Custom key-value pairs for tracking additional context, inherited by all
         sub-calls.
     </ParamField>
 
     <ParamField body="max_concurrency" type="number">
+        Controls the maximum number of parallel calls when using `batch()` or
         Controls the maximum number of parallel calls when using `batch()` or
         `batch_as_completed()`.
     </ParamField>
 
     <ParamField body="callbacks" type="array">
         Handlers for monitoring and responding to events during execution. See
+        Handlers for monitoring and responding to events during execution. See
         [callbacks]() for details.
     </ParamField>
 
     <ParamField body="recursion_limit" type="number">
+        Maximum recursion depth for chains to prevent infinite loops in complex
         Maximum recursion depth for chains to prevent infinite loops in complex
         pipelines.
     </ParamField>
@@ -1891,15 +1940,18 @@ const response = await model.invoke(
 <Accordion title="Key configuration attributes">
     <ParamField body="runName" type="string">
         Identifies this specific invocation in logs and traces. Not inherited by
+        Identifies this specific invocation in logs and traces. Not inherited by
         sub-calls.
     </ParamField>
 
     <ParamField body="tags" type="string[]">
         Labels inherited by all sub-calls for filtering and organization in
+        Labels inherited by all sub-calls for filtering and organization in
         debugging tools.
     </ParamField>
 
     <ParamField body="metadata" type="object">
+        Custom key-value pairs for tracking additional context, inherited by all
         Custom key-value pairs for tracking additional context, inherited by all
         sub-calls.
     </ParamField>
@@ -1910,10 +1962,12 @@ const response = await model.invoke(
 
     <ParamField body="callbacks" type="CallbackHandler[]">
         Handlers for monitoring and responding to events during execution. See
+        Handlers for monitoring and responding to events during execution. See
         [callbacks]() for details.
     </ParamField>
 
     <ParamField body="recursion_limit" type="number">
+        Maximum recursion depth for chains to prevent infinite loops in complex
         Maximum recursion depth for chains to prevent infinite loops in complex
         pipelines.
     </ParamField>
@@ -1954,12 +2008,13 @@ configurable_model.invoke(
 <Accordion title="Configurable model with default values">
 We can create a configurable model with default model values, specify which
 parameters are configurable, and add prefixes to configurable params:
+
 ```python
 first_llm = init_chat_model(
-        model="gpt-4.1-mini",
-        temperature=0,
-        configurable_fields=("model", "model_provider", "temperature", "max_tokens"),
-        config_prefix="first",  # Useful when you have a chain with multiple models
+    model="gpt-4.1-mini",
+    temperature=0,
+    configurable_fields=("model", "model_provider", "temperature", "max_tokens"),
+    config_prefix="first",  # Useful when you have a chain with multiple models
 )
 
 first_llm.invoke("what's your name")
@@ -1979,69 +2034,67 @@ first_llm.invoke(
 </Accordion>
 
 <Accordion title="Using a configurable model declaratively">
-We can call declarative operations like `bind_tools`, `with_structured_output`,
-`with_configurable`, etc. on a configurable model and chain a configurable model
-in the same way that we would a regularly instantiated chat model object.
-```python
-from pydantic import BaseModel, Field
+    We can call declarative operations like `bind_tools`, `with_structured_output`,
+    `with_configurable`, etc. on a configurable model and chain a configurable model
+    in the same way that we would a regularly instantiated chat model object.
+    ```python
+    from pydantic import BaseModel, Field
 
 
-class GetWeather(BaseModel):
-    """Get the current weather in a given location"""
-
+    class GetWeather(BaseModel):
+        """Get the current weather in a given location"""
         location: str = Field(..., description="The city and state, e.g. San Francisco, CA")
 
 
-class GetPopulation(BaseModel):
-    """Get the current population in a given location"""
-
+    class GetPopulation(BaseModel):
+        """Get the current population in a given location"""
         location: str = Field(..., description="The city and state, e.g. San Francisco, CA")
 
 
-llm = init_chat_model(temperature=0)
-llm_with_tools = llm.bind_tools([GetWeather, GetPopulation])
+    llm = init_chat_model(temperature=0)
+    llm_with_tools = llm.bind_tools([GetWeather, GetPopulation])
 
-llm_with_tools.invoke(
+    llm_with_tools.invoke(
         "what's bigger in 2024 LA or NYC", config={"configurable": {"model": "gpt-4.1-mini"}}
-).tool_calls
-```
-```
-[
-    {
-        'name': 'GetPopulation',
-        'args': {'location': 'Los Angeles, CA'},
-        'id': 'call_Ga9m8FAArIyEjItHmztPYA22',
-        'type': 'tool_call'
-    },
-    {
-        'name': 'GetPopulation',
-        'args': {'location': 'New York, NY'},
-        'id': 'call_jh2dEvBaAHRaw5JUDthOs7rt',
-        'type': 'tool_call'
-    }
-]
-```
-```python
-llm_with_tools.invoke(
-    "what's bigger in 2024 LA or NYC",
-        config={"configurable": {"model": "claude-3-5-sonnet-latest"}},
-).tool_calls
-```
-```
-[
-    {
-        'name': 'GetPopulation',
-        'args': {'location': 'Los Angeles, CA'},
-        'id': 'toolu_01JMufPf4F4t2zLj7miFeqXp',
-        'type': 'tool_call'
-    },
-    {
-        'name': 'GetPopulation',
-        'args': {'location': 'New York City, NY'},
-        'id': 'toolu_01RQBHcE8kEEbYTuuS8WqY1u',
-        'type': 'tool_call'
-    }
-]
-```
+    ).tool_calls
+    ```
+    ```json
+    [
+        {
+            'name': 'GetPopulation',
+            'args': {'location': 'Los Angeles, CA'},
+            'id': 'call_Ga9m8FAArIyEjItHmztPYA22',
+            'type': 'tool_call'
+        },
+        {
+            'name': 'GetPopulation',
+            'args': {'location': 'New York, NY'},
+            'id': 'call_jh2dEvBaAHRaw5JUDthOs7rt',
+            'type': 'tool_call'
+        }
+    ]
+    ```
+    ```python
+    llm_with_tools.invoke(
+        "what's bigger in 2024 LA or NYC",
+            config={"configurable": {"model": "claude-3-5-sonnet-latest"}},
+    ).tool_calls
+    ```
+    ```json
+    [
+        {
+            'name': 'GetPopulation',
+            'args': {'location': 'Los Angeles, CA'},
+            'id': 'toolu_01JMufPf4F4t2zLj7miFeqXp',
+            'type': 'tool_call'
+        },
+        {
+            'name': 'GetPopulation',
+            'args': {'location': 'New York City, NY'},
+            'id': 'toolu_01RQBHcE8kEEbYTuuS8WqY1u',
+            'type': 'tool_call'
+        }
+    ]
+    ```
 </Accordion>
 :::
