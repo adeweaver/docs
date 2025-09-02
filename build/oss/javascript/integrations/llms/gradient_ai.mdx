@@ -1,0 +1,55 @@
+---
+title: Gradient AI
+---
+
+LangChain.js supports integration with Gradient AI. Check out [Gradient AI](https://docs.gradient.ai/docs) for a list of available models.
+
+## Setup
+
+You'll need to install the official Gradient Node SDK as a peer dependency:
+
+```bash npm
+npm i @gradientai/nodejs-sdk
+```
+You will need to set the following environment variables for using the Gradient AI API.
+
+1. `GRADIENT_ACCESS_TOKEN`
+2. `GRADIENT_WORKSPACE_ID`
+
+Alternatively, these can be set during the GradientAI Class instantiation as `gradientAccessKey` and `workspaceId` respectively.
+For example:
+
+```typescript
+const model = new GradientLLM({
+  gradientAccessKey: "My secret Access Token"
+  workspaceId: "My secret workspace id"
+});
+```
+## Usage
+
+import IntegrationInstallTooltip from '/snippets/javascript-integrations/integration-install-tooltip.mdx';
+
+<IntegrationInstallTooltip/>
+
+```bash npm
+npm install @langchain/community @langchain/core
+```
+
+import GradientAiBase from "/snippets/javascript-integrations/examples/llms/gradient_ai-base.mdx";
+
+import GradientAiAdapter from "/snippets/javascript-integrations/examples/llms/gradient_ai-adapter.mdx";
+
+### Using Gradient's Base Models
+
+<GradientAiBase />
+
+### Using your own fine-tuned Adapters
+
+The use your own custom adapter simply set `adapterId` during setup.
+
+<GradientAiAdapter />
+
+## Related
+
+- LLM [conceptual guide](/oss/javascript/concepts/text_llms)
+- LLM [how-to guides](/oss/javascript/how-to/#llms)
