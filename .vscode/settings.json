@@ -85,6 +85,12 @@
 
   // Disable format on save to prevent unwanted line breaks
   "editor.formatOnSave": false,
+  "[markdown]": {
+    "editor.formatOnSave": false
+  },
+  "[mdx]": {
+    "editor.formatOnSave": false
+  },
 
   // File associations
   "files.associations": {
