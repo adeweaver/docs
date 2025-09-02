@@ -222,7 +222,7 @@ experiment_results = client.evaluate(
 :::js
 ```typescript
 import { Client } from "langsmith";
-import { createAgent } from "@langchain/langgraph/prebuilt";
+import { createAgent } from "langchain";
 import { createTrajectoryMatchEvaluator } from "agentevals/trajectory/match";
 
 const client = new Client();
