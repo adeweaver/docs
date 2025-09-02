@@ -1,0 +1,96 @@
+---
+title: Migrate LangChain to v1.0.0
+---
+
+import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
+
+<AlphaCallout />
+
+## Overview
+
+LangChain v1.0.0 introduces:
+- Standardized content blocks for consistent LLM I/O
+
+## Breaking Changes
+
+- Upgrade to Python 3.10 or later, as v1.0.0 does not support Python 3.9 or earlier.
+
+
+
+## Getting Help
+
+- **Community**: Visit the [LangChain Forum](https://forum.langchain.com)
+- **Issues**: Report problems on [GitHub](https://github.com/langchain-ai/langchain/issues)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Migration guide: v0 to v1
+
+<AccordionGroup>
+TODO: tool calls changes?
+
+<Accordion title="Text content handling">
+```python
+# Before (v0)
+if isinstance(response.content, str):
+    text = response.content
+elif isinstance(response.content, list):
+    text = response.content[0] if response.content else ""
+
+# After (v1)
+
+# Option 1: Use .text property
+text = response.text
+
+# Option 2: Extract from blocks
+text_blocks = [
+    b for b in response.content_blocks 
+    if b["type"] == "text"
+]
+text = text_blocks[0]["text"] if text_blocks else ""
+```
+</Accordion>
+
+<Accordion title="Multimodal content">
+```python
+# Before (v0)
+content = [
+    "Analyze this:",
+    {
+        "type": "image",
+        "source_type": "url",
+        "url": "https://example.com/image.png"
+    }
+]
+
+# After (v1)
+from langchain_core.messages.content import (
+    create_text_block,
+    create_image_block
+)
+
+content_blocks = [
+    {"type": "text", "text": "Analyze this:"},
+    {"type": "image", "url": "https://example.com/image.png"}
+]
+
+# Or using factories
+content_blocks = [
+    create_text_block("Analyze this:"),
+    create_image_block(url="https://example.com/image.png")
+]
+```
+</Accordion>
+</AccordionGroup>
