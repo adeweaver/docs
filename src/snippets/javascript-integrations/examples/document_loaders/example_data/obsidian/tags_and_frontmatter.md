@@ -33,4 +33,4 @@ notdataview5: this is not a field
 
 # Text content
 
-<https://example.com/blog/#not-a-tag>
+[example.com/blog/#not-a-tag](https://example.com/blog/#not-a-tag)

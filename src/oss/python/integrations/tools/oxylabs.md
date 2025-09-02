@@ -145,6 +145,6 @@ for result in response_results:
 
 ## API reference
 
-More information about this integration package can be found here: <https://github.com/oxylabs/langchain-oxylabs>
+More information about this integration package can be found here: [github.com/oxylabs/langchain-oxylabs](https://github.com/oxylabs/langchain-oxylabs)
 
-Oxylabs Web Scraper API documentation: <https://developers.oxylabs.io/scraper-apis/web-scraper-api>
+Oxylabs Web Scraper API documentation: [developers.oxylabs.io/scraper-apis/web-scraper-api](https://developers.oxylabs.io/scraper-apis/web-scraper-api)

@@ -164,4 +164,4 @@ chain.invoke(
 
 ## API reference
 
-For detailed documentation of all `NVIDIA` features and configurations head to the API reference: <https://python.langchain.com/api_reference/nvidia_ai_endpoints/llms/langchain_nvidia_ai_endpoints.llms.NVIDIA.html>
+For detailed documentation of all `NVIDIA` features and configurations head to the API reference: [python.langchain.com/api_reference/nvidia_ai_endpoints/llms/langchain_nvidia_ai_endpoints.llms.NVIDIA.html](https://python.langchain.com/api_reference/nvidia_ai_endpoints/llms/langchain_nvidia_ai_endpoints.llms.NVIDIA.html)

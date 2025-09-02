@@ -45,7 +45,7 @@ documents
 
 ## Example 2
 
-The input file can also be a public URL path. E.g., <https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/rest-api/layout.png>.
+The input file can also be a public URL path. E.g., [raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/rest-api/layout.png](https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/rest-api/layout.png).
 
 ```python
 url_path = "<url>"
@@ -91,7 +91,7 @@ for document in documents:
 
 ## Example 4
 
-You can also specify `analysis_feature=["ocrHighResolution"]` to enable add-on capabilities. For more information, see: <https://aka.ms/azsdk/python/documentintelligence/analysisfeature>.
+You can also specify `analysis_feature=["ocrHighResolution"]` to enable add-on capabilities. For more information, see: [aka.ms/azsdk/python/documentintelligence/analysisfeature](https://aka.ms/azsdk/python/documentintelligence/analysisfeature).
 
 ```python
 from langchain_community.document_loaders import AzureAIDocumentIntelligenceLoader

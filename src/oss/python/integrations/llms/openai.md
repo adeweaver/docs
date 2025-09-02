@@ -26,7 +26,7 @@ To access OpenAI models you'll need to create an OpenAI account, get an API key,
 
 ### Credentials
 
-Head to <https://platform.openai.com> to sign up to OpenAI and generate an API key. Once you've done this set the OPENAI_API_KEY environment variable:
+Head to [platform.openai.com](https://platform.openai.com) to sign up to OpenAI and generate an API key. Once you've done this set the OPENAI_API_KEY environment variable:
 
 ```python
 import getpass
@@ -118,4 +118,4 @@ openai = OpenAI(
 
 ## API reference
 
-For detailed documentation of all `OpenAI` llm features and configurations head to the API reference: <https://python.langchain.com/api_reference/openai/llms/langchain_openai.llms.base.OpenAI.html>
+For detailed documentation of all `OpenAI` llm features and configurations head to the API reference: [python.langchain.com/api_reference/openai/llms/langchain_openai.llms.base.OpenAI.html](https://python.langchain.com/api_reference/openai/llms/langchain_openai.llms.base.OpenAI.html)

@@ -197,4 +197,4 @@ for vector in two_vectors:
 
 ## API Reference
 
-For detailed documentation of all PredictionGuardEmbeddings features and configurations check out the API reference: <https://python.langchain.com/api_reference/community/embeddings/langchain_community.embeddings.predictionguard.PredictionGuardEmbeddings.html>
+For detailed documentation of all PredictionGuardEmbeddings features and configurations check out the API reference: [python.langchain.com/api_reference/community/embeddings/langchain_community.embeddings.predictionguard.PredictionGuardEmbeddings.html](https://python.langchain.com/api_reference/community/embeddings/langchain_community.embeddings.predictionguard.PredictionGuardEmbeddings.html)

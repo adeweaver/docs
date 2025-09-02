@@ -313,4 +313,4 @@ For guides on how to use this vector store for retrieval-augmented generation (R
 
 ## API reference
 
-For detailed documentation of all `MongoDBAtlasVectorSearch` features and configurations head to the API reference: <https://python.langchain.com/api_reference/mongodb/index.html>
+For detailed documentation of all `MongoDBAtlasVectorSearch` features and configurations head to the API reference: [python.langchain.com/api_reference/mongodb/index.html](https://python.langchain.com/api_reference/mongodb/index.html)

@@ -16,7 +16,7 @@ We will need to install the oci sdk
 ```
 
 ### OCI Generative AI API endpoint
-<https://inference.generativeai.us-chicago-1.oci.oraclecloud.com>
+[inference.generativeai.us-chicago-1.oci.oraclecloud.com](https://inference.generativeai.us-chicago-1.oci.oraclecloud.com)
 
 ## Authentication
 

@@ -117,4 +117,4 @@ chain.invoke({"topic": "bears"})
 
 ## API reference
 
-For detailed documentation of all `Cohere` llm features and configurations head to the API reference: <https://python.langchain.com/api_reference/community/llms/langchain_community.llms.cohere.Cohere.html>
+For detailed documentation of all `Cohere` llm features and configurations head to the API reference: [python.langchain.com/api_reference/community/llms/langchain_community.llms.cohere.Cohere.html](https://python.langchain.com/api_reference/community/llms/langchain_community.llms.cohere.Cohere.html)

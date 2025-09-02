@@ -110,4 +110,4 @@ for step in agent.stream(
 
 ## API reference
 
-For detailed documentation of all Valyu Context API features and configurations head to the API reference: <https://docs.valyu.network/overview>
+For detailed documentation of all Valyu Context API features and configurations head to the API reference: [docs.valyu.network/overview](https://docs.valyu.network/overview)

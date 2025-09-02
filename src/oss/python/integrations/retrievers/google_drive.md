@@ -22,8 +22,8 @@ By default, If you use a `folder_id`, all the files inside this folder can be re
 
 You can obtain your folder and document id from the URL:
 
-* Folder: <https://drive.google.com/drive/u/0/folders/1yucgL9WGgWZdM1TOuKkeghlPizuzMYb5> -> folder id is `"1yucgL9WGgWZdM1TOuKkeghlPizuzMYb5"`
-* Document: <https://docs.google.com/document/d/1bfaMQ18_i56204VaQDVeAFpqEijJTgvurupdEDiaUQw/edit> -> document id is `"1bfaMQ18_i56204VaQDVeAFpqEijJTgvurupdEDiaUQw"`
+* Folder: [drive.google.com/drive/u/0/folders/1yucgL9WGgWZdM1TOuKkeghlPizuzMYb5](https://drive.google.com/drive/u/0/folders/1yucgL9WGgWZdM1TOuKkeghlPizuzMYb5) -> folder id is `"1yucgL9WGgWZdM1TOuKkeghlPizuzMYb5"`
+* Document: [docs.google.com/document/d/1bfaMQ18_i56204VaQDVeAFpqEijJTgvurupdEDiaUQw/edit](https://docs.google.com/document/d/1bfaMQ18_i56204VaQDVeAFpqEijJTgvurupdEDiaUQw/edit) -> document id is `"1bfaMQ18_i56204VaQDVeAFpqEijJTgvurupdEDiaUQw"`
 
 The special value `root` is for your personal home.
 

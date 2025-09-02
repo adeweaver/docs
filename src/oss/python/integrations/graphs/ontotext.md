@@ -83,7 +83,7 @@ jupyter notebook
 
 In order for the LLM to be able to generate SPARQL, it needs to know the knowledge graph schema (the ontology). It can be provided using one of two parameters on the `OntotextGraphDBGraph` class:
 
-* `query_ontology`: a `CONSTRUCT` query that is executed on the SPARQL endpoint and returns the KG schema statements. We recommend that you store the ontology in its own named graph, which will make it easier to get only the relevant statements (as the example below). `DESCRIBE` queries are not supported, because `DESCRIBE` returns the Symmetric Concise Bounded Description (SCBD), i.e. also the incoming class links. In case of large graphs with a million of instances, this is not efficient. Check <https://github.com/eclipse-rdf4j/rdf4j/issues/4857>
+* `query_ontology`: a `CONSTRUCT` query that is executed on the SPARQL endpoint and returns the KG schema statements. We recommend that you store the ontology in its own named graph, which will make it easier to get only the relevant statements (as the example below). `DESCRIBE` queries are not supported, because `DESCRIBE` returns the Symmetric Concise Bounded Description (SCBD), i.e. also the incoming class links. In case of large graphs with a million of instances, this is not efficient. Check [github.com/eclipse-rdf4j/rdf4j/issues/4857](https://github.com/eclipse-rdf4j/rdf4j/issues/4857)
 * `local_file`: a local RDF ontology file. Supported RDF formats are `Turtle`, `RDF/XML`, `JSON-LD`, `N-Triples`, `Notation-3`, `Trig`, `Trix`, `N-Quads`.
 
 In either case, the ontology dump should:
@@ -98,7 +98,7 @@ from langchain_community.graphs import OntotextGraphDBGraph
 
 graph = OntotextGraphDBGraph(
     query_endpoint="http://localhost:7200/repositories/langchain",
-    query_ontology="CONSTRUCT {?s ?p ?o} FROM <https://swapi.co/ontology/> WHERE {?s ?p ?o}",
+    query_ontology="CONSTRUCT {?s ?p ?o} FROM [swapi.co/ontology/](https://swapi.co/ontology/) WHERE {?s ?p ?o}",
 )
 ```
 
@@ -116,21 +116,21 @@ Either way, the ontology (schema) is fed to the LLM as `Turtle` since `Turtle` w
 The Star Wars ontology is a bit unusual in that it includes a lot of specific triples about classes, e.g. that the species `:Aleena` live on `<planet/38>`, they are a subclass of `:Reptile`, have certain typical characteristics (average height, average lifespan, skinColor), and specific individuals (characters) are representatives of that class:
 
 ```
-@prefix : <https://swapi.co/vocabulary/> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix : [swapi.co/vocabulary/](https://swapi.co/vocabulary/) .
+@prefix owl: [www.w3.org/2002/07/owl#](http://www.w3.org/2002/07/owl#) .
+@prefix rdfs: [www.w3.org/2000/01/rdf-schema#](http://www.w3.org/2000/01/rdf-schema#) .
+@prefix xsd: [www.w3.org/2001/XMLSchema#](http://www.w3.org/2001/XMLSchema#) .
 
 :Aleena a owl:Class, :Species ;
     rdfs:label "Aleena" ;
-    rdfs:isDefinedBy <https://swapi.co/ontology/> ;
+    rdfs:isDefinedBy [swapi.co/ontology/](https://swapi.co/ontology/) ;
     rdfs:subClassOf :Reptile, :Sentient ;
     :averageHeight 80.0 ;
     :averageLifespan "79" ;
-    :character <https://swapi.co/resource/aleena/47> ;
-    :film <https://swapi.co/resource/film/4> ;
+    :character [swapi.co/resource/aleena/47](https://swapi.co/resource/aleena/47) ;
+    :film [swapi.co/resource/film/4](https://swapi.co/resource/film/4) ;
     :language "Aleena" ;
-    :planet <https://swapi.co/resource/planet/38> ;
+    :planet [swapi.co/resource/planet/38](https://swapi.co/resource/planet/38) ;
     :skinColor "blue", "gray" .
 
     ...
@@ -190,8 +190,8 @@ chain.invoke({chain.input_key: "What is the climate on Tatooine?"})[chain.output
 
 > Entering new OntotextGraphDBQAChain chain...
 Generated SPARQL:
-PREFIX : <https://swapi.co/vocabulary/>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX : [swapi.co/vocabulary/](https://swapi.co/vocabulary/)
+PREFIX rdfs: [www.w3.org/2000/01/rdf-schema#](http://www.w3.org/2000/01/rdf-schema#)
 
 SELECT ?climate
 WHERE {
@@ -217,10 +217,10 @@ chain.invoke({chain.input_key: "What is the climate on Luke Skywalker's home pla
 ```output
 > Entering new OntotextGraphDBQAChain chain...
 Generated SPARQL:
-PREFIX : <https://swapi.co/vocabulary/>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : [swapi.co/vocabulary/](https://swapi.co/vocabulary/)
+PREFIX owl: [www.w3.org/2002/07/owl#](http://www.w3.org/2002/07/owl#)
+PREFIX rdfs: [www.w3.org/2000/01/rdf-schema#](http://www.w3.org/2000/01/rdf-schema#)
+PREFIX xsd: [www.w3.org/2001/XMLSchema#](http://www.w3.org/2001/XMLSchema#)
 
 SELECT ?climate
 WHERE {
@@ -249,8 +249,8 @@ chain.invoke(
 ```output
 > Entering new OntotextGraphDBQAChain chain...
 Generated SPARQL:
-PREFIX : <https://swapi.co/vocabulary/>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : [swapi.co/vocabulary/](https://swapi.co/vocabulary/)
+PREFIX xsd: [www.w3.org/2001/XMLSchema#](http://www.w3.org/2001/XMLSchema#)
 
 SELECT (AVG(?boxOffice) AS ?averageBoxOfficeRevenue)
 WHERE {

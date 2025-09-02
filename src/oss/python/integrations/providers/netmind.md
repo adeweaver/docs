@@ -14,7 +14,7 @@ pip install langchain-netmind
 ```
 
 Get an Netmind api key and set it as an environment variable (`NETMIND_API_KEY`).
-Head to <https://www.netmind.ai/> to sign up to Netmind and generate an API key.
+Head to [www.netmind.ai/](https://www.netmind.ai/) to sign up to Netmind and generate an API key.
 
 ## Chat Models
 

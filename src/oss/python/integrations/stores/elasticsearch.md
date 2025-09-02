@@ -127,4 +127,4 @@ When overriding the mapping and the document building, please only make additive
 
 ## API reference
 
-For detailed documentation of all `ElasticsearchEmbeddingsCache` features and configurations, head to the API reference: <https://python.langchain.com/api_reference/elasticsearch/cache/langchain_elasticsearch.cache.ElasticsearchEmbeddingsCache.html>
+For detailed documentation of all `ElasticsearchEmbeddingsCache` features and configurations, head to the API reference: [python.langchain.com/api_reference/elasticsearch/cache/langchain_elasticsearch.cache.ElasticsearchEmbeddingsCache.html](https://python.langchain.com/api_reference/elasticsearch/cache/langchain_elasticsearch.cache.ElasticsearchEmbeddingsCache.html)

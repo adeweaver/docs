@@ -18,7 +18,7 @@ This example demonstrates:
 
 Before starting, ensure you have the following environment variables set:
 
-* OUTLINE_API_KEY: Your API key for authenticating with your Outline instance (<https://www.getoutline.com/developers#section/Authentication>).
+* OUTLINE_API_KEY: Your API key for authenticating with your Outline instance ([www.getoutline.com/developers#section/Authentication](https://www.getoutline.com/developers#section/Authentication)).
 * OUTLINE_INSTANCE_URL: The URL (including protocol) of your Outline instance.
 
 ```python
@@ -69,4 +69,4 @@ loader.lazy_load()
 
 ## API reference
 
-For detailed documentation of all `Outline` features and configurations head to the API reference: <https://www.getoutline.com/developers>
+For detailed documentation of all `Outline` features and configurations head to the API reference: [www.getoutline.com/developers](https://www.getoutline.com/developers)

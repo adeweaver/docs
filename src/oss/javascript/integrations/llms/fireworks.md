@@ -174,4 +174,4 @@ Behind the scenes, Fireworks AI uses the OpenAI SDK and OpenAI compatible API, w
 
 ## API reference
 
-For detailed documentation of all Fireworks features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_community_llms_fireworks.Fireworks.html>
+For detailed documentation of all Fireworks features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_llms_fireworks.Fireworks.html).

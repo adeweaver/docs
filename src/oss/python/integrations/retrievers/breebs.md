@@ -10,7 +10,7 @@ Behind the scenes, Breebs implements several Retrieval Augmented Generation (RAG
 ## List of available Breebs
 
 To get the full list of Breebs, including their key (breeb_key) and description :
-<https://breebs.promptbreeders.com/web/listbreebs>.
+[breebs.promptbreeders.com/web/listbreebs](https://breebs.promptbreeders.com/web/listbreebs).
 Dozens of Breebs have already been created by the community and are freely available for use. They cover a wide range of expertise, from organic chemistry to mythology, as well as tips on seduction and decentralized finance.
 
 ## Creating a new Breeb

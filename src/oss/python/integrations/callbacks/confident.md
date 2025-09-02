@@ -25,7 +25,7 @@ DeepEval also offers:
 
 To get the DeepEval API credentials, follow the next steps:
 
-1. Go to <https://app.confident-ai.com>
+1. Go to [app.confident-ai.com](https://app.confident-ai.com)
 2. Click on "Organization"
 3. Copy the API Key.
 

@@ -35,7 +35,7 @@ To run, you should have an [OpenSearch Vector Search Edition](https://opensearch
 
 Read the [help document](https://www.alibabacloud.com/help/en/opensearch/latest/vector-search) to quickly familiarize and configure OpenSearch Vector Search Edition instance.
 
-If you encounter any problems during use, please feel free to contact <xingshaomin.xsm@alibaba-inc.com>, and we will do our best to provide you with assistance and support.
+If you encounter any problems during use, please feel free to contact [xingshaomin.xsm@alibaba-inc.com](mailto:xingshaomin.xsm@alibaba-inc.com), and we will do our best to provide you with assistance and support.
 
 After the instance is up and running, follow these steps to split documents, get embeddings, connect to the alibaba cloud opensearch instance, index documents, and perform vector retrieval.
 
@@ -174,4 +174,4 @@ docs = opensearch.similarity_search(query, filter=metadata)
 print(docs[0].page_content)
 ```
 
-If you encounter any problems during use, please feel free to contact <xingshaomin.xsm@alibaba-inc.com>, and we will do our best to provide you with assistance and support.
+If you encounter any problems during use, please feel free to contact [xingshaomin.xsm@alibaba-inc.com](mailto:xingshaomin.xsm@alibaba-inc.com), and we will do our best to provide you with assistance and support.

@@ -18,7 +18,7 @@ You need to install two libraries to use this parser:
 %pip install --upgrade --quiet  langchain-google-community[docai]
 ```
 
-First, you need to set up a Google Cloud Storage (GCS) bucket and create your own Optical Character Recognition (OCR) processor as described here: <https://cloud.google.com/document-ai/docs/create-processor>
+First, you need to set up a Google Cloud Storage (GCS) bucket and create your own Optical Character Recognition (OCR) processor as described here: [cloud.google.com/document-ai/docs/create-processor](https://cloud.google.com/document-ai/docs/create-processor)
 
 The `GCS_OUTPUT_PATH` should be a path to a folder on GCS (starting with `gs://`) and a `PROCESSOR_NAME` should look like `projects/PROJECT_NUMBER/locations/LOCATION/processors/PROCESSOR_ID` or `projects/PROJECT_NUMBER/locations/LOCATION/processors/PROCESSOR_ID/processorVersions/PROCESSOR_VERSION_ID`. You can get it either programmatically or copy from the `Prediction endpoint` section of the `Processor details` tab in the Google Cloud Console.
 

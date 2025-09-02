@@ -84,4 +84,4 @@ kv_store.mget(
 
 ## API reference
 
-For detailed documentation of all `RedisStore` features and configurations, head to the API reference: <https://python.langchain.com/api_reference/community/storage/langchain_community.storage.redis.RedisStore.html>
+For detailed documentation of all `RedisStore` features and configurations, head to the API reference: [python.langchain.com/api_reference/community/storage/langchain_community.storage.redis.RedisStore.html](https://python.langchain.com/api_reference/community/storage/langchain_community.storage.redis.RedisStore.html)

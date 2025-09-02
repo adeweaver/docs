@@ -169,4 +169,4 @@ For guides on how to use LangChain tools in agents, see the [LangGraph.js](https
 
 ## API reference
 
-For detailed documentation of all `SerpAPI` features and configurations head to the API reference: <https://api.js.langchain.com/classes/_langchain_community.tools_serpapi.SerpAPI.html>
+For detailed documentation of all `SerpAPI` features and configurations head to the [API reference](https://api.js.langchain.com/classes/_langchain_community.tools_serpapi.SerpAPI.html).

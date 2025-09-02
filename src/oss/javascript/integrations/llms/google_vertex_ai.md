@@ -169,4 +169,4 @@ Both versions are correct and commonly used.
 
 ## API reference
 
-For detailed documentation of all VertexAI features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_google_vertexai.VertexAI.html>
+For detailed documentation of all VertexAI features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_google_vertexai.VertexAI.html).

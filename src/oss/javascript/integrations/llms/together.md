@@ -147,4 +147,4 @@ I hope this helps you express your love for programming in different languages!
 
 ## API reference
 
-For detailed documentation of all `TogetherAi` features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_community_llms_togetherai.TogetherAI.html>
+For detailed documentation of all `TogetherAi` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_llms_togetherai.TogetherAI.html).

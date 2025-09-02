@@ -147,4 +147,4 @@ chain.invoke(
 
 ## API reference
 
-For detailed documentation of all `SambaNovaCloud` llm features and configurations head to the API reference: <https://python.langchain.com/api_reference/community/llms/langchain_community.llms.sambanova.SambaNovaCloud.html>
+For detailed documentation of all `SambaNovaCloud` llm features and configurations head to the API reference: [python.langchain.com/api_reference/community/llms/langchain_community.llms.sambanova.SambaNovaCloud.html](https://python.langchain.com/api_reference/community/llms/langchain_community.llms.sambanova.SambaNovaCloud.html)

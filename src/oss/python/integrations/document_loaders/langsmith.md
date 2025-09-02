@@ -24,7 +24,7 @@ To access the LangSmith document loader you'll need to install `langchain-core`,
 
 ### Credentials
 
-Sign up at <https://langsmith.com> and generate an API key. Once you've done this set the LANGSMITH_API_KEY environment variable:
+Sign up at [langsmith.com](https://langsmith.com) and generate an API key. Once you've done this set the LANGSMITH_API_KEY environment variable:
 
 ```python
 import getpass
@@ -144,4 +144,4 @@ len(page)
 
 ## API reference
 
-For detailed documentation of all LangSmithLoader features and configurations head to the API reference: <https://python.langchain.com/api_reference/core/document_loaders/langchain_core.document_loaders.langsmith.LangSmithLoader.html>
+For detailed documentation of all LangSmithLoader features and configurations head to the API reference: [python.langchain.com/api_reference/core/document_loaders/langchain_core.document_loaders.langsmith.LangSmithLoader.html](https://python.langchain.com/api_reference/core/document_loaders/langchain_core.document_loaders.langsmith.LangSmithLoader.html)

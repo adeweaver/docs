@@ -4,7 +4,7 @@ title: Google Finance
 
 This notebook goes over how to use the Google Finance Tool to get information from the Google Finance page.
 
-To get an SerpApi key key, sign up at: <https://serpapi.com/users/sign_up>.
+To get an SerpApi key key, sign up at: [serpapi.com/users/sign_up](https://serpapi.com/users/sign_up).
 
 To use the tool with Langchain install following packages
 
@@ -49,7 +49,7 @@ In order to create an agent that uses the Google Finance tool install Langgraph
 Note: you may need to restart the kernel to use updated packages.
 ```
 
-and use the `create_agent` functionality to initialize a ReAct agent. You will also need to set up your OPEN_API_KEY (visit <https://platform.openai.com>) in order to access OpenAI's chat models.
+and use the `create_agent` functionality to initialize a ReAct agent. You will also need to set up your OPEN_API_KEY (visit [platform.openai.com](https://platform.openai.com)) in order to access OpenAI's chat models.
 
 ```python
 import os

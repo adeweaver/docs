@@ -4,7 +4,7 @@ title: Google Jobs
 
 This notebook goes over how to use the Google Jobs Tool to fetch current Job postings.
 
-First, you need to sign up for an `SerpApi key` key at: <https://serpapi.com/users/sign_up> and get your api key here: <https://serpapi.com/manage-api-key>.
+First, you need to sign up for an `SerpApi key` key at: [serpapi.com/users/sign_up](https://serpapi.com/users/sign_up) and get your api key here: [serpapi.com/manage-api-key](https://serpapi.com/manage-api-key).
 
 Then you must install `google-search-results` with the command:
     `pip install google-search-results`
@@ -58,7 +58,7 @@ In order to create an agent that uses the Google Jobs tool install Langgraph
 Note: you may need to restart the kernel to use updated packages.
 ```
 
-and use the `create_agent` functionality to initialize a ReAct agent. You will also need to set up your OPEN_API_KEY (visit <https://platform.openai.com>) in order to access OpenAI's chat models.
+and use the `create_agent` functionality to initialize a ReAct agent. You will also need to set up your OPEN_API_KEY (visit [platform.openai.com](https://platform.openai.com)) in order to access OpenAI's chat models.
 
 ```python
 import os

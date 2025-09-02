@@ -141,4 +141,4 @@ For `params` you can pass any of the params according to the [Firecrawl document
 
 ## API reference
 
-For detailed documentation of all FireCrawlLoader features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_community_document_loaders_web_firecrawl.FireCrawlLoader.html>
+For detailed documentation of all FireCrawlLoader features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_firecrawl.FireCrawlLoader.html).

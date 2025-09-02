@@ -15,7 +15,7 @@ This example goes over how to use LangChain to interact with Together AI models.
 ## Environment
 
 To use Together AI, you'll need an API key which you can find here:
-<https://api.together.ai/settings/api-keys>. This can be passed in as an init param
+[api.together.ai/settings/api-keys](https://api.together.ai/settings/api-keys). This can be passed in as an init param
 ``together_api_key`` or set as environment variable ``TOGETHER_API_KEY``.
 
 ## Example

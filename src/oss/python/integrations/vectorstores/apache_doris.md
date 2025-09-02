@@ -44,7 +44,7 @@ update_vectordb = False
 
 Load all markdown files under the `docs` directory
 
-for Apache Doris documents, you can clone repo from <https://github.com/apache/doris>, and there is `docs` directory in it.
+for Apache Doris documents, you can clone repo from [github.com/apache/doris](https://github.com/apache/doris), and there is `docs` directory in it.
 
 ```python
 loader = DirectoryLoader(

@@ -268,4 +268,4 @@ for chunk in llm.stream("what is 25x5"):
 
 ## API reference
 
-For detailed documentation of all ChatLlamaCpp features and configurations, head to the API reference: <https://python.langchain.com/api_reference/community/chat_models/langchain_community.chat_models.llamacpp.ChatLlamaCpp.html>
+For detailed documentation of all ChatLlamaCpp features and configurations, head to the API reference: [python.langchain.com/api_reference/community/chat_models/langchain_community.chat_models.llamacpp.ChatLlamaCpp.html](https://python.langchain.com/api_reference/community/chat_models/langchain_community.chat_models.llamacpp.ChatLlamaCpp.html)

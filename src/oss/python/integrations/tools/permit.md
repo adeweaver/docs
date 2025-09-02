@@ -189,4 +189,4 @@ Just run `python demo_jwt_validation.py` or `python demo_permissions_check.py` (
 
 ## API reference
 
-For detailed documentation of all Permit features and configurations head to the API reference: <https://docs.permit.io/>
+For detailed documentation of all Permit features and configurations head to the API reference: [docs.permit.io/](https://docs.permit.io/)

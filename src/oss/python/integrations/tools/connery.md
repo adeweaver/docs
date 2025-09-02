@@ -15,8 +15,8 @@ Furthermore, Connery, supported by our community, provides a diverse collection 
 
 Learn more about Connery:
 
-- GitHub: <https://github.com/connery-io/connery>
-- Documentation: <https://docs.connery.io>
+- GitHub: [github.com/connery-io/connery](https://github.com/connery-io/connery)
+- Documentation: [docs.connery.io](https://docs.connery.io)
 
 ## Setup
 
@@ -98,7 +98,7 @@ Invoking: `CA72DFB0AB4DF6C830B43E14B0782F70` with `{'publicWebpageUrl': 'http://
 Invoking: `CABC80BB79C15067CA983495324AE709` with `{'recipient': 'test@example.com', 'subject': 'Summary of the webpage', 'body': 'Here is a short summary of the webpage http://www.paulgraham.com/vb.html:\n\nThe author reflects on the concept of life being short and how having children made them realize the true brevity of life. They discuss how time can be converted into discrete quantities and how limited certain experiences are. The author emphasizes the importance of prioritizing and eliminating unnecessary things in life, as well as actively pursuing meaningful experiences. They also discuss the negative impact of getting caught up in online arguments and the need to be aware of how time is being spent. The author suggests pruning unnecessary activities, not waiting to do things that matter, and savoring the time one has.\n\nYou can find the full webpage [here](http://www.paulgraham.com/vb.html).'}`
 
 
-{'messageId': '<2f04b00e-122d-c7de-c91e-e78e0c3276d6@gmail.com>'}I have sent the email with the summary of the webpage to test@example.com. Please check your inbox.
+{'messageId': '[2f04b00e-122d-c7de-c91e-e78e0c3276d6@gmail.com](mailto:2f04b00e-122d-c7de-c91e-e78e0c3276d6@gmail.com)'}I have sent the email with the summary of the webpage to test@example.com. Please check your inbox.
 
 > Finished chain.
 I have sent the email with the summary of the webpage to test@example.com. Please check your inbox.
@@ -164,7 +164,7 @@ print(agent_run_result)
 Invoking: `CABC80BB79C15067CA983495324AE709` with `{'recipient': 'test@example.com', 'subject': 'Late for Meeting', 'body': 'Dear Team,\n\nI wanted to inform you that I will be late for the meeting today. I apologize for any inconvenience caused. Please proceed with the meeting without me and I will join as soon as I can.\n\nBest regards,\n[Your Name]'}`
 
 
-{'messageId': '<d34a694d-50e0-3988-25da-e86b4c51d7a7@gmail.com>'}I have sent an email to test@example.com informing them that you will be late for the meeting.
+{'messageId': '[d34a694d-50e0-3988-25da-e86b4c51d7a7@gmail.com](mailto:d34a694d-50e0-3988-25da-e86b4c51d7a7@gmail.com)'}I have sent an email to test@example.com informing them that you will be late for the meeting.
 
 > Finished chain.
 I have sent an email to test@example.com informing them that you will be late for the meeting.
@@ -176,5 +176,5 @@ NOTE: Connery Action is a structured tool, so you can only use it in the agents 
 
 For detailed documentation of all Connery features and configurations head to the API reference:
 
-- Toolkit: <https://python.langchain.com/api_reference/community/agent_toolkits/langchain_community.agent_toolkits.connery.toolkit.ConneryToolkit.html>
-- Tool: <https://python.langchain.com/api_reference/community/tools/langchain_community.tools.connery.service.ConneryService.html>
+- Toolkit: [python.langchain.com/api_reference/community/agent_toolkits/langchain_community.agent_toolkits.connery.toolkit.ConneryToolkit.html](https://python.langchain.com/api_reference/community/agent_toolkits/langchain_community.agent_toolkits.connery.toolkit.ConneryToolkit.html)
+- Tool: [python.langchain.com/api_reference/community/tools/langchain_community.tools.connery.service.ConneryService.html](https://python.langchain.com/api_reference/community/tools/langchain_community.tools.connery.service.ConneryService.html)

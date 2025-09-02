@@ -192,4 +192,4 @@ print(docs[0].metadata)
 
 ## API reference
 
-For detailed documentation of all JSONLoader features and configurations head to the API reference: <https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.json_loader.JSONLoader.html>
+For detailed documentation of all JSONLoader features and configurations head to the API reference: [python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.json_loader.JSONLoader.html](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.json_loader.JSONLoader.html)

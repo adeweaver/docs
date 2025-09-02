@@ -43,7 +43,7 @@ tools
 
 ## MultiOn Setup
 
-Once you have created an account, create an API key at <https://app.multion.ai/>.
+Once you have created an account, create an API key at [app.multion.ai/](https://app.multion.ai/).
 
 Login to establish connection with your extension.
 

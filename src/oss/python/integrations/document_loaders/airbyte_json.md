@@ -19,7 +19,7 @@ Steps:
 
 3) Start Airbyte - `docker compose up`
 
-4) In your browser, just visit <http://localhost:8000>. You will be asked for a username and password. By default, that's username `airbyte` and password `password`.
+4) In your browser, just visit [localhost:8000](http://localhost:8000). You will be asked for a username and password. By default, that's username `airbyte` and password `password`.
 
 5) Setup any source you wish.
 

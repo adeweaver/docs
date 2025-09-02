@@ -245,4 +245,4 @@ console.log(vectors[1].slice(0, 100));
 
 ## API reference
 
-For detailed documentation of all `VertexAIEmbeddings` features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_google_vertexai.GoogleVertexAIEmbeddings.html>
+For detailed documentation of all `VertexAIEmbeddings` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_google_vertexai.GoogleVertexAIEmbeddings.html).

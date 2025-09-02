@@ -219,4 +219,4 @@ const eliminatingExtraSpacesLoader = new WebPDFLoader(new Blob(), {
 
 ## API reference
 
-For detailed documentation of all WebPDFLoader features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_community_document_loaders_web_pdf.WebPDFLoader.html>
+For detailed documentation of all WebPDFLoader features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_pdf.WebPDFLoader.html).

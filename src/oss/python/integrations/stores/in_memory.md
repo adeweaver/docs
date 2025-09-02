@@ -80,4 +80,4 @@ kv_store.mget(
 
 ## API reference
 
-For detailed documentation of all `InMemoryByteStore` features and configurations, head to the API reference: <https://python.langchain.com/api_reference/core/stores/langchain_core.stores.InMemoryByteStore.html>
+For detailed documentation of all `InMemoryByteStore` features and configurations, head to the API reference: [python.langchain.com/api_reference/core/stores/langchain_core.stores.InMemoryByteStore.html](https://python.langchain.com/api_reference/core/stores/langchain_core.stores.InMemoryByteStore.html)

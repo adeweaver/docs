@@ -24,7 +24,7 @@ As an example, we use the [`mlqa/en` dataset](https://www.tensorflow.org/dataset
 
 >`MLQA` (`Multilingual Question Answering Dataset`) is a benchmark dataset for evaluating multilingual question answering performance. The dataset consists of 7 languages: Arabic, German, Spanish, English, Hindi, Vietnamese, Chinese.
 >
->- Homepage: <https://github.com/facebookresearch/MLQA>
+>- Homepage: [github.com/facebookresearch/MLQA](https://github.com/facebookresearch/MLQA)
 >- Source code: `tfds.datasets.mlqa.Builder`
 >- Download size: 72.21 MiB
 

@@ -54,7 +54,7 @@ Access real-time Google search results, including the latest news, weather, trav
     Defaults to "am_01j06ytn18ejftedz6dyhz2b15".
 
     Multiple AI model IDs are available, which can be found at:
-    <https://marketplace.dappier.com/marketplace>
+    [marketplace.dappier.com/marketplace](https://marketplace.dappier.com/marketplace)
 
 ```python
 from langchain_dappier import DappierRealTimeSearchTool

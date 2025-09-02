@@ -2,7 +2,7 @@
 title: JaguarDB Vector Database
 ---
 
->[JaguarDB Vector Database](<http://www.jaguardb.com/windex.html>
+>[JaguarDB Vector Database]([www.jaguardb.com/windex.html](http://www.jaguardb.com/windex.html)
 >
 >1. It is a distributed vector database
 >2. The “ZeroMove” feature of JaguarDB enables instant horizontal scalability

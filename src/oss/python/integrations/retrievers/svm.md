@@ -6,7 +6,7 @@ title: SVM
 
 This notebook goes over how to use a retriever that under the hood uses an `SVM` using `scikit-learn` package.
 
-Largely based on <https://github.com/karpathy/randomfun/blob/master/knn_vs_svm.html>
+Largely based on [github.com/karpathy/randomfun/blob/master/knn_vs_svm.html](https://github.com/karpathy/randomfun/blob/master/knn_vs_svm.html)
 
 ```python
 %pip install --upgrade --quiet  scikit-learn

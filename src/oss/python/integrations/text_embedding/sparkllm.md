@@ -2,9 +2,9 @@
 title: SparkLLM Text Embeddings
 ---
 
-Official Website: <https://www.xfyun.cn/doc/spark/Embedding_new_api.html>
+Official Website: [www.xfyun.cn/doc/spark/Embedding_new_api.html](https://www.xfyun.cn/doc/spark/Embedding_new_api.html)
 
-An API key is required to use this embedding model. You can get one by registering at <https://platform.SparkLLM-ai.com/docs/text-Embedding>.
+An API key is required to use this embedding model. You can get one by registering at [platform.SparkLLM-ai.com/docs/text-Embedding](https://platform.SparkLLM-ai.com/docs/text-Embedding).
 
 SparkLLMTextEmbeddings support 2K token window and preduces vectors with 2560 dimensions.
 

@@ -24,7 +24,7 @@ To access CloudflareWorkersAI models you'll need to create a/an CloudflareWorker
 
 ### Credentials
 
-Head to <https://www.cloudflare.com/developer-platform/products/workers-ai/> to sign up to CloudflareWorkersAI and generate an API key. Once you've done this set the CF_AI_API_KEY environment variable and the CF_ACCOUNT_ID environment variable:
+Head to [www.cloudflare.com/developer-platform/products/workers-ai/](https://www.cloudflare.com/developer-platform/products/workers-ai/) to sign up to CloudflareWorkersAI and generate an API key. Once you've done this set the CF_AI_API_KEY environment variable and the CF_ACCOUNT_ID environment variable:
 
 ```python
 import getpass
@@ -204,5 +204,5 @@ result.tool_calls
 
 ## API reference
 
-<https://developers.cloudflare.com/workers-ai/>
-<https://developers.cloudflare.com/agents/>
+[developers.cloudflare.com/workers-ai/](https://developers.cloudflare.com/workers-ai/)
+[developers.cloudflare.com/agents/](https://developers.cloudflare.com/agents/)

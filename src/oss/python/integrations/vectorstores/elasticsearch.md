@@ -64,7 +64,7 @@ elastic_vector_search = ElasticsearchStore(
 
 To obtain your Elastic Cloud password for the default "elastic" user:
 
-1. Log in to the Elastic Cloud console at <https://cloud.elastic.co>
+1. Log in to the Elastic Cloud console at [cloud.elastic.co](https://cloud.elastic.co)
 2. Go to "Security" > "Users"
 3. Locate the "elastic" user and click "Edit"
 4. Click "Reset password"
@@ -74,7 +74,7 @@ To obtain your Elastic Cloud password for the default "elastic" user:
 
 To obtain an API key:
 
-1. Log in to the Elastic Cloud console at <https://cloud.elastic.co>
+1. Log in to the Elastic Cloud console at [cloud.elastic.co](https://cloud.elastic.co)
 2. Open Kibana and go to Stack Management > API Keys
 3. Click "Create API key"
 4. Enter a name for the API key and click "Create"
@@ -722,4 +722,4 @@ db.client.indices.delete(
 
 ## API reference
 
-For detailed documentation of all `ElasticSearchStore` features and configurations head to the API reference: <https://python.langchain.com/api_reference/elasticsearch/vectorstores/langchain_elasticsearch.vectorstores.ElasticsearchStore.html>
+For detailed documentation of all `ElasticSearchStore` features and configurations head to the API reference: [python.langchain.com/api_reference/elasticsearch/vectorstores/langchain_elasticsearch.vectorstores.ElasticsearchStore.html](https://python.langchain.com/api_reference/elasticsearch/vectorstores/langchain_elasticsearch.vectorstores.ElasticsearchStore.html)

@@ -1074,4 +1074,4 @@ console.log(JSON.stringify(resWithSplits.content, null, 2));
 
 ## API reference
 
-For detailed documentation of all ChatAnthropic features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_anthropic.ChatAnthropic.html>
+For detailed documentation of all ChatAnthropic features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_anthropic.ChatAnthropic.html).

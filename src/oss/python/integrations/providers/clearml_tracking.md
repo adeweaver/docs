@@ -33,9 +33,9 @@ In order to properly keep track of your langchain experiments and their results,
 
 We'll be using quite some APIs in this notebook, here is a list and where to get them:
 
-- ClearML: <https://app.clear.ml/settings/workspace-configuration>
-- OpenAI: <https://platform.openai.com/account/api-keys>
-- SerpAPI (google search): <https://serpapi.com/dashboard>
+- ClearML: [app.clear.ml/settings/workspace-configuration](https://app.clear.ml/settings/workspace-configuration)
+- OpenAI: [platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys)
+- SerpAPI (google search): [serpapi.com/dashboard](https://serpapi.com/dashboard)
 
 ```python
 import os
@@ -308,7 +308,7 @@ clearml_callback.flush_tracker(langchain_asset=llm, name="simple_sequential")
 2023-03-29 14:00:25,948 - clearml.Task - INFO - Completed model upload to https://files.clear.ml/langchain_callback_demo/llm.988bd727b0e94a29a3ac0ee526813545/models/simple_sequential
 ```
 
-At this point you can already go to <https://app.clear.ml> and take a look at the resulting ClearML Task that was created.
+At this point you can already go to [app.clear.ml](https://app.clear.ml) and take a look at the resulting ClearML Task that was created.
 
 Among others, you should see that this notebook is saved along with any git information. The model JSON that contains the used parameters is saved as an artifact, there are also console logs and under the plots section, you'll find tables that represent the flow of the chain.
 

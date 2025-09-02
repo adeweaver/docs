@@ -25,7 +25,7 @@ Specifically, we will:
 
 ## Setup Supabase Database
 
-1. Head over to <https://database.new> to provision your Supabase database.
+1. Head over to [database.new](https://database.new) to provision your Supabase database.
 2. In the studio, jump to the [SQL editor](https://supabase.com/dashboard/project/_/sql/new) and run the following script to enable `pgvector` and setup your database as a vector store:
 
     ```sql

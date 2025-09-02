@@ -26,8 +26,8 @@ Head to [Google Cloud](https://cloud.google.com/free/) to sign up to create an a
 
 For more information, see:
 
-<https://cloud.google.com/docs/authentication/application-default-credentials#GAC>
-<https://googleapis.dev/python/google-auth/latest/reference/google.auth.html#module-google.auth>
+[cloud.google.com/docs/authentication/application-default-credentials#GAC](https://cloud.google.com/docs/authentication/application-default-credentials#GAC)
+[googleapis.dev/python/google-auth/latest/reference/google.auth.html#module-google.auth](https://googleapis.dev/python/google-auth/latest/reference/google.auth.html#module-google.auth)
 
 **OPTIONAL : Authenticate your notebook environment (Colab only)**
 

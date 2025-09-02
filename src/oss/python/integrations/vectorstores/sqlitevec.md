@@ -65,11 +65,11 @@ Not supported yet
 
 ## Usage for retrieval-augmented generation
 
-Refer to the documentation on sqlite-vec at <https://alexgarcia.xyz/sqlite-vec/> for more information on how to use it for retrieval-augmented generation.
+Refer to the documentation on sqlite-vec at [alexgarcia.xyz/sqlite-vec/](https://alexgarcia.xyz/sqlite-vec/) for more information on how to use it for retrieval-augmented generation.
 
 ## API reference
 
-For detailed documentation of all SQLiteVec features and configurations head to the API reference: <https://python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.sqlitevec.SQLiteVec.html>
+For detailed documentation of all SQLiteVec features and configurations head to the API reference: [python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.sqlitevec.SQLiteVec.html](https://python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.sqlitevec.SQLiteVec.html)
 
 ### Other examples
 

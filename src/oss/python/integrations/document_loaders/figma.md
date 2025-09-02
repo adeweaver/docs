@@ -21,11 +21,11 @@ from langchain_openai import ChatOpenAI
 
 The Figma API Requires an access token, node_ids, and a file key.
 
-The file key can be pulled from the URL.  <https://www.figma.com/file/\{filekey\}/sampleFilename>
+The file key can be pulled from the URL.  [www.figma.com/file/\{filekey\}/sampleFilename](https://www.figma.com/file/\{filekey\}/sampleFilename)
 
 Node IDs are also available in the URL. Click on anything and look for the '?node-id=\{node_id\}' param.
 
-Access token instructions are in the Figma help center article: <https://help.figma.com/hc/en-us/articles/8085703771159-Manage-personal-access-tokens>
+Access token instructions are in the Figma help center article: [help.figma.com/hc/en-us/articles/8085703771159-Manage-personal-access-tokens](https://help.figma.com/hc/en-us/articles/8085703771159-Manage-personal-access-tokens)
 
 ```python
 figma_loader = FigmaFileLoader(

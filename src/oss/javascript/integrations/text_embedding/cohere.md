@@ -213,4 +213,4 @@ console.log(vectors[1].slice(0, 100));
 
 ## API reference
 
-For detailed documentation of all CohereEmbeddings features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_cohere.CohereEmbeddings.html>
+For detailed documentation of all CohereEmbeddings features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_cohere.CohereEmbeddings.html).

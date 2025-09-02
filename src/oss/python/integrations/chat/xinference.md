@@ -117,4 +117,4 @@ chain.stream(input={"country": "France"})
 
 ## API reference
 
-For detailed documentation of all ChatXinference features and configurations head to the API reference: <https://github.com/TheSongg/langchain-xinference>
+For detailed documentation of all ChatXinference features and configurations head to the API reference: [github.com/TheSongg/langchain-xinference](https://github.com/TheSongg/langchain-xinference)

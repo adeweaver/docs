@@ -2,11 +2,11 @@
 title: Zapier Natural Language Actions
 ---
 
-**Deprecated** This API will be sunset on 2023-11-17: <https://nla.zapier.com/start/>
+**Deprecated** This API will be sunset on 2023-11-17: [nla.zapier.com/start/](https://nla.zapier.com/start/)
 
 >[Zapier Natural Language Actions](https://nla.zapier.com/start/) gives you access to the 5k+ apps, 20k+ actions on Zapier's platform through a natural language API interface.
 >
->NLA supports apps like `Gmail`, `Salesforce`, `Trello`, `Slack`, `Asana`, `HubSpot`, `Google Sheets`, `Microsoft Teams`, and thousands more apps: <https://zapier.com/apps>
+>NLA supports apps like `Gmail`, `Salesforce`, `Trello`, `Slack`, `Asana`, `HubSpot`, `Google Sheets`, `Microsoft Teams`, and thousands more apps: [zapier.com/apps](https://zapier.com/apps)
 >`Zapier NLA` handles ALL the underlying API auth and translation from natural language --> underlying API call --> return simplified output for LLMs. The key idea is you, or your users, expose a set of actions via an oauth-like setup window, which you can then query and execute via a REST API.
 
 NLA offers both API Key and OAuth for signing NLA API requests.

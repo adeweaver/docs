@@ -122,4 +122,4 @@ AIMessage(content='Ich liebe das Programmieren.', response_metadata={'token_usag
 
 ## API reference
 
-For detailed documentation of all ChatYi features and configurations, head to the API reference: <https://python.langchain.com/api_reference/community/chat_models/langchain_community.chat_models.yi.ChatYi.html>
+For detailed documentation of all ChatYi features and configurations, head to the API reference: [python.langchain.com/api_reference/community/chat_models/langchain_community.chat_models.yi.ChatYi.html](https://python.langchain.com/api_reference/community/chat_models/langchain_community.chat_models.yi.ChatYi.html)

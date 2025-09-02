@@ -98,4 +98,4 @@ await chain.invoke(
 
 ## API reference
 
-For detailed documentation of all `CloudflareWorkersAI` features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_cloudflare.CloudflareWorkersAI.html>
+For detailed documentation of all `CloudflareWorkersAI` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_cloudflare.CloudflareWorkersAI.html).

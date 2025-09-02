@@ -6,7 +6,7 @@ title: KoboldAI API
 
 This example goes over how to use LangChain with that API.
 
-Documentation can be found in the browser adding /api to the end of your endpoint (i.e <http://127.0.0.1/:5000/api>).
+Documentation can be found in the browser adding /api to the end of your endpoint (i.e [127.0.0.1/:5000/api](http://127.0.0.1/:5000/api)).
 
 ```python
 from langchain_community.llms import KoboldApiLLM

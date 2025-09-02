@@ -1510,4 +1510,4 @@ We can see in the `additional_kwargs` object that the API request did a few thin
 
 ## API reference
 
-For detailed documentation of all ChatCohere features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_cohere.ChatCohere.html>
+For detailed documentation of all ChatCohere features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_cohere.ChatCohere.html).

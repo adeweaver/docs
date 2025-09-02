@@ -36,7 +36,7 @@ class MyDoc(BaseDoc):
 
 `InMemoryExactNNIndex` stores all Documents in memory. It is a great starting point for small datasets, where you may not want to launch a database server.
 
-Learn more here: <https://docs.docarray.org/user_guide/storing/index_in_memory/>
+Learn more here: [docs.docarray.org/user_guide/storing/index_in_memory/](https://docs.docarray.org/user_guide/storing/index_in_memory/)
 
 ```python
 from docarray.index import InMemoryExactNNIndex
@@ -82,7 +82,7 @@ print(doc)
 
 `HnswDocumentIndex` is a lightweight Document Index implementation that runs fully locally and is best suited for small- to medium-sized datasets. It stores vectors on disk in [hnswlib](https://github.com/nmslib/hnswlib), and stores all other data in [SQLite](https://www.sqlite.org/index.html).
 
-Learn more here: <https://docs.docarray.org/user_guide/storing/index_hnswlib/>
+Learn more here: [docs.docarray.org/user_guide/storing/index_hnswlib/](https://docs.docarray.org/user_guide/storing/index_hnswlib/)
 
 ```python
 from docarray.index import HnswDocumentIndex
@@ -129,7 +129,7 @@ print(doc)
 
 `WeaviateDocumentIndex` is a document index that is built upon [Weaviate](https://weaviate.io/) vector database.
 
-Learn more here: <https://docs.docarray.org/user_guide/storing/index_weaviate/>
+Learn more here: [docs.docarray.org/user_guide/storing/index_weaviate/](https://docs.docarray.org/user_guide/storing/index_weaviate/)
 
 ```python
 # There's a small difference with the Weaviate backend compared to the others.

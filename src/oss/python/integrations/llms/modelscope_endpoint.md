@@ -160,4 +160,4 @@ chain.invoke(
 
 ## API reference
 
-Refer to <https://modelscope.cn/docs/model-service/API-Inference/intro> for more details.
+Refer to [modelscope.cn/docs/model-service/API-Inference/intro](https://modelscope.cn/docs/model-service/API-Inference/intro) for more details.

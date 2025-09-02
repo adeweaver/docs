@@ -94,4 +94,4 @@ kv_store.mget(
 
 ## API reference
 
-For detailed documentation of all `LocalFileStore` features and configurations, head to the API reference: <https://python.langchain.com/api_reference/langchain/storage/langchain.storage.file_system.LocalFileStore.html>
+For detailed documentation of all `LocalFileStore` features and configurations, head to the API reference: [python.langchain.com/api_reference/langchain/storage/langchain.storage.file_system.LocalFileStore.html](https://python.langchain.com/api_reference/langchain/storage/langchain.storage.file_system.LocalFileStore.html)

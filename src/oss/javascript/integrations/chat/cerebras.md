@@ -213,4 +213,4 @@ AIMessage {
 
 ## API reference
 
-For detailed documentation of all ChatCerebras features and configurations head to the API reference: <https://api.js.langchain.com/classes/_langchain_cerebras.ChatCerebras.html>
+For detailed documentation of all ChatCerebras features and configurations head to the [API reference](https://api.js.langchain.com/classes/_langchain_cerebras.ChatCerebras.html).

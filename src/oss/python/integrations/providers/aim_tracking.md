@@ -36,9 +36,9 @@ from langchain_core.callbacks import StdOutCallbackHandler
 from langchain_openai import OpenAI
 ```
 
-Our examples use a GPT model as the LLM, and OpenAI offers an API for this purpose. You can obtain the key from the following link: <https://platform.openai.com/account/api-keys> .
+Our examples use a GPT model as the LLM, and OpenAI offers an API for this purpose. You can obtain the key from the following link: [platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys) .
 
-We will use the SerpApi to retrieve search results from Google. To acquire the SerpApi key, please go to <https://serpapi.com/manage-api-key> .
+We will use the SerpApi to retrieve search results from Google. To acquire the SerpApi key, please go to [serpapi.com/manage-api-key](https://serpapi.com/manage-api-key) .
 
 ```python
 os.environ["OPENAI_API_KEY"] = "..."

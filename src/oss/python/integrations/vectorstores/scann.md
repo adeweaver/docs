@@ -46,7 +46,7 @@ docs[0]
 
 Next, we demonstrate using ScaNN in conjunction with Google PaLM API.
 
-You can obtain an API key from <https://developers.generativeai.google/tutorials/setup>
+You can obtain an API key from [developers.generativeai.google/tutorials/setup](https://developers.generativeai.google/tutorials/setup)
 
 ```python
 from langchain.chains import RetrievalQA

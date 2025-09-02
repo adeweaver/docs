@@ -50,7 +50,7 @@ Each of these steps will be explained in great detail below.
 
 Before initializing your agent, the following environmental variables need to be set:
 
-* **GITLAB_URL** - The URL hosted Gitlab. Defaults to "<https://gitlab.com>".
+* **GITLAB_URL** - The URL hosted Gitlab. Defaults to "[gitlab.com](https://gitlab.com)".
 * **GITLAB_PERSONAL_ACCESS_TOKEN**- The personal access token you created in the last step
 * **GITLAB_REPOSITORY**- The name of the Gitlab repository you want your bot to act upon. Must follow the format \{username\}/\{repo-name\}.
 * **GITLAB_BRANCH**- The branch where the bot will make its commits. Defaults to 'main.'

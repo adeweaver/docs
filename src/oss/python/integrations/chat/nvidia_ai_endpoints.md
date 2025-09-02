@@ -393,4 +393,4 @@ chain.invoke(
 
 ## API reference
 
-For detailed documentation of all `ChatNVIDIA` features and configurations head to the API reference: <https://python.langchain.com/api_reference/nvidia_ai_endpoints/chat_models/langchain_nvidia_ai_endpoints.chat_models.ChatNVIDIA.html>
+For detailed documentation of all `ChatNVIDIA` features and configurations head to the API reference: [python.langchain.com/api_reference/nvidia_ai_endpoints/chat_models/langchain_nvidia_ai_endpoints.chat_models.ChatNVIDIA.html](https://python.langchain.com/api_reference/nvidia_ai_endpoints/chat_models/langchain_nvidia_ai_endpoints.chat_models.ChatNVIDIA.html)

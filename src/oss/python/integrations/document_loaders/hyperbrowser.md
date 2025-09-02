@@ -96,7 +96,7 @@ loader = HyperbrowserLoader(
 )
 ```
 
-Optional params for the loader can also be provided in the `params` argument. For more information on the supported params, visit <https://docs.hyperbrowser.ai/reference/sdks/python/scrape#start-scrape-job-and-wait> or <https://docs.hyperbrowser.ai/reference/sdks/python/crawl#start-crawl-job-and-wait>.
+Optional params for the loader can also be provided in the `params` argument. For more information on the supported params, visit [docs.hyperbrowser.ai/reference/sdks/python/scrape#start-scrape-job-and-wait](https://docs.hyperbrowser.ai/reference/sdks/python/scrape#start-scrape-job-and-wait) or [docs.hyperbrowser.ai/reference/sdks/python/crawl#start-crawl-job-and-wait](https://docs.hyperbrowser.ai/reference/sdks/python/crawl#start-crawl-job-and-wait).
 
 ```python
 loader = HyperbrowserLoader(

@@ -79,7 +79,7 @@ from langchain_community.chat_loaders.utils import (
 # This makes messages sent by hchase@langchain.com the AI Messages
 # This means you will train an LLM to predict as if it's responding as hchase
 training_data = list(
-    map_ai_messages(data, sender="Harrison Chase <hchase@langchain.com>")
+    map_ai_messages(data, sender="Harrison Chase [hchase@langchain.com](mailto:hchase@langchain.com)")
 )
 ```
 

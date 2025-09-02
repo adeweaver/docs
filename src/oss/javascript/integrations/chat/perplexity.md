@@ -28,7 +28,7 @@ To access Perplexity models you'll need to create a Perplexity account, get an A
 
 ### Credentials
 
-Head to <https://perplexity.ai> to sign up for Perplexity and generate an API key. Once you've done this set the `PERPLEXITY_API_KEY` environment variable:
+Head to [https://perplexity.ai](https://perplexity.ai) to sign up for Perplexity and generate an API key. Once you've done this set the `PERPLEXITY_API_KEY` environment variable:
 
 ```bash
 export PERPLEXITY_API_KEY="your-api-key"
@@ -175,4 +175,4 @@ AIMessage {
 
 ## API reference
 
-For detailed documentation of all ChatPerplexity features and configurations head to the API reference: <https://api.js.langchain.com/classes/_langchain_community.chat_models_perplexity.ChatPerplexity.html>
+For detailed documentation of all ChatPerplexity features and configurations head to the [API reference](https://api.js.langchain.com/classes/_langchain_community.chat_models_perplexity.ChatPerplexity.html).

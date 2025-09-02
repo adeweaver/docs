@@ -313,6 +313,6 @@ AIMessage(content="Here's the German translation:\n\nIch liebe das Programmieren
 
 ## API reference
 
-For detailed documentation of all ChatBedrock features and configurations head to the API reference: <https://python.langchain.com/api_reference/aws/chat_models/langchain_aws.chat_models.bedrock.ChatBedrock.html>
+For detailed documentation of all ChatBedrock features and configurations head to the API reference: [python.langchain.com/api_reference/aws/chat_models/langchain_aws.chat_models.bedrock.ChatBedrock.html](https://python.langchain.com/api_reference/aws/chat_models/langchain_aws.chat_models.bedrock.ChatBedrock.html)
 
-For detailed documentation of all ChatBedrockConverse features and configurations head to the API reference: <https://python.langchain.com/api_reference/aws/chat_models/langchain_aws.chat_models.bedrock_converse.ChatBedrockConverse.html>
+For detailed documentation of all ChatBedrockConverse features and configurations head to the API reference: [python.langchain.com/api_reference/aws/chat_models/langchain_aws.chat_models.bedrock_converse.ChatBedrockConverse.html](https://python.langchain.com/api_reference/aws/chat_models/langchain_aws.chat_models.bedrock_converse.ChatBedrockConverse.html)

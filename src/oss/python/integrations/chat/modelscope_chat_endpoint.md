@@ -117,4 +117,4 @@ AIMessage(content='我喜欢编程。', additional_kwargs={'refusal': None}, res
 
 ## API reference
 
-For detailed documentation of all ModelScopeChatEndpoint features and configurations head to the reference: <https://modelscope.cn/docs/model-service/API-Inference/intro>
+For detailed documentation of all ModelScopeChatEndpoint features and configurations head to the reference: [modelscope.cn/docs/model-service/API-Inference/intro](https://modelscope.cn/docs/model-service/API-Inference/intro)

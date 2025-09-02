@@ -26,8 +26,8 @@ By default, If you use a `folder_id`, all the files inside this folder can be re
 
 You can obtain your folder and document id from the URL:
 
-* Folder: <https://drive.google.com/drive/u/0/folders/1yucgL9WGgWZdM1TOuKkeghlPizuzMYb5> -> folder id is `"1yucgL9WGgWZdM1TOuKkeghlPizuzMYb5"`
-* Document: <https://docs.google.com/document/d/1bfaMQ18_i56204VaQDVeAFpqEijJTgvurupdEDiaUQw/edit> -> document id is `"1bfaMQ18_i56204VaQDVeAFpqEijJTgvurupdEDiaUQw"`
+* Folder: [drive.google.com/drive/u/0/folders/1yucgL9WGgWZdM1TOuKkeghlPizuzMYb5](https://drive.google.com/drive/u/0/folders/1yucgL9WGgWZdM1TOuKkeghlPizuzMYb5) -> folder id is `"1yucgL9WGgWZdM1TOuKkeghlPizuzMYb5"`
+* Document: [docs.google.com/document/d/1bfaMQ18_i56204VaQDVeAFpqEijJTgvurupdEDiaUQw/edit](https://docs.google.com/document/d/1bfaMQ18_i56204VaQDVeAFpqEijJTgvurupdEDiaUQw/edit) -> document id is `"1bfaMQ18_i56204VaQDVeAFpqEijJTgvurupdEDiaUQw"`
 
 The special value `root` is for your personal home.
 
@@ -106,7 +106,7 @@ In order to create an agent that uses the Google Jobs tool install Langgraph
 %pip install --upgrade --quiet langgraph langchain-openai
 ```
 
-and use the `create_agent` functionality to initialize a ReAct agent. You will also need to set up your OPEN_API_KEY (visit <https://platform.openai.com>) in order to access OpenAI's chat models.
+and use the `create_agent` functionality to initialize a ReAct agent. You will also need to set up your OPEN_API_KEY (visit [platform.openai.com](https://platform.openai.com)) in order to access OpenAI's chat models.
 
 ```python
 import os

@@ -10,12 +10,12 @@ This notebook covers how to load documents from *Dropbox*. In addition to common
 
 1. Create a Dropbox app.
 2. Give the app these scope permissions: `files.metadata.read` and `files.content.read`.
-3. Generate access token: <https://www.dropbox.com/developers/apps/create>.
+3. Generate access token: [www.dropbox.com/developers/apps/create](https://www.dropbox.com/developers/apps/create).
 4. `pip install dropbox` (requires `pip install "unstructured[pdf]"` for PDF filetype).
 
 ## Instructions
 
-`DropboxLoader`` requires you to create a Dropbox App and generate an access token. This can be done from <https://www.dropbox.com/developers/apps/create>. You also need to have the Dropbox Python SDK installed (pip install dropbox).
+`DropboxLoader`` requires you to create a Dropbox App and generate an access token. This can be done from [www.dropbox.com/developers/apps/create](https://www.dropbox.com/developers/apps/create). You also need to have the Dropbox Python SDK installed (pip install dropbox).
 
 DropboxLoader can load data from a list of Dropbox file paths or a single Dropbox folder path. Both paths should be relative to the root directory of the Dropbox account linked to the access token.
 

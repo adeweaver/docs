@@ -87,4 +87,4 @@ Document(page_content='Combining different forms of prompts with pre-trained lar
 
 ## API reference
 
-For detailed documentation of all ArxivLoader features and configurations head to the API reference: <https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.arxiv.ArxivLoader.html#langchain_community.document_loaders.arxiv.ArxivLoader>
+For detailed documentation of all ArxivLoader features and configurations head to the API reference: [python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.arxiv.ArxivLoader.html#langchain_community.document_loaders.arxiv.ArxivLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.arxiv.ArxivLoader.html#langchain_community.document_loaders.arxiv.ArxivLoader)

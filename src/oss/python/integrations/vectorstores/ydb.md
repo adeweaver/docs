@@ -263,4 +263,4 @@ For guides on how to use this vector store for retrieval-augmented generation (R
 
 ## API reference
 
-For detailed documentation of all `YDB` features and configurations head to the API reference:<https://python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.ydb.YDB.html>
+For detailed documentation of all `YDB` features and configurations head to the API reference:[python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.ydb.YDB.html](https://python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.ydb.YDB.html)

@@ -242,4 +242,4 @@ As Dr. Vex delved deeper into her research, she began to experience strange and 
 
 ## API reference
 
-For detailed documentation of all ChatCerebras features and configurations head to the API reference: <https://python.langchain.com/api_reference/cerebras/chat_models/langchain_cerebras.chat_models.ChatCerebras.html#>
+For detailed documentation of all ChatCerebras features and configurations head to the API reference: [python.langchain.com/api_reference/cerebras/chat_models/langchain_cerebras.chat_models.ChatCerebras.html#](https://python.langchain.com/api_reference/cerebras/chat_models/langchain_cerebras.chat_models.ChatCerebras.html#)

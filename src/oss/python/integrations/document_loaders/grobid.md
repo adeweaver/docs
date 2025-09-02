@@ -9,7 +9,7 @@ It is designed and expected to be used to parse academic papers, where it works 
 This loader uses Grobid to parse PDFs into `Documents` that retain metadata associated with the section of text.
 
 ---
-The best approach is to install Grobid via docker, see <https://grobid.readthedocs.io/en/latest/Grobid-docker/>.
+The best approach is to install Grobid via docker, see [grobid.readthedocs.io/en/latest/Grobid-docker/](https://grobid.readthedocs.io/en/latest/Grobid-docker/).
 
 (Note: additional instructions can be found [here](/oss/integrations/providers/grobid).)
 

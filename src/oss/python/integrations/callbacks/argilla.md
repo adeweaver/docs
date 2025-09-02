@@ -31,7 +31,7 @@ To get the Argilla API credentials, follow the next steps:
 
 In Argilla the API URL will be the same as the URL of your Argilla UI.
 
-To get the OpenAI API credentials, please visit <https://platform.openai.com/account/api-keys>
+To get the OpenAI API credentials, please visit [platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys)
 
 ```python
 import os
@@ -179,7 +179,7 @@ Playwright: This is a synopsis for the above play:
 
 Finally, as a more advanced workflow, you can create an agent that uses some tools. So that `ArgillaCallbackHandler` will keep track of the input and the output, but not about the intermediate steps/thoughts, so that given a prompt we log the original prompt and the final response to that given prompt.
 
-> Note that for this scenario we'll be using Google Search API (Serp API) so you will need to both install `google-search-results` as `pip install google-search-results`, and to set the Serp API Key as `os.environ["SERPAPI_API_KEY"] = "..."` (you can find it at <https://serpapi.com/dashboard>), otherwise the example below won't work.
+> Note that for this scenario we'll be using Google Search API (Serp API) so you will need to both install `google-search-results` as `pip install google-search-results`, and to set the Serp API Key as `os.environ["SERPAPI_API_KEY"] = "..."` (you can find it at [serpapi.com/dashboard](https://serpapi.com/dashboard)), otherwise the example below won't work.
 
 ```python
 from langchain.agents import AgentType, initialize_agent, load_tools

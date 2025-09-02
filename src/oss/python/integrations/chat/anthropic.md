@@ -33,7 +33,7 @@ To access Anthropic models you'll need to create an Anthropic account, get an AP
 
 ### Credentials
 
-Head to <https://console.anthropic.com/> to sign up for Anthropic and generate an API key. Once you've done this set the ANTHROPIC_API_KEY environment variable:
+Head to [console.anthropic.com/](https://console.anthropic.com/) to sign up for Anthropic and generate an API key. Once you've done this set the ANTHROPIC_API_KEY environment variable:
 
 ```python
 import getpass
@@ -1080,4 +1080,4 @@ I'd be happy to help you fix the syntax error in your primes.py file. First, let
 
 ## API reference
 
-For detailed documentation of all ChatAnthropic features and configurations head to the API reference: <https://python.langchain.com/api_reference/anthropic/chat_models/langchain_anthropic.chat_models.ChatAnthropic.html>
+For detailed documentation of all ChatAnthropic features and configurations head to the API reference: [python.langchain.com/api_reference/anthropic/chat_models/langchain_anthropic.chat_models.ChatAnthropic.html](https://python.langchain.com/api_reference/anthropic/chat_models/langchain_anthropic.chat_models.ChatAnthropic.html)

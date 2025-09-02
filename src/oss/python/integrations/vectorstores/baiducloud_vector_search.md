@@ -70,4 +70,4 @@ docs = bes.similarity_search(query)
 print(docs[0].page_content)
 ```
 
-Please feel free to contact <liuboyao@baidu.com> or <chenweixu01@baidu.com> if you encounter any problems during use, and we will do our best to support you.
+Please feel free to contact [liuboyao@baidu.com](mailto:liuboyao@baidu.com) or [chenweixu01@baidu.com](mailto:chenweixu01@baidu.com) if you encounter any problems during use, and we will do our best to support you.

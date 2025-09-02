@@ -167,4 +167,4 @@ Behind the scenes, TogetherAI uses the OpenAI SDK and OpenAI compatible API, wit
 
 ## API reference
 
-For detailed documentation of all ChatTogetherAI features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_community_chat_models_togetherai.ChatTogetherAI.html>
+For detailed documentation of all ChatTogetherAI features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_chat_models_togetherai.ChatTogetherAI.html).

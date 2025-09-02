@@ -18,7 +18,7 @@ To access Netmind embedding models you'll need to create a/an Netmind account, g
 
 ### Credentials
 
-Head to <https://www.netmind.ai/> to sign up to Netmind and generate an API key. Once you've done this set the NETMIND_API_KEY environment variable:
+Head to [www.netmind.ai/](https://www.netmind.ai/) to sign up to Netmind and generate an API key. Once you've done this set the NETMIND_API_KEY environment variable:
 
 ```python
 import getpass

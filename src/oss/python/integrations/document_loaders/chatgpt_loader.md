@@ -6,7 +6,7 @@ title: ChatGPT Data
 
 This notebook covers how to load `conversations.json` from your `ChatGPT` data export folder.
 
-You can get your data export by email by going to: <https://chat.openai.com/> -> (Profile) - Settings -> Export data -> Confirm export.
+You can get your data export by email by going to: [chat.openai.com/](https://chat.openai.com/) -> (Profile) - Settings -> Export data -> Confirm export.
 
 ```python
 from langchain_community.document_loaders.chatgpt import ChatGPTLoader

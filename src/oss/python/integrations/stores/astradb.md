@@ -103,4 +103,4 @@ You can use an `AstraDBByteStore` anywhere you'd use other ByteStores, including
 
 ## API reference
 
-For detailed documentation of all `AstraDBByteStore` features and configurations, head to the API reference: <https://python.langchain.com/api_reference/astradb/storage/langchain_astradb.storage.AstraDBByteStore.html>
+For detailed documentation of all `AstraDBByteStore` features and configurations, head to the API reference: [python.langchain.com/api_reference/astradb/storage/langchain_astradb.storage.AstraDBByteStore.html](https://python.langchain.com/api_reference/astradb/storage/langchain_astradb.storage.AstraDBByteStore.html)

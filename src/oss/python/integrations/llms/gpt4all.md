@@ -36,7 +36,7 @@ The [gpt4all page](https://gpt4all.io/index.html) has a useful `Model Explorer` 
 * Select a model of interest
 * Download using the UI and move the `.bin` to the `local_path` (noted below)
 
-For more info, visit <https://github.com/nomic-ai/gpt4all>.
+For more info, visit [github.com/nomic-ai/gpt4all](https://github.com/nomic-ai/gpt4all).
 
 ---
 

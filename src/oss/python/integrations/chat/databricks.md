@@ -231,7 +231,7 @@ databricks secrets create-scope <scope>
 databricks secrets put-secret <scope> openai-api-key --string-value $OPENAI_API_KEY
 ```
 
-For how to set up Databricks CLI and manage secrets, please refer to <https://docs.databricks.com/en/security/secrets/secrets.html>
+For how to set up Databricks CLI and manage secrets, please refer to [docs.databricks.com/en/security/secrets/secrets.html](https://docs.databricks.com/en/security/secrets/secrets.html)
 
 ```python
 from mlflow.deployments import get_deploy_client
@@ -311,4 +311,4 @@ See [Databricks Unity Catalog](docs/integrations/tools/databricks.ipynb) about h
 
 ## API reference
 
-For detailed documentation of all ChatDatabricks features and configurations head to the API reference: <https://api-docs.databricks.com/python/databricks-ai-bridge/latest/databricks_langchain.html#databricks_langchain.ChatDatabricks>
+For detailed documentation of all ChatDatabricks features and configurations head to the API reference: [api-docs.databricks.com/python/databricks-ai-bridge/latest/databricks_langchain.html#databricks_langchain.ChatDatabricks](https://api-docs.databricks.com/python/databricks-ai-bridge/latest/databricks_langchain.html#databricks_langchain.ChatDatabricks)

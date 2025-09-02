@@ -39,7 +39,7 @@ import getpass
 openai_key = getpass.getpass()
 ```
 
-Provide your Zep API key. See <https://help.getzep.com/projects#api-keys>
+Provide your Zep API key. See [help.getzep.com/projects#api-keys](https://help.getzep.com/projects#api-keys)
 
 ```python
 zep_api_key = getpass.getpass()

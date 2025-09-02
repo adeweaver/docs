@@ -97,7 +97,7 @@ set(doc.metadata["category"] for doc in data)
 
 ### Fetching remote PDFs using Unstructured
 
-This covers how to load online PDFs into a document format that we can use downstream. This can be used for various online PDF sites such as <https://open.umn.edu/opentextbooks/textbooks/> and <https://arxiv.org/archive/>
+This covers how to load online PDFs into a document format that we can use downstream. This can be used for various online PDF sites such as [open.umn.edu/opentextbooks/textbooks/](https://open.umn.edu/opentextbooks/textbooks/) and [arxiv.org/archive/](https://arxiv.org/archive/)
 
 Note: all other PDF loaders can also be used to fetch remote PDFs, but `OnlinePDFLoader` is a legacy function, and works specifically with `UnstructuredPDFLoader`.
 
@@ -128,4 +128,4 @@ for doc in loader.lazy_load():
 
 ## API reference
 
-For detailed documentation of all UnstructuredPDFLoader features and configurations head to the API reference: <https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.UnstructuredPDFLoader.html>
+For detailed documentation of all UnstructuredPDFLoader features and configurations head to the API reference: [python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.UnstructuredPDFLoader.html](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.UnstructuredPDFLoader.html)

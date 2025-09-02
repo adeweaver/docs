@@ -2,7 +2,7 @@
 title: OVHcloud
 ---
 
-> In order to use this model you need to create a new token on the AI Endpoints website: <https://endpoints.ai.cloud.ovh.net/>.
+> In order to use this model you need to create a new token on the AI Endpoints website: [endpoints.ai.cloud.ovh.net/](https://endpoints.ai.cloud.ovh.net/).
 
 This notebook explains how to use OVHCloudEmbeddings, which is included in the langchain_community package, to embed texts in langchain.
 

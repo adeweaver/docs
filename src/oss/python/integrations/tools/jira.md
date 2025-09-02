@@ -4,7 +4,7 @@ title: Jira Toolkit
 
 This notebook goes over how to use the `Jira` toolkit.
 
-The `Jira` toolkit allows agents to interact with a given Jira instance, performing actions such as searching for issues and creating issues, the tool wraps the atlassian-python-api library, for more see: <https://atlassian-python-api.readthedocs.io/jira.html>
+The `Jira` toolkit allows agents to interact with a given Jira instance, performing actions such as searching for issues and creating issues, the tool wraps the atlassian-python-api library, for more see: [atlassian-python-api.readthedocs.io/jira.html](https://atlassian-python-api.readthedocs.io/jira.html)
 
 ## Installation and setup
 

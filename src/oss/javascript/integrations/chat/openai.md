@@ -430,7 +430,7 @@ console.log(result);
 
 ## ``strict: true``
 
-As of Aug 6, 2024, OpenAI supports a `strict` argument when calling tools that will enforce that the tool argument schema is respected by the model. See more here: <https://platform.openai.com/docs/guides/function-calling>.
+As of Aug 6, 2024, OpenAI supports a `strict` argument when calling tools that will enforce that the tool argument schema is respected by the model. See more [here](https://platform.openai.com/docs/guides/function-calling).
 
 ```{=mdx}
 
@@ -1429,4 +1429,4 @@ That's a great joke! It's always fun to imagine why cats do the funny things the
 
 ## API reference
 
-For detailed documentation of all ChatOpenAI features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_openai.ChatOpenAI.html>
+For detailed documentation of all ChatOpenAI features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_openai.ChatOpenAI.html).

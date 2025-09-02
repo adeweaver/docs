@@ -4,7 +4,7 @@ title: ChatFeatherlessAi
 
 This will help you get started with FeatherlessAi [chat models](/oss/concepts/chat_models). For detailed documentation of all ChatFeatherlessAi features and configurations head to the [API reference](https://python.langchain.com/api_reference/__package_name_short_snake__/chat_models/__module_name__.chat_models.ChatFeatherlessAi.html).
 
-- See <https://featherless.ai/> for an example.
+- See [featherless.ai/](https://featherless.ai/) for an example.
 
 ## Overview
 
@@ -26,7 +26,7 @@ To access Featherless AI models you'll need to create a/an Featherless AI accoun
 
 ### Credentials
 
-Head to <https://featherless.ai/> to sign up to FeatherlessAI and generate an API key. Once you've done this set the FEATHERLESSAI_API_KEY environment variable:
+Head to [featherless.ai/](https://featherless.ai/) to sign up to FeatherlessAI and generate an API key. Once you've done this set the FEATHERLESSAI_API_KEY environment variable:
 
 ```python
 import getpass

@@ -57,9 +57,9 @@ graph.get_schema
 ```output
 In the following, each IRI is followed by the local name and optionally its description in parentheses.
 The RDF graph supports the following node types:
-<http://xmlns.com/foaf/0.1/PersonalProfileDocument> (PersonalProfileDocument, None), <http://www.w3.org/ns/auth/cert#RSAPublicKey> (RSAPublicKey, None), <http://www.w3.org/2000/10/swap/pim/contact#Male> (Male, None), <http://xmlns.com/foaf/0.1/Person> (Person, None), <http://www.w3.org/2006/vcard/ns#Work> (Work, None)
+[xmlns.com/foaf/0.1/PersonalProfileDocument](http://xmlns.com/foaf/0.1/PersonalProfileDocument) (PersonalProfileDocument, None), [www.w3.org/ns/auth/cert#RSAPublicKey](http://www.w3.org/ns/auth/cert#RSAPublicKey) (RSAPublicKey, None), [www.w3.org/2000/10/swap/pim/contact#Male](http://www.w3.org/2000/10/swap/pim/contact#Male) (Male, None), [xmlns.com/foaf/0.1/Person](http://xmlns.com/foaf/0.1/Person) (Person, None), [www.w3.org/2006/vcard/ns#Work](http://www.w3.org/2006/vcard/ns#Work) (Work, None)
 The RDF graph supports the following relationships:
-<http://www.w3.org/2000/01/rdf-schema#seeAlso> (seeAlso, None), <http://purl.org/dc/elements/1.1/title> (title, None), <http://xmlns.com/foaf/0.1/mbox_sha1sum> (mbox_sha1sum, None), <http://xmlns.com/foaf/0.1/maker> (maker, None), <http://www.w3.org/ns/solid/terms#oidcIssuer> (oidcIssuer, None), <http://www.w3.org/2000/10/swap/pim/contact#publicHomePage> (publicHomePage, None), <http://xmlns.com/foaf/0.1/openid> (openid, None), <http://www.w3.org/ns/pim/space#storage> (storage, None), <http://xmlns.com/foaf/0.1/name> (name, None), <http://www.w3.org/2000/10/swap/pim/contact#country> (country, None), <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> (type, None), <http://www.w3.org/ns/solid/terms#profileHighlightColor> (profileHighlightColor, None), <http://www.w3.org/ns/pim/space#preferencesFile> (preferencesFile, None), <http://www.w3.org/2000/01/rdf-schema#label> (label, None), <http://www.w3.org/ns/auth/cert#modulus> (modulus, None), <http://www.w3.org/2000/10/swap/pim/contact#participant> (participant, None), <http://www.w3.org/2000/10/swap/pim/contact#street2> (street2, None), <http://www.w3.org/2006/vcard/ns#locality> (locality, None), <http://xmlns.com/foaf/0.1/nick> (nick, None), <http://xmlns.com/foaf/0.1/homepage> (homepage, None), <http://creativecommons.org/ns#license> (license, None), <http://xmlns.com/foaf/0.1/givenname> (givenname, None), <http://www.w3.org/2006/vcard/ns#street-address> (street-address, None), <http://www.w3.org/2006/vcard/ns#postal-code> (postal-code, None), <http://www.w3.org/2000/10/swap/pim/contact#street> (street, None), <http://www.w3.org/2003/01/geo/wgs84_pos#lat> (lat, None), <http://xmlns.com/foaf/0.1/primaryTopic> (primaryTopic, None), <http://www.w3.org/2006/vcard/ns#fn> (fn, None), <http://www.w3.org/2003/01/geo/wgs84_pos#location> (location, None), <http://usefulinc.com/ns/doap#developer> (developer, None), <http://www.w3.org/2000/10/swap/pim/contact#city> (city, None), <http://www.w3.org/2006/vcard/ns#region> (region, None), <http://xmlns.com/foaf/0.1/member> (member, None), <http://www.w3.org/2003/01/geo/wgs84_pos#long> (long, None), <http://www.w3.org/2000/10/swap/pim/contact#address> (address, None), <http://xmlns.com/foaf/0.1/family_name> (family_name, None), <http://xmlns.com/foaf/0.1/account> (account, None), <http://xmlns.com/foaf/0.1/workplaceHomepage> (workplaceHomepage, None), <http://purl.org/dc/terms/title> (title, None), <http://www.w3.org/ns/solid/terms#publicTypeIndex> (publicTypeIndex, None), <http://www.w3.org/2000/10/swap/pim/contact#office> (office, None), <http://www.w3.org/2000/10/swap/pim/contact#homePage> (homePage, None), <http://xmlns.com/foaf/0.1/mbox> (mbox, None), <http://www.w3.org/2000/10/swap/pim/contact#preferredURI> (preferredURI, None), <http://www.w3.org/ns/solid/terms#profileBackgroundColor> (profileBackgroundColor, None), <http://schema.org/owns> (owns, None), <http://xmlns.com/foaf/0.1/based_near> (based_near, None), <http://www.w3.org/2006/vcard/ns#hasAddress> (hasAddress, None), <http://xmlns.com/foaf/0.1/img> (img, None), <http://www.w3.org/2000/10/swap/pim/contact#assistant> (assistant, None), <http://xmlns.com/foaf/0.1/title> (title, None), <http://www.w3.org/ns/auth/cert#key> (key, None), <http://www.w3.org/ns/ldp#inbox> (inbox, None), <http://www.w3.org/ns/solid/terms#editableProfile> (editableProfile, None), <http://www.w3.org/2000/10/swap/pim/contact#postalCode> (postalCode, None), <http://xmlns.com/foaf/0.1/weblog> (weblog, None), <http://www.w3.org/ns/auth/cert#exponent> (exponent, None), <http://rdfs.org/sioc/ns#avatar> (avatar, None)
+[www.w3.org/2000/01/rdf-schema#seeAlso](http://www.w3.org/2000/01/rdf-schema#seeAlso) (seeAlso, None), [purl.org/dc/elements/1.1/title](http://purl.org/dc/elements/1.1/title) (title, None), [xmlns.com/foaf/0.1/mbox_sha1sum](http://xmlns.com/foaf/0.1/mbox_sha1sum) (mbox_sha1sum, None), [xmlns.com/foaf/0.1/maker](http://xmlns.com/foaf/0.1/maker) (maker, None), [www.w3.org/ns/solid/terms#oidcIssuer](http://www.w3.org/ns/solid/terms#oidcIssuer) (oidcIssuer, None), [www.w3.org/2000/10/swap/pim/contact#publicHomePage](http://www.w3.org/2000/10/swap/pim/contact#publicHomePage) (publicHomePage, None), [xmlns.com/foaf/0.1/openid](http://xmlns.com/foaf/0.1/openid) (openid, None), [www.w3.org/ns/pim/space#storage](http://www.w3.org/ns/pim/space#storage) (storage, None), [xmlns.com/foaf/0.1/name](http://xmlns.com/foaf/0.1/name) (name, None), [www.w3.org/2000/10/swap/pim/contact#country](http://www.w3.org/2000/10/swap/pim/contact#country) (country, None), [www.w3.org/1999/02/22-rdf-syntax-ns#type](http://www.w3.org/1999/02/22-rdf-syntax-ns#type) (type, None), [www.w3.org/ns/solid/terms#profileHighlightColor](http://www.w3.org/ns/solid/terms#profileHighlightColor) (profileHighlightColor, None), [www.w3.org/ns/pim/space#preferencesFile](http://www.w3.org/ns/pim/space#preferencesFile) (preferencesFile, None), [www.w3.org/2000/01/rdf-schema#label](http://www.w3.org/2000/01/rdf-schema#label) (label, None), [www.w3.org/ns/auth/cert#modulus](http://www.w3.org/ns/auth/cert#modulus) (modulus, None), [www.w3.org/2000/10/swap/pim/contact#participant](http://www.w3.org/2000/10/swap/pim/contact#participant) (participant, None), [www.w3.org/2000/10/swap/pim/contact#street2](http://www.w3.org/2000/10/swap/pim/contact#street2) (street2, None), [www.w3.org/2006/vcard/ns#locality](http://www.w3.org/2006/vcard/ns#locality) (locality, None), [xmlns.com/foaf/0.1/nick](http://xmlns.com/foaf/0.1/nick) (nick, None), [xmlns.com/foaf/0.1/homepage](http://xmlns.com/foaf/0.1/homepage) (homepage, None), [creativecommons.org/ns#license](http://creativecommons.org/ns#license) (license, None), [xmlns.com/foaf/0.1/givenname](http://xmlns.com/foaf/0.1/givenname) (givenname, None), [www.w3.org/2006/vcard/ns#street-address](http://www.w3.org/2006/vcard/ns#street-address) (street-address, None), [www.w3.org/2006/vcard/ns#postal-code](http://www.w3.org/2006/vcard/ns#postal-code) (postal-code, None), [www.w3.org/2000/10/swap/pim/contact#street](http://www.w3.org/2000/10/swap/pim/contact#street) (street, None), [www.w3.org/2003/01/geo/wgs84_pos#lat](http://www.w3.org/2003/01/geo/wgs84_pos#lat) (lat, None), [xmlns.com/foaf/0.1/primaryTopic](http://xmlns.com/foaf/0.1/primaryTopic) (primaryTopic, None), [www.w3.org/2006/vcard/ns#fn](http://www.w3.org/2006/vcard/ns#fn) (fn, None), [www.w3.org/2003/01/geo/wgs84_pos#location](http://www.w3.org/2003/01/geo/wgs84_pos#location) (location, None), [usefulinc.com/ns/doap#developer](http://usefulinc.com/ns/doap#developer) (developer, None), [www.w3.org/2000/10/swap/pim/contact#city](http://www.w3.org/2000/10/swap/pim/contact#city) (city, None), [www.w3.org/2006/vcard/ns#region](http://www.w3.org/2006/vcard/ns#region) (region, None), [xmlns.com/foaf/0.1/member](http://xmlns.com/foaf/0.1/member) (member, None), [www.w3.org/2003/01/geo/wgs84_pos#long](http://www.w3.org/2003/01/geo/wgs84_pos#long) (long, None), [www.w3.org/2000/10/swap/pim/contact#address](http://www.w3.org/2000/10/swap/pim/contact#address) (address, None), [xmlns.com/foaf/0.1/family_name](http://xmlns.com/foaf/0.1/family_name) (family_name, None), [xmlns.com/foaf/0.1/account](http://xmlns.com/foaf/0.1/account) (account, None), [xmlns.com/foaf/0.1/workplaceHomepage](http://xmlns.com/foaf/0.1/workplaceHomepage) (workplaceHomepage, None), [purl.org/dc/terms/title](http://purl.org/dc/terms/title) (title, None), [www.w3.org/ns/solid/terms#publicTypeIndex](http://www.w3.org/ns/solid/terms#publicTypeIndex) (publicTypeIndex, None), [www.w3.org/2000/10/swap/pim/contact#office](http://www.w3.org/2000/10/swap/pim/contact#office) (office, None), [www.w3.org/2000/10/swap/pim/contact#homePage](http://www.w3.org/2000/10/swap/pim/contact#homePage) (homePage, None), [xmlns.com/foaf/0.1/mbox](http://xmlns.com/foaf/0.1/mbox) (mbox, None), [www.w3.org/2000/10/swap/pim/contact#preferredURI](http://www.w3.org/2000/10/swap/pim/contact#preferredURI) (preferredURI, None), [www.w3.org/ns/solid/terms#profileBackgroundColor](http://www.w3.org/ns/solid/terms#profileBackgroundColor) (profileBackgroundColor, None), [schema.org/owns](http://schema.org/owns) (owns, None), [xmlns.com/foaf/0.1/based_near](http://xmlns.com/foaf/0.1/based_near) (based_near, None), [www.w3.org/2006/vcard/ns#hasAddress](http://www.w3.org/2006/vcard/ns#hasAddress) (hasAddress, None), [xmlns.com/foaf/0.1/img](http://xmlns.com/foaf/0.1/img) (img, None), [www.w3.org/2000/10/swap/pim/contact#assistant](http://www.w3.org/2000/10/swap/pim/contact#assistant) (assistant, None), [xmlns.com/foaf/0.1/title](http://xmlns.com/foaf/0.1/title) (title, None), [www.w3.org/ns/auth/cert#key](http://www.w3.org/ns/auth/cert#key) (key, None), [www.w3.org/ns/ldp#inbox](http://www.w3.org/ns/ldp#inbox) (inbox, None), [www.w3.org/ns/solid/terms#editableProfile](http://www.w3.org/ns/solid/terms#editableProfile) (editableProfile, None), [www.w3.org/2000/10/swap/pim/contact#postalCode](http://www.w3.org/2000/10/swap/pim/contact#postalCode) (postalCode, None), [xmlns.com/foaf/0.1/weblog](http://xmlns.com/foaf/0.1/weblog) (weblog, None), [www.w3.org/ns/auth/cert#exponent](http://www.w3.org/ns/auth/cert#exponent) (exponent, None), [rdfs.org/sioc/ns#avatar](http://rdfs.org/sioc/ns#avatar) (avatar, None)
 ```
 
 ## Querying the graph
@@ -81,7 +81,7 @@ chain.run("What is Tim Berners-Lee's work homepage?")
 Identified intent:
 SELECT
 Generated SPARQL:
-PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX foaf: [xmlns.com/foaf/0.1/](http://xmlns.com/foaf/0.1/)
 SELECT ?homepage
 WHERE {
     ?person foaf:name "Tim Berners-Lee" .
@@ -112,9 +112,9 @@ chain.run(
 Identified intent:
 UPDATE
 Generated SPARQL:
-PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX foaf: [xmlns.com/foaf/0.1/](http://xmlns.com/foaf/0.1/)
 INSERT {
-    ?person foaf:workplaceHomepage <http://www.w3.org/foo/bar/> .
+    ?person foaf:workplaceHomepage [www.w3.org/foo/bar/](http://www.w3.org/foo/bar/) .
 }
 WHERE {
     ?person foaf:name "Timothy Berners-Lee" .
@@ -131,7 +131,7 @@ Let's verify the results:
 
 ```python
 query = (
-    """PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n"""
+    """PREFIX foaf: [xmlns.com/foaf/0.1/](http://xmlns.com/foaf/0.1/)\n"""
     """SELECT ?hp\n"""
     """WHERE {\n"""
     """    ?person foaf:name "Timothy Berners-Lee" . \n"""
@@ -167,7 +167,7 @@ print(f"Final answer: {result['result']}")
 Identified intent:
 SELECT
 Generated SPARQL:
-PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX foaf: [xmlns.com/foaf/0.1/](http://xmlns.com/foaf/0.1/)
 SELECT ?workHomepage
 WHERE {
     ?person foaf:name "Tim Berners-Lee" .
@@ -177,7 +177,7 @@ Full Context:
 []
 
 > Finished chain.
-SPARQL query: PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SPARQL query: PREFIX foaf: [xmlns.com/foaf/0.1/](http://xmlns.com/foaf/0.1/)
 SELECT ?workHomepage
 WHERE {
     ?person foaf:name "Tim Berners-Lee" .
@@ -191,7 +191,7 @@ print(result["sparql_query"])
 ```
 
 ```output
-PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX foaf: [xmlns.com/foaf/0.1/](http://xmlns.com/foaf/0.1/)
 SELECT ?workHomepage
 WHERE {
     ?person foaf:name "Tim Berners-Lee" .

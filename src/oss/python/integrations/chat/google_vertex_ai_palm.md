@@ -42,8 +42,8 @@ This codebase uses the `google.auth` library which first looks for the applicati
 
 For more information, see:
 
-- <https://cloud.google.com/docs/authentication/application-default-credentials#GAC>
-- <https://googleapis.dev/python/google-auth/latest/reference/google.auth.html#module-google.auth>
+- [cloud.google.com/docs/authentication/application-default-credentials#GAC](https://cloud.google.com/docs/authentication/application-default-credentials#GAC)
+- [googleapis.dev/python/google-auth/latest/reference/google.auth.html#module-google.auth](https://googleapis.dev/python/google-auth/latest/reference/google.auth.html#module-google.auth)
 
 To enable automated tracing of your model calls, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
@@ -176,4 +176,4 @@ AIMessage(content='Ich liebe Programmieren. \n', response_metadata={'is_blocked'
 
 ## API reference
 
-For detailed documentation of all ChatVertexAI features and configurations, like how to send multimodal inputs and configure safety settings, head to the API reference: <https://python.langchain.com/api_reference/google_vertexai/chat_models/langchain_google_vertexai.chat_models.ChatVertexAI.html>
+For detailed documentation of all ChatVertexAI features and configurations, like how to send multimodal inputs and configure safety settings, head to the API reference: [python.langchain.com/api_reference/google_vertexai/chat_models/langchain_google_vertexai.chat_models.ChatVertexAI.html](https://python.langchain.com/api_reference/google_vertexai/chat_models/langchain_google_vertexai.chat_models.ChatVertexAI.html)

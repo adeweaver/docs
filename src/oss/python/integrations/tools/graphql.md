@@ -8,7 +8,7 @@ By including a `BaseGraphQLTool` in the list of tools provided to an Agent, you 
 
 This Jupyter Notebook demonstrates how to use the `GraphQLAPIWrapper` component with an Agent.
 
-In this example, we'll be using the public `Star Wars GraphQL API` available at the following endpoint: <https://swapi-graphql.netlify.app/graphql> .
+In this example, we'll be using the public `Star Wars GraphQL API` available at the following endpoint: [swapi-graphql.netlify.app/graphql](https://swapi-graphql.netlify.app/graphql) .
 
 First, you need to install `httpx` and `gql` Python packages.
 

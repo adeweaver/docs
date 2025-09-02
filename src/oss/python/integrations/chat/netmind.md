@@ -4,7 +4,7 @@ title: ChatNetmind
 
 This will help you get started with Netmind [chat models](https://www.netmind.ai/). For detailed documentation of all ChatNetmind features and configurations head to the [API reference](https://github.com/protagolabs/langchain-netmind).
 
-- See <https://www.netmind.ai/> for an example.
+- See [www.netmind.ai/](https://www.netmind.ai/) for an example.
 
 ## Overview
 
@@ -26,7 +26,7 @@ To access Netmind models you'll need to create a/an Netmind account, get an API 
 
 ### Credentials
 
-Head to <https://www.netmind.ai/> to sign up to Netmind and generate an API key. Once you've done this set the NETMIND_API_KEY environment variable:
+Head to [www.netmind.ai/](https://www.netmind.ai/) to sign up to Netmind and generate an API key. Once you've done this set the NETMIND_API_KEY environment variable:
 
 ```python
 import getpass

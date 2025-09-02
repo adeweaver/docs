@@ -107,7 +107,7 @@ Database 'milvus_demo' does not exist.
 Database 'milvus_demo' created successfully.
 ```
 
-Note the change in the URI below. Once the instance is initialized, navigate to <http://127.0.0.1:9091/webui> to view the local web UI.
+Note the change in the URI below. Once the instance is initialized, navigate to [127.0.0.1:9091/webui](http://127.0.0.1:9091/webui) to view the local web UI.
 
 Here is an example of how you create your vector store instance with the Milvus database serivce:
 
@@ -330,7 +330,7 @@ vectorstore = Milvus.from_documents(
 )
 ```
 
-> - When you use `BM25BuiltInFunction`, please note that the full-text search is available in Milvus Standalone and Milvus Distributed, but not in Milvus Lite, although it is on the roadmap for future inclusion. It will also be available in Zilliz Cloud (fully-managed Milvus) soon. Please reach out to <support@zilliz.com> for more information.
+> - When you use `BM25BuiltInFunction`, please note that the full-text search is available in Milvus Standalone and Milvus Distributed, but not in Milvus Lite, although it is on the roadmap for future inclusion. It will also be available in Zilliz Cloud (fully-managed Milvus) soon. Please reach out to [support@zilliz.com](mailto:support@zilliz.com) for more information.
 
 In the code above, we define an instance of `BM25BuiltInFunction` and pass it to the `Milvus` object. `BM25BuiltInFunction` is a lightweight wrapper class for [`Function`](https://milvus.io/docs/manage-collections.md#Function) in Milvus. We can use it with `OpenAIEmbeddings`  to initialize a dense + sparse hybrid search Milvus vector store instance.
 
@@ -415,4 +415,4 @@ vectorstore.as_retriever(search_kwargs={"expr": 'namespace == "harrison"'}).invo
 
 ## API reference
 
-For detailed documentation of all __ModuleName__VectorStore features and configurations head to the API reference: <https://python.langchain.com/api_reference/milvus/vectorstores/langchain_milvus.vectorstores.milvus.Milvus.html>
+For detailed documentation of all __ModuleName__VectorStore features and configurations head to the API reference: [python.langchain.com/api_reference/milvus/vectorstores/langchain_milvus.vectorstores.milvus.Milvus.html](https://python.langchain.com/api_reference/milvus/vectorstores/langchain_milvus.vectorstores.milvus.Milvus.html)

@@ -186,4 +186,4 @@ Behind the scenes, xAI uses the OpenAI SDK and OpenAI compatible API.
 
 ## API reference
 
-For detailed documentation of all ChatXAI features and configurations head to the API reference: <https://api.js.langchain.com/classes/_langchain_xai.ChatXAI.html>
+For detailed documentation of all ChatXAI features and configurations head to the [API reference](https://api.js.langchain.com/classes/_langchain_xai.ChatXAI.html).
