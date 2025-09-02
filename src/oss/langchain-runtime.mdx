@@ -15,21 +15,21 @@ LangGraph exposes a `Runtime` object with the following information:
 2. Store: a `BaseStore` instance used for long term memory
 3. Stream writer: an object used for streaming information via the `"custom""` stream mode
 
+You can access the runtime information within [tools](#inside-tools), [prompt](#inside-prompt), and [pre and post model hooks](#inside-pre-and-post-model-hooks).
+
 ## Access
 
 When creating an agent with `create_agent`, you can specify a `context_schema` to define
 the structure of the `context` stored in the agent runtime.
 
-You can access the runtime information within [tools](#inside-tools), [prompt](#inside-prompt), and [pre and post model hooks](#inside-pre-and-post-model-hooks).
-
 When invoking the agent, pass the `context` argument with the relevant configuration for the run:
 
-```python {highlight={11,15}}
+```python
 from dataclasses import dataclass
 
-from langgraph.runtime import get_runtime
 from langchain_core.messages import AnyMessage
 from langchain.agents import create_agent
+from langgraph.runtime import get_runtime
 
 @dataclass
 class Context:
@@ -38,12 +38,12 @@ class Context:
 agent = create_agent(
     model="openai:gpt-5-nano",
     tools=[...],
-    context_schema=Context
+    context_schema=Context  # [!code highlight]
 )
 
 agent.invoke(
     {"messages": [{"role": "user", "content": "What's my name?"}]}, 
-    context=Context(user_name="John Smith")
+    context=Context(user_name="John Smith")  # [!code highlight]
 )
 ```
 
@@ -67,7 +67,7 @@ def fetch_user_email_preferences() -> str:
     runtime = get_runtime(Context)
     user_id = runtime.context.user_id
 
-    preferences: "The user prefers you to write a brief and polite email."
+    preferences: str = "The user prefers you to write a brief and polite email."
     if runtime.store:
         if memory := runtime.store.get(("users",), user_id):
             preferences = memory.value["preferences"]
