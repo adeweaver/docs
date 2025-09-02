@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Script to apply markdownlint to all MD & MDX files in a directory
-# Usage: ./lint-mdx.sh [directory]
+# Usage: ./lint-md.sh [directory]
 
 DIR=${1:-.}
 
