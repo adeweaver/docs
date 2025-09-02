@@ -203,11 +203,11 @@ To run an evaluator, you will first need to create a [LangSmith dataset](https:/
 :::python
 ```python
 from langsmith import Client
-from langgraph.prebuilt import create_react_agent
+from langgraph.prebuilt import create_agent
 from agentevals.trajectory.match import create_trajectory_match_evaluator
 
 client = Client()
-agent = create_react_agent(...)
+agent = create_agent(...)
 evaluator = create_trajectory_match_evaluator(...)
 
 experiment_results = client.evaluate(
@@ -222,11 +222,11 @@ experiment_results = client.evaluate(
 :::js
 ```typescript
 import { Client } from "langsmith";
-import { createReactAgent } from "@langchain/langgraph/prebuilt";
+import { createAgent } from "@langchain/langgraph/prebuilt";
 import { createTrajectoryMatchEvaluator } from "agentevals/trajectory/match";
 
 const client = new Client();
-const agent = createReactAgent({...});
+const agent = createAgent({...});
 const evaluator = createTrajectoryMatchEvaluator({...});
 
 const experimentResults = await client.evaluate(

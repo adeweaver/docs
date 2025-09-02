@@ -102,7 +102,7 @@ For more information about the memory store, see the [Persistence](/oss/langgrap
 :::python
 ```title="A tool the agent can use to look up user information" {highlight={6,8,20,22,28,34}}
 from langchain_core.runnables import RunnableConfig
-from langchain.agents import create_react_agent
+from langchain.agents import create_agent
 from langgraph.config import get_store
 from langgraph.store.memory import InMemoryStore
 
@@ -119,13 +119,13 @@ store.put(  # (2)!
 
 def get_user_info(config: RunnableConfig) -> str:
     """Look up user info."""
-    # Same as that provided to `create_react_agent`
+    # Same as that provided to `create_agent`
     store = get_store() # (6)!
     user_id = config["configurable"].get("user_id")
     user_info = store.get(("users",), user_id) # (7)!
     return str(user_info.value) if user_info else "Unknown user"
 
-agent = create_react_agent(
+agent = create_agent(
     model="anthropic:claude-3-7-sonnet-latest",
     tools=[get_user_info],
     store=store # (8)!
@@ -151,7 +151,7 @@ agent.invoke(
 :::js
 ```typescript title="A tool the agent can use to look up user information" highlight={5,9-17,24,38}
 import { z } from "zod";
-import { createReactAgent, tool, type AgentRuntime } from "langchain";
+import { createAgent, tool, type AgentRuntime } from "langchain";
 import { InMemoryStore } from "@langchain/langgraph";
 
 const store = new InMemoryStore();
@@ -171,7 +171,7 @@ await store.put(
 const getUserInfo = tool(
   // Look up user info.
   async (_, runtime: AgentRuntime<z.infer<typeof contextSchema>>) => {
-    // Same as that provided to `createReactAgent`
+    // Same as that provided to `createAgent`
     const userId = runtime.context?.userId;
     if (!userId) {
       throw new Error("userId is required");
@@ -186,7 +186,7 @@ const getUserInfo = tool(
   }
 );
 
-const agent = createReactAgent({
+const agent = createAgent({
   model: "openai:gpt-4o-mini",
   tools: [getUserInfo],
   contextSchema,
@@ -226,7 +226,7 @@ console.log(result.messages.at(-1)?.content);
 from typing_extensions import TypedDict
 
 from langchain_core.runnables import RunnableConfig
-from langchain.agents import create_react_agent
+from langchain.agents import create_agent
 from langgraph.config import get_store
 from langgraph.store.memory import InMemoryStore
 
@@ -237,13 +237,13 @@ class UserInfo(TypedDict): # (2)!
 
 def save_user_info(user_info: UserInfo, config: RunnableConfig) -> str: # (3)!
     """Save user info."""
-    # Same as that provided to `create_react_agent`
+    # Same as that provided to `create_agent`
     store = get_store() # (4)!
     user_id = config["configurable"].get("user_id")
     store.put(("users",), user_id, user_info) # (5)!
     return "Successfully saved user info."
 
-agent = create_react_agent(
+agent = create_agent(
     model="anthropic:claude-3-7-sonnet-latest",
     tools=[save_user_info],
     store=store
@@ -270,7 +270,7 @@ store.get(("users",), "user_123").value
 :::js
 ```typescript title="Example of a tool that updates user information" highlight={5,11-14,19,39}
 import { z } from "zod";
-import { tool, createReactAgent, type AgentRuntime } from "langchain";
+import { tool, createAgent, type AgentRuntime } from "langchain";
 import { InMemoryStore } from "@langchain/langgraph";
 
 const store = new InMemoryStore();
@@ -289,7 +289,7 @@ const saveUserInfo = tool(
     if (!userId) {
       throw new Error("userId is required");
     }
-    // Same as that provided to `createReactAgent`
+    // Same as that provided to `createAgent`
     await runtime.store?.put(["users"], userId, userInfo);
     return "Successfully saved user info.";
   },
@@ -300,7 +300,7 @@ const saveUserInfo = tool(
   }
 );
 
-const agent = createReactAgent({
+const agent = createAgent({
   model: "openai:gpt-4o-mini",
   tools: [saveUserInfo],
   contextSchema,
