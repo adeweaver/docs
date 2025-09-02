@@ -2,7 +2,7 @@
 title: MongoDB Atlas
 ---
 
->[MongoDB Atlas](https://www.mongodb.com/) is a document database that can be 
+>[MongoDB Atlas](https://www.mongodb.com/) is a document database that can be
 used as a vector database.
 
 In the walkthrough, we'll demo the `SelfQueryRetriever` with a `MongoDB Atlas` vector store.

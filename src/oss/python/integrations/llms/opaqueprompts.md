@@ -3,7 +3,7 @@ title: OpaquePrompts
 ---
 
 [OpaquePrompts](https://opaqueprompts.readthedocs.io/en/latest/) is a service that enables applications to leverage the power of language models without compromising user privacy. Designed for composability and ease of integration into existing applications and services, OpaquePrompts is consumable via a simple Python library as well as through LangChain. Perhaps more importantly, OpaquePrompts leverages the power of [confidential computing](https://en.wikipedia.org/wiki/Confidential_computing) to ensure that even the OpaquePrompts service itself cannot access the data it is protecting.
- 
+
 
 This notebook goes over how to use LangChain to interact with `OpaquePrompts`.
 
@@ -47,7 +47,7 @@ As an AI assistant, you will answer questions according to given context.
 
 Sensitive personal information in the question is masked for privacy.
 For instance, if the original text says "Giana is good," it will be changed
-to "PERSON_998 is good." 
+to "PERSON_998 is good."
 
 Here's how to handle these changes:
 * Consider these masked phrases just as placeholders, but still refer to
@@ -103,7 +103,7 @@ From the output, you can see the following context from user input has sensitive
 During our recent meeting on February 23, 2023, at 10:30 AM, John Doe provided me with his personal details. His email is johndoe@example.com and his contact number is 650-456-7890. He lives in New York City, USA, and belongs to the American nationality with Christian beliefs and a leaning towards the Democratic party. He mentioned that he recently made a transaction using his credit card 4111 1111 1111 1111 and transferred bitcoins to the wallet address 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa. While discussing his European travels, he noted down his IBAN as GB29 NWBK 6016 1331 9268 19. Additionally, he provided his website as https://johndoeportfolio.com. John also discussed some of his US-specific details. He said his bank account number is 1234567890123456 and his drivers license is Y12345678. His ITIN is 987-65-4321, and he recently renewed his passport, the number for which is 123456789. He emphasized not to share his SSN, which is 669-45-6789. Furthermore, he mentioned that he accesses his work files remotely through the IP 192.168.1.1 and has a medical license number MED-123456.
 ```
 
-OpaquePrompts will automatically detect the sensitive data and replace it with a placeholder. 
+OpaquePrompts will automatically detect the sensitive data and replace it with a placeholder.
 
 ```
 # Context after OpaquePrompts
@@ -129,7 +129,7 @@ Hey John, just wanted to remind you to do a password reset for your website http
 
 # Use OpaquePrompts in LangChain expression
 
-There are functions that can be used with LangChain expression as well if a drop-in replacement doesn't offer the flexibility you need. 
+There are functions that can be used with LangChain expression as well if a drop-in replacement doesn't offer the flexibility you need.
 
 
 ```python

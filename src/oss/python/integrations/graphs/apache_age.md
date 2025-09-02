@@ -133,11 +133,11 @@ The default is 10.
 
 ```python
 chain = GraphCypherQAChain.from_llm(
-    ChatOpenAI(temperature=0),
-    graph=graph,
-    verbose=True,
-    top_k=2,
-    allow_dangerous_requests=True,
+        ChatOpenAI(temperature=0),
+        graph=graph,
+        verbose=True,
+        top_k=2,
+        allow_dangerous_requests=True,
 )
 ```
 
@@ -169,11 +169,11 @@ You can return intermediate steps from the Cypher QA Chain using the `return_int
 
 ```python
 chain = GraphCypherQAChain.from_llm(
-    ChatOpenAI(temperature=0),
-    graph=graph,
-    verbose=True,
-    return_intermediate_steps=True,
-    allow_dangerous_requests=True,
+        ChatOpenAI(temperature=0),
+        graph=graph,
+        verbose=True,
+        return_intermediate_steps=True,
+        allow_dangerous_requests=True,
 )
 ```
 
@@ -202,11 +202,11 @@ You can return direct results from the Cypher QA Chain using the `return_direct`
 
 ```python
 chain = GraphCypherQAChain.from_llm(
-    ChatOpenAI(temperature=0),
-    graph=graph,
-    verbose=True,
-    return_direct=True,
-    allow_dangerous_requests=True,
+        ChatOpenAI(temperature=0),
+        graph=graph,
+        verbose=True,
+        return_direct=True,
+        allow_dangerous_requests=True,
 )
 ```
 
@@ -258,15 +258,15 @@ The question is:
 {question}"""
 
 CYPHER_GENERATION_PROMPT = PromptTemplate(
-    input_variables=["schema", "question"], template=CYPHER_GENERATION_TEMPLATE
+        input_variables=["schema", "question"], template=CYPHER_GENERATION_TEMPLATE
 )
 
 chain = GraphCypherQAChain.from_llm(
-    ChatOpenAI(temperature=0),
-    graph=graph,
-    verbose=True,
-    cypher_prompt=CYPHER_GENERATION_PROMPT,
-    allow_dangerous_requests=True,
+        ChatOpenAI(temperature=0),
+        graph=graph,
+        verbose=True,
+        cypher_prompt=CYPHER_GENERATION_PROMPT,
+        allow_dangerous_requests=True,
 )
 ```
 
@@ -338,12 +338,12 @@ You can use `include_types` or `exclude_types` to ignore parts of the graph sche
 
 ```python
 chain = GraphCypherQAChain.from_llm(
-    graph=graph,
-    cypher_llm=ChatOpenAI(temperature=0, model="gpt-3.5-turbo"),
-    qa_llm=ChatOpenAI(temperature=0, model="gpt-3.5-turbo-16k"),
-    verbose=True,
-    exclude_types=["Movie"],
-    allow_dangerous_requests=True,
+        graph=graph,
+        cypher_llm=ChatOpenAI(temperature=0, model="gpt-3.5-turbo"),
+        qa_llm=ChatOpenAI(temperature=0, model="gpt-3.5-turbo-16k"),
+        verbose=True,
+        exclude_types=["Movie"],
+        allow_dangerous_requests=True,
 )
 ```
 
@@ -366,11 +366,11 @@ You can use the `validate_cypher` parameter to validate and correct relationship
 
 ```python
 chain = GraphCypherQAChain.from_llm(
-    llm=ChatOpenAI(temperature=0, model="gpt-3.5-turbo"),
-    graph=graph,
-    verbose=True,
-    validate_cypher=True,
-    allow_dangerous_requests=True,
+        llm=ChatOpenAI(temperature=0, model="gpt-3.5-turbo"),
+        graph=graph,
+        verbose=True,
+        validate_cypher=True,
+        allow_dangerous_requests=True,
 )
 ```
 

@@ -4,7 +4,7 @@ title: File System
 
 LangChain provides tools for interacting with a local file system out of the box. This notebook walks through some of them.
 
-**Note:** these tools are not recommended for use outside a sandboxed environment! 
+**Note:** these tools are not recommended for use outside a sandboxed environment!
 
 
 ```python

@@ -8,7 +8,7 @@ Note that, as this agent is in active development, all answers might not be corr
 
 ### Notes:
 - It relies on authentication with the azure.identity package, which can be installed with `pip install azure-identity`. Alternatively you can create the powerbi dataset with a token as a string without supplying the credentials.
-- You can also supply a username to impersonate for use with datasets that have RLS enabled. 
+- You can also supply a username to impersonate for use with datasets that have RLS enabled.
 - The toolkit uses a LLM to create the query from the question, the agent uses the LLM for the overall execution.
 - Testing was done mostly with a `gpt-3.5-turbo-instruct` model, codex models did not seem to perform ver well.
 

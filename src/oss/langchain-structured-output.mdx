@@ -8,7 +8,7 @@ import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
 ## Overview
 
 :::python
-Structured output allows agents to return data in a specific, predictable format. Instead of parsing natural language responses, you get structured data in the form of JSON objects, Pydantic models, or dataclasses that your application can directly use. 
+Structured output allows agents to return data in a specific, predictable format. Instead of parsing natural language responses, you get structured data in the form of JSON objects, Pydantic models, or dataclasses that your application can directly use.
 
 LangChain's prebuilt ReAct agent `create_agent()` handles structured output automatically. The user sets their desired structured output schema, and when the model generates the structured data, it's captured, validated, and returned in the `'structured_response'` key of the agent's state.
 
@@ -38,7 +38,7 @@ The structured response is returned in the `structured_response` key of the agen
 </ParamField>
 :::
 :::js
-Structured output allows agents to return data in a specific, predictable format. Instead of parsing natural language responses, you get typed structured data. 
+Structured output allows agents to return data in a specific, predictable format. Instead of parsing natural language responses, you get typed structured data.
 
 LangChain's prebuilt ReAct agent `createAgent` handles structured output automatically. The user sets their desired structured output schema, and when the model generates the structured data, it's captured, validated, and returned in the `structuredResponse` key of the agent's state.
 
@@ -76,7 +76,7 @@ The structured response is returned in the `structuredResponse` key of the agent
 
 ## Provider strategy
 
-Some model providers support structured output natively through their APIs (currently only OpenAI and Grok). This is the most reliable method when available. 
+Some model providers support structured output natively through their APIs (currently only OpenAI and Grok). This is the most reliable method when available.
 
 To use this strategy, configure a `ProviderStrategy`:
 
@@ -89,7 +89,7 @@ class ProviderStrategy(Generic[SchemaT]):
 <ParamField path="schema" required>
 The schema defining the structured output format. Supports:
 - **Pydantic models**: `BaseModel` subclasses with field validation
-- **Dataclasses**: Python dataclasses with type annotations  
+- **Dataclasses**: Python dataclasses with type annotations
 - **TypedDict**: Typed dictionary classes
 - **JSON Schema**: Dictionary with JSON schema specification
 </ParamField>
@@ -288,7 +288,7 @@ If the provider natively supports structured output for your model choice, it is
 
 ## Tool calling strategy
 
-For models that don't support native structured output, LangChain uses tool calling to achieve the same result. This works with all models that support tool calling, which is most modern models. 
+For models that don't support native structured output, LangChain uses tool calling to achieve the same result. This works with all models that support tool calling, which is most modern models.
 
 To use this strategy, configure a `ToolStrategy`:
 
@@ -309,7 +309,7 @@ class ToolStrategy(Generic[SchemaT]):
 <ParamField path="schema" required>
 The schema defining the structured output format. Supports:
 - **Pydantic models**: `BaseModel` subclasses with field validation
-- **Dataclasses**: Python dataclasses with type annotations  
+- **Dataclasses**: Python dataclasses with type annotations
 - **TypedDict**: Typed dictionary classes
 - **JSON Schema**: Dictionary with JSON schema specification
 - **Union types**: Multiple schema options. The model will choose the most appropriate schema based on the context.
@@ -542,7 +542,7 @@ Returning structured response: {'task': 'update the project timeline', 'assignee
 :::js
 ```ts
 function toolStrategy<StructuredResponseT>(
-  responseFormat: 
+  responseFormat:
     | JsonSchemaFormat
     | ZodSchema<StructuredResponseT>
     | (ZodSchema<StructuredResponseT> | JsonSchemaFormat)[]

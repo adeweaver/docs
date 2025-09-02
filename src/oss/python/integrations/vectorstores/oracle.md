@@ -28,7 +28,7 @@ If you are just starting with Oracle Database, consider exploring the [free Orac
 
 You'll need to install `langchain-community` with `pip install -qU langchain-community` to use this integration
 
-Please install Oracle Python Client driver to use Langchain with Oracle AI Vector Search. 
+Please install Oracle Python Client driver to use Langchain with Oracle AI Vector Search.
 
 
 ```python
@@ -111,11 +111,11 @@ for doc in documents_json_list:
 
 First we will create three vector stores each with different distance functions. Since we have not created indices in them yet, they will just create tables for now. Later we will use these vector stores to create HNSW indicies. To understand more about the different types of indices Oracle AI Vector Search supports, refer to the following [guide](https://docs.oracle.com/en/database/oracle/oracle-database/23/vecse/manage-different-categories-vector-indexes.html) .
 
-You can manually connect to the Oracle Database and will see three tables : 
-Documents_DOT, Documents_COSINE and Documents_EUCLIDEAN. 
+You can manually connect to the Oracle Database and will see three tables :
+Documents_DOT, Documents_COSINE and Documents_EUCLIDEAN.
 
 We will then create three additional tables Documents_DOT_IVF, Documents_COSINE_IVF and Documents_EUCLIDEAN_IVF which will be used
-to create IVF indicies on the tables instead of HNSW indices. 
+to create IVF indicies on the tables instead of HNSW indices.
 
 
 ```python

@@ -49,7 +49,7 @@ Similar to [OpenAI functions](https://openai.com/blog/function-calling-and-other
 
 Your model will have access to these functions and will prefer them over self-selecting tools to solve a given task. All you have to do is to let the agent know that it should use a given function by including the function name in the prompt.
 
-#### Include Lemon AI in your Langchain project 
+#### Include Lemon AI in your Langchain project
 
 
 ```python
@@ -83,8 +83,8 @@ and "created_at_i". Please make sure that Airtable does NOT automatically conver
 """
 
 """
-Use the Lemon AI execute_workflow wrapper 
-to run your Langchain agent in combination with Lemon AI  
+Use the Lemon AI execute_workflow wrapper
+to run your Langchain agent in combination with Lemon AI
 """
 model = OpenAI(temperature=0)
 

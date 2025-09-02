@@ -6,8 +6,8 @@ This will help you get started with Astra DB [key-value stores](/oss/concepts/ke
 
 ## Overview
 
-> [DataStax Astra DB](https://docs.datastax.com/en/astra-db-serverless/index.html) is a serverless 
-> AI-ready database built on `Apache Cassandra®` and made conveniently available 
+> [DataStax Astra DB](https://docs.datastax.com/en/astra-db-serverless/index.html) is a serverless
+> AI-ready database built on `Apache Cassandra®` and made conveniently available
 > through an easy-to-use JSON API.
 
 ### Integration details

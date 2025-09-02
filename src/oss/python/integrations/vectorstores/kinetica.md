@@ -16,7 +16,7 @@ This needs an instance of Kinetica which can easily be setup using the instructi
 ```python
 # Pip install necessary package
 %pip install --upgrade --quiet  langchain-openai langchain-community
-%pip install gpudb>=7.2.2.0 
+%pip install gpudb>=7.2.2.0
 %pip install --upgrade --quiet  tiktoken
 ```
 

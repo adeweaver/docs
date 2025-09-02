@@ -136,7 +136,7 @@ ov_config = {
 
 ### Streaming
 
-You can use `stream` method to get a streaming of LLM output, 
+You can use `stream` method to get a streaming of LLM output,
 
 
 ```python
@@ -154,5 +154,5 @@ For more information refer to:
 * [OpenVINO Documentation](https://docs.openvino.ai/2024/home.html).
 
 * [OpenVINO Get Started Guide](https://www.intel.com/content/www/us/en/content-details/819067/openvino-get-started-guide.html).
-  
+
 * [RAG Notebook with LangChain](https://github.com/openvinotoolkit/openvino_notebooks/tree/latest/notebooks/llm-rag-langchain).

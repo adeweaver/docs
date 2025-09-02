@@ -38,7 +38,7 @@ google_drive_loader = PsychicLoader(
 documents = google_drive_loader.load()
 ```
 
-## Converting the docs to embeddings 
+## Converting the docs to embeddings
 
 We can now convert these documents into embeddings and store them in a vector database like Chroma
 

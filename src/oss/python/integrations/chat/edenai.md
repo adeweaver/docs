@@ -19,7 +19,7 @@ This example goes over how to use LangChain to interact with Eden AI models
 - **Monitoring and Observability**: `EdenAI` provides comprehensive monitoring and observability tools on the platform. Monitor the performance of your language models, analyze usage patterns, and gain valuable insights to optimize your applications.
 
 
-Accessing the EDENAI's API requires an API key, 
+Accessing the EDENAI's API requires an API key,
 
 which you can get by creating an account https://app.edenai.run/user/register  and heading here https://app.edenai.run/admin/iam/api-keys
 

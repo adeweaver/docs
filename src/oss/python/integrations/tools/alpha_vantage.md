@@ -100,7 +100,7 @@ The `_get_top_gainers_losers` method returns the top 20 gainers, losers and most
 alpha_vantage._get_top_gainers_losers()
 ```
 
-The `run` method of the wrapper takes the following parameters: from_currency, to_currency. 
+The `run` method of the wrapper takes the following parameters: from_currency, to_currency.
 
 It Gets the currency exchange rates for the given currency pair.
 

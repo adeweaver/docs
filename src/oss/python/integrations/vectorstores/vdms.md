@@ -254,10 +254,10 @@ If you want to execute a similarity search and receive the corresponding scores 
 
 ```python
 results = vector_store.similarity_search_with_score(
-    "Will it be hot tomorrow?", k=1, filter={"source": ["==", "news"]}
+        "Will it be hot tomorrow?", k=1, filter={"source": ["==", "news"]}
 )
 for doc, score in results:
-    print(f"* [SIM={score:3f}] {doc.page_content} [{doc.metadata}]")
+        print(f"* [SIM={score:3f}] {doc.page_content} [{doc.metadata}]")
 ```
 ```output
 INFO:langchain_vdms.vectorstores:VDMS similarity search took 0.0460 seconds
@@ -286,8 +286,8 @@ You can also transform the vector store into a retriever for easier usage in you
 
 ```python
 retriever = vector_store.as_retriever(
-    search_type="similarity",
-    search_kwargs={"k": 3},
+        search_type="similarity",
+        search_kwargs={"k": 3},
 )
 results = retriever.invoke("Stealing from the bank is a crime")
 for doc in results:
@@ -321,11 +321,11 @@ INFO:langchain_vdms.vectorstores:VDMS similarity search took 0.0042 seconds
 
 ```python
 retriever = vector_store.as_retriever(
-    search_type="mmr",
-    search_kwargs={"k": 1, "fetch_k": 10},
+        search_type="mmr",
+        search_kwargs={"k": 1, "fetch_k": 10},
 )
 results = retriever.invoke(
-    "Stealing from the bank is a crime", filter={"source": ["==", "news"]}
+        "Stealing from the bank is a crime", filter={"source": ["==", "news"]}
 )
 for doc in results:
     print(f"* {doc.page_content} [{doc.metadata}]")
@@ -404,19 +404,19 @@ We add the documents to VDMS using Faiss IndexIVFFlat indexing and IP as the dis
 ```python
 db_FaissIVFFlat = VDMS.from_documents(
     documents,
-    client=vdms_client,
-    ids=doc_ids,
-    collection_name="my_collection_FaissIVFFlat_IP",
-    embedding=embeddings,
-    engine="FaissIVFFlat",
-    distance_strategy="IP",
+        client=vdms_client,
+        ids=doc_ids,
+        collection_name="my_collection_FaissIVFFlat_IP",
+        embedding=embeddings,
+        engine="FaissIVFFlat",
+        distance_strategy="IP",
 )
 
 k = 3
 query = "LangChain provides abstractions to make working with LLMs easy"
 docs_with_score = db_FaissIVFFlat.similarity_search_with_score(query, k=k, filter=None)
 for res, score in docs_with_score:
-    print(f"* [SIM={score:3f}] {res.page_content} [{res.metadata}]")
+        print(f"* [SIM={score:3f}] {res.page_content} [{res.metadata}]")
 ```
 ```output
 INFO:langchain_vdms.vectorstores:Descriptor set my_collection_FaissIVFFlat_IP created
@@ -468,9 +468,9 @@ For example, collections can be filtered on metadata using the `get_by_constrain
 ```python
 response, response_array = db_FaissIVFFlat.get_by_constraints(
     db_FaissIVFFlat.collection_name,
-    limit=1,
-    include=["metadata", "embeddings"],
-    constraints={"langchain_id": ["==", "2"]},
+        limit=1,
+        include=["metadata", "embeddings"],
+        constraints={"langchain_id": ["==", "2"]},
 )
 
 # Delete id=2
@@ -478,7 +478,7 @@ db_FaissIVFFlat.delete(collection_name=db_FaissIVFFlat.collection_name, ids=["2"
 
 print("Deleted entry:")
 for doc in response:
-    print(f"* ID={doc.id}: {doc.page_content} [{doc.metadata}]")
+        print(f"* ID={doc.id}: {doc.page_content} [{doc.metadata}]")
 ```
 ```output
 Deleted entry:
@@ -488,10 +488,10 @@ Deleted entry:
 ```python
 response, response_array = db_FaissIVFFlat.get_by_constraints(
     db_FaissIVFFlat.collection_name,
-    include=["metadata"],
+        include=["metadata"],
 )
 for doc in response:
-    print(f"* ID={doc.id}: {doc.page_content} [{doc.metadata}]")
+        print(f"* ID={doc.id}: {doc.page_content} [{doc.metadata}]")
 ```
 ```output
 * ID=10: I have a bad feeling I am going to get deleted :( [{'source': 'tweet'}]
@@ -510,11 +510,11 @@ Here we use `id` to filter for a range of IDs since it is an integer.
 ```python
 response, response_array = db_FaissIVFFlat.get_by_constraints(
     db_FaissIVFFlat.collection_name,
-    include=["metadata", "embeddings"],
-    constraints={"source": ["==", "news"]},
+        include=["metadata", "embeddings"],
+        constraints={"source": ["==", "news"]},
 )
 for doc in response:
-    print(f"* ID={doc.id}: {doc.page_content} [{doc.metadata}]")
+        print(f"* ID={doc.id}: {doc.page_content} [{doc.metadata}]")
 ```
 ```output
 * ID=9: The stock market is down 500 points today due to fears of a recession. [{'source': 'news'}]

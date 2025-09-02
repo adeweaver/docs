@@ -10,11 +10,11 @@ This guide provides a quick overview for getting started with UnstructuredMarkdo
 
 | Class | Package | Local | Serializable | [JS support](https://js.langchain.com/docs/integrations/document_loaders/file_loaders/unstructured/)|
 | :--- | :--- | :---: | :---: |  :---: |
-| [UnstructuredMarkdownLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.markdown.UnstructuredMarkdownLoader.html) | [langchain_community](https://python.langchain.com/api_reference/community/index.html) | ❌ | ❌ | ✅ | 
+| [UnstructuredMarkdownLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.markdown.UnstructuredMarkdownLoader.html) | [langchain_community](https://python.langchain.com/api_reference/community/index.html) | ❌ | ❌ | ✅ |
 ### Loader features
 | Source | Document Lazy Loading | Native Async Support
-| :---: | :---: | :---: | 
-| UnstructuredMarkdownLoader | ✅ | ❌ | 
+| :---: | :---: | :---: |
+| UnstructuredMarkdownLoader | ✅ | ❌ |
 
 ## Setup
 
@@ -43,7 +43,7 @@ Install **langchain_community** and **unstructured**
 
 ## Initialization
 
-Now we can instantiate our model object and load documents. 
+Now we can instantiate our model object and load documents.
 
 You can run the loader in one of two modes: "single" and "elements". If you use "single" mode, the document will be returned as a single `Document` object. If you use "elements" mode, the unstructured library will split the document into elements such as `Title` and `NarrativeText`. You can pass in additional `unstructured` kwargs after mode to apply different `unstructured` settings.
 

@@ -73,18 +73,18 @@ While most users will interact with Pregel through the @[StateGraph] API or the 
 Below are a few different examples to give you a sense of the Pregel API.
 
 <Tabs>
-  <Tab title="Single node">
+    <Tab title="Single node">
     :::python
     ```python
     from langgraph.channels import EphemeralValue
     from langgraph.pregel import Pregel, NodeBuilder
-    
+
     node1 = (
         NodeBuilder().subscribe_only("a")
         .do(lambda x: x + x)
         .write_to("b")
     )
-    
+
     app = Pregel(
         nodes={"node1": node1},
         channels={
@@ -94,25 +94,25 @@ Below are a few different examples to give you a sense of the Pregel API.
         input_channels=["a"],
         output_channels=["b"],
     )
-    
+
     app.invoke({"a": "foo"})
     ```
-    
+
     ```con
     {'b': 'foofoo'}
     ```
     :::
-    
+
     :::js
     ```typescript
     import { EphemeralValue } from "@langchain/langgraph/channels";
     import { Pregel, NodeBuilder } from "@langchain/langgraph/pregel";
-    
+
     const node1 = new NodeBuilder()
       .subscribeOnly("a")
       .do((x: string) => x + x)
       .writeTo("b");
-    
+
     const app = new Pregel({
       nodes: { node1 },
       channels: {
@@ -122,34 +122,34 @@ Below are a few different examples to give you a sense of the Pregel API.
       inputChannels: ["a"],
       outputChannels: ["b"],
     });
-    
+
     await app.invoke({ a: "foo" });
     ```
-    
+
     ```console
     { b: 'foofoo' }
     ```
     :::
-  </Tab>
-  <Tab title="Multiple nodes">
+    </Tab>
+    <Tab title="Multiple nodes">
     :::python
     ```python
     from langgraph.channels import LastValue, EphemeralValue
     from langgraph.pregel import Pregel, NodeBuilder
-    
+
     node1 = (
         NodeBuilder().subscribe_only("a")
         .do(lambda x: x + x)
         .write_to("b")
     )
-    
+
     node2 = (
         NodeBuilder().subscribe_only("b")
         .do(lambda x: x + x)
         .write_to("c")
     )
-    
-    
+
+
     app = Pregel(
         nodes={"node1": node1, "node2": node2},
         channels={
@@ -160,30 +160,30 @@ Below are a few different examples to give you a sense of the Pregel API.
         input_channels=["a"],
         output_channels=["b", "c"],
     )
-    
+
     app.invoke({"a": "foo"})
     ```
-    
+
     ```con
     {'b': 'foofoo', 'c': 'foofoofoofoo'}
     ```
     :::
-    
+
     :::js
     ```typescript
     import { LastValue, EphemeralValue } from "@langchain/langgraph/channels";
     import { Pregel, NodeBuilder } from "@langchain/langgraph/pregel";
-    
+
     const node1 = new NodeBuilder()
       .subscribeOnly("a")
       .do((x: string) => x + x)
       .writeTo("b");
-    
+
     const node2 = new NodeBuilder()
       .subscribeOnly("b")
       .do((x: string) => x + x)
       .writeTo("c");
-    
+
     const app = new Pregel({
       nodes: { node1, node2 },
       channels: {
@@ -194,33 +194,33 @@ Below are a few different examples to give you a sense of the Pregel API.
       inputChannels: ["a"],
       outputChannels: ["b", "c"],
     });
-    
+
     await app.invoke({ a: "foo" });
     ```
-    
+
     ```console
     { b: 'foofoo', c: 'foofoofoofoo' }
     ```
     :::
-  </Tab>
-  <Tab title="Topic">
+    </Tab>
+    <Tab title="Topic">
     :::python
     ```python
     from langgraph.channels import EphemeralValue, Topic
     from langgraph.pregel import Pregel, NodeBuilder
-    
+
     node1 = (
         NodeBuilder().subscribe_only("a")
         .do(lambda x: x + x)
         .write_to("b", "c")
     )
-    
+
     node2 = (
         NodeBuilder().subscribe_to("b")
         .do(lambda x: x["b"] + x["b"])
         .write_to("c")
     )
-    
+
     app = Pregel(
         nodes={"node1": node1, "node2": node2},
         channels={
@@ -231,30 +231,30 @@ Below are a few different examples to give you a sense of the Pregel API.
         input_channels=["a"],
         output_channels=["c"],
     )
-    
+
     app.invoke({"a": "foo"})
     ```
-    
+
     ```pycon
     {'c': ['foofoo', 'foofoofoofoo']}
     ```
     :::
-    
+
     :::js
     ```typescript
     import { EphemeralValue, Topic } from "@langchain/langgraph/channels";
     import { Pregel, NodeBuilder } from "@langchain/langgraph/pregel";
-    
+
     const node1 = new NodeBuilder()
       .subscribeOnly("a")
       .do((x: string) => x + x)
       .writeTo("b", "c");
-    
+
     const node2 = new NodeBuilder()
       .subscribeTo("b")
       .do((x: { b: string }) => x.b + x.b)
       .writeTo("c");
-    
+
     const app = new Pregel({
       nodes: { node1, node2 },
       channels: {
@@ -265,42 +265,42 @@ Below are a few different examples to give you a sense of the Pregel API.
       inputChannels: ["a"],
       outputChannels: ["c"],
     });
-    
+
     await app.invoke({ a: "foo" });
     ```
-    
+
     ```console
     { c: ['foofoo', 'foofoofoofoo'] }
     ```
     :::
-  </Tab>
-  <Tab title="BinaryOperatorAggregate">
+    </Tab>
+    <Tab title="BinaryOperatorAggregate">
     This examples demonstrates how to use the BinaryOperatorAggregate channel to implement a reducer.
-    
+
     :::python
     ```python
     from langgraph.channels import EphemeralValue, BinaryOperatorAggregate
     from langgraph.pregel import Pregel, NodeBuilder
-    
-    
+
+
     node1 = (
         NodeBuilder().subscribe_only("a")
         .do(lambda x: x + x)
         .write_to("b", "c")
     )
-    
+
     node2 = (
         NodeBuilder().subscribe_only("b")
         .do(lambda x: x + x)
         .write_to("c")
     )
-    
+
     def reducer(current, update):
         if current:
             return current + " | " + update
         else:
             return update
-    
+
     app = Pregel(
         nodes={"node1": node1, "node2": node2},
         channels={
@@ -311,26 +311,26 @@ Below are a few different examples to give you a sense of the Pregel API.
         input_channels=["a"],
         output_channels=["c"],
     )
-    
+
     app.invoke({"a": "foo"})
     ```
     :::
-    
+
     :::js
     ```typescript
     import { EphemeralValue, BinaryOperatorAggregate } from "@langchain/langgraph/channels";
     import { Pregel, NodeBuilder } from "@langchain/langgraph/pregel";
-    
+
     const node1 = new NodeBuilder()
       .subscribeOnly("a")
       .do((x: string) => x + x)
       .writeTo("b", "c");
-    
+
     const node2 = new NodeBuilder()
       .subscribeOnly("b")
       .do((x: string) => x + x)
       .writeTo("c");
-    
+
     const reducer = (current: string, update: string) => {
       if (current) {
         return current + " | " + update;
@@ -338,7 +338,7 @@ Below are a few different examples to give you a sense of the Pregel API.
         return update;
       }
     };
-    
+
     const app = new Pregel({
       nodes: { node1, node2 },
       channels: {
@@ -349,27 +349,27 @@ Below are a few different examples to give you a sense of the Pregel API.
       inputChannels: ["a"],
       outputChannels: ["c"],
     });
-    
+
     await app.invoke({ a: "foo" });
     ```
     :::
-  </Tab>
-  <Tab title="Cycle">
+    </Tab>
+    <Tab title="Cycle">
     :::python
     This example demonstrates how to introduce a cycle in the graph, by having
     a chain write to a channel it subscribes to. Execution will continue
     until a `None` value is written to the channel.
-    
+
     ```python
     from langgraph.channels import EphemeralValue
     from langgraph.pregel import Pregel, NodeBuilder, ChannelWriteEntry
-    
+
     example_node = (
         NodeBuilder().subscribe_only("value")
         .do(lambda x: x + x if len(x) < 10 else None)
         .write_to(ChannelWriteEntry("value", skip_none=True))
     )
-    
+
     app = Pregel(
         nodes={"example_node": example_node},
         channels={
@@ -378,29 +378,29 @@ Below are a few different examples to give you a sense of the Pregel API.
         input_channels=["value"],
         output_channels=["value"],
     )
-    
+
     app.invoke({"value": "a"})
     ```
-    
+
     ```pycon
     {'value': 'aaaaaaaaaaaaaaaa'}
     ```
     :::
-    
+
     :::js
     This example demonstrates how to introduce a cycle in the graph, by having
     a chain write to a channel it subscribes to. Execution will continue
     until a `null` value is written to the channel.
-    
+
     ```typescript
     import { EphemeralValue } from "@langchain/langgraph/channels";
     import { Pregel, NodeBuilder, ChannelWriteEntry } from "@langchain/langgraph/pregel";
-    
+
     const exampleNode = new NodeBuilder()
       .subscribeOnly("value")
       .do((x: string) => x.length < 10 ? x + x : null)
       .writeTo(new ChannelWriteEntry("value", { skipNone: true }));
-    
+
     const app = new Pregel({
       nodes: { exampleNode },
       channels: {
@@ -409,15 +409,15 @@ Below are a few different examples to give you a sense of the Pregel API.
       inputChannels: ["value"],
       outputChannels: ["value"],
     });
-    
+
     await app.invoke({ value: "a" });
     ```
-    
+
     ```console
     { value: 'aaaaaaaaaaaaaaaa' }
     ```
     :::
-  </Tab>
+    </Tab>
 </Tabs>
 
 ## High-level API
@@ -425,66 +425,66 @@ Below are a few different examples to give you a sense of the Pregel API.
 LangGraph provides two high-level APIs for creating a Pregel application: the [StateGraph (Graph API)](/oss/langgraph/graph-api) and the [Functional API](/oss/langgraph/functional-api).
 
 <Tabs>
-  <Tab title="StateGraph (Graph API)">
+    <Tab title="StateGraph (Graph API)">
     :::python
     The @[StateGraph (Graph API)][StateGraph] is a higher-level abstraction that simplifies the creation of Pregel applications. It allows you to define a graph of nodes and edges. When you compile the graph, the StateGraph API automatically creates the Pregel application for you.
-    
+
     ```python
     from typing import TypedDict, Optional
-    
+
     from langgraph.constants import START
     from langgraph.graph import StateGraph
-    
+
     class Essay(TypedDict):
         topic: str
         content: Optional[str]
         score: Optional[float]
-    
+
     def write_essay(essay: Essay):
         return {
             "content": f"Essay about {essay['topic']}",
         }
-    
+
     def score_essay(essay: Essay):
         return {
             "score": 10
         }
-    
+
     builder = StateGraph(Essay)
     builder.add_node(write_essay)
     builder.add_node(score_essay)
     builder.add_edge(START, "write_essay")
-    
+
     # Compile the graph.
     # This will return a Pregel instance.
     graph = builder.compile()
     ```
     :::
-    
+
     :::js
     The @[StateGraph (Graph API)][StateGraph] is a higher-level abstraction that simplifies the creation of Pregel applications. It allows you to define a graph of nodes and edges. When you compile the graph, the StateGraph API automatically creates the Pregel application for you.
-    
+
     ```typescript
     import { START, StateGraph } from "@langchain/langgraph";
-    
+
     interface Essay {
       topic: string;
       content?: string;
       score?: number;
     }
-    
+
     const writeEssay = (essay: Essay) => {
       return {
         content: `Essay about ${essay.topic}`,
       };
     };
-    
+
     const scoreEssay = (essay: Essay) => {
       return {
         score: 10
       };
     };
-    
+
     const builder = new StateGraph<Essay>({
       channels: {
         topic: null,
@@ -495,34 +495,34 @@ LangGraph provides two high-level APIs for creating a Pregel application: the [S
       .addNode("writeEssay", writeEssay)
       .addNode("scoreEssay", scoreEssay)
       .addEdge(START, "writeEssay");
-    
+
     // Compile the graph.
     // This will return a Pregel instance.
     const graph = builder.compile();
     ```
     :::
-    
+
     The compiled Pregel instance will be associated with a list of nodes and channels. You can inspect the nodes and channels by printing them.
-    
+
     :::python
     ```python
     print(graph.nodes)
     ```
-    
+
     You will see something like this:
-    
+
     ```pycon
     {'__start__': <langgraph.pregel.read.PregelNode at 0x7d05e3ba1810>,
      'write_essay': <langgraph.pregel.read.PregelNode at 0x7d05e3ba14d0>,
      'score_essay': <langgraph.pregel.read.PregelNode at 0x7d05e3ba1710>}
     ```
-    
+
     ```python
     print(graph.channels)
     ```
-    
+
     You should see something like this
-    
+
     ```pycon
     {'topic': <langgraph.channels.last_value.LastValue at 0x7d05e3294d80>,
      'content': <langgraph.channels.last_value.LastValue at 0x7d05e3295040>,
@@ -539,14 +539,14 @@ LangGraph provides two high-level APIs for creating a Pregel application: the [S
      'start:write_essay': <langgraph.channels.ephemeral_value.EphemeralValue at 0x7d05e2d8b280>}
     ```
     :::
-    
+
     :::js
     ```typescript
     console.log(graph.nodes);
     ```
-    
+
     You will see something like this:
-    
+
     ```console
     {
       __start__: PregelNode { ... },
@@ -554,13 +554,13 @@ LangGraph provides two high-level APIs for creating a Pregel application: the [S
       scoreEssay: PregelNode { ... }
     }
     ```
-    
+
     ```typescript
     console.log(graph.channels);
     ```
-    
+
     You should see something like this
-    
+
     ```console
     {
       topic: LastValue { ... },
@@ -579,37 +579,37 @@ LangGraph provides two high-level APIs for creating a Pregel application: the [S
     }
     ```
     :::
-  </Tab>
-  <Tab title="Functional API">
+    </Tab>
+    <Tab title="Functional API">
     :::python
     In the [Functional API](/oss/langgraph/functional-api), you can use an @[`entrypoint`][entrypoint] to create a Pregel application. The `entrypoint` decorator allows you to define a function that takes input and returns output.
-    
+
     ```python
     from typing import TypedDict, Optional
-    
+
     from langgraph.checkpoint.memory import InMemorySaver
     from langgraph.func import entrypoint
-    
+
     class Essay(TypedDict):
         topic: str
         content: Optional[str]
         score: Optional[float]
-    
-    
+
+
     checkpointer = InMemorySaver()
-    
+
     @entrypoint(checkpointer=checkpointer)
     def write_essay(essay: Essay):
         return {
             "content": f"Essay about {essay['topic']}",
         }
-    
+
     print("Nodes: ")
     print(write_essay.nodes)
     print("Channels: ")
     print(write_essay.channels)
     ```
-    
+
     ```pycon
     Nodes:
     {'write_essay': <langgraph.pregel.read.PregelNode object at 0x7d05e2f9aad0>}
@@ -617,22 +617,22 @@ LangGraph provides two high-level APIs for creating a Pregel application: the [S
     {'__start__': <langgraph.channels.ephemeral_value.EphemeralValue object at 0x7d05e2c906c0>, '__end__': <langgraph.channels.last_value.LastValue object at 0x7d05e2c90c40>, '__previous__': <langgraph.channels.last_value.LastValue object at 0x7d05e1007280>}
     ```
     :::
-    
+
     :::js
     In the [Functional API](/oss/langgraph/functional-api), you can use an @[`entrypoint`][entrypoint] to create a Pregel application. The `entrypoint` decorator allows you to define a function that takes input and returns output.
-    
+
     ```typescript
     import { MemorySaver } from "@langchain/langgraph";
     import { entrypoint } from "@langchain/langgraph/func";
-    
+
     interface Essay {
       topic: string;
       content?: string;
       score?: number;
     }
-    
+
     const checkpointer = new MemorySaver();
-    
+
     const writeEssay = entrypoint(
       { checkpointer, name: "writeEssay" },
       async (essay: Essay) => {
@@ -641,13 +641,13 @@ LangGraph provides two high-level APIs for creating a Pregel application: the [S
         };
       }
     );
-    
+
     console.log("Nodes: ");
     console.log(writeEssay.nodes);
     console.log("Channels: ");
     console.log(writeEssay.channels);
     ```
-    
+
     ```console
     Nodes:
     { writeEssay: PregelNode { ... } }
@@ -659,5 +659,5 @@ LangGraph provides two high-level APIs for creating a Pregel application: the [S
     }
     ```
     :::
-  </Tab>
+    </Tab>
 </Tabs>

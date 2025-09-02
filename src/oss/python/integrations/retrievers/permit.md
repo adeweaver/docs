@@ -10,8 +10,8 @@ This notebook illustrates how to integrate [Permit.io](https://permit.io/) permi
 
 We provide two custom retrievers:
 
-- PermitSelfQueryRetriever – Uses a self-query approach to parse the user’s natural-language prompt, fetch the user’s permitted resource IDs from Permit, and apply that filter automatically in a vector store search. 
- 
+- PermitSelfQueryRetriever – Uses a self-query approach to parse the user’s natural-language prompt, fetch the user’s permitted resource IDs from Permit, and apply that filter automatically in a vector store search.
+
 - PermitEnsembleRetriever – Combines multiple underlying retrievers (e.g., BM25 + Vector) via LangChain’s EnsembleRetriever, then filters the merged results with Permit.io.
 
 ## Setup
@@ -57,7 +57,7 @@ OPENAI_API_KEY=sk-...
 
 #### Basic Explanation
 
-1. Retrieves permitted document IDs from Permit.  
+1. Retrieves permitted document IDs from Permit.
 
 2. Uses an LLM to parse your query and build a “structured filter,” ensuring only docs with those permitted IDs are considered.
 

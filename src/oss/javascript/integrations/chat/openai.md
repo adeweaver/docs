@@ -19,7 +19,7 @@ See the links in the table headers below for guides on how to use specific featu
 
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: |
-| ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | 
+| ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ |
 
 ## Setup
 
@@ -60,7 +60,7 @@ Now we can instantiate our model object and generate chat completions:
 
 
 ```typescript
-import { ChatOpenAI } from "@langchain/openai" 
+import { ChatOpenAI } from "@langchain/openai"
 
 const llm = new ChatOpenAI({
   model: "gpt-4o",
@@ -434,7 +434,7 @@ As of Aug 6, 2024, OpenAI supports a `strict` argument when calling tools that w
 
 </Tip>info Requires ``@langchain/openai >= 0.2.6``
 
-**Note**: If ``strict: true`` the tool definition will also be validated, and a subset of JSON schema are accepted. Crucially, schema cannot have optional args (those with default values). Read the full docs on what types of schema are supported here: https://platform.openai.com/docs/guides/structured-outputs/supported-schemas. 
+**Note**: If ``strict: true`` the tool definition will also be validated, and a subset of JSON schema are accepted. Crucially, schema cannot have optional args (those with default values). Read the full docs on what types of schema are supported here: https://platform.openai.com/docs/guides/structured-outputs/supported-schemas.
 :::
 
 
@@ -616,7 +616,7 @@ As with [web search](#web-search), the response will include content blocks with
 
 #### Computer Use
 
-ChatOpenAI supports the `computer-use-preview` model, which is a specialized model for the built-in computer use tool. To enable, pass a [computer use tool](https://platform.openai.com/docs/guides/tools-computer-use) as you would pass another tool. 
+ChatOpenAI supports the `computer-use-preview` model, which is a specialized model for the built-in computer use tool. To enable, pass a [computer use tool](https://platform.openai.com/docs/guides/tools-computer-use) as you would pass another tool.
 
 Currently tool outputs for computer use are present in `AIMessage.additional_kwargs.tool_outputs`. To reply to the computer use tool call, you need to set `additional_kwargs.type: "computer_call_output"` while creating a corresponding `ToolMessage`.
 

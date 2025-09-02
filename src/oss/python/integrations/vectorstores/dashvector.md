@@ -79,7 +79,7 @@ print(docs)
 ```
 ### Operating band `partition` parameters
 
-The `partition` parameter defaults to default, and if a non-existent `partition` parameter is passed in, the `partition` will be created automatically. 
+The `partition` parameter defaults to default, and if a non-existent `partition` parameter is passed in, the `partition` will be created automatically.
 
 
 ```python

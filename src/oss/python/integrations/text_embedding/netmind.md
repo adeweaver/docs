@@ -135,9 +135,9 @@ for vector in two_vectors:
 ```
 ## API Reference
 
-For detailed documentation on `NetmindEmbeddings` features and configuration options, please refer to the:  
-* [API reference](https://python.langchain.com/api_reference/)  
-* [langchain-netmind](https://github.com/protagolabs/langchain-netmind)  
+For detailed documentation on `NetmindEmbeddings` features and configuration options, please refer to the:
+* [API reference](https://python.langchain.com/api_reference/)
+* [langchain-netmind](https://github.com/protagolabs/langchain-netmind)
 * [pypi](https://pypi.org/project/langchain-netmind/)
 
 

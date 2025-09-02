@@ -2,7 +2,7 @@
 title: ModelScope
 ---
 
-ModelScope ([Home](https://www.modelscope.cn/) | [GitHub](https://github.com/modelscope/modelscope)) is built upon the notion of “Model-as-a-Service” (MaaS). It seeks to bring together most advanced machine learning models from the AI community, and streamlines the process of leveraging AI models in real-world applications. The core ModelScope library open-sourced in this repository provides the interfaces and implementations that allow developers to perform model inference, training and evaluation. 
+ModelScope ([Home](https://www.modelscope.cn/) | [GitHub](https://github.com/modelscope/modelscope)) is built upon the notion of “Model-as-a-Service” (MaaS). It seeks to bring together most advanced machine learning models from the AI community, and streamlines the process of leveraging AI models in real-world applications. The core ModelScope library open-sourced in this repository provides the interfaces and implementations that allow developers to perform model inference, training and evaluation.
 
 This will help you get started with ModelScope embedding models using LangChain.
 
@@ -82,7 +82,7 @@ text = "LangChain is the framework for building context-aware reasoning applicat
 
 vectorstore = InMemoryVectorStore.from_texts(
     [text],
-    embedding=embeddings,
+        embedding=embeddings,
 )
 
 # Use the vectorstore as a retriever

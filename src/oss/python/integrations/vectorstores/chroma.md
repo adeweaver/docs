@@ -46,7 +46,7 @@ If you want to get best in-class automated tracing of your model calls you can a
 
 ## Initialization
 
-### Basic Initialization 
+### Basic Initialization
 
 Below is a basic initialization, including the use of a directory to save the data locally.
 
@@ -285,7 +285,7 @@ vector_store.add_documents(documents=documents, ids=uuids)
 
 ### Update items in vector store
 
-Now that we have added documents to our vector store, we can update existing documents by using the `update_documents` function. 
+Now that we have added documents to our vector store, we can update existing documents by using the `update_documents` function.
 
 
 ```python
@@ -319,7 +319,7 @@ vector_store.delete(ids=uuids[-1])
 
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 
 ### Query directly
 

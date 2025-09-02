@@ -155,7 +155,7 @@ For guides on how to use LangChain tools in agents, see the [LangGraph.js](https
 
 ## API reference
 
-For detailed documentation of all Tavily Map API features and configurations head to the API reference: 
+For detailed documentation of all Tavily Map API features and configurations head to the API reference:
 
 https://docs.tavily.com/documentation/api-reference/endpoint/map
 

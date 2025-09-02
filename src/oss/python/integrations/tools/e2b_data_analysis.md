@@ -178,9 +178,9 @@ print("error: ", output["stderr"])
 print("exit code: ", output["exit_code"])
 ```
 ```output
-stderr: 
+stderr:
 stderr: WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
-stderr: 
+stderr:
 stdout: Hit:1 http://security.ubuntu.com/ubuntu jammy-security InRelease
 stdout: Hit:2 http://archive.ubuntu.com/ubuntu jammy InRelease
 stdout: Hit:3 http://archive.ubuntu.com/ubuntu jammy-updates InRelease
@@ -209,7 +209,7 @@ stdout: Unpacking sqlite3 (3.37.2-2ubuntu0.1) ...
 stdout: Setting up sqlite3 (3.37.2-2ubuntu0.1) ...
 stdout: 3.37.2 2022-01-06 13:25:41 872ba256cbf61d9290b571c0e6d82a20c224ca3ad82971edc46b29818d5dalt1
 version:  3.37.2 2022-01-06 13:25:41 872ba256cbf61d9290b571c0e6d82a20c224ca3ad82971edc46b29818d5dalt1
-error:  
+error:
 exit code:  0
 ```
 When your agent is finished, don't forget to close the sandbox

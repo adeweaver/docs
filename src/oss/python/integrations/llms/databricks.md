@@ -59,7 +59,7 @@ databricks = Databricks(
     # We strongly recommend NOT to hardcode your access token in your code, instead use secret management tools
     # or environment variables to store your access token securely. The following example uses Databricks Secrets
     # to retrieve the access token that is available within the Databricks notebook.
-    token=dbutils.secrets.get(scope="YOUR_SECRET_SCOPE", key="databricks-token"),  
+    token=dbutils.secrets.get(scope="YOUR_SECRET_SCOPE", key="databricks-token"),
 )
 ```
 

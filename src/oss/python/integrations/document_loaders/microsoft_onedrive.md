@@ -14,7 +14,7 @@ This notebook covers how to load documents from `OneDrive`. By default the docum
 5. Follow the instructions at this [document](https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-configure-app-expose-web-apis#add-a-scope) to add the following `SCOPES` (`offline_access` and `Files.Read.All`) to your application.
 6. Visit the [Graph Explorer Playground](https://developer.microsoft.com/en-us/graph/graph-explorer) to obtain your `OneDrive ID`. The first step is to ensure you are logged in with the account associated your OneDrive account. Then you need to make a request to `https://graph.microsoft.com/v1.0/me/drive` and the response will return a payload with a field `id` that holds the ID of your OneDrive account.
 7. You need to install the o365 package using the command `pip install o365`.
-8. At the end of the steps you must have the following values: 
+8. At the end of the steps you must have the following values:
 - `CLIENT_ID`
 - `CLIENT_SECRET`
 - `DRIVE_ID`
@@ -92,10 +92,10 @@ def _get_default_parser() -> BaseBlobParser:
         fallback_parser=None,
     )
 ```
-You can override this behavior by passing `handlers` argument to `OneDriveLoader`. 
-Pass a dictionary mapping either file extensions (like `"doc"`, `"pdf"`, etc.) 
-or MIME types (like `"application/pdf"`, `"text/plain"`, etc.) to parsers. 
-Note that you must use either file extensions or MIME types exclusively and 
+You can override this behavior by passing `handlers` argument to `OneDriveLoader`.
+Pass a dictionary mapping either file extensions (like `"doc"`, `"pdf"`, etc.)
+or MIME types (like `"application/pdf"`, `"text/plain"`, etc.) to parsers.
+Note that you must use either file extensions or MIME types exclusively and
 cannot mix them.
 
 Do not include the leading dot for file extensions.
@@ -123,7 +123,7 @@ In case multiple file extensions map to the same MIME type, the last dictionary 
 apply.
 Example:
 ```python
-# 'jpg' and 'jpeg' both map to 'image/jpeg' MIME type. SecondParser() will be used 
+# 'jpg' and 'jpeg' both map to 'image/jpeg' MIME type. SecondParser() will be used
 # to parse all jpg/jpeg files.
 handlers = {
     "jpg": FirstParser(),

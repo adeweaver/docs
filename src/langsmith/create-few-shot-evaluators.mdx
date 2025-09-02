@@ -18,7 +18,7 @@ This guide covers how to set up few-shot examples as part of your LLM-as-a-judge
 ## Configure your evaluator
 
 <Note>
-  Few-shot examples are not currently supported in LLM-as-a-judge evaluators that use the prompt hub and are only compatible with prompts that use mustache formatting.
+Few-shot examples are not currently supported in LLM-as-a-judge evaluators that use the prompt hub and are only compatible with prompts that use mustache formatting.
 </Note>
 
 Before enabling few-shot examples, set up your LLM-as-a-judge evaluator. If you haven't done this yet, follow the steps in the [LLM-as-a-judge evaluator guide](/langsmith/llm-as-judge).
@@ -36,7 +36,7 @@ You may also specify the number of few-shot examples to use. The default is 5. I
 ## Make corrections
 
 <Info>
-  [Audit evaluator scores](/langsmith/audit-evaluator-scores)
+[Audit evaluator scores](/langsmith/audit-evaluator-scores)
 </Info>
 
 As you start logging traces or running experiments, you will likely disagree with some of the scores that your evaluator has given. When you [make corrections to these scores](/langsmith/audit-evaluator-scores), you will begin seeing examples populated inside your corrections dataset. As you make corrections, make sure to attach explanations - these will get populated into your evaluator prompt in place of the `few_shot_explanation` variable.

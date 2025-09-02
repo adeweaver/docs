@@ -2,7 +2,7 @@
 title: ChatXinference
 ---
 
-[Xinference](https://github.com/xorbitsai/inference) is a powerful and versatile library designed to serve LLMs, 
+[Xinference](https://github.com/xorbitsai/inference) is a powerful and versatile library designed to serve LLMs,
 speech recognition models, and multimodal models, even on your laptop. It supports a variety of models compatible with GGML, such as chatglm, baichuan, whisper, vicuna, orca, and many others.
 
 ## Overview
@@ -28,11 +28,11 @@ Install `Xinference` through PyPI:
 
 ### Deploy Xinference Locally or in a Distributed Cluster.
 
-For local deployment, run `xinference`. 
+For local deployment, run `xinference`.
 
 To deploy Xinference in a cluster, first start an Xinference supervisor using the `xinference-supervisor`. You can also use the option -p to specify the port and -H to specify the host. The default port is 8080 and the default host is 0.0.0.0.
 
-Then, start the Xinference workers using `xinference-worker` on each server you want to run them on. 
+Then, start the Xinference workers using `xinference-worker` on each server you want to run them on.
 
 You can consult the README file from [Xinference](https://github.com/xorbitsai/inference) for more information.
 ### Wrapper

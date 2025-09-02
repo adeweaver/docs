@@ -6,7 +6,7 @@ sidebarTitle: With the UI
 Datasets enable you to perform repeatable evaluations over time using consistent data. Datasets are made up of , which store inputs, outputs, and optionally, reference outputs.
 
 <Check>
-  For more information on datasets, evaluations and examples, read the [concepts guide on evaluation and datasets](/langsmith/evaluation-concepts#datasets-and-examples).
+For more information on datasets, evaluations and examples, read the [concepts guide on evaluation and datasets](/langsmith/evaluation-concepts#datasets-and-examples).
 </Check>
 
 This guide outlines the various methods for creating and editing datasets in LangSmith's UI.
@@ -18,7 +18,7 @@ This guide outlines the various methods for creating and editing datasets in Lan
 A common pattern for constructing datasets is to convert notable traces from your application into dataset examples. This approach requires that you have [tracing to LangSmith configured](/langsmith/observability-concepts#tracing-configuration).
 
 <Check>
-  A powerful technique to build datasets is to filter-down into the most interesting traces, such as traces that were tagged with poor user feedback, and add them to a dataset. For tips on how to filter traces, see the [filtering traces](/langsmith/filter-traces-in-application) guide.
+A powerful technique to build datasets is to filter-down into the most interesting traces, such as traces that were tagged with poor user feedback, and add them to a dataset. For tips on how to filter traces, see the [filtering traces](/langsmith/filter-traces-in-application) guide.
 </Check>
 
 There are two ways to manually add data from a tracing projects to datasets.
@@ -44,7 +44,7 @@ You can use [run rules](/langsmith/rules) to automatically add traces to a datas
 ### From examples in an Annotation Queue
 
 <Check>
-  If you rely on subject matter experts to build meaningful datasets, use [annotation queues](/langsmith/annotation-queues) to provide a streamlined view for reviewiers. Human reviewers can optionally modify the inputs/outputs/reference outputs from a trace before it is added to the dataset.
+If you rely on subject matter experts to build meaningful datasets, use [annotation queues](/langsmith/annotation-queues) to provide a streamlined view for reviewiers. Human reviewers can optionally modify the inputs/outputs/reference outputs from a trace before it is added to the dataset.
 </Check>
 
 Annotation queues are can be optionally configured with a default dataset, though you can add runs to any dataset by using the dataset switcher on the bottom of the screen. Once you select the right dataset, click **Add to Dataset** or hit the hot key `D` to add the run to it.
@@ -60,7 +60,7 @@ Note you can also set up rules to add runs that meet specific criteria to an ann
 On the [**Prompt Playground**](/langsmith/observability-concepts#prompt-playground) page, select **Set up Evaluation**, click **+New** if you're starting a new dataset or select from an existing dataset.
 
 <Note>
-  Creating datasets inline in the playground is not supported for datasets that have nested keys. In order to add/edit examples with nested keys, you must edit [from the datasets page](/langsmith/manage-datasets-in-application#from-the-datasets-page).
+Creating datasets inline in the playground is not supported for datasets that have nested keys. In order to add/edit examples with nested keys, you must edit [from the datasets page](/langsmith/manage-datasets-in-application#from-the-datasets-page).
 </Note>
 
 To edit the examples:
@@ -104,9 +104,9 @@ Certain fields in your schema have a `+ Transformations` option. Transformations
 For the full list of available transformations, see [our reference](/langsmith/dataset-transformations).
 
 <Note>
-  If you plan to collect production traces in your dataset from LangChain [ChatModels](https://python.langchain.com/do/langsmith/observability-concepts/chat_models/) or from OpenAI calls using the [LangSmith OpenAI wrapper](/langsmith/annotate-code#wrap-the-openai-client), we offer a prebuilt Chat Model schema that converts messages and tools into industry standard openai formats that can be used downstream with any model for testing. You can also customize the template settings to match your use case.
+If you plan to collect production traces in your dataset from LangChain [ChatModels](https://python.langchain.com/do/langsmith/observability-concepts/chat_models/) or from OpenAI calls using the [LangSmith OpenAI wrapper](/langsmith/annotate-code#wrap-the-openai-client), we offer a prebuilt Chat Model schema that converts messages and tools into industry standard openai formats that can be used downstream with any model for testing. You can also customize the template settings to match your use case.
 
-  Please see the [dataset transformations reference](/langsmith/dataset-transformations) for more information.
+Please see the [dataset transformations reference](/langsmith/dataset-transformations) for more information.
 </Note>
 
 ### Create and manage dataset splits

@@ -1,10 +1,10 @@
 ---
-title: Amazon Textract 
+title: Amazon Textract
 ---
 
 >[Amazon Textract](https://docs.aws.amazon.com/managedservices/latest/userguide/textract.html) is a machine learning (ML) service that automatically extracts text, handwriting, and data from scanned documents.
 >
->It goes beyond simple optical character recognition (OCR) to identify, understand, and extract data from forms and tables. Today, many companies manually extract data from scanned documents such as PDFs, images, tables, and forms, or through simple OCR software that requires manual configuration (which often must be updated when the form changes). To overcome these manual and expensive processes, `Textract` uses ML to read and process any type of document, accurately extracting text, handwriting, tables, and other data with no manual effort. 
+>It goes beyond simple optical character recognition (OCR) to identify, understand, and extract data from forms and tables. Today, many companies manually extract data from scanned documents such as PDFs, images, tables, and forms, or through simple OCR software that requires manual configuration (which often must be updated when the form changes). To overcome these manual and expensive processes, `Textract` uses ML to read and process any type of document, accurately extracting text, handwriting, tables, and other data with no manual effort.
 
 `Textract` supports `JPEG`, `PNG`, `PDF`, and `TIFF` file formats; more information is available in [the documentation](https://docs.aws.amazon.com/textract/latest/dg/limits-document.html).
 
@@ -22,7 +22,7 @@ The following examples demonstrate the use of `Amazon Textract` in combination w
 
 ## Example 1: Loading from a local file
 
-The first example uses a local file, which internally will be sent to Amazon Textract sync API [DetectDocumentText](https://docs.aws.amazon.com/textract/latest/dg/API_DetectDocumentText.html). 
+The first example uses a local file, which internally will be sent to Amazon Textract sync API [DetectDocumentText](https://docs.aws.amazon.com/textract/latest/dg/API_DetectDocumentText.html).
 
 Local files or URL endpoints like HTTP:// are limited to one page documents for Textract.
 Multi-page documents have to reside on S3. This sample file is a jpeg.
@@ -50,7 +50,7 @@ documents
 
 
 ## Example 2: Loading from a URL
-The next example loads a file from an HTTPS endpoint. 
+The next example loads a file from an HTTPS endpoint.
 It has to be single page, as Amazon Textract requires all multi-page documents to be stored on S3.
 
 

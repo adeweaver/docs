@@ -67,16 +67,16 @@ tools[0].name
 print(tools[0].description)
 ```
 ```output
-Evaluates python code in a sandbox environment. The environment resets on every execution. You must send the whole script every time and print your outputs. Script should be pure python code that can be evaluated. It should be in python format NOT markdown. The code should NOT be wrapped in backticks. All python packages including requests, matplotlib, scipy, numpy, pandas, etc are available. If you have any files outputted write them to "output/" relative to the execution 
-path. Output can only be read from the directory, stdout, and stdin. Do not use things like plot.show() as it will 
+Evaluates python code in a sandbox environment. The environment resets on every execution. You must send the whole script every time and print your outputs. Script should be pure python code that can be evaluated. It should be in python format NOT markdown. The code should NOT be wrapped in backticks. All python packages including requests, matplotlib, scipy, numpy, pandas, etc are available. If you have any files outputted write them to "output/" relative to the execution
+path. Output can only be read from the directory, stdout, and stdin. Do not use things like plot.show() as it will
 not work instead write them out `output/` and a link to the file will be returned. print() any output and results so you can capture the output.
 
 The following files available in the evaluation environment:
-- path: `Bristol.pdf` 
- first four lines: [] 
+- path: `Bristol.pdf`
+ first four lines: []
  description: ``
-- path: `US_GDP.csv` 
- first four lines: ['DATE,GDP\n', '1947-01-01,243.164\n', '1947-04-01,245.968\n', '1947-07-01,249.585\n'] 
+- path: `US_GDP.csv`
+ first four lines: ['DATE,GDP\n', '1947-01-01,243.164\n', '1947-04-01,245.968\n', '1947-07-01,249.585\n']
  description: ``
 ```
 Initialize an agent
@@ -110,24 +110,24 @@ Invoking: `bearly_interpreter` with `{'python_code': "from PyPDF2 import PdfRead
 
 {'stdout': '1 COVID-19 at Work: \nExposing h ow risk is assessed and its consequences in England and Sweden \nPeter Andersson and Tonia Novitz* \n1.Introduction\nT\nhe crisis which arose suddenly at the beginning of 2020 relating to coronavirus was immediately \ncentred on risk. Predictions ha d to be made swiftly regarding how it would spread, who it might \naffect and what measures could be taken to prevent exposure in everyday so cial interaction, \nincluding in the workplace. This was in no way a straightforward assessment, because initially so \nmuch was unknown. Those gaps in our knowledge have since, partially, been ameliorated. It is \nevident that not all those exposed to COVID-19 become ill, and many who contract the virus remain \nasymptomatic, so that the odds on becoming seriously ill may seem small. But those odds are also stacked against certain segments of the population. The likelihood of mortality and morbidity are associated  with age and ethnicity as well as pre -existing medical conditions (such as diabetes), but \nalso with poverty which correlates to the extent of exposure in certain occupations.\n1 Some risks \narise which remain  less predictable, as previously healthy people with no signs of particular \nvulnerability can experience serious long term illness as well and in rare cases will even die.2 \nPerceptions of risk in different countries have led to particular measures taken, ranging from handwashing to social distancing, use of personal protective equipment (PPE) such as face coverings, and even ‘lockdowns’ which have taken various forms.\n3 Use of testing and vaccines \nalso bec ame part of the remedial landscape, with their availability and administration  being \n*This paper is part of the project An  i nclusive and sustainable Swedish labour law – the way\nahead, dnr. 2017-03134 financed by the Swedish research council led by Petra Herzfeld Olssonat Stockholm University. The authors would like to thank her and other participants, Niklas\nBruun and Erik Sjödin for their helpful comments on earlier drafts. A much shorter article titled\n‘Risk Assessment and COVID -19: Systems at work (or not) in England and Sweden’ is published\nin the (2021) Comparative Labour and Social Security Review /\n Revue de droit comparé du\ntravail et de la sécurité sociale.\n1 Public Health England, Disparities in the risk and outcomes of COVID-19 (2 June 2020 -\nhttps://assets.publishing.service.gov.uk/government/uploads/ system /uploads/attachment_data/file\n/890258/disparities_review.pdf.\n2 Nisreen A. Alwan, ‘Track COVID- 19 sickness, not just positive tests and deaths’ ( 2020)\n584.7820 Nature  170- 171; Elisabeth Mahase, ‘Covid-19: What do we know about “long covid”?’\n(2020) BMJ  370.\n3 Sarah Dryhurst, Claudia R. Schneider, John Kerr, Alexandra LJ Freeman, Gabriel Recchia,\nAnne Marthe Van Der Bles, David Spiegelhalter, and Sander van der Linden, ‘Risk perceptionsof COVID-19 around the world’ (2020) 23(7- 8) Journal of Risk Research  994; Wändi Bruine de\nBruin, and Daniel Bennett, ‘Relationships between initial COVID -19 risk perceptions and\nprotective health behaviors: A national survey’ (2020) 59(2) American Journal of Prev entive\nMedicine  157; and Simon Deakin and Gaofeng Meng, ‘The Governance of Covid- 19:\nAnthropogenic Risk, Evolutionary Learning, and the Future of the Social State’ (2020)49(4) Industrial Law Journal  539.\n', 'stderr': '', 'fileLinks': [], 'exitCode': 0}The text on page 3 of the PDF is:
 
-"1 COVID-19 at Work: 
-Exposing how risk is assessed and its consequences in England and Sweden 
-Peter Andersson and Tonia Novitz* 
+"1 COVID-19 at Work:
+Exposing how risk is assessed and its consequences in England and Sweden
+Peter Andersson and Tonia Novitz*
 1.Introduction
-The crisis which arose suddenly at the beginning of 2020 relating to coronavirus was immediately 
-centred on risk. Predictions had to be made swiftly regarding how it would spread, who it might 
-affect and what measures could be taken to prevent exposure in everyday social interaction, 
-including in the workplace. This was in no way a straightforward assessment, because initially so 
-much was unknown. Those gaps in our knowledge have since, partially, been ameliorated. It is 
-evident that not all those exposed to COVID-19 become ill, and many who contract the virus remain 
-asymptomatic, so that the odds on becoming seriously ill may seem small. But those odds are also stacked against certain segments of the population. The likelihood of mortality and morbidity are associated  with age and ethnicity as well as pre-existing medical conditions (such as diabetes), but 
+The crisis which arose suddenly at the beginning of 2020 relating to coronavirus was immediately
+centred on risk. Predictions had to be made swiftly regarding how it would spread, who it might
+affect and what measures could be taken to prevent exposure in everyday social interaction,
+including in the workplace. This was in no way a straightforward assessment, because initially so
+much was unknown. Those gaps in our knowledge have since, partially, been ameliorated. It is
+evident that not all those exposed to COVID-19 become ill, and many who contract the virus remain
+asymptomatic, so that the odds on becoming seriously ill may seem small. But those odds are also stacked against certain segments of the population. The likelihood of mortality and morbidity are associated  with age and ethnicity as well as pre-existing medical conditions (such as diabetes), but
 also with poverty which correlates to the extent of exposure in certain occupations.
-1 Some risks 
-arise which remain  less predictable, as previously healthy people with no signs of particular 
-vulnerability can experience serious long term illness as well and in rare cases will even die.2 
+1 Some risks
+arise which remain  less predictable, as previously healthy people with no signs of particular
+vulnerability can experience serious long term illness as well and in rare cases will even die.2
 Perceptions of risk in different countries have led to particular measures taken, ranging from handwashing to social distancing, use of personal protective equipment (PPE) such as face coverings, and even ‘lockdowns’ which have taken various forms.
-3 Use of testing and vaccines 
-also became part of the remedial landscape, with their availability and administration  being 
+3 Use of testing and vaccines
+also became part of the remedial landscape, with their availability and administration  being
 *This paper is part of the project An  inclusive and sustainable Swedish labour law – the way
 ahead, dnr. 2017-03134 financed by the Swedish research council led by Petra Herzfeld Olssonat Stockholm University. The authors would like to thank her and other participants, Niklas
 Bruun and Erik Sjödin for their helpful comments on earlier drafts. A much shorter article titled

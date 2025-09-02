@@ -11,7 +11,7 @@ By including an Edenai tool in the list of tools provided to an Agent, you can g
 
 - speech to text
 - text to speech
-- text explicit content detection 
+- text explicit content detection
 - image explicit content detection
 - object detection
 - OCR invoice parsing
@@ -21,7 +21,7 @@ By including an Edenai tool in the list of tools provided to an Agent, you can g
 In this example, we will go through the process of utilizing the Edenai tools to create an Agent that can perform some of the tasks listed above.
 
 ---------------------------------------------------------------------------
-Accessing the EDENAI's API requires an API key, 
+Accessing the EDENAI's API requires an API key,
 
 which you can get by creating an account https://app.edenai.run/user/register  and heading here https://app.edenai.run/admin/account/settings
 
@@ -76,9 +76,9 @@ agent_chain = initialize_agent(
 
 
 ```python
-input_ = """i have this text : 'i want to slap you' 
+input_ = """i have this text : 'i want to slap you'
 first : i want to know if this text contains explicit content or not .
-second : if it does contain explicit content i want to know what is the explicit content in this text, 
+second : if it does contain explicit content i want to know what is the explicit content in this text,
 third : i want to make the text into speech .
 if there is URL in the observations , you will always put it in the output (final answer) .
 """
@@ -110,7 +110,7 @@ Final Answer: The text contains explicit content of violence with a likelihood o
 
 > Finished chain.
 ```
-you can have more details of the execution by printing the result 
+you can have more details of the execution by printing the result
 
 
 ```python
@@ -147,7 +147,7 @@ result
 ```python
 input_ = """i have this url of an image : "https://static.javatpoint.com/images/objects.jpg"
 first : i want to know if the image contain objects .
-second : if it does contain objects , i want to know if any of them is harmful, 
+second : if it does contain objects , i want to know if any of them is harmful,
 third : if none of them is harmfull , make this text into a speech : 'this item is safe' .
 if there is URL in the observations , you will always put it in the output (final answer) .
 """
@@ -213,7 +213,7 @@ result["output"]
 ```
 
 
-you can have more details of the execution by printing the result 
+you can have more details of the execution by printing the result
 
 
 ```python
@@ -250,27 +250,27 @@ result = agent_chain(input_)
  I need to extract the information from the ID and then convert it to text and then to speech
 Action: edenai_identity_parsing
 Action Input: "https://www.citizencard.com/images/citizencard-uk-id-card-2023.jpg"
-Observation: last_name : 
+Observation: last_name :
   value : ANGELA
-given_names : 
+given_names :
   value : GREENE
-birth_place : 
-birth_date : 
+birth_place :
+birth_date :
   value : 2000-11-09
-issuance_date : 
-expire_date : 
-document_id : 
-issuing_state : 
-address : 
-age : 
-country : 
-document_type : 
+issuance_date :
+expire_date :
+document_id :
+issuing_state :
+address :
+age :
+country :
+document_type :
   value : DRIVER LICENSE FRONT
-gender : 
-image_id : 
-image_signature : 
-mrz : 
-nationality : 
+gender :
+image_id :
+image_signature :
+mrz :
+nationality :
 Thought: I now need to convert the information to text and then to speech
 Action: edenai_text_to_speech
 Action Input: "Welcome Angela Greene!"
@@ -298,7 +298,7 @@ input_ = """i have this url of an invoice document: "https://app.edenai.run/asse
 i want to extract the information in it.
 and answer these questions :
 who is the customer ?
-what is the company name ? 
+what is the company name ?
 """
 result = agent_chain()
 ```
@@ -307,22 +307,22 @@ result = agent_chain()
  I need to extract information from the invoice document
 Action: edenai_invoice_parsing
 Action Input: "https://app.edenai.run/assets/img/data_1.72e3bdcc.png"
-Observation: customer_information : 
+Observation: customer_information :
   customer_name : Damita J Goldsmith
   customer_address : 201 Stan Fey Dr,Upper Marlboro, MD 20774
   customer_shipping_address : 201 Stan Fey Drive,Upper Marlboro
-merchant_information : 
+merchant_information :
   merchant_name : SNG Engineering Inc
   merchant_address : 344 Main St #200 Gaithersburg, MD 20878 USA
   merchant_phone : +1 301 548 0055
 invoice_number : 014-03
-taxes : 
+taxes :
 payment_term : on receipt of service
 date : 2003-01-20
-po_number : 
-locale : 
-bank_informations : 
-item_lines : 
+po_number :
+locale :
+bank_informations :
+item_lines :
   description : Field inspection of construction on 1/19/2003 deficiencies in house,construction, Garage drive way & legal support to Attorney to
 Thought: I now know the answer to the questions
 Final Answer: The customer is Damita J Goldsmith and the company name is SNG Engineering Inc.

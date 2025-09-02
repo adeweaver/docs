@@ -114,10 +114,10 @@ def _get_default_parser() -> BaseBlobParser:
         fallback_parser=None,
     )
 ```
-You can override this behavior by passing `handlers` argument to `SharePointLoader`. 
-Pass a dictionary mapping either file extensions (like `"doc"`, `"pdf"`, etc.) 
-or MIME types (like `"application/pdf"`, `"text/plain"`, etc.) to parsers. 
-Note that you must use either file extensions or MIME types exclusively and 
+You can override this behavior by passing `handlers` argument to `SharePointLoader`.
+Pass a dictionary mapping either file extensions (like `"doc"`, `"pdf"`, etc.)
+or MIME types (like `"application/pdf"`, `"text/plain"`, etc.) to parsers.
+Note that you must use either file extensions or MIME types exclusively and
 cannot mix them.
 
 Do not include the leading dot for file extensions.
@@ -145,7 +145,7 @@ In case multiple file extensions map to the same MIME type, the last dictionary 
 apply.
 Example:
 ```python
-# 'jpg' and 'jpeg' both map to 'image/jpeg' MIME type. SecondParser() will be used 
+# 'jpg' and 'jpeg' both map to 'image/jpeg' MIME type. SecondParser() will be used
 # to parse all jpg/jpeg files.
 handlers = {
     "jpg": FirstParser(),

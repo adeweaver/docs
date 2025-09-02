@@ -4,7 +4,7 @@ description: "How to trigger Open SWE runs by tagging it in PR comments and revi
 ---
 
 <Warning>
-  PR tagging functionality is **not available** on the demo application at [swe.langchain.com](https://swe.langchain.com). To use PR tagging, you must self-host Open SWE following the [development setup guide](/labs/swe/setup/development).
+PR tagging functionality is **not available** on the demo application at [swe.langchain.com](https://swe.langchain.com). To use PR tagging, you must self-host Open SWE following the [development setup guide](/labs/swe/setup/development).
 </Warning>
 
 # PR Tagging Integration
@@ -31,13 +31,13 @@ You can trigger Open SWE by mentioning `@open-swe` in any of the following conte
 - Best for broader changes or new feature requests
 
 <Note>
-  Each time you tag `@open-swe`, it creates a **new independent run**. Multiple tags in the same comment or across different comments will result in separate runs being executed.
+Each time you tag `@open-swe`, it creates a **new independent run**. Multiple tags in the same comment or across different comments will result in separate runs being executed.
 </Note>
 
 ## Context and Security Considerations
 
 <Warning>
-  **Security Notice**: When you tag Open SWE in a PR, it will have access to **all comments, reviews, and review comments** on that pull request, along with any linked issues. Be aware of potential prompt injection attacks and avoid including sensitive information in PR discussions, or linked issues, when using this feature.
+**Security Notice**: When you tag Open SWE in a PR, it will have access to **all comments, reviews, and review comments** on that pull request, along with any linked issues. Be aware of potential prompt injection attacks and avoid including sensitive information in PR discussions, or linked issues, when using this feature.
 </Warning>
 
 ### What Context is Included
@@ -110,7 +110,7 @@ To start using PR tagging:
 ```
 
 ```markdown
-This code looks good overall, but I think we need better error handling. 
+This code looks good overall, but I think we need better error handling.
 @open-swe please add try-catch blocks and proper error logging.
 ```
 
@@ -161,7 +161,7 @@ NEXT_PUBLIC_ALLOWED_USERS_LIST='["your-github-username", "teammate-username"]'
 When running locally, every user is an "allowed user". It's also recommended to set this environment variable in your web app's production environment variables so your users won't need to set their own API keys when invoking Open SWE via the web app.
 
 <Tip>
-  After making these configuration changes, restart your Open SWE instance to ensure the new settings take effect. You can then test the functionality by tagging your custom username in a PR comment.
+After making these configuration changes, restart your Open SWE instance to ensure the new settings take effect. You can then test the functionality by tagging your custom username in a PR comment.
 </Tip>
 
 ## Best Practices

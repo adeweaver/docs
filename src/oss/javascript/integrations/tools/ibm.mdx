@@ -135,7 +135,7 @@ const exampleQuery = "Who won F1 championship in 2022?"
 
 const events = await agent.stream(
    { messages: [{ role: "user", content: exampleQuery }]},
-   { streamMode: "values", } 
+   { streamMode: "values", }
 )
 
 for await (const event of events) {

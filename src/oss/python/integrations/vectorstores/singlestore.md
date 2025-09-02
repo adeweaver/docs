@@ -16,7 +16,7 @@ In essence, SingleStore provides a comprehensive solution for managing and query
 
 | Class | Package | JS support |
 | :--- | :--- |  :---: |
-| SingleStoreVectorStore | langchain_singlestore | ✅ | 
+| SingleStoreVectorStore | langchain_singlestore | ✅ |
 
 <Note>
 **For the langchain-community version `SingleStoreDB` (deprecated), see**
@@ -127,7 +127,7 @@ docs = [
     Document(
         page_content="""Blanketing the countryside in a soft, pristine layer, the
             snowfall painted a serene tableau, muffling the world in a tranquil hush
-            as delicate flakes settled upon the branches of trees like nature's own 
+            as delicate flakes settled upon the branches of trees like nature's own
             lacework.""",
         metadata={"category": "snow"},
     ),
@@ -175,7 +175,7 @@ vector_store.delete(ids=["3"])
 
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 
 ### Query directly
 
@@ -200,7 +200,7 @@ for doc, score in results:
 ```
 
 ### Metadata filtering
-SingleStoreDB elevates search capabilities by enabling users to enhance and refine search results through prefiltering based on metadata fields. This functionality empowers developers and data analysts to fine-tune queries, ensuring that search results are precisely tailored to their requirements. By filtering search results using specific metadata attributes, users can narrow down the scope of their queries, focusing only on relevant data subsets. 
+SingleStoreDB elevates search capabilities by enabling users to enhance and refine search results through prefiltering based on metadata fields. This functionality empowers developers and data analysts to fine-tune queries, ensuring that search results are precisely tailored to their requirements. By filtering search results using specific metadata attributes, users can narrow down the scope of their queries, focusing only on relevant data subsets.
 
 
 ```python
@@ -212,7 +212,7 @@ print(docs[0].page_content)
 ```
 
 ### Vector index
-Enhance your search efficiency with SingleStore DB version 8.5 or above by leveraging [ANN vector indexes](https://docs.singlestore.com/cloud/reference/sql-reference/vector-functions/vector-indexing/). By setting `use_vector_index=True` during vector store object creation, you can activate this feature. Additionally, if your vectors differ in dimensionality from the default OpenAI embedding size of 1536, ensure to specify the `vector_size` parameter accordingly. 
+Enhance your search efficiency with SingleStore DB version 8.5 or above by leveraging [ANN vector indexes](https://docs.singlestore.com/cloud/reference/sql-reference/vector-functions/vector-indexing/). By setting `use_vector_index=True` during vector store object creation, you can activate this feature. Additionally, if your vectors differ in dimensionality from the default OpenAI embedding size of 1536, ensure to specify the `vector_size` parameter accordingly.
 
 ### Search strategies
 SingleStoreDB presents a diverse range of search strategies, each meticulously crafted to cater to specific use cases and user preferences. The default `VECTOR_ONLY` strategy utilizes vector operations such as `dot_product` or `euclidean_distance` to calculate similarity scores directly between vectors, while `TEXT_ONLY` employs Lucene-based full-text search, particularly advantageous for text-centric applications. For users seeking a balanced approach, `FILTER_BY_TEXT` first refines results based on text similarity before conducting vector comparisons, whereas `FILTER_BY_VECTOR` prioritizes vector similarity, filtering results before assessing text similarity for optimal matches. Notably, both `FILTER_BY_TEXT` and `FILTER_BY_VECTOR` necessitate a full-text index for operation. Additionally, `WEIGHTED_SUM` emerges as a sophisticated strategy, calculating the final similarity score by weighing vector and text similarities, albeit exclusively utilizing dot_product distance calculations and also requiring a full-text index. These versatile strategies empower users to fine-tune searches according to their unique needs, facilitating efficient and precise data retrieval and analysis. Moreover, SingleStoreDB's hybrid approaches, exemplified by `FILTER_BY_TEXT`, `FILTER_BY_VECTOR`, and `WEIGHTED_SUM` strategies, seamlessly blend vector and text-based searches to maximize efficiency and accuracy, ensuring users can fully leverage the platform's capabilities for a wide range of applications.
@@ -272,7 +272,7 @@ print(weightedSumResults[0].page_content)
 
 ### Query by turning into retriever
 
-You can also transform the vector store into a retriever for easier usage in your chains. 
+You can also transform the vector store into a retriever for easier usage in your chains.
 
 
 

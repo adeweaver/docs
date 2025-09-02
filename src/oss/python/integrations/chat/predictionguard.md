@@ -14,10 +14,10 @@ This integration utilizes the Prediction Guard API, which includes various safeg
 The models supported by this integration only feature text-generation currently, along with the input and output checks described here.
 
 ## Setup
-To access Prediction Guard models, contact us [here](https://predictionguard.com/get-started) to get a Prediction Guard API key and get started. 
+To access Prediction Guard models, contact us [here](https://predictionguard.com/get-started) to get a Prediction Guard API key and get started.
 
 ### Credentials
-Once you have a key, you can set it with 
+Once you have a key, you can set it with
 
 
 ```python

@@ -2,7 +2,7 @@
 title: NLP Cloud
 ---
 
->[NLP Cloud](https://docs.nlpcloud.com/#introduction) is an artificial intelligence platform that allows you to use the most advanced AI engines, and even train your own engines with your own data. 
+>[NLP Cloud](https://docs.nlpcloud.com/#introduction) is an artificial intelligence platform that allows you to use the most advanced AI engines, and even train your own engines with your own data.
 
 The [embeddings](https://docs.nlpcloud.com/#embeddings) endpoint offers the following model:
 

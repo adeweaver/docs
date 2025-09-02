@@ -9,7 +9,7 @@ This notebook goes over how to use Langchain with [Petals](https://github.com/bi
 ## Install petals
 The `petals` package is required to use the Petals API. Install `petals` using `pip3 install petals`.
 
-For Apple Silicon(M1/M2) users please follow this guide [https://github.com/bigscience-workshop/petals/issues/147#issuecomment-1365379642](https://github.com/bigscience-workshop/petals/issues/147#issuecomment-1365379642) to install petals 
+For Apple Silicon(M1/M2) users please follow this guide [https://github.com/bigscience-workshop/petals/issues/147#issuecomment-1365379642](https://github.com/bigscience-workshop/petals/issues/147#issuecomment-1365379642) to install petals
 
 
 ```python

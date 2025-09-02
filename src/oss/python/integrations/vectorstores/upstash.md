@@ -127,7 +127,7 @@ result
 
 ## Querying with score
 
-The score of the query can be included for every result. 
+The score of the query can be included for every result.
 
 > The score returned in the query requests is a normalized value between 0 and 1, where 1 indicates the highest similarity and 0 the lowest regardless of the similarity function used. For more information look at the [docs](https://upstash.com/docs/vector/overall/features#vector-similarity-functions).
 
@@ -229,7 +229,7 @@ result
 
 You can get information about your database like the distance metric dimension using the info function.
 
-> When an insert happens, the database an indexing takes place. While this is happening new vectors can not be queried. `pendingVectorCount` represents the number of vector that are currently being indexed. 
+> When an insert happens, the database an indexing takes place. While this is happening new vectors can not be queried. `pendingVectorCount` represents the number of vector that are currently being indexed.
 
 
 ```python

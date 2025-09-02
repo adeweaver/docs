@@ -12,10 +12,10 @@ This notebook walks through connecting a LangChain to the `Google Drive API`.
 1. `pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib`
 
 ## Instructions for retrieving your Google Docs data
-By default, the `GoogleDriveTools` and `GoogleDriveWrapper` expects the `credentials.json` file to be `~/.credentials/credentials.json`, but this is configurable by setting the `GOOGLE_ACCOUNT_FILE` environment variable to your `custom/path/to/credentials.json`. 
+By default, the `GoogleDriveTools` and `GoogleDriveWrapper` expects the `credentials.json` file to be `~/.credentials/credentials.json`, but this is configurable by setting the `GOOGLE_ACCOUNT_FILE` environment variable to your `custom/path/to/credentials.json`.
 The location of `token.json` use the same directory (or use the parameter `token_path`). Note that `token.json` will be created automatically the first time you use the tool.
 
-`GoogleDriveSearchTool` can retrieve a selection of files with some requests. 
+`GoogleDriveSearchTool` can retrieve a selection of files with some requests.
 
 By default, If you use a `folder_id`, all the files inside this folder can be retrieved to `Document`, if the name match the query.
 

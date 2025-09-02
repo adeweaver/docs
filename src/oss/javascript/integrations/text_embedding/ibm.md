@@ -199,7 +199,7 @@ You can embed multiple texts for indexing with `embedDocuments`. The internals u
     const text2 = "LangGraph is a library for building stateful, multi-actor applications with LLMs";
 
     const vectors = await embeddings.embedDocuments([text, text2]);
-   
+
     console.log(vectors[0].slice(0, 10));
     console.log(vectors[1].slice(0, 10));
 

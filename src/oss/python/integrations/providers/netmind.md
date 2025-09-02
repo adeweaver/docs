@@ -14,8 +14,8 @@ This example goes over how to use LangChain to interact with Netmind AI models.
 pip install langchain-netmind
 ```
 
-Get an Netmind api key and set it as an environment variable (`NETMIND_API_KEY`).  
-Head to https://www.netmind.ai/ to sign up to Netmind and generate an API key. 
+Get an Netmind api key and set it as an environment variable (`NETMIND_API_KEY`).
+Head to https://www.netmind.ai/ to sign up to Netmind and generate an API key.
 
 
 

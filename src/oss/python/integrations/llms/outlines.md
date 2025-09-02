@@ -149,6 +149,6 @@ response
 
 For detailed documentation of all ChatOutlines features and configurations head to the API reference: https://python.langchain.com/api_reference/community/chat_models/langchain_community.chat_models.outlines.ChatOutlines.html
 
-## Outlines Documentation: 
+## Outlines Documentation:
 
 https://dottxt-ai.github.io/outlines/latest/

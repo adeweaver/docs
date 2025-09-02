@@ -21,7 +21,7 @@ from langchain_core.tools import tool
 @tool
 def search_database(query: str, limit: int = 10) -> str:
     """Search the customer database for records matching the query.
-    
+
     Args:
         query: Search terms to look for
         limit: Maximum number of results to return
@@ -231,7 +231,7 @@ const toolNode = new ToolNode([searchDatabase, calculate], {
     - `Callable[..., str]`
     - `type[Exception]`
     - `tuple[type[Exception], ...]`
-  
+
   See [Error handling strategies](#error-handling-strategies) for details.
   Default: internal `_default_handle_tool_errors`
 </ParamField>
@@ -242,8 +242,8 @@ const toolNode = new ToolNode([searchDatabase, calculate], {
   Controls how tool execution failures are handled.
   Can be:
     - `boolean`
-    - `((error: unknown, toolCall: ToolCall) => ToolMessage | undefined)`
-  
+        - `((error: unknown, toolCall: ToolCall) => ToolMessage | undefined)`
+
   See [Error handling strategies](#error-handling-strategies) below for details.
   Default: `true`
 </ParamField>
@@ -394,7 +394,7 @@ const searchDatabase = tool(
     schema: z.object({
       query: z.string().describe("The query to search the database with")
     })
-  }   
+  }
 );
 
 const sendEmail = tool(
@@ -465,11 +465,11 @@ def summarize_conversation(
 ) -> str:
     """Summarize the conversation so far."""
     messages = state["messages"]
-    
+
     human_msgs = sum(1 for m in messages if m.__class__.__name__ == "HumanMessage")
     ai_msgs = sum(1 for m in messages if m.__class__.__name__ == "AIMessage")
     tool_msgs = sum(1 for m in messages if m.__class__.__name__ == "ToolMessage")
-    
+
     return f"Conversation has {human_msgs} user messages, {ai_msgs} AI responses, and {tool_msgs} tool results"
 
 # Access custom state fields
@@ -502,7 +502,7 @@ from typing_extensions import Annotated
 @tool
 def clear_conversation() -> Command:
     """Clear the conversation history."""
-    
+
     return Command(
         update={
             "messages": [RemoveMessage(id=REMOVE_ALL_MESSAGES)],
@@ -543,7 +543,7 @@ USER_DATABASE = {
         "email": "alice@example.com"
     },
     "user456": {
-        "name": "Bob Smith", 
+        "name": "Bob Smith",
         "account_type": "Standard",
         "balance": 1200,
         "email": "bob@example.com"
@@ -559,7 +559,7 @@ def get_account_info() -> str:
     """Get the current user's account information."""
     runtime = get_runtime(UserContext)
     user_id = runtime.context.user_id
-    
+
     if user_id in USER_DATABASE:
         user = USER_DATABASE[user_id]
         return f"Account holder: {user['name']}\nType: {user['account_type']}\nBalance: ${user['balance']}"
@@ -590,7 +590,7 @@ import { ToolNode, createAgent } from "langchain"
 const getUserName = tool(
   (_, config) => {
     return config.context.user_name
-  }, 
+  },
   {
     name: "get_user_name",
     description: "Get the user's name.",
@@ -621,7 +621,7 @@ const result = await agent.invoke(
 ### Accessing long-term memory inside a tool
 
 <Info>
-**`store`**: LangChain's persistence layer. An agent's long-term memory store, e.g. user-specific or application-specific data stored across conversations. 
+**`store`**: LangChain's persistence layer. An agent's long-term memory store, e.g. user-specific or application-specific data stored across conversations.
 </Info>
 
 :::python

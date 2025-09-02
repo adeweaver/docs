@@ -165,7 +165,7 @@ print(ai_msg.tool_calls)
 
 ### A note on tool binding
 
-The `ChatWriter.bind_tools()` method does not create a new instance with bound tools, but stores the received `tools` and `tool_choice` in the initial class instance attributes to pass them as parameters during the Palmyra LLM call while using `ChatWriter` invocation. This approach allows the support of different tool types, e.g. `function` and `graph`. `Graph` is one of the remotely called Writer Palmyra tools. For further information, visit our [docs](https://dev.writer.com/api-guides/knowledge-graph#knowledge-graph). 
+The `ChatWriter.bind_tools()` method does not create a new instance with bound tools, but stores the received `tools` and `tool_choice` in the initial class instance attributes to pass them as parameters during the Palmyra LLM call while using `ChatWriter` invocation. This approach allows the support of different tool types, e.g. `function` and `graph`. `Graph` is one of the remotely called Writer Palmyra tools. For further information, visit our [docs](https://dev.writer.com/api-guides/knowledge-graph#knowledge-graph).
 
 For more information about tool usage in LangChain, visit the [LangChain tool calling documentation](https://python.langchain.com/docs/concepts/tool_calling/).
 

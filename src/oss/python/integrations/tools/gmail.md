@@ -38,8 +38,8 @@ toolkit = GmailToolkit()
 
 ### Customizing Authentication
 
-Behind the scenes, a `googleapi` resource is created using the following methods. 
-you can manually build a `googleapi` resource for more auth control. 
+Behind the scenes, a `googleapi` resource is created using the following methods.
+you can manually build a `googleapi` resource for more auth control.
 
 
 ```python

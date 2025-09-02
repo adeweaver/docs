@@ -16,7 +16,7 @@ This will help you get started with Netmind [chat models](https://www.netmind.ai
 ### Model features
 | [Tool calling](../../how_to/tool_calling.ipynb) | [Structured output](../../how_to/structured_output.ipynb) | JSON mode | [Image input](../../how_to/multimodal_inputs.ipynb) | Audio input | Video input | [Token-level streaming](../../how_to/chat_streaming.ipynb) | Native async | [Token usage](../../how_to/chat_token_usage_tracking.ipynb) | [Logprobs](../../how_to/logprobs.ipynb) |
 |:-----------------------------------------------:|:---------------------------------------------------------:|:---------:|:---------------------------------------------------:|:-----------:|:-----------:|:----------------------------------------------------------:|:------------:|:-----------------------------------------------------------:|:---------------------------------------:|
-|                        ✅                        |                             ✅                             |     ✅     |                          ❌                          |      ❌      |      ❌      |                             ✅                              |      ✅       |                              ✅                              |                    ✅                    | 
+|                        ✅                        |                             ✅                             |     ✅     |                          ❌                          |      ❌      |      ❌      |                             ✅                              |      ✅       |                              ✅                              |                    ✅                    |
 
 ## Setup
 
@@ -145,9 +145,9 @@ AIMessage(content='Ich liebe es zu programmieren.', additional_kwargs={'refusal'
 
 ## API reference
 
-For detailed documentation of all ChatNetmind features and configurations head to the API reference:  
-* [API reference](https://python.langchain.com/api_reference/)  
-* [langchain-netmind](https://github.com/protagolabs/langchain-netmind)  
+For detailed documentation of all ChatNetmind features and configurations head to the API reference:
+* [API reference](https://python.langchain.com/api_reference/)
+* [langchain-netmind](https://github.com/protagolabs/langchain-netmind)
 * [pypi](https://pypi.org/project/langchain-netmind/)
 
 

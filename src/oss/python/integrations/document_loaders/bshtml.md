@@ -11,11 +11,11 @@ This guide provides a quick overview for getting started with BeautifulSoup4 [do
 
 | Class | Package | Local | Serializable | JS support|
 | :--- | :--- | :---: | :---: |  :---: |
-| [BSHTMLLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.html_bs.BSHTMLLoader.html) | [langchain-community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ❌ | 
+| [BSHTMLLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.html_bs.BSHTMLLoader.html) | [langchain-community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ❌ |
 ### Loader features
 | Source | Document Lazy Loading | Native Async Support
-| :---: | :---: | :---: | 
-| BSHTMLLoader | ✅ | ❌ | 
+| :---: | :---: | :---: |
+| BSHTMLLoader | ✅ | ❌ |
 
 ## Setup
 
@@ -116,13 +116,13 @@ print(docs[0])
 ```
 ```output
 page_content='
-, Test Title, 
-, 
-, 
-, My First Heading, 
-, My first paragraph., 
-, 
-, 
+, Test Title,
+,
+,
+, My First Heading,
+, My first paragraph.,
+,
+,
 ' metadata={'source': './example_data/fake-content.html', 'title': 'Test Title'}
 ```
 ## API reference

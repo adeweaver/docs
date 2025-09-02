@@ -22,7 +22,7 @@ Note: Amadeus Self-Service APIs offers a test environment with [free limited dat
 
 ## Assign Environmental Variables
 
-The toolkit will read the AMADEUS_CLIENT_ID and AMADEUS_CLIENT_SECRET environmental variables to authenticate the user, so you need to set them here. 
+The toolkit will read the AMADEUS_CLIENT_ID and AMADEUS_CLIENT_SECRET environmental variables to authenticate the user, so you need to set them here.
 
 
 ```python
@@ -55,7 +55,7 @@ toolkit = AmadeusToolkit()
 tools = toolkit.get_tools()
 ```
 
-Alternatively, you can use any LLM supported by langchain, e.g. `HuggingFaceHub`. 
+Alternatively, you can use any LLM supported by langchain, e.g. `HuggingFaceHub`.
 
 
 ```python

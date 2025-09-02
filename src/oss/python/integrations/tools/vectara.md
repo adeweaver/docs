@@ -27,7 +27,7 @@ To use the `Vectara Tools` you first need to install the partner package.
 To get started, use the following steps:
 1. If you don't already have one, [Sign up](https://www.vectara.com/integrations/langchain) for your free Vectara trial.
 2. Within your account you can create one or more corpora. Each corpus represents an area that stores text data upon ingest from input documents. To create a corpus, use the **"Create Corpus"** button. You then provide a name to your corpus as well as a description. Optionally you can define filtering attributes and apply some advanced options. If you click on your created corpus, you can see its name and corpus ID right on the top.
-3. Next you'll need to create API keys to access the corpus. Click on the **"Access Control"** tab in the corpus view and then the **"Create API Key"** button. Give your key a name, and choose whether you want query-only or query+index for your key. Click "Create" and you now have an active API key. Keep this key confidential. 
+3. Next you'll need to create API keys to access the corpus. Click on the **"Access Control"** tab in the corpus view and then the **"Create API Key"** button. Give your key a name, and choose whether you want query-only or query+index for your key. Click "Create" and you now have an active API key. Keep this key confidential.
 
 To use LangChain with Vectara, you'll need to have these two values: `corpus_key` and `api_key`.
 You can provide `VECTARA_API_KEY` to LangChain in two ways:
@@ -173,7 +173,7 @@ vectara_rag_tool.run(query_str)
 
 ## Vectara as a langchain retriever
 
-The `VectaraSearch` tool can be used just as a retriever. 
+The `VectaraSearch` tool can be used just as a retriever.
 
 In this case, it behaves just like any other LangChain retriever. The main use of this mode is for semantic search, and in this case we disable summarization:
 

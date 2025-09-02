@@ -13,7 +13,7 @@ integration](https://github.com/aerospike/langchain-aerospike).
 ## Install AVS
 
 Before using this notebook, we need to have a running AVS instance. Use one of
-the [available installation methods](https://aerospike.com/docs/vector/install). 
+the [available installation methods](https://aerospike.com/docs/vector/install).
 
 When finished, store your AVS instance's IP address and port to use later
 in this demo:
@@ -24,7 +24,7 @@ AVS_HOST = "<avs_ip>"
 AVS_PORT = 5000
 ```
 
-## Install Dependencies 
+## Install Dependencies
 The `sentence-transformers` dependency is large. This step could take several minutes to complete.
 
 
@@ -60,7 +60,7 @@ HTTP request sent, awaiting response... 200 OK
 Length: 11597643 (11M) [application/octet-stream]
 Saving to: ‘quotes.csv.tgz’
 
-quotes.csv.tgz      100%[===================>]  11.06M  12.7MB/s    in 0.9s    
+quotes.csv.tgz      100%[===================>]  11.06M  12.7MB/s    in 0.9s
 
 2025-05-07 21:06:32 (12.7 MB/s) - ‘quotes.csv.tgz’ saved [11597643/11597643]
 ```

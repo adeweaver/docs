@@ -11,11 +11,11 @@ This guide provides a quick overview for getting started with JSON [document loa
 
 | Class | Package | Local | Serializable | [JS support](https://js.langchain.com/docs/integrations/document_loaders/file_loaders/json/)|
 | :--- | :--- | :---: | :---: |  :---: |
-| [JSONLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.json_loader.JSONLoader.html) | [langchain-community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ✅ | 
+| [JSONLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.json_loader.JSONLoader.html) | [langchain-community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ✅ |
 ### Loader features
 | Source | Document Lazy Loading | Native Async Support
-| :---: | :---: | :---: | 
-| JSONLoader | ✅ | ❌ | 
+| :---: | :---: | :---: |
+| JSONLoader | ✅ | ❌ |
 
 ## Setup
 
@@ -39,7 +39,7 @@ Install **langchain-community** and **jq**:
 
 
 ```python
-%pip install -qU langchain-community jq 
+%pip install -qU langchain-community jq
 ```
 
 ## Initialization

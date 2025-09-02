@@ -8,7 +8,7 @@ title: Activeloop Deep Memory
 % and remains cost-effective and simple to use, without requiring any additional advanced rag techniques.
 
 
-For this tutorial we will parse `DeepLake` documentation, and create a RAG system that could answer the question from the docs. 
+For this tutorial we will parse `DeepLake` documentation, and create a RAG system that could answer the question from the docs.
 
 
 ## 1. Dataset Creation
@@ -142,16 +142,16 @@ Populating VectorStore:
 ```python
 docs = db.add_documents(docs_new)
 ```
-## 2. Generating synthetic queries and training Deep Memory 
+## 2. Generating synthetic queries and training Deep Memory
 
 Next step would be to train a deep_memory model that will align your users queries with the dataset that you already have. If you don't have any user queries yet, no worries, we will generate them using LLM!
 
 #### TODO: Add image
 
-Here above we showed the overall schema how deep_memory works. So as you can see, in order to train it you need relevance, queries together with corpus data (data that we want to query). Corpus data was already populated in the previous section, here we will be generating questions and relevance. 
+Here above we showed the overall schema how deep_memory works. So as you can see, in order to train it you need relevance, queries together with corpus data (data that we want to query). Corpus data was already populated in the previous section, here we will be generating questions and relevance.
 
 1. `questions` - is a text of strings, where each string represents a query
-2. `relevance` - contains links to the ground truth for each question. There might be several docs that contain answer to the given question. Because of this relevenve is `List[List[tuple[str, float]]]`, where outer list represents queries and inner list relevant documents. Tuple contains str, float pair where string represent the id of the source doc (corresponds to the `id` tensor in the dataset), while float corresponds to how much current document is related to the question.  
+2. `relevance` - contains links to the ground truth for each question. There might be several docs that contain answer to the given question. Because of this relevenve is `List[List[tuple[str, float]]]`, where outer list represents queries and inner list relevant documents. Tuple contains str, float pair where string represent the id of the source doc (corresponds to the `id` tensor in the dataset), while float corresponds to how much current document is related to the question.
 
 Now, let us generate synthetic questions and relevance:
 
@@ -271,7 +271,7 @@ Great we've trained the model! It's showing some substantial improvement in reca
 
 ### 3.1 Deep Memory evaluation
 
-For the beginning we can use deep_memory's builtin evaluation method. 
+For the beginning we can use deep_memory's builtin evaluation method.
 It calculates several `recall` metrics.
 It can be done easily in a few lines of code.
 
@@ -284,14 +284,14 @@ recall = db.vectorstore.deep_memory.evaluate(
 ```
 ```output
 Embedding queries took 0.81 seconds
----- Evaluating without model ---- 
+---- Evaluating without model ----
 Recall@1:	  9.0%
 Recall@3:	  19.0%
 Recall@5:	  24.0%
 Recall@10:	  42.0%
 Recall@50:	  93.0%
 Recall@100:	  98.0%
----- Evaluating with model ---- 
+---- Evaluating with model ----
 Recall@1:	  19.0%
 Recall@3:	  42.0%
 Recall@5:	  49.0%

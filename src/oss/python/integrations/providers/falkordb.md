@@ -23,7 +23,7 @@ whether for semantic search or example selection.
 ```python
 from langchain_community.vectorstores.falkordb_vector import FalkorDBVector
 ```
-or 
+or
 
 ```python
 from langchain_falkordb.vectorstore import FalkorDBVector

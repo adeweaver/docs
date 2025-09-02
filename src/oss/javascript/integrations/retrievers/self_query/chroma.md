@@ -247,7 +247,7 @@ await ragChain.invoke("Which movies are rated higher than 8.5?")
 ```output
 The movies rated higher than 8.5 are:
 
-1. The movie directed by Andrei Tarkovsky, which has a rating of 9.9. 
+1. The movie directed by Andrei Tarkovsky, which has a rating of 9.9.
 2. The movie directed by Satoshi Kon, which has a rating of 8.6.
 ```
 ## Default search params

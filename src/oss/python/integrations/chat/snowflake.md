@@ -82,8 +82,8 @@ chat = ChatSnowflakeCortex(
 We can now call the chat model using the `invoke` or `stream` methods.
 
 messages = [
-    SystemMessage(content="You are a friendly assistant."),
-    HumanMessage(content="What are large language models?"),
+        SystemMessage(content="You are a friendly assistant."),
+        HumanMessage(content="What are large language models?"),
 ]
 chat.invoke(messages)
 

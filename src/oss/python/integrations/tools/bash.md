@@ -55,7 +55,7 @@ input_message = {
 
 for step in agent.stream(
     {"messages": [input_message]},
-    stream_mode="values",
+        stream_mode="values",
 ):
     step["messages"][-1].pretty_print()
 ```

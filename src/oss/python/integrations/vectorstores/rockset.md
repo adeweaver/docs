@@ -10,16 +10,16 @@ You'll need to install `langchain-community` with `pip install -qU langchain-com
 
 ## Setting Up Your Environment
 
-1. Leverage the `Rockset` console to create a [collection](https://rockset.com/docs/collections/) with the Write API as your source. In this walkthrough, we create a collection named `langchain_demo`. 
-    
+1. Leverage the `Rockset` console to create a [collection](https://rockset.com/docs/collections/) with the Write API as your source. In this walkthrough, we create a collection named `langchain_demo`.
+
     Configure the following [ingest transformation](https://rockset.com/docs/ingest-transformation/) to mark your embeddings field and take advantage of performance and storage optimizations:
 
 
    (We used OpenAI `text-embedding-ada-002` for this examples, where #length_of_vector_embedding = 1536)
 
 ```
-SELECT _input.* EXCEPT(_meta), 
-VECTOR_ENFORCE(_input.description_embedding, #length_of_vector_embedding, 'float') as description_embedding 
+SELECT _input.* EXCEPT(_meta),
+VECTOR_ENFORCE(_input.description_embedding, #length_of_vector_embedding, 'float') as description_embedding
 FROM _input
 ```
 

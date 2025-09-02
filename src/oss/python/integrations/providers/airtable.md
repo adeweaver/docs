@@ -3,8 +3,8 @@ title: Airtable
 ---
 
 >[Airtable](https://en.wikipedia.org/wiki/Airtable) is a cloud collaboration service.
-`Airtable` is a spreadsheet-database hybrid, with the features of a database but applied to a spreadsheet. 
-> The fields in an Airtable table are similar to cells in a spreadsheet, but have types such as 'checkbox', 
+`Airtable` is a spreadsheet-database hybrid, with the features of a database but applied to a spreadsheet.
+> The fields in an Airtable table are similar to cells in a spreadsheet, but have types such as 'checkbox',
 > 'phone number', and 'drop-down list', and can reference file attachments like images.
 
 >Users can create a database, set up column types, add records, link tables to one another, collaborate, sort records

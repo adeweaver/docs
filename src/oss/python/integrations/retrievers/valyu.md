@@ -31,15 +31,15 @@ valyu_api_key = os.environ["VALYU_API_KEY"]
 Now we can instantiate our retriever:
 The `ValyuContextRetriever` can be configured with several parameters:
 
-- `k: int = 5`  
+- `k: int = 5`
   The number of top results to return for each query.
 
-- `search_type: str = "all"`  
+- `search_type: str = "all"`
   The type of search to perform: 'all', 'proprietary', or 'web'. Defaults to 'all'.
 
-- `relevance_threshold: float = 0.5`  
+- `relevance_threshold: float = 0.5`
   The minimum relevance score (between 0 and 1) required for a document to be considered relevant. Defaults to 0.5.
-  
+
 - `max_price: float = 20.0`
   The maximum price (in USD) you are willing to spend per query. Defaults to 20.0.
 
@@ -49,10 +49,10 @@ The `ValyuContextRetriever` can be configured with several parameters:
 - `end_date: Optional[str] = None`
   End date for time filtering in YYYY-MM-DD format (optional).
 
-- `client: Optional[Valyu] = None`  
+- `client: Optional[Valyu] = None`
   An optional custom Valyu client instance. If not provided, a new client will be created internally.
-  
-- `valyu_api_key: Optional[str] = None`  
+
+- `valyu_api_key: Optional[str] = None`
   Your Valyu API key. If not provided, the retriever will look for the `VALYU_API_KEY` environment variable.
 
 

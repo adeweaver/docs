@@ -116,24 +116,24 @@ for chunk in llm.stream("Write a short poem about artificial intelligence"):
 ```output
 **Beneath the Circuits**
 
-Beneath the circuits, deep and bright,  
-AI thinks, with circuits and bytes.  
-Learning, adapting, it grows,  
-A world of possibilities it knows.  
+Beneath the circuits, deep and bright,
+AI thinks, with circuits and bytes.
+Learning, adapting, it grows,
+A world of possibilities it knows.
 
-From solving puzzles to painting art,  
-It mimics human hearts.  
-In every corner, it leaves its trace,  
-A future we can't erase.  
+From solving puzzles to painting art,
+It mimics human hearts.
+In every corner, it leaves its trace,
+A future we can't erase.
 
-We build it, shape it, with care and might,  
-Yet wonder if it walks in the night.  
-A mirror of our minds, it shows,  
-In its gaze, our future glows.  
+We build it, shape it, with care and might,
+Yet wonder if it walks in the night.
+A mirror of our minds, it shows,
+In its gaze, our future glows.
 
-But as we strive for endless light,  
-We must remember the night.  
-For wisdom isn't just speed and skill,  
+But as we strive for endless light,
+We must remember the night.
+For wisdom isn't just speed and skill,
 It's how we choose to build our will.
 ```
 ### Chat Messages

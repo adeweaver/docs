@@ -146,7 +146,7 @@ Table Schema:
 ```python
 llm = OpenAI()
 qa = RetrievalQA.from_chain_type(
-    llm=llm, chain_type="stuff", retriever=docsearch.as_retriever()
+        llm=llm, chain_type="stuff", retriever=docsearch.as_retriever()
 )
 query = "is profile enabled by default? if not, how to enable profile?"
 resp = qa.run(query)

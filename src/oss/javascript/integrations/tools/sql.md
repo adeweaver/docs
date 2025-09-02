@@ -169,7 +169,7 @@ The SQL query you provided is:
 SELECT * FROM Artist LIMIT 10;
 \`\`\`
 
-This query is straightforward and does not contain any of the common mistakes listed. It simply selects all columns from the `Artist` table and limits the result to 10 rows. 
+This query is straightforward and does not contain any of the common mistakes listed. It simply selects all columns from the `Artist` table and limits the result to 10 rows.
 
 Therefore, there are no mistakes to correct, and the original query can be reproduced as is:
 

@@ -2,13 +2,13 @@
 title: Open City Data
 ---
 
-[Socrata](https://dev.socrata.com/foundry/data.sfgov.org/vw6y-z8j6) provides an API for city open data. 
+[Socrata](https://dev.socrata.com/foundry/data.sfgov.org/vw6y-z8j6) provides an API for city open data.
 
-For a dataset such as [SF crime](https://data.sfgov.org/Public-Safety/Police-Department-Incident-Reports-Historical-2003/tmnf-yvry), see the `API` tab on top right. 
+For a dataset such as [SF crime](https://data.sfgov.org/Public-Safety/Police-Department-Incident-Reports-Historical-2003/tmnf-yvry), see the `API` tab on top right.
 
 That provides you with the `dataset identifier`.
 
-Use the dataset identifier to grab specific tables for a given city_id (`data.sfgov.org`) - 
+Use the dataset identifier to grab specific tables for a given city_id (`data.sfgov.org`) -
 
 E.g., `vw6y-z8j6` for [SF 311 data](https://dev.socrata.com/foundry/data.sfgov.org/vw6y-z8j6).
 

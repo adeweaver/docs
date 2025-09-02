@@ -113,7 +113,7 @@ vector_store.delete(ids=["3"])
 
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 
 ### Query directly
 
@@ -126,7 +126,7 @@ results = vector_store.similarity_search(
     query="surreal", k=1, custom_filter={"source": "https://surrealdb.com"}
 )
 for doc in results:
-    print(f"{doc.page_content} [{doc.metadata}]")  
+    print(f"{doc.page_content} [{doc.metadata}]")
 ```
 ```output
 this is surreal [{'source': 'https://surrealdb.com'}]
@@ -140,14 +140,14 @@ results = vector_store.similarity_search_with_score(
     query="thud", k=1, custom_filter={"source": "https://surrealdb.com"}
 )
 for doc, score in results:
-    print(f"[similarity={score:.0%}] {doc.page_content}")  
+    print(f"[similarity={score:.0%}] {doc.page_content}")
 ```
 ```output
 [similarity=57%] this is surreal
 ```
 ### Query by turning into retriever
 
-You can also transform the vector store into a retriever for easier usage in your chains. 
+You can also transform the vector store into a retriever for easier usage in your chains.
 
 
 

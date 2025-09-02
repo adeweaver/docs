@@ -77,7 +77,7 @@ response = llm.invoke("Hello")
 ## Migration Checklist
 
 - [ ] **Python Version**: Ensure Python 3.10 or later
-- [ ] **Update Dependencies**: 
+- [ ] **Update Dependencies**:
 
 ## Backward Compatibility
 
@@ -125,54 +125,54 @@ Migrating from v0 to v1 content formats can be done gradually or all at once.
 ### Migration strategies
 
 <Tabs>
-    <Tab title="Gradual Migration">
+        <Tab title="Gradual Migration">
         Keep existing code unchanged and migrate incrementally:
-        
+
         ```python
         # Step 1: Keep v0 models (default)
         model = ChatOpenAI()
-        
+
         # Step 2: Use .content_blocks for new features
         response = model.invoke("Hello")
         v1_blocks = response.content_blocks  # Access v1 format
-        
+
         # Step 3: Migrate components one at a time
         # Old code continues to work with .content
         legacy_text = response.content
         ```
-    </Tab>
-    <Tab title="Full Migration">
+        </Tab>
+        <Tab title="Full Migration">
         Update all models and code to v1:
-        
+
         ```python
         # Step 1: Set environment variable
         import os
         os.environ["LC_OUTPUT_VERSION"] = "v1"
-        
+
         # Step 2: Update message handling
         response = model.invoke("Hello")
         blocks = response.content  # Now v1 format
-        
+
         # Step 3: Update all message construction
         msg = AIMessage(content_blocks=[...])
         ```
-    </Tab>
-    <Tab title="Mixed Environment">
+        </Tab>
+        <Tab title="Mixed Environment">
         Use both versions as needed:
-        
+
         ```python
         # v1 for new features
         model_v1 = ChatOpenAI(output_version="v1")
-        
+
         # v0 for legacy components
         model_v0 = ChatOpenAI(output_version="v0")
-        
+
         # Handle both in shared utilities
         def process_message(msg):
             blocks = msg.content_blocks  # Always v1
             return blocks
         ```
-    </Tab>
+        </Tab>
 </Tabs>
 
 ### Common migration patterns
@@ -192,7 +192,7 @@ text = response.text
 
 # Option 2: Extract from blocks
 text_blocks = [
-    b for b in response.content_blocks 
+    b for b in response.content_blocks
     if b["type"] == "text"
 ]
 text = text_blocks[0]["text"] if text_blocks else ""
@@ -279,16 +279,16 @@ Ensure your code works with both versions:
 ```python Test both versions
 def test_version_compatibility():
     """Test v0 and v1 compatibility"""
-    
+
     # Test with both versions
     for version in ["v0", "v1"]:
         model = ChatOpenAI(output_version=version)
         response = model.invoke("Hello")
-        
+
         # Should work regardless of version
         assert response.text  # Text property
         assert response.content_blocks  # Always returns v1
-        
+
         # Version-specific checks
         if version == "v1":
             assert isinstance(response.content, list)
@@ -304,7 +304,7 @@ def extract_text_universal(message):
         b for b in message.content_blocks
         if b.get("type") == "text"
     ]
-    
+
     return " ".join(b["text"] for b in text_blocks)
 ```
 
@@ -324,9 +324,9 @@ def extract_text_universal(message):
 </Checklist>
 
 <Warning>
-    **Important considerations:**
-    - v0 remains the default for backward compatibility
-    - Tool calls move from `.tool_calls` to `.content` in v1
-    - The `.content_blocks` property always returns v1 format
-    - Provider-specific fields go in the `extras` dict in v1
+**Important considerations:**
+- v0 remains the default for backward compatibility
+- Tool calls move from `.tool_calls` to `.content` in v1
+- The `.content_blocks` property always returns v1 format
+- Provider-specific fields go in the `extras` dict in v1
 </Warning>

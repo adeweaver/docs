@@ -19,11 +19,11 @@ For more information about Hyperbrowser, please visit the [Hyperbrowser website]
 
 | Class | Package | Local | Serializable | JS support|
 | :--- | :--- | :---: | :---: |  :---: |
-| HyperbrowserLoader | langchain-hyperbrowser | ❌ | ❌ | ❌ | 
+| HyperbrowserLoader | langchain-hyperbrowser | ❌ | ❌ | ❌ |
 ### Loader features
 | Source | Document Lazy Loading | Native Async Support |
-| :---: | :---: | :---: | 
-| HyperbrowserLoader | ✅ | ✅ | 
+| :---: | :---: | :---: |
+| HyperbrowserLoader | ✅ | ✅ |
 
 ## Setup
 

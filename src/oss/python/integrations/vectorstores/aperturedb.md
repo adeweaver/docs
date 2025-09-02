@@ -19,7 +19,7 @@ Note: you may need to restart the kernel to use updated packages.
 ```
 ## Run an ApertureDB instance
 
-To continue, you should have an [ApertureDB instance up and running](https://docs.aperturedata.io/HowToGuides/start/Setup) and configure your environment to use it.  
+To continue, you should have an [ApertureDB instance up and running](https://docs.aperturedata.io/HowToGuides/start/Setup) and configure your environment to use it.
 There are various ways to do that, for example:
 
 ```bash

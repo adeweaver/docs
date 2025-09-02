@@ -4,7 +4,7 @@ title: TiDB
 
 > [TiDB Cloud](https://www.pingcap.com/tidb-serverless/), is a comprehensive Database-as-a-Service (DBaaS) solution, that provides dedicated and serverless options. TiDB Serverless is now integrating a built-in vector search into the MySQL landscape. With this enhancement, you can seamlessly develop AI applications using TiDB Serverless without the need for a new database or additional technical stacks. Create a free TiDB Serverless cluster and start using the vector search feature at https://pingcap.com/ai.
 
-This notebook introduces how to use TiDB to store chat message history. 
+This notebook introduces how to use TiDB to store chat message history.
 
 ## Setup
 
@@ -75,7 +75,7 @@ history.messages
 
 ## Chatting with historical data
 
-Let’s build upon the historical data generated earlier to create a dynamic chat interaction.  
+Let’s build upon the historical data generated earlier to create a dynamic chat interaction.
 
 Firstly, Creating a Chat Chain with LangChain:
 

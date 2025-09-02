@@ -24,8 +24,8 @@ To use this module, you need:
 + An existing index with vector fields. There are several ways to create one, including using the [vector store module](../vectorstores/azuresearch.ipynb). Or, [try the Azure AI Search REST APIs](https://learn.microsoft.com/azure/search/search-get-started-vector).
 
 + An API key or Azure AD Token.
-  + API keys are generated when you create the search service. If you're just querying an index, you can use the query API key, otherwise use an admin API key. See [Find your API keys](https://learn.microsoft.com/azure/search/search-security-api-keys?tabs=rest-use%2Cportal-find%2Cportal-query#find-existing-keys) for details.
-  + Azure AD Token can be used with Azure Managed Identity. See [Connect your app to Azure AI Search using identities](https://learn.microsoft.com/en-us/azure/search/keyless-connections?tabs=python%2Cazure-cli) for details.
+    + API keys are generated when you create the search service. If you're just querying an index, you can use the query API key, otherwise use an admin API key. See [Find your API keys](https://learn.microsoft.com/azure/search/search-security-api-keys?tabs=rest-use%2Cportal-find%2Cportal-query#find-existing-keys) for details.
+    + Azure AD Token can be used with Azure Managed Identity. See [Connect your app to Azure AI Search using identities](https://learn.microsoft.com/en-us/azure/search/keyless-connections?tabs=python%2Cazure-cli) for details.
 
 We can then set the search service name, index name, and API key as environment variables (alternatively, you can pass them as arguments to `AzureAISearchRetriever`). The search index provides the searchable content.
 
@@ -86,15 +86,15 @@ retriever = AzureAISearchRetriever(
 
 ## Usage
 
-Now you can use it to retrieve documents from Azure AI Search. 
-This is the method you would call to do so. It will return all documents relevant to the query. 
+Now you can use it to retrieve documents from Azure AI Search.
+This is the method you would call to do so. It will return all documents relevant to the query.
 
 
 ```python
 retriever.invoke("here is my unstructured query string")
 ```
 
-## Example 
+## Example
 
 This section demonstrates using the retriever over built-in sample data. You can skip this step if you already have a vector index on your search service.
 
@@ -119,7 +119,7 @@ azure_openai_api_version: str = "2023-05-15"
 azure_deployment: str = "text-embedding-ada-002"
 ```
 
-We'll use an embedding model from Azure OpenAI to turn our documents into embeddings stored in the Azure AI Search vector store. We'll also set the index name to `langchain-vector-demo`. This will create a new vector store associated with that index name. 
+We'll use an embedding model from Azure OpenAI to turn our documents into embeddings stored in the Azure AI Search vector store. We'll also set the index name to `langchain-vector-demo`. This will create a new vector store associated with that index name.
 
 
 ```python
@@ -162,7 +162,7 @@ retriever = AzureAISearchRetriever(
 )
 ```
 
-Now we can retrieve the data that is relevant to our query from the documents we uploaded. 
+Now we can retrieve the data that is relevant to our query from the documents we uploaded.
 
 
 ```python

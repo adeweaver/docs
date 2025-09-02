@@ -4,7 +4,7 @@ title: Memgraph
 
 Memgraph is an open-source graph database, tuned for dynamic analytics environments and compatible with Neo4j. To query the database, Memgraph uses Cypher - the most widely adopted, fully-specified, and open query language for property graph databases.
 
-This notebook will show you how to [query Memgraph with natural language](#natural-language-querying) and how to [construct a knowledge graph](#constructing-knowledge-graph) from your unstructured data. 
+This notebook will show you how to [query Memgraph with natural language](#natural-language-querying) and how to [construct a knowledge graph](#constructing-knowledge-graph) from your unstructured data.
 
 But first, make sure to [set everything up](#setting-up).
 
@@ -58,7 +58,7 @@ graph = MemgraphLangChain(
 )
 ```
 
-The `refresh_schema` is initially set to `False` because there is still no data in the database and we want to avoid unnecessary database calls. 
+The `refresh_schema` is initially set to `False` because there is still no data in the database and we want to avoid unnecessary database calls.
 
 ### Populating the database
 
@@ -104,7 +104,7 @@ Notice how the `graph` object holds the `query` method. That method executes que
 
 ### Refresh graph schema
 
-Since the new data is created in Memgraph, it is necessary to refresh the schema. The generated schema will be used by the `MemgraphQAChain` to instruct LLM to better generate Cypher queries. 
+Since the new data is created in Memgraph, it is necessary to refresh the schema. The generated schema will be used by the `MemgraphQAChain` to instruct LLM to better generate Cypher queries.
 
 
 ```python
@@ -145,7 +145,7 @@ To interact with the OpenAI API, you must configure your API key as an environme
 os.environ["OPENAI_API_KEY"] = "your-key-here"
 ```
 
-Run the above code snippet if you're running the code within the Jupyter notebook. 
+Run the above code snippet if you're running the code within the Jupyter notebook.
 
 Next, create `MemgraphQAChain`, which will be utilized in the question-answering process based on your graph data. The `temperature parameter` is set to zero to ensure predictable and consistent answers. You can set `verbose` parameter to `True` to receive more detailed messages regarding query generation.
 
@@ -285,28 +285,28 @@ To address this, we can adjust the initial Cypher prompt of the QA chain. This i
 
 
 ```python
-MEMGRAPH_GENERATION_TEMPLATE = """Your task is to directly translate natural language inquiry into precise and executable Cypher query for Memgraph database. 
+MEMGRAPH_GENERATION_TEMPLATE = """Your task is to directly translate natural language inquiry into precise and executable Cypher query for Memgraph database.
 You will utilize a provided database schema to understand the structure, nodes and relationships within the Memgraph database.
-Instructions: 
+Instructions:
 - Use provided node and relationship labels and property names from the
 schema which describes the database's structure. Upon receiving a user
 question, synthesize the schema to craft a precise Cypher query that
-directly corresponds to the user's intent. 
-- Generate valid executable Cypher queries on top of Memgraph database. 
-Any explanation, context, or additional information that is not a part 
-of the Cypher query syntax should be omitted entirely. 
-- Use Memgraph MAGE procedures instead of Neo4j APOC procedures. 
-- Do not include any explanations or apologies in your responses. 
+directly corresponds to the user's intent.
+- Generate valid executable Cypher queries on top of Memgraph database.
+Any explanation, context, or additional information that is not a part
+of the Cypher query syntax should be omitted entirely.
+- Use Memgraph MAGE procedures instead of Neo4j APOC procedures.
+- Do not include any explanations or apologies in your responses.
 - Do not include any text except the generated Cypher statement.
 - For queries that ask for information or functionalities outside the direct
 generation of Cypher queries, use the Cypher query format to communicate
 limitations or capabilities. For example: RETURN "I am designed to generate
 Cypher queries based on the provided schema only."
-Schema: 
+Schema:
 {schema}
 
 With all the above information and instructions, generate Cypher query for the
-user question. 
+user question.
 If the user asks about PS5, Play Station 5 or PS 5, that is the platform called PlayStation 5.
 
 The question is:
@@ -332,7 +332,7 @@ MATCH (:Game{name: "Baldur's Gate 3"})-[:AVAILABLE_ON]->(:Platform{name: "PlaySt
 RETURN "Yes"
 Yes, Baldur's Gate 3 is available on PS5.
 ```
-Now, with the revised initial Cypher prompt that includes guidance on platform naming, we are obtaining accurate and relevant results that align more closely with user queries. 
+Now, with the revised initial Cypher prompt that includes guidance on platform naming, we are obtaining accurate and relevant results that align more closely with user queries.
 
 This approach allows for further improvement of your QA chain. You can effortlessly integrate extra prompt refinement data into your chain, thereby enhancing the overall user experience of your app.
 
@@ -373,7 +373,7 @@ text = """
 """
 ```
 
-The next step is to initialize `LLMGraphTransformer` from the desired LLM and convert the document to the graph structure. 
+The next step is to initialize `LLMGraphTransformer` from the desired LLM and convert the document to the graph structure.
 
 
 ```python
@@ -394,7 +394,7 @@ print(graph_documents)
 ```
 ### Storing into Memgraph
 
-Once you have the data ready in a format of `GraphDocument`, that is, nodes and relationships, you can use `add_graph_documents` method to import it into Memgraph. That method transforms the list of `graph_documents` into appropriate Cypher queries that need to be executed in Memgraph. Once that's done, a knowledge graph is stored in Memgraph. 
+Once you have the data ready in a format of `GraphDocument`, that is, nodes and relationships, you can use `add_graph_documents` method to import it into Memgraph. That method transforms the list of `graph_documents` into appropriate Cypher queries that need to be executed in Memgraph. Once that's done, a knowledge graph is stored in Memgraph.
 
 
 ```python
@@ -439,7 +439,7 @@ Here's how the graph would like in such case:
 
 ![memgraph-kg-2](../../../static/img/memgraph_kg_2.png)
 
-Your graph can also have `__Entity__` labels on all nodes which will be indexed for faster retrieval. 
+Your graph can also have `__Entity__` labels on all nodes which will be indexed for faster retrieval.
 
 
 ```python

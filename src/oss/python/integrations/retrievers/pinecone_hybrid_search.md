@@ -8,7 +8,7 @@ This notebook goes over how to use a retriever that under the hood uses Pinecone
 
 The logic of this retriever is taken from [this documentation](https://docs.pinecone.io/docs/hybrid-search)
 
-To use Pinecone, you must have an API key and an Environment. 
+To use Pinecone, you must have an API key and an Environment.
 Here are the [installation instructions](https://docs.pinecone.io/docs/quickstart).
 
 

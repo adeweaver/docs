@@ -95,7 +95,7 @@ for doc, score in docs_with_score:
 
 ## Working with vectorstore in Postgres
 
-### Uploading a vectorstore in PG 
+### Uploading a vectorstore in PG
 
 
 ```python

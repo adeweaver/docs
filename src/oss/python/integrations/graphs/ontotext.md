@@ -4,7 +4,7 @@ title: Ontotext GraphDB
 
 >[Ontotext GraphDB](https://graphdb.ontotext.com/) is a graph database and knowledge discovery tool compliant with [RDF](https://www.w3.org/RDF/) and [SPARQL](https://www.w3.org/TR/sparql11-query/).
 
->This notebook shows how to use LLMs to provide natural language querying (NLQ to SPARQL, also called `text2sparql`) for `Ontotext GraphDB`. 
+>This notebook shows how to use LLMs to provide natural language querying (NLQ to SPARQL, also called `text2sparql`) for `Ontotext GraphDB`.
 
 ## GraphDB LLM Functionalities
 
@@ -49,7 +49,7 @@ You need a running GraphDB instance. This tutorial shows how to run the database
 * Install [Docker](https://docs.docker.com/get-docker/). This tutorial is created using Docker version `24.0.7` which bundles [Docker Compose](https://docs.docker.com/compose/). For earlier Docker versions you may need to install Docker Compose separately.
 * Clone [the GitHub repository langchain-graphdb-qa-chain-demo](https://github.com/Ontotext-AD/langchain-graphdb-qa-chain-demo) in a local folder on your machine.
 * Start GraphDB with the following script executed from the same folder
-  
+
 ```
 docker build --tag graphdb .
 docker compose up -d graphdb
@@ -340,7 +340,7 @@ Sometimes, the LLM may generate a SPARQL query with syntactic errors or missing 
     {schema}
     ```
     """
-    
+
     GRAPHDB_SPARQL_FIX_PROMPT = PromptTemplate(
         input_variables=["error_message", "generated_sparql", "schema"],
         template=GRAPHDB_SPARQL_FIX_TEMPLATE,
@@ -348,7 +348,7 @@ Sometimes, the LLM may generate a SPARQL query with syntactic errors or missing 
   ````
 
 - `max_fix_retries`
-  
+
     Default value: `5`
 
 ### "Answering" prompt
@@ -356,7 +356,7 @@ Sometimes, the LLM may generate a SPARQL query with syntactic errors or missing 
 The prompt is used for answering the question based on the results returned from the database and the initial user question. By default, the LLM is instructed to only use the information from the returned result(s). If the result set is empty, the LLM should inform that it can't answer the question.
 
 - `qa_prompt`
-  
+
   Default value:
   ````python
     GRAPHDB_QA_TEMPLATE = """Task: Generate a natural language response from the results of a SPARQL query.
@@ -367,7 +367,7 @@ The prompt is used for answering the question based on the results returned from
     Don't use internal knowledge to answer the question, just say you don't know if no information is available.
     Information:
     {context}
-    
+
     Question: {prompt}
     Helpful Answer:"""
     GRAPHDB_QA_PROMPT = PromptTemplate(

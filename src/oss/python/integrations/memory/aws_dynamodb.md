@@ -108,16 +108,16 @@ Passing a value for key will override the primary_key parameter, and the resulti
 
 ```python
 composite_table = dynamodb.create_table(
-    TableName="CompositeTable",
-    KeySchema=[
+        TableName="CompositeTable",
+        KeySchema=[
         {"AttributeName": "PK", "KeyType": "HASH"},
         {"AttributeName": "SK", "KeyType": "RANGE"},
     ],
-    AttributeDefinitions=[
+        AttributeDefinitions=[
         {"AttributeName": "PK", "AttributeType": "S"},
         {"AttributeName": "SK", "AttributeType": "S"},
     ],
-    BillingMode="PAY_PER_REQUEST",
+        BillingMode="PAY_PER_REQUEST",
 )
 
 # Wait until the table exists.
@@ -137,10 +137,10 @@ my_key = {
 }
 
 composite_key_history = DynamoDBChatMessageHistory(
-    table_name="CompositeTable",
-    session_id="0",
-    endpoint_url="http://localhost.localstack.cloud:4566",
-    key=my_key,
+        table_name="CompositeTable",
+        session_id="0",
+        endpoint_url="http://localhost.localstack.cloud:4566",
+        key=my_key,
 )
 
 composite_key_history.add_user_message("hello, composite dynamodb table!")
@@ -173,7 +173,7 @@ from langchain_openai import ChatOpenAI
 prompt = ChatPromptTemplate.from_messages(
     [
         ("system", "You are a helpful assistant."),
-        MessagesPlaceholder(variable_name="history"),
+                MessagesPlaceholder(variable_name="history"),
         ("human", "{question}"),
     ]
 )
@@ -186,10 +186,10 @@ chain = prompt | ChatOpenAI()
 chain_with_history = RunnableWithMessageHistory(
     chain,
     lambda session_id: DynamoDBChatMessageHistory(
-        table_name="SessionTable", session_id=session_id
+                table_name="SessionTable", session_id=session_id
     ),
-    input_messages_key="question",
-    history_messages_key="history",
+        input_messages_key="question",
+        history_messages_key="history",
 )
 ```
 

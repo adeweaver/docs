@@ -34,18 +34,18 @@ container_id = containers[0]
 ```
 ```output
 Get:1 http://repo.manticoresearch.com/repository/manticoresearch_jammy_dev jammy InRelease [3525 kB]
-Get:2 http://archive.ubuntu.com/ubuntu jammy InRelease [270 kB]            
-Get:3 http://security.ubuntu.com/ubuntu jammy-security InRelease [110 kB]      
-Get:4 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [119 kB]        
+Get:2 http://archive.ubuntu.com/ubuntu jammy InRelease [270 kB]
+Get:3 http://security.ubuntu.com/ubuntu jammy-security InRelease [110 kB]
+Get:4 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [119 kB]
 Get:5 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [1074 kB]
-Get:6 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [109 kB]      
-Get:7 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages [17.5 MB] 
+Get:6 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [109 kB]
+Get:7 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages [17.5 MB]
 Get:8 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [1517 kB]
 Get:9 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [1889 kB]
 Get:10 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [44.6 kB]
 Get:11 http://archive.ubuntu.com/ubuntu jammy/restricted amd64 Packages [164 kB]
 Get:12 http://archive.ubuntu.com/ubuntu jammy/multiverse amd64 Packages [266 kB]
-Get:13 http://archive.ubuntu.com/ubuntu jammy/main amd64 Packages [1792 kB]    
+Get:13 http://archive.ubuntu.com/ubuntu jammy/main amd64 Packages [1792 kB]
 Get:14 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages [50.4 kB]
 Get:15 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [1927 kB]
 Get:16 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1346 kB]
@@ -53,7 +53,7 @@ Get:17 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [1796 
 Get:18 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages [28.1 kB]
 Get:19 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages [50.4 kB]
 Get:20 http://repo.manticoresearch.com/repository/manticoresearch_jammy_dev jammy/main amd64 Packages [5020 kB]
-Fetched 38.6 MB in 7s (5847 kB/s)                                              
+Fetched 38.6 MB in 7s (5847 kB/s)
 Reading package lists... Done
 Reading package lists... Done
 Building dependency tree... Done
@@ -64,7 +64,7 @@ The following NEW packages will be installed:
 Need to get 1990 kB of archives.
 After this operation, 10.0 MB of additional disk space will be used.
 Get:1 http://repo.manticoresearch.com/repository/manticoresearch_jammy_dev jammy/main amd64 manticore-columnar-lib amd64 2.2.5-240217-a5342a1 [1990 kB]
-Fetched 1990 kB in 1s (1505 kB/s)                 
+Fetched 1990 kB in 1s (1505 kB/s)
 debconf: delaying package configuration, since apt-utils is not installed
 Selecting previously unselected package manticore-columnar-lib.
 (Reading database ... 12260 files and directories currently installed.)
@@ -282,7 +282,7 @@ bert_load_from_file: bert tokenizer vocab = 30522
 
 ```python
 for d in docs:
-    d.metadata = {"some": "metadata"}
+        d.metadata = {"some": "metadata"}
 settings = ManticoreSearchSettings(table="manticoresearch_vector_search_example")
 docsearch = ManticoreSearch.from_documents(docs, embeddings, config=settings)
 

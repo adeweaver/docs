@@ -4,7 +4,7 @@ title: Neo4j
 
 >[Neo4j](https://neo4j.com/docs/) is a graph database that stores nodes and relationships, that also supports native vector search.
 
-In the notebook, we'll demo the `SelfQueryRetriever` wrapped around a `Neo4j` vector store. 
+In the notebook, we'll demo the `SelfQueryRetriever` wrapped around a `Neo4j` vector store.
 
 ## Creating a Neo4j vector store
 First we'll want to create a Neo4j vector store and seed it with some data. We've created a small demo set of documents that contain summaries of movies.

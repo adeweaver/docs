@@ -4,9 +4,9 @@ title: Clarifai
 
 >[Clarifai](https://www.clarifai.com/) is an AI Platform that provides the full AI lifecycle ranging from data exploration, data labeling, model training, evaluation, and inference.
 
-This example goes over how to use LangChain to interact with `Clarifai` [models](https://clarifai.com/explore/models). 
+This example goes over how to use LangChain to interact with `Clarifai` [models](https://clarifai.com/explore/models).
 
-To use Clarifai, you must have an account and a Personal Access Token (PAT) key. 
+To use Clarifai, you must have an account and a Personal Access Token (PAT) key.
 [Check here](https://clarifai.com/settings/security) to get or create a PAT.
 
 # Dependencies
@@ -60,7 +60,7 @@ prompt = PromptTemplate.from_template(template)
 Setup the user id and app id where the model resides. You can find a list of public models on https://clarifai.com/explore/models
 
 You will have to also initialize the model id and if needed, the model version id. Some models have many versions, you can choose the one appropriate for your task.
-                                                              
+
 Alternatively, You can use the model_url (for ex: "https://clarifai.com/anthropic/completion/models/claude-v2") for initialization.
 
 

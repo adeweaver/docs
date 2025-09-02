@@ -32,7 +32,7 @@ async def my_client_function():
 Then the server (or other service) can continue the trace by handling the headers appropriately. If you are using an asgi app Starlette or FastAPI, you can connect the distributed trace using LangSmith's `TracingMiddleware`.
 
 <Info>
-  The `TracingMiddleware` class was added in `langsmith==0.1.133`.
+The `TracingMiddleware` class was added in `langsmith==0.1.133`.
 </Info>
 
 Example using FastAPI:
@@ -103,7 +103,7 @@ async def fake_route(request: Request):
 ## Distributed tracing in TypeScript
 
 <Note>
-  Distributed tracing in TypeScript requires `langsmith` version `>=0.1.31`
+Distributed tracing in TypeScript requires `langsmith` version `>=0.1.31`
 </Note>
 
 First, we obtain the current run tree from the client and convert it to `langsmith-trace` and `baggage` header values, which we can pass to the server:

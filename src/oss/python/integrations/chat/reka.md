@@ -2,7 +2,7 @@
 title: ChatReka
 ---
 
-This guide provides a quick overview for getting started with Reka [chat models](../../concepts/chat_models). 
+This guide provides a quick overview for getting started with Reka [chat models](../../concepts/chat_models).
 
 Reka has several chat models. You can find information about their latest models and their costs, context windows, and supported input types in the [Reka docs](https://docs.reka.ai/available-models).
 
@@ -19,7 +19,7 @@ Reka has several chat models. You can find information about their latest models
 ### Model features
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | Native async | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
-| ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | 
+| ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
 
 ## Setup
 
@@ -82,7 +82,7 @@ AIMessage(content=' Hello! How can I help you today? If you have a question, nee
 ```
 
 
-# Images input 
+# Images input
 
 
 ```python
@@ -241,7 +241,7 @@ print(f"ContentString: {response.content}")
 print(f"ToolCalls: {response.tool_calls}")
 ```
 ```output
-ContentString: 
+ContentString:
 ToolCalls: [{'name': 'tavily_search_results_json', 'args': {'query': 'weather in SF'}, 'id': '2548c622-3553-42df-8220-39fde0632bdb', 'type': 'tool_call'}]
 ```
 We can see that there's now no text content, but there is a tool call! It wants us to call the Tavily Search tool.

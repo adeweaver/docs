@@ -11,11 +11,11 @@ Please see [this guide](../../integrations/providers/unstructured) for more inst
 
 | Class | Package | Local | Serializable | [JS support](https://js.langchain.com/docs/integrations/document_loaders/file_loaders/unstructured/)|
 | :--- | :--- | :---: | :---: |  :---: |
-| [UnstructuredLoader](https://python.langchain.com/api_reference/unstructured/document_loaders/langchain_unstructured.document_loaders.UnstructuredLoader.html) | [langchain-unstructured](https://python.langchain.com/api_reference/unstructured/index.html) | ✅ | ❌ | ✅ | 
+| [UnstructuredLoader](https://python.langchain.com/api_reference/unstructured/document_loaders/langchain_unstructured.document_loaders.UnstructuredLoader.html) | [langchain-unstructured](https://python.langchain.com/api_reference/unstructured/index.html) | ✅ | ❌ | ✅ |
 ### Loader features
 | Source | Document Lazy Loading | Native Async Support
-| :---: | :---: | :---: | 
-| UnstructuredLoader | ✅ | ❌ | 
+| :---: | :---: | :---: |
+| UnstructuredLoader | ✅ | ❌ |
 
 ## Setup
 
@@ -242,29 +242,29 @@ from unstructured_client import UnstructuredClient
 from unstructured_client.utils import BackoffStrategy, RetryConfig
 
 client = UnstructuredClient(
-    api_key_auth=os.getenv(
+        api_key_auth=os.getenv(
         "UNSTRUCTURED_API_KEY"
     ),  # Note: the client API param is "api_key_auth" instead of "api_key"
-    client=requests.Session(),  # Define your own requests session
-    server_url="https://api.unstructuredapp.io/general/v0/general",  # Define your own api url
-    retry_config=RetryConfig(
-        strategy="backoff",
-        retry_connection_errors=True,
-        backoff=BackoffStrategy(
-            initial_interval=500,
-            max_interval=60000,
-            exponent=1.5,
-            max_elapsed_time=900000,
+        client=requests.Session(),  # Define your own requests session
+        server_url="https://api.unstructuredapp.io/general/v0/general",  # Define your own api url
+        retry_config=RetryConfig(
+                strategy="backoff",
+                retry_connection_errors=True,
+                backoff=BackoffStrategy(
+                        initial_interval=500,
+                        max_interval=60000,
+                        exponent=1.5,
+                        max_elapsed_time=900000,
         ),
     ),  # Define your own retry config
 )
 
 loader = UnstructuredLoader(
     "./example_data/layout-parser-paper.pdf",
-    partition_via_api=True,
-    client=client,
-    split_pdf_page=True,
-    split_pdf_page_range=[1, 10],
+        partition_via_api=True,
+        client=client,
+        split_pdf_page=True,
+        split_pdf_page_range=[1, 10],
 )
 
 docs = loader.load()

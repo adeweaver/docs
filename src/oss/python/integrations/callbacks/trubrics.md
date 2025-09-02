@@ -7,7 +7,7 @@ prompts & feedback on AI models.
 >
 >Check out [Trubrics repo](https://github.com/trubrics/trubrics-sdk) for more information on `Trubrics`.
 
-In this guide, we will go over how to set up the `TrubricsCallbackHandler`. 
+In this guide, we will go over how to set up the `TrubricsCallbackHandler`.
 
 
 ## Installation and Setup
@@ -45,7 +45,7 @@ class TrubricsCallbackHandler(BaseCallbackHandler):
 
     """
     Callback handler for Trubrics.
-    
+
     Args:
         project: a trubrics project, default project is "default"
         email: a trubrics account email, can equally be set in env variables
@@ -92,12 +92,12 @@ print()
 print("--> GPT's poem: ", res.generations[1][0].text)
 ```
 ```output
---> GPT's joke:  
+--> GPT's joke:
 
 Q: What did the fish say when it hit the wall?
 A: Dam!
 
---> GPT's poem:  
+--> GPT's poem:
 
 A Poem of Reflection
 

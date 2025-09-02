@@ -40,7 +40,7 @@ if "SAMBASTUDIO_API_KEY" not in os.environ:
 
 ### Installation
 
-The integration lives in the `langchain-community` package. We also need  to install the [sseclient-py](https://pypi.org/project/sseclient-py/) package this is required to run streaming predictions 
+The integration lives in the `langchain-community` package. We also need  to install the [sseclient-py](https://pypi.org/project/sseclient-py/) package this is required to run streaming predictions
 
 
 ```python

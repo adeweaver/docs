@@ -15,7 +15,7 @@ This guide provides a quick overview for getting started with Jina [tool](/oss/i
 ### Tool features
 | [Returns artifact](/oss/how-to/tool_artifacts/) | Native async | Return data | Pricing |
 | :---: | :---: | :---: | :---: |
-| ❌ | ❌ | URL, Snippet, Title, Page Content | 1M response tokens free | 
+| ❌ | ❌ | URL, Snippet, Title, Page Content | 1M response tokens free |
 
 
 ## Setup
@@ -50,7 +50,7 @@ It's also helpful (but not needed) to set up [LangSmith](https://smith.langchain
 
 - TODO: Fill in instantiation params
 
-Here we show how to instantiate an instance of the Jina tool, with 
+Here we show how to instantiate an instance of the Jina tool, with
 
 
 ```python

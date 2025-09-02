@@ -11,11 +11,11 @@ The LangSmith pytest plugin lets Python developers define their datasets and eva
 * You already use pytest to test your app and want to add LangSmith tracking
 
 <Warning>
-  The pytest integration is in beta and is subject to change in upcoming releases.
+The pytest integration is in beta and is subject to change in upcoming releases.
 </Warning>
 
 <Info>
-  The JS/TS SDK has an analogous [Vitest/Jest integration](/langsmith/vitest-jest).
+The JS/TS SDK has an analogous [Vitest/Jest integration](/langsmith/vitest-jest).
 </Info>
 
 ## Installation
@@ -43,7 +43,7 @@ from langsmith import traceable, wrappers
 
 oai_client = wrappers.wrap_openai(openai.OpenAI())
 
-@traceable 
+@traceable
 def generate_sql(user_query: str) -> str:
     result = oai_client.chat.completions.create(
         model="gpt-4o-mini",
@@ -68,10 +68,10 @@ def test_sql_generation_select_all() -> None:
     t.log_inputs({"user_query": user_query})  # <-- Log example inputs, optional
     expected = "SELECT * FROM customers;"
     t.log_reference_outputs({"sql": expected})  # <-- Log example reference outputs, optional
-    
+
     sql = generate_sql(user_query)
     t.log_outputs({"sql": sql})  # <-- Log run outputs, optional
-    
+
     t.log_feedback(key="valid_sql", score=is_valid_sql(sql))  # <-- Log feedback, optional
     assert sql == expected  # <-- Test pass/fail status automatically logged to LangSmith under 'pass' feedback key
 ```
@@ -165,21 +165,21 @@ oai_client = wrappers.wrap_openai(openai.OpenAI())
 def test_offtopic_input() -> None:
     user_query = "whats up"
     t.log_inputs({"user_query": user_query})
-    
+
     sql = generate_sql(user_query)
     t.log_outputs({"sql": sql})
-    
+
     expected = "Sorry that is not a valid query."
     t.log_reference_outputs({"sql": expected})
-    
-    # Use this context manager to trace any steps used for generating evaluation 
+
+    # Use this context manager to trace any steps used for generating evaluation
     # feedback separately from the main application logic
     with t.trace_feedback():
         instructions = (
             "Return 1 if the ACTUAL and EXPECTED answers are semantically equivalent, "
             "otherwise return 0. Return only 0 or 1 and nothing else."
         )
-        
+
         grade = oai_client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
@@ -189,7 +189,7 @@ def test_offtopic_input() -> None:
         )
         score = float(grade.choices[0].message.content)
         t.log_feedback(key="correct", score=score)
-    
+
     assert score
 ```
 
@@ -348,7 +348,7 @@ def test_embedding_similarity(query, expectation):
         prediction=prediction, expectation=expectation
         # Adding a matcher (in this case, 'to_be_*"), logs 'expectation' feedback
     ).to_be_less_than(0.5) # Optional predicate to assert against
-    
+
     expect.edit_distance(
         # This computes the normalized Damerau-Levenshtein distance between the two strings
         prediction=prediction, expectation=expectation

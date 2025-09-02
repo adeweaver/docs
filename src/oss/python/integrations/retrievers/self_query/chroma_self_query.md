@@ -4,7 +4,7 @@ title: Chroma
 
 >[Chroma](https://docs.trychroma.com/getting-started) is a vector database for building AI applications with embeddings.
 
-In the notebook, we'll demo the `SelfQueryRetriever` wrapped around a `Chroma` vector store. 
+In the notebook, we'll demo the `SelfQueryRetriever` wrapped around a `Chroma` vector store.
 
 ## Creating a Chroma vector store
 First we'll want to create a Chroma vector store and seed it with some data. We've created a small demo set of documents that contain summaries of movies.

@@ -4,7 +4,7 @@ title: Aphrodite Engine
 
 [Aphrodite](https://github.com/PygmalionAI/aphrodite-engine) is the open-source large-scale inference engine designed to serve thousands of users on the [PygmalionAI](https://pygmalion.chat) website.
 
-* Attention mechanism by vLLM for fast throughput and low latencies 
+* Attention mechanism by vLLM for fast throughput and low latencies
 * Support for for many SOTA sampling methods
 * Exllamav2 GPTQ kernels for better throughput at lower batch sizes
 
@@ -94,7 +94,7 @@ The first Pokémon game was released in Japan on February 27, 1996 (their releas
 ```
 ## Distributed Inference
 
-Aphrodite supports distributed tensor-parallel inference and serving. 
+Aphrodite supports distributed tensor-parallel inference and serving.
 
 To run multi-GPU inference with the LLM class, set the `tensor_parallel_size` argument to the number of GPUs you want to use. For example, to run inference on 4 GPUs
 
@@ -103,9 +103,9 @@ To run multi-GPU inference with the LLM class, set the `tensor_parallel_size` ar
 from langchain_community.llms import Aphrodite
 
 llm = Aphrodite(
-    model="PygmalionAI/mythalion-13b",
-    tensor_parallel_size=4,
-    trust_remote_code=True,  # mandatory for hf models
+        model="PygmalionAI/mythalion-13b",
+        tensor_parallel_size=4,
+        trust_remote_code=True,  # mandatory for hf models
 )
 
 llm("What is the future of AI?")

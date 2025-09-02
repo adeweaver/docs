@@ -11,7 +11,7 @@ Official Website: https://platform.baichuan-ai.com/docs/text-Embedding
 
 An API key is required to use this embedding model. You can get one by registering at https://platform.baichuan-ai.com/docs/text-Embedding.
 
-BaichuanTextEmbeddings support 512 token window and preduces vectors with 1024 dimensions. 
+BaichuanTextEmbeddings support 512 token window and preduces vectors with 1024 dimensions.
 
 Please NOTE that BaichuanTextEmbeddings only supports Chinese text embedding. Multi-language support is coming soon.
 

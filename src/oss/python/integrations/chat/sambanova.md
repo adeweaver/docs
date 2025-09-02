@@ -17,7 +17,7 @@ This will help you get started with SambaNovaCloud [chat models](/oss/concepts/c
 
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](//docs/how_to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | Native async | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
-| ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | 
+| ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ |
 
 ## Setup
 
@@ -157,7 +157,7 @@ for chunk in chain.stream({"animal": "owl"}):
     print(chunk.content, end="", flush=True)
 ```
 ```output
-Yer lookin' fer some knowledge about owls, eh? Alright then, matey, settle yerself down with a pint o' grog and listen close. 
+Yer lookin' fer some knowledge about owls, eh? Alright then, matey, settle yerself down with a pint o' grog and listen close.
 
 Owls be a fascinatin' lot, with their big round eyes and silent wings. They be birds o' prey, which means they hunt other creatures fer food. There be over 220 species o' owls, rangin' in size from the tiny Elf Owl (which be smaller than a parrot) to the Great Grey Owl (which be as big as a small eagle).
 

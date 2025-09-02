@@ -2,7 +2,7 @@
 title: Infinity
 ---
 
-`Infinity` allows to create `Embeddings` using a MIT-licensed Embedding Server. 
+`Infinity` allows to create `Embeddings` using a MIT-licensed Embedding Server.
 
 This notebook goes over how to use Langchain with Embeddings with the [Infinity Github Project](https://github.com/michaelfeil/infinity).
 
@@ -19,7 +19,7 @@ from langchain_community.embeddings import InfinityEmbeddings, InfinityEmbedding
 #### Optional: install infinity
 
 To install infinity use the following command. For further details check out the [Docs on Github](https://github.com/michaelfeil/infinity).
-Install the torch and onnx dependencies. 
+Install the torch and onnx dependencies.
 
 ```bash
 pip install infinity_emb[torch,optimum]
@@ -115,7 +115,7 @@ port=7797
 docker run -it --gpus all -p $port:$port michaelf34/infinity:latest --model-name-or-path $model --port $port
 ```
 
-## Embed your documents using your Infinity instance 
+## Embed your documents using your Infinity instance
 
 
 ```python

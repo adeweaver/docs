@@ -2,7 +2,7 @@
 title: Natural Language API Toolkits
 ---
 
-`Natural Language API` Toolkits (`NLAToolkits`) permit LangChain Agents to efficiently plan and combine calls across endpoints. 
+`Natural Language API` Toolkits (`NLAToolkits`) permit LangChain Agents to efficiently plan and combine calls across endpoints.
 
 This notebook demonstrates a sample composition of the `Speak`, `Klarna`, and `Spoonacluar` APIs.
 

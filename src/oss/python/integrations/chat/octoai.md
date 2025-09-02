@@ -11,7 +11,7 @@ This notebook demonstrates the use of `langchain.chat_models.ChatOctoAI` for [Oc
 To run our example app, there are two simple steps to take:
 
 1. Get an API Token from [your OctoAI account page](https://octoai.cloud/settings).
-   
+
 2. Paste your API token in the code cell below or use the `octoai_api_token` keyword argument.
 
 Note: If you want to use a different model than the [available models](https://octoai.cloud/text?selectedTags=Chat), you can containerize the model and make a custom OctoAI endpoint yourself, by following [Build a Container from Python](https://octo.ai/docs/bring-your-own-model/advanced-build-a-container-from-scratch-in-python) and [Create a Custom Endpoint from a Container](https://octo.ai/docs/bring-your-own-model/create-custom-endpoints-from-a-container/create-custom-endpoints-from-a-container) and then updating your `OCTOAI_API_BASE` environment variable.

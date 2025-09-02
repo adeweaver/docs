@@ -11,7 +11,7 @@ This notebook covers how to load documents from `OneNote`.
 4. During the steps you will be following at **item 1**, generate a new password (`client_secret`) under Application Secrets section.
 5. Follow the instructions at this [document](https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-configure-app-expose-web-apis#add-a-scope) to add the following `SCOPES` (`Notes.Read`) to your application.
 6. You need to install the msal and bs4 packages using the commands `pip install msal` and `pip install beautifulsoup4`.
-7. At the end of the steps you must have the following values: 
+7. At the end of the steps you must have the following values:
 - `CLIENT_ID`
 - `CLIENT_SECRET`
 

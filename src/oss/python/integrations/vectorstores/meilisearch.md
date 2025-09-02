@@ -2,7 +2,7 @@
 title: Meilisearch
 ---
 
-> [Meilisearch](https://meilisearch.com) is an open-source, lightning-fast, and hyper relevant search engine. It comes with great defaults to help developers build snappy search experiences. 
+> [Meilisearch](https://meilisearch.com) is an open-source, lightning-fast, and hyper relevant search engine. It comes with great defaults to help developers build snappy search experiences.
 >
 > You can [self-host Meilisearch](https://www.meilisearch.com/docs/learn/getting_started/installation#local-installation) or run on [Meilisearch Cloud](https://www.meilisearch.com/pricing).
 
@@ -31,7 +31,7 @@ To interact with your Meilisearch instance, the Meilisearch SDK needs a host (UR
 
 **API keys**
 
-Meilisearch instance provides you with three API keys out of the box: 
+Meilisearch instance provides you with three API keys out of the box:
 - A `MASTER KEY` — it should only be used to create your Meilisearch instance
 - A `ADMIN KEY` — use it only server-side to update your database and its settings
 - A `SEARCH KEY` — a key that you can safely share in front-end applications

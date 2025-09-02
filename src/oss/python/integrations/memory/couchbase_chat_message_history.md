@@ -8,12 +8,12 @@ This notebook goes over how to use the `CouchbaseChatMessageHistory` class to st
 
 
 ## Set Up Couchbase Cluster
-To run this demo, you need a Couchbase Cluster. 
+To run this demo, you need a Couchbase Cluster.
 
 You can work with both [Couchbase Capella](https://www.couchbase.com/products/capella/) and your self-managed Couchbase Server.
 
 ## Install Dependencies
-`CouchbaseChatMessageHistory` lives inside the `langchain-couchbase` package. 
+`CouchbaseChatMessageHistory` lives inside the `langchain-couchbase` package.
 
 
 ```python
@@ -23,9 +23,9 @@ You can work with both [Couchbase Capella](https://www.couchbase.com/products/ca
 Note: you may need to restart the kernel to use updated packages.
 ```
 ## Create Couchbase Connection Object
-We create a connection to the Couchbase cluster initially and then pass the cluster object to the Vector Store. 
+We create a connection to the Couchbase cluster initially and then pass the cluster object to the Vector Store.
 
-Here, we are connecting using the username and password. You can also connect using any other supported way to your cluster. 
+Here, we are connecting using the username and password. You can also connect using any other supported way to your cluster.
 
 For more information on connecting to the Couchbase cluster, please check the [Python SDK documentation](https://docs.couchbase.com/python-sdk/current/hello-world/start-using-sdk.html#connect).
 

@@ -99,9 +99,9 @@ for doc in documents_json_list:
 
 ### Create Vector Stores with different distance metrics
 
-First we will create three vector stores each with different distance strategies. 
+First we will create three vector stores each with different distance strategies.
 
-(You can manually connect to the Db2 Database and will see three tables : 
+(You can manually connect to the Db2 Database and will see three tables :
 Documents_DOT, Documents_COSINE and Documents_EUCLIDEAN. )
 
 
@@ -186,7 +186,7 @@ manage_texts(vector_store_list)
 
 ## Query vector store
 
-### Demonstrate advanced searches on vector stores, with and without attribute filtering 
+### Demonstrate advanced searches on vector stores, with and without attribute filtering
 
 With filtering, we only select the document id 101 and nothing else
 

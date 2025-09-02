@@ -4,7 +4,7 @@ sidebarTitle: Evaluate a RAG application
 ---
 
 <Info>
-  [RAG evaluation](/langsmith/evaluation-concepts#retrieval-augmented-generation-rag) | [Evaluators](/langsmith/evaluation-concepts#evaluators) | [LLM-as-judge evaluators](/langsmith/evaluation-concepts#llm-as-judge)
+[RAG evaluation](/langsmith/evaluation-concepts#retrieval-augmented-generation-rag) | [Evaluators](/langsmith/evaluation-concepts#evaluators) | [LLM-as-judge evaluators](/langsmith/evaluation-concepts#llm-as-judge)
 </Info>
 
 Retrieval Augmented Generation (RAG) is a technique that enhances Large Language Models (LLMs) by providing them with relevant external knowledge. It has become one of the most widely used approaches for building LLM applications.
@@ -71,7 +71,7 @@ yarn add langsmith langchain @langchain/community @langchain/openai
 ### Application
 
 <Info>
-  While this tutorial uses LangChain, the evaluation techniques and LangSmith functionality demonstrated here work with any framework. Feel free to use your preferred tools and libraries.
+While this tutorial uses LangChain, the evaluation techniques and LangSmith functionality demonstrated here work with any framework. Feel free to use your preferred tools and libraries.
 </Info>
 
 In this section, we'll build a basic Retrieval-Augmented Generation (RAG) application.
@@ -207,14 +207,14 @@ const ragBot = traceable(
         // LangChain retriever will be automatically traced
         const retrievedDocs = await vectorStore.similaritySearch(question);
         const docsContent = retrievedDocs.map((doc) => doc.pageContent).join("");
-        
+
         const instructions = `You are a helpful assistant who is good at analyzing source information and answering questions
         Use the following source documents to answer the user's questions.
         If you don't know the answer, just say that you don't know.
         Use three sentences maximum and keep the answer concise.
         Documents:
         ${docsContent}`;
-        
+
         const aiMsg = await llm.invoke([
             {
                 role: "system",
@@ -225,7 +225,7 @@ const ragBot = traceable(
                 content: question
             }
         ])
-        
+
         return {"answer": aiMsg.content, "documents": retrievedDocs}
     }
 )
@@ -374,7 +374,7 @@ GROUND TRUTH ANSWER: {reference_outputs['answer']}
 STUDENT ANSWER: {outputs['answer']}"""
     # Run evaluator
     grade = grader_llm.invoke([
-        {"role": "system", "content": correctness_instructions}, 
+        {"role": "system", "content": correctness_instructions},
         {"role": "user", "content": answers}
     ])
     return grade["correct"]
@@ -423,7 +423,7 @@ async function correctness({
   const answer = `QUESTION: ${inputs.question}
     GROUND TRUTH ANSWER: ${referenceOutputs.answer}
     STUDENT ANSWER: ${outputs.answer}`
-  
+
   // Run evaluator
   const grade = graderLLM.invoke([{role: "system", content: correctnessInstructions}, {role: "user", content: answer}])
   return grade.score;
@@ -467,7 +467,7 @@ def relevance(inputs: dict, outputs: dict) -> bool:
     """A simple evaluator for RAG answer helpfulness."""
     answer = f"QUESTION: {inputs['question']}\nSTUDENT ANSWER: {outputs['answer']}"
     grade = relevance_llm.invoke([
-        {"role": "system", "content": relevance_instructions}, 
+        {"role": "system", "content": relevance_instructions},
         {"role": "user", "content": answer}
     ])
     return grade["relevant"]
@@ -513,7 +513,7 @@ async function relevance({
 }): Promise<EvaluationResult> => {
   const answer = `QUESTION: ${inputs.question}
 STUDENT ANSWER: ${outputs.answer}`
-  
+
   // Run evaluator
   const grade = relevanceLLM.invoke([{role: "system", content: relevanceInstructions}, {role: "user", content: answer}])
   return grade.relevant;
@@ -546,7 +546,7 @@ A grounded value of False means that the student's answer does not meet all of t
 
 Explain your reasoning in a step-by-step manner to ensure your reasoning and conclusion are correct. Avoid simply stating the correct answer at the outset."""
 
-# Grader LLM 
+# Grader LLM
 grounded_llm = ChatOpenAI(model="gpt-4o", temperature=0).with_structured_output(
     GroundedGrade, method="json_schema", strict=True
 )
@@ -557,7 +557,7 @@ def groundedness(inputs: dict, outputs: dict) -> bool:
     doc_string = "\n\n".join(doc.page_content for doc in outputs["documents"])
     answer = f"FACTS: {doc_string}\nSTUDENT ANSWER: {outputs['answer']}"
     grade = grounded_llm.invoke([
-        {"role": "system", "content": grounded_instructions}, 
+        {"role": "system", "content": grounded_instructions},
         {"role": "user", "content": answer}
     ])
     return grade["grounded"]
@@ -603,7 +603,7 @@ async function grounded({
   const docString = outputs.documents.map((doc) => doc.pageContent).join("");
   const answer = `FACTS: ${docString}
     STUDENT ANSWER: ${outputs.answer}`
-  
+
   // Run evaluator
   const grade = groundedLLM.invoke([{role: "system", content: groundedInstructions}, {role: "user", content: answer}])
   return grade.grounded;
@@ -649,7 +649,7 @@ def retrieval_relevance(inputs: dict, outputs: dict) -> bool:
     answer = f"FACTS: {doc_string}\nQUESTION: {inputs['question']}"
     # Run evaluator
     grade = retrieval_relevance_llm.invoke([
-        {"role": "system", "content": retrieval_relevance_instructions}, 
+        {"role": "system", "content": retrieval_relevance_instructions},
         {"role": "user", "content": answer}
     ])
     return grade["relevant"]
@@ -697,7 +697,7 @@ async function retrievalRelevance({
   const docString = outputs.documents.map((doc) => doc.pageContent).join("");
   const answer = `FACTS: ${docString}
     QUESTION: ${inputs.question}`
-  
+
   // Run evaluator
   const grade = retrievalRelevanceLLM.invoke([{role: "system", content: retrievalRelevanceInstructions}, {role: "user", content: answer}])
   return grade.relevant;
@@ -750,7 +750,7 @@ You can see an example of what these results look like here: [LangSmith link](ht
 ## Reference code
 
 <Accordion title="Here's a consolidated script with all the above code:">
-  <CodeGroup>
+    <CodeGroup>
 
 ```python Python
 from langchain_community.document_loaders import WebBaseLoader
@@ -1043,14 +1043,14 @@ const ragBot = traceable(
         // LangChain retriever will be automatically traced
         const retrievedDocs = await vectorStore.similaritySearch(question);
         const docsContent = retrievedDocs.map((doc) => doc.pageContent).join("");
-        
+
         const instructions = `You are a helpful assistant who is good at analyzing source information and answering questions
         Use the following source documents to answer the user's questions.
         If you don't know the answer, just say that you don't know.
         Use three sentences maximum and keep the answer concise.
         Documents:
         ${docsContent}`;
-        
+
         const aiMsg = await llm.invoke([
             {
                 role: "system",
@@ -1061,7 +1061,7 @@ const ragBot = traceable(
                 content: question
             }
         ])
-        
+
         return {"answer": aiMsg.content, "documents": retrievedDocs}
     }
 )
@@ -1135,7 +1135,7 @@ async function correctness({
   const answer = `QUESTION: ${inputs.question}
     GROUND TRUTH ANSWER: ${referenceOutputs.answer}
     STUDENT ANSWER: ${outputs.answer}`
-  
+
   // Run evaluator
   const grade = graderLLM.invoke([{role: "system", content: correctnessInstructions}, {role: "user", content: answer}])
   return grade.score;
@@ -1177,7 +1177,7 @@ async function relevance({
 }): Promise<EvaluationResult> => {
   const answer = `QUESTION: ${inputs.question}
 STUDENT ANSWER: ${outputs.answer}`
-  
+
   // Run evaluator
   const grade = relevanceLLM.invoke([{role: "system", content: relevanceInstructions}, {role: "user", content: answer}])
   return grade.relevant;
@@ -1219,7 +1219,7 @@ async function grounded({
   const docString = outputs.documents.map((doc) => doc.pageContent).join("");
   const answer = `FACTS: ${docString}
     STUDENT ANSWER: ${outputs.answer}`
-  
+
   // Run evaluator
   const grade = groundedLLM.invoke([{role: "system", content: groundedInstructions}, {role: "user", content: answer}])
   return grade.grounded;
@@ -1263,7 +1263,7 @@ async function retrievalRelevance({
   const docString = outputs.documents.map((doc) => doc.pageContent).join("");
   const answer = `FACTS: ${docString}
     QUESTION: ${inputs.question}`
-  
+
   // Run evaluator
   const grade = retrievalRelevanceLLM.invoke([{role: "system", content: retrievalRelevanceInstructions}, {role: "user", content: answer}])
   return grade.relevant;
@@ -1281,7 +1281,7 @@ const experimentResults = await evaluate(targetFunc, {
 });
 ```
 
-  </CodeGroup>
+    </CodeGroup>
 </Accordion>
 
 

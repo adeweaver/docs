@@ -25,20 +25,20 @@ The main question when adding subgraphs is how the parent graph and subgraph com
   :::python
   ```python {highlight={12,17}}
   from langgraph.graph import StateGraph, MessagesState, START
-  
+
   # Subgraph
-  
+
   def call_model(state: MessagesState):
       response = model.invoke(state["messages"])
       return {"messages": response}
-  
+
   subgraph_builder = StateGraph(State)
   subgraph_builder.add_node(call_model)
   ...
   subgraph = subgraph_builder.compile()
-  
+
   # Parent graph
-  
+
   builder = StateGraph(State)
   builder.add_node("subgraph_node", subgraph)
   builder.add_edge(START, "subgraph_node")
@@ -58,9 +58,9 @@ The main question when adding subgraphs is how the parent graph and subgraph com
       .array(z.custom<BaseMessage>())
       .register(registry, MessagesZodMeta),
   });
-  
+
   // Subgraph
-  
+
   const subgraphBuilder = new StateGraph(MessagesZodState).addNode(
     "callModel",
     async (state) => {
@@ -70,9 +70,9 @@ The main question when adding subgraphs is how the parent graph and subgraph com
   );
   // ... other nodes and edges
   const subgraph = subgraphBuilder.compile();
-  
+
   // Parent graph
-  
+
   const builder = new StateGraph(MessagesZodState)
     .addNode("subgraphNode", subgraph)
     .addEdge(START, "subgraphNode");
@@ -88,28 +88,28 @@ The main question when adding subgraphs is how the parent graph and subgraph com
   from langchain_core.messages import AnyMessage
   from langgraph.graph import StateGraph, MessagesState, START
   from langgraph.graph.message import add_messages
-  
+
   class SubgraphMessagesState(TypedDict):
       subgraph_messages: Annotated[list[AnyMessage], add_messages]
-  
+
   # Subgraph
-  
+
   def call_model(state: SubgraphMessagesState):
       response = model.invoke(state["subgraph_messages"])
       return {"subgraph_messages": response}
-  
+
   subgraph_builder = StateGraph(SubgraphMessagesState)
   subgraph_builder.add_node("call_model_from_subgraph", call_model)
   subgraph_builder.add_edge(START, "call_model_from_subgraph")
   ...
   subgraph = subgraph_builder.compile()
-  
+
   # Parent graph
-  
+
   def call_subgraph(state: MessagesState):
       response = subgraph.invoke({"subgraph_messages": state["messages"]})
       return {"messages": response["subgraph_messages"]}
-  
+
   builder = StateGraph(State)
   builder.add_node("subgraph_node", call_subgraph)
   builder.add_edge(START, "subgraph_node")
@@ -124,21 +124,21 @@ The main question when adding subgraphs is how the parent graph and subgraph com
   import { BaseMessage } from "@langchain/core/messages";
   import { registry } from "@langchain/langgraph/zod";
   import { z } from "zod/v4";
-  
+
   const MessagesZodState = z.object({
     messages: z
       .array(z.custom<BaseMessage>())
       .register(registry, MessagesZodMeta),
   });
-  
+
   const SubgraphState = z.object({
     subgraphMessages: z
       .array(z.custom<BaseMessage>())
       .register(registry, MessagesZodMeta),
   });
-  
+
   // Subgraph
-  
+
   const subgraphBuilder = new StateGraph(SubgraphState)
     .addNode("callModelFromSubgraph", async (state) => {
       const response = await model.invoke(state.subgraphMessages);
@@ -147,9 +147,9 @@ The main question when adding subgraphs is how the parent graph and subgraph com
     .addEdge(START, "callModelFromSubgraph");
   // ...
   const subgraph = subgraphBuilder.compile();
-  
+
   // Parent graph
-  
+
   const builder = new StateGraph(MessagesZodState)
     .addNode("subgraphNode", async (state) => {
       const response = await subgraph.invoke({

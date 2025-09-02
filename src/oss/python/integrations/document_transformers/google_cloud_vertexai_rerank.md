@@ -439,7 +439,7 @@ comparison_df
 
     </div>
   </div>
- 
+
 ```
 
 
@@ -459,7 +459,7 @@ for i in range(2):
       white-space: pre-wrap;
   }
 </style>
- 
+
 ```
 ```output
 Document 0
@@ -530,7 +530,7 @@ chain = reranker_setup_and_retrieval | prompt | llm
       white-space: pre-wrap;
   }
 </style>
- 
+
 ```
 
 
@@ -544,7 +544,7 @@ query = "how did the name google originate?"
       white-space: pre-wrap;
   }
 </style>
- 
+
 ```
 
 
@@ -558,7 +558,7 @@ chain.invoke(query)
       white-space: pre-wrap;
   }
 </style>
- 
+
 ```
 
 

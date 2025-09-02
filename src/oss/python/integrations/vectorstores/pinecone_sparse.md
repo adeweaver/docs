@@ -275,7 +275,7 @@ For guides on how to use this vector store for retrieval-augmented generation (R
 
 ## API reference
 
-For detailed documentation of all features and configurations head to the API reference: 
+For detailed documentation of all features and configurations head to the API reference:
 https://python.langchain.com/api_reference/pinecone/vectorstores_sparse/langchain_pinecone.vectorstores_sparse.PineconeSparseVectorStore.html#langchain_pinecone.vectorstores_sparse.PineconeSparseVectorStore
 
 Sparse Embeddings:

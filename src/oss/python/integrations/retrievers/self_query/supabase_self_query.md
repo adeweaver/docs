@@ -2,12 +2,12 @@
 title: Supabase (Postgres)
 ---
 
->[Supabase](https://supabase.com/docs) is an open-source `Firebase` alternative. 
-> `Supabase` is built on top of `PostgreSQL`, which offers strong `SQL` 
+>[Supabase](https://supabase.com/docs) is an open-source `Firebase` alternative.
+> `Supabase` is built on top of `PostgreSQL`, which offers strong `SQL`
 > querying capabilities and enables a simple interface with already-existing tools and frameworks.
 
 >[PostgreSQL](https://en.wikipedia.org/wiki/PostgreSQL) also known as `Postgres`,
-> is a free and open-source relational database management system (RDBMS) 
+> is a free and open-source relational database management system (RDBMS)
 > emphasizing extensibility and `SQL` compliance.
 >
 >[Supabase](https://supabase.com/docs/guides/ai) provides an open-source toolkit for developing AI applications
