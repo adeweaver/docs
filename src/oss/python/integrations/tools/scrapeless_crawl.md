@@ -139,7 +139,7 @@ print(result)
 ```python
 from langchain_openai import ChatOpenAI
 from langchain_scrapeless import ScrapelessCrawlerCrawlTool
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 llm = ChatOpenAI()
 
@@ -147,7 +147,7 @@ tool = ScrapelessCrawlerCrawlTool()
 
 # Use the tool with an agent
 tools = [tool]
-agent = create_react_agent(llm, tools)
+agent = create_agent(llm, tools)
 
 for chunk in agent.stream(
     {
@@ -235,7 +235,7 @@ print(result)
 ```python
 from langchain_openai import ChatOpenAI
 from langchain_scrapeless import ScrapelessCrawlerScrapeTool
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 llm = ChatOpenAI()
 
@@ -243,7 +243,7 @@ tool = ScrapelessCrawlerScrapeTool()
 
 # Use the tool with an agent
 tools = [tool]
-agent = create_react_agent(llm, tools)
+agent = create_agent(llm, tools)
 
 for chunk in agent.stream(
     {

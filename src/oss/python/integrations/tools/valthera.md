@@ -308,7 +308,7 @@ except ValueError as e:
 
 ```python
 from langchain_valthera.tools import ValtheraTool
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 try:
     api_key = get_openai_api_key()
@@ -325,7 +325,7 @@ try:
     # Create agent with LLM
     llm = ChatOpenAI(model_name="gpt-4-turbo", temperature=0.0, openai_api_key=api_key)
     tools = [valthera_tool]
-    graph = create_react_agent(llm, tools=tools)
+    graph = create_agent(llm, tools=tools)
 
     # Define input message for testing
     inputs = {

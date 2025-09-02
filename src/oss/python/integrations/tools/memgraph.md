@@ -75,9 +75,9 @@ tool.invoke({QueryMemgraphTool({"query": "MATCH (n) RETURN n LIMIT 5"})})
 
 
 ```python
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
-agent_executor = create_react_agent(llm, tools)
+agent_executor = create_agent(llm, tools)
 ```
 
 

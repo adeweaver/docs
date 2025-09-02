@@ -144,7 +144,7 @@ The BrightDataSERP tool accepts several parameters for customization:
 ```python
 from langchain_brightdata import BrightDataSERP
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 # Initialize the LLM
 llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key="your-api-key")
@@ -160,7 +160,7 @@ serp_tool = BrightDataSERP(
 )
 
 # Create the agent
-agent = create_react_agent(llm, [serp_tool])
+agent = create_agent(llm, [serp_tool])
 
 # Provide a user query
 user_input = "Search for 'best electric vehicles' shopping results in Germany in German using mobile."

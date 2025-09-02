@@ -35,7 +35,7 @@ pip install ionic-langchain
 ```python
 from ionic_langchain.tool import Ionic, IonicTool
 from langchain import hub
-from langchain.agents import AgentExecutor, Tool, create_react_agent
+from langchain.agents import AgentExecutor, Tool, create_agent
 from langchain_openai import OpenAI
 
 # Based on ReAct Agent
@@ -79,10 +79,10 @@ Return them as a markdown formatted list with each recommendation from tool resu
 
 tools = [ionic_tool]
 
-# default prompt for create_react_agent
+# default prompt for create_agent
 prompt = hub.pull("hwchase17/react")
 
-agent = create_react_agent(
+agent = create_agent(
     llm,
     tools,
     prompt=prompt,

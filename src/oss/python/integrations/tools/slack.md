@@ -87,11 +87,11 @@ Let's equip an agent with the Slack toolkit and query for information about a ch
 
 ```python
 from langchain_openai import ChatOpenAI
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 llm = ChatOpenAI(model="gpt-4o-mini")
 
-agent_executor = create_react_agent(llm, tools)
+agent_executor = create_agent(llm, tools)
 ```
 
 

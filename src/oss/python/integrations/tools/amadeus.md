@@ -76,7 +76,7 @@ toolkit_hf = AmadeusToolkit(llm=llm)
 
 ```python
 from langchain import hub
-from langchain.agents import AgentExecutor, create_react_agent
+from langchain.agents import AgentExecutor, create_agent
 from langchain.agents.output_parsers import ReActJsonSingleInputOutputParser
 from langchain.tools.render import render_text_description_and_args
 from langchain_openai import ChatOpenAI
@@ -87,7 +87,7 @@ from langchain_openai import ChatOpenAI
 llm = ChatOpenAI(temperature=0)
 
 prompt = hub.pull("hwchase17/react-json")
-agent = create_react_agent(
+agent = create_agent(
     llm,
     tools,
     prompt,

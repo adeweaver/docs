@@ -100,7 +100,7 @@ MLflow also supports tracing LangGraph applications:
 ```python
 import mlflow
 from langchain_core.tools import tool
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 # Enable MLflow tracing
 mlflow.langchain.autolog()
@@ -117,7 +117,7 @@ def count_words(text: str) -> str:
 # Create a LangGraph agent
 llm = ChatOpenAI(model="gpt-4o")
 tools = [count_words]
-graph = create_react_agent(llm, tools)
+graph = create_agent(llm, tools)
 
 # Run the agent
 result = graph.invoke(

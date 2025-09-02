@@ -14,7 +14,7 @@ First, you need to install the `arxiv` python package.
 
 ```python
 from langchain import hub
-from langchain.agents import AgentExecutor, create_react_agent, load_tools
+from langchain.agents import AgentExecutor, create_agent, load_tools
 from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(temperature=0.0)
@@ -23,7 +23,7 @@ tools = load_tools(
 )
 prompt = hub.pull("hwchase17/react")
 
-agent = create_react_agent(llm, tools, prompt)
+agent = create_agent(llm, tools, prompt)
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 ```
 

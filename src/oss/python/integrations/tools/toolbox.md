@@ -166,13 +166,13 @@ Now for the fun part! We'll install the required LangChain packages and create a
 %pip install -U --quiet toolbox-langchain langgraph langchain-google-vertexai
 ```
 
-With the packages installed, we can define our agent. We will use `ChatVertexAI` for the model and `ToolboxClient` to load our tools. The `create_react_agent` from `langgraph.prebuilt` creates a robust agent that can reason about which tools to call.
+With the packages installed, we can define our agent. We will use `ChatVertexAI` for the model and `ToolboxClient` to load our tools. The `create_agent` from `langchain.agents` creates a robust agent that can reason about which tools to call.
 
 **Note:** Ensure your MCP Toolbox server is running in a separate terminal before executing the code below.
 
 
 ```python
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 from langchain_google_vertexai import ChatVertexAI
 from langgraph.checkpoint.memory import MemorySaver
 from toolbox_langchain import ToolboxClient
@@ -225,7 +225,7 @@ async def run_hotel_agent():
     async with ToolboxClient("http://127.0.0.1:5000") as client:
         tools = await client.aload_toolset("hotel_toolset")
 
-        agent = create_react_agent(model, tools, checkpointer=MemorySaver())
+        agent = create_agent(model, tools, checkpointer=MemorySaver())
 
         await run_queries(agent)
 

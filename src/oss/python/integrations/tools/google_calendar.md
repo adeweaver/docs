@@ -157,9 +157,9 @@ llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
 
 
 ```python
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
-agent_executor = create_react_agent(llm, tools)
+agent_executor = create_agent(llm, tools)
 ```
 
 

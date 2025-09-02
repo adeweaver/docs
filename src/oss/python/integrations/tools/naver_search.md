@@ -125,11 +125,11 @@ You are a helpful assistant that can search the web for information.
 
 ```python
 from langchain_naver_community.tool import NaverNewsSearch
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 tools = [NaverNewsSearch()]
 
-agent_executor = create_react_agent(
+agent_executor = create_agent(
     llm,
     tools,
     prompt=system_prompt,

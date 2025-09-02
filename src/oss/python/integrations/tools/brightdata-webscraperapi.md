@@ -141,7 +141,7 @@ The tool supports the following dataset types for structured data extraction:
 ```python
 from langchain_brightdata import BrightDataWebScraperAPI
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 # Initialize the LLM
 llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key="your-api-key")
@@ -150,7 +150,7 @@ llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key="your-api-
 scraper_tool = BrightDataWebScraperAPI(bright_data_api_key="your-api-key")
 
 # Create the agent with the tool
-agent = create_react_agent(llm, [scraper_tool])
+agent = create_agent(llm, [scraper_tool])
 
 # Provide a user query
 user_input = "Scrape Amazon product data for https://www.amazon.com/dp/B0D2Q9397Y?th=1 in New York (zipcode 10001)."

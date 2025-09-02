@@ -74,10 +74,10 @@ You can initialize the agent with the AINetwork Toolkit like this:
 
 ```python
 from langchain_openai import ChatOpenAI
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 llm = ChatOpenAI(temperature=0)
-agent = create_react_agent(model=llm, tools=tools)
+agent = create_agent(model=llm, tools=tools)
 ```
 
 ## Example Usage

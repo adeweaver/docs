@@ -270,14 +270,14 @@ import json
 
 from langchain_core.messages import HumanMessage
 from langchain_openai.chat_models import ChatOpenAI
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 # Set up the tools and LLM
 tools = [vectara_rag_tool]
 llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
 
 # Construct the ReAct agent
-agent_executor = create_react_agent(llm, tools)
+agent_executor = create_agent(llm, tools)
 
 question = (
     "What is an API key? What is a JWT token? When should I use one or the other?"

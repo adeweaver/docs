@@ -73,9 +73,9 @@ os.environ["UC_TOOL_CLIENT_EXECUTION_TIMEOUT"] = "200"
 
 
 ```python
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
-agent = create_react_agent(
+agent = create_agent(
     llm,
     tools,
     prompt="You are a helpful assistant. Make sure to use tool for information.",

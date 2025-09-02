@@ -418,10 +418,10 @@ playwright_toolkit
 
 
 ```python
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 # You need to set up an llm, please refer to the chaining section
-agent_executor = create_react_agent(
+agent_executor = create_agent(
     llm, agentql_toolkit.get_tools() + playwright_toolkit
 )
 ```
