@@ -32,7 +32,6 @@
   "contextual": {
     "options": [
       "copy",
-      "view",
       {
         "title": "llms.txt",
         "description": "Open llms.txt for this site",
@@ -40,7 +39,10 @@
         "href": "https://docs.langchain.com/llms.txt"
       },
       "chatgpt",
-      "claude"
+      "claude",
+      "mcp",
+      "cursor",
+      "vscode"
     ]
   },
   "integrations": {
