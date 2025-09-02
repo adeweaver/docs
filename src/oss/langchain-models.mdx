@@ -50,7 +50,7 @@ response = model.invoke("Why do parrots talk?")
 from langchain.chat_models import init_chat_model
 
 model = init_chat_model(
-    model="gpt-5", 
+    model="gpt-5",
     model_provider="openai"
 )
 response = model.invoke("Why do parrots talk?")
@@ -60,7 +60,7 @@ response = model.invoke("Why do parrots talk?")
 from langchain.chat_models import init_chat_model
 
 model = init_chat_model(
-    model="claude-opus-4-0", 
+    model="claude-opus-4-0",
     model_provider="anthropic"
 )
 response = model.invoke("Why do parrots talk?")
@@ -70,7 +70,7 @@ response = model.invoke("Why do parrots talk?")
 from langchain.chat_models import init_chat_model
 
 model = init_chat_model(
-    model="gemini-2.5-pro", 
+    model="gemini-2.5-pro",
     model_provider="google"
 )
 response = model.invoke("Why do parrots talk?")
@@ -80,7 +80,7 @@ response = model.invoke("Why do parrots talk?")
 from langchain.chat_models import init_chat_model
 
 model = init_chat_model(
-    model="anthropic.claude-opus-4", 
+    model="anthropic.claude-opus-4",
     model_provider="bedrock",
 )
 response = model.invoke("Why do parrots talk?")
@@ -90,7 +90,7 @@ response = model.invoke("Why do parrots talk?")
 from langchain.chat_models import init_chat_model
 
 model = init_chat_model(
-    model="gpt-oss", 
+    model="gpt-oss",
     model_provider="ollama",
 )
 response = model.invoke("Why do parrots talk?")
@@ -234,9 +234,9 @@ invocation methods, each suited to different use cases.
     Each invocation method has an
     <Tooltip tip="Asynchronous methods are useful for non-blocking operations, especially in web servers or applications that handle multiple tasks concurrently.">asynchronous</Tooltip>
     equivalent, typically prefixed with the letter `'a'`
-    
+
     For example: `ainvoke()`, `astream()`, `abatch()`
-    
+
     A full list of async methods can be found in the @[reference docs][Reference].
 </Tip>
 :::
@@ -418,7 +418,7 @@ message history and passed back to the model as conversational context.
         the code that was using invoke is concerned; however, while the chat model
         is being streamed, LangChain will take care of invoking `on_llm_new_token`
         events in LangChain's callback system.
-        
+
         :::python
         Callback events allow LangGraph `stream()` and @[astream_events][`astream_events()`]
         to surface the chat model's output in real-time.
@@ -453,7 +453,7 @@ message history and passed back to the model as conversational context.
     the code that was using invoke is concerned; however, while the chat model
     is being streamed, LangChain will take care of invoking `on_llm_new_token`
     events in LangChain's callback system.
-    
+
     :::python
     Callback events allow LangGraph `stream()` and @[`astream_events()`][BaseChatModel.astream_events]
     to surface the chat model's output in real-time.
@@ -517,10 +517,10 @@ message history and passed back to the model as conversational context.
     for await (const event of stream) {
         if (event.event === "on_chat_model_start") {
             console.log(`Input: ${event.data.input}`);
-        } 
+        }
         if (event.event === "on_chat_model_stream") {
             console.log(`Token: ${event.data.chunk.text}`);
-        } 
+        }
         if (event.event === "on_chat_model_end") {
             console.log(`Full message: ${event.data.output.text}`);
         }
@@ -585,7 +585,7 @@ for response in model.batch_as_completed([
     `batch_as_completed()`, you may want to control the maximum number of
     parallel calls. This can be done by setting the `max_concurrency` attribute
     in the `RunnableConfig` dictionary.
-    
+
     ```python Batch with max concurrency
     model.batch(
         list_of_inputs,
@@ -616,7 +616,7 @@ for (const response of responses) {
 <Tip>
     When processing a large number of inputs using `batch()`, you may want to control the maximum number of
     parallel calls. This can be done by setting the `maxConcurrency` attribute in the `RunnableConfig` dictionary.
-    
+
     ```typescript Batch with max concurrency
     model.batch(
         listOfInputs,
@@ -644,7 +644,7 @@ definitions (often a JSON schema)
 to execute.
 
 <Note>
-    You may hear the term `function calling`. We use this 
+    You may hear the term `function calling`. We use this
     interchangeably with `tool calling`.
 </Note>
 
@@ -783,18 +783,18 @@ Below, we show some common ways you can get use tool calling.
 
         ```python Parallel tool calls
         model_with_tools = model.bind_tools([get_weather])
-        
+
         response = model_with_tools.invoke(
             "What's the weather in Boston and Tokyo?"
         )
-        
+
         # The model may generate multiple tool calls
         print(response.tool_calls)
         # [
         #   {'name': 'get_weather', 'args': {'location': 'Boston'}, 'id': 'call_1'},
         #   {'name': 'get_time', 'args': {'location': 'Tokyo'}, 'id': 'call_2'}
         # ]
-        
+
         # Execute all tools (can be done in parallel with async)
         results = []
         for tool_call in response.tool_calls:
@@ -807,7 +807,7 @@ Below, we show some common ways you can get use tool calling.
         The model intelligently determines when parallel execution is
         appropriate based on the independence of the requested operations.
     </Accordion>
-    
+
     <Accordion title="Streaming tool calls" icon="rss">
         When streaming responses, tool calls are progressively built through
         `ToolCallChunk`. This allows you to see tool calls as they're being
@@ -825,15 +825,15 @@ Below, we show some common ways you can get use tool calling.
 
         # Output:
         # Tool: get_weather            # Loop 1
-        # Args: 
+        # Args:
         # Tool:                        # Loop 2
         # Args: {"loc
         # Tool:                        # Loop 3
         # Args: ation": "BOS"}
         # Tool: get_time               # Loop 4
-        # Args: 
+        # Args:
         # Tool:                        # Loop 5
-        # Args: {"timezone": "Tokyo"}  
+        # Args: {"timezone": "Tokyo"}
         ```
 
         You can accumulate chunks to build complete tool calls:
@@ -907,18 +907,18 @@ Below, we show some common ways you can get use tool calling.
 
         ```typescript Parallel tool calls
         const modelWithTools = model.bind_tools([get_weather])
-        
+
         const response = await modelWithTools.invoke(
             "What's the weather in Boston and Tokyo?"
         )
-        
+
         // The model may generate multiple tool calls
         console.log(response.tool_calls)
         // [
         //   { name: 'get_weather', args: { location: 'Boston' }, id: 'call_1' },
         //   { name: 'get_time', args: { location: 'Tokyo' }, id: 'call_2' }
         // ]
-        
+
         // Execute all tools (can be done in parallel with async)
         const results = []
         for (const tool_call of response.tool_calls || []) {
@@ -932,7 +932,7 @@ Below, we show some common ways you can get use tool calling.
         The model intelligently determines when parallel execution is
         appropriate based on the independence of the requested operations.
     </Accordion>
-    
+
     <Accordion title="Streaming tool calls" icon="rss">
         When streaming responses, tool calls are progressively built through
         `ToolCallChunk`. This allows you to see tool calls as they're being
@@ -953,16 +953,16 @@ Below, we show some common ways you can get use tool calling.
         }
 
         // Output:
-        // Tool: get_weather           
-        // Args: 
-        // Tool:                       
+        // Tool: get_weather
+        // Args:
+        // Tool:
         // Args: {"loc
-        // Tool:                       
+        // Tool:
         // Args: ation": "BOS"}
-        // Tool: get_time              
-        // Args: 
-        // Tool:                       
-        // Args: {"timezone": "Tokyo"}  
+        // Tool: get_time
+        // Args:
+        // Tool:
+        // Args: {"timezone": "Tokyo"}
         ```
 
         You can accumulate chunks to build complete tool calls:
@@ -1059,7 +1059,7 @@ for enforcing structured outputs.
         }
 
         model_with_structure = model.with_structured_output(
-            json_schema, 
+            json_schema,
             method="json_schema",
         )
         response = model_with_structure.invoke("Provide details about the movie Inception")
@@ -1083,7 +1083,7 @@ for enforcing structured outputs.
             director: z.string().describe("The director of the movie"),
             rating: z.number().describe("The movie's rating out of 10"),
         });
-        
+
         const modelWithStructure = model.withStructuredOutput(Movie);
 
         const response = await modelWithStructure.invoke("Provide details about the movie Inception");
@@ -1126,7 +1126,7 @@ for enforcing structured outputs.
         }
 
         const modelWithStructure = model.withStructuredOutput(
-            jsonSchema, 
+            jsonSchema,
             { method: "jsonSchema" }
         )
 
@@ -1667,7 +1667,7 @@ which requests are made.
         )
 
         model = init_chat_model(
-            model="gpt-5", 
+            model="gpt-5",
             model_provider="openai",
             rate_limiter=rate_limiter
         )
@@ -1761,7 +1761,7 @@ setting the `logprobs` parameter when initializing a model:
 
 ```python Log probs
 model = init_chat_model(
-    model="gpt-4o", 
+    model="gpt-4o",
     model_provider="openai"
 ).bind(logprobs=True)
 
@@ -1895,32 +1895,32 @@ const response = await model.invoke(
 :::python
 <Accordion title="Key configuration attributes">
     <ParamField body="run_name" type="string">
-        Identifies this specific invocation in logs and traces. Not inherited by 
+        Identifies this specific invocation in logs and traces. Not inherited by
         sub-calls.
     </ParamField>
 
     <ParamField body="tags" type="string[]">
-        Labels inherited by all sub-calls for filtering and organization in 
+        Labels inherited by all sub-calls for filtering and organization in
         debugging tools.
     </ParamField>
 
     <ParamField body="metadata" type="object">
-        Custom key-value pairs for tracking additional context, inherited by all 
+        Custom key-value pairs for tracking additional context, inherited by all
         sub-calls.
     </ParamField>
 
     <ParamField body="max_concurrency" type="number">
-        Controls the maximum number of parallel calls when using `batch()` or 
+        Controls the maximum number of parallel calls when using `batch()` or
         `batch_as_completed()`.
     </ParamField>
 
     <ParamField body="callbacks" type="array">
-        Handlers for monitoring and responding to events during execution. See 
+        Handlers for monitoring and responding to events during execution. See
         [callbacks]() for details.
     </ParamField>
 
     <ParamField body="recursion_limit" type="number">
-        Maximum recursion depth for chains to prevent infinite loops in complex 
+        Maximum recursion depth for chains to prevent infinite loops in complex
         pipelines.
     </ParamField>
 </Accordion>
@@ -1929,17 +1929,17 @@ const response = await model.invoke(
 :::js
 <Accordion title="Key configuration attributes">
     <ParamField body="runName" type="string">
-        Identifies this specific invocation in logs and traces. Not inherited by 
+        Identifies this specific invocation in logs and traces. Not inherited by
         sub-calls.
     </ParamField>
 
     <ParamField body="tags" type="string[]">
-        Labels inherited by all sub-calls for filtering and organization in 
+        Labels inherited by all sub-calls for filtering and organization in
         debugging tools.
     </ParamField>
 
     <ParamField body="metadata" type="object">
-        Custom key-value pairs for tracking additional context, inherited by all 
+        Custom key-value pairs for tracking additional context, inherited by all
         sub-calls.
     </ParamField>
 
@@ -1948,12 +1948,12 @@ const response = await model.invoke(
     </ParamField>
 
     <ParamField body="callbacks" type="CallbackHandler[]">
-        Handlers for monitoring and responding to events during execution. See 
+        Handlers for monitoring and responding to events during execution. See
         [callbacks]() for details.
     </ParamField>
 
     <ParamField body="recursion_limit" type="number">
-        Maximum recursion depth for chains to prevent infinite loops in complex 
+        Maximum recursion depth for chains to prevent infinite loops in complex
         pipelines.
     </ParamField>
 </Accordion>
