@@ -195,13 +195,13 @@ Here's how to use any of the Hyperbrowser tools within an agent:
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_hyperbrowser import browser_use_tool
 from langchain_openai import ChatOpenAI
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 llm = ChatOpenAI(temperature=0)
 
 # You can use any of the three tools here
 browser_use_tool = HyperbrowserBrowserUseTool()
-agent = create_react_agent(llm, [browser_use_tool])
+agent = create_agent(llm, [browser_use_tool])
 
 user_input = "Go to npmjs.com, and tell me when react package was last updated."
 for step in agent.stream(

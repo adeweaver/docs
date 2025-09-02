@@ -115,12 +115,12 @@ llm = init_chat_model("gpt-4o-mini", model_provider="openai")
 
 
 ```python
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 # Initialize OxylabsSearchRun tool
 tool_ = OxylabsSearchRun(wrapper=oxylabs_wrapper)
 
-agent = create_react_agent(llm, [tool_])
+agent = create_agent(llm, [tool_])
 
 user_input = "What happened in the latest Burning Man floods?"
 

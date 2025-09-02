@@ -122,9 +122,9 @@ First, ensure you have LangGraph installed:
 </Npm2Yarn>
 ```
 ```typescript
-import { createReactAgent } from "@langchain/langgraph/prebuilt"
+import { createAgent } from "langchain"
 
-const agentExecutor = createReactAgent({ llm, tools });
+const agentExecutor = createAgent({ llm, tools });
 ```
 
 

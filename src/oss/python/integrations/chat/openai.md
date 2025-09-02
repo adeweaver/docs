@@ -304,7 +304,7 @@ structured_response = structured_llm.invoke(
 
 ```python
 from langchain_openai import ChatOpenAI, custom_tool
-from langchain.agents import create_react_agent
+from langchain.agents import create_agent
 
 
 @custom_tool
@@ -315,7 +315,7 @@ def execute_code(code: str) -> str:
 
 llm = ChatOpenAI(model="gpt-5", use_responses_api=True, output_version="v1")
 
-agent = create_react_agent(llm, [execute_code])
+agent = create_agent(llm, [execute_code])
 
 input_message = {"role": "user", "content": "Use the tool to calculate 3^3."}
 for step in agent.stream(
@@ -351,7 +351,7 @@ OpenAI supports the specification of a [context-free grammar](https://platform.o
 
 ```python highlight={20}
 from langchain_openai import ChatOpenAI, custom_tool
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 grammar = """
 start: expr
@@ -377,7 +377,7 @@ def do_math(input_string: str) -> str:
 
 llm = ChatOpenAI(model="gpt-5", output_version="v1")
 
-agent = create_react_agent(llm, [do_math])
+agent = create_agent(llm, [do_math])
 
 input_message = {"role": "user", "content": "Use the tool to calculate 3^3."}
 for step in agent.stream(

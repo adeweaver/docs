@@ -138,13 +138,13 @@ Several of the browser tools are `StructuredTool`'s, meaning they expect multipl
 
 ```python
 from langchain_anthropic import ChatAnthropic
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 llm = ChatAnthropic(
     model_name="claude-3-haiku-20240307", temperature=0
 )  # or any other LLM, e.g., ChatOpenAI(), OpenAI()
 
-agent_chain = create_react_agent(model=llm, tools=tools)
+agent_chain = create_agent(model=llm, tools=tools)
 ```
 
 

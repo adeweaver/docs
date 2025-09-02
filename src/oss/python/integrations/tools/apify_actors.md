@@ -70,11 +70,11 @@ We can provide the created tool to an [agent](https://python.langchain.com/docs/
 ```python
 from langchain_core.messages import ToolMessage
 from langchain_openai import ChatOpenAI
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 model = ChatOpenAI(model="gpt-4o")
 tools = [tool]
-graph = create_react_agent(model, tools=tools)
+graph = create_agent(model, tools=tools)
 ```
 
 

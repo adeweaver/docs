@@ -85,7 +85,7 @@ from langchain_community.tools.openai_dalle_image_generation import (
 )
 from langchain_community.utilities.dalle_image_generator import DallEAPIWrapper
 from langchain_openai import ChatOpenAI
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
 api_wrapper = DallEAPIWrapper()
@@ -93,7 +93,7 @@ dalle_tool = OpenAIDALLEImageGenerationTool(api_wrapper=api_wrapper)
 
 tools = [dalle_tool]
 
-agent = create_react_agent(llm, tools, debug=True)
+agent = create_agent(llm, tools, debug=True)
 
 # User prompt
 prompt = "Create an image of a halloween night at a haunted museum"

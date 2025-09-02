@@ -132,7 +132,7 @@ The `data_format` parameter allows you to specify how the content should be retu
 ```python
 from langchain_brightdata import BrightDataUnlocker
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 # Initialize the LLM
 llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key="your-api-key")
@@ -141,7 +141,7 @@ llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key="your-api-
 bright_data_tool = BrightDataUnlocker(bright_data_api_key="your-api-key")
 
 # Create the agent
-agent = create_react_agent(llm, [bright_data_tool])
+agent = create_agent(llm, [bright_data_tool])
 
 # Input URLs or prompt
 user_input = "Get the content from https://example.com/region-restricted-page - access it from GB"

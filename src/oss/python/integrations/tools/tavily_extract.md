@@ -136,11 +136,11 @@ llm = init_chat_model(model="gpt-4o", model_provider="openai", temperature=0)
 
 ```python
 from langchain_tavily import TavilyExtract
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 tavily_search_tool = TavilyExtract()
 
-agent = create_react_agent(llm, [tavily_search_tool])
+agent = create_agent(llm, [tavily_search_tool])
 
 user_input = "['https://en.wikipedia.org/wiki/Albert_Einstein','https://en.wikipedia.org/wiki/Theoretical_physics']"
 

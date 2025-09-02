@@ -184,7 +184,7 @@ print(result)
 ```python
 from langchain_openai import ChatOpenAI
 from langchain_scrapeless import ScrapelessDeepSerpGoogleSearchTool
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 llm = ChatOpenAI()
 
@@ -192,7 +192,7 @@ tool = ScrapelessDeepSerpGoogleSearchTool()
 
 # Use the tool with an agent
 tools = [tool]
-agent = create_react_agent(llm, tools)
+agent = create_agent(llm, tools)
 
 for chunk in agent.stream(
     {"messages": [("human", "I want to what is Scrapeless")]}, stream_mode="values"
@@ -257,7 +257,7 @@ print(result)
 ```python
 from langchain_openai import ChatOpenAI
 from langchain_scrapeless import ScrapelessDeepSerpGoogleTrendsTool
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 llm = ChatOpenAI()
 
@@ -265,7 +265,7 @@ tool = ScrapelessDeepSerpGoogleTrendsTool()
 
 # Use the tool with an agent
 tools = [tool]
-agent = create_react_agent(llm, tools)
+agent = create_agent(llm, tools)
 
 for chunk in agent.stream(
     {"messages": [("human", "I want to know the iPhone keyword trends")]},

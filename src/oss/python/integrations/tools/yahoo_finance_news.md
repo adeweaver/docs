@@ -28,10 +28,10 @@ os.environ["OPENAI_API_KEY"] = ".."
 
 ```python
 from langchain_community.tools.yahoo_finance_news import YahooFinanceNewsTool
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 tools = [YahooFinanceNewsTool()]
-agent = create_react_agent("openai:gpt-4.1-mini", tools)
+agent = create_agent("openai:gpt-4.1-mini", tools)
 ```
 ```output
 USER_AGENT environment variable not set, consider setting it to identify your requests.

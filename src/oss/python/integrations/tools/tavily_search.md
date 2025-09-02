@@ -151,7 +151,7 @@ We will need to install langgraph:
 
 ```python
 from langchain_tavily import TavilySearch
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 # Initialize Tavily Search Tool
 tavily_search_tool = TavilySearch(
@@ -159,7 +159,7 @@ tavily_search_tool = TavilySearch(
     topic="general",
 )
 
-agent = create_react_agent(llm, [tavily_search_tool])
+agent = create_agent(llm, [tavily_search_tool])
 
 user_input = "What nation hosted the Euro 2024? Include only wikipedia sources."
 

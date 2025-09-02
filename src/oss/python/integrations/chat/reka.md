@@ -254,13 +254,13 @@ Now that we have defined the tools and the LLM, we can create the agent. We will
 
 Now, we can initialize the agent with the LLM and the tools.
 
-Note that we are passing in the model, not model_with_tools. That is because `create_react_agent` will call `.bind_tools` for us under the hood.
+Note that we are passing in the model, not model_with_tools. That is because `create_agent` will call `.bind_tools` for us under the hood.
 
 
 ```python
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
-agent_executor = create_react_agent(model, tools)
+agent_executor = create_agent(model, tools)
 ```
 
 Let's now try it out on an example where it should be invoking the tool

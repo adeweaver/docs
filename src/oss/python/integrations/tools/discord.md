@@ -103,12 +103,12 @@ tool.invoke(tool_call)
 
 ## Chaining
 
-Below is a more complete example showing how you might integrate the `DiscordReadMessages` and `DiscordSendMessage` tools in a chain or agent with an LLM. This example assumes you have a function (like `create_react_agent`) that sets up a LangChain-style agent capable of calling tools when appropriate.
+Below is a more complete example showing how you might integrate the `DiscordReadMessages` and `DiscordSendMessage` tools in a chain or agent with an LLM. This example assumes you have a function (like `create_agent`) that sets up a LangChain-style agent capable of calling tools when appropriate.
 
 ```python
 # Example: Using Discord Tools in an Agent
 
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 from langchain_discord.tools.discord_read_messages import DiscordReadMessages
 from langchain_discord.tools.discord_send_messages import DiscordSendMessage
 
@@ -121,7 +121,7 @@ read_tool = DiscordReadMessages()
 send_tool = DiscordSendMessage()
 
 # 3. Build an agent that has access to these tools
-agent_executor = create_react_agent(llm, [read_tool, send_tool])
+agent_executor = create_agent(llm, [read_tool, send_tool])
 
 # 4. Formulate a user query that may invoke one or both tools
 example_query = "Please read the last 5 messages in channel 1234567890"

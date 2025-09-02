@@ -62,7 +62,7 @@ In order to create an agent that uses the Google Jobs tool install Langgraph
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
-and use the `create_react_agent` functionality to initialize a ReAct agent. You will also need to set up your OPEN_API_KEY (visit https://platform.openai.com) in order to access OpenAI's chat models.
+and use the `create_agent` functionality to initialize a ReAct agent. You will also need to set up your OPEN_API_KEY (visit https://platform.openai.com) in order to access OpenAI's chat models.
 
 
 ```python
@@ -81,9 +81,9 @@ tools = load_tools(["google-jobs"])
 
 
 ```python
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
-agent = create_react_agent("openai:gpt-4.1-mini", tools)
+agent = create_agent("openai:gpt-4.1-mini", tools)
 ```
 
 

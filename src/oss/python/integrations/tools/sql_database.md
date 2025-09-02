@@ -162,9 +162,9 @@ We then instantiate the agent:
 
 
 ```python
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
-agent_executor = create_react_agent(llm, toolkit.get_tools(), prompt=system_message)
+agent_executor = create_agent(llm, toolkit.get_tools(), prompt=system_message)
 ```
 
 And issue it a query:
