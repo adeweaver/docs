@@ -189,23 +189,15 @@ new AIMessage("Hello, world").contentBlocks
 
     **Migration:** Use `@langchain/openai` with Azure OpenAI configuration instead:
 
-    ```diff
-    - import { AzureChatOpenAI } from "@langchain/azure-openai";
-    + import { ChatOpenAI } from "@langchain/openai";
+    ```ts
+    import { AzureChatOpenAI } from "@langchain/openai";
 
-    - const model = new AzureChatOpenAI({
-    -   azureOpenAIApiKey: "your-key",
-    -   azureOpenAIApiInstanceName: "your-instance",
-    -   azureOpenAIApiDeploymentName: "your-deployment",
-    -   azureOpenAIApiVersion: "2023-05-15",
-    - });
-    + const model = new ChatOpenAI({
-    +   apiKey: "your-key",
-    +   configuration: {
-    +     baseURL: "https://your-instance.openai.azure.com/openai/deployments/your-deployment",
-    +     defaultQuery: { "api-version": "2023-05-15" },
-    +   },
-    + });
+    const model = new AzureChatOpenAI({
+      azureOpenAIApiKey: "your-key",
+      azureOpenAIApiInstanceName: "your-instance",
+      azureOpenAIApiDeploymentName: "your-deployment",
+      azureOpenAIApiVersion: "2023-05-15",
+    });
     ```
 </Accordion>
 
