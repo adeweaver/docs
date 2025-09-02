@@ -174,4 +174,4 @@ Behind the scenes, Fireworks AI uses the OpenAI SDK and OpenAI compatible API, w
 
 ## API reference
 
-For detailed documentation of all ChatFireworks features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_community_chat_models_fireworks.ChatFireworks.html>
+For detailed documentation of all ChatFireworks features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_chat_models_fireworks.ChatFireworks.html).

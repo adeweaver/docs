@@ -78,7 +78,7 @@ The LangChain AzureOpenAI integration lives in the `langchain-openai` package:
 Now we can instantiate our model object and generate chat completions.
 
 - Replace `azure_deployment` with the name of your deployment,
-- You can find the latest supported `api_version` here: <https://learn.microsoft.com/en-us/azure/ai-services/openai/reference>.
+- You can find the latest supported `api_version` here: [learn.microsoft.com/en-us/azure/ai-services/openai/reference](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference).
 
 ```python
 from langchain_openai import AzureChatOpenAI
@@ -192,4 +192,4 @@ Total Cost (USD): $0.000074
 
 ## API reference
 
-For detailed documentation of all AzureChatOpenAI features and configurations head to the API reference: <https://python.langchain.com/api_reference/openai/chat_models/langchain_openai.chat_models.azure.AzureChatOpenAI.html>
+For detailed documentation of all AzureChatOpenAI features and configurations head to the API reference: [python.langchain.com/api_reference/openai/chat_models/langchain_openai.chat_models.azure.AzureChatOpenAI.html](https://python.langchain.com/api_reference/openai/chat_models/langchain_openai.chat_models.azure.AzureChatOpenAI.html)

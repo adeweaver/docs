@@ -160,7 +160,7 @@ For guides on how to use LangChain tools in agents, see the [LangGraph.js](https
 
 For detailed documentation of all `TavilySearchResults` features and configurations head to the API reference:
 
-<https://api.js.langchain.com/classes/langchain_community_tools_tavily_search.TavilySearchResults.html>
+[api.js.langchain.com/classes/langchain_community_tools_tavily_search.TavilySearchResults.html](https://api.js.langchain.com/classes/langchain_community_tools_tavily_search.TavilySearchResults.html)
 
 ## Related
 

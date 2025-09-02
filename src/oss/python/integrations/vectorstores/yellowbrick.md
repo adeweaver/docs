@@ -27,7 +27,7 @@ Our chatbot integrates with ChatGpt via the langchain library, so you'll need an
 
 To get an api key for OpenAI:
 
-1. Register at <https://platform.openai.com/>
+1. Register at [platform.openai.com/](https://platform.openai.com/)
 2. Add a payment method - You're unlikely to go over free quota
 3. Create an API key
 

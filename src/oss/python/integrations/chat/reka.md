@@ -26,7 +26,7 @@ To access Reka models you'll need to create a Reka developer account, get an API
 
 ### Credentials
 
-Head to <https://platform.reka.ai/> to sign up for Reka and generate an API key. Once you've done this set the REKA_API_KEY environment variable:
+Head to [platform.reka.ai/](https://platform.reka.ai/) to sign up for Reka and generate an API key. Once you've done this set the REKA_API_KEY environment variable:
 
 ### Installation
 
@@ -259,7 +259,7 @@ response["messages"]
  AIMessage(content=' Hello! How can I help you today? If you have a question or need information on a specific topic, feel free to ask. For example, you can start with a search query like "latest news on climate change" or "biography of Albert Einstein".\n\n', additional_kwargs={}, response_metadata={}, id='run-276d9dcd-13f3-481d-b562-8fe3962d9ba1-0')]
 ```
 
-In order to see exactly what is happening under the hood (and to make sure it's not calling a tool) we can take a look at the LangSmith trace: <https://smith.langchain.com/public/2372d9c5-855a-45ee-80f2-94b63493563d/r>
+In order to see exactly what is happening under the hood (and to make sure it's not calling a tool) we can take a look at the LangSmith trace: [smith.langchain.com/public/2372d9c5-855a-45ee-80f2-94b63493563d/r](https://smith.langchain.com/public/2372d9c5-855a-45ee-80f2-94b63493563d/r)
 
 ```python
 response = agent_executor.invoke(
@@ -277,7 +277,7 @@ response["messages"]
 
 We can check out the LangSmith trace to make sure it's calling the search tool effectively.
 
-<https://smith.langchain.com/public/013ef704-654b-4447-8428-637b343d646e/r>
+[smith.langchain.com/public/013ef704-654b-4447-8428-637b343d646e/r](https://smith.langchain.com/public/013ef704-654b-4447-8428-637b343d646e/r)
 
 We've seen how the agent can be called with `.invoke` to get a final response. If the agent executes multiple steps, this may take a while. To show intermediate progress, we can stream back messages as they occur.
 
@@ -300,4 +300,4 @@ for chunk in agent_executor.stream(
 
 ## API reference
 
-<https://docs.reka.ai/quick-start>
+[docs.reka.ai/quick-start](https://docs.reka.ai/quick-start)

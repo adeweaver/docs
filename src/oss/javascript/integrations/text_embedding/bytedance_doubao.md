@@ -190,4 +190,4 @@ console.log(vectors[1].slice(0, 100));
 
 ## API reference
 
-For detailed documentation of all ByteDanceDoubaoEmbeddings features and configurations head to the API reference: <https://api.js.langchain.com/classes/_langchain_community.embeddings_bytedance_doubao.ByteDanceDoubaoEmbeddings.html>
+For detailed documentation of all ByteDanceDoubaoEmbeddings features and configurations head to the [API reference](https://api.js.langchain.com/classes/_langchain_community.embeddings_bytedance_doubao.ByteDanceDoubaoEmbeddings.html).

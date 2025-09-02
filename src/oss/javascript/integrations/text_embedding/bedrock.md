@@ -219,4 +219,4 @@ const embeddingsWithCustomClient = new BedrockEmbeddings({
 
 ## API reference
 
-For detailed documentation of all Bedrock features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_aws.BedrockEmbeddings.html>
+For detailed documentation of all Bedrock features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_aws.BedrockEmbeddings.html).

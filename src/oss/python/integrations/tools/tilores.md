@@ -190,4 +190,4 @@ tool_chain.invoke("Tell me the email addresses from Sophie Müller from Berlin."
 
 ## API reference
 
-For detailed documentation of all Tilores features and configurations head to the official documentation: <https://docs.tilotech.io/tilores/>
+For detailed documentation of all Tilores features and configurations head to the official documentation: [docs.tilotech.io/tilores/](https://docs.tilotech.io/tilores/)

@@ -133,4 +133,4 @@ AIMessage(content='Ich liebe Programmieren.', additional_kwargs={}, response_met
 
 ## API reference
 
-For detailed documentation of all AzureAIChatCompletionsModel features and configurations, head to the API reference: <https://python.langchain.com/api_reference/azure_ai/chat_models/langchain_azure_ai.chat_models.AzureAIChatCompletionsModel.html>
+For detailed documentation of all AzureAIChatCompletionsModel features and configurations, head to the API reference: [python.langchain.com/api_reference/azure_ai/chat_models/langchain_azure_ai.chat_models.AzureAIChatCompletionsModel.html](https://python.langchain.com/api_reference/azure_ai/chat_models/langchain_azure_ai.chat_models.AzureAIChatCompletionsModel.html)

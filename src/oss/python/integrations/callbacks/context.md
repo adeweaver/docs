@@ -18,7 +18,7 @@ In this guide we will show you how to integrate with Context.
 
 To get your Context API token:
 
-1. Go to the settings page within your Context account (<https://with.context.ai/settings>).
+1. Go to the settings page within your Context account ([with.context.ai/settings](https://with.context.ai/settings)).
 2. Generate a new API Token.
 3. Store this token somewhere secure.
 

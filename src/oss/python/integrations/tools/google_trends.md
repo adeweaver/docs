@@ -4,7 +4,7 @@ title: Google Trends
 
 This notebook goes over how to use the Google Trends Tool to fetch trends information.
 
-First, you need to sign up for an `SerpApi key` key at: <https://serpapi.com/users/sign_up>.
+First, you need to sign up for an `SerpApi key` key at: [serpapi.com/users/sign_up](https://serpapi.com/users/sign_up).
 
 Then you must install `google-search-results` with the command:
 

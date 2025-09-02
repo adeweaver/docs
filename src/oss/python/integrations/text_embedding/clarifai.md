@@ -48,7 +48,7 @@ prompt = PromptTemplate.from_template(template)
 
 # Setup
 
-Set the user id and app id to the application in which the model resides. You can find a list of public models on <https://clarifai.com/explore/models>
+Set the user id and app id to the application in which the model resides. You can find a list of public models on [clarifai.com/explore/models](https://clarifai.com/explore/models)
 
 You will have to also initialize the model id and if needed, the model version id. Some models have many versions, you can choose the one appropriate for your task.
 

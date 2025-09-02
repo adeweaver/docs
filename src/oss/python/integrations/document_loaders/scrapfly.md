@@ -28,7 +28,7 @@ documents = scrapfly_loader.load()
 print(documents)
 ```
 
-The ScrapflyLoader also allows passing ScrapeConfig object for customizing the scrape request. See the documentation for the full feature details and their API params: <https://scrapfly.io/docs/scrape-api/getting-started>
+The ScrapflyLoader also allows passing ScrapeConfig object for customizing the scrape request. See the documentation for the full feature details and their API params: [scrapfly.io/docs/scrape-api/getting-started](https://scrapfly.io/docs/scrape-api/getting-started)
 
 ```python
 from langchain_community.document_loaders import ScrapflyLoader

@@ -410,4 +410,4 @@ display(Markdown(part))
 
 ## API reference
 
-For detailed documentation of all PyMuPDF4LLMLoader features and configurations head to the GitHub repository: <https://github.com/lakinduboteju/langchain-pymupdf4llm>
+For detailed documentation of all PyMuPDF4LLMLoader features and configurations head to the GitHub repository: [github.com/lakinduboteju/langchain-pymupdf4llm](https://github.com/lakinduboteju/langchain-pymupdf4llm)

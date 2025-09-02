@@ -696,4 +696,4 @@ As of the time this doc was written (2023/12/12), Gemini has some restrictions o
 
 ## API reference
 
-For detailed documentation of all ChatGoogleGenerativeAI features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_google_genai.ChatGoogleGenerativeAI.html>
+For detailed documentation of all ChatGoogleGenerativeAI features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_google_genai.ChatGoogleGenerativeAI.html).

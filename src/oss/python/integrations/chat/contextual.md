@@ -133,4 +133,4 @@ chain.invoke(
 
 ## API reference
 
-For detailed documentation of all ChatContextual features and configurations head to the Github page: <https://github.com/ContextualAI//langchain-contextual>
+For detailed documentation of all ChatContextual features and configurations head to the Github page: [github.com/ContextualAI//langchain-contextual](https://github.com/ContextualAI//langchain-contextual)

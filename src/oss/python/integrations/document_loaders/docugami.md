@@ -8,7 +8,7 @@ This notebook covers how to load documents from `Docugami`. It provides the adva
 
 1. Install necessary python packages.
 2. Grab an access token for your workspace, and make sure it is set as the `DOCUGAMI_API_KEY` environment variable.
-3. Grab some docset and document IDs for your processed documents, as described here: <https://help.docugami.com/home/docugami-api>
+3. Grab some docset and document IDs for your processed documents, as described here: [help.docugami.com/home/docugami-api](https://help.docugami.com/home/docugami-api)
 
 ```python
 # You need the dgml-utils package to use the DocugamiLoader (run pip install directly without "poetry run" if you are not using poetry)
@@ -66,7 +66,7 @@ The `metadata` for each `Document` (really, a chunk of an actual PDF, DOC or DOC
 1. **id and source:** ID and Name of the file (PDF, DOC or DOCX) the chunk is sourced from within Docugami.
 2. **xpath:** XPath inside the XML representation of the document, for the chunk. Useful for source citations directly to the actual chunk inside the document XML.
 3. **structure:** Structural attributes of the chunk, e.g. h1, h2, div, table, td, etc. Useful to filter out certain kinds of chunks if needed by the caller.
-4. **tag:** Semantic tag for the chunk, using various generative and extractive techniques. More details here: <https://github.com/docugami/DFM-benchmarks>
+4. **tag:** Semantic tag for the chunk, using various generative and extractive techniques. More details here: [github.com/docugami/DFM-benchmarks](https://github.com/docugami/DFM-benchmarks)
 
 You can control chunking behavior by setting the following properties on the `DocugamiLoader` instance:
 

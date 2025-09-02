@@ -193,4 +193,4 @@ Some of my favourite simulation projects:- IllustrisTNG: https://www.tng-project
 
 ## API reference
 
-For detailed documentation of all CheerioWebBaseLoader features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_community_document_loaders_web_cheerio.CheerioWebBaseLoader.html>
+For detailed documentation of all CheerioWebBaseLoader features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_cheerio.CheerioWebBaseLoader.html).

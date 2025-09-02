@@ -6,7 +6,7 @@ This notebooks shows how you can load issues and pull requests (PRs) for a given
 
 ## Setup access token
 
-To access the GitHub API, you need a personal access token - you can set up yours here: <https://github.com/settings/tokens?type=beta>. You can either set this token as the environment variable ``GITHUB_PERSONAL_ACCESS_TOKEN`` and it will be automatically pulled in, or you can pass it in directly at initialization as the ``access_token`` named parameter.
+To access the GitHub API, you need a personal access token - you can set up yours here: [github.com/settings/tokens?type=beta](https://github.com/settings/tokens?type=beta). You can either set this token as the environment variable ``GITHUB_PERSONAL_ACCESS_TOKEN`` and it will be automatically pulled in, or you can pass it in directly at initialization as the ``access_token`` named parameter.
 
 ```python
 # If you haven't set your access token as an environment variable, pass it in here.
@@ -44,7 +44,7 @@ Here's a list of all filters you can use:
 - direction
 - since
 
-For more info, see <https://docs.github.com/en/rest/issues/issues?apiVersion=2022-11-28#list-repository-issues>.
+For more info, see [docs.github.com/en/rest/issues/issues?apiVersion=2022-11-28#list-repository-issues](https://docs.github.com/en/rest/issues/issues?apiVersion=2022-11-28#list-repository-issues).
 
 ```python
 docs = loader.load()

@@ -145,4 +145,4 @@ for token in chain.stream({"topic": "bears"}):
 
 ## API reference
 
-For detailed documentation of all `Fireworks` LLM features and configurations head to the API reference: <https://python.langchain.com/api_reference/fireworks/llms/langchain_fireworks.llms.Fireworks.html#langchain_fireworks.llms.Fireworks>
+For detailed documentation of all `Fireworks` LLM features and configurations head to the API reference: [python.langchain.com/api_reference/fireworks/llms/langchain_fireworks.llms.Fireworks.html#langchain_fireworks.llms.Fireworks](https://python.langchain.com/api_reference/fireworks/llms/langchain_fireworks.llms.Fireworks.html#langchain_fireworks.llms.Fireworks)

@@ -260,7 +260,7 @@ await zep_retriever.ainvoke("Who wrote Parable of the Sower?")
 
 Zep supports filtering results by metadata. This is useful for filtering results by entity type, or other metadata.
 
-More information here: <https://docs.getzep.com/sdk/search_query/>
+More information here: [docs.getzep.com/sdk/search_query/](https://docs.getzep.com/sdk/search_query/)
 
 ```python
 filter = {"where": {"jsonpath": '$[*] ? (@.Label == "WORK_OF_ART")'}}

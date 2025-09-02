@@ -310,4 +310,4 @@ db1.docstore._dict
 
 ## API reference
 
-For detailed documentation of all `FAISS` vector store features and configurations head to the API reference: <https://python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.faiss.FAISS.html>
+For detailed documentation of all `FAISS` vector store features and configurations head to the API reference: [python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.faiss.FAISS.html](https://python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.faiss.FAISS.html)

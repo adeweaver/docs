@@ -172,10 +172,10 @@ agent_executor.invoke({
 
 Additional Docs are available here:
 
-- Observability - <https://portkey.ai/docs/product/observability-modern-monitoring-for-llms>
-- AI Gateway - <https://portkey.ai/docs/product/ai-gateway-streamline-llm-integrations>
-- Prompt Library - <https://portkey.ai/docs/product/prompt-library>
+- Observability - [portkey.ai/docs/product/observability-modern-monitoring-for-llms](https://portkey.ai/docs/product/observability-modern-monitoring-for-llms)
+- AI Gateway - [portkey.ai/docs/product/ai-gateway-streamline-llm-integrations](https://portkey.ai/docs/product/ai-gateway-streamline-llm-integrations)
+- Prompt Library - [portkey.ai/docs/product/prompt-library](https://portkey.ai/docs/product/prompt-library)
 
-You can check out our popular Open Source AI Gateway here - <https://github.com/portkey-ai/gateway>
+You can check out our popular Open Source AI Gateway here - [github.com/portkey-ai/gateway](https://github.com/portkey-ai/gateway)
 
 For detailed information on each feature and how to use it, [please refer to the Portkey docs](https://portkey.ai/docs). If you have any questions or need further assistance, [reach out to us on Twitter.](https://twitter.com/portkeyai) or our [support email](mailto:hello@portkey.ai).

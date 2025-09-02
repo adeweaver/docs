@@ -295,4 +295,4 @@ model.removeAllHooksFromHttpClient();
 
 ## API reference
 
-For detailed documentation of all ChatMistralAI features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_mistralai.ChatMistralAI.html>
+For detailed documentation of all ChatMistralAI features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_mistralai.ChatMistralAI.html).

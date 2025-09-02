@@ -4,7 +4,7 @@ title: Manifest
 
 This notebook goes over how to use Manifest and LangChain.
 
-For more detailed information on `manifest`, and how to use it with local huggingface models like in this example, see <https://github.com/HazyResearch/manifest>
+For more detailed information on `manifest`, and how to use it with local huggingface models like in this example, see [github.com/HazyResearch/manifest](https://github.com/HazyResearch/manifest)
 
 Another example of [using Manifest with Langchain](https://github.com/HazyResearch/manifest/blob/main/examples/langchain_chatgpt.html).
 

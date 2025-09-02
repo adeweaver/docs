@@ -216,4 +216,4 @@ If you are using the deprecated Azure OpenAI SDK with the `@langchain/azure-open
 
 ## API reference
 
-For detailed documentation of all AzureOpenAI features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_openai.AzureOpenAI.html>
+For detailed documentation of all AzureOpenAI features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_openai.AzureOpenAI.html).

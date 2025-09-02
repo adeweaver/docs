@@ -363,4 +363,4 @@ However, since it's hard to perform a perfect filter, you may still see some irr
 
 ## API reference
 
-For detailed documentation of all RecursiveUrlLoader features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_community_document_loaders_web_recursive_url.RecursiveUrlLoader.html>
+For detailed documentation of all RecursiveUrlLoader features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_recursive_url.RecursiveUrlLoader.html).

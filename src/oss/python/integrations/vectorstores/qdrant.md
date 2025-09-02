@@ -502,4 +502,4 @@ QdrantVectorStore.from_documents(
 
 ## API reference
 
-For detailed documentation of all `QdrantVectorStore` features and configurations head to the API reference: <https://python.langchain.com/api_reference/qdrant/qdrant/langchain_qdrant.qdrant.QdrantVectorStore.html>
+For detailed documentation of all `QdrantVectorStore` features and configurations head to the API reference: [python.langchain.com/api_reference/qdrant/qdrant/langchain_qdrant.qdrant.QdrantVectorStore.html](https://python.langchain.com/api_reference/qdrant/qdrant/langchain_qdrant.qdrant.QdrantVectorStore.html)

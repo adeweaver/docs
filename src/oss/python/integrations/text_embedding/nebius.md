@@ -55,7 +55,7 @@ embeddings = NebiusEmbeddings(
 
 ### Available Models
 
-The list of supported models is available at <https://studio.nebius.com/?modality=embedding>
+The list of supported models is available at [studio.nebius.com/?modality=embedding](https://studio.nebius.com/?modality=embedding)
 
 ## Indexing and Retrieval
 

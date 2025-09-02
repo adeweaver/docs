@@ -21,7 +21,7 @@ Answer: Let's think step by step."""
 prompt = PromptTemplate.from_template(template)
 ```
 
-One who wants to use EAS LLMs must set up EAS service first. When the EAS service is launched, `EAS_SERVICE_URL` and `EAS_SERVICE_TOKEN` can be obtained. Users can refer to <https://www.alibabacloud.com/help/en/pai/user-guide/service-deployment/> for more information,
+One who wants to use EAS LLMs must set up EAS service first. When the EAS service is launched, `EAS_SERVICE_URL` and `EAS_SERVICE_TOKEN` can be obtained. Users can refer to [www.alibabacloud.com/help/en/pai/user-guide/service-deployment/](https://www.alibabacloud.com/help/en/pai/user-guide/service-deployment/) for more information,
 
 ```python
 import os

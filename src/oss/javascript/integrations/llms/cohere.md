@@ -143,4 +143,4 @@ Let me know if I can be of further help with something else!
 
 ## API reference
 
-For detailed documentation of all Cohere features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_cohere.Cohere.html>
+For detailed documentation of all Cohere features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_cohere.Cohere.html).

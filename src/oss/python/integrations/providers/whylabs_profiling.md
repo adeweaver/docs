@@ -19,9 +19,9 @@ Enable observability to detect inputs and LLM issues faster, deliver continuous 
 
 Make sure to set the required API keys and config required to send telemetry to WhyLabs:
 
-- WhyLabs API Key: <https://whylabs.ai/whylabs-free-sign-up>
+- WhyLabs API Key: [whylabs.ai/whylabs-free-sign-up](https://whylabs.ai/whylabs-free-sign-up)
 - Org and Dataset [https://docs.whylabs.ai/docs/whylabs-onboarding](https://docs.whylabs.ai/docs/whylabs-onboarding#upload-a-profile-to-a-whylabs-project)
-- OpenAI: <https://platform.openai.com/account/api-keys>
+- OpenAI: [platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys)
 
 Then you can set them like this:
 

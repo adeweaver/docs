@@ -109,4 +109,4 @@ console.log(docs[0].metadata)
 
 ## API reference
 
-For detailed documentation of all DirectoryLoader features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain.document_loaders_fs_directory.DirectoryLoader.html>
+For detailed documentation of all DirectoryLoader features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain.document_loaders_fs_directory.DirectoryLoader.html).

@@ -18,7 +18,7 @@ You'll need to install `langchain-community` with `pip install -qU langchain-com
 %pip install --upgrade --quiet  pandas pyarrow
 ```
 
-To use OpenAI embeddings, you will need an OpenAI key. You can get one at <https://platform.openai.com/account/api-keys> or feel free to use any other embeddings.
+To use OpenAI embeddings, you will need an OpenAI key. You can get one at [platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys) or feel free to use any other embeddings.
 
 ```python
 import os

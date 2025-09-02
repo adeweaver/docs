@@ -188,4 +188,4 @@ Tool calling with Bedrock models works in a similar way to [other models](/oss/h
 
 ## API reference
 
-For detailed documentation of all `ChatBedrockConverse` features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_aws.ChatBedrockConverse.html>
+For detailed documentation of all `ChatBedrockConverse` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_aws.ChatBedrockConverse.html).

@@ -4,7 +4,7 @@ title: Bearly Code Interpreter
 
 > Bearly Code Interpreter allows for remote execution of code. This makes it perfect for a code sandbox for agents, to allow for safe implementation of things like Code Interpreter
 
-Get your api key here: <https://bearly.ai/dashboard/developers>
+Get your api key here: [bearly.ai/dashboard/developers](https://bearly.ai/dashboard/developers)
 
 ```python
 %pip install --upgrade --quiet langchain-community

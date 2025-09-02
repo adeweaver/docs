@@ -155,7 +155,7 @@ John has two children: Mary and Michael, with Bianca as their mother.
 
 ## API reference
 
-See <https://langchain-prolog.readthedocs.io/en/latest/modules.html> for detail.
+See [langchain-prolog.readthedocs.io/en/latest/modules.html](https://langchain-prolog.readthedocs.io/en/latest/modules.html) for detail.
 
 ```python
 

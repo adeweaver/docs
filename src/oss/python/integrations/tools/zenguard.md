@@ -14,7 +14,7 @@ This tool lets you quickly set up [ZenGuard AI](https://www.zenguard.ai/) in you
 
 Please, also check out our [open-source Python Client](https://github.com/ZenGuard-AI/fast-llm-security-guardrails?tab=readme-ov-file) for more inspiration.
 
-Here is our main website - <https://www.zenguard.ai/>
+Here is our main website - [www.zenguard.ai/](https://www.zenguard.ai/)
 
 More [Docs](https://docs.zenguard.ai/start/intro/)
 

@@ -51,11 +51,11 @@ You have to choose the LLM provider you want and sign up with them to get their 
 
 ### Example - Anthropic
 
-Head to <https://console.anthropic.com/> to sign up for Anthropic and generate an API key. Once you've done this, set the ANTHROPIC_API_KEY environment variable.
+Head to [console.anthropic.com/](https://console.anthropic.com/) to sign up for Anthropic and generate an API key. Once you've done this, set the ANTHROPIC_API_KEY environment variable.
 
 ### Example - OpenAI
 
-Head to <https://platform.openai.com/api-keys> to sign up for OpenAI and generate an API key. Once you've done this, set the OPENAI_API_KEY environment variable.
+Head to [platform.openai.com/api-keys](https://platform.openai.com/api-keys) to sign up for OpenAI and generate an API key. Once you've done this, set the OPENAI_API_KEY environment variable.
 
 ```python
 ## Set ENV variables
@@ -151,4 +151,4 @@ It is important to note that antibiotics only work against bacterial infections 
 
 ## API reference
 
-For detailed documentation of all `ChatLiteLLM` and `ChatLiteLLMRouter` features and configurations, head to the API reference: <https://github.com/Akshay-Dongare/langchain-litellm>
+For detailed documentation of all `ChatLiteLLM` and `ChatLiteLLMRouter` features and configurations, head to the API reference: [github.com/Akshay-Dongare/langchain-litellm](https://github.com/Akshay-Dongare/langchain-litellm)

@@ -299,4 +299,4 @@ Joke(setup='Why did the cat join a band?', punchline='Because it wanted to be th
 
 ## API reference
 
-For detailed documentation of all SambaStudio features and configurations head to the API reference: <https://docs.sambanova.ai/sambastudio/latest/api-ref-landing.html>
+For detailed documentation of all SambaStudio features and configurations head to the API reference: [docs.sambanova.ai/sambastudio/latest/api-ref-landing.html](https://docs.sambanova.ai/sambastudio/latest/api-ref-landing.html)

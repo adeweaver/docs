@@ -8,7 +8,7 @@ The TrelloLoader allows you to load cards from a Trello board and is implemented
 
 This currently supports `api_key/token` only.
 
-1. Credentials generation: <https://trello.com/power-ups/admin/>
+1. Credentials generation: [trello.com/power-ups/admin/](https://trello.com/power-ups/admin/)
 
 2. Click in the manual token generation link to get the token.
 
@@ -18,7 +18,7 @@ This loader allows you to provide the board name to pull in the corresponding ca
 
 Notice that the board "name" is also called "title" in oficial documentation:
 
-<https://support.atlassian.com/trello/docs/changing-a-boards-title-and-description/>
+[support.atlassian.com/trello/docs/changing-a-boards-title-and-description/](https://support.atlassian.com/trello/docs/changing-a-boards-title-and-description/)
 
 You can also specify several load parameters to include / remove different fields both from the document page_content properties and metadata.
 

@@ -80,4 +80,4 @@ We can also [chain](/oss/how-to/sequence/) our llm with a prompt template
 
 ## API reference
 
-For detailed documentation of all `Pipeshift` features and configurations head to the API reference: <https://dashboard.pipeshift.com/docs>
+For detailed documentation of all `Pipeshift` features and configurations head to the API reference: [dashboard.pipeshift.com/docs](https://dashboard.pipeshift.com/docs)

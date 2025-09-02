@@ -51,7 +51,7 @@ To get the database ID, follow these steps:
 1. Open your database in Notion.
 2. Click on the three-dot menu icon in the top right corner of the database view.
 3. Select "Copy link" from the menu to copy the database URL to your clipboard.
-4. The database ID is the long string of alphanumeric characters found in the URL. It typically looks like this: <https://www.notion.so/username/8935f9d140a04f95a872520c4f123456?v=>.... In this example, the database ID is 8935f9d140a04f95a872520c4f123456.
+4. The database ID is the long string of alphanumeric characters found in the URL. It typically looks like this: [www.notion.so/username/8935f9d140a04f95a872520c4f123456?v=](https://www.notion.so/username/8935f9d140a04f95a872520c4f123456?v=).... In this example, the database ID is 8935f9d140a04f95a872520c4f123456.
 
 With the database properly set up and the integration token and database ID in hand, you can now use the NotionDBLoader code to load content and metadata from your Notion database.
 

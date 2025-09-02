@@ -26,7 +26,7 @@ To access Fireworks models you'll need to create a Fireworks account, get an API
 
 ### Credentials
 
-Head to (<https://fireworks.ai/login> to sign up to Fireworks and generate an API key. Once you've done this set the FIREWORKS_API_KEY environment variable:
+Head to ([fireworks.ai/login](https://fireworks.ai/login) to sign up to Fireworks and generate an API key. Once you've done this set the FIREWORKS_API_KEY environment variable:
 
 ```python
 import getpass
@@ -129,4 +129,4 @@ AIMessage(content='Ich liebe das Programmieren.', response_metadata={'token_usag
 
 ## API reference
 
-For detailed documentation of all ChatFireworks features and configurations head to the API reference: <https://python.langchain.com/api_reference/fireworks/chat_models/langchain_fireworks.chat_models.ChatFireworks.html>
+For detailed documentation of all ChatFireworks features and configurations head to the API reference: [python.langchain.com/api_reference/fireworks/chat_models/langchain_fireworks.chat_models.ChatFireworks.html](https://python.langchain.com/api_reference/fireworks/chat_models/langchain_fireworks.chat_models.ChatFireworks.html)

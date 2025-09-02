@@ -32,7 +32,7 @@ You can pass different filters to loader to access different functionalities we 
 * "erc1155_transaction"
 The filter is default to normal_transaction
 
-If you have any questions, you can access [Etherscan API Doc](https://etherscan.io/tx/0x0ffa32c787b1398f44303f731cb06678e086e4f82ce07cebf75e99bb7c079c77) or contact me via <i@inevitable.tech>.
+If you have any questions, you can access [Etherscan API Doc](https://etherscan.io/tx/0x0ffa32c787b1398f44303f731cb06678e086e4f82ce07cebf75e99bb7c079c77) or contact me via [i@inevitable.tech](mailto:i@inevitable.tech).
 
 All functions related to transactions histories are restricted 1000 histories maximum because of Etherscan limit. You can use the following parameters to find the transaction histories you need:
 

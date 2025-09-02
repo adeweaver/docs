@@ -2,7 +2,7 @@
 title: Eden AI
 ---
 
-Eden AI is revolutionizing the AI landscape by uniting the best AI providers, empowering users to unlock limitless possibilities and tap into the true potential of artificial intelligence. With an all-in-one comprehensive and hassle-free platform, it allows users to deploy AI features to production lightning fast, enabling effortless access to the full breadth of AI capabilities via a single API. (website: <https://edenai.co/>)
+Eden AI is revolutionizing the AI landscape by uniting the best AI providers, empowering users to unlock limitless possibilities and tap into the true potential of artificial intelligence. With an all-in-one comprehensive and hassle-free platform, it allows users to deploy AI features to production lightning fast, enabling effortless access to the full breadth of AI capabilities via a single API. (website: [edenai.co/](https://edenai.co/))
 
 This example goes over how to use LangChain to interact with Eden AI models
 
@@ -20,7 +20,7 @@ This example goes over how to use LangChain to interact with Eden AI models
 
 Accessing the EDENAI's API requires an API key,
 
-which you can get by creating an account <https://app.edenai.run/user/register>  and heading here <https://app.edenai.run/admin/iam/api-keys>
+which you can get by creating an account [app.edenai.run/user/register](https://app.edenai.run/user/register)  and heading here [app.edenai.run/admin/iam/api-keys](https://app.edenai.run/admin/iam/api-keys)
 
 Once we have a key we'll want to set it as an environment variable by running:
 
@@ -28,7 +28,7 @@ Once we have a key we'll want to set it as an environment variable by running:
 export EDENAI_API_KEY="..."
 ```
 
-You can find more details on the API reference : <https://docs.edenai.co/reference>
+You can find more details on the API reference : [docs.edenai.co/reference](https://docs.edenai.co/reference)
 
 If you'd prefer not to set an environment variable you can pass the key in directly via the edenai_api_key named parameter
 
@@ -99,7 +99,7 @@ chat = ChatEdenAI(
 
 In this example, you can use Google as a backup provider if OpenAI encounters any issues.
 
-For more information and details about Eden AI, check out this link: : <https://docs.edenai.co/docs/additional-parameters>
+For more information and details about Eden AI, check out this link: : [docs.edenai.co/docs/additional-parameters](https://docs.edenai.co/docs/additional-parameters)
 
 ## Chaining Calls
 

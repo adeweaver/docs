@@ -133,4 +133,4 @@ response
 
 ## API reference
 
-For detailed documentation of all `Needle` features and configurations head to the API reference: <https://docs.needle-ai.com>
+For detailed documentation of all `Needle` features and configurations head to the API reference: [docs.needle-ai.com](https://docs.needle-ai.com)

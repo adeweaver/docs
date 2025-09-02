@@ -141,4 +141,4 @@ docsearch.delete_texts(ids)
 
 In this tutorial, we successfully created a `Rockset` collection, `inserted` documents with  OpenAI embeddings, and searched for similar documents with and without metadata filters.
 
-Keep an eye on <https://rockset.com/> for future updates in this space.
+Keep an eye on [rockset.com/](https://rockset.com/) for future updates in this space.

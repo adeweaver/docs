@@ -110,7 +110,7 @@ print(docs[0].page_content[:300])
     <link rel=
 ```
 
-That certainly looks like HTML that comes from the url <https://docs.python.org/3.9/>, which is what we expected. Let's now look at some variations we can make to our basic example that can be helpful in different situations.
+That certainly looks like HTML that comes from the url [docs.python.org/3.9/](https://docs.python.org/3.9/), which is what we expected. Let's now look at some variations we can make to our basic example that can be helpful in different situations.
 
 ## Lazy loading
 
@@ -181,4 +181,4 @@ You can similarly pass in a `metadata_extractor` to customize how Document metad
 
 These examples show just a few of the ways in which you can modify the default `RecursiveUrlLoader`, but there are many more modifications that can be made to best fit your use case. Using the parameters `link_regex` and `exclude_dirs` can help you filter out unwanted URLs, `aload()` and `alazy_load()` can be used for aynchronous loading, and more.
 
-For detailed information on configuring and calling the ``RecursiveUrlLoader``, please see the API reference: <https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.recursive_url_loader.RecursiveUrlLoader.html>.
+For detailed information on configuring and calling the ``RecursiveUrlLoader``, please see the API reference: [python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.recursive_url_loader.RecursiveUrlLoader.html](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.recursive_url_loader.RecursiveUrlLoader.html).

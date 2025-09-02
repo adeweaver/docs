@@ -360,4 +360,4 @@ Document {
 
 ## API reference
 
-For detailed documentation of all PDFLoader features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_community_document_loaders_fs_pdf.PDFLoader.html>
+For detailed documentation of all PDFLoader features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_document_loaders_fs_pdf.PDFLoader.html).

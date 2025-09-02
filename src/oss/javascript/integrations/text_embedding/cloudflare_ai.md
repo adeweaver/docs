@@ -124,4 +124,4 @@ export default {
 
 ## API reference
 
-For detailed documentation of all `CloudflareWorkersAIEmbeddings` features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_cloudflare.CloudflareWorkersAIEmbeddings.html>
+For detailed documentation of all `CloudflareWorkersAIEmbeddings` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_cloudflare.CloudflareWorkersAIEmbeddings.html).

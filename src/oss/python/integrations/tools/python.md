@@ -9,7 +9,7 @@ This interface will only return things that are printed - therefore, if you want
 <Warning>
 **Python REPL can execute arbitrary code on the host machine (e.g., delete files, make network requests). Use with caution.**
 
-For more information general security guidelines, please see <https://python.langchain.com/docs/security/>.
+For more information general security guidelines, please see [python.langchain.com/docs/security/](https://python.langchain.com/docs/security/).
 </Warning>
 
 ```python

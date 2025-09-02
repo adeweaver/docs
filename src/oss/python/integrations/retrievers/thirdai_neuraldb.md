@@ -13,7 +13,7 @@ There are two initialization methods:
 
 For all of the following initialization methods, the `thirdai_key` parameter can be ommitted if the `THIRDAI_KEY` environment variable is set.
 
-ThirdAI API keys can be obtained at <https://www.thirdai.com/try-bolt/>
+ThirdAI API keys can be obtained at [www.thirdai.com/try-bolt/](https://www.thirdai.com/try-bolt/)
 
 ```python
 from langchain_community.retrievers import NeuralDBRetriever

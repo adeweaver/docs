@@ -1061,7 +1061,7 @@ console.log(JSON.stringify(resWithSplits.content, null, 2));
     "citations": [
       {
         "type": "content_block_location",
-        "cited_text": "[Tutorial](https://js.langchain.com/docs/tutorials/)walkthroughs",
+        "cited_text": "[Tutorial](https://js.langchain.com/docs/tutorials/) walkthroughs",
         "document_index": 0,
         "document_title": null,
         "start_block_index": 191,
@@ -1074,4 +1074,4 @@ console.log(JSON.stringify(resWithSplits.content, null, 2));
 
 ## API reference
 
-For detailed documentation of all ChatAnthropic features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_anthropic.ChatAnthropic.html>
+For detailed documentation of all ChatAnthropic features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_anthropic.ChatAnthropic.html).

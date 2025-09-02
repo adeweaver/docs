@@ -11,7 +11,7 @@ title: Yi
 
 ## Prerequisite
 
-An API key is required to access Yi LLM API. Visit <https://www.lingyiwanwu.com/> to get your API key. When applying for the API key, you need to specify whether it's for domestic (China) or international use.
+An API key is required to access Yi LLM API. Visit [www.lingyiwanwu.com/](https://www.lingyiwanwu.com/) to get your API key. When applying for the API key, you need to specify whether it's for domestic (China) or international use.
 
 ## Use Yi LLM
 

@@ -443,4 +443,4 @@ iVBORw0KGgoAAAANSUhEUgAACWAAAAdoCAIAAAA/Q2IJAAAAAXNSR0IArs4c6QAAIABJREFUeJzsvUuz
 
 ## API reference
 
-For detailed documentation of all PuppeteerWebBaseLoader features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_community_document_loaders_web_puppeteer.PuppeteerWebBaseLoader.html>
+For detailed documentation of all PuppeteerWebBaseLoader features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_puppeteer.PuppeteerWebBaseLoader.html).

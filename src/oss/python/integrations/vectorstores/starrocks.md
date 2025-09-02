@@ -40,7 +40,7 @@ update_vectordb = False
 
 Load all markdown files under the `docs` directory
 
-for starrocks documents, you can clone repo from <https://github.com/StarRocks/starrocks>, and there is `docs` directory in it.
+for starrocks documents, you can clone repo from [github.com/StarRocks/starrocks](https://github.com/StarRocks/starrocks), and there is `docs` directory in it.
 
 ```python
 loader = DirectoryLoader(

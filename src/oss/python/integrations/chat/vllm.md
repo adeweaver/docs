@@ -116,6 +116,6 @@ chain.invoke(
 
 ## API reference
 
-For detailed documentation of all features and configurations exposed via `langchain-openai`, head to the API reference: <https://python.langchain.com/api_reference/openai/chat_models/langchain_openai.chat_models.base.ChatOpenAI.html>
+For detailed documentation of all features and configurations exposed via `langchain-openai`, head to the API reference: [python.langchain.com/api_reference/openai/chat_models/langchain_openai.chat_models.base.ChatOpenAI.html](https://python.langchain.com/api_reference/openai/chat_models/langchain_openai.chat_models.base.ChatOpenAI.html)
 
 Refer to the vLLM [documentation](https://docs.vllm.ai/en/latest/) as well.

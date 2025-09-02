@@ -55,11 +55,11 @@ prompt = PromptTemplate.from_template(template)
 
 # Setup
 
-Setup the user id and app id where the model resides. You can find a list of public models on <https://clarifai.com/explore/models>
+Setup the user id and app id where the model resides. You can find a list of public models on [clarifai.com/explore/models](https://clarifai.com/explore/models)
 
 You will have to also initialize the model id and if needed, the model version id. Some models have many versions, you can choose the one appropriate for your task.
 
-Alternatively, You can use the model_url (for ex: "<https://clarifai.com/anthropic/completion/models/claude-v2>") for initialization.
+Alternatively, You can use the model_url (for ex: "[clarifai.com/anthropic/completion/models/claude-v2](https://clarifai.com/anthropic/completion/models/claude-v2)") for initialization.
 
 ```python
 USER_ID = "openai"

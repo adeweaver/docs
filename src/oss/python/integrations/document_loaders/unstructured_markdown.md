@@ -127,4 +127,4 @@ docs[0].page_content
 
 ## API reference
 
-For detailed documentation of all UnstructuredMarkdownLoader features and configurations head to the API reference: <https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.markdown.UnstructuredMarkdownLoader.html>
+For detailed documentation of all UnstructuredMarkdownLoader features and configurations head to the API reference: [python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.markdown.UnstructuredMarkdownLoader.html](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.markdown.UnstructuredMarkdownLoader.html)

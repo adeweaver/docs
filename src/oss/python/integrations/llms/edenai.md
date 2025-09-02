@@ -2,7 +2,7 @@
 title: Eden AI
 ---
 
-Eden AI is revolutionizing the AI landscape by uniting the best AI providers, empowering users to unlock limitless possibilities and tap into the true potential of artificial intelligence. With an all-in-one comprehensive and hassle-free platform, it allows users to deploy AI features to production lightning fast, enabling effortless access to the full breadth of AI capabilities via a single API. (website: <https://edenai.co/>)
+Eden AI is revolutionizing the AI landscape by uniting the best AI providers, empowering users to unlock limitless possibilities and tap into the true potential of artificial intelligence. With an all-in-one comprehensive and hassle-free platform, it allows users to deploy AI features to production lightning fast, enabling effortless access to the full breadth of AI capabilities via a single API. (website: [edenai.co/](https://edenai.co/))
 
 This example goes over how to use LangChain to interact with Eden AI models
 
@@ -10,7 +10,7 @@ This example goes over how to use LangChain to interact with Eden AI models
 
 Accessing the EDENAI's API requires an API key,
 
-which you can get by creating an account <https://app.edenai.run/user/register>  and heading here <https://app.edenai.run/admin/account/settings>
+which you can get by creating an account [app.edenai.run/user/register](https://app.edenai.run/user/register)  and heading here [app.edenai.run/admin/account/settings](https://app.edenai.run/admin/account/settings)
 
 Once we have a key we'll want to set it as an environment variable by running:
 

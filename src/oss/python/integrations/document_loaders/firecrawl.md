@@ -28,7 +28,7 @@ pip install firecrawl-py
 
 ## Usage
 
-You will need to get your own API key. See <https://firecrawl.dev>
+You will need to get your own API key. See [firecrawl.dev](https://firecrawl.dev)
 
 ```python
 from langchain_community.document_loaders.firecrawl import FireCrawlLoader
@@ -108,4 +108,4 @@ You can also pass `params` to the loader. This is a dictionary of options to pas
 
 ## API reference
 
-For detailed documentation of all `FireCrawlLoader` features and configurations head to the API reference: <https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.firecrawl.FireCrawlLoader.html>
+For detailed documentation of all `FireCrawlLoader` features and configurations head to the API reference: [python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.firecrawl.FireCrawlLoader.html](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.firecrawl.FireCrawlLoader.html)

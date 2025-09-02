@@ -106,7 +106,7 @@ compression_retriever = ContextualCompressionRetriever(
 
 No matter the architecture of your model, there is a substantial performance degradation when you include 10+ retrieved documents.
 In brief: When models must access relevant information  in the middle of long contexts, then tend to ignore the provided documents.
-See: <https://arxiv.org/abs//2307.03172>
+See: [arxiv.org/abs//2307.03172](https://arxiv.org/abs//2307.03172)
 
 ```python
 # You can use an additional document transformer to reorder documents after removing redundancy.

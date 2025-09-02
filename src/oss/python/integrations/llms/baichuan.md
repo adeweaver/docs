@@ -2,7 +2,7 @@
 title: Baichuan LLM
 ---
 
-Baichuan Inc. (<https://www.baichuan-ai.com/>) is a Chinese startup in the era of AGI, dedicated to addressing fundamental human needs: Efficiency, Health, and Happiness.
+Baichuan Inc. ([www.baichuan-ai.com/](https://www.baichuan-ai.com/)) is a Chinese startup in the era of AGI, dedicated to addressing fundamental human needs: Efficiency, Health, and Happiness.
 
 ```python
 ##Installing the langchain packages needed to use the integration
@@ -11,7 +11,7 @@ Baichuan Inc. (<https://www.baichuan-ai.com/>) is a Chinese startup in the era o
 
 ## Prerequisite
 
-An API key is required to access Baichuan LLM API. Visit <https://platform.baichuan-ai.com/> to get your API key.
+An API key is required to access Baichuan LLM API. Visit [platform.baichuan-ai.com/](https://platform.baichuan-ai.com/) to get your API key.
 
 ## Use Baichuan LLM
 

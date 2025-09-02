@@ -137,4 +137,4 @@ AIMessage(content="LangGraph is a library designed for building stateful, multi-
 
 ## API reference
 
-For detailed documentation of all Jina features and configurations head to the API reference: <https://python.langchain.com/api_reference/community/tools/langchain_community.tools.jina_search.tool.JinaSearch.html>
+For detailed documentation of all Jina features and configurations head to the API reference: [python.langchain.com/api_reference/community/tools/langchain_community.tools.jina_search.tool.JinaSearch.html](https://python.langchain.com/api_reference/community/tools/langchain_community.tools.jina_search.tool.JinaSearch.html)

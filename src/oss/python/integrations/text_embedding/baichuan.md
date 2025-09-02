@@ -4,11 +4,11 @@ title: Baichuan Text Embeddings
 
 As of today (Jan 25th, 2024) BaichuanTextEmbeddings ranks #1 in C-MTEB (Chinese Multi-Task Embedding Benchmark) leaderboard.
 
-Leaderboard (Under Overall -> Chinese section): <https://huggingface.co/spaces/mteb/leaderboard>
+Leaderboard (Under Overall -> Chinese section): [huggingface.co/spaces/mteb/leaderboard](https://huggingface.co/spaces/mteb/leaderboard)
 
-Official Website: <https://platform.baichuan-ai.com/docs/text-Embedding>
+Official Website: [platform.baichuan-ai.com/docs/text-Embedding](https://platform.baichuan-ai.com/docs/text-Embedding)
 
-An API key is required to use this embedding model. You can get one by registering at <https://platform.baichuan-ai.com/docs/text-Embedding>.
+An API key is required to use this embedding model. You can get one by registering at [platform.baichuan-ai.com/docs/text-Embedding](https://platform.baichuan-ai.com/docs/text-Embedding).
 
 BaichuanTextEmbeddings support 512 token window and preduces vectors with 1024 dimensions.
 

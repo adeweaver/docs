@@ -185,4 +185,4 @@ The nation that hosted Euro 2024 was Germany. You can find more information on t
 
 ## API reference
 
-For detailed documentation of all Tavily Search API features and configurations head to the API reference: <https://docs.tavily.com/documentation/api-reference/endpoint/search>
+For detailed documentation of all Tavily Search API features and configurations head to the API reference: [docs.tavily.com/documentation/api-reference/endpoint/search](https://docs.tavily.com/documentation/api-reference/endpoint/search)

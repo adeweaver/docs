@@ -67,7 +67,7 @@ The Neptune openCypher QA chain has the ability to be wrapped by [`RunnableWithM
 
 To start, we need a way to store and load the message history. For this purpose, each thread will be created as an instance of [`InMemoryChatMessageHistory`](https://python.langchain.com/api_reference/core/chat_history/langchain_core.chat_history.InMemoryChatMessageHistory.html), and stored into a dictionary for repeated access.
 
-(Also see: <https://python.langchain.com/docs/versions/migrating_memory/chat_history/#chatmessagehistory>)
+(Also see: [python.langchain.com/docs/versions/migrating_memory/chat_history/#chatmessagehistory](https://python.langchain.com/docs/versions/migrating_memory/chat_history/#chatmessagehistory))
 
 ```python
 from langchain_core.chat_history import InMemoryChatMessageHistory

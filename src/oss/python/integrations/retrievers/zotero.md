@@ -57,9 +57,9 @@ Apart from the `query`, the retriever provides these additional search parameter
 - `qmode`: Search mode to use. Changes what the query searches over. "everything" includes full-text content. "titleCreatorYear" to search over title, authors and year.
 - `since`: Return only objects modified after the specified library version. Defaults to return everything.
 
-For Search Syntax, see Zotero API Documentation: <https://www.zotero.org/support/dev/web_api/v3/basics#search_syntax>
+For Search Syntax, see Zotero API Documentation: [www.zotero.org/support/dev/web_api/v3/basics#search_syntax](https://www.zotero.org/support/dev/web_api/v3/basics#search_syntax)
 
-For the full API schema (including available itemTypes) see: <https://github.com/zotero/zotero-schema>
+For the full API schema (including available itemTypes) see: [github.com/zotero/zotero-schema](https://github.com/zotero/zotero-schema)
 
 ```python
 query = "Zuboff"

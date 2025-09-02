@@ -112,4 +112,4 @@ print(store.mget(["k1", "k2"]))
 
 ## API reference
 
-For detailed documentation of all `CassandraByteStore` features and configurations, head to the API reference: <https://python.langchain.com/api_reference/community/storage/langchain_community.storage.cassandra.CassandraByteStore.html>
+For detailed documentation of all `CassandraByteStore` features and configurations, head to the API reference: [python.langchain.com/api_reference/community/storage/langchain_community.storage.cassandra.CassandraByteStore.html](https://python.langchain.com/api_reference/community/storage/langchain_community.storage.cassandra.CassandraByteStore.html)

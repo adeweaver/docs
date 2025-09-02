@@ -293,4 +293,4 @@ npm uninstall @langchain/azure-openai
 
 ## API reference
 
-For detailed documentation of all AzureChatOpenAI features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_openai.AzureChatOpenAI.html>
+For detailed documentation of all AzureChatOpenAI features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_openai.AzureChatOpenAI.html).

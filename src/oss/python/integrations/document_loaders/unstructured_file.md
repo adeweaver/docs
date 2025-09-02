@@ -350,4 +350,4 @@ page_content='More information...' metadata={'category_depth': 0, 'link_texts': 
 
 ## API reference
 
-For detailed documentation of all `UnstructuredLoader` features and configurations head to the API reference: <https://python.langchain.com/api_reference/unstructured/document_loaders/langchain_unstructured.document_loaders.UnstructuredLoader.html>
+For detailed documentation of all `UnstructuredLoader` features and configurations head to the API reference: [python.langchain.com/api_reference/unstructured/document_loaders/langchain_unstructured.document_loaders.UnstructuredLoader.html](https://python.langchain.com/api_reference/unstructured/document_loaders/langchain_unstructured.document_loaders.UnstructuredLoader.html)

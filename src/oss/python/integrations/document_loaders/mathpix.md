@@ -84,4 +84,4 @@ for doc in loader.lazy_load():
 
 ## API reference
 
-For detailed documentation of all MathpixPDFLoader features and configurations head to the API reference: <https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.MathpixPDFLoader.html>
+For detailed documentation of all MathpixPDFLoader features and configurations head to the API reference: [python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.MathpixPDFLoader.html](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.MathpixPDFLoader.html)

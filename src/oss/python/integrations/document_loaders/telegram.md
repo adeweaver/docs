@@ -27,7 +27,7 @@ loader.load()
 
 `TelegramChatApiLoader` loads data directly from any specified chat from Telegram. In order to export the data, you will need to authenticate your Telegram account.
 
-You can get the API_HASH and API_ID from <https://my.telegram.org/auth?to=apps>
+You can get the API_HASH and API_ID from [my.telegram.org/auth?to=apps](https://my.telegram.org/auth?to=apps)
 
 chat_entity – recommended to be the [entity](https://docs.telethon.dev/en/stable/concepts/entities.html?highlight=Entity#what-is-an-entity) of a channel.
 

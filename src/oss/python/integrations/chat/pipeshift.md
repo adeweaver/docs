@@ -135,4 +135,4 @@ AIMessage(content="Das ist schön! Du liebst Programmieren! (That's great! You l
 
 ## API reference
 
-For detailed documentation of all ChatPipeshift features and configurations head to the API reference: <https://dashboard.pipeshift.com/docs>
+For detailed documentation of all ChatPipeshift features and configurations head to the API reference: [dashboard.pipeshift.com/docs](https://dashboard.pipeshift.com/docs)

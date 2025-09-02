@@ -308,4 +308,4 @@ AIMessageChunk {
 
 ## API reference
 
-For detailed documentation of all ChatVertexAI features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_google_vertexai.ChatVertexAI.html>
+For detailed documentation of all ChatVertexAI features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_google_vertexai.ChatVertexAI.html).

@@ -4,7 +4,7 @@ title: ChatAbso
 
 This will help you get started with ChatAbso [chat models](https://python.langchain.com/docs/concepts/chat_models/). For detailed documentation of all ChatAbso features and configurations, head to the [API reference](https://python.langchain.com/api_reference/en/latest/chat_models/langchain_abso.chat_models.ChatAbso.html).
 
-- You can find the full documentation for the Abso router [here] (<https://abso.ai>)
+- You can find the full documentation for the Abso router [here] ([abso.ai](https://abso.ai))
 
 ## Overview
 
@@ -97,4 +97,4 @@ chain.invoke(
 
 ## API reference
 
-For detailed documentation of all ChatAbso features and configurations head to the API reference: <https://python.langchain.com/api_reference/en/latest/chat_models/langchain_abso.chat_models.ChatAbso.html>
+For detailed documentation of all ChatAbso features and configurations head to the API reference: [python.langchain.com/api_reference/en/latest/chat_models/langchain_abso.chat_models.ChatAbso.html](https://python.langchain.com/api_reference/en/latest/chat_models/langchain_abso.chat_models.ChatAbso.html)

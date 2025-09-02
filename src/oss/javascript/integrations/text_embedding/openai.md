@@ -249,4 +249,4 @@ If you are hosting on Azure OpenAI, see the [dedicated page instead](/oss/integr
 
 ## API reference
 
-For detailed documentation of all OpenAIEmbeddings features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_openai.OpenAIEmbeddings.html>
+For detailed documentation of all OpenAIEmbeddings features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_openai.OpenAIEmbeddings.html).

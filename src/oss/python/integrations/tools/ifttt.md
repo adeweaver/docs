@@ -4,11 +4,11 @@ title: IFTTT WebHooks
 
 This notebook shows how to use IFTTT Webhooks.
 
-From <https://github.com/SidU/teams-langchain-js/wiki/Connecting-IFTTT-Services>.
+From [github.com/SidU/teams-langchain-js/wiki/Connecting-IFTTT-Services](https://github.com/SidU/teams-langchain-js/wiki/Connecting-IFTTT-Services).
 
 ## Creating a webhook
 
-- Go to <https://ifttt.com/create>
+- Go to [ifttt.com/create](https://ifttt.com/create)
 
 ## Configuring the "If This"
 
@@ -38,9 +38,9 @@ service, and you're ready to start receiving data and triggering actions 🎉
 
 ## Finishing up
 
-- To get your webhook URL go to <https://ifttt.com/maker_webhooks/settings>
+- To get your webhook URL go to [ifttt.com/maker_webhooks/settings](https://ifttt.com/maker_webhooks/settings)
 - Copy the IFTTT key value from there. The URL is of the form
-<https://maker.ifttt.com/use/YOUR_IFTTT_KEY>. Grab the YOUR_IFTTT_KEY value.
+[maker.ifttt.com/use/YOUR_IFTTT_KEY](https://maker.ifttt.com/use/YOUR_IFTTT_KEY). Grab the YOUR_IFTTT_KEY value.
 
 ```python
 %pip install --upgrade --quiet  langchain-community

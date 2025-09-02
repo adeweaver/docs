@@ -9,8 +9,8 @@ First make sure that you have installed praw with the command below:
 %pip install --upgrade --quiet  praw
 ```
 
-Then you need to set you need to set up the proper API keys and environment variables. You would need to create a Reddit user account and get credentials. So, create a Reddit user account by going to <https://www.reddit.com>  and signing up.
-Then get your credentials by going to <https://www.reddit.com/prefs/apps> and creating an app.
+Then you need to set you need to set up the proper API keys and environment variables. You would need to create a Reddit user account and get credentials. So, create a Reddit user account by going to [www.reddit.com](https://www.reddit.com)  and signing up.
+Then get your credentials by going to [www.reddit.com/prefs/apps](https://www.reddit.com/prefs/apps) and creating an app.
 You should have your client_id and secret from creating the app. Now, you can paste those strings in client_id and client_secret variable.
 Note: You can put any string for user_agent
 
@@ -65,22 +65,22 @@ Note: You may get different output depending on the newest post in the subreddit
 >🎓 By the end of this video, you'll be equipped with the skills to confidently manage your codebase, collaborate with others, and contribute to open-source projects on GitHub.
 >
 >
->Video link: <https://youtu.be/IdT1BhrSfdo?si=mV7xVpiyuhlD8Zrw>
+>Video link: [youtu.be/IdT1BhrSfdo?si=mV7xVpiyuhlD8Zrw](https://youtu.be/IdT1BhrSfdo?si=mV7xVpiyuhlD8Zrw)
 >
 >Your feedback is welcome
-> Post URL: <https://www.reddit.com/r/Python/comments/1823wr7/setup_github_copilot_in_visual_studio_code/>
+> Post URL: [www.reddit.com/r/Python/comments/1823wr7/setup_github_copilot_in_visual_studio_code/](https://www.reddit.com/r/Python/comments/1823wr7/setup_github_copilot_in_visual_studio_code/)
 > Post Category: N/A.
 > Score: 0
 >
 >Post Title: 'A Chinese Checkers game made with pygame and PySide6, with custom bots support'
 >User: HenryChess
 >Subreddit: r/Python:
-> Text body: GitHub link: <https://github.com/henrychess/pygame-chinese-checkers>
+> Text body: GitHub link: [github.com/henrychess/pygame-chinese-checkers](https://github.com/henrychess/pygame-chinese-checkers)
 >
 >I'm not sure if this counts as beginner or intermediate. I think I'm still in the beginner zone, so I flair it as beginner.
 >
 >This is a Chinese Checkers (aka Sternhalma) game for 2 to 3 players. The bots I wrote are easy to beat, as they're mainly for debugging the game logic part of the code. However, you can write up your own custom bots. There is a guide at the github page.
-> Post URL: <https://www.reddit.com/r/Python/comments/181xq0u/a_chinese_checkers_game_made_with_pygame_and/>
+> Post URL: [www.reddit.com/r/Python/comments/181xq0u/a_chinese_checkers_game_made_with_pygame_and/](https://www.reddit.com/r/Python/comments/181xq0u/a_chinese_checkers_game_made_with_pygame_and/)
 > Post Category: N/A.
  > Score: 1
 

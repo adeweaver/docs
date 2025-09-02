@@ -390,4 +390,4 @@ AIMessage {
 
 ## API reference
 
-For detailed documentation of all ChatOllama features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_ollama.ChatOllama.html>
+For detailed documentation of all ChatOllama features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_ollama.ChatOllama.html).

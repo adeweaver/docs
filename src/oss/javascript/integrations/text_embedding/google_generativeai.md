@@ -18,7 +18,7 @@ To access Google Generative AI embedding models you'll need to sign up for a Goo
 
 ### Credentials
 
-Get an API key here: <https://ai.google.dev/tutorials/setup>.
+Get an API key here: [ai.google.dev/tutorials/setup](https://ai.google.dev/tutorials/setup).
 
 Next, set your key as an environment variable named `GOOGLE_API_KEY`:
 
@@ -199,4 +199,4 @@ console.log(vectors[1].slice(0, 100));
 
 ## API reference
 
-For detailed documentation of all `GoogleGenerativeAIEmbeddings` features and configurations head to the API reference: <https://api.js.langchain.com/classes/langchain_google_genai.GoogleGenerativeAIEmbeddings.html>
+For detailed documentation of all `GoogleGenerativeAIEmbeddings` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_google_genai.GoogleGenerativeAIEmbeddings.html).

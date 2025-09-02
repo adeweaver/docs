@@ -24,8 +24,8 @@ In this notebook, we will create a single experiment to log the prompts from eac
 
 First, setup the required API keys
 
-* OpenAI: <https://platform.openai.com/account/api-keys> (For OpenAI LLM model)
-* Google SERP API: <https://serpapi.com/manage-api-key> (For Google Search Tool)
+* OpenAI: [platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys) (For OpenAI LLM model)
+* Google SERP API: [serpapi.com/manage-api-key](https://serpapi.com/manage-api-key) (For Google Search Tool)
 
 ```python
 import os

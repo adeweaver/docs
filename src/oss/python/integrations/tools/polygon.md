@@ -254,7 +254,7 @@ agent_executor.invoke({"input": "What is Doordash stock price right now?"})
 
 ### API reference
 
-For detailed documentation of all the Polygon IO toolkit features and configurations head to the API reference: <https://python.langchain.com/api_reference/community/agent_toolkits/langchain_community.agent_toolkits.polygon.toolkit.PolygonToolkit.html>
+For detailed documentation of all the Polygon IO toolkit features and configurations head to the API reference: [python.langchain.com/api_reference/community/agent_toolkits/langchain_community.agent_toolkits.polygon.toolkit.PolygonToolkit.html](https://python.langchain.com/api_reference/community/agent_toolkits/langchain_community.agent_toolkits.polygon.toolkit.PolygonToolkit.html)
 
 ## Tools
 
@@ -394,7 +394,7 @@ content='[{"id": "4fd9f3a653f3d1c6d99a21d7cc62b883e8547109c95778e34de7c6c9ecaccf
 
 For detailed documentation of all Polygon IO tools head to the API reference for each:
 
-- Aggregate: <https://python.langchain.com/api_reference/community/tools/langchain_community.tools.polygon.aggregates.PolygonAggregates.html>
-- Financials: <https://python.langchain.com/api_reference/community/tools/langchain_community.tools.polygon.financials.PolygonFinancials.html>
-- Last Quote: <https://python.langchain.com/api_reference/community/tools/langchain_community.tools.polygon.last_quote.PolygonLastQuote.html>
-- Ticker News: <https://python.langchain.com/api_reference/community/tools/langchain_community.tools.polygon.ticker_news.PolygonTickerNews.html>
+- Aggregate: [python.langchain.com/api_reference/community/tools/langchain_community.tools.polygon.aggregates.PolygonAggregates.html](https://python.langchain.com/api_reference/community/tools/langchain_community.tools.polygon.aggregates.PolygonAggregates.html)
+- Financials: [python.langchain.com/api_reference/community/tools/langchain_community.tools.polygon.financials.PolygonFinancials.html](https://python.langchain.com/api_reference/community/tools/langchain_community.tools.polygon.financials.PolygonFinancials.html)
+- Last Quote: [python.langchain.com/api_reference/community/tools/langchain_community.tools.polygon.last_quote.PolygonLastQuote.html](https://python.langchain.com/api_reference/community/tools/langchain_community.tools.polygon.last_quote.PolygonLastQuote.html)
+- Ticker News: [python.langchain.com/api_reference/community/tools/langchain_community.tools.polygon.ticker_news.PolygonTickerNews.html](https://python.langchain.com/api_reference/community/tools/langchain_community.tools.polygon.ticker_news.PolygonTickerNews.html)

@@ -45,7 +45,7 @@ Click this link, select your workspace, click `Connect Workspace`
 https://app.clickup.com/api?client_id=ABC...&redirect_uri=https://google.com
 ```
 
-The url should change to something like this <https://www.google.com/?code=THISISMYCODERIGHTHERE>.
+The url should change to something like this [www.google.com/?code=THISISMYCODERIGHTHERE](https://www.google.com/?code=THISISMYCODERIGHTHERE).
 
 Next, copy/paste the `CODE` (THISISMYCODERIGHTHERE) generated in the URL in the cell below.
 

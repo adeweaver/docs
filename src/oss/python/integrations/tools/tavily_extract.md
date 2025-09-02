@@ -188,4 +188,4 @@ Both pages highlight the interplay between theory and experimentation in advanci
 
 ## API reference
 
-For detailed documentation of all Tavily Search API features and configurations head to the API reference: <https://docs.tavily.com/documentation/api-reference/endpoint/extract>
+For detailed documentation of all Tavily Search API features and configurations head to the API reference: [docs.tavily.com/documentation/api-reference/endpoint/extract](https://docs.tavily.com/documentation/api-reference/endpoint/extract)

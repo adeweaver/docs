@@ -131,4 +131,4 @@ chain.invoke(
 
 ## API reference
 
-For detailed documentation of all `SambaStudio` llm features and configurations head to the API reference: <https://python.langchain.com/api_reference/community/llms/langchain_community.llms.sambanova.SambaStudio.html>
+For detailed documentation of all `SambaStudio` llm features and configurations head to the API reference: [python.langchain.com/api_reference/community/llms/langchain_community.llms.sambanova.SambaStudio.html](https://python.langchain.com/api_reference/community/llms/langchain_community.llms.sambanova.SambaStudio.html)

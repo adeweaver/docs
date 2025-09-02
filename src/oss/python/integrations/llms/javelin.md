@@ -7,7 +7,7 @@ The Javelin AI Gateway facilitates the utilization of large language models (LLM
 providing a secure and unified endpoint. The gateway itself provides a centralized mechanism to roll out models systematically,
 provide access security, policy & cost guardrails for enterprises, etc.,
 
-For a complete listing of all the features & benefits of Javelin, please visit <www.getjavelin.io>
+For a complete listing of all the features & benefits of Javelin, please visit [www.getjavelin.io](https://www.getjavelin.io)
 
 ## Step 1: Introduction
 

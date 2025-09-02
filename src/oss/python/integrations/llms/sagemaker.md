@@ -20,7 +20,7 @@ You have to set up following required parameters of the `SagemakerEndpoint` call
     has either access keys or role information specified.
     If not specified, the default credential profile or, if on an EC2 instance,
     credentials from IMDS will be used.
-    See: <https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html>
+    See: [boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html)
 
 ## Example
 

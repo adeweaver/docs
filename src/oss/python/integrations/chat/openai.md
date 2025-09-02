@@ -33,7 +33,7 @@ To access OpenAI models you'll need to create an OpenAI account, get an API key,
 
 ### Credentials
 
-Head to <https://platform.openai.com> to sign up to OpenAI and generate an API key. Once you've done this set the OPENAI_API_KEY environment variable:
+Head to [platform.openai.com](https://platform.openai.com) to sign up to OpenAI and generate an API key. Once you've done this set the OPENAI_API_KEY environment variable:
 
 ```python
 import getpass
@@ -202,9 +202,9 @@ AIMessage(content='', additional_kwargs={'refusal': None}, response_metadata={'t
 **Requires ``langchain-openai>=0.1.21``**
 </Info>
 
-As of Aug 6, 2024, OpenAI supports a `strict` argument when calling tools that will enforce that the tool argument schema is respected by the model. See more here: <https://platform.openai.com/docs/guides/function-calling>
+As of Aug 6, 2024, OpenAI supports a `strict` argument when calling tools that will enforce that the tool argument schema is respected by the model. See more here: [platform.openai.com/docs/guides/function-calling](https://platform.openai.com/docs/guides/function-calling)
 
-**Note**: If ``strict=True`` the tool definition will also be validated, and a subset of JSON schema are accepted. Crucially, schema cannot have optional args (those with default values). Read the full docs on what types of schema are supported here: <https://platform.openai.com/docs/guides/structured-outputs/supported-schemas>.
+**Note**: If ``strict=True`` the tool definition will also be validated, and a subset of JSON schema are accepted. Crucially, schema cannot have optional args (those with default values). Read the full docs on what types of schema are supported here: [platform.openai.com/docs/guides/structured-outputs/supported-schemas](https://platform.openai.com/docs/guides/structured-outputs/supported-schemas).
 
 ```python
 llm_with_tools = llm.bind_tools([GetWeather], strict=True)
