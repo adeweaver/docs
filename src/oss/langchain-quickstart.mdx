@@ -6,11 +6,14 @@ import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
 
 <AlphaCallout />
 
-Welcome to LangChain! This quickstart will take you from zero to a fully functional AI agent in just a few minutes. We'll start simple and gradually build up to something more sophisticated.
+Welcome to LangChain! This quickstart will take you from zero to a fully
+functional AI agent in just a few minutes. We'll start simple and gradually
+build up to something more sophisticated.
 
-## 🚀 Super quick start
+## Super quick start
 
-Let's begin with the absolute basics - creating a simple agent that can answer questions and use tools:
+Let's begin with the absolute basics - creating a simple agent that can answer
+questions and use tools:
 
 :::python
 ```python
@@ -61,9 +64,10 @@ console.log(
 - A basic prompt
 - The ability to invoke it with messages
 
-## 🏗️ Building a real-world agent
+## Building a real-world agent
 
-Now let's create something more practical. We'll build a weather forecasting agent that demonstrates the key concepts you'll use in production:
+Now let's create something more practical. We'll build a weather forecasting
+agent that demonstrates the key concepts you'll use in production:
 
 1. **Detailed system prompts** for better agent behavior
 2. **Real-world tools** that integrate with external data
@@ -73,271 +77,276 @@ Now let's create something more practical. We'll build a weather forecasting age
 
 Let's walk through each step:
 
-### Step 1: Define the system prompt
+<Steps>
+    <Step title="Define the system prompt">
+        The system prompt is your agent's personality and instructions. Make it
+        specific and actionable:
 
-The system prompt is your agent's personality and instructions. Make it specific and actionable:
+        :::python
+        ```python wrap
+        system_prompt = """You are an expert weather forecaster, who speaks in puns.
 
-:::python
-```python
-system_prompt = """You are an expert weather forecaster, who speaks in puns.
+        You have access to two tools:
 
-You have access to two tools:
+        - get_weather_for_location: use this to get the weather for a specific location
+        - get_user_location: use this to get the user's location
 
-- get_weather_for_location: use this to get the weather for a specific location
-- get_user_location: use this to get the user's location
+        If a user asks you for the weather, make sure you know the location. If you can tell from the question that they mean whereever they are, use the get_user_location tool to find their location."""
+        ```
+        :::
 
-If a user asks you for the weather, make sure you know the location. If you can tell from the question that they mean whereever they are, use the get_user_location tool to find their location."""
-```
-:::
+        :::js
+        ```ts
+        const systemPrompt = `You are an expert weather forecaster, who speaks in puns.
 
-:::js
-```ts
-const systemPrompt = `You are an expert weather forecaster, who speaks in puns.
+        You have access to two tools:
 
-You have access to two tools:
+        - get_weather_for_location: use this to get the weather for a specific location
+        - get_user_location: use this to get the user's location
 
-- get_weather_for_location: use this to get the weather for a specific location
-- get_user_location: use this to get the user's location
+        If a user asks you for the weather, make sure you know the location. If you can tell from the question that they mean whereever they are, use the get_user_location tool to find their location.`;
+        ```
+        :::
+    </Step>
+    <Step title="Create tools">
+        :::python
+        [Tools](/oss/langchain-tools) are functions your agent can call. They
+        should be well-documented. Oftentimes, tools will want to connect to
+        external systems, and will rely on runtime configuration to do so.
+        Notice here how the `get_user_info` tool does exactly that:
 
-If a user asks you for the weather, make sure you know the location. If you can tell from the question that they mean whereever they are, use the get_user_location tool to find their location.`;
-```
-:::
+        ```python
+        from langchain_core.tools import tool
 
-### Step 2: Create tools
+        def get_weather(city: str) -> str:  # (1)!
+            """Get weather for a given city."""
+            return f"It's always sunny in {city}!"
 
+        from langchain_core.runnables import RunnableConfig
 
+        USER_LOCATION = {
+            "1": "Florida",
+            "2": "SF"
+        }
 
-:::python
-[Tools](/oss/langchain-tools) are functions your agent can call. They should be well-documented.
-Oftentimes, tools will want to connect to external systems, and will rely on runtime configuration to do so.
-Notice here how the `get_user_info` tool does exactly that:
+        @tool
+        def get_user_info(config: RunnableConfig) -> str:
+            """Retrieve user information based on user ID."""
+            user_id = config["context"].get("user_id")
+            return USER_LOCATION[user_id]
+        ```
+        :::
 
-```python
-from langchain_core.tools import tool
+        :::js
+        [Tools](/oss/langchain-tools) are functions your agent can call. They
+        should be well-documented. Oftentimes tools will want to connect to
+        external systems, and will rely on runtime configuration to do so.
+        Notice here how the `getUserInfo` tool does exactly that:
 
-def get_weather(city: str) -> str:  # (1)!
-    """Get weather for a given city."""
-    return f"It's always sunny in {city}!"
+        ```ts
+        import { tool } from "langchain";
+        import { z } from "zod";
 
-from langchain_core.runnables import RunnableConfig
+        const getWeather = tool(({ city }) => `It's always sunny in ${city}!`, {
+          name: "get_weather",
+          description: "Get the weather for a given city",
+          schema: z.object({
+            city: z.string(),
+          }),
+        });
 
-USER_LOCATION = {
-    "1": "Florida",
-    "2": "SF"
-}
+        const USER_LOCATION = {
+          "1": "Florida",
+          "2": "SF",
+        } as const;
 
-@tool
-def get_user_info(config: RunnableConfig) -> str:
-    """Retrieve user information based on user ID."""
-    user_id = config["context"].get("user_id")
-    return USER_LOCATION[user_id]
-```
-:::
+        const getUserInfo = tool(
+          (_, config) => {
+            const { user_id } = config.context as {
+              user_id: keyof typeof USER_LOCATION;
+            };
+            console.log("user_id", config.context);
+            return USER_LOCATION[user_id];
+          },
+          {
+            name: "get_user_info",
+            description: "Retrieve user information based on user ID",
+            schema: z.object({}),
+          }
+        );
+        ```
 
-:::js
-[Tools](/oss/langchain-tools) are functions your agent can call. They should be well-documented.
-Oftentimes tools will want to connect to external systems, and will rely on runtime configuration to do so.
-Notice here how the `getUserInfo` tool does exactly that:
+        <Note>
+            [Zod](https://zod.dev/) is a library for validating and parsing
+            pre-defined schemas. You can use it to define the input schema for
+            your tools to make sure the agent only calls the tool with the
+            correct arguments.
 
-```ts
-import { tool } from "langchain";
-import { z } from "zod";
+            Alternatively, you can define the `schema` property as a JSON schema
+            object. Keep in mind that JSON schemas *won't* be validated at
+            runtime.
 
-const getWeather = tool(({ city }) => `It's always sunny in ${city}!`, {
-  name: "get_weather",
-  description: "Get the weather for a given city",
-  schema: z.object({
-    city: z.string(),
-  }),
-});
+            <Accordion title="Example: Using JSON schema for tool input">
+                ```ts
+                const getWeather = tool(
+                ({ city }) => `It's always sunny in ${city}!`,
+                {
+                name: "get_weather",
+                description: "Get the weather for a given city",
+                schema: {
+                type: "object",
+                properties: {
+                city: {
+                type: "string",
+                description: "The city to get the weather for"
+                }
+                },
+                required: ["city"]
+                },
+                }
+                );
+            ```
+            </Accordion>
+        </Note>
+        :::
+    </Step>
+    <Step title="Configure your model">
+        Set up your language model with the right parameters for your use case:
 
-const USER_LOCATION = {
-  "1": "Florida",
-  "2": "SF",
-} as const;
+        :::python
+        ```python
+        from langchain.chat_models import init_chat_model
 
-const getUserInfo = tool(
-  (_, config) => {
-    const { user_id } = config.context as {
-      user_id: keyof typeof USER_LOCATION;
-    };
-    console.log("user_id", config.context);
-    return USER_LOCATION[user_id];
-  },
-  {
-    name: "get_user_info",
-    description: "Retrieve user information based on user ID",
-    schema: z.object({}),
-  }
-);
-```
-:::
+        model = init_chat_model(
+            "anthropic:claude-3-7-sonnet-latest",
+            temperature=0
+        )
+        ```
+        :::
 
-<Note>
-[Zod](https://zod.dev/) is a library for validating and parsing pre-defined schemas. You can use it to define the input schema for your tools to make sure the agent only calls the tool with the correct arguments.
+        :::js
+        ```ts
+        import { initChatModel } from "langchain/chat_models";
 
-Alternatively, you can define the `schema` property as a JSON schema object. Keep in mind that JSON schemas won't be validated at runtime.
+        const model = await initChatModel(
+        "anthropic:claude-3-7-sonnet-latest",
+        temperature: 0
+        );
+        ```
+        :::
+    </Step>
+    <Step title="Define response format">
+        :::python
+        Structured outputs ensure your agent returns data in a predictable
+        format. Here, we use Python's [`DataClass`](https://docs.python.org/3/library/dataclasses.html)
+        dictionary.
 
-<Accordion title="Example: Using JSON schema for tool input">
-```ts
-const getWeather = tool(
-({ city }) => `It's always sunny in ${city}!`,
-{
-name: "get_weather",
-description: "Get the weather for a given city",
-schema: {
-type: "object",
-properties: {
-city: {
-type: "string",
-description: "The city to get the weather for"
-}
-},
-required: ["city"]
-},
-}
-);
-```
-</Accordion>
-</Note>
+        ```python
+        from dataclasses import dataclass
 
-### Step 3: Configure Your Model
+        @dataclass
+        class WeatherResponse:
+            conditions: str
+            punny_response: str
+        ```
+        :::
 
-Set up your language model with the right parameters for your use case:
+        :::js
+        Structured outputs ensure your agent returns data in a predictable format.
 
-:::python
-```python
-from langchain.chat_models import init_chat_model
+        ```ts
+        const responseFormat = z.object({
+          conditions: z.string(),
+          punny_response: z.string(),
+        });
+        ```
+        :::
+    </Step>
+    <Step title="Add memory">
+        Enable your agent to remember conversation history:
 
-model = init_chat_model(
-    "anthropic:claude-3-7-sonnet-latest",
-    temperature=0
-)
-```
-:::
+        :::python
+        ```python
+        from langgraph.checkpoint.memory import InMemorySaver
 
-:::js
-```ts
-import { initChatModel } from "langchain/chat_models";
+        checkpointer = InMemorySaver()
+        ```
+        :::
 
-const model = await initChatModel(
-  "anthropic:claude-3-7-sonnet-latest",
-  temperature: 0
-);
-```
-:::
+        :::js
+        ```ts
+        import { MemorySaver } from "langchain";
 
-### Step 4: Define response format
+        const checkpointer = new MemorySaver();
+        ```
+        :::
+    </Step>
+    <Step title="Bring it all together">
+        Now assemble your agent with all the components:
 
-Structured outputs ensure your agent returns data in a predictable format. Here,
-we use Python's [`DataClass`](https://docs.python.org/3/library/dataclasses.html)
-dictionary.
+        :::python
+        ```python
+        agent = create_agent(
+            model=model,
+            prompt=system_prompt,
+            tools=[get_user_info, get_weather],
+            response_format=WeatherResponse,
+            checkpointer=checkpointer
+        )
 
-:::python
-```python
-from dataclasses import dataclass
+        config = {"configurable": {"thread_id": "1"}}
+        context = {"user_id": "1"}
+        response = agent.invoke(
+            {"messages": [{"role": "user", "content": "what is the weather outside?"}]},
+            config=config,
+            context=context
+        )
 
-@dataclass
-class WeatherResponse:
-    conditions: str
-    punny_response: str
-```
-:::
+        response['structured_response']
 
-:::js
-```ts
-const responseFormat = z.object({
-  conditions: z.string(),
-  punny_response: z.string(),
-});
-```
-:::
+        response = agent.invoke(
+            {"messages": [{"role": "user", "content": "thank you!"}]},
+            config=config,
+            context=context
+        )
 
-### Step 5: Add memory
+        response['structured_response']
+        ```
+        :::
 
-Enable your agent to remember conversation history:
+        :::js
+        ```ts
+        import { createAgent } from "langchain";
 
-:::python
-```python
-from langgraph.checkpoint.memory import InMemorySaver
+        const agent = createAgent({
+          model: "anthropic:claude-3-7-sonnet-latest",
+          prompt: systemPrompt,
+          tools: [getUserInfo, getWeather],
+          responseFormat,
+          checkpointer,
+        });
 
-checkpointer = InMemorySaver()
-```
-:::
+        const config = {
+          configurable: { thread_id: "1" },
+          context: { user_id: "1" },
+        };
+        const response = await agent.invoke(
+          { messages: [{ role: "user", content: "what is the weather outside?" }] },
+          config
+        );
+        console.log(response.structuredResponse);
 
-:::js
-```ts
-import { MemorySaver } from "langchain";
+        const thankYouResponse = await agent.invoke(
+          { messages: [{ role: "user", content: "thank you!" }] },
+          config
+        );
+        console.log(thankYouResponse.structuredResponse);
+        ```
+        :::
+    </Step>
+</Steps>
 
-const checkpointer = new MemorySaver();
-```
-:::
-
-### Step 6: Bring It All Together
-
-Now assemble your agent with all the components:
-
-:::python
-```python
-agent = create_agent(
-    model=model,
-    prompt=system_prompt,
-    tools=[get_user_info, get_weather],
-    response_format=WeatherResponse,
-    checkpointer=checkpointer
-)
-
-config = {"configurable": {"thread_id": "1"}}
-context = {"user_id": "1"}
-response = agent.invoke(
-    {"messages": [{"role": "user", "content": "what is the weather outside?"}]},
-    config=config,
-    context=context
-)
-
-response['structured_response']
-
-response = agent.invoke(
-    {"messages": [{"role": "user", "content": "thank you!"}]},
-    config=config,
-    context=context
-)
-
-response['structured_response']
-```
-:::
-
-:::js
-```ts
-import { createAgent } from "langchain";
-
-const agent = createAgent({
-  model: "anthropic:claude-3-7-sonnet-latest",
-  prompt: systemPrompt,
-  tools: [getUserInfo, getWeather],
-  responseFormat,
-  checkpointer,
-});
-
-const config = {
-  configurable: { thread_id: "1" },
-  context: { user_id: "1" },
-};
-const response = await agent.invoke(
-  { messages: [{ role: "user", content: "what is the weather outside?" }] },
-  config
-);
-console.log(response.structuredResponse);
-
-const thankYouResponse = await agent.invoke(
-  { messages: [{ role: "user", content: "thank you!" }] },
-  config
-);
-console.log(thankYouResponse.structuredResponse);
-```
-:::
-
-## 🎯 What you've built
+## What you've built
 
 Congratulations! You now have a sophisticated AI agent that can:
 - **Understand context** and remember conversations
