@@ -209,22 +209,6 @@ new AIMessage("Hello, world").contentBlocks
     ```
 </Accordion>
 
-## <Icon icon="bug" /> Fixes
-
-### `langsmith` made optional
-
-LangSmith is no longer a hard dependency; the package is loaded dynamically only when you use features that need it. If you rely on eval/tracing/hub, add it explicitly:
-
-```bash
-pnpm add langsmith
-# or yarn add langsmith
-# or npm install langsmith
-```
-
-### Removed `js-tiktoken` dependency
-
-The package was dropped from deps; related types are sourced via the relevant provider packages (e.g. `@langchain/openai`). If you had direct imports, adjust accordingly.
-
 ## <Icon icon="compass" /> Migration guide
 
 Follow these steps to migrate your JavaScript/TypeScript code to LangChain v1.0:
