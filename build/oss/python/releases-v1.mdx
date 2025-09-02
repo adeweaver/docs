@@ -1,0 +1,532 @@
+---
+title: v1.0
+description: LangChain and LangGraph Python v1 release information
+---
+
+import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
+
+<AlphaCallout />
+
+# LangChain Python v1.0
+
+TODO: better way to section the packages (e.g. `core` vs `langchain`)
+
+This page provides information about the v1 release of LangChain and LangGraph
+Python packages (`langchain-core` and `langchain`).
+
+## What's changed
+
+### Content format
+
+LangChain v1.0 introduces a [**standardized message content format**](#standardized-content-blocks)
+based on new content blocks that provides type safety, consistency across
+providers, and better multimodal support. This addresses the core challenge of
+having different output formats across LLM providers.
+
+**There are no breaking changes associated with existing message content.** The standard
+content can be lazily-parsed off of existing v0 messages using the `content_blocks`
+property.
+
+### Python Version Support
+
+- <Icon icon="python" /> **Dropped support for Python 3.9** - Minimum version is now Python 3.10
+
+## <Icon icon="sparkles" /> What's new
+
+### Standardized content blocks
+
+The new content block system includes:
+
+<AccordionGroup>
+    <Accordion title="Core" icon="cube">
+        <AccordionGroup>
+            <Accordion title="TextContentBlock" icon="text">
+                **Purpose:** Standard text output
+                
+                <ParamField body="text" type="string" required>
+                    The text content
+                </ParamField>
+                
+                <ParamField body="annotations" type="object[]">
+                    List of annotations for the text
+                </ParamField>
+                
+                <ParamField body="extras" type="object">
+                    Additional provider-specific data
+                </ParamField>
+                
+                **Example:**
+                ```python
+                {
+                    "type": "text",
+                    "text": "Hello world",
+                    "annotations": []
+                }
+                ```
+            </Accordion>
+            <Accordion title="ReasoningContentBlock" icon="brain">
+                **Purpose:** Model reasoning steps
+                
+                <ParamField body="reasoning" type="string" required>
+                    The reasoning content
+                </ParamField>
+                
+                <ParamField body="extras" type="object">
+                    Additional provider-specific data
+                </ParamField>
+                
+                **Example:**
+                ```python
+                {
+                    "type": "reasoning",
+                    "reasoning": "The user is asking about..."
+                    "extras": {
+                        "summary": "The user's intent is to learn about...",
+                        "signature": "abc123"
+                    }
+                }
+                ```
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+    
+    <Accordion title="Multimodal" icon="images">
+        <AccordionGroup>
+            <Accordion title="ImageContentBlock" icon="image">
+                **Purpose:** Image data
+                
+                <ParamField body="url" type="string">
+                    URL pointing to the image location.
+                </ParamField>
+                
+                <ParamField body="base64" type="string">
+                    Base64-encoded image data.
+                </ParamField>
+                
+                <ParamField body="id" type="string">
+                    Reference ID to an externally stored image (e.g., in a
+                    provider's file system or in a bucket).
+                </ParamField>
+                
+                <ParamField body="mime_type" type="string">
+                    Image MIME type (e.g., `image/jpeg`, `image/png`)
+                </ParamField>
+            </Accordion>
+            <Accordion title="AudioContentBlock" icon="volume-high">
+                **Purpose:** Audio data
+                
+                <ParamField body="url" type="string">
+                    URL pointing to the audio location.
+                </ParamField>
+                
+                <ParamField body="data" type="string">
+                    Base64-encoded audio data.
+                </ParamField>
+
+                <ParamField body="id" type="string">
+                    Reference ID to an externally stored audio file (e.g., in a
+                    provider's file system or in a bucket).
+                </ParamField>
+                
+                <ParamField body="mime_type" type="string">
+                    Audio MIME type (e.g., `audio/mpeg`, `audio/wav`)
+                </ParamField>
+            </Accordion>
+            <Accordion title="VideoContentBlock" icon="video">
+                **Purpose:** Video data
+                
+                <ParamField body="url" type="string">
+                    URL pointing to the video location.
+                </ParamField>
+                
+                <ParamField body="data" type="string">
+                    Base64-encoded video data.
+                </ParamField>
+
+                <ParamField body="id" type="string">
+                    Reference ID to an externally stored video file (e.g., in a
+                    provider's file system or in a bucket).
+                </ParamField>
+                
+                <ParamField body="mime_type" type="string">
+                    Video MIME type (e.g., `video/mp4`, `video/webm`)
+                </ParamField>
+            </Accordion>
+            <Accordion title="FileContentBlock" icon="file">
+                **Purpose:** Generic files (PDF, etc)
+                
+                <ParamField body="url" type="string">
+                    URL pointing to the file location.
+                </ParamField>
+                
+                <ParamField body="data" type="string">
+                    Base64-encoded file data.
+                </ParamField>
+
+                <ParamField body="id" type="string">
+                    Reference ID to an externally stored file (e.g., in a
+                    provider's file system or in a bucket).
+                </ParamField>
+                
+                <ParamField body="mime_type" type="string">
+                    File MIME type (e.g., `application/pdf`)
+                </ParamField>
+            </Accordion>
+            <Accordion title="PlainTextContentBlock" icon="align-left">
+                **Purpose:** Document text (`.txt`, `.md`)
+                
+                <ParamField body="text" type="string" required>
+                    The text content
+                </ParamField>
+                
+                <ParamField body="mime_type" type="string">
+                    MIME type of the text (e.g., `text/plain`, `text/markdown`)
+                </ParamField>
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+    
+    <Accordion title="Tool Calling" icon="wrench">
+        <AccordionGroup>
+            <Accordion title="ToolCall" icon="function">
+                **Purpose:** Function calls
+                
+                <ParamField body="name" type="string" required>
+                    Name of the tool to call
+                </ParamField>
+                
+                <ParamField body="args" type="object" required>
+                    Arguments to pass to the tool
+                </ParamField>
+                
+                <ParamField body="id" type="string" required>
+                    Unique identifier for this tool call
+                </ParamField>
+                
+                **Example:**
+                ```python
+                {
+                    "type": "tool_call",
+                    "name": "search",
+                    "args": {"query": "weather"},
+                    "id": "call_123"
+                }
+                ```
+            </Accordion>
+            <Accordion title="ToolCallChunk" icon="puzzle-piece">
+                **Purpose:** Streaming tool fragments
+                
+                <ParamField body="name" type="string">
+                    Name of the tool being called
+                </ParamField>
+                
+                <ParamField body="args" type="string">
+                    Partial tool arguments (may be incomplete JSON)
+                </ParamField>
+                
+                <ParamField body="id" type="string">
+                    Tool call identifier
+                </ParamField>
+                
+                <ParamField body="index" type="number" required>
+                    Position of this chunk in the stream
+                </ParamField>
+            </Accordion>
+            <Accordion title="InvalidToolCall" icon="triangle-exclamation">
+                **Purpose:** Malformed calls
+                
+                <ParamField body="name" type="string">
+                    Name of the tool that failed to be called
+                </ParamField>
+                
+                <ParamField body="args" type="string">
+                    Raw arguments that failed to parse
+                </ParamField>
+                
+                <ParamField body="error" type="string" required>
+                    Description of what went wrong
+                </ParamField>
+                
+                **Common errors:** Invalid JSON, missing required fields
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+
+    <Accordion title="Server-Side Tool Execution" icon="server">
+        <AccordionGroup>
+            <Accordion title="WebSearchCall" icon="magnifying-glass">
+                **Purpose:** Built-in web search
+                
+                <ParamField body="query" type="string" required>
+                    The search query to execute
+                </ParamField>
+            </Accordion>
+            <Accordion title="WebSearchResult" icon="globe">
+                **Purpose:** Search results
+                
+                <ParamField body="urls" type="string[]" required>
+                    URLs of the search results
+                </ParamField>
+                
+                <ParamField body="snippets" type="string[]">
+                    Text snippets from the search results
+                </ParamField>
+                
+                **Returns:** Top search results with optional snippets
+            </Accordion>
+            <Accordion title="CodeInterpreterCall" icon="code">
+                **Purpose:** Code execution
+                
+                <ParamField body="language" type="string" required>
+                    Programming language to execute (e.g. `python`,
+                    `javascript`, `sql`)
+                </ParamField>
+                
+                <ParamField body="code" type="string" required>
+                    Code to execute
+                </ParamField>
+            </Accordion>
+            <Accordion title="CodeInterpreterResult" icon="terminal">
+                **Purpose:** Execution results
+                
+                <ParamField body="output" type="string" required>
+                    Output from the code execution
+                </ParamField>
+                
+                <ParamField body="error" type="string">
+                    Error message if execution failed
+                </ParamField>
+            </Accordion>
+        </AccordionGroup>
+    </Accordion>
+
+    <Accordion title="Provider-Specific Blocks" icon="plug">
+        <Accordion title="NonStandardContentBlock" icon="asterisk">
+            **Purpose:** Provider-specific escape hatch
+            
+            <ParamField body="type" type="string" required>
+                Must be `"non_standard"`
+            </ParamField>
+            
+            <ParamField body="value" type="object" required>
+                Provider-specific data structure
+            </ParamField>
+            
+            **Usage:** For experimental or provider-unique features
+        </Accordion>
+
+        Additional provider-specific content types may be found within the 
+        [reference documentation](/oss/python/integrations/providers) of each model provider.
+    </Accordion>
+</AccordionGroup>
+
+### Chat models
+
+- `BaseChatModel` now returns `AIMessage` instead of `BaseMessage`
+- New `output_version` parameter controls serialized content format (`'v0'` or `'v1'`)
+    - `LC_OUTPUT_VERSION` environment variable also supported
+- Final streaming chunks include `chunk_position='last'`
+- All messages now include `model_provider` in `ResponseMetadata`
+
+### Content block access
+
+Two ways to access the new format:
+
+1. **`.content_blocks` property** - Always returns typed content blocks with lazy parsing from existing v0 messages
+2. **`output_version='v1'`** - Writes v1 content blocks directly to `.content`
+    - Used in situations where you need to store/serialize the standard blocks
+
+## <Icon icon="arrow-up" /> How to update your code
+
+Keep existing code unchanged and use `.content_blocks` for new features:
+
+```python
+# Existing code continues to work
+model = ChatOpenAI()
+response = model.invoke("Hello!")
+
+# Access new format via property - lazily parsed from v0 messages
+blocks = response.content_blocks  # Always typed ContentBlocks
+text_content = response.text  # Use new .text property instead of previous .text() method
+```
+
+If you need to serialize content blocks (e.g., for storage), use the
+`output_version` flag set on chat models (TODO: merge in invocation option):
+
+```python
+import os
+os.environ["LC_OUTPUT_VERSION"] = "v1"
+
+# Or per model
+model = ChatOpenAI(output_version="v1")
+response = model.invoke("Hello!")
+# response.content is now List[ContentBlock]
+```
+
+### <Icon icon="triangle-exclamation" /> Breaking changes
+
+#### Chat model return type signatures
+
+**The return type signature for chat model invocation has been fixed from `BaseMessage` to `AIMessage`.**
+
+Custom chat models implementing `bind_tools` should update their return signature to avoid type checker errors:
+
+```python
+# Before
+Runnable[LanguageModelInput, BaseMessage]
+
+# After  
+Runnable[LanguageModelInput, AIMessage]
+```
+
+#### Text content access
+
+```python
+# Before
+text = response.text()  # Method call
+
+# After  
+text = response.text    # Property access
+```
+
+#### Message construction
+
+New `content_blocks` parameter available:
+
+```python
+# All existing patterns still work
+AIMessage("Hello")
+AIMessage(content="Hello") 
+AIMessage(["Hello", "world"])
+
+# New typed approach
+AIMessage(content_blocks=[{"type": "text", "text": "Hello"}])
+
+# Or with factories
+from langchain_core.messages.content_blocks import create_text_block
+AIMessage(content_blocks=[create_text_block("Hello")])
+```
+
+#### Partner package updates
+
+The following major partner packages have been updated with v1 support:
+
+- **`langchain-openai`** - Full v1 support, responses API now default
+- **`langchain-anthropic`** - v1 content blocks
+
+### <Icon icon="box-archive" /> Deprecated features
+
+- `.text()` method - Use `.text` property instead
+
+## LangChain package changes
+
+The **`langchain`** release focuses on reducing LangChain's surface area and
+narrowing in on popular and essential abstractions.
+
+### <Icon icon="robot" /> ReAct agent migration
+
+**`create_react_agent` has moved from `langgraph` to `langchain`** with
+significant enhancements:
+
+#### Enhanced structured output
+
+`create_react_agent` now supports coercion of outputs to structured data types:
+
+```python
+from langchain.agents import create_react_agent
+from langchain_core.messages import HumanMessage
+from pydantic import BaseModel
+
+class Weather(BaseModel):
+    temperature: float
+    condition: str
+
+def weather_tool(city: str) -> str:
+    """Get the weather for a city."""
+    return f"it's sunny and 70 degrees in {city}"
+
+agent = create_react_agent(
+    "openai:gpt-4o-mini", 
+    tools=[weather_tool], 
+    response_format=Weather
+)
+result = agent.invoke({"messages": [HumanMessage("What's the weather in SF?")]})
+print(repr(result["structured_response"]))
+#> Weather(temperature=70.0, condition='sunny')
+```
+
+#### Structural improvements
+
+- **Main loop integration**: Structured output is now generated in the main loop
+instead of requiring an additional LLM call
+- **Tool/output choice**: Models can choose between calling tools, generating
+structured output, or both
+- **Cost reduction**: Eliminates extra expense from additional LLM calls
+
+#### Advanced configuration
+
+Two strategies for structured output generation:
+
+1. **Artificial tool calling** (default for most models)
+    - LangChain generates tools matching your response format schema
+    - Model calls these tools, LangChain coerces args to desired format
+
+2. **Provider implementations**
+    - Uses native structured output support when available
+    - Configure with `ProviderStrategy` hint
+
+<Warning>
+**Prompted output** is no longer supported via the `response_format` argument.
+</Warning>
+
+### <Icon icon="triangle-exclamation" /> Error handling improvements
+
+#### Structured output errors
+
+Control error handling via the `handle_errors` arg to `ToolStrategy`:
+
+- **Parsing errors**: Model generates data that doesn't match desired structure
+- **Multiple tool calls**: Model generates 2+ tool calls for structured output schemas
+
+#### Tool calling errors
+
+Updated error handling for tool failures:
+
+- **Invocation failure**: Agent returns artificial `ToolMessage` asking model to retry (unchanged)
+- **Execution failure**: Agent now raises `ToolException` by default instead of retrying (prevents infinite loops)
+
+Configure behavior via `handle_tool_errors` arg to `ToolNode`.
+
+### <Icon icon="ban" /> Breaking changes
+
+#### Pre-bound models
+
+`create_react_agent` no longer supports pre-bound models with tools or configuration:
+
+```python
+# No longer supported
+model_with_tools = ChatOpenAI().bind_tools([some_tool])
+agent = create_react_agent(model_with_tools, tools=[])
+
+# Use instead
+agent = create_react_agent("openai:gpt-4o-mini", tools=[some_tool])
+```
+
+<Note>
+Dynamic model functions can return pre-bound models IF structured output is not used.
+</Note>
+
+#### Import changes
+
+```python
+# Before
+from langgraph.prebuilts import create_react_agent, ToolNode, AgentState
+
+# After
+from langchain.agents import create_react_agent, ToolNode, AgentState
+```
+
+## <Icon icon="book-open" /> See also
+
+- [Versioning](/oss/python/versioning) - Understanding version numbers
+- [Release policy](/oss/python/release-policy) - Detailed release policies
