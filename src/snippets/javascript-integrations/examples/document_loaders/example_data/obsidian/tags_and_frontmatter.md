@@ -16,8 +16,8 @@ tags: ["onetag", "twotag"]
 # Tags
 
 ()#notatag
-# 12345
-# read
+#12345
+#read
 something #tagWithCases
 
 - #tag-with-dash
