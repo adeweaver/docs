@@ -350,9 +350,20 @@
                   {
                     "group": "Release versions",
                     "pages": [
-                      "oss/python/releases",
                       "oss/python/versioning",
-                      "oss/python/release-policy"
+                      "oss/python/release-policy",
+                      {
+                        "group": "Releases",
+                        "pages": [
+                          "oss/python/releases-v1"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "LangChain reference",
+                    "pages": [
+                      "oss/python/langchain-api-reference"
                     ]
                   },
                   {
@@ -1097,7 +1108,7 @@
         "version": "JavaScript",
         "dropdowns": [
           {
-            "dropdown": "OSS frameworks",
+            "dropdown": "OSS (v1-alpha)",
             "icon": "/images/brand/langgraph-pill.svg",
             "description": "LangChain and LangGraph",
             "tabs": [
@@ -1322,9 +1333,20 @@
                   {
                     "group": "Release versions",
                     "pages": [
-                      "oss/javascript/releases",
                       "oss/javascript/versioning",
-                      "oss/javascript/release-policy"
+                      "oss/javascript/release-policy",
+                      {
+                        "group": "Releases",
+                        "pages": [
+                          "oss/javascript/releases-v1"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "LangChain reference",
+                    "pages": [
+                      "oss/javascript/langchain-api-reference"
                     ]
                   },
                   {
