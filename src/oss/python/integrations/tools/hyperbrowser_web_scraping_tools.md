@@ -313,7 +313,7 @@ Here's how to use any of the web tools within an agent:
 ```python
 from langchain_hyperbrowser import HyperbrowserCrawlTool
 from langchain_openai import ChatOpenAI
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 # Initialize the crawl tool
 crawl_tool = HyperbrowserCrawlTool()
@@ -321,7 +321,7 @@ crawl_tool = HyperbrowserCrawlTool()
 # Create the agent with the crawl tool
 llm = ChatOpenAI(temperature=0)
 
-agent = create_react_agent(llm, [crawl_tool])
+agent = create_agent(llm, [crawl_tool])
 user_input = "Crawl https://example.com and get content from up to 5 pages"
 for step in agent.stream(
     {"messages": user_input},

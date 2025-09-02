@@ -160,7 +160,7 @@ Here's how to use your OpenGradient tools with a LangChain agent:
 
 ```python
 from langchain_openai import ChatOpenAI
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 # Initialize LLM
 llm = ChatOpenAI(model="gpt-4o")
@@ -169,7 +169,7 @@ llm = ChatOpenAI(model="gpt-4o")
 tools = toolkit.get_tools()
 
 # Create agent
-agent_executor = create_react_agent(llm, tools)
+agent_executor = create_agent(llm, tools)
 
 # Example query for the agent
 example_query = "What's the current volatility of ETH?"

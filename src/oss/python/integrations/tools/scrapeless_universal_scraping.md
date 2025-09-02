@@ -175,7 +175,7 @@ Chances are you got here by mistake (example.com, anyone?)
 ```python
 from langchain_openai import ChatOpenAI
 from langchain_scrapeless import ScrapelessUniversalScrapingTool
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 llm = ChatOpenAI()
 
@@ -183,7 +183,7 @@ tool = ScrapelessUniversalScrapingTool()
 
 # Use the tool with an agent
 tools = [tool]
-agent = create_react_agent(llm, tools)
+agent = create_agent(llm, tools)
 
 for chunk in agent.stream(
     {

@@ -45,14 +45,14 @@ In order to create an agent that uses the Google Serper tool install Langgraph
 %pip install --upgrade --quiet langgraph langchain-openai
 ```
 
-and use the `create_react_agent` functionality to initialize a ReAct agent. You will also need to set up your OPENAI_API_KEY (visit https://platform.openai.com) in order to access OpenAI's chat models.
+and use the `create_agent` functionality to initialize a ReAct agent. You will also need to set up your OPENAI_API_KEY (visit https://platform.openai.com) in order to access OpenAI's chat models.
 
 
 ```python
 from langchain.chat_models import init_chat_model
 from langchain_community.utilities import GoogleSerperAPIWrapper
 from langchain_core.tools import Tool
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 os.environ["OPENAI_API_KEY"] = "[your openai key]"
 
@@ -65,7 +65,7 @@ tools = [
         description="useful for when you need to ask with search",
     )
 ]
-agent = create_react_agent(llm, tools)
+agent = create_agent(llm, tools)
 
 events = agent.stream(
     {

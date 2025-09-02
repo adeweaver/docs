@@ -82,7 +82,7 @@ import { sendETH } from "@goat-sdk/wallet-evm";
 import { viem } from "@goat-sdk/wallet-viem";
 
 import { ChatOpenAI } from "@langchain/openai";
-import { createReactAgent } from "@langchain/langgraph/prebuilt";
+import { createAgent } from "langchain";
 
 // 1. Create a wallet client
 const account = privateKeyToAccount(
@@ -106,7 +106,7 @@ const model = new ChatOpenAI({
   model: "gpt-4o-mini",
 });
 
-const agent = createReactAgent({ llm: model, tools: tools });
+const agent = createAgent({ llm: model, tools: tools });
 ```
 
 ## Related

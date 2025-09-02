@@ -103,11 +103,11 @@ llm = init_chat_model(model="gpt-4o", model_provider="openai", temperature=0)
 
 ```python
 from langchain_valyu import ValyuSearchTool
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 valyu_search_tool = ValyuSearchTool()
 
-agent = create_react_agent(llm, [valyu_search_tool])
+agent = create_agent(llm, [valyu_search_tool])
 
 user_input = "What are the key factors driving recent stock market volatility, and how do macroeconomic indicators influence equity prices across different sectors?"
 

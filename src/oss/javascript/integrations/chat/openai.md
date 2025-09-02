@@ -353,7 +353,7 @@ If you use a model that supports custom tools, you can use the `ChatOpenAI` clas
 
 ```typescript
 import { ChatOpenAI, customTool } from "@langchain/openai";
-import { createReactAgent } from "@langchain/langgraph/prebuilt";
+import { createAgent } from "langchain";
 
 const codeTool = customTool(
   async (input) => {
@@ -369,7 +369,7 @@ const codeTool = customTool(
 
 const model = new ChatOpenAI({ model: "gpt-5" });
 
-const agent = createReactAgent({
+const agent = createAgent({
   llm: model,
   tools: [codeTool],
 });
@@ -386,7 +386,7 @@ OpenAI supports the specification of a [context-free grammar](https://platform.o
 
 ```typescript
 import { ChatOpenAI, customTool } from "@langchain/openai";
-import { createReactAgent } from "@langchain/langgraph/prebuilt";
+import { createAgent } from "langchain";
 
 const MATH_GRAMMAR = `
 start: expr
@@ -415,7 +415,7 @@ const doMath = customTool(
 
 const model = new ChatOpenAI({ model: "gpt-5" });
 
-const agent = createReactAgent({
+const agent = createAgent({
   llm: model,
   tools: [doMath],
 });

@@ -57,13 +57,13 @@ Cloud cover: 100%
 ```python
 import os
 
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 os.environ["OPENAI_API_KEY"] = ""
 os.environ["OPENWEATHERMAP_API_KEY"] = ""
 
 tools = [weather.run]
-agent = create_react_agent("openai:gpt-4.1-mini", tools)
+agent = create_agent("openai:gpt-4.1-mini", tools)
 ```
 
 

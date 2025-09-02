@@ -104,7 +104,7 @@ tool = Tool(
 from langchain import hub
 from langchain.agents import (
     AgentExecutor,
-    create_react_agent,
+    create_agent,
 )
 from langchain.memory import ConversationBufferMemory
 from langchain_community.llms import NIBittensorLLM
@@ -120,7 +120,7 @@ llm = NIBittensorLLM(
 
 memory = ConversationBufferMemory(memory_key="chat_history")
 
-agent = create_react_agent(llm, tools, prompt)
+agent = create_agent(llm, tools, prompt)
 agent_executor = AgentExecutor(agent=agent, tools=tools, memory=memory)
 
 response = agent_executor.invoke({"input": prompt})

@@ -755,7 +755,7 @@ from langchain.embeddings import init_embeddings
 from langchain_core.documents import Document
 from langchain_core.vectorstores import InMemoryVectorStore
 from langgraph.checkpoint.memory import InMemorySaver
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 
 # Set up vector store
@@ -833,7 +833,7 @@ llm = init_chat_model(
 )
 
 checkpointer = InMemorySaver()
-agent = create_react_agent(llm, [retrieval_tool], checkpointer=checkpointer)
+agent = create_agent(llm, [retrieval_tool], checkpointer=checkpointer)
 
 
 # Invoke on a query

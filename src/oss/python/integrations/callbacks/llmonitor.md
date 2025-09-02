@@ -90,7 +90,7 @@ import os
 from langchain_community.agent_toolkits.load_tools import load_tools
 from langchain_community.callbacks.llmonitor_callback import LLMonitorCallbackHandler
 from langchain_openai import ChatOpenAI
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 os.environ["LLMONITOR_APP_ID"] = ""
 os.environ["OPENAI_API_KEY"] = ""
@@ -99,7 +99,7 @@ os.environ["SERPAPI_API_KEY"] = ""
 handler = LLMonitorCallbackHandler()
 llm = ChatOpenAI(temperature=0, callbacks=[handler])
 tools = load_tools(["serpapi", "llm-math"], llm=llm)
-agent = create_react_agent("openai:gpt-4.1-mini", tools)
+agent = create_agent("openai:gpt-4.1-mini", tools)
 
 input_message = {
     "role": "user",

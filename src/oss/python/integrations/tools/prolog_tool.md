@@ -144,9 +144,9 @@ To use the prolog tool with an agent, pass it to the agent's constructor:
 ```python
 #!pip install langgraph
 
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
-agent_executor = create_react_agent(llm, [prolog_tool])
+agent_executor = create_agent(llm, [prolog_tool])
 ```
 
 The agent takes the query and use the Prolog tool if needed:

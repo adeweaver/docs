@@ -40,10 +40,10 @@ As with all tools, these can be given to an agent to accomplish more complex tas
 
 
 ```python
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 tools = [shell_tool]
-agent = create_react_agent("openai:gpt-4.1-mini", tools)
+agent = create_agent("openai:gpt-4.1-mini", tools)
 
 input_message = {
     "role": "user",

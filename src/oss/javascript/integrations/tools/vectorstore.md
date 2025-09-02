@@ -105,9 +105,9 @@ Then, instantiate the agent:
 
 
 ```typescript
-import { createReactAgent } from "@langchain/langgraph/prebuilt"
+import { createAgent } from "langchain"
 
-const agentExecutor = createReactAgent({ llm, tools });
+const agentExecutor = createAgent({ llm, tools });
 ```
 ```typescript
 const exampleQuery = "What did biden say about Ketanji Brown Jackson is the state of the union address?"

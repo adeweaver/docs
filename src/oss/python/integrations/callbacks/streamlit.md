@@ -50,13 +50,13 @@ thoughts and actions live in your app.
 ```python
 import streamlit as st
 from langchain import hub
-from langchain.agents import AgentExecutor, create_react_agent, load_tools
+from langchain.agents import AgentExecutor, create_agent, load_tools
 from langchain_openai import OpenAI
 
 llm = OpenAI(temperature=0, streaming=True)
 tools = load_tools(["ddg-search"])
 prompt = hub.pull("hwchase17/react")
-agent = create_react_agent(llm, tools, prompt)
+agent = create_agent(llm, tools, prompt)
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
 if prompt := st.chat_input():

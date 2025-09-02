@@ -155,7 +155,7 @@ tools
 
 ```python
 from langchain_openai import ChatOpenAI
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 llm = ChatOpenAI(model="gpt-4o-mini")
 
@@ -165,7 +165,7 @@ Here is documentation on the API:
 {api_spec}
 """.format(api_spec=api_spec)
 
-agent_executor = create_react_agent(llm, tools, prompt=system_message)
+agent_executor = create_agent(llm, tools, prompt=system_message)
 ```
 
 

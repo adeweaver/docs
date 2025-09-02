@@ -178,13 +178,13 @@ Initialize the agent with a subset of tools:
 
 
 ```python
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 tools = [tool for tool in toolkit.get_tools() if tool.name == "Get Issue"]
 assert len(tools) == 1
 tools[0].name = "get_issue"
 
-agent_executor = create_react_agent(llm, tools)
+agent_executor = create_agent(llm, tools)
 ```
 
 And issue it a query:

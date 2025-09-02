@@ -52,7 +52,7 @@ from langchain_openai import ChatOpenAI
 
 # langchain_tableau and langgraph imports
 from langchain_tableau.tools.simple_datasource_qa import initialize_simple_datasource_qa
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 ```
 
 ## Authentication Variables
@@ -132,7 +132,7 @@ from IPython.display import Markdown, display
 
 model = ChatOpenAI(model="gpt-4o", temperature=0)
 
-tableauAgent = create_react_agent(model, tools)
+tableauAgent = create_agent(model, tools)
 
 # Run the agent
 messages = tableauAgent.invoke(

@@ -146,13 +146,13 @@ tool.invoke(model_generated_tool_call)
 
 ## Chaining
 
-Below is a more complete example showing how you might integrate the `create_entity_tool` and `search_entities_tool` tools in a chain or agent with an LLM. This example assumes you have a function (like `create_react_agent`) that sets up a LangChain-style agent capable of calling tools when appropriate.
+Below is a more complete example showing how you might integrate the `create_entity_tool` and `search_entities_tool` tools in a chain or agent with an LLM. This example assumes you have a function (like `create_agent`) that sets up a LangChain-style agent capable of calling tools when appropriate.
 
 
 ```python
 # Example: Using Taiga Tools in an Agent
 
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 from langchain_taiga.tools.taiga_tools import create_entity_tool, search_entities_tool
 
 # 1. Instantiate or configure your language model
@@ -160,7 +160,7 @@ from langchain_taiga.tools.taiga_tools import create_entity_tool, search_entitie
 llm = ...
 
 # 2. Build an agent that has access to these tools
-agent_executor = create_react_agent(llm, [create_entity_tool, search_entities_tool])
+agent_executor = create_agent(llm, [create_entity_tool, search_entities_tool])
 
 # 4. Formulate a user query that may invoke one or both tools
 example_query = "Please create a new user story with the subject 'subject' in slug project: 'slug'"
