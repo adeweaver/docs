@@ -424,7 +424,7 @@ message history and passed back to the model as conversational context.
         to surface the chat model's output in real-time.
         :::
         :::js
-        Callback events allow LangGraph `stream()` and @[streamEvents][`streamEvents()`]
+        Callback events allow LangGraph `stream()` and @[BaseChatModel.streamEvents][`streamEvents()`]
         to surface the chat model's output in real-time.
         :::
     </Accordion>
@@ -464,50 +464,44 @@ message history and passed back to the model as conversational context.
     :::
 </Accordion>
 
-        :::python
-        LangChain chat models can also stream semantic events using `astream_events()`.
+    :::python
+    LangChain chat models can also stream semantic events using `astream_events()`.
 
-        This simplifies filtering based on event types and other metadata, and will
-        aggregate the full message in the background. See below for an example.
+    This simplifies filtering based on event types and other metadata, and will
+    aggregate the full message in the background. See below for an example.
 
-        ```python
-        async for event in model.astream_events("Hello"):
+    ```python
+    async for event in model.astream_events("Hello"):
 
-            if event["event"] == "on_chat_model_start":
-                print(f"Input: {event['data']['input']}")
+        if event["event"] == "on_chat_model_start":
+            print(f"Input: {event['data']['input']}")
 
-            elif event["event"] == "on_chat_model_stream":
-                print(f"Token: {event['data']['chunk'].text}")
+        elif event["event"] == "on_chat_model_stream":
+            print(f"Token: {event['data']['chunk'].text}")
 
-            elif event["event"] == "on_chat_model_end":
-                print(f"Full message: {event['data']['output'].text}")
+        elif event["event"] == "on_chat_model_end":
+            print(f"Full message: {event['data']['output'].text}")
 
-            else:
-                pass
-        ```
-        ```txt
-        Input: Hello
-        Token: Hi
-        Token:  there
-        Token: !
-        Token:  How
-        Token:  can
-        Token:  I
-        ...
-        Full message: Hi there! How can I help today?
-        ```
+        else:
+            pass
+    ```
+    ```txt
+    Input: Hello
+    Token: Hi
+    Token:  there
+    Token: !
+    Token:  How
+    Token:  can
+    Token:  I
+    ...
+    Full message: Hi there! How can I help today?
+    ```
 
-        See the @[astream_events][`astream_events()`] reference for event types and other details.
-        :::
-
-        :::js
-        LangChain chat models can also stream semantic events using `streamEvents()`.
-
-    See the @[`astream_events()`][BaseChatModel.astream_events] reference for event types and other details.
+    See the @[astream_events][`astream_events()`] reference for event types and other details.
     :::
 
     :::js
-    LangChain chat models can also stream semantic events using `streamEvents()`.
+    LangChain chat models can also stream semantic events using [`streamEvents()`][BaseChatModel.streamEvents].
 
     This simplifies filtering based on event types and other metadata, and will
     aggregate the full message in the background. See below for an example.
