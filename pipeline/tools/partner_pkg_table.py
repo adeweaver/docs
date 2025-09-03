@@ -1,5 +1,17 @@
+"""
+This script populates the Python integrations landing page at
+
+oss/python/integrations/providers
+
+Usage (from repo root):
+```
+uv sync --group test
+
+uv run python pipeline/tools/partner_pkg_table.py
+```
+"""
+
 import glob
-import sys
 from pathlib import Path
 
 import requests
@@ -24,14 +36,16 @@ IGNORE_PACKGAGES = {
     # provider index was required
     # can remove these once they have a provider index
     "langchain-yt-dlp",
+    # TODO: add pages for these providers
+    "langchain-recallio",
 }
 
 #####################
 # END CONFIGURATION #
 #####################
 
-DOCS_DIR = Path(__file__).parents[1]
-PACKAGE_YML = Path(__file__).parents[2] / "libs" / "packages.yml"
+DOCS_DIR = Path(__file__).parents[2]
+PACKAGE_YML = "https://raw.githubusercontent.com/langchain-ai/langchain/refs/heads/master/libs/packages.yml"
 
 # for now, only include packages that are in the langchain-ai org
 # because we don't have a policy for inclusion in this table yet,
@@ -62,17 +76,20 @@ def _enrich_package(p: dict) -> dict | None:
 
     p["js_exists"] = bool(p.get("js"))
     custom_provider_page = p.get("provider_page")
-    default_provider_page = f"/docs/integrations/providers/{p['name_short']}/"
+    default_provider_page = f"/oss/integrations/providers/{p['name_short']}/"
     default_provider_page_exists = bool(
-        glob.glob(str(DOCS_DIR / f"docs/integrations/providers/{p['name_short']}.*"))
+        glob.glob(str(DOCS_DIR / f"src/oss/python/integrations/providers/{p['name_short']}.*"))
     )
-    p["provider_page"] = custom_provider_page or (
-        default_provider_page if default_provider_page_exists else None
-    )
-    if p["provider_page"] is None:
+    if custom_provider_page:
+        p["provider_page"] = f"/oss/integrations/providers/{custom_provider_page}"
+        print(f"Custom: {custom_provider_page}")
+    elif default_provider_page_exists:
+        p["provider_page"] = default_provider_page
+        print(f"Default: {default_provider_page}")
+    else:
         msg = (
             f"Provider page not found for {p['name_short']}. "
-            f"Please add one at docs/integrations/providers/{p['name_short']}.{{mdx,ipynb}}"
+            f"Please add one at oss/integrations/providers/{p['name_short']}.{{mdx,ipynb}}"
         )
         raise ValueError(msg)
 
@@ -86,8 +103,11 @@ def _enrich_package(p: dict) -> dict | None:
     return p
 
 
-with open(PACKAGE_YML) as f:
-    data = yaml.safe_load(f)
+# Load package registry
+registry_resp = requests.get(PACKAGE_YML, timeout=10)
+registry_resp.raise_for_status()
+
+data = yaml.safe_load(registry_resp.text)
 
 packages_n = [_enrich_package(p) for p in data["packages"]]
 packages = [p for p in packages_n if p is not None]
@@ -143,6 +163,6 @@ for a provider using the search field.
 
 
 if __name__ == "__main__":
-    output_dir = Path(sys.argv[1]) / "integrations" / "providers"
+    output_dir = Path() / "src" / "oss" / "python" / "integrations" / "providers"
     with open(output_dir / "index.mdx", "w") as f:
         f.write(doc())
