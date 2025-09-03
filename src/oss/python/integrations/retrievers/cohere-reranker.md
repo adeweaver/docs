@@ -6,11 +6,9 @@ title: Cohere reranker
 
 This notebook shows how to use [Cohere's rerank endpoint](https://docs.cohere.com/docs/reranking) in a retriever. This builds on top of ideas in the [ContextualCompressionRetriever](/oss/how-to/contextual_compression).
 
-
 ```python
 %pip install --upgrade --quiet  cohere
 ```
-
 
 ```python
 %pip install --upgrade --quiet  faiss
@@ -19,7 +17,6 @@ This notebook shows how to use [Cohere's rerank endpoint](https://docs.cohere.co
 
 %pip install --upgrade --quiet  faiss-cpu
 ```
-
 
 ```python
 # get a new token: https://dashboard.cohere.ai/
@@ -30,7 +27,6 @@ import os
 if "COHERE_API_KEY" not in os.environ:
     os.environ["COHERE_API_KEY"] = getpass.getpass("Cohere API Key:")
 ```
-
 
 ```python
 # Helper function for printing docs
@@ -45,8 +41,8 @@ def pretty_print_docs(docs):
 ```
 
 ## Set up the base vector store retriever
-Let's start by initializing a simple vector store retriever and storing the 2023 State of the Union speech (in chunks). We can set up the retriever to retrieve a high number (20) of docs.
 
+Let's start by initializing a simple vector store retriever and storing the 2023 State of the Union speech (in chunks). We can set up the retriever to retrieve a high number (20) of docs.
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -65,6 +61,7 @@ query = "What did the president say about Ketanji Brown Jackson"
 docs = retriever.invoke(query)
 pretty_print_docs(docs)
 ```
+
 ```output
 Document 1:
 
@@ -268,10 +265,11 @@ With a duty to one another to the American people to the Constitution.
 
 And with an unwavering resolve that freedom will always triumph over tyranny.
 ```
+
 ## Doing reranking with CohereRerank
+
 Now let's wrap our base retriever with a `ContextualCompressionRetriever`. We'll add an `CohereRerank`, uses the Cohere rerank endpoint to rerank the returned results.
 Do note that it is mandatory to specify the model name in CohereRerank!
-
 
 ```python
 from langchain.retrievers.contextual_compression import ContextualCompressionRetriever
@@ -292,11 +290,9 @@ pretty_print_docs(compressed_docs)
 
 You can of course use this retriever within a QA pipeline
 
-
 ```python
 from langchain.chains import RetrievalQA
 ```
-
 
 ```python
 chain = RetrievalQA.from_chain_type(
@@ -304,12 +300,9 @@ chain = RetrievalQA.from_chain_type(
 )
 ```
 
-
 ```python
 chain({"query": query})
 ```
-
-
 
 ```output
 {'query': 'What did the president say about Ketanji Brown Jackson',

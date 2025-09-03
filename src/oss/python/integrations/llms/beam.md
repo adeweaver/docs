@@ -8,13 +8,11 @@ Calls the Beam API wrapper to deploy and make subsequent calls to an instance of
 
 Install the Beam CLI
 
-
 ```python
 !curl https://raw.githubusercontent.com/slai-labs/get-beam/main/get-beam.sh -sSfL | sh
 ```
 
 Register API Keys and set your beam client id and secret environment variables:
-
 
 ```python
 import os
@@ -32,7 +30,6 @@ os.environ["BEAM_CLIENT_SECRET"] = beam_client_secret
 
 Install the Beam SDK:
 
-
 ```python
 %pip install --upgrade --quiet  beam-sdk
 ```
@@ -40,7 +37,6 @@ Install the Beam SDK:
 **Deploy and call Beam directly from langchain!**
 
 Note that a cold start might take a couple of minutes to return the response, but subsequent calls will be faster!
-
 
 ```python
 from langchain_community.llms.beam import Beam

@@ -11,11 +11,9 @@ title: Hologres
 This notebook shows how to use functionality related to the `Hologres Proxima` vector database.
 Click [here](https://www.alibabacloud.com/zh/product/hologres) to fast deploy a Hologres cloud instance.
 
-
 ```python
 %pip install --upgrade --quiet  langchain_community hologres-vector
 ```
-
 
 ```python
 from langchain_community.vectorstores import Hologres
@@ -24,7 +22,6 @@ from langchain_text_splitters import CharacterTextSplitter
 ```
 
 Split documents and get embeddings by call OpenAI API
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -38,6 +35,7 @@ embeddings = OpenAIEmbeddings()
 ```
 
 Connect to Hologres by setting related ENVIRONMENTS.
+
 ```
 export PG_HOST={host}
 export PG_PORT={port} # Optional, default is 80
@@ -47,7 +45,6 @@ export PG_PASSWORD={password}
 ```
 
 Then store your embeddings and documents into Hologres
-
 
 ```python
 import os
@@ -70,16 +67,15 @@ vector_db = Hologres.from_documents(
 
 Query and retrieve data
 
-
 ```python
 query = "What did the president say about Ketanji Brown Jackson"
 docs = vector_db.similarity_search(query)
 ```
 
-
 ```python
 print(docs[0].page_content)
 ```
+
 ```output
 Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections.
 

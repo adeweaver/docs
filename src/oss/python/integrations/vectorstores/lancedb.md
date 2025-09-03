@@ -6,23 +6,19 @@ title: LanceDB
 
 This notebook shows how to use functionality related to the `LanceDB` vector database based on the Lance data format.
 
-
 ```python
 ! pip install tantivy
 ```
 
-
 ```python
 ! pip install -U langchain-openai langchain-community
 ```
-
 
 ```python
 ! pip install lancedb
 ```
 
 We want to use OpenAIEmbeddings so we have to get the OpenAI API Key.
-
 
 ```python
 import getpass
@@ -32,11 +28,9 @@ if "OPENAI_API_KEY" not in os.environ:
     os.environ["OPENAI_API_KEY"] = getpass.getpass("OpenAI API Key:")
 ```
 
-
 ```python
 ! rm -rf /tmp/lancedb
 ```
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -51,8 +45,7 @@ documents = CharacterTextSplitter().split_documents(documents)
 embeddings = OpenAIEmbeddings()
 ```
 
-##### For LanceDB cloud, you can invoke the vector store as follows :
-
+##### For LanceDB cloud, you can invoke the vector store as follows
 
 ```python
 db_url = "db://lang_test" # url of db you created
@@ -70,8 +63,6 @@ vector_store = LanceDB(
 
 You can also add `region`, `api_key`, `uri` to `from_documents()` classmethod
 
-
-
 ```python
 from lancedb.rerankers import LinearCombinationReranker
 
@@ -81,12 +72,12 @@ docsearch = LanceDB.from_documents(documents, embeddings, reranker=reranker)
 query = "What did the president say about Ketanji Brown Jackson"
 ```
 
-
 ```python
 docs = docsearch.similarity_search_with_relevance_scores(query)
 print("relevance score - ", docs[0][1])
 print("text- ", docs[0][0].page_content[:1000])
 ```
+
 ```output
 relevance score -  0.7066475030191711
 text-  They were responding to a 9-1-1 call when a man shot and killed them with a stolen gun.
@@ -117,6 +108,7 @@ docs = docsearch.similarity_search_with_score(query="Headaches", query_type="hyb
 print("distance - ", docs[0][1])
 print("text- ", docs[0][0].page_content[:1000])
 ```
+
 ```output
 distance -  0.30000001192092896
 text-  My administration is providing assistance with job training and housing, and now helping lower-income veterans get VA care debt-free.
@@ -151,10 +143,13 @@ Stationed near Baghdad, just ya
 ```python
 print("reranker : ", docsearch._reranker)
 ```
+
 ```output
 reranker :  <lancedb.rerankers.linear_combination.LinearCombinationReranker object at 0x107ef1130>
 ```
+
 Additionaly, to explore the table you can load it into a df or save it in a csv file:
+
 ```python
 tbl = docsearch.get_table()
 print("tbl:", tbl)
@@ -164,7 +159,6 @@ pd_df = tbl.to_pandas()
 # you can also create a new vector store object using an older connection object:
 vector_store = LanceDB(connection=tbl, embedding=embeddings)
 ```
-
 
 ```python
 docs = docsearch.similarity_search(
@@ -179,6 +173,7 @@ print("\nSQL filtering :\n")
 docs = docsearch.similarity_search(query=query, filter="text LIKE '%Officer Rivera%'")
 print(docs[0].page_content)
 ```
+
 ```output
 metadata : {'source': '../../how_to/state_of_the_union.txt'}
 
@@ -244,28 +239,24 @@ We’ve set up joint patrols with Mexico and Guatemala to catch more human traff
 
 We’re putting in place dedicated immigration judges so families fleeing persecution and violence can have their cases heard faster.
 ```
-## Adding images
 
+## Adding images
 
 ```python
 ! pip install -U langchain-experimental
 ```
 
-
 ```python
 ! pip install open_clip_torch torch
 ```
-
 
 ```python
 ! rm -rf '/tmp/multimmodal_lance'
 ```
 
-
 ```python
 from langchain_experimental.open_clip import OpenCLIPEmbeddings
 ```
-
 
 ```python
 import os
@@ -296,7 +287,6 @@ for i, url in enumerate(image_urls, start=1):
         f.write(response.content)
 ```
 
-
 ```python
 from langchain_community.vectorstores import LanceDB
 
@@ -306,55 +296,39 @@ vec_store = LanceDB(
 )
 ```
 
-
 ```python
 vec_store.add_images(uris=image_uris)
 ```
-
-
 
 ```output
 ['b673620b-01f0-42ca-a92e-d033bb92c0a6',
  '99c3a5b0-b577-417a-8177-92f4a655dbfb']
 ```
 
-
-
 ```python
 vec_store.add_texts(texts)
 ```
-
-
 
 ```output
 ['f7adde5d-a4a3-402b-9e73-088b230722c3',
  'cbed59da-0aec-4bff-8820-9e59d81a2140']
 ```
 
-
-
 ```python
 img_embed = vec_store._embedding.embed_query("bird")
 ```
-
 
 ```python
 vec_store.similarity_search_by_vector(img_embed)[0]
 ```
 
-
-
 ```output
 Document(page_content='bird', metadata={'id': 'f7adde5d-a4a3-402b-9e73-088b230722c3'})
 ```
 
-
-
 ```python
 vec_store._table
 ```
-
-
 
 ```output
 LanceTable(connection=LanceDBConnection(/tmp/lancedb), name="multimodal_test")

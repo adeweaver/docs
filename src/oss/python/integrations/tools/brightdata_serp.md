@@ -4,34 +4,28 @@ title: BrightDataSERP
 
 [Bright Data](https://brightdata.com/) provides a powerful SERP API that allows you to query search engines (Google,Bing.DuckDuckGo,Yandex) with geo-targeting and advanced customization options, particularly useful for AI agents requiring real-time web information.
 
-
 ## Overview
 
 ### Integration details
-
 
 |Class|Package|Serializable|JS support|Package latest|
 |:--|:--|:-:|:-:|:-:|
 |[BrightDataSERP](https://pypi.org/project/langchain-brightdata/)|[langchain-brightdata](https://pypi.org/project/langchain-brightdata/)|✅|❌|![PyPI - Version](https://img.shields.io/pypi/v/langchain-brightdata?style=flat-square&label=%20)|
 
-
 ### Tool features
-
 
 |Native async|Returns artifact|Return data|Pricing|
 |:-:|:-:|:--|:-:|
 |❌|❌|Title, URL, snippet, position, and other search result data|Requires Bright Data account|
 
-
-
 ## Setup
 
 The integration lives in the `langchain-brightdata` package.
 pip install langchain-brightdata
+
 ### Credentials
 
 You'll need a Bright Data API key to use this tool. You can set it as an environment variable:
-
 
 ```python
 import os
@@ -40,7 +34,6 @@ os.environ["BRIGHT_DATA_API_KEY"] = "your-api-key"
 ```
 
 Or pass it directly when initializing the tool:
-
 
 ```python
 from langchain_brightdata import BrightDataSERP
@@ -60,22 +53,21 @@ The tool accepts various parameters during instantiation:
 - `language` (optional, str): Two-letter language code for the search results (e.g., "en", "es", "fr", "de"). Default is "en".
 - `results_count` (optional, int): Number of search results to return. Default is 10. Maximum value is typically 100.
 - `search_type` (optional, str): Type of search to perform. Options include:
-    - None (default): Regular web search
-    - "isch": Images search
-    - "shop": Shopping search
-    - "nws": News search
-    - "jobs": Jobs search
+  - None (default): Regular web search
+  - "isch": Images search
+  - "shop": Shopping search
+  - "nws": News search
+  - "jobs": Jobs search
 - `device_type` (optional, str): Device type to simulate for the search. Options include:
-    - None (default): Desktop device
-    - "mobile": Generic mobile device
-    - "ios": iOS device (iPhone)
-    - "android": Android device
+  - None (default): Desktop device
+  - "mobile": Generic mobile device
+  - "ios": iOS device (iPhone)
+  - "android": Android device
 - `parse_results` (optional, bool): Whether to return parsed JSON results. Default is False, which returns raw HTML response.
 
 ## Invocation
 
 ### Basic Usage
-
 
 ```python
 from langchain_brightdata import BrightDataSERP
@@ -92,7 +84,6 @@ print(results)
 ```
 
 ### Advanced Usage with Parameters
-
 
 ```python
 from langchain_brightdata import BrightDataSERP
@@ -137,9 +128,7 @@ The BrightDataSERP tool accepts several parameters for customization:
 |`device_type`|str|Device type: None (desktop), "mobile", "ios", "android"|
 |`parse_results`|bool|Whether to return structured JSON (default: False)|
 
-
 ## Use within an agent
-
 
 ```python
 from langchain_brightdata import BrightDataSERP

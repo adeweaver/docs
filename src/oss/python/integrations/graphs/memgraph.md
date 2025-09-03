@@ -15,11 +15,13 @@ To go over this guide, you will need [Docker](https://www.docker.com/get-started
 To quickly run **Memgraph Platform** (Memgraph database + MAGE library + Memgraph Lab) for the first time, do the following:
 
 On Linux/MacOS:
+
 ```
 curl https://install.memgraph.com | sh
 ```
 
 On Windows:
+
 ```
 iwr https://windows.memgraph.com | iex
 ```
@@ -39,7 +41,6 @@ You can either run the provided code blocks in this notebook or use a separate P
 Memgraph's integration with LangChain includes natural language querying. To utilized it, first do all the necessary imports. We will discuss them as they appear in the code.
 
 First, instantiate `MemgraphGraph`. This object holds the connection to the running Memgraph instance. Make sure to set up all the environment variables properly.
-
 
 ```python
 import os
@@ -65,7 +66,6 @@ The `refresh_schema` is initially set to `False` because there is still no data 
 To populate the database, first make sure it's empty. The most efficient way to do that is to switch to the in-memory analytical storage mode, drop the graph and go back to the in-memory transactional mode. Learn more about Memgraph's [storage modes](https://memgraph.com/docs/fundamentals/storage-memory-usage#storage-modes).
 
 The data we'll add to the database is about video games of different genres available on various platforms and related to publishers.
-
 
 ```python
 # Drop graph
@@ -93,12 +93,9 @@ query = """
 graph.query(query)
 ```
 
-
-
 ```output
 []
 ```
-
 
 Notice how the `graph` object holds the `query` method. That method executes query in Memgraph and it is also used by the `MemgraphQAChain` to query the database.
 
@@ -106,17 +103,16 @@ Notice how the `graph` object holds the `query` method. That method executes que
 
 Since the new data is created in Memgraph, it is necessary to refresh the schema. The generated schema will be used by the `MemgraphQAChain` to instruct LLM to better generate Cypher queries.
 
-
 ```python
 graph.refresh_schema()
 ```
 
 To familiarize yourself with the data and verify the updated graph schema, you can print it using the following statement:
 
-
 ```python
 print(graph.get_schema)
 ```
+
 ```output
 Node labels and properties (name and type) are:
 - labels: (:Platform)
@@ -137,6 +133,7 @@ Nodes are connected with the following relationships:
 (:Game)-[:PUBLISHED_BY]->(:Publisher)
 (:Game)-[:AVAILABLE_ON]->(:Platform)
 ```
+
 ### Querying the database
 
 To interact with the OpenAI API, you must configure your API key as an environment variable. This ensures proper authorization for your requests. You can find more information on obtaining your API key [here](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key). To configure the API key, you can use Python [os](https://docs.python.org/3/library/os.html) package:
@@ -149,7 +146,6 @@ Run the above code snippet if you're running the code within the Jupyter noteboo
 
 Next, create `MemgraphQAChain`, which will be utilized in the question-answering process based on your graph data. The `temperature parameter` is set to zero to ensure predictable and consistent answers. You can set `verbose` parameter to `True` to receive more detailed messages regarding query generation.
 
-
 ```python
 chain = MemgraphQAChain.from_llm(
     ChatOpenAI(temperature=0),
@@ -161,11 +157,11 @@ chain = MemgraphQAChain.from_llm(
 
 Now you can start asking questions!
 
-
 ```python
 response = chain.invoke("Which platforms is Baldur's Gate 3 available on?")
 print(response["result"])
 ```
+
 ```output
 MATCH (:Game{name: "Baldur's Gate 3"})-[:AVAILABLE_ON]->(platform:Platform)
 RETURN platform.name
@@ -176,18 +172,20 @@ Baldur's Gate 3 is available on PlayStation 5, Mac OS, Windows, and Xbox Series 
 response = chain.invoke("Is Baldur's Gate 3 available on Windows?")
 print(response["result"])
 ```
+
 ```output
 MATCH (:Game{name: "Baldur's Gate 3"})-[:AVAILABLE_ON]->(:Platform{name: "Windows"})
 RETURN "Yes"
 Yes, Baldur's Gate 3 is available on Windows.
 ```
+
 ### Chain modifiers
 
 To modify the behavior of your chain and obtain more context or additional information, you can modify the chain's parameters.
 
 #### Return direct query results
-The `return_direct` modifier specifies whether to return the direct results of the executed Cypher query or the processed natural language response.
 
+The `return_direct` modifier specifies whether to return the direct results of the executed Cypher query or the processed natural language response.
 
 ```python
 # Return the result of querying the graph directly
@@ -202,14 +200,16 @@ chain = MemgraphQAChain.from_llm(
 response = chain.invoke("Which studio published Baldur's Gate 3?")
 print(response["result"])
 ```
+
 ```output
 MATCH (g:Game {name: "Baldur's Gate 3"})-[:PUBLISHED_BY]->(p:Publisher)
 RETURN p.name
 [{'p.name': 'Larian Studios'}]
 ```
-#### Return query intermediate steps
-The `return_intermediate_steps` chain modifier enhances the returned response by including the intermediate steps of the query in addition to the initial query result.
 
+#### Return query intermediate steps
+
+The `return_intermediate_steps` chain modifier enhances the returned response by including the intermediate steps of the query in addition to the initial query result.
 
 ```python
 # Return all the intermediate steps of query execution
@@ -225,16 +225,17 @@ response = chain.invoke("Is Baldur's Gate 3 an Adventure game?")
 print(f"Intermediate steps: {response['intermediate_steps']}")
 print(f"Final response: {response['result']}")
 ```
+
 ```output
 MATCH (:Game {name: "Baldur's Gate 3"})-[:HAS_GENRE]->(:Genre {name: "Adventure"})
 RETURN "Yes"
 Intermediate steps: [{'query': 'MATCH (:Game {name: "Baldur\'s Gate 3"})-[:HAS_GENRE]->(:Genre {name: "Adventure"})\nRETURN "Yes"'}, {'context': [{'"Yes"': 'Yes'}]}]
 Final response: Yes.
 ```
+
 #### Limit the number of query results
 
 The `top_k` modifier can be used when you want to restrict the maximum number of query results.
-
 
 ```python
 # Limit the maximum number of results returned by query
@@ -249,17 +250,18 @@ chain = MemgraphQAChain.from_llm(
 response = chain.invoke("What genres are associated with Baldur's Gate 3?")
 print(response["result"])
 ```
+
 ```output
 MATCH (:Game {name: "Baldur's Gate 3"})-[:HAS_GENRE]->(g:Genre)
 RETURN g.name;
 Adventure, Role-Playing Game
 ```
+
 ### Advanced querying
 
 As the complexity of your solution grows, you might encounter different use-cases that require careful handling. Ensuring your application's scalability is essential to maintain a smooth user flow without any hitches.
 
 Let's instantiate our chain once again and attempt to ask some questions that users might potentially ask.
-
 
 ```python
 chain = MemgraphQAChain.from_llm(
@@ -272,17 +274,18 @@ chain = MemgraphQAChain.from_llm(
 response = chain.invoke("Is Baldur's Gate 3 available on PS5?")
 print(response["result"])
 ```
+
 ```output
 MATCH (:Game{name: "Baldur's Gate 3"})-[:AVAILABLE_ON]->(:Platform{name: "PS5"})
 RETURN "Yes"
 I don't know the answer.
 ```
+
 The generated Cypher query looks fine, but we didn't receive any information in response. This illustrates a common challenge when working with LLMs - the misalignment between how users phrase queries and how data is stored. In this case, the difference between user perception and the actual data storage can cause mismatches. Prompt refinement, the process of honing the model's prompts to better grasp these distinctions, is an efficient solution that tackles this issue. Through prompt refinement, the model gains increased proficiency in generating precise and pertinent queries, leading to the successful retrieval of the desired data.
 
 #### Prompt refinement
 
 To address this, we can adjust the initial Cypher prompt of the QA chain. This involves adding guidance to the LLM on how users can refer to specific platforms, such as PS5 in our case. We achieve this using the LangChain [PromptTemplate](/docs/how_to#prompt-templates), creating a modified initial prompt. This modified prompt is then supplied as an argument to our refined `MemgraphQAChain` instance.
-
 
 ```python
 MEMGRAPH_GENERATION_TEMPLATE = """Your task is to directly translate natural language inquiry into precise and executable Cypher query for Memgraph database.
@@ -327,11 +330,13 @@ chain = MemgraphQAChain.from_llm(
 response = chain.invoke("Is Baldur's Gate 3 available on PS5?")
 print(response["result"])
 ```
+
 ```output
 MATCH (:Game{name: "Baldur's Gate 3"})-[:AVAILABLE_ON]->(:Platform{name: "PlayStation 5"})
 RETURN "Yes"
 Yes, Baldur's Gate 3 is available on PS5.
 ```
+
 Now, with the revised initial Cypher prompt that includes guidance on platform naming, we are obtaining accurate and relevant results that align more closely with user queries.
 
 This approach allows for further improvement of your QA chain. You can effortlessly integrate extra prompt refinement data into your chain, thereby enhancing the overall user experience of your app.
@@ -349,14 +354,12 @@ The steps of constructing a knowledge graph from the text are:
 
 Besides all the imports in the [setup section](#setting-up), import `LLMGraphTransformer` and `Document` which will be used to extract structured information from text.
 
-
 ```python
 from langchain_core.documents import Document
 from langchain_experimental.graph_transformers import LLMGraphTransformer
 ```
 
 Below is an example text about Charles Darwin ([source](https://en.wikipedia.org/wiki/Charles_Darwin)) from which knowledge graph will be constructed.
-
 
 ```python
 text = """
@@ -375,7 +378,6 @@ text = """
 
 The next step is to initialize `LLMGraphTransformer` from the desired LLM and convert the document to the graph structure.
 
-
 ```python
 llm = ChatOpenAI(temperature=0, model_name="gpt-4-turbo")
 llm_transformer = LLMGraphTransformer(llm=llm)
@@ -385,17 +387,17 @@ graph_documents = llm_transformer.convert_to_graph_documents(documents)
 
 Under the hood, LLM extracts important entities from the text and returns them as a list of nodes and relationships. Here's how it looks like:
 
-
 ```python
 print(graph_documents)
 ```
+
 ```output
 [GraphDocument(nodes=[Node(id='Charles Robert Darwin', type='Person', properties={}), Node(id='English', type='Nationality', properties={}), Node(id='Naturalist', type='Profession', properties={}), Node(id='Geologist', type='Profession', properties={}), Node(id='Biologist', type='Profession', properties={}), Node(id='Evolutionary Biology', type='Field', properties={}), Node(id='Common Ancestor', type='Concept', properties={}), Node(id='Scientific Concept', type='Concept', properties={}), Node(id='Alfred Russel Wallace', type='Person', properties={}), Node(id='Natural Selection', type='Concept', properties={}), Node(id='Selective Breeding', type='Concept', properties={}), Node(id='Westminster Abbey', type='Location', properties={})], relationships=[Relationship(source=Node(id='Charles Robert Darwin', type='Person', properties={}), target=Node(id='English', type='Nationality', properties={}), type='NATIONALITY', properties={}), Relationship(source=Node(id='Charles Robert Darwin', type='Person', properties={}), target=Node(id='Naturalist', type='Profession', properties={}), type='PROFESSION', properties={}), Relationship(source=Node(id='Charles Robert Darwin', type='Person', properties={}), target=Node(id='Geologist', type='Profession', properties={}), type='PROFESSION', properties={}), Relationship(source=Node(id='Charles Robert Darwin', type='Person', properties={}), target=Node(id='Biologist', type='Profession', properties={}), type='PROFESSION', properties={}), Relationship(source=Node(id='Charles Robert Darwin', type='Person', properties={}), target=Node(id='Evolutionary Biology', type='Field', properties={}), type='CONTRIBUTION', properties={}), Relationship(source=Node(id='Common Ancestor', type='Concept', properties={}), target=Node(id='Scientific Concept', type='Concept', properties={}), type='BASIS', properties={}), Relationship(source=Node(id='Charles Robert Darwin', type='Person', properties={}), target=Node(id='Alfred Russel Wallace', type='Person', properties={}), type='COLLABORATION', properties={}), Relationship(source=Node(id='Natural Selection', type='Concept', properties={}), target=Node(id='Selective Breeding', type='Concept', properties={}), type='COMPARISON', properties={}), Relationship(source=Node(id='Charles Robert Darwin', type='Person', properties={}), target=Node(id='Westminster Abbey', type='Location', properties={}), type='BURIAL', properties={})], source=Document(metadata={}, page_content='\n    Charles Robert Darwin was an English naturalist, geologist, and biologist,\n    widely known for his contributions to evolutionary biology. His proposition that\n    all species of life have descended from a common ancestor is now generally\n    accepted and considered a fundamental scientific concept. In a joint\n    publication with Alfred Russel Wallace, he introduced his scientific theory that\n    this branching pattern of evolution resulted from a process he called natural\n    selection, in which the struggle for existence has a similar effect to the\n    artificial selection involved in selective breeding. Darwin has been\n    described as one of the most influential figures in human history and was\n    honoured by burial in Westminster Abbey.\n'))]
 ```
+
 ### Storing into Memgraph
 
 Once you have the data ready in a format of `GraphDocument`, that is, nodes and relationships, you can use `add_graph_documents` method to import it into Memgraph. That method transforms the list of `graph_documents` into appropriate Cypher queries that need to be executed in Memgraph. Once that's done, a knowledge graph is stored in Memgraph.
-
 
 ```python
 # Empty the database
@@ -417,7 +419,6 @@ In case you tried this out and got a different graph, that is expected behavior.
 
 Additionally, you have the flexibility to define specific types of nodes and relationships for extraction according to your requirements.
 
-
 ```python
 llm_transformer_filtered = LLMGraphTransformer(
     llm=llm,
@@ -431,16 +432,17 @@ graph_documents_filtered = llm_transformer_filtered.convert_to_graph_documents(
 print(f"Nodes:{graph_documents_filtered[0].nodes}")
 print(f"Relationships:{graph_documents_filtered[0].relationships}")
 ```
+
 ```output
 Nodes:[Node(id='Charles Robert Darwin', type='Person', properties={}), Node(id='English', type='Nationality', properties={}), Node(id='Evolutionary Biology', type='Concept', properties={}), Node(id='Natural Selection', type='Concept', properties={}), Node(id='Alfred Russel Wallace', type='Person', properties={})]
 Relationships:[Relationship(source=Node(id='Charles Robert Darwin', type='Person', properties={}), target=Node(id='English', type='Nationality', properties={}), type='NATIONALITY', properties={}), Relationship(source=Node(id='Charles Robert Darwin', type='Person', properties={}), target=Node(id='Evolutionary Biology', type='Concept', properties={}), type='INVOLVED_IN', properties={}), Relationship(source=Node(id='Charles Robert Darwin', type='Person', properties={}), target=Node(id='Natural Selection', type='Concept', properties={}), type='INVOLVED_IN', properties={}), Relationship(source=Node(id='Charles Robert Darwin', type='Person', properties={}), target=Node(id='Alfred Russel Wallace', type='Person', properties={}), type='COLLABORATES_WITH', properties={})]
 ```
+
 Here's how the graph would like in such case:
 
 ![memgraph-kg-2](../../../static/img/memgraph_kg_2.png)
 
 Your graph can also have `__Entity__` labels on all nodes which will be indexed for faster retrieval.
-
 
 ```python
 # Drop graph
@@ -457,7 +459,6 @@ Here's how the graph would look like:
 ![memgraph-kg-3](../../../static/img/memgraph_kg_3.png)
 
 There is also an option to include the source of the information that's obtained in the graph. To do that, set `include_source` to `True` and then the source document is stored and it is linked to the nodes in the graph using the `MENTIONS` relationship.
-
 
 ```python
 # Drop graph
@@ -478,7 +479,6 @@ You can combine having both `__Entity__` label and document source. Still, be aw
 
 In the end, you can query the knowledge graph, as explained in the section before:
 
-
 ```python
 chain = MemgraphQAChain.from_llm(
     ChatOpenAI(temperature=0),
@@ -488,6 +488,7 @@ chain = MemgraphQAChain.from_llm(
 )
 print(chain.invoke("Who Charles Robert Darwin collaborated with?")["result"])
 ```
+
 ```output
 MATCH (:Person {id: "Charles Robert Darwin"})-[:COLLABORATION]->(collaborator)
 RETURN collaborator;

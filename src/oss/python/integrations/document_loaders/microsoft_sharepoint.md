@@ -7,6 +7,7 @@ title: Microsoft SharePoint
 This notebook covers how to load documents from the [SharePoint Document Library](https://support.microsoft.com/en-us/office/what-is-a-document-library-3b5976dd-65cf-4c9e-bf5a-713c10ca2872). By default the document loader loads `pdf`, `doc`, `docx` and `txt` files. You can load other file types by providing appropriate parsers (see more below).
 
 ## Prerequisites
+
 1. Register an application with the [Microsoft identity platform](https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) instructions.
 2. When registration finishes, the Azure portal displays the app registration's Overview pane. You see the Application (client) ID. Also called the `client ID`, this value uniquely identifies your application in the Microsoft identity platform.
 3. During the steps you will be following at **item 1**, you can set the redirect URI as `https://login.microsoftonline.com/common/oauth2/nativeclient`
@@ -69,6 +70,7 @@ documents = loader.load()
 ```
 
 If you wish to load documents from the root directory, you can omit `folder_id`, `folder_path` and `documents_ids` and loader will load root directory.
+
 ```python
 # loads documents from root directory
 loader = SharePointLoader(document_library_id="YOUR DOCUMENT LIBRARY ID", auth_with_token=True)
@@ -76,6 +78,7 @@ documents = loader.load()
 ```
 
 Combined with `recursive=True` you can simply load all documents from whole SharePoint:
+
 ```python
 # loads documents from root directory
 loader = SharePointLoader(document_library_id="YOUR DOCUMENT LIBRARY ID",
@@ -98,7 +101,9 @@ documents = loader.load()
 ```
 
 #### 📑 Choosing supported file types and preffered parsers
+
 By default `SharePointLoader` loads file types defined in [`document_loaders/parsers/registry`](https://github.com/langchain-ai/langchain/blob/master/libs/community/langchain_community/document_loaders/parsers/registry.py#L10-L22) using the default parsers (see below).
+
 ```python
 def _get_default_parser() -> BaseBlobParser:
     """Get default mime-type based parser."""
@@ -114,6 +119,7 @@ def _get_default_parser() -> BaseBlobParser:
         fallback_parser=None,
     )
 ```
+
 You can override this behavior by passing `handlers` argument to `SharePointLoader`.
 Pass a dictionary mapping either file extensions (like `"doc"`, `"pdf"`, etc.)
 or MIME types (like `"application/pdf"`, `"text/plain"`, etc.) to parsers.
@@ -141,9 +147,11 @@ loader = SharePointLoader(document_library_id="...",
                             handlers=handlers # pass handlers to SharePointLoader
                             )
 ```
+
 In case multiple file extensions map to the same MIME type, the last dictionary item will
 apply.
 Example:
+
 ```python
 # 'jpg' and 'jpeg' both map to 'image/jpeg' MIME type. SecondParser() will be used
 # to parse all jpg/jpeg files.

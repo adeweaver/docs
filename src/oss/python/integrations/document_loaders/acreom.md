@@ -8,16 +8,13 @@ Below is an example on how to load a local acreom vault into Langchain. As the l
 
 Vault files may contain some metadata which is stored as a YAML header. These values will be added to the document’s metadata if `collect_metadata` is set to true.
 
-
 ```python
 from langchain_community.document_loaders import AcreomLoader
 ```
 
-
 ```python
 loader = AcreomLoader("<path-to-acreom-vault>", collect_metadata=False)
 ```
-
 
 ```python
 docs = loader.load()

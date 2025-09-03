@@ -8,18 +8,14 @@ This notebook shows how to use agents to interact with a `Pandas DataFrame`. It 
 
 **NOTE: Since langchain migrated to v0.3 you should upgrade langchain_openai and langchain.   This would avoid import errors.**
 
-
 pip install --upgrade langchain_openai
 pip install --upgrade langchain
-
-
 
 ```python
 from langchain.agents.agent_types import AgentType
 from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent
 from langchain_openai import ChatOpenAI
 ```
-
 
 ```python
 import pandas as pd
@@ -34,7 +30,6 @@ df = pd.read_csv(
 
 This shows how to initialize the agent using the `ZERO_SHOT_REACT_DESCRIPTION` agent type.
 
-
 ```python
 agent = create_pandas_dataframe_agent(OpenAI(temperature=0), df, verbose=True)
 ```
@@ -42,7 +37,6 @@ agent = create_pandas_dataframe_agent(OpenAI(temperature=0), df, verbose=True)
 ## Using OpenAI Functions
 
 This shows how to initialize the agent using the OPENAI_FUNCTIONS agent type. Note that this is an alternative to the above.
-
 
 ```python
 agent = create_pandas_dataframe_agent(
@@ -53,10 +47,10 @@ agent = create_pandas_dataframe_agent(
 )
 ```
 
-
 ```python
 agent.invoke("how many rows are there?")
 ```
+
 ```output
 > Entering new  chain...
 
@@ -68,16 +62,14 @@ Invoking: `python_repl_ast` with `df.shape[0]`
 > Finished chain.
 ```
 
-
 ```output
 'There are 891 rows in the dataframe.'
 ```
 
-
-
 ```python
 agent.invoke("how many people have more than 3 siblings")
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 Thought: I need to count the number of people with more than 3 siblings
@@ -90,16 +82,14 @@ Final Answer: 30 people have more than 3 siblings.
 > Finished chain.
 ```
 
-
 ```output
 '30 people have more than 3 siblings.'
 ```
 
-
-
 ```python
 agent.invoke("whats the square root of the average age?")
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 Thought: I need to calculate the average age first
@@ -124,27 +114,24 @@ Final Answer: The square root of the average age is 5.449689683556195.
 > Finished chain.
 ```
 
-
 ```output
 'The square root of the average age is 5.449689683556195.'
 ```
 
-
 ## Multi DataFrame Example
 
 This next part shows how the agent can interact with multiple dataframes passed in as a list.
-
 
 ```python
 df1 = df.copy()
 df1["Age"] = df1["Age"].fillna(df1["Age"].mean())
 ```
 
-
 ```python
 agent = create_pandas_dataframe_agent(OpenAI(temperature=0), [df, df1], verbose=True)
 agent.invoke("how many rows in the age column are different?")
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 Thought: I need to compare the age columns in both dataframes
@@ -157,12 +144,9 @@ Final Answer: 177 rows in the age column are different.
 > Finished chain.
 ```
 
-
 ```output
 '177 rows in the age column are different.'
 ```
-
-
 
 ```python
 

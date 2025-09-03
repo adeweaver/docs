@@ -33,7 +33,6 @@ You are now ready to add rate limiting to your chain!
 
 Let's imagine that we want to allow our users to invoke our chain 10 times per minute. Achieving this is as simple as:
 
-
 ```python
 # set env variables
 import os
@@ -66,11 +65,13 @@ try:
 except UpstashRatelimitError:
     print("Handling ratelimit.", UpstashRatelimitError)
 ```
+
 ```output
 Error in UpstashRatelimitHandler.on_chain_start callback: UpstashRatelimitError('Request limit reached!')
 ``````output
 Handling ratelimit. <class 'langchain_community.callbacks.upstash_ratelimit_callback.UpstashRatelimitError'>
 ```
+
 Note that we pass the handler to the `invoke` method instead of passing the handler when defining the chain.
 
 For rate limiting algorithms other than `FixedWindow`, see [upstash-ratelimit docs](https://github.com/upstash/ratelimit-py?tab=readme-ov-file#ratelimiting-algorithms).
@@ -80,6 +81,7 @@ Before executing any steps in our pipeline, ratelimit will check whether the use
 ## Ratelimiting Per Token
 
 Another option is to rate limit chain invokations based on:
+
 1. number of tokens in prompt
 2. number of tokens in prompt and LLM completion
 
@@ -95,7 +97,6 @@ After LLM is called, token usage information will be used to subtracted from the
 
 For the first configuration, simply initialize the handler like this:
 
-
 ```python
 ratelimit = Ratelimit(
         redis=Redis.from_env(),
@@ -107,7 +108,6 @@ handler = UpstashRatelimitHandler(identifier=user_id, token_ratelimit=ratelimit)
 ```
 
 For the second configuration, here is how to initialize the handler:
-
 
 ```python
 ratelimit = Ratelimit(
@@ -126,7 +126,6 @@ handler = UpstashRatelimitHandler(
 You can also employ ratelimiting based on requests and tokens at the same time, simply by passing both `request_ratelimit` and `token_ratelimit` parameters.
 
 Here is an example with a chain utilizing an LLM:
-
 
 ```python
 # set env variables
@@ -165,6 +164,7 @@ try:
 except UpstashRatelimitError:
     print("Handling ratelimit.", UpstashRatelimitError)
 ```
+
 ```output
 Error in UpstashRatelimitHandler.on_llm_start callback: UpstashRatelimitError('Token limit reached!')
 ``````output

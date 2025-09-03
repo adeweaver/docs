@@ -5,6 +5,7 @@ title: Scrapeless Universal Scraping
 **Scrapeless** offers flexible and feature-rich data acquisition services with extensive parameter customization and multi-format export support. These capabilities empower LangChain to integrate and leverage external data more effectively. The core functional modules include:
 
 **DeepSerp**
+
 - **Google Search**: Enables comprehensive extraction of Google SERP data across all result types.
   - Supports selection of localized Google domains (e.g., `google.com`, `google.ad`) to retrieve region-specific search results.
   - Pagination supported for retrieving results beyond the first page.
@@ -15,10 +16,12 @@ title: Scrapeless Universal Scraping
   - Allows filtering by specific Google properties (Web, YouTube, News, Shopping) for source-specific trend analysis.
 
 **Universal Scraping**
+
 - Designed for modern, JavaScript-heavy websites, allowing dynamic content extraction.
   - Global premium proxy support for bypassing geo-restrictions and improving reliability.
 
 **Crawler**
+
 - **Crawl**: Recursively crawl a website and its linked pages to extract site-wide content.
   - Supports configurable crawl depth and scoped URL targeting.
 - **Scrape**: Extract content from a single webpage with high precision.
@@ -39,15 +42,14 @@ title: Scrapeless Universal Scraping
 |:-:|:-:|:-:|
 |✅|✅|html, markdown, links, metadata, structured content|
 
-
 ## Setup
 
 The integration lives in the `langchain-scrapeless` package.
 !pip install langchain-scrapeless
+
 ### Credentials
 
 You'll need a Scrapeless API key to use this tool. You can set it as an environment variable:
-
 
 ```python
 import os
@@ -60,27 +62,28 @@ os.environ["SCRAPELESS_API_KEY"] = "your-api-key"
 Here we show how to instantiate an instance of the Scrapeless Universal Scraping Tool. This tool allows you to scrape any website using a headless browser with JavaScript rendering capabilities, customizable output types, and geo-specific proxy support.
 
 The tool accepts the following parameters during instantiation:
+
 - `url` (required, str): The URL of the website to scrape.
 - `headless` (optional, bool): Whether to use a headless browser. Default is True.
 - `js_render` (optional, bool): Whether to enable JavaScript rendering. Default is True.
 - `js_wait_until` (optional, str): Defines when to consider the JavaScript-rendered page ready. Default is `'domcontentloaded'`. Options include:
-    - `load`: Wait until the page is fully loaded.
-    - `domcontentloaded`: Wait until the DOM is fully loaded.
-    - `networkidle0`: Wait until the network is idle.
-    - `networkidle2`: Wait until the network is idle for 2 seconds.
+  - `load`: Wait until the page is fully loaded.
+  - `domcontentloaded`: Wait until the DOM is fully loaded.
+  - `networkidle0`: Wait until the network is idle.
+  - `networkidle2`: Wait until the network is idle for 2 seconds.
 - `outputs` (optional, str): The specific type of data to extract from the page. Options include:
-    - `phone_numbers`
-    - `headings`
-    - `images`
-    - `audios`
-    - `videos`
-    - `links`
-    - `menus`
-    - `hashtags`
-    - `emails`
-    - `metadata`
-    - `tables`
-    - `favicon`
+  - `phone_numbers`
+  - `headings`
+  - `images`
+  - `audios`
+  - `videos`
+  - `links`
+  - `menus`
+  - `hashtags`
+  - `emails`
+  - `metadata`
+  - `tables`
+  - `favicon`
 - `response_type` (optional, str): Defines the format of the response. Default is `'html'`. Options include:
   - `html`: Return the raw HTML of the page.
   - `plaintext`: Return the plain text content.
@@ -95,7 +98,6 @@ The tool accepts the following parameters during instantiation:
 
 ### Basic Usage
 
-
 ```python
 from langchain_scrapeless import ScrapelessUniversalScrapingTool
 
@@ -105,6 +107,7 @@ tool = ScrapelessUniversalScrapingTool()
 result = tool.invoke("https://example.com")
 print(result)
 ```
+
 ```output
 <!DOCTYPE html><html><head>
     <title>Example Domain</title>
@@ -152,8 +155,8 @@ print(result)
 
 </body></html>
 ```
-### Advanced Usage with Parameters
 
+### Advanced Usage with Parameters
 
 ```python
 from langchain_scrapeless import ScrapelessUniversalScrapingTool
@@ -163,14 +166,15 @@ tool = ScrapelessUniversalScrapingTool()
 result = tool.invoke({"url": "https://exmaple.com", "response_type": "markdown"})
 print(result)
 ```
+
 ```output
 # Well hello there.
 
 Welcome to exmaple.com.
 Chances are you got here by mistake (example.com, anyone?)
 ```
-### Use within an agent
 
+### Use within an agent
 
 ```python
 from langchain_openai import ChatOpenAI
@@ -198,6 +202,7 @@ for chunk in agent.stream(
 ):
     chunk["messages"][-1].pretty_print()
 ```
+
 ```output
 ================================ Human Message =================================
 
@@ -217,6 +222,7 @@ Name: scrapeless_universal_scraping
 
 The h1 tag extracted from the website https://www.scrapeless.com/en is "Effortless Web Scraping Toolkit for Business and Developers".
 ```
+
 ## API reference
 
 - [Scrapeless Documentation](https://docs.scrapeless.com/en/universal-scraping-api/quickstart/introduction/)

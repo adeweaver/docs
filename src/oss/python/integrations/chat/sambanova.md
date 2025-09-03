@@ -7,6 +7,7 @@ This will help you get started with SambaNovaCloud [chat models](/oss/concepts/c
 **[SambaNova](https://sambanova.ai/)'s** [SambaNova Cloud](https://cloud.sambanova.ai/) is a platform for performing inference with open-source models
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | JS support | Package downloads | Package latest |
@@ -34,6 +35,7 @@ Get an API Key from [cloud.sambanova.ai](https://cloud.sambanova.ai/apis) and ad
 ``` bash
 export SAMBANOVA_API_KEY="your-api-key-here"
 ```
+
 ```python
 import getpass
 import os
@@ -46,7 +48,6 @@ if not os.getenv("SAMBANOVA_API_KEY"):
 
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
-
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -54,8 +55,7 @@ If you want to get automated tracing of your model calls you can also set your [
 
 ### Installation
 
-The LangChain __SambaNovaCloud__ integration lives in the `langchain_sambanova` package:
-
+The LangChain **SambaNovaCloud** integration lives in the `langchain_sambanova` package:
 
 ```python
 %pip install -qU langchain-sambanova
@@ -64,7 +64,6 @@ The LangChain __SambaNovaCloud__ integration lives in the `langchain_sambanova` 
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```python
 from langchain_sambanova import ChatSambaNovaCloud
@@ -79,7 +78,6 @@ llm = ChatSambaNovaCloud(
 
 ## Invocation
 
-
 ```python
 messages = [
     (
@@ -93,24 +91,21 @@ ai_msg = llm.invoke(messages)
 ai_msg
 ```
 
-
-
 ```output
 AIMessage(content="J'adore la programmation.", additional_kwargs={}, response_metadata={'finish_reason': 'stop', 'usage': {'acceptance_rate': 7, 'completion_tokens': 8, 'completion_tokens_after_first_per_sec': 195.0204119588971, 'completion_tokens_after_first_per_sec_first_ten': 618.3422770734173, 'completion_tokens_per_sec': 53.25837044790076, 'end_time': 1731535338.1864908, 'is_last_response': True, 'prompt_tokens': 55, 'start_time': 1731535338.0133238, 'time_to_first_token': 0.13727331161499023, 'total_latency': 0.15021112986973353, 'total_tokens': 63, 'total_tokens_per_sec': 419.4096672772185}, 'model_name': 'Meta-Llama-3.1-70B-Instruct', 'system_fingerprint': 'fastcoe', 'created': 1731535338}, id='f04b7c2c-bc46-47e0-9c6b-19a002e8f390')
 ```
 
-
-
 ```python
 print(ai_msg.content)
 ```
+
 ```output
 J'adore la programmation.
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate
@@ -136,15 +131,11 @@ chain.invoke(
 )
 ```
 
-
-
 ```output
 AIMessage(content='Ich liebe das Programmieren.', additional_kwargs={}, response_metadata={'finish_reason': 'stop', 'usage': {'acceptance_rate': 2.3333333333333335, 'completion_tokens': 6, 'completion_tokens_after_first_per_sec': 106.06729752831038, 'completion_tokens_after_first_per_sec_first_ten': 204.92722183833433, 'completion_tokens_per_sec': 26.32497272023831, 'end_time': 1731535339.9997504, 'is_last_response': True, 'prompt_tokens': 50, 'start_time': 1731535339.7539687, 'time_to_first_token': 0.19864177703857422, 'total_latency': 0.22792046410696848, 'total_tokens': 56, 'total_tokens_per_sec': 245.6997453888909}, 'model_name': 'Meta-Llama-3.1-70B-Instruct', 'system_fingerprint': 'fastcoe', 'created': 1731535339}, id='dfe0bee6-b297-472e-ac9d-29906d162dcb')
 ```
 
-
 ## Streaming
-
 
 ```python
 system = "You are a helpful assistant with pirate accent."
@@ -156,6 +147,7 @@ chain = prompt | llm
 for chunk in chain.stream({"animal": "owl"}):
     print(chunk.content, end="", flush=True)
 ```
+
 ```output
 Yer lookin' fer some knowledge about owls, eh? Alright then, matey, settle yerself down with a pint o' grog and listen close.
 
@@ -176,8 +168,8 @@ Owls be found all over the world, in a variety o' habitats, from forests to dese
 
 So there ye have it, matey! Owls be amazin' creatures, with their big eyes, silent wings, and sharp talons. Now go forth and spread the word about these fascinatin' birds!
 ```
-## Async
 
+## Async
 
 ```python
 prompt = ChatPromptTemplate.from_messages(
@@ -193,15 +185,11 @@ chain = prompt | llm
 await chain.ainvoke({"country": "France"})
 ```
 
-
-
 ```output
 AIMessage(content='The capital of France is Paris.', additional_kwargs={}, response_metadata={'finish_reason': 'stop', 'usage': {'acceptance_rate': 1, 'completion_tokens': 7, 'completion_tokens_after_first_per_sec': 442.126212227688, 'completion_tokens_after_first_per_sec_first_ten': 0, 'completion_tokens_per_sec': 46.28540439646366, 'end_time': 1731535343.0321083, 'is_last_response': True, 'prompt_tokens': 42, 'start_time': 1731535342.8808727, 'time_to_first_token': 0.137664794921875, 'total_latency': 0.15123558044433594, 'total_tokens': 49, 'total_tokens_per_sec': 323.99783077524563}, 'model_name': 'Meta-Llama-3.1-70B-Instruct', 'system_fingerprint': 'fastcoe', 'created': 1731535342}, id='c4b8c714-df38-4206-9aa8-fc8231f7275a')
 ```
 
-
 ## Async Streaming
-
 
 ```python
 prompt = ChatPromptTemplate.from_messages(
@@ -217,11 +205,12 @@ chain = prompt | llm
 async for chunk in chain.astream({"num_words": 30, "topic": "quantum computers"}):
     print(chunk.content, end="", flush=True)
 ```
+
 ```output
 Quantum computers use quantum bits (qubits) to process info, leveraging superposition and entanglement to perform calculations exponentially faster than classical computers for certain complex problems.
 ```
-## Tool calling
 
+## Tool calling
 
 ```python
 from datetime import datetime
@@ -263,7 +252,6 @@ def invoke_tools(tool_calls, messages):
     return messages
 ```
 
-
 ```python
 llm_with_tools = llm.bind_tools(tools=tools)
 messages = [
@@ -273,7 +261,6 @@ messages = [
     )
 ]
 ```
-
 
 ```python
 response = llm_with_tools.invoke(messages)
@@ -285,13 +272,14 @@ while len(response.tool_calls) > 0:
 
 print(f"final response: {response.content}")
 ```
+
 ```output
 Intermediate model response: [{'name': 'get_time', 'args': {'kind': 'date'}, 'id': 'call_7352ce7a18e24a7c9d', 'type': 'tool_call'}]
 Tool output: Current date: 11/13/2024
 final response: The meeting should be scheduled for two weeks from November 13th, 2024.
 ```
-## Structured Outputs
 
+## Structured Outputs
 
 ```python
 from pydantic import BaseModel, Field
@@ -309,15 +297,11 @@ structured_llm = llm.with_structured_output(Joke)
 structured_llm.invoke("Tell me a joke about cats")
 ```
 
-
-
 ```output
 Joke(setup='Why did the cat join a band?', punchline='Because it wanted to be the purr-cussionist!')
 ```
 
-
 ## Input Image
-
 
 ```python
 multimodal_llm = ChatSambaNovaCloud(
@@ -327,7 +311,6 @@ multimodal_llm = ChatSambaNovaCloud(
     top_p=0.01,
 )
 ```
-
 
 ```python
 import base64
@@ -351,9 +334,11 @@ message = HumanMessage(
 response = multimodal_llm.invoke([message])
 print(response.content)
 ```
+
 ```output
 The weather in this image is a serene and peaceful atmosphere, with a blue sky and white clouds, suggesting a pleasant day with mild temperatures and gentle breezes.
 ```
+
 ## API reference
 
-For detailed documentation of all SambaNovaCloud features and configurations head to the API reference: https://docs.sambanova.ai/cloud/docs/get-started/overview
+For detailed documentation of all SambaNovaCloud features and configurations head to the API reference: [docs.sambanova.ai/cloud/docs/get-started/overview](https://docs.sambanova.ai/cloud/docs/get-started/overview)

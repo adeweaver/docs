@@ -32,7 +32,6 @@ LangChain provides tools to interact with Graph Databases:
 
 First, get required packages and set environment variables:
 
-
 ```python
 %pip install --upgrade --quiet  langchain langchain-experimental langchain-openai langchain-neo4j neo4j wikipedia
 ```
@@ -42,7 +41,6 @@ First, get required packages and set environment variables:
 `Diffbot's NLP API` is a tool for extracting entities, relationships, and semantic context from unstructured text data.
 This extracted information can be used to construct a knowledge graph.
 To use the API, you'll need to obtain a [free API token from Diffbot](https://app.diffbot.com/get-started/).
-
 
 ```python
 from langchain_experimental.graph_transformers.diffbot import DiffbotGraphTransformer
@@ -55,7 +53,6 @@ This code fetches Wikipedia articles about "Warren Buffett" and then uses `Diffb
 The `DiffbotGraphTransformer` outputs a structured data `GraphDocument`, which can be used to populate a graph database.
 Note that text chunking is avoided due to Diffbot's [character limit per API request](https://docs.diffbot.com/reference/introduction-to-natural-language-api).
 
-
 ```python
 from langchain_community.document_loaders import WikipediaLoader
 
@@ -67,6 +64,7 @@ graph_documents = diffbot_nlp.convert_to_graph_documents(raw_documents)
 ## Loading the data into a knowledge graph
 
 You will need to have a running Neo4j instance. One option is to create a [free Neo4j database instance in their Aura cloud service](https://neo4j.com/cloud/platform/aura-graph-database/). You can also run the database locally using the [Neo4j Desktop application](https://neo4j.com/download/), or running a docker container. You can run a local docker container by running the executing the following script:
+
 ```
 docker run \
     --name neo4j \
@@ -76,8 +74,8 @@ docker run \
     -e NEO4J_PLUGINS=\[\"apoc\"\]  \
     neo4j:latest
 ```
-If you are using the docker container, you need to wait a couple of second for the database to start.
 
+If you are using the docker container, you need to wait a couple of second for the database to start.
 
 ```python
 from langchain_neo4j import Neo4jGraph
@@ -91,22 +89,21 @@ graph = Neo4jGraph(url=url, username=username, password=password)
 
 The `GraphDocuments` can be loaded into a knowledge graph using the `add_graph_documents` method.
 
-
 ```python
 graph.add_graph_documents(graph_documents)
 ```
 
 ## Refresh graph schema information
-If the schema of database changes, you can refresh the schema information needed to generate Cypher statements
 
+If the schema of database changes, you can refresh the schema information needed to generate Cypher statements
 
 ```python
 graph.refresh_schema()
 ```
 
 ## Querying the graph
-We can now use the graph cypher QA chain to ask question of the graph. It is advisable to use **gpt-4** to construct Cypher queries to get the best experience.
 
+We can now use the graph cypher QA chain to ask question of the graph. It is advisable to use **gpt-4** to construct Cypher queries to get the best experience.
 
 ```python
 from langchain_neo4j import GraphCypherQAChain
@@ -121,10 +118,10 @@ chain = GraphCypherQAChain.from_llm(
 )
 ```
 
-
 ```python
 chain.run("Which university did Warren Buffett attend?")
 ```
+
 ```output
 > Entering new GraphCypherQAChain chain...
 Generated Cypher:
@@ -136,16 +133,14 @@ Full Context:
 > Finished chain.
 ```
 
-
 ```output
 'Warren Buffett attended the University of Nebraska.'
 ```
 
-
-
 ```python
 chain.run("Who is or was working at Berkshire Hathaway?")
 ```
+
 ```output
 > Entering new GraphCypherQAChain chain...
 Generated Cypher:
@@ -156,12 +151,9 @@ Full Context:
 > Finished chain.
 ```
 
-
 ```output
 'Charlie Munger, Oliver Chace, Howard Buffett, Susan Buffett, and Warren Buffett are or were working at Berkshire Hathaway.'
 ```
-
-
 
 ```python
 

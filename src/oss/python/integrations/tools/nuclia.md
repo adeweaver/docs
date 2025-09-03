@@ -8,12 +8,10 @@ The `Nuclia Understanding API` supports the processing of unstructured data, inc
 
 To use the `Nuclia Understanding API`, you need to have a `Nuclia` account. You can create one for free at [https://nuclia.cloud](https://nuclia.cloud), and then [create a NUA key](https://docs.nuclia.dev/docs/docs/using/understanding/intro).
 
-
 ```python
 %pip install --upgrade --quiet  protobuf
 %pip install --upgrade --quiet  nucliadb-protos
 ```
-
 
 ```python
 import os
@@ -21,7 +19,6 @@ import os
 os.environ["NUCLIA_ZONE"] = "<YOUR_ZONE>"  # e.g. europe-1
 os.environ["NUCLIA_NUA_KEY"] = "<YOUR_API_KEY>"
 ```
-
 
 ```python
 from langchain_community.tools.nuclia import NucliaUnderstandingAPI
@@ -31,14 +28,12 @@ nua = NucliaUnderstandingAPI(enable_ml=False)
 
 You can push files to the Nuclia Understanding API using the `push` action. As the processing is done asynchronously, the results might be returned in a different order than the files were pushed. That is why you need to provide an `id` to match the results with the corresponding file.
 
-
 ```python
 nua.run({"action": "push", "id": "1", "path": "./report.docx"})
 nua.run({"action": "push", "id": "2", "path": "./interview.mp4"})
 ```
 
 You can now call the `pull` action in a loop until you get the JSON-formatted result.
-
 
 ```python
 import time
@@ -56,7 +51,6 @@ while pending:
 ```
 
 You can also do it in one step in `async` mode, you only need to do a push, and it will wait until the results are pulled:
-
 
 ```python
 import asyncio

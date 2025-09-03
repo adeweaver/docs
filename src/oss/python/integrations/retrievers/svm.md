@@ -6,20 +6,17 @@ title: SVM
 
 This notebook goes over how to use a retriever that under the hood uses an `SVM` using `scikit-learn` package.
 
-Largely based on https://github.com/karpathy/randomfun/blob/master/knn_vs_svm.html
-
+Largely based on [github.com/karpathy/randomfun/blob/master/knn_vs_svm.html](https://github.com/karpathy/randomfun/blob/master/knn_vs_svm.html)
 
 ```python
 %pip install --upgrade --quiet  scikit-learn
 ```
-
 
 ```python
 %pip install --upgrade --quiet  lark
 ```
 
 We want to use `OpenAIEmbeddings` so we have to get the OpenAI API Key.
-
 
 ```python
 import getpass
@@ -28,6 +25,7 @@ import os
 if "OPENAI_API_KEY" not in os.environ:
     os.environ["OPENAI_API_KEY"] = getpass.getpass("OpenAI API Key:")
 ```
+
 ```output
 OpenAI API Key: ········
 ```
@@ -39,7 +37,6 @@ from langchain_openai import OpenAIEmbeddings
 
 ## Create New Retriever with Texts
 
-
 ```python
 retriever = SVMRetriever.from_texts(
     ["foo", "bar", "world", "hello", "foo bar"], OpenAIEmbeddings()
@@ -50,17 +47,13 @@ retriever = SVMRetriever.from_texts(
 
 We can now use the retriever!
 
-
 ```python
 result = retriever.invoke("foo")
 ```
 
-
 ```python
 result
 ```
-
-
 
 ```output
 [Document(page_content='foo', metadata={}),
@@ -68,8 +61,6 @@ result
  Document(page_content='hello', metadata={}),
  Document(page_content='world', metadata={})]
 ```
-
-
 
 ```python
 

@@ -21,7 +21,6 @@ We'll demonstrate:
 3. Viewing the enriched messages.
 4. Vector search over the conversation history.
 
-
 ```python
 from uuid import uuid4
 
@@ -235,14 +234,12 @@ File ~/job/zep-proprietary/venv/lib/python3.11/site-packages/pydantic/_internal/
 AttributeError: 'FieldInfo' object has no attribute 'deprecated'
 ```
 
-
 ```python
 # Provide your OpenAI key
 import getpass
 
 openai_key = getpass.getpass()
 ```
-
 
 ```python
 # Provide your Zep API key. See https://help.getzep.com/projects#api-keys
@@ -251,8 +248,6 @@ zep_api_key = getpass.getpass()
 ```
 
 ### Initialize the Zep Chat Message History Class and initialize the Agent
-
-
 
 ```python
 search = WikipediaAPIWrapper()
@@ -287,8 +282,6 @@ agent_chain = initialize_agent(
 ```
 
 ### Add some history data
-
-
 
 ```python
 # Preload some messages into the memory. The default message window is 12 messages. We want to push beyond this to demonstrate auto-summarization.
@@ -367,13 +360,12 @@ for msg in test_history:
 
 Doing so will automatically add the input and response to the Zep memory.
 
-
-
 ```python
 agent_chain.invoke(
     input="What is the book's relevance to the challenges facing contemporary society?",
 )
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 
@@ -382,21 +374,17 @@ AI: Parable of the Sower is highly relevant to contemporary society as it explor
 > Finished chain.
 ```
 
-
 ```output
 {'input': "What is the book's relevance to the challenges facing contemporary society?",
  'chat_history': [HumanMessage(content="Octavia Butler's contemporaries included Ursula K. Le Guin, Samuel R. Delany, and Joanna Russ.\nOctavia Butler won the Hugo Award, the Nebula Award, and the MacArthur Fellowship.\nUrsula K. Le Guin is known for novels like The Left Hand of Darkness and The Dispossessed.\nJoanna Russ is the author of the influential feminist science fiction novel The Female Man.\nMargaret Atwood is known for works like The Handmaid's Tale and the MaddAddam trilogy.\nConnie Willis is an award-winning author of science fiction and fantasy, known for novels like Doomsday Book.\nOctavia Butler is a pioneering black female science fiction author, known for Kindred and the Parable series.\nOctavia Estelle Butler was an acclaimed American science fiction author. While none of her books were directly adapted into movies, her novel Kindred was adapted into a TV series on FX. Butler was part of a generation of prominent science fiction writers in the 20th century, including contemporaries such as Ursula K. Le Guin, Samuel R. Delany, Chip Delany, and Nalo Hopkinson.\nhuman: What awards did she win?\nai: Octavia Butler won the Hugo Award, the Nebula Award, and the MacArthur Fellowship.\nhuman: Which other women sci-fi writers might I want to read?\nai: You might want to read Ursula K. Le Guin or Joanna Russ.\nhuman: Write a short synopsis of Butler's book, Parable of the Sower. What is it about?\nai: Parable of the Sower is a science fiction novel by Octavia Butler, published in 1993. It follows the story of Lauren Olamina, a young woman living in a dystopian future where society has collapsed due to environmental disasters, poverty, and violence.")],
  'output': 'Parable of the Sower is highly relevant to contemporary society as it explores themes of environmental degradation, social and economic inequality, and the struggle for survival in a chaotic world. It also delves into issues of race, gender, and religion, making it a thought-provoking and timely read.'}
 ```
 
-
 ### Inspect the Zep memory
 
 Note the summary, and that the history has been enriched with token counts, UUIDs, and timestamps.
 
 Summaries are biased towards the most recent messages.
-
-
 
 ```python
 def print_messages(messages):
@@ -412,6 +400,7 @@ for fact in facts:
     print(fact + "\n")
 print_messages(memory.chat_memory.messages)
 ```
+
 ```output
 Octavia Estelle Butler was an acclaimed American science fiction author. While none of her books were directly adapted into movies, her novel Kindred was adapted into a TV series on FX. Butler was part of a generation of prominent science fiction writers in the 20th century, including contemporaries such as Ursula K. Le Guin, Samuel R. Delany, Chip Delany, and Nalo Hopkinson.
 
@@ -442,13 +431,12 @@ The novel also delves into issues of race, gender, and religion, making it a tho
 human :
  {'content': "Octavia Butler's contemporaries included Ursula K. Le Guin, Samuel R. Delany, and Joanna Russ.\nOctavia Butler won the Hugo Award, the Nebula Award, and the MacArthur Fellowship.\nUrsula K. Le Guin is known for novels like The Left Hand of Darkness and The Dispossessed.\nJoanna Russ is the author of the influential feminist science fiction novel The Female Man.\nMargaret Atwood is known for works like The Handmaid's Tale and the MaddAddam trilogy.\nConnie Willis is an award-winning author of science fiction and fantasy, known for novels like Doomsday Book.\nOctavia Butler is a pioneering black female science fiction author, known for Kindred and the Parable series.\nParable of the Sower is a science fiction novel by Octavia Butler, published in 1993.\nThe novel follows the story of Lauren Olamina, a young woman living in a dystopian future where society has collapsed due to environmental disasters, poverty, and violence.\nParable of the Sower explores themes of environmental degradation, social and economic inequality, and the struggle for survival in a chaotic world.\nThe novel also delves into issues of race, gender, and religion, making it a thought-provoking and timely read.\nOctavia Estelle Butler was an acclaimed American science fiction author. While none of her books were directly adapted into movies, her novel Kindred was adapted into a TV series on FX. Butler was part of a generation of prominent science fiction writers in the 20th century, including contemporaries such as Ursula K. Le Guin, Samuel R. Delany, Chip Delany, and Nalo Hopkinson.\nhuman: Which other women sci-fi writers might I want to read?\nai: You might want to read Ursula K. Le Guin or Joanna Russ.\nhuman: Write a short synopsis of Butler's book, Parable of the Sower. What is it about?\nai: Parable of the Sower is a science fiction novel by Octavia Butler, published in 1993. It follows the story of Lauren Olamina, a young woman living in a dystopian future where society has collapsed due to environmental disasters, poverty, and violence.\nhuman: What is the book's relevance to the challenges facing contemporary society?\nai: Parable of the Sower is highly relevant to contemporary society as it explores themes of environmental degradation, social and economic inequality, and the struggle for survival in a chaotic world. It also delves into issues of race, gender, and religion, making it a thought-provoking and timely read.", 'additional_kwargs': {}, 'response_metadata': {}, 'type': 'human', 'name': None, 'id': None, 'example': False}
 ```
+
 ### Vector search over the Zep memory
 
 Zep provides native vector search over historical conversation memory via the `ZepRetriever`.
 
 You can use the `ZepRetriever` with chains that support passing in a Langchain `Retriever` object.
-
-
 
 ```python
 retriever = ZepCloudRetriever(
@@ -461,6 +449,7 @@ for r in search_results:
     if r.score > 0.8:  # Only print results with similarity of 0.8 or higher
         print(r.message, r.score)
 ```
+
 ```output
 content='Which other women sci-fi writers might I want to read?' created_at='2024-05-10T14:34:16.714292Z' metadata=None role='human' role_type=None token_count=12 updated_at='0001-01-01T00:00:00Z' uuid_='64ca1fae-8db1-4b4f-8a45-9b0e57e88af5' 0.8960460126399994
 ```

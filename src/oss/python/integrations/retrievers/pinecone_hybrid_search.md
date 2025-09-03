@@ -11,11 +11,9 @@ The logic of this retriever is taken from [this documentation](https://docs.pine
 To use Pinecone, you must have an API key and an Environment.
 Here are the [installation instructions](https://docs.pinecone.io/docs/quickstart).
 
-
 ```python
 %pip install --upgrade --quiet  pinecone pinecone-text pinecone-notebooks
 ```
-
 
 ```python
 # Connect to Pinecone and get an API key.
@@ -28,7 +26,6 @@ import os
 api_key = os.environ["PINECONE_API_KEY"]
 ```
 
-
 ```python
 from langchain_community.retrievers import (
     PineconeHybridSearchRetriever,
@@ -36,7 +33,6 @@ from langchain_community.retrievers import (
 ```
 
 We want to use `OpenAIEmbeddings` so we have to get the OpenAI API Key.
-
 
 ```python
 import getpass
@@ -48,7 +44,6 @@ if "OPENAI_API_KEY" not in os.environ:
 ## Setup Pinecone
 
 You should only have to do this part once.
-
 
 ```python
 import os
@@ -70,15 +65,11 @@ if index_name not in pc.list_indexes().names():
     )
 ```
 
-
-
 ```output
 WhoAmIResponse(username='load', user_label='label', projectname='load-test')
 ```
 
-
 Now that the index is created, we can use it.
-
 
 ```python
 index = pc.Index(index_name)
@@ -87,7 +78,6 @@ index = pc.Index(index_name)
 ## Get embeddings and sparse encoders
 
 Embeddings are used for the dense vectors, tokenizer is used for the sparse vector
-
 
 ```python
 from langchain_openai import OpenAIEmbeddings
@@ -98,7 +88,6 @@ embeddings = OpenAIEmbeddings()
 To encode the text to sparse values you can either choose SPLADE or BM25. For out of domain tasks we recommend using BM25.
 
 For more information about the sparse encoders you can checkout pinecone-text library [docs](https://pinecone-io.github.io/pinecone-text/pinecone_text.html).
-
 
 ```python
 from pinecone_text.sparse import BM25Encoder
@@ -128,7 +117,6 @@ bm25_encoder = BM25Encoder().load("bm25_values.json")
 
 We can now construct the retriever!
 
-
 ```python
 retriever = PineconeHybridSearchRetriever(
     embeddings=embeddings, sparse_encoder=bm25_encoder, index=index
@@ -139,28 +127,25 @@ retriever = PineconeHybridSearchRetriever(
 
 We can optionally add texts to the retriever (if they aren't already in there)
 
-
 ```python
 retriever.add_texts(["foo", "bar", "world", "hello"])
 ```
+
 ```output
 100%|██████████| 1/1 [00:02<00:00,  2.27s/it]
 ```
+
 ## Use Retriever
 
 We can now use the retriever!
-
 
 ```python
 result = retriever.invoke("foo")
 ```
 
-
 ```python
 result[0]
 ```
-
-
 
 ```output
 Document(page_content='foo', metadata={})

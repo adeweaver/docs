@@ -7,17 +7,16 @@ title: PGVector (Postgres)
 In the notebook, we'll demo the `SelfQueryRetriever` wrapped around a `PGVector` vector store.
 
 ## Creating a PGVector vector store
+
 First we'll want to create a PGVector vector store and seed it with some data. We've created a small demo set of documents that contain summaries of movies.
 
 **Note:** The self-query retriever requires you to have `lark` installed (`pip install lark`). We also need the `` package.
-
 
 ```python
 %pip install --upgrade --quiet  lark pgvector psycopg2-binary
 ```
 
 We want to use `OpenAIEmbeddings` so we have to get the OpenAI API Key.
-
 
 ```python
 import getpass
@@ -27,7 +26,6 @@ if "OPENAI_API_KEY" not in os.environ:
     os.environ["OPENAI_API_KEY"] = getpass.getpass("OpenAI API Key:")
 ```
 
-
 ```python
 from langchain_community.vectorstores import PGVector
 from langchain_core.documents import Document
@@ -36,7 +34,6 @@ from langchain_openai import OpenAIEmbeddings
 collection = "Name of your collection"
 embeddings = OpenAIEmbeddings()
 ```
-
 
 ```python
 docs = [
@@ -78,8 +75,8 @@ vectorstore = PGVector.from_documents(
 ```
 
 ## Creating our self-querying retriever
-Now we can instantiate our retriever. To do this we'll need to provide some information upfront about the metadata fields that our documents support and a short description of the document contents.
 
+Now we can instantiate our retriever. To do this we'll need to provide some information upfront about the metadata fields that our documents support and a short description of the document contents.
 
 ```python
 from langchain.chains.query_constructor.schema import AttributeInfo
@@ -114,32 +111,28 @@ retriever = SelfQueryRetriever.from_llm(
 ```
 
 ## Testing it out
-And now we can try actually using our retriever!
 
+And now we can try actually using our retriever!
 
 ```python
 # This example only specifies a relevant query
 retriever.invoke("What are some movies about dinosaurs")
 ```
 
-
 ```python
 # This example only specifies a filter
 retriever.invoke("I want to watch a movie rated higher than 8.5")
 ```
-
 
 ```python
 # This example specifies a query and a filter
 retriever.invoke("Has Greta Gerwig directed any movies about women")
 ```
 
-
 ```python
 # This example specifies a composite filter
 retriever.invoke("What's a highly rated (above 8.5) science fiction film?")
 ```
-
 
 ```python
 # This example specifies a query and composite filter
@@ -154,7 +147,6 @@ We can also use the self query retriever to specify `k`: the number of documents
 
 We can do this by passing `enable_limit=True` to the constructor.
 
-
 ```python
 retriever = SelfQueryRetriever.from_llm(
     llm,
@@ -165,7 +157,6 @@ retriever = SelfQueryRetriever.from_llm(
     verbose=True,
 )
 ```
-
 
 ```python
 # This example only specifies a relevant query

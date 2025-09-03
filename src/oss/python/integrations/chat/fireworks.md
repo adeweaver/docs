@@ -7,6 +7,7 @@ This doc helps you get started with Fireworks AI [chat models](/oss/concepts/cha
 Fireworks AI is an AI inference platform to run and customize models. For a list of all models served by Fireworks see the [Fireworks docs](https://fireworks.ai/models).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [JS support](https://js.langchain.com/docs/integrations/chat/fireworks) | Package downloads | Package latest |
@@ -14,6 +15,7 @@ Fireworks AI is an AI inference platform to run and customize models. For a list
 | [ChatFireworks](https://python.langchain.com/api_reference/fireworks/chat_models/langchain_fireworks.chat_models.ChatFireworks.html) | [langchain-fireworks](https://python.langchain.com/api_reference/fireworks/index.html) | ❌ | beta | ✅ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-fireworks?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-fireworks?style=flat-square&label=%20) |
 
 ### Model features
+
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | Native async | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
 | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
@@ -24,8 +26,7 @@ To access Fireworks models you'll need to create a Fireworks account, get an API
 
 ### Credentials
 
-Head to (https://fireworks.ai/login to sign up to Fireworks and generate an API key. Once you've done this set the FIREWORKS_API_KEY environment variable:
-
+Head to ([fireworks.ai/login](https://fireworks.ai/login) to sign up to Fireworks and generate an API key. Once you've done this set the FIREWORKS_API_KEY environment variable:
 
 ```python
 import getpass
@@ -37,7 +38,6 @@ if "FIREWORKS_API_KEY" not in os.environ:
 
 To enable automated tracing of your model calls, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
-
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
 # os.environ["LANGSMITH_TRACING"] = "true"
@@ -46,7 +46,6 @@ To enable automated tracing of your model calls, set your [LangSmith](https://do
 ### Installation
 
 The LangChain Fireworks integration lives in the `langchain-fireworks` package:
-
 
 ```python
 %pip install -qU langchain-fireworks
@@ -57,7 +56,6 @@ The LangChain Fireworks integration lives in the `langchain-fireworks` package:
 Now we can instantiate our model object and generate chat completions:
 
 - TODO: Update model instantiation with relevant params.
-
 
 ```python
 from langchain_fireworks import ChatFireworks
@@ -74,7 +72,6 @@ llm = ChatFireworks(
 
 ## Invocation
 
-
 ```python
 messages = [
     (
@@ -87,24 +84,21 @@ ai_msg = llm.invoke(messages)
 ai_msg
 ```
 
-
-
 ```output
 AIMessage(content="J'adore la programmation.", response_metadata={'token_usage': {'prompt_tokens': 35, 'total_tokens': 44, 'completion_tokens': 9}, 'model_name': 'accounts/fireworks/models/llama-v3-70b-instruct', 'system_fingerprint': '', 'finish_reason': 'stop', 'logprobs': None}, id='run-df28e69a-ff30-457e-a743-06eb14d01cb0-0', usage_metadata={'input_tokens': 35, 'output_tokens': 9, 'total_tokens': 44})
 ```
 
-
-
 ```python
 print(ai_msg.content)
 ```
+
 ```output
 J'adore la programmation.
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate
@@ -129,13 +123,10 @@ chain.invoke(
 )
 ```
 
-
-
 ```output
 AIMessage(content='Ich liebe das Programmieren.', response_metadata={'token_usage': {'prompt_tokens': 30, 'total_tokens': 37, 'completion_tokens': 7}, 'model_name': 'accounts/fireworks/models/llama-v3-70b-instruct', 'system_fingerprint': '', 'finish_reason': 'stop', 'logprobs': None}, id='run-ff3f91ad-ed81-4acf-9f59-7490dc8d8f48-0', usage_metadata={'input_tokens': 30, 'output_tokens': 7, 'total_tokens': 37})
 ```
 
-
 ## API reference
 
-For detailed documentation of all ChatFireworks features and configurations head to the API reference: https://python.langchain.com/api_reference/fireworks/chat_models/langchain_fireworks.chat_models.ChatFireworks.html
+For detailed documentation of all ChatFireworks features and configurations head to the API reference: [python.langchain.com/api_reference/fireworks/chat_models/langchain_fireworks.chat_models.ChatFireworks.html](https://python.langchain.com/api_reference/fireworks/chat_models/langchain_fireworks.chat_models.ChatFireworks.html)

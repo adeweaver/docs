@@ -14,26 +14,25 @@ You can read more about `StripeAgentToolkit` in [Stripe's launch blog](https://s
 | :--- | :--- | :---: | :---: | :---: |
 | StripeAgentToolkit | [stripe-agent-toolkit](https://pypi.org/project/stripe-agent-toolkit) | ❌ | ✅ |  ![PyPI - Version](https://img.shields.io/pypi/v/stripe-agent-toolkit?style=flat-square&label=%20) |
 
-
 ## Setup
 
 This externally-managed package is hosted out of the `stripe-agent-toolkit` project, which is managed by Stripe's team.
 
 You can install it, along with langgraph for the following examples, with `pip`:
 
-
 ```python
 %pip install --quiet -U langgraph stripe-agent-toolkit
 ```
+
 ```output
 [notice] A new release of pip is available: 24.2 -> 24.3.1
 [notice] To update, run: pip install --upgrade pip
 Note: you may need to restart the kernel to use updated packages.
 ```
+
 ### Credentials
 
 In addition to installing the package, you will need to configure the integration with your Stripe account's secret key, which is available in your [Stripe Dashboard](https://dashboard.stripe.com/account/apikeys).
-
 
 ```python
 import getpass
@@ -45,7 +44,6 @@ if not os.environ.get("STRIPE_SECRET_KEY"):
 
 It's also helpful (but not needed) to set up [LangSmith](https://smith.langchain.com/) for best-in-class observability:
 
-
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass()
@@ -54,7 +52,6 @@ It's also helpful (but not needed) to set up [LangSmith](https://smith.langchain
 ## Instantiation
 
 Here we show how to create an instance of the Stripe Toolkit
-
 
 ```python
 from stripe_agent_toolkit.crewai.toolkit import StripeAgentToolkit
@@ -74,7 +71,6 @@ stripe_agent_toolkit = StripeAgentToolkit(
 ## Agent
 
 Here's how to use the toolkit to create a basic agent in langgraph:
-
 
 ```python
 from langchain_anthropic import ChatAnthropic

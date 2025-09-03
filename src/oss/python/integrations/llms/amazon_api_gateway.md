@@ -6,7 +6,6 @@ title: Amazon API Gateway
 
 >`API Gateway` handles all the tasks involved in accepting and processing up to hundreds of thousands of concurrent API calls, including traffic management, CORS support, authorization >and access control, throttling, monitoring, and API version management. `API Gateway` has no minimum fees or startup costs. You pay for the API calls you receive and the amount of data >transferred out and, with the `API Gateway` tiered pricing model, you can reduce your cost as your API usage scales.
 
-
 ```python
 ##Installing the langchain packages needed to use the integration
 %pip install -qU langchain-community
@@ -14,17 +13,14 @@ title: Amazon API Gateway
 
 ## LLM
 
-
 ```python
 from langchain_community.llms import AmazonAPIGateway
 ```
-
 
 ```python
 api_url = "https://<api_gateway_id>.execute-api.<region>.amazonaws.com/LATEST/HF"
 llm = AmazonAPIGateway(api_url=api_url)
 ```
-
 
 ```python
 # These are sample parameters for Falcon 40B Instruct Deployed from Amazon SageMaker JumpStart
@@ -43,15 +39,11 @@ llm.model_kwargs = parameters
 llm(prompt)
 ```
 
-
-
 ```output
 'what day comes after Friday?\nSaturday'
 ```
 
-
 ## Agent
-
 
 ```python
 from langchain.agents import AgentType, initialize_agent, load_tools
@@ -85,6 +77,7 @@ Write a Python script that prints "Hello, world!"
 """
 )
 ```
+
 ```output
 > Entering new  chain...
 
@@ -101,12 +94,9 @@ Hello, world!
 > Finished chain.
 ```
 
-
 ```output
 'Hello, world!'
 ```
-
-
 
 ```python
 result = agent.run(
@@ -117,6 +107,7 @@ What is 2.3 ^ 4.5?
 
 result.split("\n")[0]
 ```
+
 ```output
 > Entering new  chain...
  I need to use the calculator to find the answer
@@ -134,7 +125,6 @@ Action:
 
 > Finished chain.
 ```
-
 
 ```output
 '42.43998894277659'

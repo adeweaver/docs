@@ -25,7 +25,6 @@ We can find the supported data models by heading over to the [Dappier marketplac
 
 If you want to get automated tracing from individual queries, you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
-
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
 # os.environ["LANGSMITH_TRACING"] = "true"
@@ -34,7 +33,6 @@ If you want to get automated tracing from individual queries, you can also set y
 ### Installation
 
 This retriever lives in the `langchain-dappier` package:
-
 
 ```python
 %pip install -qU langchain-dappier
@@ -63,7 +61,6 @@ This retriever lives in the `langchain-dappier` package:
 - api_key: Optional[str]
     The API key used to interact with the Dappier APIs.
 
-
 ```python
 from langchain_dappier import DappierRetriever
 
@@ -72,14 +69,11 @@ retriever = DappierRetriever(data_model_id="dm_01jagy9nqaeer9hxx8z1sk1jx6")
 
 ## Usage
 
-
 ```python
 query = "latest tech news"
 
 retriever.invoke(query)
 ```
-
-
 
 ```output
 [Document(metadata={'title': 'Man shot and killed on Wells Street near downtown Fort Wayne', 'author': 'Gregg Montgomery', 'source_url': 'https://www.wishtv.com/news/indiana-news/man-shot-dies-fort-wayne-december-25-2024/', 'image_url': 'https://images.dappier.com/dm_01jagy9nqaeer9hxx8z1sk1jx6/fort-wayne-police-department-vehicle-via-Flickr_.jpg?width=428&height=321', 'pubdata': 'Thu, 26 Dec 2024 01:00:33 +0000'}, page_content='A man was shot and killed on December 25, 2024, in Fort Wayne, Indiana, near West Fourth and Wells streets. Police arrived shortly after 6:30 p.m. following reports of gunfire and found the victim in the 1600 block of Wells Street, where he was pronounced dead. The area features a mix of businesses, including a daycare and restaurants.\n\nAs of the latest updates, police have not provided details on the safety of the area, potential suspects, or the motive for the shooting. Authorities are encouraging anyone with information to reach out to the Fort Wayne Police Department or Crime Stoppers.'),
@@ -87,20 +81,17 @@ retriever.invoke(query)
  Document(metadata={'title': '20 big cats die from bird flu at Washington sanctuary', 'author': 'Nic F. Anderson, CNN', 'source_url': 'https://www.wishtv.com/news/national/bird-flu-outbreak-wild-felid-center-2024/', 'image_url': 'https://images.dappier.com/dm_01jagy9nqaeer9hxx8z1sk1jx6/BACKGROUND-Amur-Bengal-tiger-at-Wild-Felid-Advocacy-Center-of-Washington-FB-post_.jpg?width=428&height=321', 'pubdata': 'Wed, 25 Dec 2024 23:04:34 +0000'}, page_content='The Wild Felid Advocacy Center in Washington state has experienced a devastating bird flu outbreak, resulting in the deaths of 20 big cats, over half of its population. The first death was reported around Thanksgiving, affecting various species, including cougars and a tiger mix. The sanctuary is currently under quarantine, closed to the public, and working with animal health officials to disinfect enclosures and implement prevention strategies.\n\nAs the situation unfolds, the Washington Department of Fish and Wildlife has noted an increase in bird flu cases statewide, including infections in cougars. While human infections from bird flu through contact with mammals are rare, the CDC acknowledges the potential risk. The sanctuary hopes to reopen in the new year, focusing on the recovery of the remaining animals and taking measures to prevent further outbreaks, marking an unprecedented challenge in its 20-year history.')]
 ```
 
-
 ## Use within a chain
 
 Like other retrievers, DappierRetriever can be incorporated into LLM applications via [chains](/oss/how-to/sequence/).
 
 We will need a LLM or chat model:
 
-
 ```python
 from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(model="gpt-3.5-turbo-0125", temperature=0)
 ```
-
 
 ```python
 from langchain_core.output_parsers import StrOutputParser
@@ -128,19 +119,15 @@ chain = (
 )
 ```
 
-
 ```python
 chain.invoke(
     "What are the key highlights and outcomes from the latest events covered in the article?"
 )
 ```
 
-
-
 ```output
 "The key highlights and outcomes from the latest events covered in the article include:\n\n1. An Israeli airstrike in Gaza killed five journalists from Al-Quds Today Television, leading to condemnation from their outlet and raising concerns about violence against media professionals in the region.\n2. The Committee to Protect Journalists reported that since October 7, 2023, at least 141 journalists have been killed in the region, marking the deadliest period for journalists since 1992, with the majority being Palestinians in Gaza.\n3. A man was shot and killed in Fort Wayne, Indiana, with police not providing details on suspects, motive, or the safety of the area.\n4. An Oregon house cat died after eating pet food contaminated with the H5N1 bird flu virus, leading to a nationwide recall of Northwest Naturals' Feline Turkey Recipe raw frozen pet food and raising concerns about the spread of bird flu among domestic animals."
 ```
-
 
 ## API reference
 

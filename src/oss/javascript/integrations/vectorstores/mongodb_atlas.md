@@ -15,6 +15,7 @@ You can still create API routes that use MongoDB with Next.js by setting the `ru
 You can read more about Edge runtimes in the Next.js documentation [here](https://nextjs.org/docs/app/building-your-application/rendering/edge-and-nodejs-runtimes).
 </Tip>
 ```
+
 This guide provides a quick overview for getting started with MongoDB Atlas [vector stores](/oss/concepts/#vectorstores). For detailed documentation of all `MongoDBAtlasVectorSearch` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_mongodb.MongoDBAtlasVectorSearch.html).
 
 ## Overview
@@ -55,6 +56,7 @@ Switch to the `Atlas Search` tab and click `Create Search Index`. From there, ma
   ]
 }
 ```
+
 Note that the dimensions property should match the dimensionality of the embeddings you are using. For example, Cohere embeddings have 1024 dimensions, and by default OpenAI embeddings have 1536:
 
 Note: By default the vector store expects an index name of default, an indexed collection field name of embedding, and a raw text field name of text. You should initialize the vector store with field names matching your index name collection schema as shown below.
@@ -77,6 +79,7 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/mongodb mongodb @langchain/openai @langchain/core
 </Npm2Yarn>
 ```
+
 ### Credentials
 
 Once you've done the above, set the `MONGODB_ATLAS_URI` environment variable from the `Connect` button in Mongo's dashboard. You'll also need your DB name and collection name:
@@ -86,21 +89,23 @@ process.env.MONGODB_ATLAS_URI = "your-atlas-url";
 process.env.MONGODB_ATLAS_COLLECTION_NAME = "your-atlas-db-name";
 process.env.MONGODB_ATLAS_DB_NAME = "your-atlas-db-name";
 ```
+
 If you are using OpenAI embeddings for this guide, you'll need to set your OpenAI key as well:
 
 ```typescript
 process.env.OPENAI_API_KEY = "YOUR_API_KEY";
 ```
+
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
 ```typescript
 // process.env.LANGSMITH_TRACING="true"
 // process.env.LANGSMITH_API_KEY="your-api-key"
 ```
+
 ## Instantiation
 
 Once you've set up your cluster as shown above, you can initialize your vector store as follows:
-
 
 ```typescript
 import { MongoDBAtlasVectorSearch } from "@langchain/mongodb";
@@ -122,12 +127,12 @@ const vectorStore = new MongoDBAtlasVectorSearch(embeddings, {
   embeddingKey: "embedding", // The name of the collection field containing the embedded text. Defaults to "embedding"
 });
 ```
+
 ## Manage vector store
 
 ### Add items to vector store
 
 You can now add documents to your vector store:
-
 
 ```typescript
 import type { Document } from "@langchain/core/documents";
@@ -156,15 +161,16 @@ const documents = [document1, document2, document3, document4];
 
 await vectorStore.addDocuments(documents, { ids: ["1", "2", "3", "4"] });
 ```
+
 ```output
 [ '1', '2', '3', '4' ]
 ```
+
 **Note:** After adding documents, there is a slight delay before they become queryable.
 
 Adding a document with the same `id` as an existing document will update the existing one.
 
 ### Delete items from vector store
-
 
 ```typescript
 await vectorStore.delete({ ids: ["4"] });
@@ -178,7 +184,6 @@ Once your vector store has been created and the relevant documents have been add
 
 Performing a simple similarity search can be done as follows:
 
-
 ```typescript
 const similaritySearchResults = await vectorStore.similaritySearch("biology", 2);
 
@@ -186,10 +191,12 @@ for (const doc of similaritySearchResults) {
   console.log(`* ${doc.pageContent} [${JSON.stringify(doc.metadata, null)}]`);
 }
 ```
+
 ```output
 * The powerhouse of the cell is the mitochondria [{"_id":"1","source":"https://example.com"}]
 * Mitochondria are made out of lipids [{"_id":"3","source":"https://example.com"}]
 ```
+
 ### Filtering
 
 MongoDB Atlas supports pre-filtering of results on other fields. They require you to define which metadata fields you plan to filter on by updating the index you created initially. Here's an example:
@@ -217,7 +224,6 @@ Then, in your code you can use [MQL Query Operators](https://www.mongodb.com/doc
 
 The below example illustrates this:
 
-
 ```typescript
 const filter = {
   preFilter: {
@@ -233,14 +239,15 @@ for (const doc of filteredResults) {
   console.log(`* ${doc.pageContent} [${JSON.stringify(doc.metadata, null)}]`);
 }
 ```
+
 ```output
 * The powerhouse of the cell is the mitochondria [{"_id":"1","source":"https://example.com"}]
 * Mitochondria are made out of lipids [{"_id":"3","source":"https://example.com"}]
 ```
+
 ### Returning scores
 
 If you want to execute a similarity search and receive the corresponding scores you can run:
-
 
 ```typescript
 const similaritySearchWithScoreResults = await vectorStore.similaritySearchWithScore("biology", 2, filter)
@@ -249,14 +256,15 @@ for (const [doc, score] of similaritySearchWithScoreResults) {
   console.log(`* [SIM=${score.toFixed(3)}] ${doc.pageContent} [${JSON.stringify(doc.metadata)}]`);
 }
 ```
+
 ```output
 * [SIM=0.374] The powerhouse of the cell is the mitochondria [{"_id":"1","source":"https://example.com"}]
 * [SIM=0.370] Mitochondria are made out of lipids [{"_id":"3","source":"https://example.com"}]
 ```
+
 ### Query by turning into retriever
 
 You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains.
-
 
 ```typescript
 const retriever = vectorStore.asRetriever({
@@ -266,6 +274,7 @@ const retriever = vectorStore.asRetriever({
 });
 await retriever.invoke("biology");
 ```
+
 ```output
 [
   Document {
@@ -280,6 +289,7 @@ await retriever.invoke("biology");
   }
 ]
 ```
+
 ### Usage for retrieval-augmented generation
 
 For guides on how to use this vector store for retrieval-augmented generation (RAG), see the following sections:
@@ -291,7 +301,6 @@ For guides on how to use this vector store for retrieval-augmented generation (R
 ## Closing connections
 
 Make sure you close the client instance when you are finished to avoid excessive resource consumption:
-
 
 ```typescript
 await client.close();

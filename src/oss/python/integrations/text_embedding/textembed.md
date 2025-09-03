@@ -38,10 +38,10 @@ For more information, please read the [documentation](https://github.com/kevalde
 
 ### Import
 
-
 ```python
 from langchain_community.embeddings import TextEmbedEmbeddings
 ```
+
 ```python
 embeddings = TextEmbedEmbeddings(
     model="sentence-transformers/all-MiniLM-L12-v2",
@@ -51,7 +51,6 @@ embeddings = TextEmbedEmbeddings(
 ```
 
 ### Embed your documents
-
 
 ```python
 # Define a list of documents
@@ -67,7 +66,6 @@ documents = [
 query = "What is the cultural heritage of India?"
 ```
 
-
 ```python
 # Embed all documents
 document_embeddings = embeddings.embed_documents(documents)
@@ -75,7 +73,6 @@ document_embeddings = embeddings.embed_documents(documents)
 # Embed the query
 query_embedding = embeddings.embed_query(query)
 ```
-
 
 ```python
 # Compute Similarity
@@ -85,8 +82,6 @@ scores = np.array(document_embeddings) @ np.array(query_embedding).T
 dict(zip(documents, scores))
 ```
 
-
-
 ```output
 {'Data science involves extracting insights from data.': 0.05121298956322118,
  'Artificial intelligence is transforming various industries.': -0.0060612142358469345,
@@ -94,8 +89,6 @@ dict(zip(documents, scores))
  'Big data analytics helps in understanding large datasets.': 0.016582168576929422,
  'India has a diverse cultural heritage.': 0.7408992963028144}
 ```
-
-
 
 ```python
 

@@ -11,7 +11,6 @@ Model2Vec is a technique to turn any sentence transformer into a really small st
 pip install -U langchain-community
 ```
 
-
 ## Instantiation
 
 Ensure that `model2vec` is installed
@@ -22,22 +21,18 @@ pip install -U model2vec
 
 ## Indexing and Retrieval
 
-
 ```python
 from langchain_community.embeddings import Model2vecEmbeddings
 ```
-
 
 ```python
 embeddings = Model2vecEmbeddings("minishlab/potion-base-8M")
 ```
 
-
 ```python
 query_text = "This is a test query."
 query_result = embeddings.embed_query(query_text)
 ```
-
 
 ```python
 document_text = "This is a test document."

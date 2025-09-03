@@ -14,13 +14,11 @@ With `Knowledge Bases for Amazon Bedrock`, simply point to the location of your 
 
 <ItemTable category="document_retrievers" item="AmazonKnowledgeBasesRetriever" />
 
-
 ## Setup
 
 Knowledge Bases can be configured through [AWS Console](https://aws.amazon.com/console/) or by using [AWS SDKs](https://aws.amazon.com/developer/tools/). We will need the `knowledge_base_id` to instantiate the retriever.
 
 If you want to get automated tracing from individual queries, you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
-
 
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -31,7 +29,6 @@ If you want to get automated tracing from individual queries, you can also set y
 
 This retriever lives in the `langchain-aws` package:
 
-
 ```python
 %pip install -qU langchain-aws
 ```
@@ -39,7 +36,6 @@ This retriever lives in the `langchain-aws` package:
 ## Instantiation
 
 Now we can instantiate our retriever:
-
 
 ```python
 from langchain_aws.retrievers import AmazonKnowledgeBasesRetriever
@@ -52,7 +48,6 @@ retriever = AmazonKnowledgeBasesRetriever(
 
 ## Usage
 
-
 ```python
 query = "What did the president say about Ketanji Brown?"
 
@@ -60,7 +55,6 @@ retriever.invoke(query)
 ```
 
 ## Use within a chain
-
 
 ```python
 from botocore.client import Config

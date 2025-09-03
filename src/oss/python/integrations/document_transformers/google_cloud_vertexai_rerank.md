@@ -8,13 +8,11 @@ title: Google Cloud Vertex AI Reranker
 
 >For more information, see [Rank and rerank documents](https://cloud.google.com/generative-ai-app-builder/docs/ranking).
 
-
 ```python
 %pip install --upgrade --quiet langchain langchain-community langchain-google-community langchain-google-community[vertexaisearch] langchain-google-vertexai langchain-chroma langchain-text-splitters beautifulsoup4
 ```
 
 ### Setup
-
 
 ```python
 PROJECT_ID = ""
@@ -34,7 +32,6 @@ For this example, we will be using the [Google Wiki page](https://en.wikipedia.o
 We use a standard pipeline of `load -> split -> embed data`.
 
 The embeddings are created using the [Vertex Embeddings API](https://cloud.google.com/vertex-ai/generative-ai/docs/embeddings/get-text-embeddings#supported_models) model - `textembedding-gecko@003`
-
 
 ```python
 from langchain_chroma import Chroma
@@ -60,6 +57,7 @@ if vectordb is not None:  # delete existing vectordb if it already exists
 embedding = VertexAIEmbeddings(model_name="textembedding-gecko@003")
 vectordb = Chroma.from_documents(documents=splits, embedding=embedding)
 ```
+
 ```output
 Your 1 documents have been split into 266 chunks
 ```
@@ -96,7 +94,6 @@ The ranking API is used to improve the quality of the ranking and determine a sc
 
 You can see the difference between the Unranked and the Ranked Documents. The Ranking API moves the most semantically relevant documents to the top of the context window of the LLM thus helping it form a better answer with reasoning.
 
-
 ```python
 import pandas as pd
 
@@ -119,8 +116,6 @@ comparison_df = pd.DataFrame(
 
 comparison_df
 ```
-
-
 
 ```html
   <div id="df-43c4f5f2-c31d-4664-85dd-60cad39bd5fa" class="colab-df-container">
@@ -442,9 +437,7 @@ comparison_df
 
 ```
 
-
 Let's inspect a couple of reranked documents. We observe that the retriever still returns the relevant Langchain type [documents](https://python.langchain.com/api_reference/core/documents/langchain_core.documents.base.Document.html) but as part of the metadata field, we also receive the `relevance_score` from the Ranking API.
-
 
 ```python
 for i in range(2):
@@ -461,6 +454,7 @@ for i in range(2):
 </style>
 
 ```
+
 ```output
 Document 0
 page_content='The name "Google" originated from a misspelling of "googol",[211]\[212] which refers to the number represented by a 1 followed by one-hundred zeros. Page and Brin write in their original paper on PageRank:[33] "We chose our system name, Google, because it is a common spelling of googol, or 10100[,] and fits well with our goal of building very large-scale search engines." Having found its way increasingly into everyday language, the verb "google" was added to the Merriam Webster Collegiate Dictionary and the Oxford English Dictionary in 2006, meaning "to use the Google search engine to obtain information on the Internet."[213]\[214] Google\'s mission statement, from the outset, was "to organize the world\'s information and make it universally accessible and useful",[215] and its unofficial' metadata={'id': '2', 'relevance_score': 0.9800000190734863, 'source': 'https://en.wikipedia.org/wiki/Google'}
@@ -470,12 +464,10 @@ Document 1
 page_content='Eventually, they changed the name to Google; the name of the search engine was a misspelling of the word googol,[21]\[36]\[37] a very large number written 10100 (1 followed by 100 zeros), picked to signify that the search engine was intended to provide large quantities of information.[38]' metadata={'id': '1', 'relevance_score': 0.75, 'source': 'https://en.wikipedia.org/wiki/Google'}
 ----------------------------------------------------------
 ```
+
 ### Putting it all together
 
 This shows an example of a complete RAG chain with a simple prompt template on how you can perform reranking using the Vertex Ranking API.
-
-
-
 
 ```python
 from langchain.chains import LLMChain
@@ -533,7 +525,6 @@ chain = reranker_setup_and_retrieval | prompt | llm
 
 ```
 
-
 ```python
 query = "how did the name google originate?"
 ```
@@ -547,7 +538,6 @@ query = "how did the name google originate?"
 
 ```
 
-
 ```python
 chain.invoke(query)
 ```
@@ -560,8 +550,6 @@ chain.invoke(query)
 </style>
 
 ```
-
-
 
 ```output
 'The name "Google" originated as a misspelling of the word "googol," a mathematical term for the number 1 followed by 100 zeros. Larry Page and Sergey Brin, the founders of Google, chose the name because it reflected their goal of building a search engine that could handle massive amounts of information. \n'

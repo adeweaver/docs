@@ -4,16 +4,13 @@ title: Kinetica
 
 This notebooks goes over how to load documents from Kinetica
 
-
 ```python
 %pip install gpudb==7.2.0.9
 ```
 
-
 ```python
 from langchain_community.document_loaders.kinetica_loader import KineticaLoader
 ```
-
 
 ```python
 ## Loading Environment Variables
@@ -27,7 +24,6 @@ from langchain_community.vectorstores import (
 load_dotenv()
 ```
 
-
 ```python
 # Kinetica needs the connection to the database.
 # This is how to set it up.
@@ -39,7 +35,6 @@ PASSWORD = os.getenv("KINETICA_PASSWORD", "")
 def create_config() -> KineticaSettings:
     return KineticaSettings(host=HOST, username=USERNAME, password=PASSWORD)
 ```
-
 
 ```python
 from langchain_community.document_loaders.kinetica_loader import KineticaLoader
@@ -58,7 +53,6 @@ kinetica_loader = KineticaLoader(
 kinetica_documents = kinetica_loader.load()
 print(kinetica_documents)
 ```
-
 
 ```python
 from langchain_community.document_loaders.kinetica_loader import KineticaLoader

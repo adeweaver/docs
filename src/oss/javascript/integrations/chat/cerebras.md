@@ -63,10 +63,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```typescript
 import { ChatCerebras } from "@langchain/cerebras"
@@ -79,8 +79,8 @@ const llm = new ChatCerebras({
     // other params...
 })
 ```
-## Invocation
 
+## Invocation
 
 ```typescript
 const aiMsg = await llm.invoke([
@@ -92,6 +92,7 @@ const aiMsg = await llm.invoke([
 ])
 aiMsg
 ```
+
 ```output
 AIMessage {
   "id": "run-17c7d62d-67ac-4677-b33a-18298fc85e35",
@@ -124,11 +125,12 @@ AIMessage {
 ```typescript
 console.log(aiMsg.content)
 ```
+
 ```output
 J'adore la programmation.
 ```
-## Json invocation
 
+## Json invocation
 
 ```typescript
 const messages = [
@@ -148,13 +150,14 @@ const aiBindMsg = await llmWithResponseFormat.invoke(messages);
 // they are the same
 console.log({ aiInvokeMsgContent: aiInvokeMsg.content, aiBindMsg: aiBindMsg.content });
 ```
+
 ```output
 { aiInvokeMsgContent: '{"result":4}', aiBindMsg: '{"result":4}' }
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts"
@@ -178,6 +181,7 @@ await chain.invoke(
     }
 )
 ```
+
 ```output
 AIMessage {
   "id": "run-5c8a9f25-0f57-499b-9c2b-87bd07135feb",
@@ -206,6 +210,7 @@ AIMessage {
   }
 }
 ```
+
 ## API reference
 
-For detailed documentation of all ChatCerebras features and configurations head to the API reference: https://api.js.langchain.com/classes/_langchain_cerebras.ChatCerebras.html
+For detailed documentation of all ChatCerebras features and configurations head to the [API reference](https://api.js.langchain.com/classes/_langchain_cerebras.ChatCerebras.html).

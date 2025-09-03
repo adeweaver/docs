@@ -4,16 +4,16 @@ title: ChatCloudflareWorkersAI
 
 This will help you get started with CloudflareWorkersAI [chat models](/oss/concepts/chat_models). For detailed documentation of all ChatCloudflareWorkersAI features and configurations head to the [API reference](https://python.langchain.com/docs/integrations/chat/cloudflare_workersai/).
 
-
 ## Overview
-### Integration details
 
+### Integration details
 
 | Class | Package | Local | Serializable | [JS support](https://js.langchain.com/docs/integrations/chat/cloudflare) | Package downloads | Package latest |
 | :--- | :--- |:-----:|:------------:|:------------------------------------------------------------------------:| :---: | :---: |
 | [ChatCloudflareWorkersAI](https://python.langchain.com/docs/integrations/chat/cloudflare_workersai/) | [langchain-cloudflare](https://pypi.org/project/langchain-cloudflare/) |   ✅   |      ❌       |                                     ❌                                     | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-cloudflare?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-cloudflare?style=flat-square&label=%20) |
 
 ### Model features
+
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | Native async | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 |:-----------------------------------------:|:----------------------------------------------------:|:---------:|:----------------------------------------------:|:-----------:|:-----------:|:-----------------------------------------------------:|:------------:|:------------------------------------------------------:|:----------------------------------:|
 |                     ✅                     |                          ✅                           |     ✅     |                       ❌                        |      ❌      |      ❌      |                           ❌                           |      ❌       |                             ✅                            |                 ❌                  |
@@ -24,9 +24,7 @@ To access CloudflareWorkersAI models you'll need to create a/an CloudflareWorker
 
 ### Credentials
 
-
-Head to https://www.cloudflare.com/developer-platform/products/workers-ai/ to sign up to CloudflareWorkersAI and generate an API key. Once you've done this set the CF_AI_API_KEY environment variable and the CF_ACCOUNT_ID environment variable:
-
+Head to [www.cloudflare.com/developer-platform/products/workers-ai/](https://www.cloudflare.com/developer-platform/products/workers-ai/) to sign up to CloudflareWorkersAI and generate an API key. Once you've done this set the CF_AI_API_KEY environment variable and the CF_ACCOUNT_ID environment variable:
 
 ```python
 import getpass
@@ -45,7 +43,6 @@ if not os.getenv("CF_ACCOUNT_ID"):
 
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
-
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -54,7 +51,6 @@ If you want to get automated tracing of your model calls you can also set your [
 ### Installation
 
 The LangChain CloudflareWorkersAI integration lives in the `langchain-cloudflare` package:
-
 
 ```python
 %pip install -qU langchain-cloudflare
@@ -65,7 +61,6 @@ The LangChain CloudflareWorkersAI integration lives in the `langchain-cloudflare
 Now we can instantiate our model object and generate chat completions:
 
 - Update model instantiation with relevant params.
-
 
 ```python
 from langchain_cloudflare.chat_models import ChatCloudflareWorkersAI
@@ -80,8 +75,6 @@ llm = ChatCloudflareWorkersAI(
 
 ## Invocation
 
-
-
 ```python
 messages = [
     (
@@ -94,25 +87,21 @@ ai_msg = llm.invoke(messages)
 ai_msg
 ```
 
-
-
 ```output
 AIMessage(content="J'adore la programmation.", additional_kwargs={}, response_metadata={'token_usage': {'prompt_tokens': 37, 'completion_tokens': 9, 'total_tokens': 46}, 'model_name': '@cf/meta/llama-3.3-70b-instruct-fp8-fast'}, id='run-995d1970-b6be-49f3-99ae-af4cdba02304-0', usage_metadata={'input_tokens': 37, 'output_tokens': 9, 'total_tokens': 46})
 ```
 
-
-
 ```python
 print(ai_msg.content)
 ```
+
 ```output
 J'adore la programmation.
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
-
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate
@@ -137,15 +126,11 @@ chain.invoke(
 )
 ```
 
-
-
 ```output
 AIMessage(content='Ich liebe das Programmieren.', additional_kwargs={}, response_metadata={'token_usage': {'prompt_tokens': 32, 'completion_tokens': 7, 'total_tokens': 39}, 'model_name': '@cf/meta/llama-3.3-70b-instruct-fp8-fast'}, id='run-d1b677bc-194e-4473-90f1-aa65e8e46d50-0', usage_metadata={'input_tokens': 32, 'output_tokens': 7, 'total_tokens': 39})
 ```
 
-
 ## Structured Outputs
-
 
 ```python
 json_schema = {
@@ -174,17 +159,13 @@ structured_llm = llm.with_structured_output(json_schema)
 structured_llm.invoke("Tell me a joke about cats")
 ```
 
-
-
 ```output
 {'setup': 'Why did the cat join a band?',
  'punchline': 'Because it wanted to be the purr-cussionist',
  'rating': '8'}
 ```
 
-
 ## Bind tools
-
 
 ```python
 from typing import List
@@ -213,8 +194,6 @@ result = llm_with_tools.invoke(
 result.tool_calls
 ```
 
-
-
 ```output
 [{'name': 'validate_user',
   'args': {'user_id': '123',
@@ -223,8 +202,7 @@ result.tool_calls
   'type': 'tool_call'}]
 ```
 
-
 ## API reference
 
-https://developers.cloudflare.com/workers-ai/
-https://developers.cloudflare.com/agents/
+[developers.cloudflare.com/workers-ai/](https://developers.cloudflare.com/workers-ai/)
+[developers.cloudflare.com/agents/](https://developers.cloudflare.com/agents/)

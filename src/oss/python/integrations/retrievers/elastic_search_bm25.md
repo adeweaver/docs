@@ -12,11 +12,9 @@ This notebook shows how to use a retriever that uses `ElasticSearch` and `BM25`.
 
 For more information on the details of BM25 see [this blog post](https://www.elastic.co/blog/practical-bm25-part-2-the-bm25-algorithm-and-its-variables).
 
-
 ```python
 %pip install --upgrade --quiet  elasticsearch
 ```
-
 
 ```python
 from langchain_community.retrievers import (
@@ -26,12 +24,10 @@ from langchain_community.retrievers import (
 
 ## Create New Retriever
 
-
 ```python
 elasticsearch_url = "http://localhost:9200"
 retriever = ElasticSearchBM25Retriever.create(elasticsearch_url, "langchain-index-4")
 ```
-
 
 ```python
 # Alternatively, you can load an existing index
@@ -44,12 +40,9 @@ retriever = ElasticSearchBM25Retriever.create(elasticsearch_url, "langchain-inde
 
 We can optionally add texts to the retriever (if they aren't already in there)
 
-
 ```python
 retriever.add_texts(["foo", "bar", "world", "hello", "foo bar"])
 ```
-
-
 
 ```output
 ['cbd4cb47-8d9f-4f34-b80e-ea871bc49856',
@@ -59,29 +52,22 @@ retriever.add_texts(["foo", "bar", "world", "hello", "foo bar"])
  'd79f457b-2842-4eab-ae10-77aa420b53d7']
 ```
 
-
 ## Use Retriever
 
 We can now use the retriever!
-
 
 ```python
 result = retriever.invoke("foo")
 ```
 
-
 ```python
 result
 ```
-
-
 
 ```output
 [Document(page_content='foo', metadata={}),
  Document(page_content='foo bar', metadata={})]
 ```
-
-
 
 ```python
 

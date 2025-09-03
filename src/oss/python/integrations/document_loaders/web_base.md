@@ -7,6 +7,7 @@ This covers how to use `WebBaseLoader` to load all text from `HTML` webpages int
 If you don't want to worry about website crawling, bypassing JS-blocking sites, and data cleaning, consider using `FireCrawlLoader` or the faster option `SpiderLoader`.
 
 ## Overview
+
 ### Integration details
 
 - TODO: Fill in table features.
@@ -16,7 +17,9 @@ If you don't want to worry about website crawling, bypassing JS-blocking sites, 
 | Class | Package | Local | Serializable | JS support|
 | :--- | :--- | :---: | :---: |  :---: |
 | [WebBaseLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.web_base.WebBaseLoader.html) | [langchain-community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ❌ |
+
 ### Loader features
+
 | Source | Document Lazy Loading | Native Async Support
 | :---: | :---: | :---: |
 | WebBaseLoader | ✅ | ✅ |
@@ -31,8 +34,6 @@ If you don't want to worry about website crawling, bypassing JS-blocking sites, 
 
 To use the `WebBaseLoader` you first need to install the `langchain-community` python package.
 
-
-
 ```python
 %pip install -qU langchain-community beautifulsoup4
 ```
@@ -40,7 +41,6 @@ To use the `WebBaseLoader` you first need to install the `langchain-community` p
 ## Initialization
 
 Now we can instantiate our model object and load documents:
-
 
 ```python
 from langchain_community.document_loaders import WebBaseLoader
@@ -56,7 +56,6 @@ To bypass SSL verification errors during fetching, you can set the "verify" opti
 
 You can also pass in a list of pages to load from.
 
-
 ```python
 loader_multiple_pages = WebBaseLoader(
     ["https://www.example.com/", "https://google.com"]
@@ -65,33 +64,29 @@ loader_multiple_pages = WebBaseLoader(
 
 ## Load
 
-
 ```python
 docs = loader.load()
 
 docs[0]
 ```
 
-
-
 ```output
 Document(metadata={'source': 'https://www.example.com/', 'title': 'Example Domain', 'language': 'No language found.'}, page_content='\n\n\nExample Domain\n\n\n\n\n\n\n\nExample Domain\nThis domain is for use in illustrative examples in documents. You may use this\n    domain in literature without prior coordination or asking for permission.\nMore information...\n\n\n\n')
 ```
 
-
-
 ```python
 print(docs[0].metadata)
 ```
+
 ```output
 {'source': 'https://www.example.com/', 'title': 'Example Domain', 'language': 'No language found.'}
 ```
+
 ### Load multiple urls concurrently
 
 You can speed up the scraping process by scraping and parsing multiple urls concurrently.
 
 There are reasonable limits to concurrent requests, defaulting to 2 per second.  If you aren't concerned about being a good citizen, or you control the server you are scraping and don't care about load, you can change the `requests_per_second` parameter to increase the max concurrent requests.  Note, while this will speed up the scraping process, but may cause the server to block you.  Be careful!
-
 
 ```python
 %pip install -qU  nest_asyncio
@@ -101,6 +96,7 @@ import nest_asyncio
 
 nest_asyncio.apply()
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
@@ -111,21 +107,19 @@ loader.requests_per_second = 1
 docs = loader.aload()
 docs
 ```
+
 ```output
 Fetching pages: 100%|###########################################################################| 2/2 [00:00<00:00,  8.28it/s]
 ```
-
 
 ```output
 [Document(metadata={'source': 'https://www.example.com/', 'title': 'Example Domain', 'language': 'No language found.'}, page_content='\n\n\nExample Domain\n\n\n\n\n\n\n\nExample Domain\nThis domain is for use in illustrative examples in documents. You may use this\n    domain in literature without prior coordination or asking for permission.\nMore information...\n\n\n\n'),
  Document(metadata={'source': 'https://google.com', 'title': 'Google', 'description': "Search the world's information, including webpages, images, videos and more. Google has many special features to help you find exactly what you're looking for.", 'language': 'en'}, page_content='GoogleSearch Images Maps Play YouTube News Gmail Drive More »Web History | Settings | Sign in\xa0Advanced search5 ways Gemini can help during the HolidaysAdvertisingBusiness SolutionsAbout Google© 2024 - Privacy - Terms  ')]
 ```
 
-
 ### Loading a xml file, or using a different BeautifulSoup parser
 
 You can also look at `SitemapLoader` for an example of how to load a sitemap file, which is an example of using this feature.
-
 
 ```python
 loader = WebBaseLoader(
@@ -136,17 +130,13 @@ docs = loader.load()
 docs
 ```
 
-
-
 ```output
 [Document(metadata={'source': 'https://www.govinfo.gov/content/pkg/CFR-2018-title10-vol3/xml/CFR-2018-title10-vol3-sec431-86.xml'}, page_content='\n\n10\nEnergy\n3\n2018-01-01\n2018-01-01\nfalse\nUniform test method for the measurement of energy efficiency of commercial packaged boilers.\nÂ§ 431.86\nSection Â§ 431.86\n\nEnergy\nDEPARTMENT OF ENERGY\nENERGY CONSERVATION\nENERGY EFFICIENCY PROGRAM FOR CERTAIN COMMERCIAL AND INDUSTRIAL EQUIPMENT\nCommercial Packaged Boilers\nTest Procedures\n\n\n\n\n§\u2009431.86\nUniform test method for the measurement of energy efficiency of commercial packaged boilers.\n(a) Scope. This section provides test procedures, pursuant to the Energy Policy and Conservation Act (EPCA), as amended, which must be followed for measuring the combustion efficiency and/or thermal efficiency of a gas- or oil-fired commercial packaged boiler.\n(b) Testing and Calculations. Determine the thermal efficiency or combustion efficiency of commercial packaged boilers by conducting the appropriate test procedure(s) indicated in Table 1 of this section.\n\nTable 1—Test Requirements for Commercial Packaged Boiler Equipment Classes\n\nEquipment category\nSubcategory\nCertified rated inputBtu/h\n\nStandards efficiency metric(§\u2009431.87)\n\nTest procedure(corresponding to\nstandards efficiency\nmetric required\nby §\u2009431.87)\n\n\n\nHot Water\nGas-fired\n≥300,000 and ≤2,500,000\nThermal Efficiency\nAppendix A, Section 2.\n\n\nHot Water\nGas-fired\n>2,500,000\nCombustion Efficiency\nAppendix A, Section 3.\n\n\nHot Water\nOil-fired\n≥300,000 and ≤2,500,000\nThermal Efficiency\nAppendix A, Section 2.\n\n\nHot Water\nOil-fired\n>2,500,000\nCombustion Efficiency\nAppendix A, Section 3.\n\n\nSteam\nGas-fired (all*)\n≥300,000 and ≤2,500,000\nThermal Efficiency\nAppendix A, Section 2.\n\n\nSteam\nGas-fired (all*)\n>2,500,000 and ≤5,000,000\nThermal Efficiency\nAppendix A, Section 2.\n\n\n\u2003\n\n>5,000,000\nThermal Efficiency\nAppendix A, Section 2.OR\nAppendix A, Section 3 with Section 2.4.3.2.\n\n\n\nSteam\nOil-fired\n≥300,000 and ≤2,500,000\nThermal Efficiency\nAppendix A, Section 2.\n\n\nSteam\nOil-fired\n>2,500,000 and ≤5,000,000\nThermal Efficiency\nAppendix A, Section 2.\n\n\n\u2003\n\n>5,000,000\nThermal Efficiency\nAppendix A, Section 2.OR\nAppendix A, Section 3. with Section 2.4.3.2.\n\n\n\n*\u2009Equipment classes for commercial packaged boilers as of July 22, 2009 (74 FR 36355) distinguish between gas-fired natural draft and all other gas-fired (except natural draft).\n\n(c) Field Tests. The field test provisions of appendix A may be used only to test a unit of commercial packaged boiler with rated input greater than 5,000,000 Btu/h.\n[81 FR 89305, Dec. 9, 2016]\n\n\nEnergy Efficiency Standards\n\n')]
 ```
 
-
 ## Lazy Load
 
 You can use lazy loading to only load one page at a time in order to minimize memory requirements.
-
 
 ```python
 pages = []
@@ -156,6 +146,7 @@ for doc in loader.lazy_load():
 print(pages[0].page_content[:100])
 print(pages[0].metadata)
 ```
+
 ```output
 10
 Energy
@@ -166,8 +157,8 @@ false
 Uniform test method for the measurement of energy efficien
 {'source': 'https://www.govinfo.gov/content/pkg/CFR-2018-title10-vol3/xml/CFR-2018-title10-vol3-sec431-86.xml'}
 ```
-### Async
 
+### Async
 
 ```python
 pages = []
@@ -177,6 +168,7 @@ async for doc in loader.alazy_load():
 print(pages[0].page_content[:100])
 print(pages[0].metadata)
 ```
+
 ```output
 Fetching pages: 100%|###########################################################################| 1/1 [00:00<00:00, 10.51it/s]
 ``````output
@@ -189,10 +181,10 @@ false
 Uniform test method for the measurement of energy efficien
 {'source': 'https://www.govinfo.gov/content/pkg/CFR-2018-title10-vol3/xml/CFR-2018-title10-vol3-sec431-86.xml'}
 ```
+
 ## Using proxies
 
 Sometimes you might need to use proxies to get around IP blocks. You can pass in a dictionary of proxies to the loader (and `requests` underneath) to use them.
-
 
 ```python
 loader = WebBaseLoader(
@@ -207,4 +199,4 @@ docs = loader.load()
 
 ## API reference
 
-For detailed documentation of all `WebBaseLoader` features and configurations head to the API reference: https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.web_base.WebBaseLoader.html
+For detailed documentation of all `WebBaseLoader` features and configurations head to the API reference: [python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.web_base.WebBaseLoader.html](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.web_base.WebBaseLoader.html)

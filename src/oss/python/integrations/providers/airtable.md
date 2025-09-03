@@ -22,7 +22,6 @@ pip install pyairtable
 
 ## Document Loader
 
-
 ```python
 from langchain_community.document_loaders import AirtableLoader
 ```

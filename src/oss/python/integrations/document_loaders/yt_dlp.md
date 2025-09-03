@@ -7,6 +7,7 @@ Loader for Youtube leveraging the `yt-dlp` library.
 This package implements a [document loader](/oss/concepts/document_loaders/) for Youtube. In contrast to the [YoutubeLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.youtube.YoutubeLoader.html) of `langchain-community`, which relies on `pytube`, `YoutubeLoaderDL` is able to fetch YouTube metadata. `langchain-yt-dlp` leverages the robust `yt-dlp` library, providing a more reliable and feature-rich YouTube document loader.
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | JS Support |
@@ -23,7 +24,6 @@ pip install langchain-yt-dlp
 
 ### Initialization
 
-
 ```python
 from langchain_yt_dlp.youtube_loader import YoutubeLoaderDL
 
@@ -35,17 +35,13 @@ loader = YoutubeLoaderDL.from_youtube_url(
 
 ### Load
 
-
 ```python
 documents = loader.load()
 ```
 
-
 ```python
 documents[0].metadata
 ```
-
-
 
 ```output
 {'source': 'dQw4w9WgXcQ',
@@ -59,12 +55,11 @@ documents[0].metadata
  'webpage_url': 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'}
 ```
 
-
 ## Lazy Load
 
 - No lazy loading is implemented
 
-## API reference:
+## API reference
 
 - [Github](https://github.com/aqib0770/langchain-yt-dlp)
 - [PyPi](https://pypi.org/project/langchain-yt-dlp/)

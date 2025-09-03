@@ -12,7 +12,6 @@ This retriever is optimized for scenarios where you need to perform similarity s
 
 The Nebius integration can be installed via pip:
 
-
 ```python
 %pip install --upgrade langchain-nebius
 ```
@@ -20,7 +19,6 @@ The Nebius integration can be installed via pip:
 ### Credentials
 
 Nebius requires an API key that can be passed as an initialization parameter `api_key` or set as the environment variable `NEBIUS_API_KEY`. You can obtain an API key by creating an account on [Nebius AI Studio](https://studio.nebius.ai/).
-
 
 ```python
 import getpass
@@ -34,7 +32,6 @@ if "NEBIUS_API_KEY" not in os.environ:
 ## Instantiation
 
 The `NebiusRetriever` requires a `NebiusEmbeddings` instance and a list of documents. Here's how to initialize it:
-
 
 ```python
 from langchain_core.documents import Document
@@ -94,7 +91,6 @@ retriever = NebiusRetriever(
 
 You can use the retriever to find documents related to a query:
 
-
 ```python
 # Query for European capitals
 query = "What are some capitals in Europe?"
@@ -105,6 +101,7 @@ print(f"Top {len(results)} results:")
 for i, doc in enumerate(results):
     print(f"{i + 1}. {doc.page_content} (Country: {doc.metadata['country']})")
 ```
+
 ```output
 Query: What are some capitals in Europe?
 Top 3 results:
@@ -112,10 +109,10 @@ Top 3 results:
 2. Berlin is the capital of Germany (Country: Germany)
 3. Rome is the capital of Italy (Country: Italy)
 ```
+
 ### Using get_relevant_documents
 
 You can also use the `get_relevant_documents` method directly (though `invoke` is the preferred interface):
-
 
 ```python
 # Query for Asian countries
@@ -127,6 +124,7 @@ print(f"Top {len(results)} results:")
 for i, doc in enumerate(results):
     print(f"{i + 1}. {doc.page_content} (Country: {doc.metadata['country']})")
 ```
+
 ```output
 Query: What are the capitals in Asia?
 Top 3 results:
@@ -134,10 +132,10 @@ Top 3 results:
 2. Tokyo is the capital of Japan (Country: Japan)
 3. Canberra is the capital of Australia (Country: Australia)
 ```
+
 ### Customizing Number of Results
 
 You can adjust the number of results at query time by passing `k` as a parameter:
-
 
 ```python
 # Query for a specific country, with custom k
@@ -149,15 +147,16 @@ print(f"Top {len(results)} result:")
 for i, doc in enumerate(results):
     print(f"{i + 1}. {doc.page_content} (Country: {doc.metadata['country']})")
 ```
+
 ```output
 Query: Where is France?
 Top 1 result:
 1. Paris is the capital of France (Country: France)
 ```
+
 ### Async Support
 
 NebiusRetriever supports async operations:
-
 
 ```python
 import asyncio
@@ -175,6 +174,7 @@ async def retrieve_async():
 
 await retrieve_async()
 ```
+
 ```output
 Async query: What are some capital cities?
 Top 3 results:
@@ -182,8 +182,8 @@ Top 3 results:
 2. Canberra is the capital of Australia (Country: Australia)
 3. Paris is the capital of France (Country: France)
 ```
-### Handling Empty Documents
 
+### Handling Empty Documents
 
 ```python
 # Create a retriever with empty documents
@@ -197,13 +197,14 @@ empty_retriever = NebiusRetriever(
 results = empty_retriever.invoke("What are the capitals of European countries?")
 print(f"Number of results: {len(results)}")
 ```
+
 ```output
 Number of results: 0
 ```
+
 ## Use within a chain
 
 NebiusRetriever works seamlessly in LangChain RAG pipelines. Here's an example of creating a simple RAG chain with the NebiusRetriever:
-
 
 ```python
 from langchain_core.output_parsers import StrOutputParser
@@ -244,6 +245,7 @@ rag_chain = (
 answer = rag_chain.invoke("What are three European capitals?")
 print(answer)
 ```
+
 ```output
 Based on the context provided, three European capitals are:
 
@@ -251,10 +253,10 @@ Based on the context provided, three European capitals are:
 2. Berlin
 3. Rome
 ```
+
 ### Creating a Search Tool
 
 You can use the `NebiusRetrievalTool` to create a tool for agents:
-
 
 ```python
 from langchain_nebius import NebiusRetrievalTool
@@ -271,6 +273,7 @@ result = tool.invoke({"query": "capitals in Europe", "k": 3})
 print("Tool results:")
 print(result)
 ```
+
 ```output
 Tool results:
 Document 1:
@@ -282,6 +285,7 @@ Berlin is the capital of Germany
 Document 3:
 Rome is the capital of Italy
 ```
+
 ## How It Works
 
 The NebiusRetriever works by:

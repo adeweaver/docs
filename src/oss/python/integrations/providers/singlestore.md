@@ -13,7 +13,6 @@ This integration provides the following components to leverage SingleStore's cap
 
 These components enable efficient document storage, embedding management, and advanced search capabilities, combining full-text and vector-based search for fast and accurate queries.
 
-
 ```python
 from langchain_singlestore import (
     SingleStoreChatMessageHistory,

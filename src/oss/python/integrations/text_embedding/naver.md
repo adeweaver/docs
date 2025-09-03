@@ -5,6 +5,7 @@ title: Naver
 This notebook covers how to get started with embedding models provided by CLOVA Studio. For detailed documentation on `ClovaXEmbeddings` features and configuration options, please refer to the [API reference](https://guide.ncloud-docs.com/docs/clovastudio-dev-langchain#%EC%9E%84%EB%B2%A0%EB%94%A9%EB%8F%84%EA%B5%AC%EC%9D%B4%EC%9A%A9).
 
 ## Overview
+
 ### Integration details
 
 | Provider | Package |
@@ -24,7 +25,6 @@ Before using embedding models provided by CLOVA Studio, you must go through the 
 
 Set the `CLOVASTUDIO_API_KEY` environment variable with your API key.
 
-
 ```python
 import getpass
 import os
@@ -37,7 +37,6 @@ if not os.getenv("CLOVASTUDIO_API_KEY"):
 
 ClovaXEmbeddings integration lives in the `langchain_naver` package:
 
-
 ```python
 # install package
 %pip install -qU langchain-naver
@@ -49,7 +48,6 @@ Now we can instantiate our embeddings object and embed query or document:
 
 - There are several embedding models available in CLOVA Studio. Please refer [here](https://guide.ncloud-docs.com/docs/en/clovastudio-explorer03#임베딩API) for further details.
 - Note that you might need to normalize the embeddings depending on your specific use case.
-
 
 ```python
 from langchain_naver import ClovaXEmbeddings
@@ -64,7 +62,6 @@ embeddings = ClovaXEmbeddings(
 Embedding models are often used in retrieval-augmented generation (RAG) flows, both as part of indexing data as well as later retrieving it. For more detailed instructions, please see our [RAG tutorials](/oss/tutorials/rag).
 
 Below, see how to index and retrieve data using the `embeddings` object we initialized above. In this example, we will index and retrieve a sample document in the `InMemoryVectorStore`.
-
 
 ```python
 # Create a vector store with a sample text
@@ -87,12 +84,9 @@ retrieved_documents = retriever.invoke("What is CLOVA Studio?")
 retrieved_documents[0].page_content
 ```
 
-
-
 ```output
 'CLOVA Studio is an AI development tool that allows you to customize your own HyperCLOVA X models.'
 ```
-
 
 ## Direct Usage
 
@@ -104,18 +98,18 @@ You can directly call these methods to get embeddings for your own use cases.
 
 You can embed single texts or documents with `embed_query`:
 
-
 ```python
 single_vector = embeddings.embed_query(text)
 print(str(single_vector)[:100])  # Show the first 100 characters of the vector
 ```
+
 ```output
 [-0.094717406, -0.4077411, -0.5513184, 1.6024436, -1.3235079, -1.0720996, -0.44471845, 1.3665184, 0.
 ```
+
 ### Embed multiple texts
 
 You can embed multiple texts with `embed_documents`:
-
 
 ```python
 text2 = "LangChain is a framework for building context-aware reasoning applications"
@@ -123,10 +117,12 @@ two_vectors = embeddings.embed_documents([text, text2])
 for vector in two_vectors:
     print(str(vector)[:100])  # Show the first 100 characters of the vector
 ```
+
 ```output
 [-0.094717406, -0.4077411, -0.5513184, 1.6024436, -1.3235079, -1.0720996, -0.44471845, 1.3665184, 0.
 [-0.25525448, -0.84877056, -0.6928286, 1.5867524, -1.2930486, -0.8166254, -0.17934391, 1.4236152, 0.
 ```
+
 ## API Reference
 
 For detailed documentation on `ClovaXEmbeddings` features and configuration options, please refer to the [API reference](https://guide.ncloud-docs.com/docs/clovastudio-dev-langchain#%EC%9E%84%EB%B2%A0%EB%94%A9%EB%8F%84%EA%B5%AC%EC%9D%B4%EC%9A%A9).

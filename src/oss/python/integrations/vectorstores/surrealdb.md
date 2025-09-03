@@ -5,6 +5,7 @@ title: SurrealDBVectorStore
 > [SurrealDB](https://surrealdb.com) is a unified, multi-model database purpose-built for AI systems. It combines structured and unstructured data (including vector search, graph traversal, relational queries, full-text search, document storage, and time-series data) into a single ACID-compliant engine, scaling from a 3 MB edge binary to petabyte-scale clusters in the cloud. By eliminating the need for multiple specialized stores, SurrealDB simplifies architectures, reduces latency, and ensures consistency for AI workloads.
 >
 > **Why SurrealDB Matters for GenAI Systems**
+>
 > - **One engine for storage and memory:** Combine durable storage and fast, agent-friendly memory in a single system, providing all the data your agent needs and removing the need to sync multiple systems.
 > - **One-hop memory for agents:** Run vector search, graph traversal, semantic joins, and transactional writes in a single query, giving LLM agents fast, consistent memory access without stitching relational, graph and vector databases together.
 > - **In-place inference and real-time updates:** SurrealDB enables agents to run inference next to data and receive millisecond-fresh updates, critical for real-time reasoning and collaboration.
@@ -18,6 +19,7 @@ This notebook covers how to get started with the SurrealDB vector store.
 You can run SurrealDB locally or start with a [free SurrealDB cloud account](https://surrealdb.com/docs/cloud/getting-started).
 
 For local, two options:
+
 1. [Install SurrealDB](https://surrealdb.com/docs/surrealdb/installation) and [run SurrealDB](https://surrealdb.com/docs/surrealdb/installation/running). Run in-memory with:
 
     ```bash
@@ -42,16 +44,14 @@ poetry add langchain-surrealdb surrealdb
 # -- Using uv
 uv add --upgrade langchain-surrealdb surrealdb
 ```
+
 To run this notebook, we just need to install the additional dependencies required by this example:
-
-
 
 ```python
 !poetry add --quiet --group docs langchain-ollama langchain-surrealdb
 ```
+
 ## Initialization
-
-
 
 ```python
 from langchain_ollama import OllamaEmbeddings
@@ -63,11 +63,10 @@ conn.signin({"username": "root", "password": "root"})
 conn.use("langchain", "demo")
 vector_store = SurrealDBVectorStore(OllamaEmbeddings(model="llama3.2"), conn)
 ```
+
 ## Manage vector store
 
 ### Add items to vector store
-
-
 
 ```python
 from langchain_core.documents import Document
@@ -80,13 +79,12 @@ d4 = Document(page_content="this is surreal", metadata={"source": _url})
 
 vector_store.add_documents(documents=[d1, d2, d3, d4], ids=["1", "2", "3", "4"])
 ```
+
 ```output
 ['1', '2', '3', '4']
 ```
 
-
 ### Update items in vector store
-
 
 ```python
 updated_document = Document(
@@ -96,16 +94,11 @@ updated_document = Document(
 vector_store.add_documents(documents=[updated_document], ids=["3"])
 ```
 
-
-
 ```output
 ['3']
 ```
 
-
 ### Delete items from vector store
-
-
 
 ```python
 vector_store.delete(ids=["3"])
@@ -119,8 +112,6 @@ Once your vector store has been created and the relevant documents have been add
 
 Performing a simple similarity search can be done as follows:
 
-
-
 ```python
 results = vector_store.similarity_search(
     query="surreal", k=1, custom_filter={"source": "https://surrealdb.com"}
@@ -128,12 +119,12 @@ results = vector_store.similarity_search(
 for doc in results:
     print(f"{doc.page_content} [{doc.metadata}]")
 ```
+
 ```output
 this is surreal [{'source': 'https://surrealdb.com'}]
 ```
+
 If you want to execute a similarity search and receive the corresponding scores you can run:
-
-
 
 ```python
 results = vector_store.similarity_search_with_score(
@@ -142,14 +133,14 @@ results = vector_store.similarity_search_with_score(
 for doc, score in results:
     print(f"[similarity={score:.0%}] {doc.page_content}")
 ```
+
 ```output
 [similarity=57%] this is surreal
 ```
+
 ### Query by turning into retriever
 
 You can also transform the vector store into a retriever for easier usage in your chains.
-
-
 
 ```python
 retriever = vector_store.as_retriever(
@@ -158,12 +149,9 @@ retriever = vector_store.as_retriever(
 retriever.invoke("surreal")
 ```
 
-
-
 ```output
 [Document(id='4', metadata={'source': 'https://surrealdb.com'}, page_content='this is surreal')]
 ```
-
 
 ## Usage for retrieval-augmented generation
 
@@ -174,7 +162,7 @@ For guides on how to use this vector store for retrieval-augmented generation (R
 
 ## API reference
 
-For detailed documentation of all SurrealDBVectorStore features and configurations head to the API reference: https://python.langchain.com/api_reference/surrealdb/index.html
+For detailed documentation of all SurrealDBVectorStore features and configurations head to the API reference: [python.langchain.com/api_reference/surrealdb/index.html](https://python.langchain.com/api_reference/surrealdb/index.html)
 
 ## Next steps
 

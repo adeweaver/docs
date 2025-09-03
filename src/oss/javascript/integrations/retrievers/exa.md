@@ -43,10 +43,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/exa @langchain/core
 </Npm2Yarn>
 ```
+
 ## Instantiation
 
 Now we can instantiate our retriever:
-
 
 ```typescript
 import { ExaRetriever } from "@langchain/exa";
@@ -62,14 +62,15 @@ const retriever = new ExaRetriever({
   }
 });
 ```
-## Usage
 
+## Usage
 
 ```typescript
 const query = "What did the speaker say about Justice Breyer in the 2022 State of the Union?";
 
 await retriever.invoke(query);
 ```
+
 ```output
 [
   Document {
@@ -180,6 +181,7 @@ await retriever.invoke(query);
   }
 ]
 ```
+
 ## Use within a chain
 
 Like other retrievers, ExaRetriever can be incorporated into LLM applications via [chains](/oss/how-to/sequence/).
@@ -189,6 +191,7 @@ We will need a LLM or chat model:
 ```{=mdx}
 <ChatModelTabs customVarName="llm" />
 ```
+
 ```typescript
 // @lc-docs-hide-cell
 
@@ -199,7 +202,6 @@ const llm = new ChatOpenAI({
   temperature: 0,
 });
 ```
-
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts";
@@ -231,13 +233,14 @@ const ragChain = RunnableSequence.from([
 ]);
 ```
 
-
 ```typescript
 await ragChain.invoke("What did the speaker say about Justice Breyer in the 2022 State of the Union?");
 ```
+
 ```output
 In the 2022 State of the Union Address, the speaker, President Biden, honored Justice Breyer, describing him as someone who has dedicated his life to serve the country. He acknowledged Justice Breyer as an Army veteran and a constitutional scholar, and he expressed gratitude for his service. President Biden also mentioned that one of the most serious constitutional responsibilities of a President is nominating someone to serve on the United States Supreme Court, and he highlighted his nomination of Ketanji Brown Jackson to succeed Justice Breyer.
 ```
+
 ## API reference
 
 For detailed documentation of all ExaRetriever features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_exa.ExaRetriever.html).

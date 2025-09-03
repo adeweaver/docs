@@ -4,20 +4,18 @@ title: PySpark
 
 This notebook goes over how to load data from a [PySpark](https://spark.apache.org/docs/latest/api/python/) DataFrame.
 
-
 ```python
 %pip install --upgrade --quiet  pyspark
 ```
-
 
 ```python
 from pyspark.sql import SparkSession
 ```
 
-
 ```python
 spark = SparkSession.builder.getOrCreate()
 ```
+
 ```output
 Setting default log level to "WARN".
 To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
@@ -28,24 +26,21 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 df = spark.read.csv("example_data/mlb_teams_2012.csv", header=True)
 ```
 
-
 ```python
 from langchain_community.document_loaders import PySparkDataFrameLoader
 ```
-
 
 ```python
 loader = PySparkDataFrameLoader(spark, df, page_content_column="Team")
 ```
 
-
 ```python
 loader.load()
 ```
+
 ```output
 [Stage 8:>                                                          (0 + 1) / 1]
 ```
-
 
 ```output
 [Document(page_content='Nationals', metadata={' "Payroll (millions)"': '     81.34', ' "Wins"': ' 98'}),

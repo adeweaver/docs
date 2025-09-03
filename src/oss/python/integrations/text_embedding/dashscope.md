@@ -4,11 +4,9 @@ title: DashScope
 
 Let's load the DashScope Embedding class.
 
-
 ```python
 from langchain_community.embeddings import DashScopeEmbeddings
 ```
-
 
 ```python
 embeddings = DashScopeEmbeddings(
@@ -16,17 +14,14 @@ embeddings = DashScopeEmbeddings(
 )
 ```
 
-
 ```python
 text = "This is a test document."
 ```
-
 
 ```python
 query_result = embeddings.embed_query(text)
 print(query_result)
 ```
-
 
 ```python
 doc_results = embeddings.embed_documents(["foo"])

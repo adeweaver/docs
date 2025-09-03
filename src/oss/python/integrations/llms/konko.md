@@ -34,7 +34,6 @@ Another way to find the list of models running on the Konko instance is through 
 
 From here, we can initialize our model:
 
-
 ```python
 from langchain_community.llms import Konko
 
@@ -43,6 +42,7 @@ llm = Konko(model="mistralai/mistral-7b-v0.1", temperature=0.1, max_tokens=128)
 input_ = """You are a helpful assistant. Explain Big Bang Theory briefly."""
 print(llm.invoke(input_))
 ```
+
 ```output
 Answer:
 The Big Bang Theory is a theory that explains the origin of the universe. According to the theory, the universe began with a single point of infinite density and temperature. This point is called the singularity. The singularity exploded and expanded rapidly. The expansion of the universe is still continuing.
