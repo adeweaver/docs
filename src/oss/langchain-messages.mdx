@@ -624,19 +624,19 @@ const response = await model.invoke(messages);  // Model processes the result
 
 You can think of a message's content as the payload of data that gets
 sent to the model. Messages have a `content` attribute that is loosely-typed,
-supporting strings and lists of untyped objects (e.g., Python dicts). This allows
+supporting strings and lists of untyped objects (e.g., dictionaires). This allows
 support for provider-native structures directly in LangChain chat models, such as
 [multimodal](#multimodal) content and other data.
 
-Separately, there are dedicated types for text, reasoning, citations, multi-modal data,
+Separately, LangChain provides dedicated content types for text, reasoning, citations, multi-modal data,
 server-side tool calls, and other message content. See
-[content blocks](#standard-content-blocks), below.
+[content blocks](#standard-content-blocks) below.
 
-LangChain chat models will accept message content containing
+LangChain chat models accept message content containing:
 
 1. A string
-2. A list of content blocks in provider-native format
-2. A list of [standard content blocks](#standard-content-blocks)
+2. A list of content blocks in a provider-native format
+3. A list of [LangChain's standard content blocks](#standard-content-blocks)
 
 in the `.content` attribute:
 
@@ -696,14 +696,14 @@ Specifying `content_blocks` when initializing a message will still populate mess
 ### Standard content blocks
 
 LangChain maintains a standard set of types for message content that works across
-providers (see [reference](#content-block-reference) below).
+providers (see the [reference](#content-block-reference) section below).
 
 Messages also implement a `content_blocks` property that will lazily parse
 the `content` attribute into this standard, type-safe representation. For example,
 messages generated from [ChatAnthropic](/oss/integrations/chat/anthropic) or
 [ChatOpenAI](/oss/integrations/openai) will include `thinking` or `reasoning` blocks
 in the format of the respective provider, but these can be lazily parsed into a
-consistent [ReasoningContentBlock](#content-block-reference) representation:
+consistent [`ReasoningContentBlock`](#content-block-reference) representation:
 
 :::python
 <Tabs>
