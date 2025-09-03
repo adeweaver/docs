@@ -4,7 +4,7 @@ title: SQLDatabase Toolkit
 
 This will help you get started with the SQL Database [toolkit](/oss/concepts/tools/#toolkits). For detailed documentation of all `SQLDatabaseToolkit` features and configurations head to the [API reference](https://python.langchain.com/api_reference/community/agent_toolkits/langchain_community.agent_toolkits.sql.toolkit.SQLDatabaseToolkit.html).
 
-Tools within the `SQLDatabaseToolkit` are designed to interact with a `SQL` database. 
+Tools within the `SQLDatabaseToolkit` are designed to interact with a `SQL` database.
 
 A common application is to enable agents to answer questions using data in a relational database, potentially in an iterative fashion (e.g., recovering from errors).
 
@@ -16,7 +16,6 @@ Building Q&A systems of SQL databases requires executing model-generated SQL que
 
 To enable automated tracing of individual tools, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
-
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
 # os.environ["LANGSMITH_TRACING"] = "true"
@@ -26,13 +25,11 @@ To enable automated tracing of individual tools, set your [LangSmith](https://do
 
 This toolkit lives in the `langchain-community` package:
 
-
 ```python
 %pip install --upgrade --quiet  langchain-community
 ```
 
 For demonstration purposes, we will access a prompt in the LangChain [Hub](https://smith.langchain.com/hub). We will also require `langgraph` to demonstrate the use of the toolkit with an agent. This is not required to use the toolkit.
-
 
 ```python
 %pip install --upgrade --quiet langchainhub langgraph
@@ -50,7 +47,6 @@ Below, we instantiate the toolkit with these objects. Let's first create a datab
 This guide uses the example `Chinook` database based on [these instructions](https://database.guide/2-sample-databases-sqlite/).
 
 Below we will use the `requests` library to pull the `.sql` file and create an in-memory SQLite database. Note that this approach is lightweight, but ephemeral and not thread-safe. If you'd prefer, you can follow the instructions to save the file locally as `Chinook.db` and instantiate the database via `db = SQLDatabase.from_uri("sqlite:///Chinook.db")`.
-
 
 ```python
 import sqlite3
@@ -86,8 +82,6 @@ We will also need a LLM or chat model:
 
 <ChatModelTabs customVarName="llm" />
 
-
-
 ```python
 # | output: false
 # | echo: false
@@ -99,7 +93,6 @@ llm = ChatOpenAI(temperature=0)
 
 We can now instantiate the toolkit:
 
-
 ```python
 from langchain_community.agent_toolkits.sql.toolkit import SQLDatabaseToolkit
 
@@ -110,12 +103,9 @@ toolkit = SQLDatabaseToolkit(db=db, llm=llm)
 
 View available tools:
 
-
 ```python
 toolkit.get_tools()
 ```
-
-
 
 ```output
 [QuerySQLDatabaseTool(description="Input to this tool is a detailed and correct SQL query, output is a result from the database. If the query is not correct, an error message will be returned. If an error is returned, rewrite the query, check the query, and try again. If you encounter an issue with Unknown column 'xxxx' in 'field list', use sql_db_schema to query the correct table fields.", db=<langchain_community.utilities.sql_database.SQLDatabase object at 0x103d5fa60>),
@@ -124,9 +114,7 @@ toolkit.get_tools()
  QuerySQLCheckerTool(description='Use this tool to double check if your query is correct before executing it. Always use this tool before executing a query with sql_db_query!', db=<langchain_community.utilities.sql_database.SQLDatabase object at 0x103d5fa60>, llm=ChatOpenAI(client=<openai.resources.chat.completions.Completions object at 0x10742d720>, async_client=<openai.resources.chat.completions.AsyncCompletions object at 0x10742f7f0>, root_client=<openai.OpenAI object at 0x103d5fac0>, root_async_client=<openai.AsyncOpenAI object at 0x10742d780>, temperature=0.0, model_kwargs={}, openai_api_key=SecretStr('**********')), llm_chain=LLMChain(verbose=False, prompt=PromptTemplate(input_variables=['dialect', 'query'], input_types={}, partial_variables={}, template='\n{query}\nDouble check the {dialect} query above for common mistakes, including:\n- Using NOT IN with NULL values\n- Using UNION when UNION ALL should have been used\n- Using BETWEEN for exclusive ranges\n- Data type mismatch in predicates\n- Properly quoting identifiers\n- Using the correct number of arguments for functions\n- Casting to the correct data type\n- Using the proper columns for joins\n\nIf there are any of the above mistakes, rewrite the query. If there are no mistakes, just reproduce the original query.\n\nOutput the final SQL query only.\n\nSQL Query: '), llm=ChatOpenAI(client=<openai.resources.chat.completions.Completions object at 0x10742d720>, async_client=<openai.resources.chat.completions.AsyncCompletions object at 0x10742f7f0>, root_client=<openai.OpenAI object at 0x103d5fac0>, root_async_client=<openai.AsyncOpenAI object at 0x10742d780>, temperature=0.0, model_kwargs={}, openai_api_key=SecretStr('**********')), output_parser=StrOutputParser(), llm_kwargs={}))]
 ```
 
-
 You can use the individual tools directly:
-
 
 ```python
 from langchain_community.tools.sql_database.tool import (
@@ -141,7 +129,6 @@ from langchain_community.tools.sql_database.tool import (
 
 Following the [SQL Q&A Tutorial](/oss/tutorials/sql_qa/#agents), below we equip a simple question-answering agent with the tools in our toolkit. First we pull a relevant prompt and populate it with its required parameters:
 
-
 ```python
 from langchain import hub
 
@@ -150,6 +137,7 @@ prompt_template = hub.pull("langchain-ai/sql-agent-system-prompt")
 assert len(prompt_template.messages) == 1
 print(prompt_template.input_variables)
 ```
+
 ```output
 ['dialect', 'top_k']
 ```
@@ -160,15 +148,13 @@ system_message = prompt_template.format(dialect="SQLite", top_k=5)
 
 We then instantiate the agent:
 
-
 ```python
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
-agent_executor = create_react_agent(llm, toolkit.get_tools(), prompt=system_message)
+agent_executor = create_agent(llm, toolkit.get_tools(), prompt=system_message)
 ```
 
 And issue it a query:
-
 
 ```python
 example_query = "Which country's customers spent the most?"
@@ -180,6 +166,7 @@ events = agent_executor.stream(
 for event in events:
     event["messages"][-1].pretty_print()
 ```
+
 ```output
 ================================ Human Message =================================
 
@@ -204,72 +191,72 @@ Name: sql_db_schema
 
 
 CREATE TABLE "Customer" (
-	"CustomerId" INTEGER NOT NULL, 
-	"FirstName" NVARCHAR(40) NOT NULL, 
-	"LastName" NVARCHAR(20) NOT NULL, 
-	"Company" NVARCHAR(80), 
-	"Address" NVARCHAR(70), 
-	"City" NVARCHAR(40), 
-	"State" NVARCHAR(40), 
-	"Country" NVARCHAR(40), 
-	"PostalCode" NVARCHAR(10), 
-	"Phone" NVARCHAR(24), 
-	"Fax" NVARCHAR(24), 
-	"Email" NVARCHAR(60) NOT NULL, 
-	"SupportRepId" INTEGER, 
-	PRIMARY KEY ("CustomerId"), 
-	FOREIGN KEY("SupportRepId") REFERENCES "Employee" ("EmployeeId")
+ "CustomerId" INTEGER NOT NULL,
+ "FirstName" NVARCHAR(40) NOT NULL,
+ "LastName" NVARCHAR(20) NOT NULL,
+ "Company" NVARCHAR(80),
+ "Address" NVARCHAR(70),
+ "City" NVARCHAR(40),
+ "State" NVARCHAR(40),
+ "Country" NVARCHAR(40),
+ "PostalCode" NVARCHAR(10),
+ "Phone" NVARCHAR(24),
+ "Fax" NVARCHAR(24),
+ "Email" NVARCHAR(60) NOT NULL,
+ "SupportRepId" INTEGER,
+ PRIMARY KEY ("CustomerId"),
+ FOREIGN KEY("SupportRepId") REFERENCES "Employee" ("EmployeeId")
 )
 
 /*
 3 rows from Customer table:
-CustomerId	FirstName	LastName	Company	Address	City	State	Country	PostalCode	Phone	Fax	Email	SupportRepId
-1	Luís	Gonçalves	Embraer - Empresa Brasileira de Aeronáutica S.A.	Av. Brigadeiro Faria Lima, 2170	São José dos Campos	SP	Brazil	12227-000	+55 (12) 3923-5555	+55 (12) 3923-5566	luisg@embraer.com.br	3
-2	Leonie	Köhler	None	Theodor-Heuss-Straße 34	Stuttgart	None	Germany	70174	+49 0711 2842222	None	leonekohler@surfeu.de	5
-3	François	Tremblay	None	1498 rue Bélanger	Montréal	QC	Canada	H2G 1A7	+1 (514) 721-4711	None	ftremblay@gmail.com	3
+CustomerId FirstName LastName Company Address City State Country PostalCode Phone Fax Email SupportRepId
+1 Luís Gonçalves Embraer - Empresa Brasileira de Aeronáutica S.A. Av. Brigadeiro Faria Lima, 2170 São José dos Campos SP Brazil 12227-000 +55 (12) 3923-5555 +55 (12) 3923-5566 luisg@embraer.com.br 3
+2 Leonie Köhler None Theodor-Heuss-Straße 34 Stuttgart None Germany 70174 +49 0711 2842222 None leonekohler@surfeu.de 5
+3 François Tremblay None 1498 rue Bélanger Montréal QC Canada H2G 1A7 +1 (514) 721-4711 None ftremblay@gmail.com 3
 */
 
 
 CREATE TABLE "Invoice" (
-	"InvoiceId" INTEGER NOT NULL, 
-	"CustomerId" INTEGER NOT NULL, 
-	"InvoiceDate" DATETIME NOT NULL, 
-	"BillingAddress" NVARCHAR(70), 
-	"BillingCity" NVARCHAR(40), 
-	"BillingState" NVARCHAR(40), 
-	"BillingCountry" NVARCHAR(40), 
-	"BillingPostalCode" NVARCHAR(10), 
-	"Total" NUMERIC(10, 2) NOT NULL, 
-	PRIMARY KEY ("InvoiceId"), 
-	FOREIGN KEY("CustomerId") REFERENCES "Customer" ("CustomerId")
+ "InvoiceId" INTEGER NOT NULL,
+ "CustomerId" INTEGER NOT NULL,
+ "InvoiceDate" DATETIME NOT NULL,
+ "BillingAddress" NVARCHAR(70),
+ "BillingCity" NVARCHAR(40),
+ "BillingState" NVARCHAR(40),
+ "BillingCountry" NVARCHAR(40),
+ "BillingPostalCode" NVARCHAR(10),
+ "Total" NUMERIC(10, 2) NOT NULL,
+ PRIMARY KEY ("InvoiceId"),
+ FOREIGN KEY("CustomerId") REFERENCES "Customer" ("CustomerId")
 )
 
 /*
 3 rows from Invoice table:
-InvoiceId	CustomerId	InvoiceDate	BillingAddress	BillingCity	BillingState	BillingCountry	BillingPostalCode	Total
-1	2	2021-01-01 00:00:00	Theodor-Heuss-Straße 34	Stuttgart	None	Germany	70174	1.98
-2	4	2021-01-02 00:00:00	Ullevålsveien 14	Oslo	None	Norway	0171	3.96
-3	8	2021-01-03 00:00:00	Grétrystraat 63	Brussels	None	Belgium	1000	5.94
+InvoiceId CustomerId InvoiceDate BillingAddress BillingCity BillingState BillingCountry BillingPostalCode Total
+1 2 2021-01-01 00:00:00 Theodor-Heuss-Straße 34 Stuttgart None Germany 70174 1.98
+2 4 2021-01-02 00:00:00 Ullevålsveien 14 Oslo None Norway 0171 3.96
+3 8 2021-01-03 00:00:00 Grétrystraat 63 Brussels None Belgium 1000 5.94
 */
 
 
 CREATE TABLE "InvoiceLine" (
-	"InvoiceLineId" INTEGER NOT NULL, 
-	"InvoiceId" INTEGER NOT NULL, 
-	"TrackId" INTEGER NOT NULL, 
-	"UnitPrice" NUMERIC(10, 2) NOT NULL, 
-	"Quantity" INTEGER NOT NULL, 
-	PRIMARY KEY ("InvoiceLineId"), 
-	FOREIGN KEY("TrackId") REFERENCES "Track" ("TrackId"), 
-	FOREIGN KEY("InvoiceId") REFERENCES "Invoice" ("InvoiceId")
+ "InvoiceLineId" INTEGER NOT NULL,
+ "InvoiceId" INTEGER NOT NULL,
+ "TrackId" INTEGER NOT NULL,
+ "UnitPrice" NUMERIC(10, 2) NOT NULL,
+ "Quantity" INTEGER NOT NULL,
+ PRIMARY KEY ("InvoiceLineId"),
+ FOREIGN KEY("TrackId") REFERENCES "Track" ("TrackId"),
+ FOREIGN KEY("InvoiceId") REFERENCES "Invoice" ("InvoiceId")
 )
 
 /*
 3 rows from InvoiceLine table:
-InvoiceLineId	InvoiceId	TrackId	UnitPrice	Quantity
-1	1	2	0.99	1
-2	1	4	0.99	1
-3	2	6	0.99	1
+InvoiceLineId InvoiceId TrackId UnitPrice Quantity
+1 1 2 0.99 1
+2 1 4 0.99 1
+3 2 6 0.99 1
 */
 ================================== Ai Message ==================================
 Tool Calls:
@@ -285,8 +272,8 @@ Name: sql_db_query
 
 Customers from the USA spent the most, with a total amount spent of $523.06.
 ```
-We can also observe the agent recover from an error:
 
+We can also observe the agent recover from an error:
 
 ```python
 example_query = "Who are the top 3 best selling artists?"
@@ -298,6 +285,7 @@ events = agent_executor.stream(
 for event in events:
     event["messages"][-1].pretty_print()
 ```
+
 ```output
 ================================ Human Message =================================
 
@@ -334,54 +322,54 @@ Name: sql_db_schema
 
 
 CREATE TABLE "Album" (
-	"AlbumId" INTEGER NOT NULL, 
-	"Title" NVARCHAR(160) NOT NULL, 
-	"ArtistId" INTEGER NOT NULL, 
-	PRIMARY KEY ("AlbumId"), 
-	FOREIGN KEY("ArtistId") REFERENCES "Artist" ("ArtistId")
+ "AlbumId" INTEGER NOT NULL,
+ "Title" NVARCHAR(160) NOT NULL,
+ "ArtistId" INTEGER NOT NULL,
+ PRIMARY KEY ("AlbumId"),
+ FOREIGN KEY("ArtistId") REFERENCES "Artist" ("ArtistId")
 )
 
 /*
 3 rows from Album table:
-AlbumId	Title	ArtistId
-1	For Those About To Rock We Salute You	1
-2	Balls to the Wall	2
-3	Restless and Wild	2
+AlbumId Title ArtistId
+1 For Those About To Rock We Salute You 1
+2 Balls to the Wall 2
+3 Restless and Wild 2
 */
 
 
 CREATE TABLE "Artist" (
-	"ArtistId" INTEGER NOT NULL, 
-	"Name" NVARCHAR(120), 
-	PRIMARY KEY ("ArtistId")
+ "ArtistId" INTEGER NOT NULL,
+ "Name" NVARCHAR(120),
+ PRIMARY KEY ("ArtistId")
 )
 
 /*
 3 rows from Artist table:
-ArtistId	Name
-1	AC/DC
-2	Accept
-3	Aerosmith
+ArtistId Name
+1 AC/DC
+2 Accept
+3 Aerosmith
 */
 
 
 CREATE TABLE "InvoiceLine" (
-	"InvoiceLineId" INTEGER NOT NULL, 
-	"InvoiceId" INTEGER NOT NULL, 
-	"TrackId" INTEGER NOT NULL, 
-	"UnitPrice" NUMERIC(10, 2) NOT NULL, 
-	"Quantity" INTEGER NOT NULL, 
-	PRIMARY KEY ("InvoiceLineId"), 
-	FOREIGN KEY("TrackId") REFERENCES "Track" ("TrackId"), 
-	FOREIGN KEY("InvoiceId") REFERENCES "Invoice" ("InvoiceId")
+ "InvoiceLineId" INTEGER NOT NULL,
+ "InvoiceId" INTEGER NOT NULL,
+ "TrackId" INTEGER NOT NULL,
+ "UnitPrice" NUMERIC(10, 2) NOT NULL,
+ "Quantity" INTEGER NOT NULL,
+ PRIMARY KEY ("InvoiceLineId"),
+ FOREIGN KEY("TrackId") REFERENCES "Track" ("TrackId"),
+ FOREIGN KEY("InvoiceId") REFERENCES "Invoice" ("InvoiceId")
 )
 
 /*
 3 rows from InvoiceLine table:
-InvoiceLineId	InvoiceId	TrackId	UnitPrice	Quantity
-1	1	2	0.99	1
-2	1	4	0.99	1
-3	2	6	0.99	1
+InvoiceLineId InvoiceId TrackId UnitPrice Quantity
+1 1 2 0.99 1
+2 1 4 0.99 1
+3 2 6 0.99 1
 */
 ================================== Ai Message ==================================
 Tool Calls:
@@ -400,6 +388,7 @@ The top 3 best selling artists are:
 2. U2 - 107 units sold
 3. Metallica - 91 units sold
 ```
+
 ## Specific functionality
 
 `SQLDatabaseToolkit` implements a [.get_context](https://python.langchain.com/api_reference/community/agent_toolkits/langchain_community.agent_toolkits.sql.toolkit.SQLDatabaseToolkit.html#langchain_community.agent_toolkits.sql.toolkit.SQLDatabaseToolkit.get_context) method as a convenience for use in prompts or other contexts.

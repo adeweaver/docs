@@ -1,28 +1,25 @@
 ---
 title: MultiOn Toolkit
 ---
- 
-[MultiON](https://www.multion.ai/blog/multion-building-a-brighter-future-for-humanity-with-ai-agents) has built an AI Agent that can interact with a broad array of web services and applications. 
 
-This notebook walks you through connecting LangChain to the `MultiOn` Client in your browser. 
+[MultiON](https://www.multion.ai/blog/multion-building-a-brighter-future-for-humanity-with-ai-agents) has built an AI Agent that can interact with a broad array of web services and applications.
+
+This notebook walks you through connecting LangChain to the `MultiOn` Client in your browser.
 
 This enables custom agentic workflow that utilize the power of MultiON agents.
- 
-To use this toolkit, you will need to add `MultiOn Extension` to your browser: 
 
-* Create a [MultiON account](https://app.multion.ai/login?callbackUrl=%2Fprofile). 
+To use this toolkit, you will need to add `MultiOn Extension` to your browser:
+
+* Create a [MultiON account](https://app.multion.ai/login?callbackUrl=%2Fprofile).
 * Add  [MultiOn extension for Chrome](https://multion.notion.site/Download-MultiOn-ddddcfe719f94ab182107ca2612c07a5).
-
 
 ```python
 %pip install --upgrade --quiet  multion langchain -q
 ```
 
-
 ```python
 %pip install -qU langchain-community
 ```
-
 
 ```python
 from langchain_community.agent_toolkits import MultionToolkit
@@ -31,32 +28,24 @@ toolkit = MultionToolkit()
 toolkit
 ```
 
-
-
 ```output
 MultionToolkit()
 ```
-
-
 
 ```python
 tools = toolkit.get_tools()
 tools
 ```
 
-
-
 ```output
 [MultionCreateSession(), MultionUpdateSession(), MultionCloseSession()]
 ```
 
-
 ## MultiOn Setup
 
-Once you have created an account, create an API key at https://app.multion.ai/. 
+Once you have created an account, create an API key at [app.multion.ai/](https://app.multion.ai/).
 
 Login to establish connection with your extension.
-
 
 ```python
 # Authorize connection to your Browser extention
@@ -64,9 +53,11 @@ import multion
 
 multion.login()
 ```
+
 ```output
 Logged in.
 ```
+
 ## Use Multion Toolkit within an Agent
 
 This will use MultiON chrome extension to perform the desired actions.
@@ -76,13 +67,11 @@ We can run the below, and view the [trace](https://smith.langchain.com/public/34
 * The agent uses the `create_multion_session` tool
 * It then uses MultiON to execute the query
 
-
 ```python
 from langchain import hub
 from langchain.agents import AgentExecutor, create_openai_functions_agent
 from langchain_openai import ChatOpenAI
 ```
-
 
 ```python
 # Prompt
@@ -91,12 +80,10 @@ base_prompt = hub.pull("langchain-ai/openai-functions-template")
 prompt = base_prompt.partial(instructions=instructions)
 ```
 
-
 ```python
 # LLM
 llm = ChatOpenAI(temperature=0)
 ```
-
 
 ```python
 # Agent
@@ -108,7 +95,6 @@ agent_executor = AgentExecutor(
 )
 ```
 
-
 ```python
 agent_executor.invoke(
     {
@@ -116,6 +102,7 @@ agent_executor.invoke(
     }
 )
 ```
+
 ```output
 WARNING: 'new_session' is deprecated and will be removed in a future version. Use 'create_session' instead.
 WARNING: 'update_session' is deprecated and will be removed in a future version. Use 'step_session' instead.
@@ -123,7 +110,6 @@ WARNING: 'update_session' is deprecated and will be removed in a future version.
 WARNING: 'update_session' is deprecated and will be removed in a future version. Use 'step_session' instead.
 WARNING: 'update_session' is deprecated and will be removed in a future version. Use 'step_session' instead.
 ```
-
 
 ```output
 {'input': 'Use multion to how AlphaCodium works, a recently released code language model.',

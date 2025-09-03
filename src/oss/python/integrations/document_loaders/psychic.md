@@ -5,6 +5,7 @@ title: Psychic
 This notebook covers how to load documents from `Psychic`. See [here](/oss/integrations/providers/psychic) for more details.
 
 ## Prerequisites
+
 1. Follow the Quick Start section in [this document](/oss/integrations/providers/psychic)
 2. Log into the [Psychic dashboard](https://dashboard.psychic.dev/) and get your secret key
 3. Install the frontend react library into your web app and have a user authenticate a connection. The connection will be created using the connection id that you specify.
@@ -13,11 +14,11 @@ This notebook covers how to load documents from `Psychic`. See [here](/oss/integ
 
 Use the `PsychicLoader` class to load in documents from a connection. Each connection has a connector id (corresponding to the SaaS app that was connected) and a connection id (which you passed in to the frontend library).
 
-
 ```python
 # Uncomment this to install psychicapi if you don't already have it installed
 !poetry run pip -q install psychicapi langchain-chroma
 ```
+
 ```output
 [notice] A new release of pip is available: 23.0.1 -> 23.1.2
 [notice] To update, run: pip install --upgrade pip
@@ -38,10 +39,9 @@ google_drive_loader = PsychicLoader(
 documents = google_drive_loader.load()
 ```
 
-## Converting the docs to embeddings 
+## Converting the docs to embeddings
 
 We can now convert these documents into embeddings and store them in a vector database like Chroma
-
 
 ```python
 from langchain.chains import RetrievalQAWithSourcesChain
@@ -49,7 +49,6 @@ from langchain_chroma import Chroma
 from langchain_openai import OpenAI, OpenAIEmbeddings
 from langchain_text_splitters import CharacterTextSplitter
 ```
-
 
 ```python
 text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)

@@ -40,8 +40,8 @@ langgraph new path/to/your/app --template new-langgraph-project-python
 ```
 
 <Tip>
-  **Additional templates**
-  If you use `langgraph new` without specifying a template, you will be presented with an interactive menu that will allow you to choose from a list of available templates.
+**Additional templates**
+If you use `langgraph new` without specifying a template, you will be presented with an interactive menu that will allow you to choose from a list of available templates.
 </Tip>
 :::
 
@@ -121,7 +121,7 @@ For a LangGraph Server running on a custom host/port, update the baseURL paramet
 
 <Accordion title="Safari compatibility">
   Use the `--tunnel` flag with your command to create a secure tunnel, as Safari has limitations when connecting to localhost servers:
-  
+
   ```shell
   langgraph dev --tunnel
   ```
@@ -131,7 +131,7 @@ For a LangGraph Server running on a custom host/port, update the baseURL paramet
 
 :::python
 <Tabs>
-  <Tab title="Python SDK (async)">
+    <Tab title="Python SDK (async)">
     1. Install the LangGraph Python SDK:
       ```shell
       pip install langgraph-sdk
@@ -140,9 +140,9 @@ For a LangGraph Server running on a custom host/port, update the baseURL paramet
       ```python
       from langgraph_sdk import get_client
       import asyncio
-      
+
       client = get_client(url="http://localhost:2024")
-      
+
       async def main():
           async for chunk in client.runs.stream(
               None,  # Threadless run
@@ -157,11 +157,11 @@ For a LangGraph Server running on a custom host/port, update the baseURL paramet
               print(f"Receiving new event of type: {chunk.event}...")
               print(chunk.data)
               print("\n\n")
-      
+
       asyncio.run(main())
       ```
-  </Tab>
-  <Tab title="Python SDK (sync)">
+    </Tab>
+    <Tab title="Python SDK (sync)">
     1. Install the LangGraph Python SDK:
       ```shell
       pip install langgraph-sdk
@@ -169,9 +169,9 @@ For a LangGraph Server running on a custom host/port, update the baseURL paramet
     2. Send a message to the assistant (threadless run):
       ```python
       from langgraph_sdk import get_sync_client
-      
+
       client = get_sync_client(url="http://localhost:2024")
-      
+
       for chunk in client.runs.stream(
           None,  # Threadless run
           "agent", # Name of assistant. Defined in langgraph.json.
@@ -187,8 +187,8 @@ For a LangGraph Server running on a custom host/port, update the baseURL paramet
           print(chunk.data)
           print("\n\n")
       ```
-  </Tab>
-  <Tab title="Rest API">
+    </Tab>
+    <Tab title="Rest API">
     ```bash
     curl -s --request POST \
         --url "http://localhost:2024/runs/stream" \
@@ -206,13 +206,13 @@ For a LangGraph Server running on a custom host/port, update the baseURL paramet
             \"stream_mode\": \"messages-tuple\"
         }"
     ```
-  </Tab>
+    </Tab>
 </Tabs>
 :::
 
 :::js
 <Tabs>
-  <Tab title="Javascript SDK">
+    <Tab title="Javascript SDK">
     1. Install the LangGraph JS SDK:
       ```shell
       npm install @langchain/langgraph-sdk
@@ -220,10 +220,10 @@ For a LangGraph Server running on a custom host/port, update the baseURL paramet
     2. Send a message to the assistant (threadless run):
       ```js
       const { Client } = await import("@langchain/langgraph-sdk");
-      
+
       // only set the apiUrl if you changed the default port when calling langgraph dev
       const client = new Client({ apiUrl: "http://localhost:2024"});
-      
+
       const streamResponse = client.runs.stream(
           null, // Threadless run
           "agent", // Assistant ID
@@ -236,15 +236,15 @@ For a LangGraph Server running on a custom host/port, update the baseURL paramet
               streamMode: "messages-tuple",
           }
       );
-      
+
       for await (const chunk of streamResponse) {
           console.log(`Receiving new event of type: ${chunk.event}...`);
           console.log(JSON.stringify(chunk.data));
           console.log("\n\n");
       }
       ```
-  </Tab>
-  <Tab title="Rest API">
+    </Tab>
+    <Tab title="Rest API">
     ```bash
     curl -s --request POST \
         --url "http://localhost:2024/runs/stream" \
@@ -262,7 +262,7 @@ For a LangGraph Server running on a custom host/port, update the baseURL paramet
             \"stream_mode\": \"messages-tuple\"
         }"
     ```
-  </Tab>
+    </Tab>
 </Tabs>
 :::
 

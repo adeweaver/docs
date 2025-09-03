@@ -21,7 +21,6 @@ Assume a Langchain RAG application snippet using `CSVLoader` to read a CSV docum
 
 Here is the snippet of Document loading using `CSVLoader`.
 
-
 ```python
 from langchain_community.document_loaders import CSVLoader
 
@@ -31,7 +30,6 @@ print(documents)
 ```
 
 The Pebblo SafeLoader can be enabled with few lines of code change to the above snippet.
-
 
 ```python
 from langchain_community.document_loaders import CSVLoader, PebbloSafeLoader
@@ -50,7 +48,6 @@ print(documents)
 
 To send semantic data to pebblo-cloud, pass api-key to PebbloSafeLoader as an argument or alternatively, put the api-key in `PEBBLO_API_KEY` environment variable.
 
-
 ```python
 from langchain_community.document_loaders import CSVLoader, PebbloSafeLoader
 
@@ -68,7 +65,6 @@ print(documents)
 ### Add semantic topics and identities to loaded metadata
 
 To add semantic topics and sematic entities to metadata of loaded documents, set load_semantic to True as an argument or alternatively, define a new environment variable `PEBBLO_LOAD_SEMANTIC`, and setting it to True.
-
 
 ```python
 from langchain_community.document_loaders import CSVLoader, PebbloSafeLoader
@@ -92,7 +88,6 @@ Set `anonymize_snippets` to `True` to anonymize all personally identifiable info
 > Note: The _Pebblo Entity Classifier_ effectively identifies personally identifiable information (PII) and is continuously evolving. While its recall is not yet 100%, it is steadily improving.
 > For more details, please refer to the [_Pebblo Entity Classifier docs_](https://daxa-ai.github.io/pebblo/entityclassifier/)
 
-
 ```python
 from langchain_community.document_loaders import CSVLoader, PebbloSafeLoader
 
@@ -106,7 +101,6 @@ loader = PebbloSafeLoader(
 documents = loader.load()
 print(documents[0].metadata)
 ```
-
 
 ```python
 

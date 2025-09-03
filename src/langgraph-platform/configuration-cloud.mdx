@@ -8,13 +8,13 @@ First, as a brief refresher on the concept of context, consider the following si
 Observe that this node tries to read and use the `model_name` as defined by the `context` object's `model_name` field.
 
 <Tabs>
-  <Tab title="Python">
+    <Tab title="Python">
     ```python
     class ContextSchema(TypedDict):
         model_name: str
-    
+
     builder = StateGraph(AgentState, context_schema=ContextSchema)
-    
+
     def call_model(state, runtime: Runtime[ContextSchema]):
         messages = state["messages"]
         model = _get_model(runtime.context.get("model_name", "anthropic"))
@@ -22,18 +22,18 @@ Observe that this node tries to read and use the `model_name` as defined by the 
         # We return a list, because this will get added to the existing list
         return {"messages": [response]}
     ```
-  </Tab>
-  <Tab title="Javascript">
+    </Tab>
+    <Tab title="Javascript">
     ```js
     import { Annotation } from "@langchain/langgraph";
-    
+
     const ContextSchema = Annotation.Root({
         model_name: Annotation<string>,
         system_prompt:
     });
-    
+
     const builder = new StateGraph(AgentState, ContextSchema)
-    
+
     function callModel(state: State, runtime: Runtime[ContextSchema]) {
       const messages = state.messages;
       const model = _getModel(runtime.context.model_name ?? "anthropic");
@@ -42,7 +42,7 @@ Observe that this node tries to read and use the `model_name` as defined by the 
       return { messages: [response] };
     }
     ```
-  </Tab>
+    </Tab>
 </Tabs>
 
 For more information on configurations, [see here](/langgraph-platform/configuration-cloud#configuration).
@@ -56,41 +56,41 @@ To create an assistant, use the [LangGraph SDK](/langgraph-platform/sdk) `create
 This example uses the same context schema as above, and creates an assistant with `model_name` set to `openai`.
 
 <Tabs>
-  <Tab title="Python">
+    <Tab title="Python">
     ```python
     from langgraph_sdk import get_client
-    
+
     client = get_client(url=<DEPLOYMENT_URL>)
     openai_assistant = await client.assistants.create(
         # "agent" is the name of a graph we deployed
         "agent", context={"model_name": "openai"}, name="Open AI Assistant"
     )
-    
+
     print(openai_assistant)
     ```
-  </Tab>
-  <Tab title="Javascript">
+    </Tab>
+    <Tab title="Javascript">
     ```js
     import { Client } from "@langchain/langgraph-sdk";
-    
+
     const client = new Client({ apiUrl: <DEPLOYMENT_URL> });
     const openAIAssistant = await client.assistants.create({
         graphId: 'agent',
         name: "Open AI Assistant",
         context: { "model_name": "openai" },
     });
-    
+
     console.log(openAIAssistant);
     ```
-  </Tab>
-  <Tab title="CURL">
+    </Tab>
+    <Tab title="CURL">
     ```bash
     curl --request POST \
         --url <DEPLOYMENT_URL>/assistants \
         --header 'Content-Type: application/json' \
         --data '{"graph_id":"agent", "context":{"model_name":"openai"}, "name": "Open AI Assistant"}'
     ```
-  </Tab>
+    </Tab>
 </Tabs>
 
 Output:
@@ -126,7 +126,7 @@ To confirm, click "Create assistant". This will take you to [LangGraph Studio](/
 We have now created an assistant called "Open AI Assistant" that has `model_name` defined as `openai`. We can now use this assistant with this configuration:
 
 <Tabs>
-  <Tab title="Python">
+    <Tab title="Python">
     ```python
     thread = await client.threads.create()
     input = {"messages": [{"role": "user", "content": "who made you?"}]}
@@ -141,12 +141,12 @@ We have now created an assistant called "Open AI Assistant" that has `model_name
         print(event.data)
         print("\n\n")
     ```
-  </Tab>
-  <Tab title="Javascript">
+    </Tab>
+    <Tab title="Javascript">
     ```js
     const thread = await client.threads.create();
     const input = { "messages": [{ "role": "user", "content": "who made you?" }] };
-    
+
     const streamResponse = client.runs.stream(
       thread["thread_id"],
       // this is where we specify the assistant id to use
@@ -156,15 +156,15 @@ We have now created an assistant called "Open AI Assistant" that has `model_name
         streamMode: "updates"
       }
     );
-    
+
     for await (const event of streamResponse) {
       console.log(`Receiving event of type: ${event.event}`);
       console.log(event.data);
       console.log("\n\n");
     }
     ```
-  </Tab>
-  <Tab title="CURL">
+    </Tab>
+    <Tab title="CURL">
     ```bash
     thread_id=$(curl --request POST \
         --url <DEPLOYMENT_URL>/threads \
@@ -208,7 +208,7 @@ We have now created an assistant called "Open AI Assistant" that has `model_name
         }
     '
     ```
-  </Tab>
+    </Tab>
 </Tabs>
 
 Output:
@@ -234,14 +234,14 @@ Inside your deployment, select the "Assistants" tab. For the assistant you would
 To edit the assistant, use the `update` method. This will create a new version of the assistant with the provided edits. See the [Python](/langgraph-platform/python-sdk#langgraph_sdk.client.AssistantsClient.update) and [JS](/langgraph-platform/js-ts-sdk#update) SDK reference docs for more information.
 
 <Note>
-  **Note**
-  You must pass in the ENTIRE context (and metadata if you are using it). The update endpoint creates new versions completely from scratch and does not rely on previous versions.
+**Note**
+You must pass in the ENTIRE context (and metadata if you are using it). The update endpoint creates new versions completely from scratch and does not rely on previous versions.
 </Note>
 
 For example, to update your assistant's system prompt:
 
 <Tabs>
-  <Tab title="Python">
+    <Tab title="Python">
     ```python
     openai_assistant_v2 = await client.assistants.update(
         openai_assistant["assistant_id"],
@@ -251,8 +251,8 @@ For example, to update your assistant's system prompt:
         },
     )
     ```
-  </Tab>
-  <Tab title="Javascript">
+    </Tab>
+    <Tab title="Javascript">
     ```js
     const openaiAssistantV2 = await client.assistants.update(
         openai_assistant["assistant_id"],
@@ -264,8 +264,8 @@ For example, to update your assistant's system prompt:
         },
     );
     ```
-  </Tab>
-  <Tab title="CURL">
+    </Tab>
+    <Tab title="CURL">
     ```bash
     curl --request PATCH \
     --url <DEPOLYMENT_URL>/assistants/<ASSISTANT_ID> \
@@ -274,7 +274,7 @@ For example, to update your assistant's system prompt:
     "context": {"model_name": "openai", "system_prompt": "You are an unhelpful assistant!"}
     }'
     ```
-  </Tab>
+    </Tab>
 </Tabs>
 
 This will create a new version of the assistant with the updated parameters and set this as the active version of your assistant. If you now run your graph and pass in this assistant id, it will use this latest version.
@@ -298,17 +298,17 @@ You can also change the active version of your assistant. To do so, use the `set
 In the example above, to rollback to the first version of the assistant:
 
 <Tabs>
-  <Tab title="Python">
+    <Tab title="Python">
     ```python
     await client.assistants.set_latest(openai_assistant['assistant_id'], 1)
     ```
-  </Tab>
-  <Tab title="Javascript">
+    </Tab>
+    <Tab title="Javascript">
     ```js
     await client.assistants.setLatest(openaiAssistant['assistant_id'], 1);
     ```
-  </Tab>
-  <Tab title="CURL">
+    </Tab>
+    <Tab title="CURL">
     ```bash
     curl --request POST \
     --url <DEPLOYMENT_URL>/assistants/<ASSISTANT_ID>/latest \
@@ -317,7 +317,7 @@ In the example above, to rollback to the first version of the assistant:
     "version": 1
     }'
     ```
-  </Tab>
+    </Tab>
 </Tabs>
 
 If you now run your graph and pass in this assistant id, it will use the first version of the assistant.
@@ -327,6 +327,6 @@ If you now run your graph and pass in this assistant id, it will use the first v
 If using LangGraph Studio, to set the active version of your assistant, click the "Manage Assistants" button and locate the assistant you would like to use. Select the assistant and the version, and then click the "Active" toggle. This will update the assistant to make the selected version active.
 
 <Warning>
-  **Deleting Assistants**
-  Deleting as assistant will delete ALL of its versions. There is currently no way to delete a single version, but by pointing your assistant to the correct version you can skip any versions that you don't wish to use.
+**Deleting Assistants**
+Deleting as assistant will delete ALL of its versions. There is currently no way to delete a single version, but by pointing your assistant to the correct version you can skip any versions that you don't wish to use.
 </Warning>

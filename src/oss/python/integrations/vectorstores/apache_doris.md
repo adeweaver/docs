@@ -13,19 +13,16 @@ Here we'll show how to use the Apache Doris Vector Store.
 
 ## Setup
 
-
 ```python
 %pip install --upgrade --quiet  pymysql
 ```
 
 Set `update_vectordb = False` at the beginning. If there is no docs updated, then we don't need to rebuild the embeddings of docs
 
-
 ```python
 !pip install  sqlalchemy
 !pip install langchain
 ```
-
 
 ```python
 from langchain.chains import RetrievalQA
@@ -47,8 +44,7 @@ update_vectordb = False
 
 Load all markdown files under the `docs` directory
 
-for Apache Doris documents, you can clone repo from https://github.com/apache/doris, and there is `docs` directory in it.
-
+for Apache Doris documents, you can clone repo from [github.com/apache/doris](https://github.com/apache/doris), and there is `docs` directory in it.
 
 ```python
 loader = DirectoryLoader(
@@ -58,7 +54,6 @@ documents = loader.load()
 ```
 
 Split docs into tokens, and set `update_vectordb = True` because there are new docs/tokens.
-
 
 ```python
 # load text splitter and split docs into snippets of text
@@ -77,7 +72,6 @@ print("# docs  = %d, # splits = %d" % (len(documents), len(split_docs)))
 
 ### Use Apache Doris as vectordb
 
-
 ```python
 def gen_apache_doris(update_vectordb, embeddings, settings):
     if update_vectordb:
@@ -92,12 +86,12 @@ def gen_apache_doris(update_vectordb, embeddings, settings):
 Here we use Apache Doris as vectordb, you can configure Apache Doris instance via `ApacheDorisSettings`.
 
 Configuring Apache Doris instance is pretty much like configuring mysql instance. You need to specify:
+
 1. host/port
 2. username(default: 'root')
 3. password(default: '')
 4. database(default: 'default')
 5. table(default: 'langchain')
-
 
 ```python
 import os
@@ -106,7 +100,6 @@ from getpass import getpass
 if "OPENAI_API_KEY" not in os.environ:
     os.environ["OPENAI_API_KEY"] = getpass()
 ```
-
 
 ```python
 update_vectordb = True
@@ -128,7 +121,6 @@ update_vectordb = False
 ```
 
 ## Build QA and ask question to it
-
 
 ```python
 llm = OpenAI()

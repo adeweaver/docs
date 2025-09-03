@@ -19,9 +19,10 @@ This integration invokes Contextual AI's Grounded Language Model.
 | [ChatContextual](https://github.com/ContextualAI//langchain-contextual) | [langchain-contextual](https://pypi.org/project/langchain-contextual/) | ❌ | beta | ❌ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-contextual?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-contextual?style=flat-square&label=%20) |
 
 ### Model features
+
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | Native async | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
-| ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 
+| ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ## Setup
 
@@ -30,8 +31,6 @@ To access Contextual models you'll need to create a Contextual AI account, get a
 ### Credentials
 
 Head to [app.contextual.ai](https://app.contextual.ai) to sign up to Contextual and generate an API key. Once you've done this set the CONTEXTUAL_AI_API_KEY environment variable:
-
-
 
 ```python
 import getpass
@@ -45,7 +44,6 @@ if not os.getenv("CONTEXTUAL_AI_API_KEY"):
 
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
-
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -54,7 +52,6 @@ If you want to get automated tracing of your model calls you can also set your [
 ### Installation
 
 The LangChain Contextual integration lives in the `langchain-contextual` package:
-
 
 ```python
 %pip install -qU langchain-contextual
@@ -71,7 +68,6 @@ The chat client can be instantiated with these following additional settings:
 | temperature | Optional[float] | The sampling temperature, which affects the randomness in the response. Note that higher temperature values can reduce groundedness. | 0 |
 | top_p | Optional[float] | A parameter for nucleus sampling, an alternative to temperature which also affects the randomness of the response. Note that higher top_p values can reduce groundedness. | 0.9 |
 | max_new_tokens | Optional[int] | The maximum number of tokens that the model can generate in the response. Minimum is 1 and maximum is 2048. | 1024 |
-
 
 ```python
 from langchain_contextual import ChatContextual
@@ -96,7 +92,6 @@ These additional inputs are:
 | knowledge | list[str] | Required: A list of strings of knowledge sources the grounded language model can use when generating a response. |
 | system_prompt | Optional[str] | Optional: Instructions the model should follow when generating responses. Note that we do not guarantee that the model follows these instructions exactly. |
 | avoid_commentary | Optional[bool] | Optional (Defaults to `False`): Flag to indicate whether the model should avoid providing additional commentary in responses. Commentary is conversational in nature and does not contain verifiable claims; therefore, commentary is not strictly grounded in available context. However, commentary may provide useful context which improves the helpfulness of responses. |
-
 
 ```python
 # include a system prompt (optional)
@@ -126,7 +121,6 @@ print(ai_msg.content)
 
 We can chain the Contextual Model with output parsers.
 
-
 ```python
 from langchain_core.output_parsers import StrOutputParser
 
@@ -139,4 +133,4 @@ chain.invoke(
 
 ## API reference
 
-For detailed documentation of all ChatContextual features and configurations head to the Github page: https://github.com/ContextualAI//langchain-contextual
+For detailed documentation of all ChatContextual features and configurations head to the Github page: [github.com/ContextualAI//langchain-contextual](https://github.com/ContextualAI//langchain-contextual)

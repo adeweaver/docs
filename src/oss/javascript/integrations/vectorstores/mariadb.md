@@ -9,6 +9,7 @@ title: MariaDB
 Only available on Node.js.
 </Tip>
 ```
+
 This requires MariaDB 11.7 or later version
 
 This guide provides a quick overview for getting started with mariadb [vector stores](/oss/concepts/#vectorstores). For detailed documentation of all `MariaDB store` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_vectorstores_mariadb.MariaDBStore.html).
@@ -37,6 +38,7 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/community @langchain/openai @langchain/core mariadb uuid
 </Npm2Yarn>
 ```
+
 ### Setting up an instance
 
 Create a file with the below content named docker-compose.yml:
@@ -60,6 +62,7 @@ services:
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 ```
+
 And then in the same directory, run docker compose up to start the container.
 
 ### Credentials
@@ -71,18 +74,17 @@ If you are using OpenAI embeddings for this guide, you'll need to set your OpenA
 ```typescript
 process.env.OPENAI_API_KEY = "YOUR_API_KEY";
 ```
+
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
 ```typescript
 // process.env.LANGCHAIN_TRACING_V2="true"
 // process.env.LANGCHAIN_API_KEY="your-api-key"
 ```
+
 ## Instantiation
 
 To instantiate the vector store, call the `.initialize()` static method. This will automatically check for the presence of a table, given by `tableName` in the passed `config`. If it is not there, it will create it with the required columns.
-
-
-
 
 ```typescript
 import { OpenAIEmbeddings } from "@langchain/openai";
@@ -109,10 +111,10 @@ const vectorStore = await MariaDBStore.initialize(
    config
 );
 ```
+
 ## Manage vector store
 
 ### Add items to vector store
-
 
 ```typescript
 import { v4 as uuidv4 } from "uuid";
@@ -145,22 +147,22 @@ const ids = [uuidv4(), uuidv4(), uuidv4(), uuidv4()]
 // ids are not mandatory, but that's for the example
 await vectorStore.addDocuments(documents, { ids: ids });
 ```
-### Delete items from vector store
 
+### Delete items from vector store
 
 ```typescript
 const id4 = ids[ids.length - 1];
 
 await vectorStore.delete({ ids: [id4] });
 ```
+
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 
 ### Query directly
 
 Performing a simple similarity search can be done as follows:
-
 
 ```typescript
 const similaritySearchResults = await vectorStore.similaritySearch("biology", 2, { "year": 2021 });
@@ -168,10 +170,12 @@ for (const doc of similaritySearchResults) {
   console.log(`* ${doc.pageContent} [${JSON.stringify(doc.metadata, null)}]`);
 }
 ```
+
 ```output
 * The powerhouse of the cell is the mitochondria [{"year": 2021}]
 * Mitochondria are made out of lipids [{"year": 2022}]
 ```
+
 The above filter syntax use be more complex:
 
 ```json
@@ -181,7 +185,6 @@ let res = await vectorStore.similaritySearch("biology", 2, {"$or": [{"name":"mar
 
 If you want to execute a similarity search and receive the corresponding scores you can run:
 
-
 ```typescript
 const similaritySearchWithScoreResults = await vectorStore.similaritySearchWithScore("biology", 2)
 
@@ -189,14 +192,15 @@ for (const [doc, score] of similaritySearchWithScoreResults) {
   console.log(`* [SIM=${score.toFixed(3)}] ${doc.pageContent} [${JSON.stringify(doc.metadata)}]`);
 }
 ```
+
 ```output
 * [SIM=0.835] The powerhouse of the cell is the mitochondria [{"source":"https://example.com"}]
 * [SIM=0.852] Mitochondria are made out of lipids [{"source":"https://example.com"}]
 ```
+
 ### Query by turning into retriever
 
-You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains. 
-
+You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains.
 
 ```typescript
 const retriever = vectorStore.asRetriever({
@@ -206,6 +210,7 @@ const retriever = vectorStore.asRetriever({
 });
 await retriever.invoke("biology");
 ```
+
 ```output
 [
   Document {
@@ -220,6 +225,7 @@ await retriever.invoke("biology");
   }
 ]
 ```
+
 ### Usage for retrieval-augmented generation
 
 For guides on how to use this vector store for retrieval-augmented generation (RAG), see the following sections:
@@ -233,7 +239,6 @@ For guides on how to use this vector store for retrieval-augmented generation (R
 You can reuse connections by creating a pool, then creating new `MariaDBStore` instances directly via the constructor.
 
 Note that you should call `.initialize()` to set up your database at least once to set up your tables properly before using the constructor.
-
 
 ```typescript
 import { OpenAIEmbeddings } from "@langchain/openai";
@@ -309,7 +314,6 @@ await reusablePool.end();
 ## Closing connections
 
 Make sure you close the connection when you are finished to avoid excessive resource consumption:
-
 
 ```typescript
 await vectorStore.end();

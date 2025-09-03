@@ -14,9 +14,8 @@ This notebook goes over how to use Exa Search with LangChain.
 
 Install the LangChain Exa integration package:
 
-
 ```python
-%pip install --upgrade --quiet langchain-exa 
+%pip install --upgrade --quiet langchain-exa
 
 # and some deps for this notebook
 %pip install --upgrade --quiet langchain langchain-openai langchain-community
@@ -25,7 +24,6 @@ Install the LangChain Exa integration package:
 ### Credentials
 
 You'll need an Exa API key to use this integration. Get $10 free credit (plus more by completing certain actions like making your first search) by [signing up here](https://dashboard.exa.ai/).
-
 
 ```python
 import getpass
@@ -38,7 +36,6 @@ if not os.environ.get("EXA_API_KEY"):
 ## Using ExaSearchResults Tool
 
 ExaSearchResults is a tool that can be used with LangChain agents to perform Exa searches. It provides a more structured interface for search operations:
-
 
 ```python
 from langchain_exa import ExaSearchResults
@@ -61,7 +58,6 @@ print("Search Results:", search_results)
 
 You can use advanced search options like controlling search type, live crawling, and content filtering:
 
-
 ```python
 # Perform a search query with advanced options
 search_results = search_tool._run(
@@ -80,7 +76,6 @@ print(search_results)
 ## Using ExaFindSimilarResults Tool
 
 ExaFindSimilarResults allows you to find webpages similar to a given URL. This is useful for finding related content or competitive analysis:
-
 
 ```python
 from langchain_exa import ExaFindSimilarResults
@@ -102,7 +97,6 @@ We can use the ExaSearchResults and ExaFindSimilarResults tools with a LangGraph
 
 First, let's set up the language model. You'll need to provide your OpenAI API key:
 
-
 ```python
 import getpass
 
@@ -112,16 +106,14 @@ if not os.environ.get("OPENAI_API_KEY"):
 
 We will need to install langgraph:
 
-
 ```python
 %pip install -qU langgraph
 ```
 
-
 ```python
 from langchain.chat_models import init_chat_model
 from langchain_exa import ExaFindSimilarResults, ExaSearchResults
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 # Initialize the language model
 llm = init_chat_model(model="gpt-4o", model_provider="openai", temperature=0)
@@ -138,7 +130,7 @@ exa_find_similar = ExaFindSimilarResults(
 )
 
 # Create agent with both tools
-agent = create_react_agent(llm, [exa_search, exa_find_similar])
+agent = create_agent(llm, [exa_search, exa_find_similar])
 
 # Example 1: Basic search
 user_input = "What are the latest developments in quantum computing?"
@@ -157,13 +149,11 @@ ExaSearchRetriever is a retriever that uses Exa Search to retrieve relevant docu
 <Note>
 **The `max_characters` parameter for **TextContentsOptions** used to be called `max_length` which is now deprecated. Make sure to use `max_characters` instead.**
 
-
 </Note>
 
 ### Basic Usage
 
 Here's a simple example of using ExaSearchRetriever:
-
 
 ```python
 from langchain_exa import ExaSearchRetriever
@@ -181,7 +171,6 @@ print(results)
 ### Advanced Features
 
 You can use advanced features like controlling the number of results, search type, live crawling, summaries, and text content options:
-
 
 ```python
 from langchain_exa import ExaSearchRetriever

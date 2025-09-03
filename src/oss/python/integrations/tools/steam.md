@@ -7,6 +7,7 @@ title: Steam Toolkit
 >[Steam](https://store.steampowered.com/about/) is the ultimate destination for playing, discussing, and creating games.
 
 Steam toolkit has two tools:
+
 - `Game Details`
 - `Recommended Games`
 
@@ -18,17 +19,18 @@ We have to install two python libraries.
 
 ## Imports
 
-
 ```python
 %pip install --upgrade --quiet python-steam-api python-decouple steamspypi
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
+
 ## Assign Environmental Variables
+
 To use this toolkit, please have your OpenAI API Key, Steam API key (from [here](https://steamcommunity.com/dev/apikey)) and your own SteamID handy. Once you have received a Steam API Key, you can input it as an environmental variable below.
 The toolkit will read the "STEAM_KEY" API Key as an environmental variable to authenticate you so please set them here. You will also need to set your "OPENAI_API_KEY" and your "STEAM_ID".
-
 
 ```python
 import os
@@ -38,10 +40,11 @@ os.environ["STEAM_ID"] = ""
 os.environ["OPENAI_API_KEY"] = ""
 ```
 
-## Initialization: 
-Initialize the LLM, SteamWebAPIWrapper, SteamToolkit and most importantly the langchain agent to process your query!
-## Example
+## Initialization
 
+Initialize the LLM, SteamWebAPIWrapper, SteamToolkit and most importantly the langchain agent to process your query!
+
+## Example
 
 ```python
 from langchain_community.agent_toolkits.steam.toolkit import SteamToolkit
@@ -51,13 +54,11 @@ steam = SteamWebAPIWrapper()
 tools = [steam.run]
 ```
 
-
 ```python
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
-agent = create_react_agent("openai:gpt-4.1-mini", tools)
+agent = create_agent("openai:gpt-4.1-mini", tools)
 ```
-
 
 ```python
 events = agent.stream(
@@ -67,6 +68,7 @@ events = agent.stream(
 for event in events:
     event["messages"][-1].pretty_print()
 ```
+
 ```output
 ================================ Human Message =================================
 
@@ -84,7 +86,7 @@ Name: run
 The id is: [105600]
 The link is: https://store.steampowered.com/app/105600/Terraria/?snr=1_7_15__13
 The price is: $9.99
-The summary of the game is: Dig, Fight, Explore, Build:  The very world is at your fingertips as you fight for survival, fortune, and glory.   Will you delve deep into cavernous expanses in search of treasure and raw materials with which to craft ever-evolving gear, machinery, and aesthetics?   Perhaps you will choose instead to seek out ever-greater foes to test your mettle in combat?   Maybe you will decide to construct your own city to house the host of mysterious allies you may encounter along your travels? In the World of Terraria, the choice is yours!Blending elements of classic action games with the freedom of sandbox-style creativity, Terraria is a unique gaming experience where both the journey and the destination are completely in the player’s control.   The Terraria adventure is truly as unique as the players themselves!  Are you up for the monumental task of exploring, creating, and defending a world of your own?   Key features: Sandbox Play  Randomly generated worlds Free Content Updates 
+The summary of the game is: Dig, Fight, Explore, Build:  The very world is at your fingertips as you fight for survival, fortune, and glory.   Will you delve deep into cavernous expanses in search of treasure and raw materials with which to craft ever-evolving gear, machinery, and aesthetics?   Perhaps you will choose instead to seek out ever-greater foes to test your mettle in combat?   Maybe you will decide to construct your own city to house the host of mysterious allies you may encounter along your travels? In the World of Terraria, the choice is yours!Blending elements of classic action games with the freedom of sandbox-style creativity, Terraria is a unique gaming experience where both the journey and the destination are completely in the player’s control.   The Terraria adventure is truly as unique as the players themselves!  Are you up for the monumental task of exploring, creating, and defending a world of your own?   Key features: Sandbox Play  Randomly generated worlds Free Content Updates
 The supported languages of the game are: English, French, Italian, German, Spanish - Spain, Polish, Portuguese - Brazil, Russian, Simplified Chinese
 
 ================================== Ai Message ==================================

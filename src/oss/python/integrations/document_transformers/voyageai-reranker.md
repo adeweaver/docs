@@ -6,12 +6,10 @@ title: VoyageAI Reranker
 
 This notebook shows how to use [Voyage AI's rerank endpoint](https://api.voyageai.com/v1/rerank) in a retriever. This builds on top of ideas in the [ContextualCompressionRetriever](/oss/how-to/contextual_compression).
 
-
 ```python
 %pip install --upgrade --quiet  voyageai
 %pip install --upgrade --quiet  langchain-voyageai
 ```
-
 
 ```python
 %pip install --upgrade --quiet  faiss
@@ -20,7 +18,6 @@ This notebook shows how to use [Voyage AI's rerank endpoint](https://api.voyagea
 
 %pip install --upgrade --quiet  faiss-cpu
 ```
-
 
 ```python
 # To obtain your key, create an account on https://www.voyageai.com
@@ -31,7 +28,6 @@ import os
 if "VOYAGE_API_KEY" not in os.environ:
     os.environ["VOYAGE_API_KEY"] = getpass.getpass("Voyage AI API Key:")
 ```
-
 
 ```python
 # Helper function for printing docs
@@ -46,10 +42,11 @@ def pretty_print_docs(docs):
 ```
 
 ## Set up the base vector store retriever
+
 Let's start by initializing a simple vector store retriever and storing the 2023 State of the Union speech (in chunks). We can set up the retriever to retrieve a high number (20) of docs. You can use any of the following Embeddings models: ([source](https://docs.voyageai.com/docs/embeddings)):
 
 - `voyage-3`
-- `voyage-3-lite` 
+- `voyage-3-lite`
 - `voyage-large-2`
 - `voyage-code-2`
 - `voyage-2`
@@ -57,7 +54,6 @@ Let's start by initializing a simple vector store retriever and storing the 2023
 - `voyage-lite-02-instruct`
 - `voyage-finance-2`
 - `voyage-multilingual-2`
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -76,6 +72,7 @@ query = "What did the president say about Ketanji Brown Jackson"
 docs = retriever.invoke(query)
 pretty_print_docs(docs)
 ```
+
 ```output
 Document 1:
 
@@ -284,14 +281,15 @@ And we will, as one people.
 
 One America.
 ```
+
 ## Doing reranking with VoyageAIRerank
+
 Now let's wrap our base retriever with a `ContextualCompressionRetriever`. We'll use the Voyage AI reranker to rerank the returned results. You can use any of the following Reranking models: ([source](https://docs.voyageai.com/docs/reranker)):
 
 - `rerank-2`
 - `rerank-2-lite`
 - `rerank-1`
 - `rerank-lite-1`
-
 
 ```python
 from langchain.retrievers import ContextualCompressionRetriever
@@ -311,6 +309,7 @@ compressed_docs = compression_retriever.invoke(
 )
 pretty_print_docs(compressed_docs)
 ```
+
 ```output
 Document 1:
 
@@ -336,13 +335,12 @@ I know what works: Investing in crime prevention and community police officers w
 
 So let’s not abandon our streets. Or choose between safety and equal justice.
 ```
-You can of course use this retriever within a QA pipeline
 
+You can of course use this retriever within a QA pipeline
 
 ```python
 from langchain.chains import RetrievalQA
 ```
-
 
 ```python
 chain = RetrievalQA.from_chain_type(
@@ -350,12 +348,9 @@ chain = RetrievalQA.from_chain_type(
 )
 ```
 
-
 ```python
 chain({"query": query})
 ```
-
-
 
 ```output
 {'query': 'What did the president say about Ketanji Brown Jackson',

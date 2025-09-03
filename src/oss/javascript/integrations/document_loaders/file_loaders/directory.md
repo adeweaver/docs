@@ -13,6 +13,7 @@ Only available on Node.js.
 </Tip>
 
 ```
+
 This notebook provides a quick overview for getting started with `DirectoryLoader` [document loaders](/oss/concepts/document_loaders). For detailed documentation of all `DirectoryLoader` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain.document_loaders_fs_directory.DirectoryLoader.html).
 
 This example goes over how to load data from folders with multiple files. The second argument is a map of file extensions to loader factories. Each file will be passed to the matching loader, and the resulting documents will be concatenated together.
@@ -26,10 +27,12 @@ src/document_loaders/example_data/example/
 ├── example.txt
 └── example.csv
 ```
+
 ## Overview
+
 ### Integration details
 
-| Class | Package | Compatibility | Local | PY support | 
+| Class | Package | Compatibility | Local | PY support |
 | :--- | :--- | :---: | :---: |  :---: |
 | [DirectoryLoader](https://api.js.langchain.com/classes/langchain.document_loaders_fs_directory.DirectoryLoader.html) | [langchain](https://api.js.langchain.com/modules/langchain.document_loaders_fs_directory.html) | Node-only | ✅ | ✅ |
 
@@ -50,10 +53,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and load documents:
-
 
 ```typescript
 import { DirectoryLoader } from "langchain/document_loaders/fs/directory";
@@ -74,8 +77,8 @@ const loader = new DirectoryLoader(
   }
 );
 ```
-## Load
 
+## Load
 
 ```typescript
 const docs = await loader.load()
@@ -83,6 +86,7 @@ const docs = await loader.load()
 console.warn = () => {}
 docs[0]
 ```
+
 ```output
 Document {
   pageContent: 'Foo\nBar\nBaz\n\n',
@@ -96,11 +100,13 @@ Document {
 ```typescript
 console.log(docs[0].metadata)
 ```
+
 ```output
 {
   source: '/Users/bracesproul/code/lang-chain-ai/langchainjs/examples/src/document_loaders/example_data/example.txt'
 }
 ```
+
 ## API reference
 
-For detailed documentation of all DirectoryLoader features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain.document_loaders_fs_directory.DirectoryLoader.html
+For detailed documentation of all DirectoryLoader features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain.document_loaders_fs_directory.DirectoryLoader.html).

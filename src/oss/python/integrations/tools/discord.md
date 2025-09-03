@@ -21,7 +21,6 @@ This guide provides a quick overview for getting started with Discord tooling in
 
 The integration is provided by the `langchain-discord-shikenso` package. Install it as follows:
 
-
 ```python
 %pip install --quiet -U langchain-discord-shikenso
 ```
@@ -34,7 +33,6 @@ This integration requires you to set `DISCORD_BOT_TOKEN` as an environment varia
 export DISCORD_BOT_TOKEN="your-bot-token"
 ```
 
-
 ```python
 import getpass
 import os
@@ -46,7 +44,6 @@ import os
 
 You can optionally set up [LangSmith](https://smith.langchain.com/) for tracing or observability:
 
-
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass()
@@ -55,7 +52,6 @@ You can optionally set up [LangSmith](https://smith.langchain.com/) for tracing 
 ## Instantiation
 
 Below is an example showing how to instantiate the Discord tools in `langchain_discord`. Adjust as needed for your specific usage.
-
 
 ```python
 from langchain_discord.tools.discord_read_messages import DiscordReadMessages
@@ -78,7 +74,6 @@ send_tool = DiscordSendMessage()
 
 Below is a simple example of calling the tool with keyword arguments in a dictionary.
 
-
 ```python
 invocation_args = {"channel_id": "1234567890", "limit": 3}
 response = read_tool(invocation_args)
@@ -88,7 +83,6 @@ response
 ### Invocation with ToolCall
 
 If you have a model-generated `ToolCall`, pass it to `tool.invoke()` in the format shown below.
-
 
 ```python
 tool_call = {
@@ -103,12 +97,12 @@ tool.invoke(tool_call)
 
 ## Chaining
 
-Below is a more complete example showing how you might integrate the `DiscordReadMessages` and `DiscordSendMessage` tools in a chain or agent with an LLM. This example assumes you have a function (like `create_react_agent`) that sets up a LangChain-style agent capable of calling tools when appropriate.
+Below is a more complete example showing how you might integrate the `DiscordReadMessages` and `DiscordSendMessage` tools in a chain or agent with an LLM. This example assumes you have a function (like `create_agent`) that sets up a LangChain-style agent capable of calling tools when appropriate.
 
 ```python
 # Example: Using Discord Tools in an Agent
 
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 from langchain_discord.tools.discord_read_messages import DiscordReadMessages
 from langchain_discord.tools.discord_send_messages import DiscordSendMessage
 
@@ -121,7 +115,7 @@ read_tool = DiscordReadMessages()
 send_tool = DiscordSendMessage()
 
 # 3. Build an agent that has access to these tools
-agent_executor = create_react_agent(llm, [read_tool, send_tool])
+agent_executor = create_agent(llm, [read_tool, send_tool])
 
 # 4. Formulate a user query that may invoke one or both tools
 example_query = "Please read the last 5 messages in channel 1234567890"
@@ -140,6 +134,7 @@ for event in events:
 ## API reference
 
 See the docstrings in:
+
 - [discord_read_messages.py](https://github.com/Shikenso-Analytics/langchain-discord/blob/main/langchain_discord/tools/discord_read_messages.py)
 - [discord_send_messages.py](https://github.com/Shikenso-Analytics/langchain-discord/blob/main/langchain_discord/tools/discord_send_messages.py)
 - [toolkits.py](https://github.com/Shikenso-Analytics/langchain-discord/blob/main/langchain_discord/toolkits.py)

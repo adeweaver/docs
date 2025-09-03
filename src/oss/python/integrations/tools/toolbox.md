@@ -61,11 +61,12 @@ CREATE TABLE hotels(
 );
 
 INSERT INTO hotels(id, name, location, price_tier, booked)
-VALUES 
+VALUES
   (1, 'Hilton Basel', 'Basel', 'Luxury', B'0'),
   (2, 'Marriott Zurich', 'Zurich', 'Upscale', B'0'),
   (3, 'Hyatt Regency Basel', 'Basel', 'Upper Upscale', B'0');
 ```
+
 You can now exit `psql` by typing `\q`.
 
 ### 2. Install MCP Toolbox
@@ -129,11 +130,9 @@ MCP Toolbox will start on `http://127.0.0.1:5000` by default and will hot-reload
 
 ## Instantiation
 
-
 ```python
 !pip install toolbox-langchain
 ```
-
 
 ```python
 from toolbox_langchain import ToolboxClient
@@ -144,8 +143,6 @@ with ToolboxClient("http://127.0.0.1:5000") as client:
 
 ## Invocation
 
-
-
 ```python
 from toolbox_langchain import ToolboxClient
 
@@ -154,25 +151,25 @@ with ToolboxClient("http://127.0.0.1:5000") as client:
     results = search_tool.invoke({"location": "Basel"})
     print(results)
 ```
+
 ```output
 [{"id":1,"location":"Basel","name":"Hilton Basel","price_tier":"Luxury"},{"id":3,"location":"Basel","name":"Hyatt Regency Basel","price_tier":"Upper Upscale"}]
 ```
+
 ## Use within an agent
 
 Now for the fun part! We'll install the required LangChain packages and create an agent that can use the tools we defined in MCP Toolbox.
-
 
 ```python
 %pip install -U --quiet toolbox-langchain langgraph langchain-google-vertexai
 ```
 
-With the packages installed, we can define our agent. We will use `ChatVertexAI` for the model and `ToolboxClient` to load our tools. The `create_react_agent` from `langgraph.prebuilt` creates a robust agent that can reason about which tools to call.
+With the packages installed, we can define our agent. We will use `ChatVertexAI` for the model and `ToolboxClient` to load our tools. The `create_agent` from `langchain.agents` creates a robust agent that can reason about which tools to call.
 
 **Note:** Ensure your MCP Toolbox server is running in a separate terminal before executing the code below.
 
-
 ```python
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 from langchain_google_vertexai import ChatVertexAI
 from langgraph.checkpoint.memory import MemorySaver
 from toolbox_langchain import ToolboxClient
@@ -212,7 +209,6 @@ async def run_queries(agent_executor):
 
 ## Run the agent
 
-
 ```python
 async def main():
     await run_hotel_agent()
@@ -225,7 +221,7 @@ async def run_hotel_agent():
     async with ToolboxClient("http://127.0.0.1:5000") as client:
         tools = await client.aload_toolset("hotel_toolset")
 
-        agent = create_react_agent(model, tools, checkpointer=MemorySaver())
+        agent = create_agent(model, tools, checkpointer=MemorySaver())
 
         await run_queries(agent)
 
@@ -240,11 +236,13 @@ You've successfully connected a LangChain agent to a local database using MCP To
 The primary class for this integration is `ToolboxClient`.
 
 For more information, see the following resources:
+
 - [Toolbox Official Documentation](https://googleapis.github.io/genai-toolbox/)
 - [Toolbox GitHub Repository](https://github.com/googleapis/genai-toolbox)
 - [Toolbox LangChain SDK](https://github.com/googleapis/mcp-toolbox-python-sdk/tree/main/packages/toolbox-langchain)
 
 MCP Toolbox has a variety of features to make developing Gen AI tools for databases seamless:
+
 - [Authenticated Parameters](https://googleapis.github.io/genai-toolbox/resources/tools/#authenticated-parameters): Bind tool inputs to values from OIDC tokens automatically, making it easy to run sensitive queries without potentially leaking data
 - [Authorized Invocations](https://googleapis.github.io/genai-toolbox/resources/tools/#authorized-invocations): Restrict access to use a tool based on the users Auth token
 - [OpenTelemetry](https://googleapis.github.io/genai-toolbox/how-to/export_telemetry/): Get metrics and tracing from MCP Toolbox with [OpenTelemetry](https://opentelemetry.io/docs/)
@@ -252,6 +250,7 @@ MCP Toolbox has a variety of features to make developing Gen AI tools for databa
 # Community and Support
 
 We encourage you to get involved with the community:
+
 - ⭐️ Head over to the [GitHub repository](https://github.com/googleapis/genai-toolbox) to get started and follow along with updates.
 - 📚 Dive into the [official documentation](https://googleapis.github.io/genai-toolbox/getting-started/introduction/) for more advanced features and configurations.
 - 💬 Join our [Discord server](https://discord.com/invite/a4XjGqtmnG) to connect with the community and ask questions.

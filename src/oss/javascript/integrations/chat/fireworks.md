@@ -7,6 +7,7 @@ title: ChatFireworks
 This guide will help you getting started with `ChatFireworks` [chat models](/oss/concepts/chat_models). For detailed documentation of all `ChatFireworks` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_chat_models_fireworks.ChatFireworks.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [PY support](https://python.langchain.com/docs/integrations/chat/fireworks) | Package downloads | Package latest |
@@ -19,7 +20,7 @@ See the links in the table headers below for guides on how to use specific featu
 
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: |
-| ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | 
+| ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
 
 ## Setup
 
@@ -54,13 +55,13 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
 
-
 ```typescript
-import { ChatFireworks } from "@langchain/community/chat_models/fireworks" 
+import { ChatFireworks } from "@langchain/community/chat_models/fireworks"
 
 const llm = new ChatFireworks({
     model: "accounts/fireworks/models/llama-v3p1-70b-instruct",
@@ -71,8 +72,8 @@ const llm = new ChatFireworks({
     // other params...
 })
 ```
-## Invocation
 
+## Invocation
 
 ```typescript
 const aiMsg = await llm.invoke([
@@ -84,6 +85,7 @@ const aiMsg = await llm.invoke([
 ])
 aiMsg
 ```
+
 ```output
 AIMessage {
   "id": "chatcmpl-9rBYHbb6QYRrKyr2tMhO9pH4AYXR4",
@@ -110,13 +112,14 @@ AIMessage {
 ```typescript
 console.log(aiMsg.content)
 ```
+
 ```output
 J'adore la programmation.
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts"
@@ -140,6 +143,7 @@ await chain.invoke(
     }
 )
 ```
+
 ```output
 AIMessage {
   "id": "chatcmpl-9rBYM3KSIhHOuTXpBvA5oFyk8RSaN",
@@ -162,6 +166,7 @@ AIMessage {
   }
 }
 ```
+
 Behind the scenes, Fireworks AI uses the OpenAI SDK and OpenAI compatible API, with some caveats:
 
 - Certain properties are not supported by the Fireworks API, see [here](https://readme.fireworks.ai/docs/openai-compatibility#api-compatibility).
@@ -169,4 +174,4 @@ Behind the scenes, Fireworks AI uses the OpenAI SDK and OpenAI compatible API, w
 
 ## API reference
 
-For detailed documentation of all ChatFireworks features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_community_chat_models_fireworks.ChatFireworks.html
+For detailed documentation of all ChatFireworks features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_chat_models_fireworks.ChatFireworks.html).

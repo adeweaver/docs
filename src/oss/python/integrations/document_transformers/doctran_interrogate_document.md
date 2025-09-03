@@ -8,11 +8,9 @@ We can accomplish this using the [Doctran](https://github.com/psychic-api/doctra
 
 See [this notebook](https://github.com/psychic-api/doctran/blob/main/benchmark.ipynb) for benchmarks on vector similarity scores for various queries based on raw documents versus interrogated documents.
 
-
 ```python
 %pip install --upgrade --quiet  doctran
 ```
-
 
 ```python
 import json
@@ -21,23 +19,19 @@ from langchain_community.document_transformers import DoctranQATransformer
 from langchain_core.documents import Document
 ```
 
-
 ```python
 from dotenv import load_dotenv
 
 load_dotenv()
 ```
 
-
-
 ```output
 True
 ```
 
-
 ## Input
-This is the document we'll interrogate
 
+This is the document we'll interrogate
 
 ```python
 sample_text = """[Generated with ChatGPT]
@@ -77,6 +71,7 @@ jason@psychic.dev
 """
 print(sample_text)
 ```
+
 ```output
 [Generated with ChatGPT]
 
@@ -121,13 +116,14 @@ transformed_document = qa_transformer.transform_documents(documents)
 ```
 
 ## Output
-After interrogating a document, the result will be returned as a new document with questions and answers provided in the metadata.
 
+After interrogating a document, the result will be returned as a new document with questions and answers provided in the metadata.
 
 ```python
 transformed_document = qa_transformer.transform_documents(documents)
 print(json.dumps(transformed_document[0].metadata, indent=2))
 ```
+
 ```output
 {
   "questions_and_answers": [

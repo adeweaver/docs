@@ -2,17 +2,15 @@
 title: MemgraphToolkit
 ---
 
-This will help you get started with the Memgraph [toolkit](/oss/concepts/tools/#toolkits). 
+This will help you get started with the Memgraph [toolkit](/oss/concepts/tools/#toolkits).
 
 Tools within `MemgraphToolkit` are designed for the interaction with the `Memgraph` database.
 
 ## Setup
 
 To be able tot follow the steps below, make sure you have a running Memgraph instance on your local host. For more details on how to run Memgraph, take a look at [Memgraph docs](https://memgraph.com/docs/getting-started)
-  
 
 If you want to get automated tracing from runs of individual tools, you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
-
 
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -23,15 +21,13 @@ If you want to get automated tracing from runs of individual tools, you can also
 
 This toolkit lives in the `langchain-memgraph` package:
 
-
 ```python
-%pip install -qU langchain-memgraph 
+%pip install -qU langchain-memgraph
 ```
 
 ## Instantiation
 
 Now we can instantiate our toolkit:
-
 
 ```python
 from langchain.chat_models import init_chat_model
@@ -52,16 +48,13 @@ toolkit = MemgraphToolkit(
 
 View available tools:
 
-
 ```python
 toolkit.get_tools()
 ```
 
 ## Invocation
 
-Tools can be individually called by passing an arguments, for QueryMemgraphTool it would be: 
-
-
+Tools can be individually called by passing an arguments, for QueryMemgraphTool it would be:
 
 ```python
 from langchain_memgraph.tools import QueryMemgraphTool
@@ -73,13 +66,11 @@ tool.invoke({QueryMemgraphTool({"query": "MATCH (n) RETURN n LIMIT 5"})})
 
 ## Use within an agent
 
-
 ```python
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
-agent_executor = create_react_agent(llm, tools)
+agent_executor = create_agent(llm, tools)
 ```
-
 
 ```python
 example_query = "MATCH (n) RETURN n LIMIT 1"

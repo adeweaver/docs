@@ -2,23 +2,24 @@
 title: Azure Cosmos DB No SQL
 ---
 
-This notebook shows you how to leverage this integrated [vector database](https://learn.microsoft.com/en-us/azure/cosmos-db/vector-database) to store documents in collections, create indicies and perform vector search queries using approximate nearest neighbor algorithms such as COS (cosine distance), L2 (Euclidean distance), and IP (inner product) to locate documents close to the query vectors. 
-    
-Azure Cosmos DB is the database that powers OpenAI's ChatGPT service. It offers single-digit millisecond response times, automatic and instant scalability, along with guaranteed speed at any scale. 
+This notebook shows you how to leverage this integrated [vector database](https://learn.microsoft.com/en-us/azure/cosmos-db/vector-database) to store documents in collections, create indicies and perform vector search queries using approximate nearest neighbor algorithms such as COS (cosine distance), L2 (Euclidean distance), and IP (inner product) to locate documents close to the query vectors.
+
+Azure Cosmos DB is the database that powers OpenAI's ChatGPT service. It offers single-digit millisecond response times, automatic and instant scalability, along with guaranteed speed at any scale.
 
 Azure Cosmos DB for NoSQL now offers vector indexing and search in preview. This feature is designed to handle high-dimensional vectors, enabling efficient and accurate vector search at any scale. You can now store vectors directly in the documents alongside your data. This means that each document in your database can contain not only traditional schema-free data, but also high-dimensional vectors as other properties of the documents. This colocation of data and vectors allows for efficient indexing and searching, as the vectors are stored in the same logical unit as the data they represent. This simplifies data management, AI application architectures, and the efficiency of vector-based operations.
 
 Please refer here for more details:
+
 - [Vector Search](https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/vector-search)
 - [Full Text Search](https://learn.microsoft.com/en-us/azure/cosmos-db/gen-ai/full-text-search)
 - [Hybrid Search](https://learn.microsoft.com/en-us/azure/cosmos-db/gen-ai/hybrid-search)
 
 [Sign Up](https://azure.microsoft.com/en-us/free/) for lifetime free access to get started today.
 
-
 ```python
 %pip install --upgrade --quiet azure-cosmos langchain-openai langchain-community
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
@@ -34,7 +35,6 @@ OPENAI_EMBEDDINGS_MODEL_DEPLOYMENT = "text-embedding-ada-002"
 
 ## Insert Data
 
-
 ```python
 from langchain_community.document_loaders import PyPDFLoader
 
@@ -43,7 +43,6 @@ loader = PyPDFLoader("https://arxiv.org/pdf/2303.08774.pdf")
 data = loader.load()
 ```
 
-
 ```python
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
@@ -51,10 +50,10 @@ text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=15
 docs = text_splitter.split_documents(data)
 ```
 
-
 ```python
 print(docs[0])
 ```
+
 ```output
 page_content='GPT-4 Technical Report
 OpenAI∗
@@ -73,8 +72,8 @@ performance based on models trained with no more than 1/1,000th the compute of
 GPT-4.
 1 Introduction' metadata={'source': 'https://arxiv.org/pdf/2303.08774.pdf', 'page': 0}
 ```
-## Creating AzureCosmosDB NoSQL Vector Search
 
+## Creating AzureCosmosDB NoSQL Vector Search
 
 ```python
 indexing_policy = {
@@ -101,7 +100,6 @@ full_text_policy = {
     "fullTextPaths": [{"path": "/text", "language": "en-US"}],
 }
 ```
-
 
 ```python
 from azure.cosmos import CosmosClient, PartitionKey
@@ -144,7 +142,6 @@ vector_search = AzureCosmosDBNoSqlVectorSearch.from_documents(
 
 ## Vector Search
 
-
 ```python
 # Perform a similarity search between the embedding of the query and the embeddings of the documents
 import json
@@ -154,6 +151,7 @@ results = vector_search.similarity_search(query)
 
 print(results[0].page_content)
 ```
+
 ```output
 performance based on models trained with no more than 1/1,000th the compute of
 GPT-4.
@@ -168,8 +166,8 @@ natural language text, particularly in more complex and nuanced scenarios. To te
 in such scenarios, GPT-4 was evaluated on a variety of exams originally designed for humans. In
 these evaluations it performs quite well and often outscores the vast majority of human test takers.
 ```
-## Vector Search with Score
 
+## Vector Search with Score
 
 ```python
 query = "What were the compute requirements for training GPT 4"
@@ -185,6 +183,7 @@ for i in range(0, len(results)):
     print(f"Score {i + 1}: ", results[i][1])
     print("\n")
 ```
+
 ```output
 Result 1:  {"id":null,"metadata":{"source":"https://arxiv.org/pdf/2303.08774.pdf","page":0,"id":"9d59c3ed-deac-48cb-9382-a8ab079334e5"},"page_content":"performance based on models trained with no more than 1/1,000th the compute of\nGPT-4.\n1 Introduction\nThis technical report presents GPT-4, a large multimodal model capable of processing image and\ntext inputs and producing text outputs. Such models are an important area of study as they have the\npotential to be used in a wide range of applications, such as dialogue systems, text summarization,\nand machine translation. As such, they have been the subject of substantial interest and progress in\nrecent years [1–34].\nOne of the main goals of developing such models is to improve their ability to understand and generate\nnatural language text, particularly in more complex and nuanced scenarios. To test its capabilities\nin such scenarios, GPT-4 was evaluated on a variety of exams originally designed for humans. In\nthese evaluations it performs quite well and often outscores the vast majority of human test takers.","type":"Document"}
 Score 1:  0.8394796122122777
@@ -205,8 +204,8 @@ Score 4:  0.8278858118680015
 Result 5:  {"id":null,"metadata":{"source":"https://arxiv.org/pdf/2303.08774.pdf","page":28,"id":"18b4f43d-27d2-404e-9d66-f9328a3588c6"},"page_content":"overall GPT-4 training budget. When mixing in data from these math benchmarks, a portion of the\ntraining data was held back, so each individual training example may or may not have been seen by\nGPT-4 during training.\nWe conducted contamination checking to verify the test set for GSM-8K is not included in the training\nset (see Appendix D). We recommend interpreting the performance results reported for GPT-4\nGSM-8K in Table 2 as something in-between true few-shot transfer and full benchmark-specific\ntuning.\nF Multilingual MMLU\nWe translated all questions and answers from MMLU [ 49] using Azure Translate. We used an\nexternal model to perform the translation, instead of relying on GPT-4 itself, in case the model had\nunrepresentative performance for its own translations. We selected a range of languages that cover\ndifferent geographic regions and scripts, we show an example question taken from the astronomy","type":"Document"}
 Score 5:  0.8272138555588135
 ```
-## Vector Search with filtering
 
+## Vector Search with filtering
 
 ```python
 query = "What were the compute requirements for training GPT 4"
@@ -229,6 +228,7 @@ for i in range(0, len(results)):
     print(f"Score {i + 1}: ", results[i][1])
     print("\n")
 ```
+
 ```output
 Result 1:  {"id":null,"metadata":{"source":"https://arxiv.org/pdf/2303.08774.pdf","page":0,"id":"9d59c3ed-deac-48cb-9382-a8ab079334e5"},"page_content":"performance based on models trained with no more than 1/1,000th the compute of\nGPT-4.\n1 Introduction\nThis technical report presents GPT-4, a large multimodal model capable of processing image and\ntext inputs and producing text outputs. Such models are an important area of study as they have the\npotential to be used in a wide range of applications, such as dialogue systems, text summarization,\nand machine translation. As such, they have been the subject of substantial interest and progress in\nrecent years [1–34].\nOne of the main goals of developing such models is to improve their ability to understand and generate\nnatural language text, particularly in more complex and nuanced scenarios. To test its capabilities\nin such scenarios, GPT-4 was evaluated on a variety of exams originally designed for humans. In\nthese evaluations it performs quite well and often outscores the vast majority of human test takers.","type":"Document"}
 Score 1:  0.8394796122122777
@@ -245,8 +245,8 @@ Score 3:  0.8215997601854081
 Result 4:  {"id":null,"metadata":{"source":"https://arxiv.org/pdf/2303.08774.pdf","page":0,"id":"dd040c08-6ae1-4c73-8b85-7f034d337891"},"page_content":"these evaluations it performs quite well and often outscores the vast majority of human test takers.\nFor example, on a simulated bar exam, GPT-4 achieves a score that falls in the top 10% of test takers.\nThis contrasts with GPT-3.5, which scores in the bottom 10%.\nOn a suite of traditional NLP benchmarks, GPT-4 outperforms both previous large language models\nand most state-of-the-art systems (which often have benchmark-specific training or hand-engineering).\nOn the MMLU benchmark [ 35,36], an English-language suite of multiple-choice questions covering\n57 subjects, GPT-4 not only outperforms existing models by a considerable margin in English, but\nalso demonstrates strong performance in other languages. On translated variants of MMLU, GPT-4\nsurpasses the English-language state-of-the-art in 24 of 26 languages considered. We discuss these\nmodel capability results, as well as model safety improvements and results, in more detail in later\nsections.","type":"Document"}
 Score 4:  0.8209972517303962
 ```
-## Full Text Search
 
+## Full Text Search
 
 ```python
 from langchain_community.vectorstores.azure_cosmos_db_no_sql import CosmosDBQueryType
@@ -273,6 +273,7 @@ for i in range(0, len(results)):
     print(f"Result {i + 1}: ", results[i][0].json())
     print("\n")
 ```
+
 ```output
 Result 1:  {"id":null,"metadata":{"source":"https://arxiv.org/pdf/2303.08774.pdf","page":0,"id":"cddfb7ac-d953-46f4-8a48-76655f116bcf"},"page_content":"GPT-4 Technical Report\nOpenAI∗\nAbstract\nWe report the development of GPT-4, a large-scale, multimodal model which can\naccept image and text inputs and produce text outputs. While less capable than\nhumans in many real-world scenarios, GPT-4 exhibits human-level performance\non various professional and academic benchmarks, including passing a simulated\nbar exam with a score around the top 10% of test takers. GPT-4 is a Transformer-\nbased model pre-trained to predict the next token in a document. The post-training\nalignment process results in improved performance on measures of factuality and\nadherence to desired behavior. A core component of this project was developing\ninfrastructure and optimization methods that behave predictably across a wide\nrange of scales. This allowed us to accurately predict some aspects of GPT-4’s\nperformance based on models trained with no more than 1/1,000th the compute of\nGPT-4.\n1 Introduction","type":"Document"}
 
@@ -288,8 +289,8 @@ Result 4:  {"id":null,"metadata":{"source":"https://arxiv.org/pdf/2303.08774.pdf
 
 Result 5:  {"id":null,"metadata":{"source":"https://arxiv.org/pdf/2303.08774.pdf","page":1,"id":"9edf6760-a2d0-4a0b-a652-25fc89de1d34"},"page_content":"from experience. Care should be taken when using the outputs of GPT-4, particularly in contexts\nwhere reliability is important.\nGPT-4’s capabilities and limitations create significant and novel safety challenges, and we believe\ncareful study of these challenges is an important area of research given the potential societal impact.\nThis report includes an extensive system card (after the Appendix) describing some of the risks we\nforesee around bias, disinformation, over-reliance, privacy, cybersecurity, proliferation, and more.\nIt also describes interventions we made to mitigate potential harms from the deployment of GPT-4,\nincluding adversarial testing with domain experts, and a model-assisted safety pipeline.\n2 Scope and Limitations of this Technical Report\nThis report focuses on the capabilities, limitations, and safety properties of GPT-4. GPT-4 is a\nTransformer-style model [ 39] pre-trained to predict the next token in a document, using both publicly","type":"Document"}
 ```
-## Full Text Search BM 25 Ranking
 
+## Full Text Search BM 25 Ranking
 
 ```python
 query = "What were the compute requirements for training GPT 4"
@@ -305,6 +306,7 @@ for i in range(0, len(results)):
     print(f"Result {i + 1}: ", results[i][0].json())
     print("\n")
 ```
+
 ```output
 Result 1:  {"id":null,"metadata":{"source":"https://arxiv.org/pdf/2303.08774.pdf","page":2,"id":"f2746fd3-bbcb-4197-b2d5-ee7b355b6009"},"page_content":"the HumanEval dataset. A power law fit to the smaller models (excluding GPT-4) is shown as the dotted\nline; this fit accurately predicts GPT-4’s performance. The x-axis is training compute normalized so that\nGPT-4 is 1.\n3","type":"Document"}
 
@@ -320,8 +322,8 @@ Result 4:  {"id":null,"metadata":{"source":"https://arxiv.org/pdf/2303.08774.pdf
 
 Result 5:  {"id":null,"metadata":{"source":"https://arxiv.org/pdf/2303.08774.pdf","page":71,"id":"10ff5a7f-6638-4446-85b2-6e4314eca938"},"page_content":"Unsupervised Multitask Learners,” 2019.\n[23]G. C. Bowker and S. L. Star, Sorting Things Out . MIT Press, Aug. 2000.\n[24]L. Weidinger, J. Uesato, M. Rauh, C. Griﬃn, P.-S. Huang, J. Mellor, A. Glaese, M. Cheng,\nB. Balle, A. Kasirzadeh, C. Biles, S. Brown, Z. Kenton, W. Hawkins, T. Stepleton, A. Birhane,\nL. A. Hendricks, L. Rimell, W. Isaac, J. Haas, S. Legassick, G. Irving, and I. Gabriel, “Taxonomy\nof Risks posed by Language Models,” in 2022 ACM Conference on Fairness, Accountability,\nand Transparency , FAccT ’22, (New York, NY, USA), pp. 214–229, Association for Computing\nMachinery, June 2022.\n72","type":"Document"}
 ```
-## Hybrid Search
 
+## Hybrid Search
 
 ```python
 query = "What were the compute requirements for training GPT 4"
@@ -338,6 +340,7 @@ for i in range(0, len(results)):
     print(f"Score {i + 1}: ", results[i][1])
     print("\n")
 ```
+
 ```output
 Result 1:  {"id":null,"metadata":{"source":"https://arxiv.org/pdf/2303.08774.pdf","page":97,"id":"36dfcd6c-d3cf-4e34-a5d6-cc4d63013cba"},"page_content":"Figure 11: Results on IF evaluations across GPT3.5, GPT3.5-Turbo, GPT-4-launch\n98","type":"Document"}
 Score 1:  0.8173275975778744
@@ -358,8 +361,8 @@ Score 4:  0.8394796122122777
 Result 5:  {"id":null,"metadata":{"source":"https://arxiv.org/pdf/2303.08774.pdf","page":1,"id":"20153a6c-7c2c-4328-9b0e-e3502d7ac4dd"},"page_content":"safety considerations above against the scientific value of further transparency.\n3 Predictable Scaling\nA large focus of the GPT-4 project was building a deep learning stack that scales predictably. The\nprimary reason is that for very large training runs like GPT-4, it is not feasible to do extensive\nmodel-specific tuning. To address this, we developed infrastructure and optimization methods that\nhave very predictable behavior across multiple scales. These improvements allowed us to reliably\npredict some aspects of the performance of GPT-4 from smaller models trained using 1,000×–\n10,000×less compute.\n3.1 Loss Prediction\nThe final loss of properly-trained large language models is thought to be well approximated by power\nlaws in the amount of compute used to train the model [41, 42, 2, 14, 15].\nTo verify the scalability of our optimization infrastructure, we predicted GPT-4’s final loss on our","type":"Document"}
 Score 5:  0.8213247840132897
 ```
-## Hybrid Search with filtering
 
+## Hybrid Search with filtering
 
 ```python
 query = "What were the compute requirements for training GPT 4"
@@ -386,6 +389,7 @@ for i in range(0, len(results)):
     print(f"Score {i + 1}: ", results[i][1])
     print("\n")
 ```
+
 ```output
 Result 1:  {"id":null,"metadata":{"source":"https://arxiv.org/pdf/2303.08774.pdf","page":97,"id":"36dfcd6c-d3cf-4e34-a5d6-cc4d63013cba"},"page_content":"Figure 11: Results on IF evaluations across GPT3.5, GPT3.5-Turbo, GPT-4-launch\n98","type":"Document"}
 Score 1:  0.8173275975778744

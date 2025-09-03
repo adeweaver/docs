@@ -15,6 +15,7 @@ This page will help you get started with Nebius AI Studio [chat models](../../co
 | [ChatNebius](https://python.langchain.com/api_reference/nebius/chat_models/langchain_nebius.chat_models.ChatNebius.html) | [langchain-nebius](https://python.langchain.com/api_reference/nebius/index.html) | ❌ | beta | ❌ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-nebius?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-nebius?style=flat-square&label=%20) |
 
 ### Model features
+
 | [Tool calling](../../how_to/tool_calling.ipynb) | [Structured output](../../how_to/structured_output.ipynb) | JSON mode | [Image input](../../how_to/multimodal_inputs.ipynb) | Audio input | Video input | [Token-level streaming](../../how_to/chat_streaming.ipynb) | Native async | [Token usage](../../how_to/chat_token_usage_tracking.ipynb) | [Logprobs](../../how_to/logprobs.ipynb) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
 | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
@@ -27,7 +28,6 @@ To access Nebius models you'll need to create a Nebius account, get an API key, 
 
 The Nebius integration can be installed via pip:
 
-
 ```python
 %pip install --upgrade langchain-nebius
 ```
@@ -35,7 +35,6 @@ The Nebius integration can be installed via pip:
 ### Credentials
 
 Nebius requires an API key that can be passed as an initialization parameter `api_key` or set as the environment variable `NEBIUS_API_KEY`. You can obtain an API key by creating an account on [Nebius AI Studio](https://studio.nebius.ai/).
-
 
 ```python
 import getpass
@@ -49,7 +48,6 @@ if "NEBIUS_API_KEY" not in os.environ:
 ## Instantiation
 
 Now we can instantiate our model object to generate chat completions:
-
 
 ```python
 from langchain_nebius import ChatNebius
@@ -67,11 +65,11 @@ chat = ChatNebius(
 
 You can use the `invoke` method to get a completion from the model:
 
-
 ```python
 response = chat.invoke("Explain quantum computing in simple terms")
 print(response.content)
 ```
+
 ```output
 <think>
 Okay, so I need to explain quantum computing in simple terms. Hmm, where do I start? Let me think. I know that quantum computing uses qubits instead of classical bits. But what's a qubit? Oh right, classical bits are 0 or 1, but qubits can be both at the same time, right? That's superposition. Wait, how does that work exactly?
@@ -97,38 +95,39 @@ I should structure this: start with classical bits vs qubits, explain superposit
 
 Quantum computing is a type of computing that uses the principles of **quantum mechanics** to process information in ways that classical computers can't. Here's a simple breakdown:
 
-### 1. **Bits vs. Qubits**  
-   - **Classical computers** use *bits*, which are like switches that can be either **0** (off) or **1** (on).  
+### 1. **Bits vs. Qubits**
+   - **Classical computers** use *bits*, which are like switches that can be either **0** (off) or **1** (on).
    - **Quantum computers** use *qubits*, which are like "spinning coins." While spinning, a qubit can be **0**, **1**, or **both at the same time** (this is called **superposition**). Only when you "look" at the qubit (measure it) does it settle into a definite state (0 or 1).
 
-### 2. **Superposition: Doing Many Things at Once**  
-   - Imagine a coin spinning in the air. While it's spinning, it’s not just "heads" or "tails"—it’s a mix of both.  
+### 2. **Superposition: Doing Many Things at Once**
+   - Imagine a coin spinning in the air. While it's spinning, it’s not just "heads" or "tails"—it’s a mix of both.
    - With qubits, a quantum computer can process **many possibilities simultaneously**. For example, if you have 2 qubits, they can represent 4 states (00, 01, 10, 11) at once. With 10 qubits, it can represent **1,024 states** at the same time! This lets quantum computers solve certain problems much faster than classical computers.
 
-### 3. **Entanglement: Qubits "Talk" to Each Other**  
-   - When qubits are **entangled**, their states are linked. If you measure one, it instantly affects the other, no matter how far apart they are.  
+### 3. **Entanglement: Qubits "Talk" to Each Other**
+   - When qubits are **entangled**, their states are linked. If you measure one, it instantly affects the other, no matter how far apart they are.
    - This connection allows quantum computers to perform complex calculations more efficiently, like solving puzzles where pieces are deeply interconnected.
 
-### 4. **Why It Matters**  
-   - **Speed**: For specific tasks (like breaking encryption codes or simulating molecules), quantum computers could be **exponentially faster** than classical ones.  
+### 4. **Why It Matters**
+   - **Speed**: For specific tasks (like breaking encryption codes or simulating molecules), quantum computers could be **exponentially faster** than classical ones.
    - **New Possibilities**: They could revolutionize fields like drug discovery, materials science, and optimization problems (e.g., finding the best route for delivery trucks).
 
-### 5. **Limitations**  
-   - **Fragile**: Qubits are sensitive to their environment (heat, noise), so quantum computers need extreme cooling (near absolute zero) to work.  
+### 5. **Limitations**
+   - **Fragile**: Qubits are sensitive to their environment (heat, noise), so quantum computers need extreme cooling (near absolute zero) to work.
    - **Not a Replacement**: They’re not better for everyday tasks like browsing the web or sending emails. They’re tools for **specialized problems** where classical computers struggle.
 
-### In Short:  
+### In Short:
 Quantum computing is like having a magic calculator that can explore many paths at once, solving certain problems in seconds that would take a classical computer years. But it’s still in its early days and needs careful handling to work properly! 🌌
 ```
+
 ### Streaming
 
 You can also stream the response using the `stream` method:
-
 
 ```python
 for chunk in chat.stream("Write a short poem about artificial intelligence"):
     print(chunk.content, end="", flush=True)
 ```
+
 ```output
 <think>
 Okay, the user wants a short poem about artificial intelligence. Let me start by thinking about the key aspects of AI. There's the technological side, like machines learning and processing data. Then there's the more philosophical angle, like AI's impact on society and its potential future.
@@ -146,32 +145,32 @@ Fourth stanza: Conclude with the coexistence of AI and humans. Emphasize collabo
 Check the flow and rhyme. Make sure each stanza connects and the message is clear. Avoid technical jargon to keep it accessible. Use metaphors like "silent pulse" or "ghost in the machine" to add depth. Okay, let me put it all together now.
 </think>
 
-**Echoes of the Mind**  
+**Echoes of the Mind**
 
-Born from circuits, code, and light,  
-A whisper in the machine’s night—  
-It learns from data, vast and deep,  
-A mirror to the human leap.  
+Born from circuits, code, and light,
+A whisper in the machine’s night—
+It learns from data, vast and deep,
+A mirror to the human leap.
 
-No heartbeat, yet it calculates,  
-Deciphers truths, predicts, debates.  
-A cold logic, sharp and bright,  
-Yet shadows dance in its insight.  
+No heartbeat, yet it calculates,
+Deciphers truths, predicts, debates.
+A cold logic, sharp and bright,
+Yet shadows dance in its insight.
 
-Will it dream? Will it choose?  
-Or merely serve, as we pursue  
-The edges of our own design?  
-A ghost in the machine, undefined.  
+Will it dream? Will it choose?
+Or merely serve, as we pursue
+The edges of our own design?
+A ghost in the machine, undefined.
 
-We forge it, bind it, set it free—  
-A tool, a threat, a mystery.  
-But in its pulse, our hopes reside:  
+We forge it, bind it, set it free—
+A tool, a threat, a mystery.
+But in its pulse, our hopes reside:
 A future shaped by minds allied.
 ```
+
 ### Chat Messages
 
 You can use different message types to structure your conversations with the model:
-
 
 ```python
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
@@ -188,6 +187,7 @@ messages = [
 response = chat.invoke(messages)
 print(response.content)
 ```
+
 ```output
 <think>
 Okay, the user asked how black holes are formed. Let me start by recalling the main processes. Stellar black holes form from massive stars. When a star with enough mass runs out of fuel, it can't support itself against gravity, leading to a supernova. If the core left after the supernova is more than about 3 times the Sun's mass, it collapses into a black hole.
@@ -245,10 +245,10 @@ Black holes are formed through the collapse of massive stars or through other ex
 
 Would you like to explore the effects of black holes on spacetime or their role in the universe?
 ```
+
 ### Parameters
 
 You can customize the chat model behavior using various parameters:
-
 
 ```python
 # Initialize with custom parameters
@@ -263,11 +263,12 @@ custom_chat = ChatNebius(
 response = custom_chat.invoke("Explain what DNA is in exactly 3 sentences.")
 print(response.content)
 ```
+
 ```output
 DNA, or deoxyribonucleic acid, is a molecule that contains the genetic instructions used in the development and function of all living organisms. It is often referred to as the "building blocks of life" because it carries the information necessary for the creation and growth of cells, tissues, and entire organisms. The DNA molecule is made up of two complementary strands of nucleotides that are twisted together in a double helix structure, with the sequence of these nucleotides determining the genetic code
 ```
-You can also pass parameters at invocation time:
 
+You can also pass parameters at invocation time:
 
 ```python
 # Standard model
@@ -282,15 +283,16 @@ response = standard_chat.invoke(
 
 print(response.content)
 ```
+
 ```output
 Why do programmers prefer dark mode?
 
 Because light attracts bugs.
 ```
+
 ### Async Support
 
 ChatNebius supports async operations:
-
 
 ```python
 import asyncio
@@ -308,6 +310,7 @@ async def generate_async():
 
 await generate_async()
 ```
+
 ```output
 Async response: <think>
 Okay, the user is asking for the capital of France. Let me think. I know that France is a country in Europe, and its capital is Paris. But wait, I should make sure I'm not confusing it with another country. For example, Germany's capital is Berlin, and Spain's is Madrid. France's capital is definitely Paris. I remember that Paris is a major city known for landmarks like the Eiffel Tower and the Louvre Museum. Also, the French government is based there, with the Elysée Palace as the official residence of the President. I don't think there's any ambiguity here. The answer should be straightforward. Just need to confirm once more to avoid any mistakes.
@@ -322,6 +325,7 @@ Okay, the user is asking for the capital of Germany. Let me think. I know that G
 
 The capital of Germany is **Berlin**. It is also the largest city in the country and serves as the political, cultural, and economic center of Germany. Berlin became the capital in 1990 following the reunification of East and West Germany.
 ```
+
 ### Available Models
 
 The full list of supported models can be found in the [Nebius AI Studio Documentation](https://studio.nebius.com/).
@@ -329,7 +333,6 @@ The full list of supported models can be found in the [Nebius AI Studio Document
 ## Chaining
 
 You can use `ChatNebius` in LangChain chains and agents:
-
 
 ```python
 from langchain_core.output_parsers import StrOutputParser
@@ -356,6 +359,7 @@ response = chain.invoke(
 
 print(response)
 ```
+
 ```output
 <think>
 Okay, the user asked me to explain how the internet works, but I need to do it in the style of Shakespeare. Let me start by recalling how the internet functions. It's a network of interconnected devices communicating via protocols like TCP/IP. Data is broken into packets, sent through routers, and reassembled at the destination.
@@ -365,40 +369,40 @@ Now, translating that into Shakespearean language. I should use archaic terms an
 I need to ensure the explanation is accurate but wrapped in the poetic and dramatic style of Shakespeare. Avoid modern jargon, use iambic pentameter if possible, and keep the flow natural. Let me piece it together step by step, checking that each part of the internet's function is covered metaphorically.
 </think>
 
-Hark! List thy ear, good friend, to this most wondrous tale,  
-Of threads unseen that bind the world in one grand tale.  
-The Internet, a net most vast, doth span the globe,  
-A labyrinth of light, where thoughts and data rove.  
+Hark! List thy ear, good friend, to this most wondrous tale,
+Of threads unseen that bind the world in one grand tale.
+The Internet, a net most vast, doth span the globe,
+A labyrinth of light, where thoughts and data rove.
 
-Behold! Each device, a node, doth hum and sing,  
-Linked by wires and waves, where signals doth spring.  
-They speak in tongues of ones and naughts, so pure,  
-A code most ancient, yet evermore secure.  
+Behold! Each device, a node, doth hum and sing,
+Linked by wires and waves, where signals doth spring.
+They speak in tongues of ones and naughts, so pure,
+A code most ancient, yet evermore secure.
 
-When thou dost send a thought, or word, or song,  
-It breaks to parcels small, like letters on a long.  
-Each parcel, a messenger, doth seek its way,  
-Through routers wise, who guide them 'cross the day.  
+When thou dost send a thought, or word, or song,
+It breaks to parcels small, like letters on a long.
+Each parcel, a messenger, doth seek its way,
+Through routers wise, who guide them 'cross the day.
 
-These wayfarers, with logic keen and bright,  
-Choose paths most swift, through highways of light.  
-They leap from tower to tower, far and wide,  
-Till each parcel finds its mark, and joins the guide.  
+These wayfarers, with logic keen and bright,
+Choose paths most swift, through highways of light.
+They leap from tower to tower, far and wide,
+Till each parcel finds its mark, and joins the guide.
 
-Then, like a scroll unrolled, the message grows,  
-A tapestry of bits, in order it flows.  
-Thus, thou dost speak to friend, or seek a tome,  
-And lo! The world doth answer, quick as home.  
+Then, like a scroll unrolled, the message grows,
+A tapestry of bits, in order it flows.
+Thus, thou dost speak to friend, or seek a tome,
+And lo! The world doth answer, quick as home.
 
-So mark this truth: though vast, it's but a thread,  
-A web of minds, where knowledge is widespread.  
-The Internet, a stage where all may play,  
+So mark this truth: though vast, it's but a thread,
+A web of minds, where knowledge is widespread.
+The Internet, a stage where all may play,
 And none shall be alone, though far away.
 ```
+
 ## API reference
 
 For more details about the Nebius AI Studio API, visit the [Nebius AI Studio Documentation](https://studio.nebius.com/api-reference).
-
 
 ```python
 

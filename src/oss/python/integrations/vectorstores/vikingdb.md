@@ -10,16 +10,11 @@ You'll need to install `langchain-community` with `pip install -qU langchain-com
 
 To run, you should have a [viking DB instance up and running](https://www.volcengine.com/docs/6459/1165058).
 
-
-
-
-
 ```python
 !pip install --upgrade volcengine
 ```
 
 We want to use VikingDBEmbeddings so we have to get the VikingDB API Key.
-
 
 ```python
 import getpass
@@ -29,14 +24,12 @@ if "OPENAI_API_KEY" not in os.environ:
     os.environ["OPENAI_API_KEY"] = getpass.getpass("OpenAI API Key:")
 ```
 
-
 ```python
 from langchain_community.document_loaders import TextLoader
 from langchain_community.vectorstores.vikingdb import VikingDB, VikingDBConfig
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 ```
-
 
 ```python
 loader = TextLoader("./test.txt")
@@ -46,7 +39,6 @@ docs = text_splitter.split_documents(documents)
 
 embeddings = OpenAIEmbeddings()
 ```
-
 
 ```python
 db = VikingDB.from_documents(
@@ -59,12 +51,10 @@ db = VikingDB.from_documents(
 )
 ```
 
-
 ```python
 query = "What did the president say about Ketanji Brown Jackson"
 docs = db.similarity_search(query)
 ```
-
 
 ```python
 docs[0].page_content
@@ -75,7 +65,6 @@ docs[0].page_content
 You can store different unrelated documents in different collections within same viking DB instance to maintain the context
 
 Here's how you can create a new collection
-
 
 ```python
 db = VikingDB.from_documents(
@@ -90,7 +79,6 @@ db = VikingDB.from_documents(
 ```
 
 And here is how you retrieve that stored collection
-
 
 ```python
 db = VikingDB.from_documents(

@@ -5,6 +5,7 @@ title: CloudflareWorkersAI
 This will help you get started with Cloudflare Workers AI [text completion models (LLMs)](/oss/concepts/text_llms) using LangChain. For detailed documentation on `CloudflareWorkersAI` features and configuration options, please refer to the [API reference](https://api.js.langchain.com/classes/langchain_cloudflare.CloudflareWorkersAI.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | PY support | Package downloads | Package latest |
@@ -32,10 +33,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```typescript
 // @lc-docs-hide-cell
@@ -45,6 +46,7 @@ const CLOUDFLARE_ACCOUNT_ID = Deno.env.get("CLOUDFLARE_ACCOUNT_ID");
 // @ts-expect-error Deno is not recognized
 const CLOUDFLARE_API_TOKEN = Deno.env.get("CLOUDFLARE_API_TOKEN");
 ```
+
 ```typescript
 import { CloudflareWorkersAI } from "@langchain/cloudflare";
 
@@ -59,7 +61,6 @@ const llm = new CloudflareWorkersAI({
 
 ## Invocation
 
-
 ```typescript
 const inputText = "Cloudflare is an AI company that "
 
@@ -67,17 +68,13 @@ const completion = await llm.invoke(inputText);
 completion
 ```
 
-
-
 ```output
 "Cloudflare is not an AI company, but rather a content delivery network (CDN) and security company. T"... 876 more characters
 ```
 
-
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our completion model with a prompt template like so:
-
 
 ```typescript
 import { PromptTemplate } from "@langchain/core/prompts"
@@ -93,15 +90,12 @@ await chain.invoke(
 )
 ```
 
-
-
 ```output
 "That's a simple but sweet statement! \n" +
   "\n" +
   'To say "I love programming" in German, you can say: "ICH LIEB'... 366 more characters
 ```
 
-
 ## API reference
 
-For detailed documentation of all `CloudflareWorkersAI` features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_cloudflare.CloudflareWorkersAI.html
+For detailed documentation of all `CloudflareWorkersAI` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_cloudflare.CloudflareWorkersAI.html).

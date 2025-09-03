@@ -28,6 +28,7 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/community @langchain/core @upstash/vector @langchain/openai
 </Npm2Yarn>
 ```
+
 You can create an index from the [Upstash Console](https://console.upstash.com/login). For further reference, see [the official docs](https://upstash.com/docs/vector/overall/getstarted).
 
 Upstash vector also has built in embedding support. Which means you can use it directly without the need for an additional embedding model. Check the [embedding models documentation](https://upstash.com/docs/vector/features/embeddingmodels) for more details.
@@ -37,6 +38,7 @@ Upstash vector also has built in embedding support. Which means you can use it d
 To use the built-in Upstash embeddings, you'll need to select an embedding model when creating the index.
 </Note>
 ```
+
 ### Credentials
 
 Once you've set up an index, set the following environment variables:
@@ -45,21 +47,23 @@ Once you've set up an index, set the following environment variables:
 process.env.UPSTASH_VECTOR_REST_URL = "your-rest-url";
 process.env.UPSTASH_VECTOR_REST_TOKEN = "your-rest-token";
 ```
+
 If you are using OpenAI embeddings for this guide, you'll need to set your OpenAI key as well:
 
 ```typescript
 process.env.OPENAI_API_KEY = "YOUR_API_KEY";
 ```
+
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
 ```typescript
 // process.env.LANGSMITH_TRACING="true"
 // process.env.LANGSMITH_API_KEY="your-api-key"
 ```
+
 ## Instantiation
 
 Make sure your index has the same dimension count as your embeddings. The default for OpenAI `text-embedding-3-small` is 1536.
-
 
 ```typescript
 import { UpstashVectorStore } from "@langchain/community/vectorstores/upstash";
@@ -82,10 +86,10 @@ const vectorStore = new UpstashVectorStore(embeddings, {
   // namespace: "test-namespace",
 });
 ```
+
 ## Usage with built-in embeddings
 
 To use the built-in Upstash embeddings, you can pass a `FakeEmbeddings` instance to the `UpstashVectorStore` constructor. This will make the `UpstashVectorStore` use the built-in embeddings, which you selected when creating the index.
-
 
 ```typescript
 import { UpstashVectorStore } from "@langchain/community/vectorstores/upstash";
@@ -102,10 +106,10 @@ const vectorStore = new UpstashVectorStore(new FakeEmbeddings(), {
   index: indexWithEmbeddings,
 });
 ```
+
 ## Manage vector store
 
 ### Add items to vector store
-
 
 ```typescript
 import type { Document } from "@langchain/core/documents";
@@ -134,13 +138,14 @@ const documents = [document1, document2, document3, document4];
 
 await vectorStore.addDocuments(documents, { ids: ["1", "2", "3", "4"] });
 ```
+
 ```output
 [ '1', '2', '3', '4' ]
 ```
+
 **Note:** After adding documents, there may be a slight delay before they become queryable.
 
 ### Delete items from vector store
-
 
 ```typescript
 await vectorStore.delete({ ids: ["4"] });
@@ -148,12 +153,11 @@ await vectorStore.delete({ ids: ["4"] });
 
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 
 ### Query directly
 
 Performing a simple similarity search can be done as follows:
-
 
 ```typescript
 const filter = "source = 'https://example.com'";
@@ -164,14 +168,15 @@ for (const doc of similaritySearchResults) {
   console.log(`* ${doc.pageContent} [${JSON.stringify(doc.metadata, null)}]`);
 }
 ```
+
 ```output
 * The powerhouse of the cell is the mitochondria [{"source":"https://example.com"}]
 * Mitochondria are made out of lipids [{"source":"https://example.com"}]
 ```
+
 See [this page](https://upstash.com/docs/vector/features/filtering) for more on Upstash Vector filter syntax.
 
 If you want to execute a similarity search and receive the corresponding scores you can run:
-
 
 ```typescript
 const similaritySearchWithScoreResults = await vectorStore.similaritySearchWithScore("biology", 2, filter)
@@ -180,14 +185,15 @@ for (const [doc, score] of similaritySearchWithScoreResults) {
   console.log(`* [SIM=${score.toFixed(3)}] ${doc.pageContent} [${JSON.stringify(doc.metadata)}]`);
 }
 ```
+
 ```output
 * [SIM=0.576] The powerhouse of the cell is the mitochondria [{"source":"https://example.com"}]
 * [SIM=0.557] Mitochondria are made out of lipids [{"source":"https://example.com"}]
 ```
+
 ### Query by turning into retriever
 
-You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains. 
-
+You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains.
 
 ```typescript
 const retriever = vectorStore.asRetriever({
@@ -197,6 +203,7 @@ const retriever = vectorStore.asRetriever({
 });
 await retriever.invoke("biology");
 ```
+
 ```output
 [
   Document {
@@ -211,6 +218,7 @@ await retriever.invoke("biology");
   }
 ]
 ```
+
 ### Usage for retrieval-augmented generation
 
 For guides on how to use this vector store for retrieval-augmented generation (RAG), see the following sections:

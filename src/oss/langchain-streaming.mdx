@@ -9,12 +9,13 @@ import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
 ## Overview
 
 Streaming is crucial for enhancing the responsiveness of applications built on LLMs.
-By displaying output progressively, even before a complete response is ready, streaming significantly 
-improves user experience (UX), particularly when dealing with the latency of LLMs.
+
+By displaying output progressively, even before a complete response is ready, streaming significantly improves user experience (UX), particularly when dealing with the latency of LLMs.
 
 ## Stream from an agent
 
 LangChain's streaming system lets you surface live feedback from agent runs to your application.
+
 There are three main categories of data you can stream:
 
 1. [Agent progress](/oss/langchain-streaming#agent-progress) — get state updates after each agent step.
@@ -42,14 +43,14 @@ For example, if you have an agent that calls a tool once, you should see the fol
 :::python
 
 ```python {highlight={14}} title="Streaming agent progress"
-from langchain.agents import create_react_agent
+from langchain.agents import create_agent
 
 def get_weather(city: str) -> str:
     """Get weather for a given city."""
 
     return f"It's always sunny in {city}!"
 
-agent = create_react_agent(
+agent = create_agent(
     model="openai:gpt-5-nano",
     tools=[get_weather],
 )
@@ -77,33 +78,33 @@ content: [{'type': 'text', 'text': 'It’s always sunny in San Francisco!'}]
 :::js
 ```typescript
 import z from "zod";
-import { createReactAgent, tool } from "langchain";
+import { createAgent, tool } from "langchain";
 
 const getWeather = tool(
-  async ({ city }) => {
-    return `The weather in ${city} is always sunny!`;
-  },
-  {
-    name: "get_weather",
-    description: "Get weather for a given city.",
-    schema: z.object({
-      city: z.string(),
-    }),
-  }
+    async ({ city }) => {
+        return `The weather in ${city} is always sunny!`;
+    },
+    {
+        name: "get_weather",
+        description: "Get weather for a given city.",
+        schema: z.object({
+        city: z.string(),
+        }),
+    }
 );
 
-const agent = createReactAgent({
-  model: "openai:gpt-5-nano",
-  tools: [getWeather],
+const agent = createAgent({
+    model: "openai:gpt-5-nano",
+    tools: [getWeather],
 });
 
 for await (const chunk of await agent.stream(
-  { messages: [{ role: "user", content: "what is the weather in sf" }] },
-  { streamMode: "updates" }
+    { messages: [{ role: "user", content: "what is the weather in sf" }] },
+    { streamMode: "updates" }
 )) {
-  const [step, content] = Object.entries(chunk)[0];
-  console.log(`step: ${step}`);
-  console.log(`content: ${JSON.stringify(content, null, 2)}`);
+    const [step, content] = Object.entries(chunk)[0];
+    console.log(`step: ${step}`);
+    console.log(`content: ${JSON.stringify(content, null, 2)}`);
 }
 /**
  * step: agent
@@ -157,18 +158,17 @@ for await (const chunk of await agent.stream(
 ### LLM tokens
 
 :::python
-To stream tokens as they are produced by the LLM, use `stream_mode="messages"`. Below
-you can see the output of the agent streaming tool calls and the final response.
+To stream tokens as they are produced by the LLM, use `stream_mode="messages"`. Below you can see the output of the agent streaming tool calls and the final response.
 
 ```python {highlight={14}} title="Streaming LLM tokens"
-from langchain.agents import create_react_agent
+from langchain.agents import create_agent
 
 def get_weather(city: str) -> str:
     """Get weather for a given city."""
 
     return f"It's always sunny in {city}!"
 
-agent = create_react_agent(
+agent = create_agent(
     model="openai:gpt-5-nano",
     tools=[get_weather],
 )
@@ -285,32 +285,32 @@ To stream tokens as they are produced by the LLM, use `streamMode: "messages"`:
 
 ```typescript
 import z from "zod";
-import { createReactAgent, tool } from "langchain";
+import { createAgent, tool } from "langchain";
 
 const getWeather = tool(
-  async ({ city }) => {
-    return `The weather in ${city} is always sunny!`;
-  },
-  {
-    name: "get_weather",
-    description: "Get weather for a given city.",
-    schema: z.object({
-      city: z.string(),
-    }),
-  }
+    async ({ city }) => {
+        return `The weather in ${city} is always sunny!`;
+    },
+    {
+        name: "get_weather",
+        description: "Get weather for a given city.",
+        schema: z.object({
+        city: z.string(),
+        }),
+    }
 );
 
-const agent = createReactAgent({
-  model: "openai:gpt-4o-mini",
-  tools: [getWeather],
+const agent = createAgent({
+    model: "openai:gpt-4o-mini",
+    tools: [getWeather],
 });
 
 for await (const [token, metadata] of await agent.stream(
-  { messages: [{ role: "user", content: "what is the weather in sf" }] },
-  { streamMode: "messages" }
+    { messages: [{ role: "user", content: "what is the weather in sf" }] },
+    { streamMode: "messages" }
 )) {
-  console.log(`node: ${metadata.langgraph_node}`);
-  console.log(`content: ${JSON.stringify(token.contentBlocks, null, 2)}`);
+    console.log(`node: ${metadata.langgraph_node}`);
+    console.log(`content: ${JSON.stringify(token.contentBlocks, null, 2)}`);
 }
 ```
 :::
@@ -321,7 +321,7 @@ for await (const [token, metadata] of await agent.stream(
 To stream updates from tools as they are executed, you can use @[get_stream_writer].
 
 ```python {highlight={2,6,19}} title="Streaming custom updates"
-from langchain.agents import create_react_agent
+from langchain.agents import create_agent
 from langgraph.config import get_stream_writer
 
 def get_weather(city: str) -> str:
@@ -332,7 +332,7 @@ def get_weather(city: str) -> str:
     writer(f"Acquired data for city: {city}")
     return f"It's always sunny in {city}!"
 
-agent = create_react_agent(
+agent = create_agent(
     model="anthropic:claude-3-7-sonnet-latest",
     tools=[get_weather],
 )
@@ -350,7 +350,7 @@ Acquired data for city: San Francisco
 ```
 
 <Note>
-  If you add `get_stream_writer` inside your tool, you won't be able to invoke the tool outside of a LangGraph execution context.
+    If you add `get_stream_writer` inside your tool, you won't be able to invoke the tool outside of a LangGraph execution context.
 </Note>
 :::
 
@@ -359,36 +359,36 @@ To stream updates from tools as they are executed, you can use the `writer` para
 
 ```typescript
 import z from "zod";
-import { tool, createReactAgent } from "langchain";
+import { tool, createAgent } from "langchain";
 import { LangGraphRunnableConfig } from "@langchain/langgraph";
 
 const getWeather = tool(
-  async (input, config: LangGraphRunnableConfig) => {
-    // Stream any arbitrary data
-    config.writer?.(`Looking up data for city: ${input.city}`);
-    // ... fetch city data
-    config.writer?.(`Acquired data for city: ${input.city}`);
-    return `It's always sunny in ${input.city}!`;
-  },
-  {
-    name: "get_weather",
-    description: "Get weather for a given city.",
-    schema: z.object({
-      city: z.string().describe("The city to get weather for."),
-    }),
-  }
+    async (input, config: LangGraphRunnableConfig) => {
+        // Stream any arbitrary data
+        config.writer?.(`Looking up data for city: ${input.city}`);
+        // ... fetch city data
+        config.writer?.(`Acquired data for city: ${input.city}`);
+        return `It's always sunny in ${input.city}!`;
+    },
+    {
+        name: "get_weather",
+        description: "Get weather for a given city.",
+        schema: z.object({
+        city: z.string().describe("The city to get weather for."),
+        }),
+    }
 );
 
-const agent = createReactAgent({
-  model: "openai:gpt-4o-mini",
-  tools: [getWeather],
+const agent = createAgent({
+    model: "openai:gpt-4o-mini",
+    tools: [getWeather],
 });
 
 for await (const chunk of await agent.stream(
-  { messages: [{ role: "user", content: "what is the weather in sf" }] },
-  { streamMode: "custom" }
+    { messages: [{ role: "user", content: "what is the weather in sf" }] },
+    { streamMode: "custom" }
 )) {
-  console.log(chunk);
+    console.log(chunk);
 }
 ```
 
@@ -398,7 +398,7 @@ Acquired data for city: San Francisco
 ```
 
 <Note>
-  If you add the `writer` parameter to your tool, you won't be able to invoke the tool outside of a LangGraph execution context without providing a writer function.
+    If you add the `writer` parameter to your tool, you won't be able to invoke the tool outside of a LangGraph execution context without providing a writer function.
 </Note>
 :::
 
@@ -408,7 +408,7 @@ Acquired data for city: San Francisco
 You can specify multiple streaming modes by passing stream mode as a list: `stream_mode=["updates", "custom"]`:
 
 ```python {highlight={8}} title="Streaming multiple modes"
-from langchain.agents import create_react_agent
+from langchain.agents import create_agent
 from langgraph.config import get_stream_writer
 
 def get_weather(city: str) -> str:
@@ -418,7 +418,7 @@ def get_weather(city: str) -> str:
     writer(f"Acquired data for city: {city}")
     return f"It's always sunny in {city}!"
 
-agent = create_react_agent(
+agent = create_agent(
     model="openai:gpt-5-nano",
     tools=[get_weather],
 )
@@ -459,36 +459,36 @@ You can specify multiple streaming modes by passing streamMode as an array: `str
 
 ```typescript
 import z from "zod";
-import { tool, createReactAgent } from "langchain";
+import { tool, createAgent } from "langchain";
 import { LangGraphRunnableConfig } from "@langchain/langgraph";
 
 const getWeather = tool(
-  async (input, config: LangGraphRunnableConfig) => {
-    // Stream any arbitrary data
-    config.writer?.(`Looking up data for city: ${input.city}`);
-    // ... fetch city data
-    config.writer?.(`Acquired data for city: ${input.city}`);
-    return `It's always sunny in ${input.city}!`;
-  },
-  {
-    name: "get_weather",
-    description: "Get weather for a given city.",
-    schema: z.object({
-      city: z.string().describe("The city to get weather for."),
-    }),
-  }
+    async (input, config: LangGraphRunnableConfig) => {
+        // Stream any arbitrary data
+        config.writer?.(`Looking up data for city: ${input.city}`);
+        // ... fetch city data
+        config.writer?.(`Acquired data for city: ${input.city}`);
+        return `It's always sunny in ${input.city}!`;
+    },
+    {
+        name: "get_weather",
+        description: "Get weather for a given city.",
+        schema: z.object({
+        city: z.string().describe("The city to get weather for."),
+        }),
+    }
 );
 
-const agent = createReactAgent({
-  model: "openai:gpt-4o-mini",
-  tools: [getWeather],
+const agent = createAgent({
+    model: "openai:gpt-4o-mini",
+    tools: [getWeather],
 });
 
 for await (const [streamMode, chunk] of await agent.stream(
-  { messages: [{ role: "user", content: "what is the weather in sf" }] },
-  { streamMode: ["updates", "messages", "custom"] }
+    { messages: [{ role: "user", content: "what is the weather in sf" }] },
+    { streamMode: ["updates", "messages", "custom"] }
 )) {
-  console.log(`${streamMode}: ${JSON.stringify(chunk, null, 2)}`);
+    console.log(`${streamMode}: ${JSON.stringify(chunk, null, 2)}`);
 }
 ```
 :::
@@ -496,6 +496,7 @@ for await (const [streamMode, chunk] of await agent.stream(
 ### Disable streaming
 
 In some applications you might need to disable streaming of individual tokens for a given model.
+
 This is useful in [multi-agent](/oss/multi-agent) systems to control which agents stream their output.
 
 See the [Models](/oss/models#disable-streaming) guide to learn how to disable streaming.

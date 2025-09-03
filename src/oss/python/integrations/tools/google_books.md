@@ -7,13 +7,13 @@ The Google Books tool that supports the ReAct pattern and allows you to search t
 ### Tool features
 
 Currently the tool has the following capabilities:
+
 - Gathers the relevant information from the Google Books API using a key word search
 - Formats the information into a readable output, and return the result to the agent
 
 ## Setup
 
 Make sure `langchain-community` is installed.
-
 
 ```python
 %pip install --upgrade --quiet  langchain-community
@@ -29,7 +29,6 @@ Then you will need to set the environment variable `GOOGLE_BOOKS_API_KEY` to you
 
 To instantiate the tool import the Google Books tool and set your credentials.
 
-
 ```python
 import os
 
@@ -44,12 +43,9 @@ tool = GoogleBooksQueryRun(api_wrapper=GoogleBooksAPIWrapper())
 
 You can invoke the tool by calling the `run` method.
 
-
 ```python
 tool.run("ai")
 ```
-
-
 
 ```output
 'Here are 5 suggestions for books related to ai:
@@ -70,11 +66,9 @@ You can read more at http://books.google.ca/books?id=oE3YDwAAQBAJ&dq=ai&hl=&sour
 You can read more at https://play.google.com/store/books/details?id=eRmdDwAAQBAJ&source=gbs_api'
 ```
 
-
 ### [Invoke directly with args](/oss/concepts/tools)
 
 See below for an direct invocation example.
-
 
 ```python
 import os
@@ -91,7 +85,6 @@ tool.run("ai")
 ### [Invoke with ToolCall](/oss/concepts/tools)
 
 See below for a tool call example.
-
 
 ```python
 import getpass
@@ -126,7 +119,6 @@ print(suggestions)
 ## Chaining
 
 See the below example for chaining.
-
 
 ```python
 import getpass

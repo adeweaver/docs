@@ -2,13 +2,14 @@
 title: LLMRails
 ---
 
->[LLMRails](https://www.llmrails.com/) is a API platform for building GenAI applications. It provides an easy-to-use API for document indexing and querying that is managed by LLMRails and is optimized for performance and accuracy. 
-See the [LLMRails API documentation ](https://docs.llmrails.com/) for more information on how to use the API.
+>[LLMRails](https://www.llmrails.com/) is a API platform for building GenAI applications. It provides an easy-to-use API for document indexing and querying that is managed by LLMRails and is optimized for performance and accuracy.
+See the [LLMRails API documentation](https://docs.llmrails.com/) for more information on how to use the API.
 
 You'll need to install `langchain-community` with `pip install -qU langchain-community` to use this integration
 
 This notebook shows how to use functionality related to the `LLMRails`'s integration with langchain.
 Note that unlike many other integrations in this category, LLMRails provides an end-to-end managed service for retrieval augmented generation, which includes:
+
 1. A way to extract text from document files and chunk them into sentences.
 2. Its own embeddings model and vector store - each text segment is encoded into a vector embedding and stored in the LLMRails internal vector store
 3. A query service that automatically encodes the query into embedding, and retrieves the most relevant text segments (including support for [Hybrid Search](https://docs.llmrails.com/datastores/search))
@@ -18,8 +19,9 @@ All of these are supported in this LangChain integration.
 # Setup
 
 You will need a LLMRails account to use LLMRails with LangChain. To get started, use the following steps:
+
 1. [Sign up](https://console.llmrails.com/signup) for a LLMRails account if you don't already have one.
-2. Next you'll need to create API keys to access the API. Click on the **"API Keys"** tab in the corpus view and then the **"Create API Key"** button. Give your key a name. Click "Create key" and you now have an active API key. Keep this key confidential. 
+2. Next you'll need to create API keys to access the API. Click on the **"API Keys"** tab in the corpus view and then the **"Create API Key"** button. Give your key a name. Click "Create key" and you now have an active API key. Keep this key confidential.
 
 To use LangChain with LLMRails, you'll need to have this value: api_key.
 You can provide those to LangChain in two ways:
@@ -48,12 +50,11 @@ vectorstore = LLMRails(
 ## Adding text
 
 For adding text to your datastore first you have to go to [Datastores](https://console.llmrails.com/datastores) page and create one. Click Create Datastore button and choose a name and embedding model for your datastore. Then get your datastore id from newly created  datastore settings.
- 
-
 
 ```python
 %pip install tika
 ```
+
 ```output
 Collecting tika
   Downloading tika-2.6.0.tar.gz (27 kB)
@@ -90,18 +91,17 @@ llm_rails = LLMRails.from_texts(["Your text here"])
 
 ## Similarity search
 
-The simplest scenario for using LLMRails is to perform a similarity search. 
-
+The simplest scenario for using LLMRails is to perform a similarity search.
 
 ```python
 query = "What do you plan to do about national security?"
 found_docs = llm_rails.similarity_search(query, k=5)
 ```
 
-
 ```python
 print(found_docs[0].page_content)
 ```
+
 ```output
 6  N A T I O N A L S E C U R I T Y S T R A T E G Y Page 7 
 
@@ -135,10 +135,10 @@ The scale of these changes grows with each passing year, as do the risks of inac
 
 Although the international environment has become more contested, the United States remains the world’s leading power.
 ```
+
 ## Similarity search with score
 
 Sometimes we might want to perform the search, but also obtain a relevancy score to know how good is a particular result.
-
 
 ```python
 query = "What is your approach to national defense"
@@ -148,12 +148,12 @@ found_docs = llm_rails.similarity_search_with_score(
 )
 ```
 
-
 ```python
 document, score = found_docs[0]
 print(document.page_content)
 print(f"\nScore: {score}")
 ```
+
 ```output
 But we will do so as the last resort and only when the objectives and mission are clear and achievable, consistent with our values and laws, alongside non-military tools, and the mission is undertaken with the informed consent of the American people.
 
@@ -181,30 +181,24 @@ A combat-credible military is the foundation of deterrence and America’s abili
 
 Score: 0.5040982687179959
 ```
+
 ## LLMRails as a Retriever
 
 LLMRails, as all the other LangChain vectorstores, is most often used as a LangChain Retriever:
-
 
 ```python
 retriever = llm_rails.as_retriever()
 retriever
 ```
 
-
-
 ```output
 LLMRailsRetriever(vectorstore=<langchain_community.vectorstores.llm_rails.LLMRails object at 0x1235b0e50>)
 ```
-
-
 
 ```python
 query = "What is your approach to national defense"
 retriever.invoke(query)
 ```
-
-
 
 ```output
 [Document(page_content='But we will do so as the last resort and only when the objectives and mission are clear and achievable, consistent with our values and laws, alongside non-military tools, and the mission is undertaken with the informed consent of the American people.\n\nOur approach to national defense is described in detail in the 2022 National Defense Strategy.\n\nOur starting premise is that a powerful U.S. military helps advance and safeguard vital U.S. national interests by backstopping diplomacy, confronting aggression, deterring conflict, projecting strength, and protecting the American people and their economic interests.\n\nAmid intensifying competition, the military’s role is to maintain and gain warfighting advantages while limiting those of our competitors.\n\nThe military will act urgently to sustain and strengthen deterrence, with the PRC as its pacing challenge.\n\nWe will make disciplined choices regarding our national defense and focus our attention on the military’s primary responsibilities: to defend the homeland, and deter attacks and aggression against the United States, our allies and partners, while being prepared to fight and win the Nation’s wars should diplomacy and deterrence fail.\n\nTo do so, we will combine our strengths to achieve maximum effect in deterring acts of aggression—an approach we refer to as integrated deterrence (see text box on page 22).\n\nWe will operate our military using a campaigning mindset—sequencing logically linked military activities to advance strategy-aligned priorities.\n\nAnd, we will build a resilient force and defense ecosystem to ensure we can perform these functions for decades to come.\n\nWe ended America’s longest war in Afghanistan, and with it an era of major military operations to remake other societies, even as we have maintained the capacity to address terrorist threats to the American people as they emerge.\n\n20  NATIONAL SECURITY STRATEGY Page 21 \x90\x90\x90\x90\x90\x90\n\nA combat-credible military is the foundation of deterrence and America’s ability to prevail in conflict.', metadata={'type': 'file', 'url': 'https://cdn.llmrails.com/dst_466092be-e79a-49f3-b3e6-50e51ddae186/a63892afdee3469d863520351bd5af9f', 'name': 'Biden-Harris-Administrations-National-Security-Strategy-10.2022.pdf', 'filters': {}}),

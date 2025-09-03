@@ -4,16 +4,15 @@ title: GPTRouter
 
 [GPTRouter](https://github.com/Writesonic/GPTRouter) is an open source LLM API Gateway that offers a universal API for 30+ LLMs, vision, and image models, with smart fallbacks based on uptime and latency, automatic retries, and streaming.
 
- 
-This notebook covers how to get started with using Langchain + the GPTRouter I/O library. 
+This notebook covers how to get started with using Langchain + the GPTRouter I/O library.
 
 * Set `GPT_ROUTER_API_KEY` environment variable
 * or use the `gpt_router_api_key` keyword argument
 
-
 ```python
 %pip install --upgrade --quiet  GPTRouter
 ```
+
 ```output
 Requirement already satisfied: GPTRouter in /Users/sirjan-ws/.pyenv/versions/3.10.13/envs/langchain_venv5/lib/python3.10/site-packages (0.1.3)
 Requirement already satisfied: pydantic==2.5.2 in /Users/sirjan-ws/.pyenv/versions/3.10.13/envs/langchain_venv5/lib/python3.10/site-packages (from GPTRouter) (2.5.2)
@@ -40,16 +39,13 @@ from langchain_community.chat_models.gpt_router import GPTRouterModel
 from langchain_core.messages import HumanMessage
 ```
 
-
 ```python
 anthropic_claude = GPTRouterModel(name="claude-instant-1.2", provider_name="anthropic")
 ```
 
-
 ```python
 chat = GPTRouter(models_priority_list=[anthropic_claude])
 ```
-
 
 ```python
 messages = [
@@ -60,32 +56,23 @@ messages = [
 chat(messages)
 ```
 
-
-
 ```output
 AIMessage(content=" J'aime programmer.")
 ```
 
-
-## `GPTRouter` also supports async and streaming functionality:
-
+## `GPTRouter` also supports async and streaming functionality
 
 ```python
 from langchain_core.callbacks import CallbackManager, StreamingStdOutCallbackHandler
 ```
 
-
 ```python
 await chat.agenerate([messages])
 ```
 
-
-
 ```output
 LLMResult(generations=[[ChatGeneration(text=" J'aime programmer.", generation_info={'finish_reason': 'stop_sequence'}, message=AIMessage(content=" J'aime programmer."))]], llm_output={}, run=[RunInfo(run_id=UUID('9885f27f-c35a-4434-9f37-c254259762a5'))])
 ```
-
-
 
 ```python
 chat = GPTRouter(
@@ -96,10 +83,10 @@ chat = GPTRouter(
 )
 chat(messages)
 ```
+
 ```output
  J'aime programmer.
 ```
-
 
 ```output
 AIMessage(content=" J'aime programmer.")

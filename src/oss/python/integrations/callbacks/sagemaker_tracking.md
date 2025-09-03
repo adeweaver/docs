@@ -2,7 +2,7 @@
 title: SageMaker Tracking
 ---
 
->[Amazon SageMaker](https://aws.amazon.com/sagemaker/) is a fully managed service that is used to quickly and easily build, train and deploy machine learning (ML) models. 
+>[Amazon SageMaker](https://aws.amazon.com/sagemaker/) is a fully managed service that is used to quickly and easily build, train and deploy machine learning (ML) models.
 
 >[Amazon SageMaker Experiments](https://docs.aws.amazon.com/sagemaker/latest/dg/experiments.html) is a capability of `Amazon SageMaker` that lets you organize, track, compare and evaluate ML experiments and model versions.
 
@@ -12,11 +12,9 @@ This notebook shows how LangChain Callback can be used to log and track prompts 
 * **Scenario 2**: *Sequential Chain* - A case where a sequential chain of two LLM models is used.
 * **Scenario 3**: *Agent with Tools (Chain of Thought)* - A case where multiple tools (search and math) are used in addition to an LLM.
 
-
 In this notebook, we will create a single experiment to log the prompts from each scenario.
 
 ## Installation and Setup
-
 
 ```python
 %pip install --upgrade --quiet  sagemaker
@@ -26,9 +24,8 @@ In this notebook, we will create a single experiment to log the prompts from eac
 
 First, setup the required API keys
 
-* OpenAI: https://platform.openai.com/account/api-keys (For OpenAI LLM model)
-* Google SERP API: https://serpapi.com/manage-api-key (For Google Search Tool)
-
+* OpenAI: [platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys) (For OpenAI LLM model)
+* Google SERP API: [serpapi.com/manage-api-key](https://serpapi.com/manage-api-key) (For Google Search Tool)
 
 ```python
 import os
@@ -38,11 +35,9 @@ os.environ["OPENAI_API_KEY"] = "<ADD-KEY-HERE>"
 os.environ["SERPAPI_API_KEY"] = "<ADD-KEY-HERE>"
 ```
 
-
 ```python
 from langchain_community.callbacks.sagemaker_callback import SageMakerCallbackHandler
 ```
-
 
 ```python
 from langchain.agents import initialize_agent, load_tools
@@ -55,7 +50,6 @@ from sagemaker.session import Session
 ```
 
 ## LLM Prompt Tracking
-
 
 ```python
 # LLM Hyperparameters
@@ -76,13 +70,11 @@ session = Session(default_bucket=BUCKET_NAME)
 
 ### Scenario 1 - LLM
 
-
 ```python
 RUN_NAME = "run-scenario-1"
 PROMPT_TEMPLATE = "tell me a joke about {topic}"
 INPUT_VARIABLES = {"topic": "fish"}
 ```
-
 
 ```python
 with Run(
@@ -109,7 +101,6 @@ with Run(
 
 ### Scenario 2 - Sequential Chain
 
-
 ```python
 RUN_NAME = "run-scenario-2"
 
@@ -124,7 +115,6 @@ INPUT_VARIABLES = {
     "input": "documentary about good video games that push the boundary of game design"
 }
 ```
-
 
 ```python
 with Run(
@@ -160,12 +150,10 @@ with Run(
 
 ### Scenario 3 - Agent with Tools
 
-
 ```python
 RUN_NAME = "run-scenario-3"
 PROMPT_TEMPLATE = "Who is the oldest person alive? And what is their current age raised to the power of 1.51?"
 ```
-
 
 ```python
 with Run(
@@ -196,7 +184,6 @@ with Run(
 
 Once the prompts are logged, we can easily load and convert them to Pandas DataFrame as follows.
 
-
 ```python
 # Load
 logs = ExperimentAnalytics(experiment_name=EXPERIMENT_NAME)
@@ -209,7 +196,6 @@ df.head()
 ```
 
 As can be seen above, there are three runs (rows) in the experiment corresponding to each scenario. Each run logs the prompts and related LLM settings/hyperparameters as json and are saved in s3 bucket. Feel free to load and explore the log data from each json path.
-
 
 ```python
 

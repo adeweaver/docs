@@ -4,27 +4,21 @@ title: Pandas DataFrame
 
 This notebook goes over how to load data from a [pandas](https://pandas.pydata.org/pandas-docs/stable/user_guide/index) DataFrame.
 
-
 ```python
 %pip install --upgrade --quiet  pandas
 ```
-
 
 ```python
 import pandas as pd
 ```
 
-
 ```python
 df = pd.read_csv("example_data/mlb_teams_2012.csv")
 ```
 
-
 ```python
 df.head()
 ```
-
-
 
 ```html
 <div>
@@ -83,26 +77,20 @@ df.head()
     </tr>
   </tbody>
 </table>
-</div> 
+</div>
 ```
-
-
 
 ```python
 from langchain_community.document_loaders import DataFrameLoader
 ```
 
-
 ```python
 loader = DataFrameLoader(df, page_content_column="Team")
 ```
 
-
 ```python
 loader.load()
 ```
-
-
 
 ```output
 [Document(page_content='Nationals', metadata={' "Payroll (millions)"': 81.34, ' "Wins"': 98}),
@@ -137,13 +125,12 @@ loader.load()
  Document(page_content='Astros', metadata={' "Payroll (millions)"': 60.65, ' "Wins"': 55})]
 ```
 
-
-
 ```python
 # Use lazy load for larger table, which won't read the full table into memory
 for i in loader.lazy_load():
     print(i)
 ```
+
 ```output
 page_content='Nationals' metadata={' "Payroll (millions)"': 81.34, ' "Wins"': 98}
 page_content='Reds' metadata={' "Payroll (millions)"': 82.2, ' "Wins"': 97}

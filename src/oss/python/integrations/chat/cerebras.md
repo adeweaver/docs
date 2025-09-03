@@ -7,6 +7,7 @@ This guide provides a quick overview for getting started with Cerebras [chat mod
 At Cerebras, we've developed the world's largest and fastest AI processor, the Wafer-Scale Engine-3 (WSE-3). The Cerebras CS-3 system, powered by the WSE-3, represents a new class of AI supercomputer that sets the standard for generative AI training and inference with unparalleled performance and scalability.
 
 With Cerebras as your inference provider, you can:
+
 - Achieve unprecedented speed for AI inference workloads
 - Build commercially with high throughput
 - Effortlessly scale your AI workloads with our seamless clustering technology
@@ -18,6 +19,7 @@ Want to experience the power of Cerebras? Check out our [website](https://cerebr
 For more information about Cerebras Cloud, visit [cloud.cerebras.ai](https://cloud.cerebras.ai/). Our API reference is available at [inference-docs.cerebras.ai](https://inference-docs.cerebras.ai/).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [JS support](https://js.langchain.com/docs/integrations/chat/cerebras) | Package downloads | Package latest |
@@ -25,6 +27,7 @@ For more information about Cerebras Cloud, visit [cloud.cerebras.ai](https://clo
 | [ChatCerebras](https://python.langchain.com/api_reference/cerebras/chat_models/langchain_cerebras.chat_models.ChatCerebras.html#) | [langchain-cerebras](https://python.langchain.com/api_reference/cerebras/index.html) | ❌ | beta | ❌ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-cerebras?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-cerebras?style=flat-square&label=%20) |
 
 ### Model features
+
 | [Tool calling](/oss/how-to/tool_calling/) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | Native async | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
 | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅  | ✅ | ❌ |
@@ -38,10 +41,10 @@ pip install langchain-cerebras
 ### Credentials
 
 Get an API Key from [cloud.cerebras.ai](https://cloud.cerebras.ai/) and add it to your environment variables:
+
 ```
 export CEREBRAS_API_KEY="your-api-key-here"
 ```
-
 
 ```python
 import getpass
@@ -50,11 +53,12 @@ import os
 if "CEREBRAS_API_KEY" not in os.environ:
     os.environ["CEREBRAS_API_KEY"] = getpass.getpass("Enter your Cerebras API key: ")
 ```
+
 ```output
 Enter your Cerebras API key:  ········
 ```
-To enable automated tracing of your model calls, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
+To enable automated tracing of your model calls, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -65,7 +69,6 @@ To enable automated tracing of your model calls, set your [LangSmith](https://do
 
 The LangChain Cerebras integration lives in the `langchain-cerebras` package:
 
-
 ```python
 %pip install -qU langchain-cerebras
 ```
@@ -73,8 +76,6 @@ The LangChain Cerebras integration lives in the `langchain-cerebras` package:
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
-
 
 ```python
 from langchain_cerebras import ChatCerebras
@@ -86,7 +87,6 @@ llm = ChatCerebras(
 ```
 
 ## Invocation
-
 
 ```python
 messages = [
@@ -100,17 +100,13 @@ ai_msg = llm.invoke(messages)
 ai_msg
 ```
 
-
-
 ```output
 AIMessage(content='Je adore le programmation.', response_metadata={'token_usage': {'completion_tokens': 7, 'prompt_tokens': 35, 'total_tokens': 42}, 'model_name': 'llama3-8b-8192', 'system_fingerprint': 'fp_be27ec77ff', 'finish_reason': 'stop'}, id='run-e5d66faf-019c-4ac6-9265-71093b13202d-0', usage_metadata={'input_tokens': 35, 'output_tokens': 7, 'total_tokens': 42})
 ```
 
-
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```python
 from langchain_cerebras import ChatCerebras
@@ -141,15 +137,11 @@ chain.invoke(
 )
 ```
 
-
-
 ```output
 AIMessage(content='Ich liebe Programmieren!\n\n(Literally: I love programming!)', response_metadata={'token_usage': {'completion_tokens': 14, 'prompt_tokens': 30, 'total_tokens': 44}, 'model_name': 'llama3-8b-8192', 'system_fingerprint': 'fp_be27ec77ff', 'finish_reason': 'stop'}, id='run-e1d2ebb8-76d1-471b-9368-3b68d431f16a-0', usage_metadata={'input_tokens': 30, 'output_tokens': 14, 'total_tokens': 44})
 ```
 
-
 ## Streaming
-
 
 ```python
 from langchain_cerebras import ChatCerebras
@@ -169,6 +161,7 @@ chain = prompt | llm
 for chunk in chain.stream({"animal": "Lion"}):
     print(chunk.content, end="", flush=True)
 ```
+
 ```output
 OH BOY! Let me tell you all about LIONS!
 
@@ -186,8 +179,8 @@ And guess what? Lions are very social. They like to play and cuddle with each ot
 
 So, that's lions! Aren't they just the coolest?
 ```
-## Async
 
+## Async
 
 ```python
 from langchain_cerebras import ChatCerebras
@@ -210,15 +203,11 @@ chain = prompt | llm
 await chain.ainvoke({"topic": "fire"})
 ```
 
-
-
 ```output
 AIMessage(content='Ice', response_metadata={'token_usage': {'completion_tokens': 2, 'prompt_tokens': 36, 'total_tokens': 38}, 'model_name': 'llama3-8b-8192', 'system_fingerprint': 'fp_be27ec77ff', 'finish_reason': 'stop'}, id='run-7434bdde-1bec-44cf-827b-8d978071dfe8-0', usage_metadata={'input_tokens': 36, 'output_tokens': 2, 'total_tokens': 38})
 ```
 
-
 ## Async Streaming
-
 
 ```python
 from langchain_cerebras import ChatCerebras
@@ -242,6 +231,7 @@ chain = prompt | llm
 async for chunk in chain.astream({"num_paragraphs": 3, "subject": "blackholes"}):
     print(chunk.content, end="", flush=True)
 ```
+
 ```output
 In the distant reaches of the cosmos, there existed a peculiar phenomenon known as the "Eclipse of Eternity," a swirling vortex of darkness that had been shrouded in mystery for eons. It was said that this blackhole, born from the cataclysmic collision of two ancient stars, had been slowly devouring the fabric of space-time itself, warping the very essence of reality. As the celestial bodies of the galaxy danced around it, they began to notice a strange, almost imperceptible distortion in the fabric of space, as if the blackhole's gravitational pull was exerting an influence on the very course of events itself.
 
@@ -249,6 +239,7 @@ As the centuries passed, astronomers from across the galaxy became increasingly 
 
 As Dr. Vex delved deeper into her research, she began to experience strange and vivid dreams, visions that seemed to transport her to the very heart of the blackhole itself. In these dreams, she saw ancient beings, their faces twisted in agony as they were consumed by the void. She saw stars and galaxies, their light warped and distorted by the blackhole's gravitational pull. And she saw the Eclipse of Eternity itself, its swirling vortex of darkness pulsing with an otherworldly energy that seemed to be calling to her. As the dreams grew more vivid and more frequent, Dr. Vex became convinced that she was being drawn into the heart of the blackhole, and that the secrets of the universe lay waiting for her on the other side.
 ```
+
 ## API reference
 
-For detailed documentation of all ChatCerebras features and configurations head to the API reference: https://python.langchain.com/api_reference/cerebras/chat_models/langchain_cerebras.chat_models.ChatCerebras.html#
+For detailed documentation of all ChatCerebras features and configurations head to the API reference: [python.langchain.com/api_reference/cerebras/chat_models/langchain_cerebras.chat_models.ChatCerebras.html#](https://python.langchain.com/api_reference/cerebras/chat_models/langchain_cerebras.chat_models.ChatCerebras.html#)

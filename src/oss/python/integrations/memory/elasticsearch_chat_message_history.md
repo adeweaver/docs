@@ -16,7 +16,6 @@ There are two main ways to set up an Elasticsearch instance:
 
 ## Install dependencies
 
-
 ```python
 %pip install --upgrade --quiet  elasticsearch langchain langchain-community
 ```
@@ -26,12 +25,12 @@ There are two main ways to set up an Elasticsearch instance:
 ### How to obtain a password for the default "elastic" user
 
 To obtain your Elastic Cloud password for the default "elastic" user:
+
 1. Log in to the [Elastic Cloud console](https://cloud.elastic.co)
 2. Go to "Security" > "Users"
 3. Locate the "elastic" user and click "Edit"
 4. Click "Reset password"
 5. Follow the prompts to reset the password
-
 
 ### Use the Username/password
 
@@ -51,6 +50,7 @@ history = ElasticsearchChatMessageHistory(
 ### How to obtain an API key
 
 To obtain an API key:
+
 1. Log in to the [Elastic Cloud console](https://cloud.elastic.co)
 2. Open `Kibana` and go to Stack Management > API Keys
 3. Click "Create API key"
@@ -68,9 +68,7 @@ history = ElasticsearchChatMessageHistory(
 )
 ```
 
-
 ## Initialize Elasticsearch client and chat message history
-
 
 ```python
 import os
@@ -93,11 +91,11 @@ history = ElasticsearchChatMessageHistory(
 
 ## Use the chat message history
 
-
 ```python
 history.add_user_message("hi!")
 history.add_ai_message("whats up?")
 ```
+
 ```output
 indexing message content='hi!' additional_kwargs={} example=False
 indexing message content='whats up?' additional_kwargs={} example=False

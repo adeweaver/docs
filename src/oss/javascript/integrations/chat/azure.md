@@ -7,6 +7,7 @@ Azure OpenAI is a Microsoft Azure service that provides powerful language models
 This will help you getting started with AzureChatOpenAI [chat models](/oss/concepts/chat_models). For detailed documentation of all AzureChatOpenAI features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_openai.AzureChatOpenAI.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [PY support](https://python.langchain.com/docs/integrations/chat/azure_chat_openai) | Package downloads | Package latest |
@@ -19,7 +20,7 @@ See the links in the table headers below for guides on how to use specific featu
 
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: |
-| ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | 
+| ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ |
 
 ## Setup
 
@@ -65,13 +66,13 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
 
-
 ```typescript
-import { AzureChatOpenAI } from "@langchain/openai" 
+import { AzureChatOpenAI } from "@langchain/openai"
 
 const llm = new AzureChatOpenAI({
     model: "gpt-4o",
@@ -84,8 +85,8 @@ const llm = new AzureChatOpenAI({
     azureOpenAIApiVersion: process.env.AZURE_OPENAI_API_VERSION, // In Node.js defaults to process.env.AZURE_OPENAI_API_VERSION
 })
 ```
-## Invocation
 
+## Invocation
 
 ```typescript
 const aiMsg = await llm.invoke([
@@ -97,6 +98,7 @@ const aiMsg = await llm.invoke([
 ])
 aiMsg
 ```
+
 ```output
 AIMessage {
   "id": "chatcmpl-9qrWKByvVrzWMxSn8joRZAklHoB32",
@@ -123,13 +125,14 @@ AIMessage {
 ```typescript
 console.log(aiMsg.content)
 ```
+
 ```output
 J'adore la programmation.
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts"
@@ -153,6 +156,7 @@ await chain.invoke(
     }
 )
 ```
+
 ```output
 AIMessage {
   "id": "chatcmpl-9qrWR7WiNjZ3leSG4Wd77cnKEVivv",
@@ -175,10 +179,10 @@ AIMessage {
   }
 }
 ```
+
 ## Using Azure Managed Identity
 
 If you're using Azure Managed Identity, you can configure the credentials like this:
-
 
 ```typescript
 import {
@@ -206,7 +210,6 @@ const llmWithManagedIdentity = new AzureChatOpenAI({
 If your instance is hosted under a domain other than the default `openai.azure.com`, you'll need to use the alternate `AZURE_OPENAI_BASE_PATH` environment variable.
 For example, here's how you would connect to the domain `https://westeurope.api.microsoft.com/openai/deployments/{DEPLOYMENT_NAME}`:
 
-
 ```typescript
 import { AzureChatOpenAI } from "@langchain/openai";
 
@@ -224,7 +227,6 @@ const llmWithDifferentDomain = new AzureChatOpenAI({
 ## Custom headers
 
 You can specify custom headers by passing in a `configuration` field:
-
 
 ```typescript
 import { AzureChatOpenAI } from "@langchain/openai";
@@ -261,15 +263,17 @@ If you are using the deprecated Azure OpenAI SDK with the `@langchain/azure-open
 </Npm2Yarn>
 
 ```
+
 ```bash
 npm uninstall @langchain/azure-openai
 ```
 
-   
 2. Update your imports to use the new `AzureChatOpenAI` class from the `@langchain/openai` package:
+
    ```typescript
    import { AzureChatOpenAI } from "@langchain/openai";
    ```
+
 3. Update your code to use the new `AzureChatOpenAI` class and pass the required parameters:
 
    ```typescript
@@ -287,7 +291,6 @@ npm uninstall @langchain/azure-openai
 
    - If you were using environment variables, you now have to set the `AZURE_OPENAI_API_INSTANCE_NAME` environment variable instead of `AZURE_OPENAI_API_ENDPOINT`, and add the `AZURE_OPENAI_API_VERSION` environment variable to specify the API version.
 
-
 ## API reference
 
-For detailed documentation of all AzureChatOpenAI features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_openai.AzureChatOpenAI.html
+For detailed documentation of all AzureChatOpenAI features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_openai.AzureChatOpenAI.html).

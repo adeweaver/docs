@@ -3,7 +3,7 @@ title: Zilliz Cloud Pipeline
 ---
 
 > [Zilliz Cloud Pipelines](https://docs.zilliz.com/docs/pipelines) transform your unstructured data to a searchable vector collection, chaining up the embedding, ingestion, search, and deletion of your data.
-> 
+>
 > Zilliz Cloud Pipelines are available in the Zilliz Cloud Console and via RestFul APIs.
 
 This notebook demonstrates how to prepare Zilliz Cloud Pipelines and use the them via a LangChain Retriever.
@@ -24,11 +24,9 @@ To get pipelines ready for LangChain Retriever, you need to create and configure
 
 ## Use LangChain Retriever
 
-
 ```python
 %pip install --upgrade --quiet langchain-milvus
 ```
-
 
 ```python
 from langchain_milvus import ZillizCloudPipelineRetriever
@@ -50,10 +48,8 @@ To add documents, you can use the method `add_texts` or `add_doc_url`, which ins
 - if using a **text ingestion pipeline**, you can use the method `add_texts`, which inserts a batch of texts with the corresponding metadata into the Zilliz Cloud storage.
 
     **Arguments:**
-    - `texts`: A list of text strings.
-    - `metadata`: A key-value dictionary of metadata will be inserted as preserved fields required by ingestion pipeline. Defaults to None.
-
-
+  - `texts`: A list of text strings.
+  - `metadata`: A key-value dictionary of metadata will be inserted as preserved fields required by ingestion pipeline. Defaults to None.
 
 ```python
 # retriever.add_texts(
@@ -65,11 +61,10 @@ To add documents, you can use the method `add_texts` or `add_doc_url`, which ins
 - if using a **document ingestion pipeline**, you can use the method `add_doc_url`, which inserts a document from url with the corresponding metadata into the Zilliz Cloud storage.
 
     **Arguments:**
-    - `doc_url`: A document url.
-    - `metadata`: A key-value dictionary of metadata will be inserted as preserved fields required by ingestion pipeline. Defaults to None.
+  - `doc_url`: A document url.
+  - `metadata`: A key-value dictionary of metadata will be inserted as preserved fields required by ingestion pipeline. Defaults to None.
 
-The following example works with a document ingestion pipeline, which requires milvus version as metadata. We will use an [example document](https://publicdataset.zillizcloud.com/milvus_doc.md) describing how to delete entities in Milvus v2.3.x. 
-
+The following example works with a document ingestion pipeline, which requires milvus version as metadata. We will use an [example document](https://publicdataset.zillizcloud.com/milvus_doc.md) describing how to delete entities in Milvus v2.3.x.
 
 ```python
 retriever.add_doc_url(
@@ -78,18 +73,16 @@ retriever.add_doc_url(
 )
 ```
 
-
-
 ```output
 {'token_usage': 1247, 'doc_name': 'milvus_doc.md', 'num_chunks': 6}
 ```
-
 
 ### Get relevant documents
 
 To query the retriever, you can use the method `get_relevant_documents`, which returns a list of LangChain Document objects.
 
 **Arguments:**
+
 - `query`: String to find relevant documents for.
 - `top_k`: The number of results. Defaults to 10.
 - `offset`: The number of records to skip in the search result. Defaults to 0.
@@ -97,14 +90,11 @@ To query the retriever, you can use the method `get_relevant_documents`, which r
 - `filter`: The Milvus expression to filter search results. Defaults to "".
 - `run_manager`: The callbacks handler to use.
 
-
 ```python
 retriever.get_relevant_documents(
     "Can users delete entities by complex boolean expressions?"
 )
 ```
-
-
 
 ```output
 [Document(page_content='# Delete Entities\nThis topic describes how to delete entities in Milvus.  \nMilvus supports deleting entities by primary key or complex boolean expressions. Deleting entities by primary key is much faster and lighter than deleting them by complex boolean expressions. This is because Milvus executes queries first when deleting data by complex boolean expressions.  \nDeleted entities can still be retrieved immediately after the deletion if the consistency level is set lower than Strong.\nEntities deleted beyond the pre-specified span of time for Time Travel cannot be retrieved again.\nFrequent deletion operations will impact the system performance.  \nBefore deleting entities by comlpex boolean expressions, make sure the collection has been loaded.\nDeleting entities by complex boolean expressions is not an atomic operation. Therefore, if it fails halfway through, some data may still be deleted.\nDeleting entities by complex boolean expressions is supported only when the consistency is set to Bounded. For details, see Consistency.\\\n\\\n# Delete Entities\n## Prepare boolean expression\nPrepare the boolean expression that filters the entities to delete.  \nMilvus supports deleting entities by primary key or complex boolean expressions. For more information on expression rules and supported operators, see Boolean Expression Rules.', metadata={'id': 448986959321277978, 'distance': 0.7871403694152832}),

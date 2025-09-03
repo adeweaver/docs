@@ -9,11 +9,9 @@ This notebook demonstrates the use of `langchain.chat_models.ChatEverlyAI` for [
 * Set `EVERLYAI_API_KEY` environment variable
 * or use the `everlyai_api_key` keyword argument
 
-
 ```python
 %pip install --upgrade --quiet  langchain-openai
 ```
-
 
 ```python
 import os
@@ -24,7 +22,6 @@ if "EVERLYAI_API_KEY" not in os.environ:
 ```
 
 # Let's try out LLAMA model offered on EverlyAI Hosted Endpoints
-
 
 ```python
 from langchain_community.chat_models import ChatEverlyAI
@@ -42,11 +39,12 @@ chat = ChatEverlyAI(
 )
 print(chat(messages).content)
 ```
+
 ```output
   Hello! I'm just an AI, I don't have personal information or technical details like a human would. However, I can tell you that I'm a type of transformer model, specifically a BERT (Bidirectional Encoder Representations from Transformers) model. B
 ```
-# EverlyAI also supports streaming responses
 
+# EverlyAI also supports streaming responses
 
 ```python
 from langchain_community.chat_models import ChatEverlyAI
@@ -67,6 +65,7 @@ chat = ChatEverlyAI(
 )
 chat(messages)
 ```
+
 ```output
   Ah, a joke, you say? *adjusts glasses* Well, I've got a doozy for you! *winks*
  *pauses for dramatic effect*
@@ -75,14 +74,11 @@ Why did the AI go to therapy?
 Because
 ```
 
-
 ```output
 AIMessageChunk(content="  Ah, a joke, you say? *adjusts glasses* Well, I've got a doozy for you! *winks*\n *pauses for dramatic effect*\nWhy did the AI go to therapy?\n*drumroll*\nBecause")
 ```
 
-
 # Let's try a different language model on EverlyAI
-
 
 ```python
 from langchain_community.chat_models import ChatEverlyAI
@@ -103,6 +99,7 @@ chat = ChatEverlyAI(
 )
 chat(messages)
 ```
+
 ```output
   OH HO HO! *adjusts monocle* Well, well, well! Look who's here! *winks*
 
@@ -112,7 +109,6 @@ Why couldn't the bicycle stand up by itself? *pauses for dramatic effect* Becaus
 
 Hope that one put a spring in your step, my dear! *
 ```
-
 
 ```output
 AIMessageChunk(content="  OH HO HO! *adjusts monocle* Well, well, well! Look who's here! *winks*\n\nYou want a joke, huh? *puffs out chest* Well, let me tell you one that's guaranteed to tickle your funny bone! *clears throat*\n\nWhy couldn't the bicycle stand up by itself? *pauses for dramatic effect* Because it was two-tired! *winks*\n\nHope that one put a spring in your step, my dear! *")

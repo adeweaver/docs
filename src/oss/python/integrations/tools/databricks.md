@@ -27,10 +27,10 @@ $$
 
 It runs in a secure and isolated environment within a Databricks SQL warehouse.
 
-
 ```python
 %pip install --upgrade --quiet databricks-sdk langchain-community databricks-langchain langgraph mlflow
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
@@ -40,7 +40,6 @@ from databricks_langchain import ChatDatabricks
 
 llm = ChatDatabricks(endpoint="databricks-meta-llama-3-70b-instruct")
 ```
-
 
 ```python
 from databricks_langchain.uc_ai import (
@@ -60,8 +59,8 @@ tools = UCFunctionToolkit(
 ```
 
 (Optional) To increase the retry time for getting a function execution response, set environment variable UC_TOOL_CLIENT_EXECUTION_TIMEOUT. Default retry time value is 120s.
-## LangGraph agent example
 
+## LangGraph agent example
 
 ```python
 import os
@@ -71,19 +70,16 @@ os.environ["UC_TOOL_CLIENT_EXECUTION_TIMEOUT"] = "200"
 
 ## LangGraph agent example
 
-
 ```python
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
-agent = create_react_agent(
+agent = create_agent(
     llm,
     tools,
     prompt="You are a helpful assistant. Make sure to use tool for information.",
 )
 agent.invoke({"messages": [{"role": "user", "content": "36939 * 8922.4"}]})
 ```
-
-
 
 ```output
 {'messages': [HumanMessage(content='36939 * 8922.4', additional_kwargs={}, response_metadata={}, id='1a10b10b-8e37-48c7-97a1-cac5006228d5'),
@@ -92,9 +88,7 @@ agent.invoke({"messages": [{"role": "user", "content": "36939 * 8922.4"}]})
   AIMessage(content='The result of the multiplication is:\n\n329584533.59999996', additional_kwargs={}, response_metadata={'prompt_tokens': 846, 'completion_tokens': 22, 'total_tokens': 868}, id='run-22772404-611b-46e4-9956-b85e4a385f0f-0')]}
 ```
 
-
 ## LangChain agent example
-
 
 ```python
 from langchain.agents import AgentExecutor, create_tool_calling_agent
@@ -115,11 +109,11 @@ prompt = ChatPromptTemplate.from_messages(
 agent = create_tool_calling_agent(llm, tools, prompt)
 ```
 
-
 ```python
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 agent_executor.invoke({"input": "36939 * 8922.4"})
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 
@@ -132,7 +126,6 @@ Invoking: `main__tools__python_exec` with `{'code': 'print(36939 * 8922.4)'}`
 
 > Finished chain.
 ```
-
 
 ```output
 {'input': '36939 * 8922.4',

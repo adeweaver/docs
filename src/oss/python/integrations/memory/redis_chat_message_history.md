@@ -10,7 +10,6 @@ This notebook demonstrates how to use the `RedisChatMessageHistory` class from t
 
 First, we need to install the required dependencies and ensure we have a Redis instance running.
 
-
 ```python
 %pip install -qU langchain-redis langchain-openai redis
 ```
@@ -23,7 +22,6 @@ docker run -d --name redis-stack -p 6379:6379 -p 8001:8001 redis/redis-stack:lat
 
 Or install and run Redis locally according to the instructions for your operating system.
 
-
 ```python
 import os
 
@@ -31,11 +29,12 @@ import os
 REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379")
 print(f"Connecting to Redis at: {REDIS_URL}")
 ```
+
 ```output
 Connecting to Redis at: redis://redis:6379
 ```
-## Importing Required Libraries
 
+## Importing Required Libraries
 
 ```python
 from langchain_core.chat_history import BaseChatMessageHistory
@@ -47,7 +46,6 @@ from langchain_redis import RedisChatMessageHistory
 ```
 
 ## Basic Usage of RedisChatMessageHistory
-
 
 ```python
 # Initialize RedisChatMessageHistory
@@ -62,15 +60,16 @@ print("Chat History:")
 for message in history.messages:
     print(f"{type(message).__name__}: {message.content}")
 ```
+
 ```output
 Chat History:
 HumanMessage: Hello, AI assistant!
 AIMessage: Hello! How can I assist you today?
 ```
+
 ## Using RedisChatMessageHistory with Language Models
 
 ### Set OpenAI API key
-
 
 ```python
 from getpass import getpass
@@ -88,6 +87,7 @@ if not openai_api_key:
 else:
     print("OpenAI API key found in environment variables.")
 ```
+
 ```output
 OpenAI API key not found in environment variables.
 ``````output
@@ -135,14 +135,15 @@ response2 = chain_with_history.invoke(
 )
 print("AI Response 2:", response2.content)
 ```
+
 ```output
 AI Response 1: Hello Alice! How can I assist you today?
 AI Response 2: Your name is Alice.
 ```
+
 ## Advanced Features
 
 ### Custom Redis Configuration
-
 
 ```python
 # Initialize with custom Redis configuration
@@ -157,11 +158,12 @@ custom_history = RedisChatMessageHistory(
 custom_history.add_user_message("This is a message with custom configuration.")
 print("Custom History:", custom_history.messages)
 ```
+
 ```output
 Custom History: [HumanMessage(content='This is a message with custom configuration.')]
 ```
-### Searching Messages
 
+### Searching Messages
 
 ```python
 # Add more messages
@@ -176,22 +178,25 @@ print("Search Results:")
 for result in search_results:
     print(f"{result['type']}: {result['content'][:50]}...")
 ```
+
 ```output
 Search Results:
 human: Tell me about artificial intelligence....
 ai: Artificial Intelligence (AI) is a branch of comput...
 ```
-### Clearing History
 
+### Clearing History
 
 ```python
 # Clear the chat history
 history.clear()
 print("Messages after clearing:", history.messages)
 ```
+
 ```output
 Messages after clearing: []
 ```
+
 ## Conclusion
 
 This notebook demonstrated the key features of `RedisChatMessageHistory` from the langchain-redis package. It showed how to initialize and use the chat history, integrate it with language models, and utilize advanced features like custom configurations and message searching. Redis provides a fast and scalable solution for managing chat history in AI applications.

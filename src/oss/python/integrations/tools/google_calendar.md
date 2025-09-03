@@ -24,7 +24,6 @@ To use this toolkit, you will need to:
 
 To enable automated tracing of individual tools, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
-
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -34,7 +33,6 @@ To enable automated tracing of individual tools, set your [LangSmith](https://do
 
 This toolkit lives in the `langchain-google-community` package of the [langchain-google](https://github.com/langchain-ai/langchain-google) repository. We'll need the `calendar` extra:
 
-
 ```python
 %pip install -qU langchain-google-community\[calendar\]
 ```
@@ -42,7 +40,6 @@ This toolkit lives in the `langchain-google-community` package of the [langchain
 ## Instantiation
 
 By default the toolkit reads the local `credentials.json` file. You can also manually provide a `Credentials` object.
-
 
 ```python
 from langchain_google_community import CalendarToolkit
@@ -53,7 +50,6 @@ toolkit = CalendarToolkit()
 ### Customizing Authentication
 
 Behind the scenes, a `googleapi` resource is created using the following methods. you can manually build a `googleapi` resource for more auth control.
-
 
 ```python
 from langchain_google_community import CalendarToolkit
@@ -75,15 +71,13 @@ toolkit = CalendarToolkit(api_resource=api_resource)
 ```
 
 ## Tools
-View available tools:
 
+View available tools:
 
 ```python
 tools = toolkit.get_tools()
 tools
 ```
-
-
 
 ```output
 [CalendarCreateEvent(api_resource=<googleapiclient.discovery.Resource object at 0x10ad13fb0>),
@@ -94,7 +88,6 @@ tools
  CalendarDeleteEvent(api_resource=<googleapiclient.discovery.Resource object at 0x10ad13fb0>),
  GetCurrentDatetime(api_resource=<googleapiclient.discovery.Resource object at 0x10ad13fb0>)]
 ```
-
 
 - [CalendarCreateEvent](https://python.langchain.com/api_reference/google_community/calendar/langchain_google_community.calendar.create_event.CalendarCreateEvent.html)
 - [CalendarSearchEvents](https://python.langchain.com/api_reference/google_community/calendar/langchain_google_community.calendar.search_events.CalendarSearchEvents.html)
@@ -109,7 +102,6 @@ tools
 ### [Invoke directly with args](/oss/concepts/tools/#use-the-tool-directly)
 
 You can invoke the tool directly by passing the required arguments in a dictionary format. Here is an example of creating a new event using the `CalendarCreateEvent` tool.
-
 
 ```python
 from langchain_google_community.calendar.create_event import CalendarCreateEvent
@@ -130,12 +122,9 @@ tool.invoke(
 )
 ```
 
-
-
 ```output
 'Event created: https://www.google.com/calendar/event?eid=amoxdjVsM2UzMW51Yjk2czc4ajhvaGdkcGcgam9yZ2VhbmczM0Bt'
 ```
-
 
 ## Use within an agent
 
@@ -144,7 +133,6 @@ Below we show how to incorporate the toolkit into an [agent](/oss/tutorials/agen
 We will need a LLM or chat model:
 
 <ChatModelTabs customVarName="llm" />
-
 
 ```python
 # | output: false
@@ -155,13 +143,11 @@ from langchain_openai import ChatOpenAI
 llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
 ```
 
-
 ```python
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
-agent_executor = create_react_agent(llm, tools)
+agent_executor = create_agent(llm, tools)
 ```
-
 
 ```python
 example_query = "Create a green event for this afternoon to go for a 30-minute run."
@@ -173,6 +159,7 @@ events = agent_executor.stream(
 for event in events:
     event["messages"][-1].pretty_print()
 ```
+
 ```output
 ================================ Human Message =================================
 
@@ -204,6 +191,7 @@ Event created: https://www.google.com/calendar/event?eid=czZyZHVpcG43ajNiY241dmJ
 
 I have created a green event for your run this afternoon. You can view it [here](https://www.google.com/calendar/event?eid=czZyZHVpcG43ajNiY241dmJmNWwycjE0NWsgam9yZ2VhbmczM0Bt). Enjoy your run!
 ```
+
 ## API reference
 
 - Refer to the [Google Calendar API overview](https://developers.google.com/calendar/api/guides/overview) for more details from Google Calendar API.

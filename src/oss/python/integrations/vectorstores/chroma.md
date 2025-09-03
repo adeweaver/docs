@@ -9,7 +9,6 @@ This notebook covers how to get started with the `Chroma` vector store.
 <Info>
 **Chroma Cloud**
 
-
 Chroma Cloud powers serverless vector and full-text search. It's extremely fast, cost-effective, scalable and painless. Create a DB and try it out in under 30 seconds with $5 of free credits.
 
 [Get started with Chroma Cloud](https://trychroma.com/signup)
@@ -18,7 +17,6 @@ Chroma Cloud powers serverless vector and full-text search. It's extremely fast,
 ## Setup
 
 To access `Chroma` vector stores you'll need to install the `langchain-chroma` integration package.
-
 
 ```python
 pip install -qU "langchain-chroma>=0.1.2"
@@ -38,7 +36,6 @@ chroma db connect [db_name] --env-file
 
 If you want to get best in-class automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
-
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
 # os.environ["LANGSMITH_TRACING"] = "true"
@@ -46,13 +43,11 @@ If you want to get best in-class automated tracing of your model calls you can a
 
 ## Initialization
 
-### Basic Initialization 
+### Basic Initialization
 
 Below is a basic initialization, including the use of a directory to save the data locally.
 
 <EmbeddingTabs/>
-
-
 
 ```python
 # | output: false
@@ -65,7 +60,6 @@ embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
 #### Running Locally (In-Memory)
 
 You can get a Chroma server running in memory by simply instantiating a `Chroma` instance with a collection name and your embeddings provider:
-
 
 ```python
 from langchain_chroma import Chroma
@@ -81,7 +75,6 @@ If you don't need data persistence, this is a great option for experimenting whi
 #### Running Locally (with Data Persistence)
 
 You can provide the `persist_directory` argument to save your data across multiple runs of your program:
-
 
 ```python
 from langchain_chroma import Chroma
@@ -99,7 +92,6 @@ If you have a Chroma server running locally, or you have [deployed](https://docs
 
 For example, you can start a Chroma server running locally with `chroma run`, and then connect it with `host='localhost'`:
 
-
 ```python
 from langchain_chroma import Chroma
 
@@ -115,7 +107,6 @@ For other deployments you can use the `port`, `ssl`, and `headers` arguments to 
 #### Chroma Cloud
 
 Chroma Cloud users can also build with Langchain. Provide your `Chroma` instance with your Chroma Cloud API key, tenant, and DB name:
-
 
 ```python
 from langchain_chroma import Chroma
@@ -135,7 +126,6 @@ You can also initialize from a `Chroma` client, which is particularly useful if 
 
 #### Running Locally (In-Memory)
 
-
 ```python
 import chromadb
 
@@ -143,7 +133,6 @@ client = chromadb.Client()
 ```
 
 #### Running Locally (with Data Persistence)
-
 
 ```python
 import chromadb
@@ -155,7 +144,6 @@ client = chromadb.PersistentClient(path="./chroma_langchain_db")
 
 For example, if you are running a Chroma server locally (using `chroma run`):
 
-
 ```python
 import chromadb
 
@@ -166,7 +154,6 @@ client = chromadb.HttpClient(host="localhost", port=8000, ssl=False)
 
 After setting your `CHROMA_API_KEY`, `CHROMA_TENANT`, and `CHROMA_DATABASE`, you can simply instantiate:
 
-
 ```python
 import chromadb
 
@@ -175,14 +162,12 @@ client = chromadb.CloudClient()
 
 #### Access your Chroma DB
 
-
 ```python
 collection = client.get_or_create_collection("collection_name")
 collection.add(ids=["1", "2", "3"], documents=["a", "b", "c"])
 ```
 
 #### Create a Chroma Vectorstore
-
 
 ```python
 vector_store_from_client = Chroma(
@@ -199,7 +184,6 @@ Once you have created your vector store, we can interact with it by adding and d
 ### Add items to vector store
 
 We can add items to our vector store by using the `add_documents` function.
-
 
 ```python
 from uuid import uuid4
@@ -285,8 +269,7 @@ vector_store.add_documents(documents=documents, ids=uuids)
 
 ### Update items in vector store
 
-Now that we have added documents to our vector store, we can update existing documents by using the `update_documents` function. 
-
+Now that we have added documents to our vector store, we can update existing documents by using the `update_documents` function.
 
 ```python
 updated_document_1 = Document(
@@ -312,21 +295,19 @@ vector_store.update_documents(
 
 We can also delete items from our vector store as follows:
 
-
 ```python
 vector_store.delete(ids=uuids[-1])
 ```
 
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 
 ### Query directly
 
 #### Similarity search
 
 Performing a simple similarity search can be done as follows:
-
 
 ```python
 results = vector_store.similarity_search(
@@ -342,7 +323,6 @@ for res in results:
 
 If you want to execute a similarity search and receive the corresponding scores you can run:
 
-
 ```python
 results = vector_store.similarity_search_with_score(
     "Will it be hot tomorrow?", k=1, filter={"source": "news"}
@@ -354,7 +334,6 @@ for res, score in results:
 #### Search by vector
 
 You can also search by vector:
-
 
 ```python
 results = vector_store.similarity_search_by_vector(
@@ -371,7 +350,6 @@ There are a variety of other search methods that are not covered in this noteboo
 ### Query by turning into retriever
 
 You can also transform the vector store into a retriever for easier usage in your chains. For more information on the different search types and kwargs you can pass, please visit the API reference [here](https://python.langchain.com/api_reference/chroma/vectorstores/langchain_chroma.vectorstores.Chroma.html#langchain_chroma.vectorstores.Chroma.as_retriever).
-
 
 ```python
 retriever = vector_store.as_retriever(
@@ -390,4 +368,4 @@ For guides on how to use this vector store for retrieval-augmented generation (R
 
 ## API reference
 
-For detailed documentation of all `Chroma` vector store features and configurations head to the API reference: https://python.langchain.com/api_reference/chroma/vectorstores/langchain_chroma.vectorstores.Chroma.html
+For detailed documentation of all `Chroma` vector store features and configurations head to the API reference: [python.langchain.com/api_reference/chroma/vectorstores/langchain_chroma.vectorstores.Chroma.html](https://python.langchain.com/api_reference/chroma/vectorstores/langchain_chroma.vectorstores.Chroma.html)

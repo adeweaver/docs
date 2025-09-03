@@ -10,7 +10,6 @@ These can be called from LangChain either through this local pipeline wrapper or
 
 To use, you should have the ``transformers`` python [package installed](https://pypi.org/project/transformers/), as well as [pytorch](https://pytorch.org/get-started/locally/). You can also install `xformer` for a more memory-efficient attention implementation.
 
-
 ```python
 %pip install --upgrade --quiet transformers
 ```
@@ -18,7 +17,6 @@ To use, you should have the ``transformers`` python [package installed](https://
 ### Model Loading
 
 Models can be loaded by specifying the model parameters using the `from_model_id` method.
-
 
 ```python
 from langchain_huggingface.llms import HuggingFacePipeline
@@ -31,7 +29,6 @@ hf = HuggingFacePipeline.from_model_id(
 ```
 
 They can also be loaded by passing in an existing `transformers` pipeline directly
-
 
 ```python
 from langchain_huggingface.llms import HuggingFacePipeline
@@ -48,7 +45,6 @@ hf = HuggingFacePipeline(pipeline=pipe)
 
 With the model loaded into memory, you can compose it with a prompt to
 form a chain.
-
 
 ```python
 from langchain_core.prompts import PromptTemplate
@@ -67,7 +63,6 @@ print(chain.invoke({"question": question}))
 
 To get response without prompt, you can bind `skip_prompt=True` with LLM.
 
-
 ```python
 chain = prompt | hf.bind(skip_prompt=True)
 
@@ -77,7 +72,6 @@ print(chain.invoke({"question": question}))
 ```
 
 Streaming repsonse.
-
 
 ```python
 for chunk in chain.stream(question):
@@ -89,10 +83,9 @@ for chunk in chain.stream(question):
 When running on a machine with GPU, you can specify the `device=n` parameter to put the model on the specified device.
 Defaults to `-1` for CPU inference.
 
-If you have multiple-GPUs and/or the model is too large for a single GPU, you can specify `device_map="auto"`, which requires and uses the [Accelerate](https://huggingface.co/docs/accelerate/index) library to automatically determine how to load the model weights. 
+If you have multiple-GPUs and/or the model is too large for a single GPU, you can specify `device_map="auto"`, which requires and uses the [Accelerate](https://huggingface.co/docs/accelerate/index) library to automatically determine how to load the model weights.
 
 *Note*: both `device` and `device_map` should not be specified together and can lead to unexpected behavior.
-
 
 ```python
 gpu_llm = HuggingFacePipeline.from_model_id(
@@ -112,7 +105,6 @@ print(gpu_chain.invoke({"question": question}))
 ### Batch GPU Inference
 
 If running on a device with GPU, you can also run inference on the GPU in batch mode.
-
 
 ```python
 gpu_llm = HuggingFacePipeline.from_model_id(
@@ -140,11 +132,9 @@ To deploy a model with OpenVINO, you can specify the `backend="openvino"` parame
 
 If you have an Intel GPU, you can specify `model_kwargs={"device": "GPU"}` to run inference on it.
 
-
 ```python
 %pip install --upgrade-strategy eager "optimum[openvino,nncf]" --quiet
 ```
-
 
 ```python
 ov_config = {"PERFORMANCE_HINT": "LATENCY", "NUM_STREAMS": "1", "CACHE_DIR": ""}
@@ -168,21 +158,17 @@ print(ov_chain.invoke({"question": question}))
 
 It is possible to [export your model](https://github.com/huggingface/optimum-intel?tab=readme-ov-file#export) to the OpenVINO IR format with the CLI, and load the model from local folder.
 
-
-
 ```python
 !optimum-cli export openvino --model gpt2 ov_model_dir
 ```
 
 It is recommended to apply 8 or 4-bit weight quantization to reduce inference latency and model footprint using `--weight-format`:
 
-
 ```python
 !optimum-cli export openvino --model gpt2  --weight-format int8 ov_model_dir # for 8-bit quantization
 
 !optimum-cli export openvino --model gpt2  --weight-format int4 ov_model_dir # for 4-bit quantization
 ```
-
 
 ```python
 ov_llm = HuggingFacePipeline.from_model_id(
@@ -201,7 +187,6 @@ print(ov_chain.invoke({"question": question}))
 ```
 
 You can get additional inference speed improvement with Dynamic Quantization of activations and KV-cache quantization. These options can be enabled with `ov_config` as follows:
-
 
 ```python
 ov_config = {

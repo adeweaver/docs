@@ -124,9 +124,9 @@ const llm = new ChatWatsonx({
 });
 ```
 ```typescript
-import { createReactAgent } from "@langchain/langgraph/prebuilt"
+import { createAgent } from "langchain"
 
-const agent = createReactAgent({ llm, tools });
+const agent = createAgent({ llm, tools });
 ```
 
 
@@ -135,7 +135,7 @@ const exampleQuery = "Who won F1 championship in 2022?"
 
 const events = await agent.stream(
    { messages: [{ role: "user", content: exampleQuery }]},
-   { streamMode: "values", } 
+   { streamMode: "values", }
 )
 
 for await (const event of events) {

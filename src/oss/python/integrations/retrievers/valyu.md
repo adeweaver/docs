@@ -12,13 +12,11 @@ First, get an Valyu API key and add it as an environment variable. Get $10 free 
 
 The integration lives in the `langchain-valyu` package.
 
-
 ```python
 %pip install -qU langchain-valyu
 ```
 
 In order to use the package, you will also need to set the `VALYU_API_KEY` environment variable to your Valyu API key.
-
 
 ```python
 import os
@@ -31,15 +29,15 @@ valyu_api_key = os.environ["VALYU_API_KEY"]
 Now we can instantiate our retriever:
 The `ValyuContextRetriever` can be configured with several parameters:
 
-- `k: int = 5`  
+- `k: int = 5`
   The number of top results to return for each query.
 
-- `search_type: str = "all"`  
+- `search_type: str = "all"`
   The type of search to perform: 'all', 'proprietary', or 'web'. Defaults to 'all'.
 
-- `relevance_threshold: float = 0.5`  
+- `relevance_threshold: float = 0.5`
   The minimum relevance score (between 0 and 1) required for a document to be considered relevant. Defaults to 0.5.
-  
+
 - `max_price: float = 20.0`
   The maximum price (in USD) you are willing to spend per query. Defaults to 20.0.
 
@@ -49,12 +47,11 @@ The `ValyuContextRetriever` can be configured with several parameters:
 - `end_date: Optional[str] = None`
   End date for time filtering in YYYY-MM-DD format (optional).
 
-- `client: Optional[Valyu] = None`  
+- `client: Optional[Valyu] = None`
   An optional custom Valyu client instance. If not provided, a new client will be created internally.
-  
-- `valyu_api_key: Optional[str] = None`  
-  Your Valyu API key. If not provided, the retriever will look for the `VALYU_API_KEY` environment variable.
 
+- `valyu_api_key: Optional[str] = None`
+  Your Valyu API key. If not provided, the retriever will look for the `VALYU_API_KEY` environment variable.
 
 ```python
 from langchain_valyu import ValyuRetriever
@@ -73,7 +70,6 @@ retriever = ValyuRetriever(
 
 ## Usage
 
-
 ```python
 query = "What are the benefits of renewable energy?"
 docs = retriever.invoke(query)
@@ -86,7 +82,6 @@ for doc in docs:
 ## Use within a chain
 
 We can easily combine this retriever in to a chain.
-
 
 ```python
 from langchain_core.output_parsers import StrOutputParser
@@ -119,4 +114,4 @@ chain = (
 
 ## API reference
 
-For detailed documentation of all Valyu Context API features and configurations head to the API reference: https://docs.valyu.network/overview
+For detailed documentation of all Valyu Context API features and configurations head to the API reference: [docs.valyu.network/overview](https://docs.valyu.network/overview)

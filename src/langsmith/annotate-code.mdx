@@ -4,13 +4,13 @@ sidebarTitle: Custom instrumentation
 ---
 
 <Note>
-  If you've decided you no longer want to trace your runs, you can remove the `LANGSMITH_TRACING` environment variable. Note that this does not affect the `RunTree` objects or API users, as these are meant to be low-level and not affected by the tracing toggle.
+If you've decided you no longer want to trace your runs, you can remove the `LANGSMITH_TRACING` environment variable. Note that this does not affect the `RunTree` objects or API users, as these are meant to be low-level and not affected by the tracing toggle.
 </Note>
 
 There are several ways to log traces to LangSmith.
 
 <Check>
-  If you are using LangChain (either Python or JS/TS), you can skip this section and go directly to the [LangChain-specific instructions](/langsmith/trace-with-langchain).
+If you are using LangChain (either Python or JS/TS), you can skip this section and go directly to the [LangChain-specific instructions](/langsmith/trace-with-langchain).
 </Check>
 
 ## Use `@traceable` / `traceable`
@@ -18,17 +18,17 @@ There are several ways to log traces to LangSmith.
 LangSmith makes it easy to log traces with minimal changes to your existing code with the `@traceable` decorator in Python and `traceable` function in TypeScript.
 
 <Note>
-  The `LANGSMITH_TRACING` environment variable must be set to `'true'` in order for traces to be logged to LangSmith, even when using `@traceable` or `traceable`. This allows you to toggle tracing on and off without changing your code.
+The `LANGSMITH_TRACING` environment variable must be set to `'true'` in order for traces to be logged to LangSmith, even when using `@traceable` or `traceable`. This allows you to toggle tracing on and off without changing your code.
 
-  Additionally, you will need to set the `LANGSMITH_API_KEY` environment variable to your API key (see [Setup](/) for more information).
+Additionally, you will need to set the `LANGSMITH_API_KEY` environment variable to your API key (see [Setup](/) for more information).
 
-  By default, the traces will be logged to a project named `default`. To log traces to a different project, see [this section](/langsmith/log-traces-to-project).
+By default, the traces will be logged to a project named `default`. To log traces to a different project, see [this section](/langsmith/log-traces-to-project).
 </Note>
 
 
 The `@traceable` decorator is a simple way to log traces from the LangSmith Python SDK. Simply decorate any function with `@traceable`.
 
-Note that when wrapping a sync function with `traceable`, (e.g. `formatPrompt` in the example below), you should use the `await` keyword when calling it to 
+Note that when wrapping a sync function with `traceable`, (e.g. `formatPrompt` in the example below), you should use the `await` keyword when calling it to
   ensure the trace is logged correctly.
 
 <CodeGroup>
@@ -277,7 +277,7 @@ def traceable_cls(cls: Type[T]) -> Type[T]:
         if callable(method) and not name.startswith("__"):
             return traceable(name=f"{cls.__name__}.{name}")(method)
         return method
-    
+
     # Handle __dict__ case
     for name in dir(cls):
         if not name.startswith("_"):
@@ -287,7 +287,7 @@ def traceable_cls(cls: Type[T]) -> Type[T]:
             except AttributeError:
                 # Skip attributes that can't be set (e.g., some descriptors)
                 pass
-    
+
     # Handle __slots__ case
     if hasattr(cls, "__slots__"):
         for slot in cls.__slots__:  # type: ignore[attr-defined]
@@ -298,14 +298,14 @@ def traceable_cls(cls: Type[T]) -> Type[T]:
                 except AttributeError:
                     # Skip slots that don't have a value yet
                     pass
-    
+
     return cls
 
 @traceable_cls
 class MyClass:
     def __init__(self, some_val: int):
         self.some_val = some_val
-    
+
     def combine(self, other_val: int):
         return self.some_val + other_val
 

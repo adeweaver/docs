@@ -12,24 +12,20 @@ head over to the [Riza Code Interpreter API documentation](https://docs.riza.io)
 
 Make sure you have the necessary dependencies installed.
 
-
 ```python
 %pip install --upgrade --quiet langchain-community rizaio
 ```
 
 Set up your API keys as an environment variable.
 
-
 ```python
 %env ANTHROPIC_API_KEY=<your_anthropic_api_key_here>
 %env RIZA_API_KEY=<your_riza_api_key_here>
 ```
 
-
 ```python
 from langchain_community.tools.riza.command import ExecPython
 ```
-
 
 ```python
 from langchain.agents import AgentExecutor, create_tool_calling_agent
@@ -39,13 +35,11 @@ from langchain_core.prompts import ChatPromptTemplate
 
 Initialize the `ExecPython` tool.
 
-
 ```python
 tools = [ExecPython()]
 ```
 
 Initialize an agent using Anthropic's Claude Haiku model.
-
 
 ```python
 llm = ChatAnthropic(model="claude-3-haiku-20240307", temperature=0)
@@ -65,12 +59,12 @@ agent = create_tool_calling_agent(llm, tools, prompt_template)
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 ```
 
-
 ```python
 # Ask a tough question
 result = agent_executor.invoke({"input": "how many rs are in strawberry?"})
 print(result["output"][0]["text"])
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 

@@ -4,7 +4,7 @@ title: Aphrodite Engine
 
 [Aphrodite](https://github.com/PygmalionAI/aphrodite-engine) is the open-source large-scale inference engine designed to serve thousands of users on the [PygmalionAI](https://pygmalion.chat) website.
 
-* Attention mechanism by vLLM for fast throughput and low latencies 
+* Attention mechanism by vLLM for fast throughput and low latencies
 * Support for for many SOTA sampling methods
 * Exllamav2 GPTQ kernels for better throughput at lower batch sizes
 
@@ -12,18 +12,15 @@ This notebooks goes over how to use a LLM with langchain and Aphrodite.
 
 To use, you should have the `aphrodite-engine` python package installed.
 
-
 ```python
 ##Installing the langchain packages needed to use the integration
 %pip install -qU langchain-community
 ```
 
-
 ```python
 %pip install --upgrade --quiet  aphrodite-engine==0.4.2
 # %pip list | grep aphrodite
 ```
-
 
 ```python
 from langchain_community.llms import Aphrodite
@@ -45,6 +42,7 @@ print(
     )
 )
 ```
+
 ```output
 INFO 12-15 11:52:48 aphrodite_engine.py:73] Initializing the Aphrodite Engine with the following config:
 INFO 12-15 11:52:48 aphrodite_engine.py:73] Model = 'PygmalionAI/pygmalion-2-7b'
@@ -65,8 +63,8 @@ Processed prompts: 100%|██████████| 1/1 [00:02<00:00,  2.91s
 ``````output
 I'm Ayumu "Osaka" Kasuga, and I'm an avid anime and manga fan! I'm pretty introverted, but I've always loved reading books, watching anime and manga, and learning about Japanese culture. My favourite anime series would be My Hero Academia, Attack on Titan, and Sword Art Online. I also really enjoy reading the manga series One Piece, Naruto, and the Gintama series.
 ```
-## Integrate the model in an LLMChain
 
+## Integrate the model in an LLMChain
 
 ```python
 from langchain.chains import LLMChain
@@ -83,6 +81,7 @@ question = "Who was the US president in the year the first Pokemon game was rele
 
 print(llm_chain.run(question))
 ```
+
 ```output
 Processed prompts: 100%|██████████| 1/1 [00:03<00:00,  3.56s/it]
 ``````output
@@ -92,26 +91,27 @@ Answer: Let's think step by step.
 
 The first Pokémon game was released in Japan on February 27, 1996 (their release dates differ from ours) and it is known as
 ```
+
 ## Distributed Inference
 
-Aphrodite supports distributed tensor-parallel inference and serving. 
+Aphrodite supports distributed tensor-parallel inference and serving.
 
 To run multi-GPU inference with the LLM class, set the `tensor_parallel_size` argument to the number of GPUs you want to use. For example, to run inference on 4 GPUs
-
 
 ```python
 from langchain_community.llms import Aphrodite
 
 llm = Aphrodite(
-    model="PygmalionAI/mythalion-13b",
-    tensor_parallel_size=4,
-    trust_remote_code=True,  # mandatory for hf models
+        model="PygmalionAI/mythalion-13b",
+        tensor_parallel_size=4,
+        trust_remote_code=True,  # mandatory for hf models
 )
 
 llm("What is the future of AI?")
 ```
+
 ```output
-2023-12-15 11:41:27,790	INFO worker.py:1636 -- Started a local Ray instance.
+2023-12-15 11:41:27,790 INFO worker.py:1636 -- Started a local Ray instance.
 ``````output
 INFO 12-15 11:41:35 aphrodite_engine.py:73] Initializing the Aphrodite Engine with the following config:
 INFO 12-15 11:41:35 aphrodite_engine.py:73] Model = 'PygmalionAI/mythalion-13b'
@@ -130,7 +130,6 @@ INFO 12-15 11:43:58 aphrodite_engine.py:206] # GPU blocks: 11902, # CPU blocks: 
 ``````output
 Processed prompts: 100%|██████████| 1/1 [00:16<00:00, 16.09s/it]
 ```
-
 
 ```output
 "\n2 years ago StockBot101\nAI is becoming increasingly real and more and more powerful with every year. But what does the future hold for artificial intelligence?\nThere are many possibilities for how AI could evolve and change our world. Some believe that AI will become so advanced that it will take over human jobs, while others believe that AI will be used to augment and assist human workers. There is also the possibility that AI could develop its own consciousness and become self-aware.\nWhatever the future holds, it is clear that AI will continue to play an important role in our lives. Technologies such as machine learning and natural language processing are already transforming industries like healthcare, manufacturing, and transportation. And as AI continues to develop, we can expect even more disruption and innovation across all sectors of the economy.\nSo what exactly are we looking at? What's the future of AI?\nIn the next few years, we can expect AI to be used more and more in healthcare. With the power of machine learning, artificial intelligence can help doctors diagnose diseases earlier and more accurately. It can also be used to develop new treatments and personalize care plans for individual patients.\nManufacturing is another area where AI is already having a big impact. Companies are using robotics and automation to build products faster and with fewer errors. And as AI continues to advance, we can expect even more changes in manufacturing, such as the development of self-driving factories.\nTransportation is another industry that is being transformed by artificial intelligence. Self-driving cars are already being tested on public roads, and it's likely that they will become commonplace in the next decade or so. AI-powered drones are also being developed for use in delivery and even firefighting.\nFinally, artificial intelligence is also poised to have a big impact on customer service and sales. Chatbots and virtual assistants will become more sophisticated, making it easier for businesses to communicate with customers and sell their products.\nThis is just the beginning for artificial intelligence. As the technology continues to develop, we can expect even more amazing advances and innovations. The future of AI is truly limitless.\nWhat do you think the future of AI holds? Do you see any other major"

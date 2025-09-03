@@ -25,7 +25,6 @@ The cell below defines the credentials required to work with watsonx Foundation 
 **Action:** Provide the IBM Cloud user API key. For details, see
 [Managing user API keys](https://cloud.ibm.com/docs/account?topic=account-userapikey&interface=ui).
 
-
 ```python
 import os
 from getpass import getpass
@@ -34,8 +33,7 @@ watsonx_api_key = getpass()
 os.environ["WATSONX_APIKEY"] = watsonx_api_key
 ```
 
-Additionally you are able to pass additional secrets as an environment variable. 
-
+Additionally you are able to pass additional secrets as an environment variable.
 
 ```python
 import os
@@ -51,7 +49,6 @@ os.environ["WATSONX_INSTANCE_ID"] = "your instance_id for accessing the CPD clus
 
 The LangChain IBM integration lives in the `langchain-ibm` package:
 
-
 ```python
 !pip install -qU langchain-ibm
 !pip install -qU langchain-community
@@ -59,7 +56,6 @@ The LangChain IBM integration lives in the `langchain-ibm` package:
 ```
 
 For experiment purpose please also install `faiss` or `faiss-cpu` package:
-
 
 ```python
 !pip install --upgrade --quiet  faiss
@@ -70,7 +66,6 @@ For experiment purpose please also install `faiss` or `faiss-cpu` package:
 ```
 
 Helper function for printing docs
-
 
 ```python
 def pretty_print_docs(docs):
@@ -84,11 +79,12 @@ def pretty_print_docs(docs):
 ## Instantiation
 
 ### Set up the base vector store retriever
+
 Let's start by initializing a simple vector store retriever and storing the 2023 State of the Union speech (in chunks). We can set up the retriever to retrieve a high number (20) of docs.
 
 Initialize the `WatsonxEmbeddings`. For more details see [WatsonxEmbeddings](/oss/integrations/text_embedding/ibm_watsonx).
 
-**Note**: 
+**Note**:
 
 - To provide context for the API call, you must add `project_id` or `space_id`. For more information see [documentation](https://www.ibm.com/docs/en/watsonx-as-a-service?topic=projects).
 - Depending on the region of your provisioned service instance, use one of the urls described [here](https://ibm.github.io/watsonx-ai-python-sdk/setup_cloud.html#authentication).
@@ -96,7 +92,6 @@ Initialize the `WatsonxEmbeddings`. For more details see [WatsonxEmbeddings](/os
 In this example, we’ll use the `project_id` and Dallas url.
 
 You need to specify `model_id` that will be used for embedding. All available models you can find in [documentation](https://ibm.github.io/watsonx-ai-python-sdk/fm_embeddings.html#EmbeddingModels).
-
 
 ```python
 from langchain_ibm import WatsonxEmbeddings
@@ -107,7 +102,6 @@ wx_embeddings = WatsonxEmbeddings(
     project_id="PASTE YOUR PROJECT_ID HERE",
 )
 ```
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -125,53 +119,55 @@ query = "What did the president say about Ketanji Brown Jackson"
 docs = retriever.invoke(query)
 pretty_print_docs(docs[:5])  # Printing the first 5 documents
 ```
+
 ```output
 Document 1:
 
-One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. 
+One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
 
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.
 ----------------------------------------------------------------------------------------------------
 Document 2:
 
-I spoke with their families and told them that we are forever in debt for their sacrifice, and we will carry on their mission to restore the trust and safety every community deserves. 
+I spoke with their families and told them that we are forever in debt for their sacrifice, and we will carry on their mission to restore the trust and safety every community deserves.
 
-I’ve worked on these issues a long time. 
+I’ve worked on these issues a long time.
 
-I know what works: Investing in crime prevention and community police officers who’ll walk the beat, who’ll know the neighborhood, and who can restore trust and safety. 
+I know what works: Investing in crime prevention and community police officers who’ll walk the beat, who’ll know the neighborhood, and who can restore trust and safety.
 
 So let’s not abandon our streets. Or choose between safety and equal justice.
 ----------------------------------------------------------------------------------------------------
 Document 3:
 
-He met the Ukrainian people. 
+He met the Ukrainian people.
 
-From President Zelenskyy to every Ukrainian, their fearlessness, their courage, their determination, inspires the world. 
+From President Zelenskyy to every Ukrainian, their fearlessness, their courage, their determination, inspires the world.
 
-Groups of citizens blocking tanks with their bodies. Everyone from students to retirees teachers turned soldiers defending their homeland. 
+Groups of citizens blocking tanks with their bodies. Everyone from students to retirees teachers turned soldiers defending their homeland.
 
 In this struggle as President Zelenskyy said in his speech to the European Parliament “Light will win over darkness.” The Ukrainian Ambassador to the United States is here tonight.
 ----------------------------------------------------------------------------------------------------
 Document 4:
 
-As I said last year, especially to our younger transgender Americans, I will always have your back as your President, so you can be yourself and reach your God-given potential. 
+As I said last year, especially to our younger transgender Americans, I will always have your back as your President, so you can be yourself and reach your God-given potential.
 
 While it often appears that we never agree, that isn’t true. I signed 80 bipartisan bills into law last year. From preventing government shutdowns to protecting Asian-Americans from still-too-common hate crimes to reforming military justice.
 ----------------------------------------------------------------------------------------------------
 Document 5:
 
-To all Americans, I will be honest with you, as I’ve always promised. A Russian dictator, invading a foreign country, has costs around the world. 
+To all Americans, I will be honest with you, as I’ve always promised. A Russian dictator, invading a foreign country, has costs around the world.
 
-And I’m taking robust action to make sure the pain of our sanctions  is targeted at Russia’s economy. And I will use every tool at our disposal to protect American businesses and consumers. 
+And I’m taking robust action to make sure the pain of our sanctions  is targeted at Russia’s economy. And I will use every tool at our disposal to protect American businesses and consumers.
 
 Tonight, I can announce that the United States has worked with 30 other countries to release 60 Million barrels of oil from reserves around the world.
 ```
+
 ## Usage
 
 ### Doing reranking with WatsonxRerank
+
 Now let's wrap our base retriever with a `ContextualCompressionRetriever`. We'll add an `WatsonxRerank`, uses the watsonx rerank endpoint to rerank the returned results.
 Do note that it is mandatory to specify the model name in WatsonxRerank!
-
 
 ```python
 from langchain_ibm import WatsonxRerank
@@ -182,7 +178,6 @@ wx_rerank = WatsonxRerank(
     project_id="PASTE YOUR PROJECT_ID HERE",
 )
 ```
-
 
 ```python
 from langchain.retrievers.contextual_compression import ContextualCompressionRetriever
@@ -196,53 +191,54 @@ compressed_docs = compression_retriever.invoke(
 )
 pretty_print_docs(compressed_docs[:5])  # Printing the first 5 compressed documents
 ```
+
 ```output
 Document 1:
 
-One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. 
+One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
 
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.
 ----------------------------------------------------------------------------------------------------
 Document 2:
 
-As I said last year, especially to our younger transgender Americans, I will always have your back as your President, so you can be yourself and reach your God-given potential. 
+As I said last year, especially to our younger transgender Americans, I will always have your back as your President, so you can be yourself and reach your God-given potential.
 
 While it often appears that we never agree, that isn’t true. I signed 80 bipartisan bills into law last year. From preventing government shutdowns to protecting Asian-Americans from still-too-common hate crimes to reforming military justice.
 ----------------------------------------------------------------------------------------------------
 Document 3:
 
-To all Americans, I will be honest with you, as I’ve always promised. A Russian dictator, invading a foreign country, has costs around the world. 
+To all Americans, I will be honest with you, as I’ve always promised. A Russian dictator, invading a foreign country, has costs around the world.
 
-And I’m taking robust action to make sure the pain of our sanctions  is targeted at Russia’s economy. And I will use every tool at our disposal to protect American businesses and consumers. 
+And I’m taking robust action to make sure the pain of our sanctions  is targeted at Russia’s economy. And I will use every tool at our disposal to protect American businesses and consumers.
 
 Tonight, I can announce that the United States has worked with 30 other countries to release 60 Million barrels of oil from reserves around the world.
 ----------------------------------------------------------------------------------------------------
 Document 4:
 
-I spoke with their families and told them that we are forever in debt for their sacrifice, and we will carry on their mission to restore the trust and safety every community deserves. 
+I spoke with their families and told them that we are forever in debt for their sacrifice, and we will carry on their mission to restore the trust and safety every community deserves.
 
-I’ve worked on these issues a long time. 
+I’ve worked on these issues a long time.
 
-I know what works: Investing in crime prevention and community police officers who’ll walk the beat, who’ll know the neighborhood, and who can restore trust and safety. 
+I know what works: Investing in crime prevention and community police officers who’ll walk the beat, who’ll know the neighborhood, and who can restore trust and safety.
 
 So let’s not abandon our streets. Or choose between safety and equal justice.
 ----------------------------------------------------------------------------------------------------
 Document 5:
 
-He met the Ukrainian people. 
+He met the Ukrainian people.
 
-From President Zelenskyy to every Ukrainian, their fearlessness, their courage, their determination, inspires the world. 
+From President Zelenskyy to every Ukrainian, their fearlessness, their courage, their determination, inspires the world.
 
-Groups of citizens blocking tanks with their bodies. Everyone from students to retirees teachers turned soldiers defending their homeland. 
+Groups of citizens blocking tanks with their bodies. Everyone from students to retirees teachers turned soldiers defending their homeland.
 
 In this struggle as President Zelenskyy said in his speech to the European Parliament “Light will win over darkness.” The Ukrainian Ambassador to the United States is here tonight.
 ```
+
 ## Use within a chain
 
 You can of course use this retriever within a QA pipeline
 
 Initialize the `ChatWatsonx`. For more details see [ChatWatsonx](/oss/integrations/chat/ibm_watsonx).
-
 
 ```python
 from langchain_ibm import ChatWatsonx
@@ -254,25 +250,20 @@ wx_chat = ChatWatsonx(
 )
 ```
 
-
 ```python
 from langchain.chains import RetrievalQA
 
 chain = RetrievalQA.from_chain_type(llm=wx_chat, retriever=compression_retriever)
 ```
 
-
 ```python
 chain.invoke(query)
 ```
-
-
 
 ```output
 {'query': 'What did the president say about Ketanji Brown Jackson',
  'result': 'The President said that he had nominated Circuit Court of Appeals Judge Ketanji Brown Jackson to serve on the United States Supreme Court, and described her as "one of our nation\'s top legal minds" who will continue Justice Breyer\'s legacy of excellence.'}
 ```
-
 
 ## API reference
 

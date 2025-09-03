@@ -5,8 +5,8 @@ title: IBM watsonx.ai
 This will help you get started with IBM watsonx.ai [embedding models](/oss/concepts/embedding_models) using LangChain. For detailed documentation on `IBM watsonx.ai` features and configuration options, please refer to the [API reference](https://api.js.langchain.com/modules/_langchain_community.embeddings_ibm.html).
 
 ## Overview
-### Integration details
 
+### Integration details
 
 | Class | Package | Local | [Py support](https://python.langchain.com/docs/integrations/text_embedding/ibm_watsonx/) | Package downloads | Package latest |
 | :--- | :--- | :---: | :---: |  :---: | :---: |
@@ -17,7 +17,6 @@ This will help you get started with IBM watsonx.ai [embedding models](/oss/conce
 To access IBM WatsonxAI embeddings you'll need to create an IBM watsonx.ai account, get an API key or any other type of credentials, and install the `@langchain/community` integration package.
 
 ### Credentials
-
 
 Head to [IBM Cloud](https://cloud.ibm.com/login) to sign up to IBM watsonx.ai and generate an API key or provide any other authentication form as presented below.
 
@@ -115,11 +114,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and embed text:
-
-
 
 ```javascript
 import { WatsonxEmbeddings } from "@langchain/community/embeddings/ibm";
@@ -132,6 +130,7 @@ const embeddings = new WatsonxEmbeddings({
   model: "<MODEL_ID>",
 });
 ```
+
 Note:
 
 - You must provide `spaceId` or `projectId` in order to proceed.
@@ -142,7 +141,6 @@ Note:
 Embedding models are often used in retrieval-augmented generation (RAG) flows, both as part of indexing data as well as later retrieving it. For more detailed instructions, please see our RAG tutorials under the [working with external knowledge tutorials](/oss/tutorials/#working-with-external-knowledge).
 
 Below, see how to index and retrieve data using the `embeddings` object we initialized above. In this example, we will index and retrieve a sample document using the demo [`MemoryVectorStore`](/oss/integrations/vectorstores/memory).
-
 
 ```javascript
 // Create a vector store with a sample text
@@ -163,9 +161,11 @@ const retrievedDocuments = await retriever.invoke("What is LangChain?");
 
 retrievedDocuments[0].pageContent;
 ```
+
 ```output
 LangChain is the framework for building context-aware reasoning applications
 ```
+
 ## Direct Usage
 
 Under the hood, the vectorstore and retriever implementations are calling `embeddings.embedDocument(...)` and `embeddings.embedQuery(...)` to create embeddings for the text(s) used in `fromDocuments` and the retriever's `invoke` operations, respectively.
@@ -176,11 +176,11 @@ You can directly call these methods to get embeddings for your own use cases.
 
 You can embed queries for search with `embedQuery`. This generates a vector representation specific to the query:
 
-
 ```javascript
     const singleVector = await embeddings.embedQuery(text);
     singleVector.slice(0, 10);
 ```
+
 ```output
 [
    -0.017436018,  -0.01469498,
@@ -190,20 +190,21 @@ You can embed queries for search with `embedQuery`. This generates a vector repr
     -0.02454774,   0.07235078
 ]
 ```
+
 ### Embed multiple texts
 
 You can embed multiple texts for indexing with `embedDocuments`. The internals used for this method may (but do not have to) differ from embedding queries:
-
 
 ```javascript
     const text2 = "LangGraph is a library for building stateful, multi-actor applications with LLMs";
 
     const vectors = await embeddings.embedDocuments([text, text2]);
-   
+
     console.log(vectors[0].slice(0, 10));
     console.log(vectors[1].slice(0, 10));
 
 ```
+
 ```output
 [
   -0.017436024, -0.014695002,
@@ -220,6 +221,7 @@ You can embed multiple texts for indexing with `embedDocuments`. The internals u
     -0.03899479,  0.039327156
 ]
 ```
+
 ## API reference
 
 For detailed documentation of all __module_name__ features and configurations head to the API reference: __api_ref_module__

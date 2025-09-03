@@ -4,17 +4,18 @@ title: Neo4j
 
 >[Neo4j](https://neo4j.com/docs/) is a graph database that stores nodes and relationships, that also supports native vector search.
 
-In the notebook, we'll demo the `SelfQueryRetriever` wrapped around a `Neo4j` vector store. 
+In the notebook, we'll demo the `SelfQueryRetriever` wrapped around a `Neo4j` vector store.
 
 ## Creating a Neo4j vector store
+
 First we'll want to create a Neo4j vector store and seed it with some data. We've created a small demo set of documents that contain summaries of movies.
 
 We want to use `OpenAIEmbeddings` so we have to get the OpenAI API Key.
 
-
 ```python
 %pip install --upgrade neo4j
 ```
+
 ```output
 Requirement already satisfied: neo4j in /Users/moyi/git/langchain/env/lib/python3.11/site-packages (5.24.0)
 Requirement already satisfied: pytz in /Users/moyi/git/langchain/env/lib/python3.11/site-packages (from neo4j) (2024.1)
@@ -28,6 +29,7 @@ import os
 if "OPENAI_API_KEY" not in os.environ:
     os.environ["OPENAI_API_KEY"] = getpass.getpass("OpenAI API Key:")
 ```
+
 ```output
 OpenAI API Key: ········
 ```
@@ -43,6 +45,7 @@ if "NEO4J_USERNAME" not in os.environ:
 if "NEO4J_PASSWORD" not in os.environ:
     os.environ["NEO4J_PASSWORD"] = getpass.getpass("Neo4j Password:")
 ```
+
 ```output
 Neo4j URL: ········
 Neo4j User Name: ········
@@ -56,7 +59,6 @@ from langchain_openai import OpenAIEmbeddings
 
 embeddings = OpenAIEmbeddings()
 ```
-
 
 ```python
 docs = [
@@ -92,12 +94,14 @@ docs = [
 ]
 vectorstore = Neo4jVector.from_documents(docs, embeddings)
 ```
+
 ```output
 Received notification from DBMS server: {severity: WARNING} {code: Neo.ClientNotification.Statement.FeatureDeprecationWarning} {category: DEPRECATION} {title: This feature is deprecated and will be removed in future versions.} {description: CALL subquery without a variable scope clause is now deprecated. Use CALL (row) { ... }} {position: line: 1, column: 21, offset: 20} for query: "UNWIND $data AS row CALL { WITH row MERGE (c:`Chunk` {id: row.id}) WITH c, row CALL db.create.setNodeVectorProperty(c, 'embedding', row.embedding) SET c.`text` = row.text SET c += row.metadata } IN TRANSACTIONS OF 1000 ROWS "
 ```
-## Creating our self-querying retriever
-Now we can instantiate our retriever. To do this we'll need to provide some information upfront about the metadata fields that our documents support and a short description of the document contents.
 
+## Creating our self-querying retriever
+
+Now we can instantiate our retriever. To do this we'll need to provide some information upfront about the metadata fields that our documents support and a short description of the document contents.
 
 ```python
 from langchain.chains.query_constructor.schema import AttributeInfo
@@ -132,15 +136,13 @@ retriever = SelfQueryRetriever.from_llm(
 ```
 
 ## Testing it out
-And now we can try actually using our retriever!
 
+And now we can try actually using our retriever!
 
 ```python
 # This example only specifies a relevant query
 retriever.invoke("What are some movies about dinosaurs")
 ```
-
-
 
 ```output
 [Document(metadata={'genre': 'science fiction', 'year': 1993, 'rating': 7.7}, page_content='A bunch of scientists bring back dinosaurs and mayhem breaks loose'),
@@ -149,48 +151,34 @@ retriever.invoke("What are some movies about dinosaurs")
  Document(metadata={'year': 2006, 'rating': 8.6, 'director': 'Satoshi Kon'}, page_content='A psychologist / detective gets lost in a series of dreams within dreams within dreams and Inception reused the idea')]
 ```
 
-
-
 ```python
 # This example only specifies a filter
 retriever.invoke("I want to watch a movie rated higher than 8.5")
 ```
-
-
 
 ```output
 [Document(metadata={'genre': 'science fiction', 'year': 1979, 'rating': 9.9, 'director': 'Andrei Tarkovsky'}, page_content='Three men walk into the Zone, three men walk out of the Zone'),
  Document(metadata={'year': 2006, 'rating': 8.6, 'director': 'Satoshi Kon'}, page_content='A psychologist / detective gets lost in a series of dreams within dreams within dreams and Inception reused the idea')]
 ```
 
-
-
 ```python
 # This example specifies a query and a filter
 retriever.invoke("Has Greta Gerwig directed any movies about women")
 ```
 
-
-
 ```output
 [Document(metadata={'year': 2019, 'rating': 8.3, 'director': 'Greta Gerwig'}, page_content='A bunch of normal-sized women are supremely wholesome and some men pine after them')]
 ```
-
-
 
 ```python
 # This example specifies a composite filter
 retriever.invoke("What's a highly rated (above 8.5) science fiction film?")
 ```
 
-
-
 ```output
 [Document(metadata={'year': 2006, 'rating': 8.6, 'director': 'Satoshi Kon'}, page_content='A psychologist / detective gets lost in a series of dreams within dreams within dreams and Inception reused the idea'),
  Document(metadata={'genre': 'science fiction', 'year': 1979, 'rating': 9.9, 'director': 'Andrei Tarkovsky'}, page_content='Three men walk into the Zone, three men walk out of the Zone')]
 ```
-
-
 
 ```python
 # This example specifies a query and composite filter
@@ -199,19 +187,15 @@ retriever.invoke(
 )
 ```
 
-
-
 ```output
 [Document(metadata={'genre': 'animated', 'year': 1995}, page_content='Toys come alive and have a blast doing so')]
 ```
-
 
 ## Filter k
 
 We can also use the self query retriever to specify `k`: the number of documents to fetch.
 
 We can do this by passing `enable_limit=True` to the constructor.
-
 
 ```python
 retriever = SelfQueryRetriever.from_llm(
@@ -224,24 +208,18 @@ retriever = SelfQueryRetriever.from_llm(
 )
 ```
 
-
 ```python
 # This example only specifies a relevant query
 retriever.invoke("what are two movies about dinosaurs")
 ```
-
-
 
 ```output
 [Document(metadata={'genre': 'science fiction', 'year': 1993, 'rating': 7.7}, page_content='A bunch of scientists bring back dinosaurs and mayhem breaks loose'),
  Document(metadata={'genre': 'animated', 'year': 1995}, page_content='Toys come alive and have a blast doing so')]
 ```
 
-
-
 ```python
 ```
-
 
 ```python
 

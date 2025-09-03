@@ -9,6 +9,7 @@ This will help you get started with Outlines LLM. For detailed documentation of 
 ## Overview
 
 ### Integration details
+
 | Class | Package | Local | Serializable | JS support | Package downloads | Package latest |
 | :--- | :--- | :---: | :---: |  :---: | :---: | :---: |
 | [Outlines](https://python.langchain.com/api_reference/community/llms/langchain_community.llms.outlines.Outlines.html) | [langchain-community](https://python.langchain.com/api_reference/community/index.html) | ✅ | beta | ❌ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-community?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-community?style=flat-square&label=%20) |
@@ -25,7 +26,6 @@ There is no built-in auth mechanism for Outlines.
 
 The LangChain Outlines integration lives in the `langchain-community` package and requires the `outlines` library:
 
-
 ```python
 %pip install -qU langchain-community outlines
 ```
@@ -33,7 +33,6 @@ The LangChain Outlines integration lives in the `langchain-community` package an
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```python
 from langchain_community.llms import Outlines
@@ -55,13 +54,11 @@ model = Outlines(
 
 ## Invocation
 
-
 ```python
 model.invoke("Hello how are you?")
 ```
 
 ## Chaining
-
 
 ```python
 from langchain_core.prompts import PromptTemplate
@@ -81,7 +78,6 @@ chain.invoke(
 
 Outlines supports streaming of tokens:
 
-
 ```python
 for chunk in model.stream("Count to 10 in French:"):
     print(chunk, end="", flush=True)
@@ -93,7 +89,6 @@ Outlines allows you to apply various constraints to the generated output:
 
 #### Regex Constraint
 
-
 ```python
 model.regex = r"((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)"
 response = model.invoke("What is the IP address of Google's DNS server?")
@@ -103,14 +98,12 @@ response
 
 ### Type Constraints
 
-
 ```python
 model.type_constraints = int
 response = model.invoke("What is the answer to life, the universe, and everything?")
 ```
 
 #### JSON Schema
-
 
 ```python
 from pydantic import BaseModel
@@ -129,7 +122,6 @@ person
 
 #### Grammar Constraint
 
-
 ```python
 model.grammar = """
 ?start: expression
@@ -147,8 +139,8 @@ response
 
 ## API reference
 
-For detailed documentation of all ChatOutlines features and configurations head to the API reference: https://python.langchain.com/api_reference/community/chat_models/langchain_community.chat_models.outlines.ChatOutlines.html
+For detailed documentation of all ChatOutlines features and configurations head to the API reference: [python.langchain.com/api_reference/community/chat_models/langchain_community.chat_models.outlines.ChatOutlines.html](https://python.langchain.com/api_reference/community/chat_models/langchain_community.chat_models.outlines.ChatOutlines.html)
 
-## Outlines Documentation: 
+## Outlines Documentation
 
-https://dottxt-ai.github.io/outlines/latest/
+[dottxt-ai.github.io/outlines/latest/](https://dottxt-ai.github.io/outlines/latest/)

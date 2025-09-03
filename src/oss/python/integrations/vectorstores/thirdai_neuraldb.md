@@ -7,15 +7,15 @@ title: ThirdAI NeuralDB
 ## Initialization
 
 There are two initialization methods:
+
 - From Scratch: Basic model
 - From Checkpoint: Load a model that was previously saved
 
 For all of the following initialization methods, the `thirdai_key` parameter can be omitted if the `THIRDAI_KEY` environment variable is set.
 
-ThirdAI API keys can be obtained at https://www.thirdai.com/try-bolt/
+ThirdAI API keys can be obtained at [www.thirdai.com/try-bolt/](https://www.thirdai.com/try-bolt/)
 
 You'll need to install `langchain-community` with `pip install -qU langchain-community` to use this integration
-
 
 ```python
 from langchain_community.vectorstores import NeuralDBVectorStore
@@ -35,7 +35,6 @@ vectorstore = NeuralDBVectorStore.from_checkpoint(
 ```
 
 ## Inserting document sources
-
 
 ```python
 vectorstore.insert(
@@ -70,7 +69,6 @@ vectorstore.insert(
 
 To query the vectorstore, you can use the standard LangChain vectorstore method `similarity_search`, which returns a list of LangChain Document objects. Each document object represents a chunk of text from the indexed files. For example, it may contain a paragraph from one of the indexed PDF files. In addition to the text, the document's metadata field contains information such as the document's ID, the source of this document (which file it came from), and the score of the document.
 
-
 ```python
 # This returns a list of LangChain Document objects
 documents = vectorstore.similarity_search("query", k=10)
@@ -79,9 +77,9 @@ documents = vectorstore.similarity_search("query", k=10)
 ## Fine tuning
 
 NeuralDBVectorStore can be fine-tuned to user behavior and domain-specific knowledge. It can be fine-tuned in two ways:
+
 1. Association: the vectorstore associates a source phrase with a target phrase. When the vectorstore sees the source phrase, it will also consider results that are relevant to the target phrase.
 2. Upvoting: the vectorstore upweights the score of a document for a specific query. This is useful when you want to fine-tune the vectorstore to user behavior. For example, if a user searches "how is a car manufactured" and likes the returned document with id 52, then we can upvote the document with id 52 for the query "how is a car manufactured".
-
 
 ```python
 vectorstore.associate(source="source phrase", target="target phrase")

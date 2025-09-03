@@ -5,6 +5,7 @@ title: TogetherAIEmbeddings
 This will help you get started with TogetherAIEmbeddings [embedding models](/oss/concepts/embedding_models) using LangChain. For detailed documentation on `TogetherAIEmbeddings` features and configuration options, please refer to the [API reference](https://api.js.langchain.com/classes/langchain_community_embeddings_togetherai.TogetherAIEmbeddings.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | [Py support](https://python.langchain.com/docs/integrations/text_embedding/together/) | Package downloads | Package latest |
@@ -42,10 +43,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/community @langchain/core
 </Npm2Yarn>
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```typescript
 import { TogetherAIEmbeddings } from "@langchain/community/embeddings/togetherai";
@@ -54,12 +55,12 @@ const embeddings = new TogetherAIEmbeddings({
   model: "togethercomputer/m2-bert-80M-8k-retrieval", // Default value
 });
 ```
+
 ## Indexing and Retrieval
 
 Embedding models are often used in retrieval-augmented generation (RAG) flows, both as part of indexing data as well as later retrieving it. For more detailed instructions, please see our RAG tutorials under the [working with external knowledge tutorials](/oss/tutorials/#working-with-external-knowledge).
 
 Below, see how to index and retrieve data using the `embeddings` object we initialized above. In this example, we will index and retrieve a sample document using the demo [`MemoryVectorStore`](/oss/integrations/vectorstores/memory).
-
 
 ```typescript
 // Create a vector store with a sample text
@@ -80,9 +81,11 @@ const retrievedDocuments = await retriever.invoke("What is LangChain?");
 
 retrievedDocuments[0].pageContent;
 ```
+
 ```output
 LangChain is the framework for building context-aware reasoning applications
 ```
+
 ## Direct Usage
 
 Under the hood, the vectorstore and retriever implementations are calling `embeddings.embedDocument(...)` and `embeddings.embedQuery(...)` to create embeddings for the text(s) used in `fromDocuments` and the retriever's `invoke` operations, respectively.
@@ -93,12 +96,12 @@ You can directly call these methods to get embeddings for your own use cases.
 
 You can embed queries for search with `embedQuery`. This generates a vector representation specific to the query:
 
-
 ```typescript
 const singleVector = await embeddings.embedQuery(text);
 
 console.log(singleVector.slice(0, 100));
 ```
+
 ```output
 [
      0.3812227, -0.052848946,  -0.10564975,   0.03480297,    0.2878488,
@@ -123,10 +126,10 @@ console.log(singleVector.slice(0, 100));
     0.05520573,   -0.1422921,   0.08828953,  0.051058788,  -0.13312188
 ]
 ```
+
 ### Embed multiple texts
 
 You can embed multiple texts for indexing with `embedDocuments`. The internals used for this method may (but do not have to) differ from embedding queries:
-
 
 ```typescript
 const text2 = "LangGraph is a library for building stateful, multi-actor applications with LLMs";
@@ -136,6 +139,7 @@ const vectors = await embeddings.embedDocuments([text, text2]);
 console.log(vectors[0].slice(0, 100));
 console.log(vectors[1].slice(0, 100));
 ```
+
 ```output
 [
      0.3812227, -0.052848946,  -0.10564975,   0.03480297,    0.2878488,
@@ -182,6 +186,7 @@ console.log(vectors[1].slice(0, 100));
    -0.12210378, -0.010543863,  -0.09767598,    0.1057683, -0.050204434
 ]
 ```
+
 ## API reference
 
-For detailed documentation of all TogetherAIEmbeddings features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_community_embeddings_togetherai.TogetherAIEmbeddings.html
+For detailed documentation of all TogetherAIEmbeddings features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_embeddings_togetherai.TogetherAIEmbeddings.html).

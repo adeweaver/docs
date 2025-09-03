@@ -6,10 +6,10 @@ title: OpenVINOEmbeddings
 
 Hugging Face embedding model can be supported by OpenVINO through ``OpenVINOEmbeddings`` class. If you have an Intel GPU, you can specify `model_kwargs={"device": "GPU"}` to run inference on it.
 
-
 ```python
 %pip install --upgrade-strategy eager "optimum[openvino,nncf]" --quiet
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
@@ -17,7 +17,6 @@ Note: you may need to restart the kernel to use updated packages.
 ```python
 from langchain_community.embeddings import OpenVINOEmbeddings
 ```
-
 
 ```python
 model_name = "sentence-transformers/all-mpnet-base-v2"
@@ -31,36 +30,29 @@ ov_embeddings = OpenVINOEmbeddings(
 )
 ```
 
-
 ```python
 text = "This is a test document."
 ```
-
 
 ```python
 query_result = ov_embeddings.embed_query(text)
 ```
 
-
 ```python
 query_result[:3]
 ```
 
-
-
 ```output
 [-0.048951778560876846, -0.03986183926463127, -0.02156277745962143]
 ```
-
-
 
 ```python
 doc_result = ov_embeddings.embed_documents([text])
 ```
 
 ## Export IR model
-It is possible to export your embedding model to the OpenVINO IR format with ``OVModelForFeatureExtraction``, and load the model from local folder.
 
+It is possible to export your embedding model to the OpenVINO IR format with ``OVModelForFeatureExtraction``, and load the model from local folder.
 
 ```python
 from pathlib import Path
@@ -70,7 +62,6 @@ if not Path(ov_model_dir).exists():
     ov_embeddings.save_model(ov_model_dir)
 ```
 
-
 ```python
 ov_embeddings = OpenVINOEmbeddings(
     model_name_or_path=ov_model_dir,
@@ -78,12 +69,14 @@ ov_embeddings = OpenVINOEmbeddings(
     encode_kwargs=encode_kwargs,
 )
 ```
+
 ```output
 Compiling the model to CPU ...
 ```
-## BGE with OpenVINO
-We can also access BGE embedding models via the ``OpenVINOBgeEmbeddings`` class with OpenVINO. 
 
+## BGE with OpenVINO
+
+We can also access BGE embedding models via the ``OpenVINOBgeEmbeddings`` class with OpenVINO.
 
 ```python
 from langchain_community.embeddings import OpenVINOBgeEmbeddings
@@ -98,18 +91,14 @@ ov_embeddings = OpenVINOBgeEmbeddings(
 )
 ```
 
-
 ```python
 embedding = ov_embeddings.embed_query("hi this is harrison")
 len(embedding)
 ```
 
-
-
 ```output
 384
 ```
-
 
 For more information refer to:
 

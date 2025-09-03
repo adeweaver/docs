@@ -4,8 +4,8 @@ sidebarTitle: Overview
 ---
 
 <Info>
-  **Prerequisites**
-  * [LangGraph Server](/langgraph-platform/langgraph-server)
+**Prerequisites**
+* [LangGraph Server](/langgraph-platform/langgraph-server)
 </Info>
 
 Many times users might interact with your graph in unintended ways.
@@ -17,7 +17,7 @@ Currently, LangGraph only addresses this as part of [LangGraph Platform](/langgr
 The reason for this is that in order to handle this we need to know how the graph is deployed, and since LangGraph Platform deals with deployment the logic needs to live there.
 If you do not want to use LangGraph Platform, we describe the options we have implemented in detail below.
 
-![](/langgraph-platform/images/double-texting.png)
+![Double-text strategies across first vs. second run: Reject keeps only the first; Enqueue runs the second afterward; Interrupt halts the first to run the second; Rollback reverts the first and reruns with the second.](/langgraph-platform/images/double-texting.png)
 
 ## Reject
 

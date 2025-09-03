@@ -7,12 +7,12 @@ title: DingoDB
 In the walkthrough, we'll demo the `SelfQueryRetriever` with a `DingoDB` vector store.
 
 ## Creating a DingoDB index
+
 First we'll want to create a `DingoDB` vector store and seed it with some data. We've created a small demo set of documents that contain summaries of movies.
 
 To use DingoDB, you should have a [DingoDB instance up and running](https://github.com/dingodb/dingo-deploy/blob/main/README.md).
 
 **Note:** The self-query retriever requires you to have `lark` package installed.
-
 
 ```python
 %pip install --upgrade --quiet  dingodb
@@ -22,7 +22,6 @@ To use DingoDB, you should have a [DingoDB instance up and running](https://gith
 
 We want to use `OpenAIEmbeddings` so we have to get the OpenAI API Key.
 
-
 ```python
 import os
 
@@ -30,9 +29,6 @@ OPENAI_API_KEY = ""
 
 os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 ```
-
-
-
 
 ```python
 from langchain_community.vectorstores import Dingo
@@ -56,7 +52,6 @@ if (
         index_name=index_name, dimension=1536, metric_type="cosine", auto_id=False
     )
 ```
-
 
 ```python
 docs = [
@@ -95,34 +90,26 @@ vectorstore = Dingo.from_documents(
 )
 ```
 
-
 ```python
 dingo_client.get_index()
 dingo_client.delete_index("langchain_demo")
 ```
 
-
-
 ```output
 True
 ```
-
-
 
 ```python
 dingo_client.vector_count("langchain_demo")
 ```
 
-
-
 ```output
 9
 ```
 
-
 ## Creating our self-querying retriever
-Now we can instantiate our retriever. To do this we'll need to provide some information upfront about the metadata fields that our documents support and a short description of the document contents.
 
+Now we can instantiate our retriever. To do this we'll need to provide some information upfront about the metadata fields that our documents support and a short description of the document contents.
 
 ```python
 from langchain.chains.query_constructor.schema import AttributeInfo
@@ -157,17 +144,17 @@ retriever = SelfQueryRetriever.from_llm(
 ```
 
 ## Testing it out
-And now we can try actually using our retriever!
 
+And now we can try actually using our retriever!
 
 ```python
 # This example only specifies a relevant query
 retriever.invoke("What are some movies about dinosaurs")
 ```
+
 ```output
 query='dinosaurs' filter=None limit=None
 ```
-
 
 ```output
 [Document(page_content='A bunch of scientists bring back dinosaurs and mayhem breaks loose', metadata={'id': 1183188982475, 'text': 'A bunch of scientists bring back dinosaurs and mayhem breaks loose', 'score': 0.13397777, 'year': {'value': 1993}, 'rating': {'value': 7.7}, 'genre': '"action", "science fiction"'}),
@@ -176,57 +163,49 @@ query='dinosaurs' filter=None limit=None
  Document(page_content='A psychologist / detective gets lost in a series of dreams within dreams within dreams and Inception reused the idea', metadata={'id': 1183189148854, 'text': 'A psychologist / detective gets lost in a series of dreams within dreams within dreams and Inception reused the idea', 'score': 0.24421334, 'year': {'value': 2006}, 'director': 'Satoshi Kon', 'rating': {'value': 8.6}})]
 ```
 
-
-
 ```python
 # This example only specifies a filter
 retriever.invoke("I want to watch a movie rated higher than 8.5")
 ```
+
 ```output
 query=' ' filter=Comparison(comparator=<Comparator.GT: 'gt'>, attribute='rating', value=8.5) limit=None
 comparator=<Comparator.GT: 'gt'> attribute='rating' value=8.5
 ```
-
 
 ```output
 [Document(page_content='Three men walk into the Zone, three men walk out of the Zone', metadata={'id': 1183189220159, 'text': 'Three men walk into the Zone, three men walk out of the Zone', 'score': 0.25033575, 'year': {'value': 1979}, 'director': 'Andrei Tarkovsky', 'genre': '"science fiction", "thriller"', 'rating': {'value': 9.9}}),
  Document(page_content='A psychologist / detective gets lost in a series of dreams within dreams within dreams and Inception reused the idea', metadata={'id': 1183189148854, 'text': 'A psychologist / detective gets lost in a series of dreams within dreams within dreams and Inception reused the idea', 'score': 0.26431882, 'year': {'value': 2006}, 'director': 'Satoshi Kon', 'rating': {'value': 8.6}})]
 ```
 
-
-
 ```python
 # This example specifies a query and a filter
 retriever.invoke("Has Greta Gerwig directed any movies about women")
 ```
+
 ```output
 query='women' filter=Comparison(comparator=<Comparator.EQ: 'eq'>, attribute='director', value='Greta Gerwig') limit=None
 comparator=<Comparator.EQ: 'eq'> attribute='director' value='Greta Gerwig'
 ```
 
-
 ```output
 [Document(page_content='A bunch of normal-sized women are supremely wholesome and some men pine after them', metadata={'id': 1183189172623, 'text': 'A bunch of normal-sized women are supremely wholesome and some men pine after them', 'score': 0.19482517, 'year': {'value': 2019}, 'director': 'Greta Gerwig', 'rating': {'value': 8.3}})]
 ```
-
-
 
 ```python
 # This example specifies a composite filter
 retriever.invoke("What's a highly rated (above 8.5) science fiction film?")
 ```
+
 ```output
 query='science fiction' filter=Comparison(comparator=<Comparator.GT: 'gt'>, attribute='rating', value=8.5) limit=None
 comparator=<Comparator.GT: 'gt'> attribute='rating' value=8.5
 ```
 
-
 ```output
 [Document(page_content='A psychologist / detective gets lost in a series of dreams within dreams within dreams and Inception reused the idea', metadata={'id': 1183189148854, 'text': 'A psychologist / detective gets lost in a series of dreams within dreams within dreams and Inception reused the idea', 'score': 0.19805312, 'year': {'value': 2006}, 'director': 'Satoshi Kon', 'rating': {'value': 8.6}}),
  Document(page_content='Three men walk into the Zone, three men walk out of the Zone', metadata={'id': 1183189220159, 'text': 'Three men walk into the Zone, three men walk out of the Zone', 'score': 0.225586, 'year': {'value': 1979}, 'director': 'Andrei Tarkovsky', 'rating': {'value': 9.9}, 'genre': '"science fiction", "thriller"'})]
 ```
-
-
 
 ```python
 # This example specifies a query and composite filter
@@ -234,23 +213,21 @@ retriever.invoke(
     "What's a movie after 1990 but before 2005 that's all about toys, and preferably is animated"
 )
 ```
+
 ```output
 query='toys' filter=Operation(operator=<Operator.AND: 'and'>, arguments=[Operation(operator=<Operator.AND: 'and'>, arguments=[Comparison(comparator=<Comparator.GT: 'gt'>, attribute='year', value=1990), Comparison(comparator=<Comparator.LT: 'lt'>, attribute='year', value=2005)]), Comparison(comparator=<Comparator.EQ: 'eq'>, attribute='genre', value='animated')]) limit=None
 operator=<Operator.AND: 'and'> arguments=[Operation(operator=<Operator.AND: 'and'>, arguments=[Comparison(comparator=<Comparator.GT: 'gt'>, attribute='year', value=1990), Comparison(comparator=<Comparator.LT: 'lt'>, attribute='year', value=2005)]), Comparison(comparator=<Comparator.EQ: 'eq'>, attribute='genre', value='animated')]
 ```
 
-
 ```output
 [Document(page_content='Toys come alive and have a blast doing so', metadata={'id': 1183189196391, 'text': 'Toys come alive and have a blast doing so', 'score': 0.133829, 'year': {'value': 1995}, 'genre': 'animated'})]
 ```
-
 
 ## Filter k
 
 We can also use the self query retriever to specify `k`: the number of documents to fetch.
 
 We can do this by passing `enable_limit=True` to the constructor.
-
 
 ```python
 retriever = SelfQueryRetriever.from_llm(
@@ -263,15 +240,14 @@ retriever = SelfQueryRetriever.from_llm(
 )
 ```
 
-
 ```python
 # This example only specifies a relevant query
 retriever.invoke("What are two movies about dinosaurs")
 ```
+
 ```output
 query='dinosaurs' filter=None limit=2
 ```
-
 
 ```output
 [Document(page_content='A bunch of scientists bring back dinosaurs and mayhem breaks loose', metadata={'id': 1183188982475, 'text': 'A bunch of scientists bring back dinosaurs and mayhem breaks loose', 'score': 0.13394928, 'year': {'value': 1993}, 'rating': {'value': 7.7}, 'genre': '"action", "science fiction"'}),

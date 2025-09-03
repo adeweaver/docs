@@ -14,7 +14,6 @@ In this guide, you will learn how to connect a LangChain pipeline to `Label Stud
 
 First install latest versions of Label Studio and Label Studio API client:
 
-
 ```python
 %pip install --upgrade --quiet langchain label-studio label-studio-sdk langchain-openai langchain-community
 ```
@@ -27,7 +26,6 @@ Open your LabelStudio instance in your browser, go to `Account & Settings > Acce
 
 Set environment variables with your LabelStudio URL, API key and OpenAI API key:
 
-
 ```python
 import os
 
@@ -38,7 +36,7 @@ os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
 
 ## Collecting LLMs prompts and responses
 
-The data used for labeling is stored in projects within Label Studio. Every project is identified by an XML configuration that details the specifications for input and output data. 
+The data used for labeling is stored in projects within Label Studio. Every project is identified by an XML configuration that details the specifications for input and output data.
 
 Create a project that takes human input in text format and outputs an editable LLM response in a text area:
 
@@ -65,19 +63,17 @@ Create a project that takes human input in text format and outputs an editable L
 </View>
 ```
 
-1. To create a project in Label Studio, click on the "Create" button. 
+1. To create a project in Label Studio, click on the "Create" button.
 2. Enter a name for your project in the "Project Name" field, such as `My Project`.
 3. Navigate to `Labeling Setup > Custom Template` and paste the XML configuration provided above.
 
 You can collect input LLM prompts and output responses in a LabelStudio project, connecting it via `LabelStudioCallbackHandler`:
-
 
 ```python
 from langchain_community.callbacks.labelstudio_callback import (
     LabelStudioCallbackHandler,
 )
 ```
-
 
 ```python
 from langchain_openai import OpenAI
@@ -88,7 +84,7 @@ llm = OpenAI(
 print(llm.invoke("Tell me a joke"))
 ```
 
-In the Label Studio, open `My Project`. You will see the prompts, responses, and metadata like the model name. 
+In the Label Studio, open `My Project`. You will see the prompts, responses, and metadata like the model name.
 
 ## Collecting Chat model Dialogues
 
@@ -116,7 +112,6 @@ You can also track and display full chat dialogues in LabelStudio, with the abil
 <Rating name="rating" toName="dialogue"/>
 </View>
 ```
-
 
 ```python
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -148,7 +143,6 @@ New labeling configuration can be added from UI: go to `Settings > Labeling Inte
 
 Alternatively, you can specify the labeling configuration on the initial call before project creation:
 
-
 ```python
 ls = LabelStudioCallbackHandler(
     project_config="""
@@ -178,5 +172,5 @@ The `LabelStudioCallbackHandler` accepts several optional parameters:
 - **project_name** - Project name if project ID not specified. Creates a new project. Default is `"LangChain-%Y-%m-%d"` formatted with the current date.
 - **project_config** - [custom labeling configuration](#custom-labeling-configuration)
 - **mode**: use this shortcut to create target configuration from scratch:
-   - `"prompt"` - Single prompt, single response. Default.
-   - `"chat"` - Multi-turn chat mode.
+  - `"prompt"` - Single prompt, single response. Default.
+  - `"chat"` - Multi-turn chat mode.

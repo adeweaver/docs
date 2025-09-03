@@ -18,19 +18,15 @@ title: BrightDataWebScraperAPI
 |:-:|:-:|:--|:-:|
 |❌|❌|Structured data from websites (Amazon products, LinkedIn profiles, etc.)|Requires Bright Data account|
 
-
 ## Setup
 
 The integration lives in the `langchain-brightdata` package.
-
-
 
 ```python
 pip install langchain-brightdata
 ```
 
 You'll need a Bright Data API key to use this tool. You can set it as an environment variable:
-
 
 ```python
 import os
@@ -39,7 +35,6 @@ os.environ["BRIGHT_DATA_API_KEY"] = "your-api-key"
 ```
 
 Or pass it directly when initializing the tool:
-
 
 ```python
 from langchain_brightdata import BrightDataWebScraperAPI
@@ -55,15 +50,14 @@ The tool accepts various parameters during instantiation:
 
 - `bright_data_api_key` (required, str): Your Bright Data API key for authentication.
 - `dataset_mapping` (optional, Dict[str, str]): A dictionary mapping dataset types to their corresponding Bright Data dataset IDs. The default mapping includes:
-    - "amazon_product": "gd_l7q7dkf244hwjntr0"
-    - "amazon_product_reviews": "gd_le8e811kzy4ggddlq"
-    - "linkedin_person_profile": "gd_l1viktl72bvl7bjuj0"
-    - "linkedin_company_profile": "gd_l1vikfnt1wgvvqz95w"
+  - "amazon_product": "gd_l7q7dkf244hwjntr0"
+  - "amazon_product_reviews": "gd_le8e811kzy4ggddlq"
+  - "linkedin_person_profile": "gd_l1viktl72bvl7bjuj0"
+  - "linkedin_company_profile": "gd_l1vikfnt1wgvvqz95w"
 
 ## Invocation
 
 ### Basic Usage
-
 
 ```python
 from langchain_brightdata import BrightDataWebScraperAPI
@@ -82,7 +76,6 @@ print(results)
 ```
 
 ### Advanced Usage with Parameters
-
 
 ```python
 from langchain_brightdata import BrightDataWebScraperAPI
@@ -122,7 +115,6 @@ The BrightDataWebScraperAPI tool accepts several parameters for customization:
 |`dataset_type`|str|Type of dataset to use (e.g., "amazon_product")|
 |`zipcode`|str|Optional zipcode for location-specific data|
 
-
 ## Available Dataset Types
 
 The tool supports the following dataset types for structured data extraction:
@@ -134,14 +126,12 @@ The tool supports the following dataset types for structured data extraction:
 |`linkedin_person_profile`|Extract LinkedIn person profile data|
 |`linkedin_company_profile`|Extract LinkedIn company profile data|
 
-
 ## Use within an agent
-
 
 ```python
 from langchain_brightdata import BrightDataWebScraperAPI
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 # Initialize the LLM
 llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key="your-api-key")
@@ -150,7 +140,7 @@ llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key="your-api-
 scraper_tool = BrightDataWebScraperAPI(bright_data_api_key="your-api-key")
 
 # Create the agent with the tool
-agent = create_react_agent(llm, [scraper_tool])
+agent = create_agent(llm, [scraper_tool])
 
 # Provide a user query
 user_input = "Scrape Amazon product data for https://www.amazon.com/dp/B0D2Q9397Y?th=1 in New York (zipcode 10001)."

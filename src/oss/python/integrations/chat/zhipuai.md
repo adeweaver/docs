@@ -7,17 +7,18 @@ This notebook shows how to use [ZHIPU AI API](https://open.bigmodel.cn/dev/api) 
 >[*GLM-4*](https://open.bigmodel.cn/) is a multi-lingual large language model aligned with human intent, featuring capabilities in Q&A, multi-turn dialogue, and code generation. The overall performance of the new generation base model GLM-4 has been significantly improved compared to the previous generation, supporting longer contexts; Stronger multimodality; Support faster inference speed, more concurrency, greatly reducing inference costs; Meanwhile, GLM-4 enhances the capabilities of intelligent agents.
 
 ## Getting started
-### Installation
-First, ensure the zhipuai package is installed in your Python environment. Run the following command:
 
+### Installation
+
+First, ensure the zhipuai package is installed in your Python environment. Run the following command:
 
 ```python
 #!pip install --upgrade httpx httpx-sse PyJWT
 ```
 
 ### Importing the Required Modules
-After installation, import the necessary modules to your Python script:
 
+After installation, import the necessary modules to your Python script:
 
 ```python
 from langchain_community.chat_models import ChatZhipuAI
@@ -25,8 +26,8 @@ from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 ```
 
 ### Setting Up Your API Key
-Sign in to [ZHIPU AI](https://open.bigmodel.cn/login?redirect=%2Fusercenter%2Fapikeys) for an API Key to access our models.
 
+Sign in to [ZHIPU AI](https://open.bigmodel.cn/login?redirect=%2Fusercenter%2Fapikeys) for an API Key to access our models.
 
 ```python
 import os
@@ -35,8 +36,8 @@ os.environ["ZHIPUAI_API_KEY"] = "zhipuai_api_key"
 ```
 
 ### Initialize the ZHIPU AI Chat Model
-Here's how to initialize the chat model:
 
+Here's how to initialize the chat model:
 
 ```python
 chat = ChatZhipuAI(
@@ -46,8 +47,8 @@ chat = ChatZhipuAI(
 ```
 
 ### Basic Usage
-Invoke the model with system and human messages like this:
 
+Invoke the model with system and human messages like this:
 
 ```python
 messages = [
@@ -57,22 +58,21 @@ messages = [
 ]
 ```
 
-
 ```python
 response = chat.invoke(messages)
 print(response.content)  # Displays the AI-generated poem
 ```
 
 ## Advanced Features
-### Streaming Support
-For continuous interaction, use the streaming feature:
 
+### Streaming Support
+
+For continuous interaction, use the streaming feature:
 
 ```python
 from langchain_core.callbacks.manager import CallbackManager
 from langchain_core.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 ```
-
 
 ```python
 streaming_chat = ChatZhipuAI(
@@ -83,14 +83,13 @@ streaming_chat = ChatZhipuAI(
 )
 ```
 
-
 ```python
 streaming_chat(messages)
 ```
 
 ### Asynchronous Calls
-For non-blocking calls, use the asynchronous approach:
 
+For non-blocking calls, use the asynchronous approach:
 
 ```python
 async_chat = ChatZhipuAI(
@@ -98,7 +97,6 @@ async_chat = ChatZhipuAI(
     temperature=0.5,
 )
 ```
-
 
 ```python
 response = await async_chat.agenerate([messages])
@@ -109,11 +107,9 @@ print(response)
 
 GLM-4 Model can be used with the function call as well，use the following code to run a simple LangChain json_chat_agent.
 
-
 ```python
 os.environ["TAVILY_API_KEY"] = "tavily_api_key"
 ```
-
 
 ```python
 from langchain import hub
@@ -129,7 +125,6 @@ agent_executor = AgentExecutor(
     agent=agent, tools=tools, verbose=True, handle_parsing_errors=True
 )
 ```
-
 
 ```python
 agent_executor.invoke({"input": "what is LangChain?"})

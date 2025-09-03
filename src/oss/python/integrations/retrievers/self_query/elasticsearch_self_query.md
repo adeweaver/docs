@@ -14,10 +14,10 @@ First, we'll want to create an `Elasticsearch` vector store and seed it with som
 
 **Note:** The self-query retriever requires you to have `lark` installed (`pip install lark`). We also need the `elasticsearch` package.
 
-
 ```python
 %pip install --upgrade --quiet  U lark langchain langchain-elasticsearch
 ```
+
 ```output
 WARNING: You are using pip version 22.0.4; however, version 23.3 is available.
 You should consider upgrading via the '/Users/joe/projects/elastic/langchain/libs/langchain/.venv/bin/python3 -m pip install --upgrade pip' command.
@@ -37,7 +37,6 @@ if "OPENAI_API_KEY" not in os.environ:
 
 embeddings = OpenAIEmbeddings()
 ```
-
 
 ```python
 docs = [
@@ -80,8 +79,8 @@ vectorstore = ElasticsearchStore.from_documents(
 ```
 
 ## Creating our self-querying retriever
-Now we can instantiate our retriever. To do this we'll need to provide some information upfront about the metadata fields that our documents support and a short description of the document contents.
 
+Now we can instantiate our retriever. To do this we'll need to provide some information upfront about the metadata fields that our documents support and a short description of the document contents.
 
 ```python
 from langchain.chains.query_constructor.schema import AttributeInfo
@@ -116,15 +115,13 @@ retriever = SelfQueryRetriever.from_llm(
 ```
 
 ## Testing it out
-And now we can try actually using our retriever!
 
+And now we can try actually using our retriever!
 
 ```python
 # This example only specifies a relevant query
 retriever.invoke("What are some movies about dinosaurs")
 ```
-
-
 
 ```output
 [Document(page_content='A bunch of scientists bring back dinosaurs and mayhem breaks loose', metadata={'year': 1993, 'rating': 7.7, 'genre': 'science fiction'}),
@@ -133,26 +130,20 @@ retriever.invoke("What are some movies about dinosaurs")
  Document(page_content='A psychologist / detective gets lost in a series of dreams within dreams within dreams and Inception reused the idea', metadata={'year': 2006, 'director': 'Satoshi Kon', 'rating': 8.6})]
 ```
 
-
-
 ```python
 # This example specifies a query and a filter
 retriever.invoke("Has Greta Gerwig directed any movies about women")
 ```
 
-
-
 ```output
 [Document(page_content='A bunch of normal-sized women are supremely wholesome and some men pine after them', metadata={'year': 2019, 'director': 'Greta Gerwig', 'rating': 8.3})]
 ```
-
 
 ## Filter k
 
 We can also use the self query retriever to specify `k`: the number of documents to fetch.
 
 We can do this by passing `enable_limit=True` to the constructor.
-
 
 ```python
 retriever = SelfQueryRetriever.from_llm(
@@ -165,23 +156,19 @@ retriever = SelfQueryRetriever.from_llm(
 )
 ```
 
-
 ```python
 # This example only specifies a relevant query
 retriever.invoke("what are two movies about dinosaurs")
 ```
-
-
 
 ```output
 [Document(page_content='A bunch of scientists bring back dinosaurs and mayhem breaks loose', metadata={'year': 1993, 'rating': 7.7, 'genre': 'science fiction'}),
  Document(page_content='Toys come alive and have a blast doing so', metadata={'year': 1995, 'genre': 'animated'})]
 ```
 
+## Complex queries in Action
 
-## Complex queries in Action!
 We've tried out some simple queries, but what about more complex ones? Let's try out a few more complex queries that utilize the full power of Elasticsearch.
-
 
 ```python
 retriever.invoke(
@@ -189,13 +176,9 @@ retriever.invoke(
 )
 ```
 
-
-
 ```output
 [Document(page_content='Toys come alive and have a blast doing so', metadata={'year': 1995, 'genre': 'animated'})]
 ```
-
-
 
 ```python
 vectorstore.client.indices.delete(index="elasticsearch-self-query-demo")

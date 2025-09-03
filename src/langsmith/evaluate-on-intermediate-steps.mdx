@@ -296,7 +296,7 @@ def no_hallucination(run: Run) -> bool:
     retrieved_content = "\n\n".join(
         doc["page_content"] for doc in retrieve_run.outputs["output"]
     )
-    
+
     # Construct prompt
     instructions = (
         "You are a grader assessing whether an LLM generation is grounded in / "
@@ -348,7 +348,7 @@ async function hallucination(
   const docs: Array<{ page_content: string }> | undefined =
     retrieve.outputs?.outputs;
   const documents = docs?.map((doc) => doc.page_content).join("\n\n");
-  
+
   const prompt = ChatPromptTemplate.fromMessages<{
     documents: string;
     generation: string;

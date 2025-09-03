@@ -2,15 +2,13 @@
 title: ClickUp Toolkit
 ---
 
->[ClickUp](https://clickup.com/) is an all-in-one productivity platform that provides small and large teams across industries with flexible and customizable work management solutions, tools, and functions. 
+>[ClickUp](https://clickup.com/) is an all-in-one productivity platform that provides small and large teams across industries with flexible and customizable work management solutions, tools, and functions.
 
 >It is a cloud-based project management solution for businesses of all sizes featuring communication and collaboration tools to help achieve organizational goals.
-
 
 ```python
 %pip install -qU langchain-community
 ```
-
 
 ```python
 %reload_ext autoreload
@@ -26,12 +24,11 @@ from langchain_openai import OpenAI
 ## Initializing
 
 ### Get Authenticated
+
 1. Create a [ClickUp App](https://help.clickup.com/hc/en-us/articles/6303422883095-Create-your-own-app-with-the-ClickUp-API)
 2. Follow [these steps](https://clickup.com/api/developer-portal/authentication/) to get your `client_id` and `client_secret`.
     - *Suggestion: use `https://google.com` as the redirect_uri. This is what we assume in the defaults for this toolkit.*
 3. Copy/paste them and run the next cell to get your `code`
-
-
 
 ```python
 # Copilot Sandbox
@@ -42,31 +39,32 @@ redirect_uri = "https://google.com"
 print("Click this link, select your workspace, click `Connect Workspace`")
 print(ClickupAPIWrapper.get_access_code_url(oauth_client_id, redirect_uri))
 ```
+
 ```output
 Click this link, select your workspace, click `Connect Workspace`
 https://app.clickup.com/api?client_id=ABC...&redirect_uri=https://google.com
 ```
-The url should change to something like this https://www.google.com/?code=THISISMYCODERIGHTHERE.
+
+The url should change to something like this [www.google.com/?code=THISISMYCODERIGHTHERE](https://www.google.com/?code=THISISMYCODERIGHTHERE).
 
 Next, copy/paste the `CODE` (THISISMYCODERIGHTHERE) generated in the URL in the cell below.
-
-
 
 ```python
 code = "THISISMYCODERIGHTHERE"
 ```
 
 ### Get Access Token
+
 Then, use the code below to get your `access_token`.
 
 *Important*: Each code is a one time code that will expire after use. The `access_token` can be used for a period of time. Make sure to copy paste the `access_token` once you get it!
-
 
 ```python
 access_token = ClickupAPIWrapper.get_access_token(
     oauth_client_id, oauth_client_secret, code
 )
 ```
+
 ```output
 Error: {'err': 'Code already used', 'ECODE': 'OAUTH_014'}
 You already used this code once. Go back a step and generate a new code.
@@ -82,13 +80,14 @@ print(
     f"Found team_id: {clickup_api_wrapper.team_id}.\nMost request require the team id, so we store it for you in the toolkit, we assume the first team in your list is the one you want. \nNote: If you know this is the wrong ID, you can pass it at initialization."
 )
 ```
+
 ```output
 Found team_id: 9011010153.
-Most request require the team id, so we store it for you in the toolkit, we assume the first team in your list is the one you want. 
+Most request require the team id, so we store it for you in the toolkit, we assume the first team in your list is the one you want.
 Note: If you know this is the wrong ID, you can pass it at initialization.
 ```
-### Create Agent
 
+### Create Agent
 
 ```python
 llm = OpenAI(temperature=0, openai_api_key="")
@@ -99,7 +98,6 @@ agent = initialize_agent(
 ```
 
 ## Use an Agent
-
 
 ```python
 # helper function for demo
@@ -113,14 +111,15 @@ def print_and_run(command):
 ```
 
 ### Navigation
-You can get the teams, folder and spaces your user has access to
 
+You can get the teams, folder and spaces your user has access to
 
 ```python
 print_and_run("Get all the teams that the user is authorized to access")
 print_and_run("Get all the spaces available to the team")
 print_and_run("Get all the folders for the team")
 ```
+
 ```output
 $ COMMAND
 Get all the teams that the user is authorized to access
@@ -172,22 +171,19 @@ Final Answer: The folders in the team are listed in the observation.
 --------------------------------------------------------------------------------
 ```
 
-
 ```output
 'The folders in the team are listed in the observation.'
 ```
 
-
 ### Task Operations
-You can get, ask question about tasks and update them
 
+You can get, ask question about tasks and update them
 
 ```python
 task_id = "8685mb5fn"
 ```
 
 #### Basic attirbute getting and updating
-
 
 ```python
 # We can get a task to inspect it's contents
@@ -209,6 +205,7 @@ print_and_run(
     f"For task with id {task_id}, change the description to '{previous_description}'"
 )
 ```
+
 ```output
 $ COMMAND
 Get task with id 8685mb5fn
@@ -292,16 +289,14 @@ Final Answer: The description of task 8685mb5fn has been updated to 'An old, bor
 --------------------------------------------------------------------------------
 ```
 
-
 ```output
 "The description of task 8685mb5fn has been updated to 'An old, boring task description'."
 ```
 
-
-
 ```python
 print_and_run("Change the descrition task 8685mj6cd to 'Look ma no hands'")
 ```
+
 ```output
 $ COMMAND
 Change the descrition task 8685mj6cd to 'Look ma no hands'
@@ -321,20 +316,17 @@ Final Answer: The description of task 8685mj6cd has been changed to 'Look ma no 
 --------------------------------------------------------------------------------
 ```
 
-
 ```output
 "The description of task 8685mj6cd has been changed to 'Look ma no hands'."
 ```
 
-
 #### Advanced Attributes (Assignees)
-You can query and update almost every thing about a task!
 
+You can query and update almost every thing about a task!
 
 ```python
 user_id = 81928627
 ```
-
 
 ```python
 print_and_run(f"What are the assignees of task id {task_id}?")
@@ -342,6 +334,7 @@ print_and_run(f"Remove user {user_id} from the assignees of task id {task_id}")
 print_and_run(f"What are the assignees of task id {task_id}?")
 print_and_run(f"Add user {user_id} from the assignees of task id {task_id}")
 ```
+
 ```output
 $ COMMAND
 What are the assignees of task id 8685mb5fn?
@@ -417,15 +410,13 @@ Final Answer: User 81928627 has been removed from the assignees of task id 8685m
 --------------------------------------------------------------------------------
 ```
 
-
 ```output
 'User 81928627 has been removed from the assignees of task id 8685mb5fn.'
 ```
 
-
 ### Creation
-You can create tasks, lists and folders
 
+You can create tasks, lists and folders
 
 ```python
 time_str = datetime.now().strftime("%d/%m/%Y-%H:%M:%S")
@@ -433,6 +424,7 @@ print_and_run(
     f"Create a task called 'Test Task - {time_str}' with description 'This is a Test'"
 )
 ```
+
 ```output
 $ COMMAND
 Create a task called 'Test Task - 18/09/2023-10:31:22' with description 'This is a Test'
@@ -452,17 +444,15 @@ Final Answer: A task called 'Test Task - 18/09/2023-10:31:22' with description '
 --------------------------------------------------------------------------------
 ```
 
-
 ```output
 "A task called 'Test Task - 18/09/2023-10:31:22' with description 'This is a Test' was successfully created."
 ```
-
-
 
 ```python
 time_str = datetime.now().strftime("%d/%m/%Y-%H:%M:%S")
 print_and_run(f"Create a list called Test List - {time_str}")
 ```
+
 ```output
 $ COMMAND
 Create a list called Test List - 18/09/2023-10:32:12
@@ -482,17 +472,15 @@ Final Answer: The list "Test List - 18/09/2023-10:32:12" has been created with i
 --------------------------------------------------------------------------------
 ```
 
-
 ```output
 'The list "Test List - 18/09/2023-10:32:12" has been created with id 901100774700.'
 ```
-
-
 
 ```python
 time_str = datetime.now().strftime("%d/%m/%Y-%H:%M:%S")
 print_and_run(f"Create a folder called 'Test Folder - {time_str}'")
 ```
+
 ```output
 $ COMMAND
 Create a folder called 'Test Folder - 18/09/2023-10:32:51'
@@ -512,12 +500,9 @@ Final Answer: The folder 'Test Folder - 18/09/2023-10:32:51' has been successful
 --------------------------------------------------------------------------------
 ```
 
-
 ```output
 "The folder 'Test Folder - 18/09/2023-10:32:51' has been successfully created."
 ```
-
-
 
 ```python
 time_str = datetime.now().strftime("%d/%m/%Y-%H:%M:%S")
@@ -525,6 +510,7 @@ print_and_run(
     f"Create a list called 'Test List - {time_str}' with content My test list with high priority and status red"
 )
 ```
+
 ```output
 $ COMMAND
 Create a list called 'Test List - 18/09/2023-10:34:01' with content My test list with high priority and status red
@@ -544,20 +530,18 @@ Final Answer: The list 'Test List - 18/09/2023-10:34:01' with content 'My test l
 --------------------------------------------------------------------------------
 ```
 
-
 ```output
 "The list 'Test List - 18/09/2023-10:34:01' with content 'My test list' with high priority and status red has been successfully created."
 ```
 
-
 ## Multi-Step Tasks
-
 
 ```python
 print_and_run(
     "Figure out what user ID Rodrigo is, create a task called 'Rod's task', assign it to Rodrigo"
 )
 ```
+
 ```output
 $ COMMAND
 Figure out what user ID Rodrigo is, create a task called 'Rod's task', assign it to Rodrigo
@@ -585,7 +569,6 @@ Final Answer: Rodrigo's user ID is 81928627 and a task called 'Rod's task' has b
 > Finished chain.
 --------------------------------------------------------------------------------
 ```
-
 
 ```output
 "Rodrigo's user ID is 81928627 and a task called 'Rod's task' has been created and assigned to him."

@@ -28,7 +28,6 @@ Here’s a sample of the tools this toolkit provides (subject to change daily):
 - `generic_portfolio_get`: Retrieve a wallet’s portfolio in USD and token balances.
 - `generic_transfer_erc20`: Transfer ERC20 tokens between addresses.
 
-
 ## Setup
 
 Here we will:
@@ -40,7 +39,6 @@ Here we will:
 ### Installation
 
 This toolkit lives in the `langchain-compass` package:
-
 
 ```python
 %pip install -qU langchain-compass
@@ -59,7 +57,6 @@ OPENAI_API_KEY=<your_openai_api_key_here>
 
 Now we can instantiate our toolkit:
 
-
 ```python
 from langchain_compass.toolkits import LangchainCompassToolkit
 
@@ -69,7 +66,6 @@ toolkit = LangchainCompassToolkit(compass_api_key=None)
 ### Tools
 
 View [available tools](#tool-features):
-
 
 ```python
 tools = toolkit.get_tools()
@@ -94,24 +90,19 @@ aave_user_position_summary_get
 
 To invoke a single tool programmatically:
 
-
 ```python
 tool_name = "generic_ens_get"
 tool = next(tool for tool in tools if tool.name == tool_name)
 tool.invoke({"ens_name": "vitalik.eth", "chain": "ethereum:mainnet"})
 ```
 
-
-
 ```output
 EnsNameInfoResponse(wallet_address='0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045', registrant='0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045')
 ```
 
-
 ## Use within an agent
 
 We will need a LLM or chat model:
-
 
 ```python
 from dotenv import load_dotenv
@@ -124,16 +115,14 @@ llm = ChatOpenAI(model="gpt-4o")
 
 Initialize the agent with the tools:
 
-
 ```python
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 tools = toolkit.get_tools()
-agent_executor = create_react_agent(llm, tools)
+agent_executor = create_agent(llm, tools)
 ```
 
 Example usage:
-
 
 ```python
 example_query = "please set an allowance on Uniswap of 10 WETH for vitalic.eth."  # spelt wrong intentionally
@@ -147,6 +136,7 @@ for event in events:
 ```
 
 Expected output:
+
 ```
 ================================[1m Human Message [0m=================================
 

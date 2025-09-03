@@ -76,7 +76,7 @@ printFilterResult(
   await vectorStore.similaritySearch("just testing", 5, advancedFilter)
 );
 /* Filter: {"id":{"$ne":1}}
-{ name: 'bob', is_active: false, id: 2, height: 5.7 } 
+{ name: 'bob', is_active: false, id: 2, height: 5.7 }
 { name: 'jane', is_active: true, id: 3, height: 2.4 }
 */
 
@@ -204,7 +204,7 @@ printFilterResult(
   await vectorStore.similaritySearch("just testing", 5, advancedFilter)
 );
 /* Filter: {"$and":[{"$or":[{"id":1},{"id":2}]},{"height":{"$gte":5.0}}]}
-{ name: 'adam', is_active: true, id: 1, height: 10 } 
+{ name: 'adam', is_active: true, id: 1, height: 10 }
 { name: 'bob', is_active: false, id: 2, height: 5.7 } */
 
 // Disconnect from SAP HANA aft er the operations

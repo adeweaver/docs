@@ -6,13 +6,11 @@ title: Tilores
 
 ## Installation and Setup
 
-
 ```python
 %pip install --upgrade tilores-langchain
 ```
 
 To access Tilores, you need to [create and configure an instance](https://app.tilores.io). If you prefer to test out Tilores first, you can use the [read-only demo credentials](https://github.com/tilotech/identity-rag-customer-insights-chatbot?tab=readme-ov-file#1-configure-customer-data-access).
-
 
 ```python
 import os
@@ -32,7 +30,6 @@ Please refer to the [Tilores documentation](https://docs.tilotech.io/tilores/pub
 ## Toolkits
 
 You can use the [`TiloresTools`](/oss/integrations/tools/tilores) to query data from Tilores:
-
 
 ```python
 from tilores_langchain import TiloresTools

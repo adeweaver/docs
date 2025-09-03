@@ -30,6 +30,7 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/community @langchain/core @supabase/supabase-js @langchain/openai
 </Npm2Yarn>
 ```
+
 Once you've created a database, run the following SQL to set up [`pgvector`](https://github.com/pgvector/pgvector) and create the necessary table and functions:
 
 ```sql
@@ -74,6 +75,7 @@ begin
 end;
 $$;
 ```
+
 ### Credentials
 
 Once you've done this set the `SUPABASE_PRIVATE_KEY` and `SUPABASE_URL` environment variables:
@@ -82,19 +84,21 @@ Once you've done this set the `SUPABASE_PRIVATE_KEY` and `SUPABASE_URL` environm
 process.env.SUPABASE_PRIVATE_KEY = "your-api-key";
 process.env.SUPABASE_URL = "your-supabase-db-url";
 ```
+
 If you are using OpenAI embeddings for this guide, you'll need to set your OpenAI key as well:
 
 ```typescript
 process.env.OPENAI_API_KEY = "YOUR_API_KEY";
 ```
+
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
 ```typescript
 // process.env.LANGSMITH_TRACING="true"
 // process.env.LANGSMITH_API_KEY="your-api-key"
 ```
-## Instantiation
 
+## Instantiation
 
 ```typescript
 import { SupabaseVectorStore } from "@langchain/community/vectorstores/supabase";
@@ -117,10 +121,10 @@ const vectorStore = new SupabaseVectorStore(embeddings, {
   queryName: "match_documents",
 });
 ```
+
 ## Manage vector store
 
 ### Add items to vector store
-
 
 ```typescript
 import type { Document } from "@langchain/core/documents";
@@ -149,11 +153,12 @@ const documents = [document1, document2, document3, document4];
 
 await vectorStore.addDocuments(documents, { ids: ["1", "2", "3", "4"] });
 ```
+
 ```output
 [ 1, 2, 3, 4 ]
 ```
-### Delete items from vector store
 
+### Delete items from vector store
 
 ```typescript
 await vectorStore.delete({ ids: ["4"] });
@@ -161,12 +166,11 @@ await vectorStore.delete({ ids: ["4"] });
 
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 
 ### Query directly
 
 Performing a simple similarity search can be done as follows:
-
 
 ```typescript
 const filter = { source: "https://example.com" };
@@ -177,12 +181,13 @@ for (const doc of similaritySearchResults) {
   console.log(`* ${doc.pageContent} [${JSON.stringify(doc.metadata, null)}]`);
 }
 ```
+
 ```output
 * The powerhouse of the cell is the mitochondria [{"source":"https://example.com"}]
 * Mitochondria are made out of lipids [{"source":"https://example.com"}]
 ```
-If you want to execute a similarity search and receive the corresponding scores you can run:
 
+If you want to execute a similarity search and receive the corresponding scores you can run:
 
 ```typescript
 const similaritySearchWithScoreResults = await vectorStore.similaritySearchWithScore("biology", 2, filter)
@@ -191,14 +196,15 @@ for (const [doc, score] of similaritySearchWithScoreResults) {
   console.log(`* [SIM=${score.toFixed(3)}] ${doc.pageContent} [${JSON.stringify(doc.metadata)}]`);
 }
 ```
+
 ```output
 * [SIM=0.165] The powerhouse of the cell is the mitochondria [{"source":"https://example.com"}]
 * [SIM=0.148] Mitochondria are made out of lipids [{"source":"https://example.com"}]
 ```
+
 ### Metadata Query Builder Filtering
 
 You can also use query builder-style filtering similar to how the [Supabase JavaScript library](https://supabase.com/docs/reference/javascript/using-filters) works instead of passing an object. Note that since most of the filter properties are in the metadata column, you need to use arrow operators (-> for integer or ->> for text) as defined in [Postgrest API documentation](https://postgrest.org/en/stable/references/api/tables_views.html#json-columns) and specify the data type of the property (e.g. the column should look something like `metadata->some_int_prop_name::int`).
-
 
 ```typescript
 import { SupabaseFilterRPCCall } from "@langchain/community/vectorstores/supabase";
@@ -212,14 +218,15 @@ for (const doc of funcFilterSearchResults) {
   console.log(`* ${doc.pageContent} [${JSON.stringify(doc.metadata, null)}]`);
 }
 ```
+
 ```output
 * The powerhouse of the cell is the mitochondria [{"source":"https://example.com"}]
 * Mitochondria are made out of lipids [{"source":"https://example.com"}]
 ```
+
 ### Query by turning into retriever
 
-You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains. 
-
+You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains.
 
 ```typescript
 const retriever = vectorStore.asRetriever({
@@ -229,6 +236,7 @@ const retriever = vectorStore.asRetriever({
 });
 await retriever.invoke("biology");
 ```
+
 ```output
 [
   Document {
@@ -243,6 +251,7 @@ await retriever.invoke("biology");
   }
 ]
 ```
+
 ### Usage for retrieval-augmented generation
 
 For guides on how to use this vector store for retrieval-augmented generation (RAG), see the following sections:

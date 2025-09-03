@@ -4,17 +4,16 @@ title: Yi
 
 [01.AI](https://www.lingyiwanwu.com/en), founded by Dr. Kai-Fu Lee, is a global company at the forefront of AI 2.0. They offer cutting-edge large language models, including the Yi series, which range from 6B to hundreds of billions of parameters. 01.AI also provides multimodal models, an open API platform, and open-source options like Yi-34B/9B/6B and Yi-VL.
 
-
 ```python
 ## Installing the langchain packages needed to use the integration
 %pip install -qU langchain-community
 ```
 
 ## Prerequisite
-An API key is required to access Yi LLM API. Visit https://www.lingyiwanwu.com/ to get your API key. When applying for the API key, you need to specify whether it's for domestic (China) or international use.
+
+An API key is required to access Yi LLM API. Visit [www.lingyiwanwu.com/](https://www.lingyiwanwu.com/) to get your API key. When applying for the API key, you need to specify whether it's for domestic (China) or international use.
 
 ## Use Yi LLM
-
 
 ```python
 import os
@@ -34,7 +33,6 @@ res = llm.invoke("What's your name?")
 print(res)
 ```
 
-
 ```python
 # Generate method
 res = llm.generate(
@@ -46,13 +44,11 @@ res = llm.generate(
 print(res)
 ```
 
-
 ```python
 # Streaming
 for chunk in llm.stream("Describe the key features of the Yi language model series."):
     print(chunk, end="", flush=True)
 ```
-
 
 ```python
 # Asynchronous streaming
@@ -68,7 +64,6 @@ async def run_aio_stream():
 
 asyncio.run(run_aio_stream())
 ```
-
 
 ```python
 # Adjusting parameters

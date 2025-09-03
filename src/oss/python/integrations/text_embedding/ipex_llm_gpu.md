@@ -11,6 +11,7 @@ This example goes over how to use LangChain to conduct embedding tasks with `ipe
 > It is recommended that only Windows users with Intel Arc A-Series GPU (except for Intel Arc A300-Series or Pro A60) run this Jupyter notebook directly. For other cases (e.g. Linux users, Intel iGPU, etc.), it is recommended to run the code with Python scripts in terminal for best experiences.
 
 ## Install Prerequisites
+
 To benefit from IPEX-LLM on Intel GPUs, there are several prerequisite steps for tools installation and environment preparation.
 
 If you are a Windows user, visit the [Install IPEX-LLM on Windows with Intel GPU Guide](https://github.com/intel-analytics/ipex-llm/blob/main/docs/mddocs/Quickstart/install_windows_gpu.md), and follow [Install Prerequisites](https://github.com/intel-analytics/ipex-llm/blob/main/docs/mddocs/Quickstart/install_windows_gpu.md#install-prerequisites) to update GPU driver (optional) and install Conda.
@@ -21,13 +22,11 @@ If you are a Linux user, visit the [Install IPEX-LLM on Linux with Intel GPU](ht
 
 After the prerequisites installation, you should have created a conda environment with all prerequisites installed. **Start the jupyter service in this conda environment**:
 
-
 ```python
 %pip install -qU langchain langchain-community
 ```
 
 Install IPEX-LLM for optimizations on Intel GPU, as well as `sentence-transformers`.
-
 
 ```python
 %pip install --pre --upgrade ipex-llm[xpu] --extra-index-url https://pytorch-extension.intel.com/release-whl/stable/xpu/us/
@@ -44,7 +43,6 @@ For optimal performance, it is recommended to set several environment variables 
 
 ### For Windows Users with Intel Core Ultra integrated GPU
 
-
 ```python
 import os
 
@@ -53,7 +51,6 @@ os.environ["BIGDL_LLM_XMX_DISABLED"] = "1"
 ```
 
 ### For Windows Users with Intel Arc A-Series GPU
-
 
 ```python
 import os
@@ -67,11 +64,9 @@ os.environ["SYCL_CACHE_PERSISTENT"] = "1"
 >
 > For other GPU type, please refer to [here](https://github.com/intel-analytics/ipex-llm/blob/main/docs/mddocs/Overview/install_gpu.md#runtime-configuration) for Windows users, and  [here](https://github.com/intel-analytics/ipex-llm/blob/main/docs/mddocs/Overview/install_gpu.md#runtime-configuration-1) for Linux users.
 
-
 ## Basic Usage
 
 Setting `device` to `"xpu"` in `model_kwargs` when initializing `IpexLLMBgeEmbeddings` will put the embedding model on Intel GPU and benefit from IPEX-LLM optimizations:
-
 
 ```python
 from langchain_community.embeddings import IpexLLMBgeEmbeddings
@@ -84,8 +79,8 @@ embedding_model = IpexLLMBgeEmbeddings(
 ```
 
 API Reference
-- [IpexLLMBgeEmbeddings](https://python.langchain.com/api_reference/community/embeddings/langchain_community.embeddings.ipex_llm.IpexLLMBgeEmbeddings.html)
 
+- [IpexLLMBgeEmbeddings](https://python.langchain.com/api_reference/community/embeddings/langchain_community.embeddings.ipex_llm.IpexLLMBgeEmbeddings.html)
 
 ```python
 sentence = "IPEX-LLM is a PyTorch library for running LLM on Intel CPU and GPU (e.g., local PC with iGPU, discrete GPU such as Arc, Flex and Max) with very low latency."

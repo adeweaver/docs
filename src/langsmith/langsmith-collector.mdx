@@ -8,7 +8,7 @@ The various services in a LangSmith deployment emit telemetry data in the form o
 This page describes how to configure an [OTel Collector](https://opentelemetry.io/docs/collector/configuration/) to gather telemetry data from LangSmith. Note that all of the concepts discussed below can be translated to other collectors such as [Fluentd](https://www.fluentd.org/) or [FluentBit](https://fluentbit.io/).
 
 <Warning>
-  **This section is only applicable for Kubernetes deployments.**
+**This section is only applicable for Kubernetes deployments.**
 </Warning>
 
 # Receivers
@@ -55,7 +55,7 @@ volumeMounts:
 ```
 
 <Info>
-  **This configuration requires 'get', 'list', and 'watch' permissions on pods in the given namespace.**
+**This configuration requires 'get', 'list', and 'watch' permissions on pods in the given namespace.**
 </Info>
 
 ## Metrics
@@ -94,7 +94,7 @@ prometheus:
 ```
 
 <Info>
-  **This configuration requires 'get', 'list', and 'watch' permissions on pods, services and endpoints in the given namespace.**
+**This configuration requires 'get', 'list', and 'watch' permissions on pods, services and endpoints in the given namespace.**
 </Info>
 
 ### Traces
@@ -134,7 +134,7 @@ otlphttp/traces:
 ```
 
 <Note>
-  **The OTel Collector also supports exporting directly to a [Datadog](https://docs.datadoghq.com/opentelemetry/setup/collector_exporter) endpoint.**
+**The OTel Collector also supports exporting directly to a [Datadog](https://docs.datadoghq.com/opentelemetry/setup/collector_exporter) endpoint.**
 </Note>
 
 # Example Collector Configuration: Logs Sidecar

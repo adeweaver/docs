@@ -24,7 +24,6 @@ Some tips for migration:
 - install `qianfan` package. like `pip install qianfan`
 - change `ErnieBotChat` to `QianfanChatEndpoint`.
 
-
 ```python
 from langchain_community.chat_models.baidu_qianfan_endpoint import QianfanChatEndpoint
 
@@ -36,7 +35,6 @@ chat = QianfanChatEndpoint(
 
 ## Usage
 
-
 ```python
 from langchain_community.chat_models import ErnieBotChat
 from langchain_core.messages import HumanMessage
@@ -47,17 +45,15 @@ chat = ErnieBotChat(
 ```
 
 or you can set `client_id` and `client_secret` in your environment variables
+
 ```bash
 export ERNIE_CLIENT_ID=YOUR_CLIENT_ID
 export ERNIE_CLIENT_SECRET=YOUR_CLIENT_SECRET
 ```
 
-
 ```python
 chat([HumanMessage(content="hello there, who are you?")])
 ```
-
-
 
 ```output
 AIMessage(content='Hello, I am an artificial intelligence language model. My purpose is to help users answer questions or provide information. What can I do for you?', additional_kwargs={}, example=False)

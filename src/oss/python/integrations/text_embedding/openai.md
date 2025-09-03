@@ -4,8 +4,8 @@ title: OpenAIEmbeddings
 
 This will help you get started with OpenAI embedding models using LangChain. For detailed documentation on `OpenAIEmbeddings` features and configuration options, please refer to the [API reference](https://python.langchain.com/api_reference/openai/embeddings/langchain_openai.embeddings.base.OpenAIEmbeddings.html).
 
-
 ## Overview
+
 ### Integration details
 
 <ItemTable category="text_embedding" item="OpenAI" />
@@ -18,7 +18,6 @@ To access OpenAI embedding models you'll need to create a/an OpenAI account, get
 
 Head to [platform.openai.com](https://platform.openai.com) to sign up to OpenAI and generate an API key. Once you’ve done this set the OPENAI_API_KEY environment variable:
 
-
 ```python
 import getpass
 import os
@@ -29,7 +28,6 @@ if not os.getenv("OPENAI_API_KEY"):
 
 To enable automated tracing of your model calls, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
-
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -39,7 +37,6 @@ To enable automated tracing of your model calls, set your [LangSmith](https://do
 
 The LangChain OpenAI integration lives in the `langchain-openai` package:
 
-
 ```python
 %pip install -qU langchain-openai
 ```
@@ -47,7 +44,6 @@ The LangChain OpenAI integration lives in the `langchain-openai` package:
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```python
 from langchain_openai import OpenAIEmbeddings
@@ -66,7 +62,6 @@ embeddings = OpenAIEmbeddings(
 Embedding models are often used in retrieval-augmented generation (RAG) flows, both as part of indexing data as well as later retrieving it. For more detailed instructions, please see our [RAG tutorials](/oss/tutorials/rag).
 
 Below, see how to index and retrieve data using the `embeddings` object we initialized above. In this example, we will index and retrieve a sample document in the `InMemoryVectorStore`.
-
 
 ```python
 # Create a vector store with a sample text
@@ -89,12 +84,9 @@ retrieved_documents = retriever.invoke("What is LangChain?")
 retrieved_documents[0].page_content
 ```
 
-
-
 ```output
 'LangChain is the framework for building context-aware reasoning applications'
 ```
-
 
 ## Direct Usage
 
@@ -106,18 +98,18 @@ You can directly call these methods to get embeddings for your own use cases.
 
 You can embed single texts or documents with `embed_query`:
 
-
 ```python
 single_vector = embeddings.embed_query(text)
 print(str(single_vector)[:100])  # Show the first 100 characters of the vector
 ```
+
 ```output
 [-0.019276829436421394, 0.0037708976306021214, -0.03294256329536438, 0.0037671267054975033, 0.008175
 ```
+
 ### Embed multiple texts
 
 You can embed multiple texts with `embed_documents`:
-
 
 ```python
 text2 = (
@@ -127,10 +119,12 @@ two_vectors = embeddings.embed_documents([text, text2])
 for vector in two_vectors:
     print(str(vector)[:100])  # Show the first 100 characters of the vector
 ```
+
 ```output
 [-0.019260549917817116, 0.0037612367887049913, -0.03291035071015358, 0.003757466096431017, 0.0082049
 [-0.010181212797760963, 0.023419594392180443, -0.04215526953339577, -0.001532090245746076, -0.023573
 ```
+
 ## API Reference
 
 For detailed documentation on `OpenAIEmbeddings` features and configuration options, please refer to the [API reference](https://python.langchain.com/api_reference/openai/embeddings/langchain_openai.embeddings.base.OpenAIEmbeddings.html).

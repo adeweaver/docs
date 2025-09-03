@@ -7,13 +7,13 @@ A LangGraph application must be configured with a [LangGraph configuration file]
 This walkthrough is based on [this repository](https://github.com/langchain-ai/langgraph-example-pyproject), which you can play around with to learn more about how to setup your LangGraph application for deployment.
 
 <Tip>
-  **Setup with requirements.txt**
-  If you prefer using `requirements.txt` for dependency management, check out [this how-to guide](/langgraph-platform/setup-app-requirements-txt).
+**Setup with requirements.txt**
+If you prefer using `requirements.txt` for dependency management, check out [this how-to guide](/langgraph-platform/setup-app-requirements-txt).
 </Tip>
 
 <Tip>
-  **Setup with a Monorepo**
-  If you are interested in deploying a graph located inside a monorepo, take a look at [this](https://github.com/langchain-ai/langgraph-example-monorepo) repository for an example of how to do so.
+**Setup with a Monorepo**
+If you are interested in deploying a graph located inside a monorepo, take a look at [this](https://github.com/langchain-ai/langgraph-example-monorepo) repository for an example of how to do so.
 </Tip>
 
 The final repository structure will look something like this:
@@ -183,8 +183,8 @@ Example `langgraph.json` file:
 Note that the variable name of the `CompiledGraph` appears at the end of the value of each subkey in the top-level `graphs` key (i.e. `:<variable_name>`).
 
 <Warning>
-  **Configuration File Location**
-  The LangGraph configuration file must be placed in a directory that is at the same level or higher than the Python files that contain compiled graphs and associated dependencies.
+**Configuration File Location**
+The LangGraph configuration file must be placed in a directory that is at the same level or higher than the Python files that contain compiled graphs and associated dependencies.
 </Warning>
 
 Example file directory:

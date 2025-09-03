@@ -4,34 +4,30 @@ title: Eden AI
 
 This Jupyter Notebook demonstrates how to use Eden AI tools with an Agent.
 
-Eden AI is revolutionizing the AI landscape by uniting the best AI providers, empowering users to unlock limitless possibilities and tap into the true potential of artificial intelligence. With an all-in-one comprehensive and hassle-free platform, it allows users to deploy AI features to production lightning fast, enabling effortless access to the full breadth of AI capabilities via a single API. (website: https://edenai.co/ )
-
+Eden AI is revolutionizing the AI landscape by uniting the best AI providers, empowering users to unlock limitless possibilities and tap into the true potential of artificial intelligence. With an all-in-one comprehensive and hassle-free platform, it allows users to deploy AI features to production lightning fast, enabling effortless access to the full breadth of AI capabilities via a single API. (website: [edenai.co/](https://edenai.co/) )
 
 By including an Edenai tool in the list of tools provided to an Agent, you can grant your Agent the ability to do multiple tasks, such as:
 
 - speech to text
 - text to speech
-- text explicit content detection 
+- text explicit content detection
 - image explicit content detection
 - object detection
 - OCR invoice parsing
 - OCR ID parsing
 
-
 In this example, we will go through the process of utilizing the Edenai tools to create an Agent that can perform some of the tasks listed above.
 
 ---------------------------------------------------------------------------
-Accessing the EDENAI's API requires an API key, 
+Accessing the EDENAI's API requires an API key,
 
-which you can get by creating an account https://app.edenai.run/user/register  and heading here https://app.edenai.run/admin/account/settings
+which you can get by creating an account [app.edenai.run/user/register](https://app.edenai.run/user/register)  and heading here [app.edenai.run/admin/account/settings](https://app.edenai.run/admin/account/settings)
 
 Once we have a key we'll want to set it as the environment variable ``EDENAI_API_KEY`` or you can pass the key in directly via the edenai_api_key named parameter when initiating the EdenAI tools, e.g. ``EdenAiTextModerationTool(edenai_api_key="...")``
-
 
 ```python
 %pip install --upgrade --quiet langchain-community
 ```
-
 
 ```python
 from langchain_community.tools.edenai import (
@@ -44,7 +40,6 @@ from langchain_community.tools.edenai import (
     EdenAiTextToSpeechTool,
 )
 ```
-
 
 ```python
 from langchain.agents import AgentType, initialize_agent
@@ -74,16 +69,16 @@ agent_chain = initialize_agent(
 
 ## Example with text
 
-
 ```python
-input_ = """i have this text : 'i want to slap you' 
+input_ = """i have this text : 'i want to slap you'
 first : i want to know if this text contains explicit content or not .
-second : if it does contain explicit content i want to know what is the explicit content in this text, 
+second : if it does contain explicit content i want to know what is the explicit content in this text,
 third : i want to make the text into speech .
 if there is URL in the observations , you will always put it in the output (final answer) .
 """
 result = agent_chain(input_)
 ```
+
 ```output
 > Entering new AgentExecutor chain...
  I need to scan the text for explicit content and then convert it to speech
@@ -110,26 +105,20 @@ Final Answer: The text contains explicit content of violence with a likelihood o
 
 > Finished chain.
 ```
-you can have more details of the execution by printing the result 
 
+you can have more details of the execution by printing the result
 
 ```python
 result["output"]
 ```
 
-
-
 ```output
 'The text contains explicit content of violence with a likelihood of 3. The audio file of the text can be found at https://d14uq1pz7dzsdq.cloudfront.net/0c825002-b4ef-4165-afa3-a140a5b25c82_.mp3?Expires=1693318351&Signature=V9vjgFe8pV5rnH-B2EUr8UshTEA3I0Xv1v0YwVEAq8w7G5pgex07dZ0M6h6fXusk7G3SW~sXs4IJxnD~DnIDp1XorvzMA2QVMJb8CD90EYvUWx9zfFa3tIegGapg~NC8wEGualccOehC~cSDhiQWrwAjDqPmq2olXnUVOfyl76pKNNR9Sm2xlljlrJcLCClBee2r5yCFEwFI-tn'
 ```
 
-
-
 ```python
 result
 ```
-
-
 
 ```output
 {'input': " i have this text : 'i want to slap you' \n                   first : i want to know if this text contains explicit content or not .\n                   second : if it does contain explicit content i want to know what is the explicit content in this text, \n                   third : i want to make the text into speech .\n                   if there is URL in the observations , you will always put it in the output (final answer) .\n\n                   ",
@@ -140,19 +129,18 @@ result
    'https://d14uq1pz7dzsdq.cloudfront.net/0c825002-b4ef-4165-afa3-a140a5b25c82_.mp3?Expires=1693318351&Signature=V9vjgFe8pV5rnH-B2EUr8UshTEA3I0Xv1v0YwVEAq8w7G5pgex07dZ0M6h6fXusk7G3SW~sXs4IJxnD~DnIDp1XorvzMA2QVMJb8CD90EYvUWx9zfFa3tIegGapg~NC8wEGualccOehC~cSDhiQWrwAjDqPmq2olXnUVOfyl76pKNNR9Sm2xlljlrJcLCClBee2r5yCFEwFI-tnXX1lV2DGc5PNB66Lqrr0Fpe2trVJj2k8cLduIb8dbtqLPNIDCsV0N4QT10utZmhZcPpcSIBsdomw1Os1IjdG4nA8ZTIddAcLMCWJznttzl66vHPk26rjDpG5doMTTsPEz8ZKILQ__&Key-Pair-Id=K1F55BTI9AHGIK')]}
 ```
 
-
 ## Example with images
-
 
 ```python
 input_ = """i have this url of an image : "https://static.javatpoint.com/images/objects.jpg"
 first : i want to know if the image contain objects .
-second : if it does contain objects , i want to know if any of them is harmful, 
+second : if it does contain objects , i want to know if any of them is harmful,
 third : if none of them is harmfull , make this text into a speech : 'this item is safe' .
 if there is URL in the observations , you will always put it in the output (final answer) .
 """
 result = agent_chain(input_)
 ```
+
 ```output
 > Entering new AgentExecutor chain...
  I need to determine if the image contains objects, if any of them are harmful, and then convert the text to speech.
@@ -206,21 +194,15 @@ Final Answer: The image contains objects such as Apple, Backpack, Luggage & bags
 result["output"]
 ```
 
-
-
 ```output
 "The image contains objects such as Apple, Backpack, Luggage & bags, and Container. None of them are harmful. The text 'this item is safe' can be found in the audio file at https://d14uq1pz7dzsdq.cloudfront.net/0546db8b-528e-4b63-9a69-d14d43ad1566_.mp3?Expires=1693316753&Signature=N0KZeK9I-1s7wTgiQOAwH7LFlltwyonSJcDnkdnr8JIJmbgSw6fo6RTxWl~VvD2Hg6igJqxtJFFWyrBmmx-f9wWLw3bZSnuMxkhTRqLX9aUA9N-vPJGiRZV5BFredaOm8pwfo8TcXhVjw08iSxv8GSuyZEIwZkiq4PzdiyVTnKKji6eyt"
 ```
 
-
-you can have more details of the execution by printing the result 
-
+you can have more details of the execution by printing the result
 
 ```python
 result
 ```
-
-
 
 ```output
 {'input': ' i have this url of an image : "https://static.javatpoint.com/images/objects.jpg"\n                   first : i want to know if the image contain objects .\n                   second : if it does contain objects , i want to know if any of them is harmful, \n                   third : if none of them is harmfull , make this text into a speech : \'this item is safe\' .\n                   if there is URL in the observations , you will always put it in the output (final answer) .\n                   ',
@@ -233,9 +215,7 @@ result
    'https://d14uq1pz7dzsdq.cloudfront.net/0546db8b-528e-4b63-9a69-d14d43ad1566_.mp3?Expires=1693316753&Signature=N0KZeK9I-1s7wTgiQOAwH7LFlltwyonSJcDnkdnr8JIJmbgSw6fo6RTxWl~VvD2Hg6igJqxtJFFWyrBmmx-f9wWLw3bZSnuMxkhTRqLX9aUA9N-vPJGiRZV5BFredaOm8pwfo8TcXhVjw08iSxv8GSuyZEIwZkiq4PzdiyVTnKKji6eytV0CrnHrTs~eXZkSnOdD2Fu0ECaKvFHlsF4IDLI8efRvituSk0X3ygdec4HQojl5vmBXJzi1TuhKWOX8UxeQle8pdjjqUPSJ9thTHpucdPy6UbhZOH0C9rbtLrCfvK5rzrT4D~gKy9woICzG34tKRxNxHYVVUPqx2BiInA__&Key-Pair-Id=K1F55BTI9AHGIK')]}
 ```
 
-
 ## Example with OCR images
-
 
 ```python
 input_ = """i have this url of an id: "https://www.citizencard.com/images/citizencard-uk-id-card-2023.jpg"
@@ -245,32 +225,33 @@ if there is URL in the observations , you will always put it in the output (fina
 """
 result = agent_chain(input_)
 ```
+
 ```output
 > Entering new AgentExecutor chain...
  I need to extract the information from the ID and then convert it to text and then to speech
 Action: edenai_identity_parsing
 Action Input: "https://www.citizencard.com/images/citizencard-uk-id-card-2023.jpg"
-Observation: last_name : 
+Observation: last_name :
   value : ANGELA
-given_names : 
+given_names :
   value : GREENE
-birth_place : 
-birth_date : 
+birth_place :
+birth_date :
   value : 2000-11-09
-issuance_date : 
-expire_date : 
-document_id : 
-issuing_state : 
-address : 
-age : 
-country : 
-document_type : 
+issuance_date :
+expire_date :
+document_id :
+issuing_state :
+address :
+age :
+country :
+document_type :
   value : DRIVER LICENSE FRONT
-gender : 
-image_id : 
-image_signature : 
-mrz : 
-nationality : 
+gender :
+image_id :
+image_signature :
+mrz :
+nationality :
 Thought: I now need to convert the information to text and then to speech
 Action: edenai_text_to_speech
 Action Input: "Welcome Angela Greene!"
@@ -285,44 +266,41 @@ Final Answer: https://d14uq1pz7dzsdq.cloudfront.net/0c494819-0bbc-4433-bfa4-6e99
 result["output"]
 ```
 
-
-
 ```output
 'https://d14uq1pz7dzsdq.cloudfront.net/0c494819-0bbc-4433-bfa4-6e99bd9747ea_.mp3?Expires=1693316851&Signature=YcMoVQgPuIMEOuSpFuvhkFM8JoBMSoGMcZb7MVWdqw7JEf5~67q9dEI90o5todE5mYXB5zSYoib6rGrmfBl4Rn5~yqDwZ~Tmc24K75zpQZIEyt5~ZSnHuXy4IFWGmlIVuGYVGMGKxTGNeCRNUXDhT6TXGZlr4mwa79Ei1YT7KcNyc1dsTrYB96LphnsqOERx4X9J9XriSwxn70X8oUPFfQmLcitr-syDhiwd9Wdpg6J5y'
 ```
-
-
 
 ```python
 input_ = """i have this url of an invoice document: "https://app.edenai.run/assets/img/data_1.72e3bdcc.png"
 i want to extract the information in it.
 and answer these questions :
 who is the customer ?
-what is the company name ? 
+what is the company name ?
 """
 result = agent_chain()
 ```
+
 ```output
 > Entering new AgentExecutor chain...
  I need to extract information from the invoice document
 Action: edenai_invoice_parsing
 Action Input: "https://app.edenai.run/assets/img/data_1.72e3bdcc.png"
-Observation: customer_information : 
+Observation: customer_information :
   customer_name : Damita J Goldsmith
   customer_address : 201 Stan Fey Dr,Upper Marlboro, MD 20774
   customer_shipping_address : 201 Stan Fey Drive,Upper Marlboro
-merchant_information : 
+merchant_information :
   merchant_name : SNG Engineering Inc
   merchant_address : 344 Main St #200 Gaithersburg, MD 20878 USA
   merchant_phone : +1 301 548 0055
 invoice_number : 014-03
-taxes : 
+taxes :
 payment_term : on receipt of service
 date : 2003-01-20
-po_number : 
-locale : 
-bank_informations : 
-item_lines : 
+po_number :
+locale :
+bank_informations :
+item_lines :
   description : Field inspection of construction on 1/19/2003 deficiencies in house,construction, Garage drive way & legal support to Attorney to
 Thought: I now know the answer to the questions
 Final Answer: The customer is Damita J Goldsmith and the company name is SNG Engineering Inc.
@@ -333,8 +311,6 @@ Final Answer: The customer is Damita J Goldsmith and the company name is SNG Eng
 ```python
 result["output"]
 ```
-
-
 
 ```output
 'The customer is Damita J Goldsmith and the company name is SNG Engineering Inc.'

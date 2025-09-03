@@ -4,10 +4,10 @@ sidebarTitle: Improve LLM-as-judge evaluators using human feedback
 ---
 
 <Check>
-  Before diving into this content, it might be helpful to read the following:
+Before diving into this content, it might be helpful to read the following:
 
-  * [Evaluation concepts](/langsmith/evaluation-concepts#evaluators)
-  * [Creating LLM-as-a-judge evaluators](/langsmith/llm-as-judge)
+* [Evaluation concepts](/langsmith/evaluation-concepts#evaluators)
+* [Creating LLM-as-a-judge evaluators](/langsmith/llm-as-judge)
 </Check>
 
 Reliable LLM-as-a-judge evaluators are critical for making informed decisions about your AI applications (eg. prompt, model, architecture changes, etc.). But, getting your evaluator prompt just right can be challenging, impacting the trustworthiness of your evaluations.
@@ -47,9 +47,9 @@ Select one or more experiments (or runs) to send for human labeling. This will a
 To add any new experiments/runs to an existing annotation queue, head to the **Evaluators** tab, select the evaluator you are aligning and click **Add to Queue.**
 
 <Check>
-  Datasets should be representative of inputs and outputs you expect to see in production.
+Datasets should be representative of inputs and outputs you expect to see in production.
 
-  While you don’t need to cover every possible scenario, it’s important to include examples across the full range of expected use cases. For example, if you're building a sports bot that answers questions about baseball, basketball, and football, your dataset should include at least one labeled example from each sport.
+While you don’t need to cover every possible scenario, it’s important to include examples across the full range of expected use cases. For example, if you're building a sports bot that answers questions about baseball, basketball, and football, your dataset should include at least one labeled example from each sport.
 </Check>
 
 ## 2. Label examples
@@ -57,7 +57,7 @@ To add any new experiments/runs to an existing annotation queue, head to the **E
 Label examples in the annotation queue by adding a feedback score. Once you've labeled an example, click **Add to Reference Dataset**.
 
 <Check>
-  If you have a large number of examples in your experiments, you don't need to label every example to get started. We recommend starting with at least 20 examples, you can always add more later. We recommend that the examples that you label are diverse (balanced in both 0 and 1 labels) to ensure that you're building a well rounded evaluator prompt.
+If you have a large number of examples in your experiments, you don't need to label every example to get started. We recommend starting with at least 20 examples, you can always add more later. We recommend that the examples that you label are diverse (balanced in both 0 and 1 labels) to ensure that you're building a well rounded evaluator prompt.
 </Check>
 
 ## 3. Test your evaluator prompt against the labeled examples
@@ -77,9 +77,9 @@ In the evaluator playground you can create or edit your evaluator prompt and cli
 Iterate by updating your prompt and testing again to improve evaluator alignment.
 
 <Check>
-  Updates to your evaluator prompt are **not saved by default**. We reccomend saving your evaluator prompt regularly, and especially after you see your alignment score improve.
+Updates to your evaluator prompt are **not saved by default**. We reccomend saving your evaluator prompt regularly, and especially after you see your alignment score improve.
 
-  The evaluator playground will show the alignment score for the most recently saved version of your evaluator prompt for comparison when you're iterating on your prompt.
+The evaluator playground will show the alignment score for the most recently saved version of your evaluator prompt for comparison when you're iterating on your prompt.
 </Check>
 
 Improving the alignment score of your evaluator isn't an exact science but there are a few strategies that are helpful in increasing the alignment score.

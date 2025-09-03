@@ -9,7 +9,6 @@ This guide provides a quick overview for getting started with Chroma [`vector st
 <Info>
 **Chroma Cloud**
 
-
 Chroma Cloud powers serverless vector and full-text search. It's extremely fast, cost-effective, scalable and painless. Create a DB and try it out in under 30 seconds with $5 of free credits.
 
 [Get started with Chroma Cloud](https://trychroma.com/signup)
@@ -38,17 +37,20 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/community @langchain/openai @langchain/core chromadb
 </Npm2Yarn>
 ```
+
 If you want to run Chroma locally, you can [run a local Chroma server](https://docs.trychroma.com/docs/cli/run) using the Chroma CLI, which ships with the `chromadb` package:
 
 ```
 chroma run
 ```
+
 You can also run a server on Docker, using the official Chroma image:
 
 ```
-docker pull chromadb/chroma 
+docker pull chromadb/chroma
 docker run -p 8000:8000 chromadb/chroma
 ```
+
 ### Credentials
 
 If you are running Chroma locally, you do not need to provide any credentials.
@@ -60,23 +62,25 @@ The Chroma CLI can set these for you. First, [login](https://docs.trychroma.com/
 ```
 chroma db connect [db_name] --env-file
 ```
+
 If you are using OpenAI embeddings for this guide, you'll need to set your OpenAI key as well:
 
 ```typescript
 process.env.OPENAI_API_KEY = "YOUR_API_KEY";
 ```
+
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
 ```typescript
 // process.env.LANGSMITH_TRACING="true"
 // process.env.LANGSMITH_API_KEY="your-api-key"
 ```
+
 ## Instantiation
 
 ### Setup your embedding function
 
 First, choose your embedding function. Here we use `OpenAIEmbeddings`:
-
 
 ```python
 import { OpenAIEmbeddings } from "@langchain/openai";
@@ -85,10 +89,10 @@ const embeddings = new OpenAIEmbeddings({
   model: "text-embedding-3-small",
 });
 ```
+
 ### Running Locally
 
 A simple `Chroma` instantiation will connect to a Chroma server running locally on `http://localhost:8000`:
-
 
 ```python
 import { Chroma } from "@langchain/community/vectorstores/chroma";
@@ -97,8 +101,8 @@ const vectorStore = new Chroma(embeddings, {
   collectionName: "a-test-collection"
 });
 ```
-If you are running your Chroma server using a different configuration, you can specify your `host`, `port` and whether to connect using `ssl`:
 
+If you are running your Chroma server using a different configuration, you can specify your `host`, `port` and whether to connect using `ssl`:
 
 ```python
 import { Chroma } from "@langchain/community/vectorstores/chroma";
@@ -109,10 +113,10 @@ const vectorStore = new Chroma(embeddings, {
   port: 8080
 });
 ```
+
 ### Chroma Cloud
 
 To connect to Chroma Cloud, provide your `tenant`, `database`, and `chromaCloudAPIKey`:
-
 
 ```python
 import { Chroma } from "@langchain/community/vectorstores/chroma";
@@ -124,10 +128,10 @@ const vectorStore = new Chroma(embeddings, {
   chromaCloudAPIKey: process.env.CHROMA_API_KEY
 });
 ```
+
 ## Manage vector store
 
 ### Add items to vector store
-
 
 ```python
 import type { Document } from "@langchain/core/documents";
@@ -156,22 +160,22 @@ const documents = [document1, document2, document3, document4];
 
 await vectorStore.addDocuments(documents, { ids: ["1", "2", "3", "4"] });
 ```
+
 ### Delete items from vector store
 
 You can delete documents from Chroma by id as follows:
 
-
 ```python
 await vectorStore.delete({ ids: ["4"] });
 ```
+
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 
 ### Query directly
 
 Performing a simple similarity search can be done as follows:
-
 
 ```python
 const filter = { source: "https://example.com" };
@@ -182,10 +186,10 @@ for (const doc of similaritySearchResults) {
   console.log(`* ${doc.pageContent} [${JSON.stringify(doc.metadata, null)}]`);
 }
 ```
+
 See [this page](https://docs.trychroma.com/guides#filtering-by-metadata) for more on Chroma filter syntax.
 
 If you want to execute a similarity search and receive the corresponding scores you can run:
-
 
 ```python
 const similaritySearchWithScoreResults = await vectorStore.similaritySearchWithScore("biology", 2, filter)
@@ -194,10 +198,10 @@ for (const [doc, score] of similaritySearchWithScoreResults) {
   console.log(`* [SIM=${score.toFixed(3)}] ${doc.pageContent} [${JSON.stringify(doc.metadata)}]`);
 }
 ```
+
 ### Query by turning into retriever
 
-You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains. 
-
+You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains.
 
 ```python
 const retriever = vectorStore.asRetriever({
