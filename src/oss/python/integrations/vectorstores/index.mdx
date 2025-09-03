@@ -4,15 +4,33 @@ title: "Vector stores"
 
 ## Overview
 
-A [vector store](/oss/concepts/vectorstores) stores [embedded](/oss/concepts/embedding_models) data and performs similarity search.
+A vector store stores [embedded](/oss/integrations/embedding_models) data and performs similarity search.
+
+```mermaid
+flowchart LR
+
+    subgraph "📥 Indexing phase (store)"
+        A[📄 Documents] --> B[🔢 Embedding model]
+        B --> C[🔘 Embedding vectors]
+        C --> D[(Vector store)]
+    end
+
+    subgraph "📤 Query phase (retrieval)"
+        E[❓ Query text] --> F[🔢 Embedding model]
+        F --> G[🔘 Query vector]
+        G --> H[🔍 Similarity search]
+        H --> D
+        D --> I[📄 Top-k results]
+    end
+```
 
 ### Interface
 
 LangChain provides a unified interface for vector stores, allowing you to:
 
-* Store documents (`add_documents`)
-* Delete documents (`delete`)
-* Perform semantic queries (`similarity_search`)
+- `add_documents` - Add documents to the store.
+- `delete` - Remove stored documents by ID.
+- `similarity_search` - Query for semantically similar documents.
 
 This abstraction lets you switch between different implementations without altering your application logic.
 
