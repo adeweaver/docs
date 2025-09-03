@@ -1,0 +1,522 @@
+---
+title: Contributing to code
+sidebarTitle: Code
+---
+
+Code contributions are welcome and essential to LangChain's growth. Whether you're fixing bugs, adding features, or improving performance, your contributions help make LangChain better for everyone.
+
+<Note>
+    Before submitting large new features or integrations, please first discuss your ideas in [the forum](https://forum.langchain.com/). This ensures alignment with project goals and prevents duplicate work.
+</Note>
+
+## Philosophy
+
+LangChain follows these core principles for code contributions:
+
+<CardGroup cols={2}>
+    <Card title="Backwards compatibility" icon="shield" href="#backwards-compatibility" arrow>
+        Maintain stable public interfaces and avoid breaking changes
+    </Card>
+
+    <Card title="Testing first" icon="flask" href="#testing-requirements" arrow>
+        Every change must include comprehensive tests
+    </Card>
+
+    <Card title="Code quality" icon="star" href="#code-quality-standards" arrow>
+        Follow consistent style, documentation, and architecture patterns
+    </Card>
+
+    <Card title="Security focus" icon="lock" href="#security-guidelines" arrow>
+        Prioritize secure coding practices and vulnerability prevention
+    </Card>
+</CardGroup>
+
+## Getting started
+
+### Quick fix: submit a bugfix
+
+For simple bugfixes, you can get started immediately:
+
+<Steps>
+    <Step title="Fork the repository">
+
+        Fork the [LangChain](https://github.com/langchain-ai/langchainjs) or [LangGraph](https://github.com/langchain-ai/langgraphjs) repo to your GitHub account
+
+    </Step>
+
+    <Step title="Clone and setup">
+        ```bash
+        git clone https://github.com/your-username/name-of-forked-repo.git
+        ```
+
+        {/* TODO js */}
+
+    </Step>
+
+    <Step title="Create a branch">
+        ```bash
+        git checkout -b fix/your-bugfix-name
+        ```
+    </Step>
+
+    <Step title="Make your changes">
+        Fix the bug while following our [code quality standards](#code-quality-standards)
+    </Step>
+
+    <Step title="Add tests">
+        Include unit tests that fail without your fix
+    </Step>
+
+    <Step title="Run tests">
+        ```bash
+        make test
+        make lint
+        ```
+    </Step>
+
+    <Step title="Submit pull request">
+        Follow the PR template and reference the issue you're fixing, if applicable
+    </Step>
+</Steps>
+
+### Full development setup
+
+For ongoing development or larger contributions:
+
+<Steps>
+    <Step title="Development environment">
+        Set up your environment following our [setup guide](#development-environment)
+    </Step>
+
+    <Step title="Repository structure">
+        Understand the [repository structure](#repository-structure) and package organization
+    </Step>
+
+    <Step title="Development workflow">
+        Learn our [development workflow](#development-workflow) including testing, linting, and pre-commit hooks
+    </Step>
+
+    <Step title="Contribution guidelines">
+        Review our [contribution guidelines](#contribution-guidelines) for features, bugfixes, and integrations
+    </Step>
+</Steps>
+
+### Development environment
+
+
+
+Set up your development environment:
+
+{/* TODO tabs for LangChain/LangGraph */}
+<Tabs>
+    <Tab title="Core packages">
+        For changes to `langchain-core`:
+        ```bash
+        cd libs/core
+        uv sync --all-groups
+        make test  # Ensure tests pass before developing
+        ```
+    </Tab>
+
+    <Tab title="Main package">
+        For changes to `langchain`:
+        ```bash
+        cd libs/langchain
+        uv sync --all-groups
+        make test  # Ensure tests pass before developing
+        ```
+    </Tab>
+
+    <Tab title="Partner packages">
+        For changes to [partner integrations](/oss/javascript/integrations/providers):
+
+        ```bash
+        cd libs/partners/langchain-{partner}
+        make test  # Ensure tests pass before developing
+        ```
+    </Tab>
+
+    {/* TODO: langchain-community? */}
+</Tabs>
+
+## Repository structure
+
+{/* TODO LangGraph */}
+LangChain is organized as a monorepo with multiple packages:
+
+<AccordionGroup>
+    <Accordion title="Core packages" defaultOpen>
+        - **`langchain-core`**: Base interfaces and core abstractions
+        - **`langchain`**: Main package with chains, agents, and retrieval logic
+    </Accordion>
+
+    <Accordion title="Partner packages">
+        Located in `libs/partners/`, these are independently versioned packages for specific integrations:
+        - **`langchain-openai`**: OpenAI integrations
+        - **`langchain-anthropic`**: Anthropic integrations
+        - **`langchain-google-genai`**: Google Generative AI integrations
+        - And many more.
+
+        <Important>
+            Many partner packages are in external repositories. Please check the [list of integrations](/oss/javascript/integrations/providers) for details.
+        </Important>
+
+    </Accordion>
+
+    <Accordion title="Supporting packages">
+        - **`langchain-text-splitters`**: Text splitting utilities
+        - **`langchain-cli`**: Command line interface
+        - **`langchain-standard-tests`**: Standard test suites for integrations
+    </Accordion>
+</AccordionGroup>
+
+## Development workflow
+
+### Testing requirements
+
+<Info>
+    Every code change must include comprehensive tests. No exceptions.
+</Info>
+
+Test types and requirements:
+
+<Steps>
+    <Step title="Unit tests">
+        **Location**: `tests/unit_tests/`
+
+        **Requirements**:
+        - No network calls allowed
+        - Test all code paths including edge cases
+        - Use mocks for external dependencies
+
+        ```bash
+        make test
+        # or directly:
+        uv run --group test pytest tests/unit_tests
+        ```
+    </Step>
+
+    <Step title="Integration tests">
+        **Location**: `tests/integration_tests/`
+
+        **Requirements**:
+        - Test real integrations with external services
+        - Use environment variables for API keys
+        - Skip gracefully if credentials unavailable
+
+        ```bash
+        make integration_tests
+        ```
+    </Step>
+
+    <Step title="Test quality checklist">
+        - [ ] Tests fail when your code is broken
+        - [ ] Happy path is covered
+        - [ ] Edge cases and error conditions are tested
+        - [ ] Proper use of fixtures and mocks
+        - [ ] Tests are deterministic (no flaky tests)
+    </Step>
+</Steps>
+
+### Code quality standards
+
+<Warning>
+    All code must include complete type hints and follow our style guidelines.
+</Warning>
+
+Quality requirements:
+
+<Tabs>
+    <Tab title="Type hints">
+        **Required**: Complete type annotations for all functions
+
+        ```python
+        def process_documents(
+            docs: list[Document],
+            processor: DocumentProcessor,
+            *,
+            batch_size: int = 100
+        ) -> ProcessingResult:
+            """Process documents in batches.
+
+            Args:
+                docs: List of documents to process.
+                processor: Document processing instance.
+                batch_size: Number of documents per batch.
+
+            Returns:
+                Processing results with success/failure counts.
+
+            """
+        ```
+    </Tab>
+
+    <Tab title="Documentation">
+        **Required**: Google-style docstrings for all public functions
+
+        - Document all parameters and return values
+        - Include usage examples for complex functions
+        - Document raised exceptions
+        - Focus on "why" rather than "what"
+    </Tab>
+
+    <Tab title="Code style">
+        **Automated**: Formatting and linting via `ruff`
+
+        ```bash
+        make format  # Apply formatting
+        make lint    # Check style and types
+        ```
+
+        **Standards**:
+        - Descriptive variable names
+        - Break up complex functions (>20 lines)
+        - Follow existing patterns in the codebase
+    </Tab>
+</Tabs>
+
+### Pre-commit hooks
+
+<Note>
+    Pre-commit hooks automatically run formatting and linting on every commit.
+</Note>
+
+Setup pre-commit hooks:
+
+<Steps>
+    <Step title="Install pre-commit">
+        ```bash
+        uv tool install pre-commit
+        ```
+    </Step>
+
+    <Step title="Install hooks">
+        ```bash
+        pre-commit install
+        ```
+    </Step>
+
+    <Step title="Verify setup">
+        Pre-commit will now run automatically on every `git commit`. It will:
+        - Format code with `ruff`
+        - Run linting checks
+        - Prevent commits if checks fail
+    </Step>
+</Steps>
+
+## Contribution guidelines
+
+### Backwards compatibility
+
+<Warning>
+    Breaking changes to public APIs are not allowed except for critical security fixes.
+
+    See our [versioning policy](/oss/javascript/versioning) for details on major version releases.
+</Warning>
+
+Maintain compatibility:
+
+<AccordionGroup>
+    <Accordion title="Stable interfaces">
+        **Always preserve**:
+        - Function signatures and parameter names
+        - Class interfaces and method names
+        - Return value structure and types
+        - Import paths for public APIs
+    </Accordion>
+
+    <Accordion title="Safe changes">
+        **Acceptable modifications**:
+        - Adding new optional parameters (use `*` for keyword-only)
+        - Adding new methods to classes
+        - Improving performance without changing behavior
+        - Adding new modules or functions
+    </Accordion>
+
+    <Accordion title="Before making changes">
+        **Check if your target is public**:
+        - If needed, is it exported in `__init__.py`?
+        - Are there existing usage patterns in tests?
+        - Would this break existing user code?
+    </Accordion>
+</AccordionGroup>
+
+### Bugfixes
+
+For bugfix contributions:
+
+<Steps>
+    <Step title="Reproduce the issue">
+        Create a minimal test case that demonstrates the bug
+    </Step>
+
+    <Step title="Write failing tests">
+        Add unit tests that fail without your fix
+    </Step>
+
+    <Step title="Implement the fix">
+        Make the minimal change necessary to resolve the issue
+    </Step>
+
+    <Step title="Verify the fix">
+        Ensure tests pass and no regressions are introduced
+    </Step>
+
+    <Step title="Document the change">
+        Update docstrings if behavior changes, add comments for complex logic
+    </Step>
+</Steps>
+
+### New features
+
+Feature contribution requirements:
+
+<Steps>
+    <Step title="Design discussion">
+        Open a GitHub issue describing:
+        - The problem you're solving
+        - Proposed API design
+        - Expected usage patterns
+    </Step>
+
+    <Step title="Implementation">
+        - Follow existing code patterns
+        - Include comprehensive tests
+        - Add complete documentation
+        - Consider security implications
+    </Step>
+
+    <Step title="Integration considerations">
+        - How does this interact with existing features?
+        - Are there performance implications?
+        - Does this introduce new dependencies?
+    </Step>
+</Steps>
+
+### Security guidelines
+
+<Warning>
+    Security is paramount. Never introduce vulnerabilities or unsafe patterns.
+</Warning>
+
+Security checklist:
+
+<AccordionGroup>
+    <Accordion title="Input validation">
+        - Validate and sanitize all user inputs
+        - Never use `eval()`, `exec()`, or `pickle` on user data
+        - Properly escape data in templates and queries
+    </Accordion>
+
+    <Accordion title="Error handling">
+        - Use specific exception types
+        - Don't expose sensitive information in error messages
+        - Implement proper resource cleanup
+    </Accordion>
+
+    <Accordion title="Dependencies">
+        - Avoid adding hard dependencies
+        - Keep optional dependencies minimal
+        - Review third-party packages for security issues
+    </Accordion>
+</AccordionGroup>
+
+## Testing and validation
+
+### Running tests locally
+
+Before submitting your PR:
+
+<Steps>
+    <Step title="Unit tests">
+        ```bash
+        make test
+        ```
+        All unit tests must pass
+    </Step>
+
+    <Step title="Integration tests">
+        ```bash
+        make integration_tests
+        ```
+        Run if your changes affect integrations
+    </Step>
+
+    <Step title="Formatting">
+        ```bash
+        make format
+        make lint
+        ```
+        Code must pass all style checks
+    </Step>
+
+    <Step title="Type checking">
+        ```bash
+        make type_check
+        ```
+        All type hints must be valid
+    </Step>
+</Steps>
+
+### Test writing guidelines
+
+Write effective tests:
+
+<Tabs>
+    <Tab title="Unit tests">
+        ```python
+        def test_document_processor_handles_empty_input():
+            """Test processor gracefully handles empty document list."""
+            processor = DocumentProcessor()
+
+            result = processor.process([])
+
+            assert result.success is True
+            assert result.processed_count == 0
+            assert len(result.errors) == 0
+        ```
+    </Tab>
+
+    <Tab title="Integration tests">
+        ```python
+        @pytest.mark.requires("openai")
+        def test_openai_chat_integration():
+            """Test OpenAI chat integration with real API."""
+            api_key = os.getenv("OPENAI_API_KEY")
+            if not api_key:
+                pytest.skip("OPENAI_API_KEY not set")
+
+            chat = ChatOpenAI(api_key=api_key)
+            response = chat.invoke("Hello")
+
+            assert isinstance(response.content, str)
+            assert len(response.content) > 0
+        ```
+    </Tab>
+
+    <Tab title="Mock usage">
+        ```python
+        def test_retry_mechanism(mocker):
+            """Test retry mechanism handles transient failures."""
+            mock_client = mocker.Mock()
+            mock_client.call.side_effect = [
+                ConnectionError("Temporary failure"),
+                {"result": "success"}
+            ]
+
+            service = APIService(client=mock_client)
+            result = service.call_with_retry()
+
+            assert result["result"] == "success"
+            assert mock_client.call.call_count == 2
+        ```
+    </Tab>
+</Tabs>
+
+## Getting help
+
+Our goal is to have the simplest developer setup possible. Should you experience any difficulty getting setup, please ask in the [community slack](https://www.langchain.com/join-community) or open a [forum post](https://forum.langchain.com/).
+
+<Check>
+    You're now ready to contribute high-quality code to LangChain!
+</Check>
