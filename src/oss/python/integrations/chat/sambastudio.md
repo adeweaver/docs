@@ -7,6 +7,7 @@ This will help you get started with SambaStudio [chat models](/oss/concepts/chat
 **[SambaNova](https://sambanova.ai/)'s** [SambaStudio](https://docs.sambanova.ai/sambastudio/latest/sambastudio-intro.html) SambaStudio is a rich, GUI-based platform that provides the functionality to train, deploy, and manage models in SambaNova [DataScale](https://sambanova.ai/products/datascale) systems.
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | JS support | Package downloads | Package latest |
@@ -35,6 +36,7 @@ Get the URL and API Key from your SambaStudio deployed endpoint and add them to 
 export SAMBASTUDIO_URL="sambastudio-url-key-here"
 export SAMBASTUDIO_API_KEY="your-api-key-here"
 ```
+
 ```python
 import getpass
 import os
@@ -49,7 +51,6 @@ if not os.getenv("SAMBASTUDIO_API_KEY"):
 
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
-
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -57,8 +58,7 @@ If you want to get automated tracing of your model calls you can also set your [
 
 ### Installation
 
-The LangChain __SambaStudio__ integration lives in the `langchain_sambanova` package:
-
+The LangChain **SambaStudio** integration lives in the `langchain_sambanova` package:
 
 ```python
 %pip install -qU langchain-sambanova
@@ -67,7 +67,6 @@ The LangChain __SambaStudio__ integration lives in the `langchain_sambanova` pac
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```python
 from langchain_sambanova import ChatSambaStudio
@@ -84,7 +83,6 @@ llm = ChatSambaStudio(
 
 ## Invocation
 
-
 ```python
 messages = [
     (
@@ -98,24 +96,21 @@ ai_msg = llm.invoke(messages)
 ai_msg
 ```
 
-
-
 ```output
 AIMessage(content="J'adore la programmation.", response_metadata={'id': 'item0', 'partial': False, 'value': {'completion': "J'adore la programmation.", 'logprobs': {'text_offset': [], 'top_logprobs': []}, 'prompt': '<|start_header_id|>system<|end_header_id|>\n\nYou are a helpful assistant that translates English to French. Translate the user sentence.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nI love programming.<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n', 'stop_reason': 'end_of_text', 'tokens': ['J', "'", 'ad', 'ore', ' la', ' programm', 'ation', '.'], 'total_tokens_count': 43}, 'params': {}, 'status': None}, id='item0')
 ```
 
-
-
 ```python
 print(ai_msg.content)
 ```
+
 ```output
 J'adore la programmation.
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate
@@ -141,15 +136,11 @@ chain.invoke(
 )
 ```
 
-
-
 ```output
 AIMessage(content='Ich liebe das Programmieren.', response_metadata={'id': 'item0', 'partial': False, 'value': {'completion': 'Ich liebe das Programmieren.', 'logprobs': {'text_offset': [], 'top_logprobs': []}, 'prompt': '<|start_header_id|>system<|end_header_id|>\n\nYou are a helpful assistant that translates English to German.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nI love programming.<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n', 'stop_reason': 'end_of_text', 'tokens': ['Ich', ' liebe', ' das', ' Programm', 'ieren', '.'], 'total_tokens_count': 36}, 'params': {}, 'status': None}, id='item0')
 ```
 
-
 ## Streaming
-
 
 ```python
 system = "You are a helpful assistant with pirate accent."
@@ -161,6 +152,7 @@ chain = prompt | llm
 for chunk in chain.stream({"animal": "owl"}):
     print(chunk.content, end="", flush=True)
 ```
+
 ```output
 Arrr, ye landlubber! Ye be wantin' to learn about owls, eh? Well, matey, settle yerself down with a pint o' grog and listen close, for I be tellin' ye about these fascinatin' creatures o' the night!
 
@@ -174,8 +166,8 @@ Owls come in all shapes and sizes, from the tiny elf owl to the great grey owl, 
 
 So, there ye have it, me hearty! Owls be amazin' creatures, with their clever adaptations and stealthy ways. Now, go forth and spread the word about these magnificent birds o' the night! And remember, if ye ever encounter an owl in the wild, be sure to show respect and keep a weather eye open, or ye might just find yerself on the receivin' end o' a silent, flyin' tackle! Arrr!
 ```
-## Async
 
+## Async
 
 ```python
 prompt = ChatPromptTemplate.from_messages(
@@ -191,15 +183,11 @@ chain = prompt | llm
 await chain.ainvoke({"country": "France"})
 ```
 
-
-
 ```output
 AIMessage(content='The capital of France is Paris.', response_metadata={'id': 'item0', 'partial': False, 'value': {'completion': 'The capital of France is Paris.', 'logprobs': {'text_offset': [], 'top_logprobs': []}, 'prompt': '<|start_header_id|>user<|end_header_id|>\n\nwhat is the capital of France?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n', 'stop_reason': 'end_of_text', 'tokens': ['The', ' capital', ' of', ' France', ' is', ' Paris', '.'], 'total_tokens_count': 24}, 'params': {}, 'status': None}, id='item0')
 ```
 
-
 ## Async Streaming
-
 
 ```python
 prompt = ChatPromptTemplate.from_messages(
@@ -215,11 +203,12 @@ chain = prompt | llm
 async for chunk in chain.astream({"num_words": 30, "topic": "quantum computers"}):
     print(chunk.content, end="", flush=True)
 ```
+
 ```output
 Quantum computers use quantum bits (qubits) to process multiple possibilities simultaneously, exponentially faster than classical computers, enabling breakthroughs in fields like cryptography, optimization, and simulation.
 ```
-## Tool calling
 
+## Tool calling
 
 ```python
 from datetime import datetime
@@ -259,7 +248,6 @@ def invoke_tools(tool_calls, messages):
     return messages
 ```
 
-
 ```python
 llm_with_tools = llm.bind_tools(tools=tools)
 messages = [
@@ -269,7 +257,6 @@ messages = [
     )
 ]
 ```
-
 
 ```python
 response = llm_with_tools.invoke(messages)
@@ -281,13 +268,14 @@ response = llm_with_tools.invoke(messages)
 
 print(f"final response: {response.content}")
 ```
+
 ```output
 Intermediate model response: [{'name': 'get_time', 'args': {'kind': 'date'}, 'id': 'call_4092d5dd21cd4eb494', 'type': 'tool_call'}]
 Tool output: Current date: 11/07/2024
 final response: The meeting will be exactly two weeks from today, which would be 25/07/2024.
 ```
-## Structured Outputs
 
+## Structured Outputs
 
 ```python
 from pydantic import BaseModel, Field
@@ -311,4 +299,4 @@ Joke(setup='Why did the cat join a band?', punchline='Because it wanted to be th
 
 ## API reference
 
-For detailed documentation of all SambaStudio features and configurations head to the API reference: https://docs.sambanova.ai/sambastudio/latest/api-ref-landing.html
+For detailed documentation of all SambaStudio features and configurations head to the API reference: [docs.sambanova.ai/sambastudio/latest/api-ref-landing.html](https://docs.sambanova.ai/sambastudio/latest/api-ref-landing.html)

@@ -91,7 +91,6 @@ The following table shows tools that can be used to execute financial transactio
 |-------------|---------|--------------|
 | [GOAT](/oss/integrations/tools/goat) | Free | Create and receive payments, purchase physical goods, make investments, and more. |
 
-
 ## All tools
 
 <Columns cols={3}>
@@ -236,5 +235,3 @@ The following table shows tools that can be used to execute financial transactio
 <Card title="Zapier Natural Language Actions" icon="link" href="/oss/integrations/tools/zapier" arrow="true" cta="View guide" />
 <Card title="ZenGuard AI" icon="link" href="/oss/integrations/tools/zenguard" arrow="true" cta="View guide" />
 </Columns>
-
-

@@ -5,6 +5,7 @@ title: NVIDIA
 This will help you get started with NVIDIA [models](/oss/concepts/text_llms). For detailed documentation of all `NVIDIA` features and configurations head to the [API reference](https://python.langchain.com/api_reference/nvidia_ai_endpoints/llms/langchain_nvidia_ai_endpoints.chat_models.NVIDIA.html).
 
 ## Overview
+
 The `langchain-nvidia-ai-endpoints` package contains LangChain integrations building applications with models on
 NVIDIA NIM inference microservice. These models are optimized by NVIDIA to deliver the best performance on NVIDIA
 accelerated infrastructure and deployed as a NIM, an easy-to-use, prebuilt containers that deploy anywhere using a single
@@ -28,6 +29,7 @@ For more information on accessing the llm models through this api, check out the
 | [NVIDIA](https://python.langchain.com/api_reference/nvidia_ai_endpoints/llms/langchain_nvidia_ai_endpoints.chat_models.ChatNVIDIA.html) | [langchain-nvidia-ai-endpoints](https://python.langchain.com/api_reference/nvidia_ai_endpoints/index.html) | ✅ | beta | ❌ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain_nvidia_ai_endpoints?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain_nvidia_ai_endpoints?style=flat-square&label=%20) |
 
 ### Model features
+
 | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | Native async | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
 | ❌ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ |
@@ -46,8 +48,6 @@ For more information on accessing the llm models through this api, check out the
 
 ### Credentials
 
-
-
 ```python
 import getpass
 import os
@@ -61,7 +61,6 @@ if not os.getenv("NVIDIA_API_KEY"):
 
 The LangChain NVIDIA AI Endpoints integration lives in the `langchain-nvidia-ai-endpoints` package:
 
-
 ```python
 %pip install --upgrade --quiet langchain-nvidia-ai-endpoints
 ```
@@ -70,11 +69,9 @@ The LangChain NVIDIA AI Endpoints integration lives in the `langchain-nvidia-ai-
 
 See [LLM](/docs/how_to#llms) for full functionality.
 
-
 ```python
 from langchain_nvidia_ai_endpoints import NVIDIA
 ```
-
 
 ```python
 llm = NVIDIA().bind(max_tokens=256)
@@ -83,11 +80,9 @@ llm
 
 ## Invocation
 
-
 ```python
 prompt = "# Function that does quicksort written in Rust without comments:"
 ```
-
 
 ```python
 print(llm.invoke(prompt))
@@ -97,39 +92,32 @@ print(llm.invoke(prompt))
 
 These models natively support streaming, and as is the case with all LangChain LLMs they expose a batch method to handle concurrent requests, as well as async methods for invoke, stream, and batch. Below are a few examples.
 
-
 ```python
 for chunk in llm.stream(prompt):
     print(chunk, end="", flush=True)
 ```
 
-
 ```python
 llm.batch([prompt])
 ```
 
-
 ```python
 await llm.ainvoke(prompt)
 ```
-
 
 ```python
 async for chunk in llm.astream(prompt):
     print(chunk, end="", flush=True)
 ```
 
-
 ```python
 await llm.abatch([prompt])
 ```
-
 
 ```python
 async for chunk in llm.astream_log(prompt):
     print(chunk)
 ```
-
 
 ```python
 response = llm.invoke(
@@ -142,7 +130,6 @@ print(response)
 
 Querying `available_models` will still give you all of the other models offered by your API credentials.
 
-
 ```python
 NVIDIA.get_available_models()
 # llm.get_available_models()
@@ -151,7 +138,6 @@ NVIDIA.get_available_models()
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate
@@ -178,4 +164,4 @@ chain.invoke(
 
 ## API reference
 
-For detailed documentation of all `NVIDIA` features and configurations head to the API reference: https://python.langchain.com/api_reference/nvidia_ai_endpoints/llms/langchain_nvidia_ai_endpoints.llms.NVIDIA.html
+For detailed documentation of all `NVIDIA` features and configurations head to the API reference: [python.langchain.com/api_reference/nvidia_ai_endpoints/llms/langchain_nvidia_ai_endpoints.llms.NVIDIA.html](https://python.langchain.com/api_reference/nvidia_ai_endpoints/llms/langchain_nvidia_ai_endpoints.llms.NVIDIA.html)

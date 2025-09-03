@@ -6,33 +6,28 @@ title: 2Markdown
 
 >[2markdown](https://2markdown.com/) service transforms website content into structured markdown files.
 
-
-
 ```python
 # You will need to get your own API key. See https://2markdown.com/login
 
 api_key = ""
 ```
 
-
 ```python
 from langchain_community.document_loaders import ToMarkdownLoader
 ```
-
 
 ```python
 loader = ToMarkdownLoader(url="/docs/get_started/introduction", api_key=api_key)
 ```
 
-
 ```python
 docs = loader.load()
 ```
 
-
 ```python
 print(docs[0].page_content)
 ```
+
 ```output
 **LangChain** is a framework for developing applications powered by language models. It enables applications that:
 

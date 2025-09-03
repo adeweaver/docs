@@ -8,14 +8,14 @@ By including a `BaseGraphQLTool` in the list of tools provided to an Agent, you 
 
 This Jupyter Notebook demonstrates how to use the `GraphQLAPIWrapper` component with an Agent.
 
-In this example, we'll be using the public `Star Wars GraphQL API` available at the following endpoint: https://swapi-graphql.netlify.app/graphql .
+In this example, we'll be using the public `Star Wars GraphQL API` available at the following endpoint: [swapi-graphql.netlify.app/graphql](https://swapi-graphql.netlify.app/graphql) .
 
 First, you need to install `httpx` and `gql` Python packages.
-
 
 ```python
 pip install httpx gql > /dev/null
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
@@ -23,18 +23,18 @@ Note: you may need to restart the kernel to use updated packages.
 ```python
 %pip install --upgrade --quiet  langchain-community
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
-Now, let's create a BaseGraphQLTool instance with the specified Star Wars API endpoint and initialize an Agent with the tool.
 
+Now, let's create a BaseGraphQLTool instance with the specified Star Wars API endpoint and initialize an Agent with the tool.
 
 ```python
 import os
 
 os.environ["OPENAI_API_KEY"] = ""
 ```
-
 
 ```python
 from langchain_community.agent_toolkits.load_tools import load_tools
@@ -45,7 +45,6 @@ tools = load_tools(
 )
 ```
 
-
 ```python
 from langchain.agents import create_agent
 
@@ -53,7 +52,6 @@ agent = create_agent("openai:gpt-4.1-mini", tools)
 ```
 
 Now, we can use the Agent to run queries against the Star Wars GraphQL API. Let's ask the Agent to list all the Star Wars films and their release dates.
-
 
 ```python
 graphql_fields = """allFilms {
@@ -88,6 +86,7 @@ for step in agent.stream(
 ):
     step["messages"][-1].pretty_print()
 ```
+
 ```output
 ================================ Human Message =================================
 

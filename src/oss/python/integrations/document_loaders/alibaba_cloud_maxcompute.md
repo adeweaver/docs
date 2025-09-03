@@ -6,10 +6,10 @@ title: Alibaba Cloud MaxCompute
 
 The `MaxComputeLoader` lets you execute a MaxCompute SQL query and loads the results as one document per row.
 
-
 ```python
 %pip install --upgrade --quiet  pyodps
 ```
+
 ```output
 Collecting pyodps
   Downloading pyodps-0.11.4.post0-cp39-cp39-macosx_10_9_universal2.whl (2.0 MB)
@@ -21,14 +21,14 @@ Requirement already satisfied: certifi>=2017.4.17 in /Users/newboy/anaconda3/env
 Installing collected packages: pyodps
 Successfully installed pyodps-0.11.4.post0
 ```
-## Basic Usage
-To instantiate the loader you'll need a SQL query to execute, your MaxCompute endpoint and project name, and your access ID and secret access key. The access ID and secret access key can either be passed in direct via the `access_id` and `secret_access_key` parameters or they can be set as environment variables `MAX_COMPUTE_ACCESS_ID` and `MAX_COMPUTE_SECRET_ACCESS_KEY`.
 
+## Basic Usage
+
+To instantiate the loader you'll need a SQL query to execute, your MaxCompute endpoint and project name, and your access ID and secret access key. The access ID and secret access key can either be passed in direct via the `access_id` and `secret_access_key` parameters or they can be set as environment variables `MAX_COMPUTE_ACCESS_ID` and `MAX_COMPUTE_SECRET_ACCESS_KEY`.
 
 ```python
 from langchain_community.document_loaders import MaxComputeLoader
 ```
-
 
 ```python
 base_query = """
@@ -43,14 +43,12 @@ FROM (
 """
 ```
 
-
 ```python
 endpoint = "<ENDPOINT>"
 project = "<PROJECT>"
 ACCESS_ID = "<ACCESS ID>"
 SECRET_ACCESS_KEY = "<SECRET ACCESS KEY>"
 ```
-
 
 ```python
 loader = MaxComputeLoader.from_params(
@@ -63,10 +61,10 @@ loader = MaxComputeLoader.from_params(
 data = loader.load()
 ```
 
-
 ```python
 print(data)
 ```
+
 ```output
 [Document(page_content='id: 1\ncontent: content1\nmeta_info: meta_info1', metadata={}), Document(page_content='id: 2\ncontent: content2\nmeta_info: meta_info2', metadata={}), Document(page_content='id: 3\ncontent: content3\nmeta_info: meta_info3', metadata={})]
 ```
@@ -74,6 +72,7 @@ print(data)
 ```python
 print(data[0].page_content)
 ```
+
 ```output
 id: 1
 content: content1
@@ -83,12 +82,14 @@ meta_info: meta_info1
 ```python
 print(data[0].metadata)
 ```
+
 ```output
 {}
 ```
-## Specifying Which Columns are Content vs Metadata
-You can configure which subset of columns should be loaded as the contents of the Document and which as the metadata using the `page_content_columns` and `metadata_columns` parameters.
 
+## Specifying Which Columns are Content vs Metadata
+
+You can configure which subset of columns should be loaded as the contents of the Document and which as the metadata using the `page_content_columns` and `metadata_columns` parameters.
 
 ```python
 loader = MaxComputeLoader.from_params(
@@ -103,10 +104,10 @@ loader = MaxComputeLoader.from_params(
 data = loader.load()
 ```
 
-
 ```python
 print(data[0].page_content)
 ```
+
 ```output
 content: content1
 ```
@@ -114,6 +115,7 @@ content: content1
 ```python
 print(data[0].metadata)
 ```
+
 ```output
 {'id': 1, 'meta_info': 'meta_info1'}
 ```

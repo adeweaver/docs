@@ -23,18 +23,18 @@ def create_agent(
 ```
 
 <ParamField path="response_format">
-Controls how the agent returns structured data:
+    Controls how the agent returns structured data:
 
-- **`ToolStrategy[StructuredResponseT]`**: `Uses tool calling for structured output
-- **`ProviderStrategy[StructuredResponseT]`**: Uses provider-native structured output
-- **`type[StructuredResponseT]`**: Schema type - automatically selects best strategy based on model capabilities
-- **`None`**: No structured output
+    - **`ToolStrategy[StructuredResponseT]`**: `Uses tool calling for structured output
+    - **`ProviderStrategy[StructuredResponseT]`**: Uses provider-native structured output
+    - **`type[StructuredResponseT]`**: Schema type - automatically selects best strategy based on model capabilities
+    - **`None`**: No structured output
 
-When a schema type is provided directly, LangChain automatically chooses:
-- `ProviderStrategy` for models supporting native structured output (OpenAI, Grok)
-- `ToolStrategy` for all other models
+    When a schema type is provided directly, LangChain automatically chooses:
+    - `ProviderStrategy` for models supporting native structured output (OpenAI, Grok)
+    - `ToolStrategy` for all other models
 
-The structured response is returned in the `structured_response` key of the agent's final state.
+    The structured response is returned in the `structured_response` key of the agent's final state.
 </ParamField>
 :::
 :::js
@@ -55,22 +55,22 @@ const agent = createAgent({
 ```
 
 <ParamField path="responseFormat">
-Controls how the agent returns structured data. You can provide either a Zod object or JSON schema. By default, the agent uses a tool calling strategy, in which the output is created by an additional tool call. Certain models support native structured output, in which case the agent will use that strategy instead.
+    Controls how the agent returns structured data. You can provide either a Zod object or JSON schema. By default, the agent uses a tool calling strategy, in which the output is created by an additional tool call. Certain models support native structured output, in which case the agent will use that strategy instead.
 
-You can control the behavior by wrapping `ResponseFormat` in a `toolStrategy` or `providerStrategy` function call:
+    You can control the behavior by wrapping `ResponseFormat` in a `toolStrategy` or `providerStrategy` function call:
 
-```ts
-import { toolStrategy, providerStrategy } from "langchain/agents";
+    ```ts
+    import { toolStrategy, providerStrategy } from "langchain/agents";
 
-const agent = createAgent({
-    // use a provider strategy if supported by the model
-    responseFormat: providerStrategy(z.object({ ... }))
-    // or enforce a tool strategy
-    responseFormat: toolStrategy(z.object({ ... }))
-})
-```
+    const agent = createAgent({
+        // use a provider strategy if supported by the model
+        responseFormat: providerStrategy(z.object({ ... }))
+        // or enforce a tool strategy
+        responseFormat: toolStrategy(z.object({ ... }))
+    })
+    ```
 
-The structured response is returned in the `structuredResponse` key of the agent's final state.
+    The structured response is returned in the `structuredResponse` key of the agent's final state.
 </ParamField>
 :::
 
@@ -87,189 +87,185 @@ class ProviderStrategy(Generic[SchemaT]):
 ```
 
 <ParamField path="schema" required>
-The schema defining the structured output format. Supports:
-- **Pydantic models**: `BaseModel` subclasses with field validation
-- **Dataclasses**: Python dataclasses with type annotations
-- **TypedDict**: Typed dictionary classes
-- **JSON Schema**: Dictionary with JSON schema specification
+    The schema defining the structured output format. Supports:
+    - **Pydantic models**: `BaseModel` subclasses with field validation
+    - **Dataclasses**: Python dataclasses with type annotations
+    - **TypedDict**: Typed dictionary classes
+    - **JSON Schema**: Dictionary with JSON schema specification
 </ParamField>
 
 LangChain automatically uses `ProviderStrategy` when you pass a schema type directly to `create_agent.response_format` and the model supports native structured output:
 
 <CodeGroup>
+    ```python Pydantic Model
+    from pydantic import BaseModel
+    from langchain.agents import create_agent
 
-```python Pydantic Model
-from pydantic import BaseModel
-from langchain.agents import create_agent
+    class ContactInfo(BaseModel):
+        """Contact information for a person."""
+        name: str = Field(description="The name of the person")
+        email: str = Field(description="The email address of the person")
+        phone: str = Field(description="The phone number of the person")
 
-class ContactInfo(BaseModel):
-    """Contact information for a person."""
-    name: str = Field(description="The name of the person")
-    email: str = Field(description="The email address of the person")
-    phone: str = Field(description="The phone number of the person")
+    agent = create_agent(
+        model="openai:gpt-5",
+        tools=tools,
+        response_format=ContactInfo  # Auto-selects ProviderStrategy
+    )
 
-agent = create_agent(
-    model="openai:gpt-5",
-    tools=tools,
-    response_format=ContactInfo  # Auto-selects ProviderStrategy
-)
+    result = agent.invoke({
+        "messages": [{"role": "user", "content": "Extract contact info from: John Doe, john@example.com, (555) 123-4567"}]
+    })
 
-result = agent.invoke({
-    "messages": [{"role": "user", "content": "Extract contact info from: John Doe, john@example.com, (555) 123-4567"}]
-})
+    result["structured_response"]
+    # ContactInfo(name='John Doe', email='john@example.com', phone='(555) 123-4567')
+    ```
 
-result["structured_response"]
-# ContactInfo(name='John Doe', email='john@example.com', phone='(555) 123-4567')
-```
+    ```python Dataclass
+    from dataclasses import dataclass
+    from langchain.agents import create_agent
 
-```python Dataclass
-from dataclasses import dataclass
-from langchain.agents import create_agent
+    @dataclass
+    class ContactInfo:
+        """Contact information for a person."""
+        name: str # The name of the person
+        email: str # The email address of the person
+        phone: str # The phone number of the person
 
-@dataclass
-class ContactInfo:
-    """Contact information for a person."""
-    name: str # The name of the person
-    email: str # The email address of the person
-    phone: str # The phone number of the person
+    agent = create_agent(
+        model="openai:gpt-5",
+        tools=tools,
+        response_format=ContactInfo  # Auto-selects ProviderStrategy
+    )
 
-agent = create_agent(
-    model="openai:gpt-5",
-    tools=tools,
-    response_format=ContactInfo  # Auto-selects ProviderStrategy
-)
+    result = agent.invoke({
+        "messages": [{"role": "user", "content": "Extract contact info from: John Doe, john@example.com, (555) 123-4567"}]
+    })
 
-result = agent.invoke({
-    "messages": [{"role": "user", "content": "Extract contact info from: John Doe, john@example.com, (555) 123-4567"}]
-})
+    result["structured_response"]
+    # ContactInfo(name='John Doe', email='john@example.com', phone='(555) 123-4567')
+    ```
 
-result["structured_response"]
-# ContactInfo(name='John Doe', email='john@example.com', phone='(555) 123-4567')
-```
+    ```python TypedDict
+    from typing_extensions import TypedDict
+    from langchain.agents import create_agent
 
-```python TypedDict
-from typing_extensions import TypedDict
-from langchain.agents import create_agent
+    class ContactInfo(TypedDict):
+        """Contact information for a person."""
+        name: str # The name of the person
+        email: str # The email address of the person
+        phone: str # The phone number of the person
 
-class ContactInfo(TypedDict):
-    """Contact information for a person."""
-    name: str # The name of the person
-    email: str # The email address of the person
-    phone: str # The phone number of the person
+    agent = create_agent(
+        model="openai:gpt-5",
+        tools=tools,
+        response_format=ContactInfo  # Auto-selects ProviderStrategy
+    )
 
-agent = create_agent(
-    model="openai:gpt-5",
-    tools=tools,
-    response_format=ContactInfo  # Auto-selects ProviderStrategy
-)
+    result = agent.invoke({
+        "messages": [{"role": "user", "content": "Extract contact info from: John Doe, john@example.com, (555) 123-4567"}]
+    })
 
-result = agent.invoke({
-    "messages": [{"role": "user", "content": "Extract contact info from: John Doe, john@example.com, (555) 123-4567"}]
-})
+    result["structured_response"]
+    # {'name': 'John Doe', 'email': 'john@example.com', 'phone': '(555) 123-4567'}
+    ```
 
-result["structured_response"]
-# {'name': 'John Doe', 'email': 'john@example.com', 'phone': '(555) 123-4567'}
-```
+    ```python JSON Schema
+    from langchain.agents import create_agent
 
-```python JSON Schema
-from langchain.agents import create_agent
+    contact_info_schema = {
+        "type": "object",
+        "description": "Contact information for a person.",
+        "properties": {
+            "name": {"type": "string", "description": "The name of the person"},
+            "email": {"type": "string", "description": "The email address of the person"},
+            "phone": {"type": "string", "description": "The phone number of the person"}
+        },
+        "required": ["name", "email", "phone"]
+    }
 
-contact_info_schema = {
-    "type": "object",
-    "description": "Contact information for a person.",
-    "properties": {
-        "name": {"type": "string", "description": "The name of the person"},
-        "email": {"type": "string", "description": "The email address of the person"},
-        "phone": {"type": "string", "description": "The phone number of the person"}
-    },
-    "required": ["name", "email", "phone"]
-}
+    agent = create_agent(
+        model="openai:gpt-5",
+        tools=tools,
+        response_format=contact_info_schema  # Auto-selects ProviderStrategy
+    )
 
-agent = create_agent(
-    model="openai:gpt-5",
-    tools=tools,
-    response_format=contact_info_schema  # Auto-selects ProviderStrategy
-)
+    result = agent.invoke({
+        "messages": [{"role": "user", "content": "Extract contact info from: John Doe, john@example.com, (555) 123-4567"}]
+    })
 
-result = agent.invoke({
-    "messages": [{"role": "user", "content": "Extract contact info from: John Doe, john@example.com, (555) 123-4567"}]
-})
-
-result["structured_response"]
-# {'name': 'John Doe', 'email': 'john@example.com', 'phone': '(555) 123-4567'}
-```
-
+    result["structured_response"]
+    # {'name': 'John Doe', 'email': 'john@example.com', 'phone': '(555) 123-4567'}
+    ```
 </CodeGroup>
 :::
 :::js
 ```ts
 function providerStrategy<StructuredResponseT>(
-  schema: ZodSchema<StructuredResponseT> | JsonSchemaFormat
+    schema: ZodSchema<StructuredResponseT> | JsonSchemaFormat
 ): ProviderStrategy<StructuredResponseT>
 ```
 
 <ParamField path="schema" required>
-The schema defining the structured output format. Supports:
-- **Zod Schema**: A zod schema
-- **JSON Schema**: A JSON schema object
+    The schema defining the structured output format. Supports:
+    - **Zod Schema**: A zod schema
+    - **JSON Schema**: A JSON schema object
 </ParamField>
 
 LangChain automatically uses `ProviderStrategy` when you pass a schema type directly to `createAgent.responseFormat` and the model supports native structured output:
 
 <CodeGroup>
+    ```ts Zod Schema
+    import { z } from "zod";
+    import { createAgent, providerStrategy } from "langchain";
 
-```ts Zod Schema
-import { z } from "zod";
-import { createAgent, providerStrategy } from "langchain";
+    const ContactInfo = z.object({
+        name: z.string().describe("The name of the person"),
+        email: z.string().describe("The email address of the person"),
+        phone: z.string().describe("The phone number of the person"),
+    });
 
-const ContactInfo = z.object({
-    name: z.string().describe("The name of the person"),
-    email: z.string().describe("The email address of the person"),
-    phone: z.string().describe("The phone number of the person"),
-});
+    const agent = createAgent({
+        model: "openai:gpt-5",
+        tools: tools,
+        responseFormat: providerStrategy(ContactInfo)
+    });
 
-const agent = createAgent({
-    model: "openai:gpt-5",
-    tools: tools,
-    responseFormat: providerStrategy(ContactInfo)
-});
+    const result = await agent.invoke({
+        messages: [{"role": "user", "content": "Extract contact info from: John Doe, john@example.com, (555) 123-4567"}]
+    });
 
-const result = await agent.invoke({
-    messages: [{"role": "user", "content": "Extract contact info from: John Doe, john@example.com, (555) 123-4567"}]
-});
+    result.structuredResponse;
+    // { name: "John Doe", email: "john@example.com", phone: "(555) 123-4567" }
+    ```
 
-result.structuredResponse;
-// { name: "John Doe", email: "john@example.com", phone: "(555) 123-4567" }
-```
+    ```ts JSON Schema
+    import { createAgent, providerStrategy } from "langchain";
 
-```ts JSON Schema
-import { createAgent, providerStrategy } from "langchain";
+    const contactInfoSchema = {
+        "type": "object",
+        "description": "Contact information for a person.",
+        "properties": {
+            "name": {"type": "string", "description": "The name of the person"},
+            "email": {"type": "string", "description": "The email address of the person"},
+            "phone": {"type": "string", "description": "The phone number of the person"}
+        },
+        "required": ["name", "email", "phone"]
+    }
 
-const contactInfoSchema = {
-    "type": "object",
-    "description": "Contact information for a person.",
-    "properties": {
-        "name": {"type": "string", "description": "The name of the person"},
-        "email": {"type": "string", "description": "The email address of the person"},
-        "phone": {"type": "string", "description": "The phone number of the person"}
-    },
-    "required": ["name", "email", "phone"]
-}
+    const agent = createAgent({
+        model: "openai:gpt-5",
+        tools: tools,
+        responseFormat: providerStrategy(contactInfoSchema)
+    });
 
-const agent = createAgent({
-    model: "openai:gpt-5",
-    tools: tools,
-    responseFormat: providerStrategy(contactInfoSchema)
-});
+    const result = await agent.invoke({
+        messages: [{"role": "user", "content": "Extract contact info from: John Doe, john@example.com, (555) 123-4567"}]
+    });
 
-const result = await agent.invoke({
-    messages: [{"role": "user", "content": "Extract contact info from: John Doe, john@example.com, (555) 123-4567"}]
-});
-
-result.structuredResponse;
-// { name: "John Doe", email: "john@example.com", phone: "(555) 123-4567" }
-```
-
+    result.structuredResponse;
+    // { name: "John Doe", email: "john@example.com", phone: "(555) 123-4567" }
+    ```
 </CodeGroup>
 :::
 
@@ -277,12 +273,12 @@ Provider-native structured output provides high reliability and strict validatio
 
 :::python
 <Note>
-If the provider natively supports structured output for your model choice, it is functionally equivalent to write `response_format=ProductReview` instead of `response_format=ToolStrategy(ProductReview)`. In either case, if structured output is not supported, the agent will fall back to a tool calling strategy.
+    If the provider natively supports structured output for your model choice, it is functionally equivalent to write `response_format=ProductReview` instead of `response_format=ToolStrategy(ProductReview)`. In either case, if structured output is not supported, the agent will fall back to a tool calling strategy.
 </Note>
 :::
 :::js
 <Note>
-If the provider natively supports structured output for your model choice, it is functionally equivalent to write `responseFormat: contactInfoSchema` instead of `responseFormat: toolStrategy(contactInfoSchema)`. In either case, if structured output is not supported, the agent will fall back to a tool calling strategy.
+    If the provider natively supports structured output for your model choice, it is functionally equivalent to write `responseFormat: contactInfoSchema` instead of `responseFormat: toolStrategy(contactInfoSchema)`. In either case, if structured output is not supported, the agent will fall back to a tool calling strategy.
 </Note>
 :::
 
@@ -307,180 +303,178 @@ class ToolStrategy(Generic[SchemaT]):
 ```
 
 <ParamField path="schema" required>
-The schema defining the structured output format. Supports:
-- **Pydantic models**: `BaseModel` subclasses with field validation
-- **Dataclasses**: Python dataclasses with type annotations
-- **TypedDict**: Typed dictionary classes
-- **JSON Schema**: Dictionary with JSON schema specification
-- **Union types**: Multiple schema options. The model will choose the most appropriate schema based on the context.
+    The schema defining the structured output format. Supports:
+    - **Pydantic models**: `BaseModel` subclasses with field validation
+    - **Dataclasses**: Python dataclasses with type annotations
+    - **TypedDict**: Typed dictionary classes
+    - **JSON Schema**: Dictionary with JSON schema specification
+    - **Union types**: Multiple schema options. The model will choose the most appropriate schema based on the context.
 </ParamField>
 
 <ParamField path="tool_message_content">
-Custom content for the tool message returned when structured output is generated.
-If not provided, defaults to a message showing the structured response data.
+    Custom content for the tool message returned when structured output is generated.
+    If not provided, defaults to a message showing the structured response data.
 </ParamField>
 
 <ParamField path="handle_errors">
-Error handling strategy for structured output validation failures. Defaults to `True`.
+    Error handling strategy for structured output validation failures. Defaults to `True`.
 
-- **`True`**: Catch all errors with default error template
-- **`str`**: Catch all errors with this custom message
-- **`type[Exception]`**: Only catch this exception type with default message
-- **`tuple[type[Exception], ...]`**: Only catch these exception types with default message
-- **`Callable[[Exception], str]`**: Custom function that returns error message
-- **`False`**: No retry, let exceptions propagate
+    - **`True`**: Catch all errors with default error template
+    - **`str`**: Catch all errors with this custom message
+    - **`type[Exception]`**: Only catch this exception type with default message
+    - **`tuple[type[Exception], ...]`**: Only catch these exception types with default message
+    - **`Callable[[Exception], str]`**: Custom function that returns error message
+    - **`False`**: No retry, let exceptions propagate
 </ParamField>
 
 <CodeGroup>
+    ```python Pydantic Model
+    from pydantic import BaseModel, Field
+    from typing import Literal, Optional
+    from langchain.agents import create_agent
+    from langchain.agents.structured_output import ToolStrategy
 
-```python Pydantic Model
-from pydantic import BaseModel, Field
-from typing import Literal, Optional
-from langchain.agents import create_agent
-from langchain.agents.structured_output import ToolStrategy
+    class ProductReview(BaseModel):
+        """Analysis of a product review."""
+        rating: Optional[int] = Field(description="The rating of the product", ge=1, le=5)
+        sentiment: Literal["positive", "negative"] = Field(description="The sentiment of the review")
+        key_points: list[str] = Field(description="The key points of the review. Lowercase, 1-3 words each.")
 
-class ProductReview(BaseModel):
-    """Analysis of a product review."""
-    rating: Optional[int] = Field(description="The rating of the product", ge=1, le=5)
-    sentiment: Literal["positive", "negative"] = Field(description="The sentiment of the review")
-    key_points: list[str] = Field(description="The key points of the review. Lowercase, 1-3 words each.")
+    agent = create_agent(
+        model="openai:gpt-5",
+        tools=tools,
+        response_format=ToolStrategy(ProductReview)
+    )
 
-agent = create_agent(
-    model="openai:gpt-5",
-    tools=tools,
-    response_format=ToolStrategy(ProductReview)
-)
+    result = agent.invoke({
+        "messages": [{"role": "user", "content": "Analyze this review: 'Great product: 5 out of 5 stars. Fast shipping, but expensive'"}]
+    })
+    result["structured_response"]
+    # ProductReview(rating=5, sentiment='positive', key_points=['fast shipping', 'expensive'])
+    ```
 
-result = agent.invoke({
-    "messages": [{"role": "user", "content": "Analyze this review: 'Great product: 5 out of 5 stars. Fast shipping, but expensive'"}]
-})
-result["structured_response"]
-# ProductReview(rating=5, sentiment='positive', key_points=['fast shipping', 'expensive'])
-```
+    ```python Dataclass
+    from dataclasses import dataclass
+    from typing import Literal, Optional
+    from langchain.agents import create_agent
+    from langchain.agents.structured_output import ToolStrategy
 
-```python Dataclass
-from dataclasses import dataclass
-from typing import Literal, Optional
-from langchain.agents import create_agent
-from langchain.agents.structured_output import ToolStrategy
+    @dataclass
+    class ProductReview:
+        """Analysis of a product review."""
+        rating: Optional[int]  # The rating of the product (1-5)
+        sentiment: Literal["positive", "negative"]  # The sentiment of the review
+        key_points: list[str]  # The key points of the review
 
-@dataclass
-class ProductReview:
-    """Analysis of a product review."""
-    rating: Optional[int]  # The rating of the product (1-5)
-    sentiment: Literal["positive", "negative"]  # The sentiment of the review
-    key_points: list[str]  # The key points of the review
+    agent = create_agent(
+        model="openai:gpt-5",
+        tools=tools,
+        response_format=ToolStrategy(ProductReview)
+    )
 
-agent = create_agent(
-    model="openai:gpt-5",
-    tools=tools,
-    response_format=ToolStrategy(ProductReview)
-)
+    result = agent.invoke({
+        "messages": [{"role": "user", "content": "Analyze this review: 'Great product: 5 out of 5 stars. Fast shipping, but expensive'"}]
+    })
+    result["structured_response"]
+    # ProductReview(rating=5, sentiment='positive', key_points=['fast shipping', 'expensive'])
+    ```
 
-result = agent.invoke({
-    "messages": [{"role": "user", "content": "Analyze this review: 'Great product: 5 out of 5 stars. Fast shipping, but expensive'"}]
-})
-result["structured_response"]
-# ProductReview(rating=5, sentiment='positive', key_points=['fast shipping', 'expensive'])
-```
+    ```python TypedDict
+    from typing import Literal, Optional
+    from typing_extensions import TypedDict
+    from langchain.agents import create_agent
+    from langchain.agents.structured_output import ToolStrategy
 
-```python TypedDict
-from typing import Literal, Optional
-from typing_extensions import TypedDict
-from langchain.agents import create_agent
-from langchain.agents.structured_output import ToolStrategy
+    class ProductReview(TypedDict):
+        """Analysis of a product review."""
+        rating: Optional[int]  # The rating of the product (1-5)
+        sentiment: Literal["positive", "negative"]  # The sentiment of the review
+        key_points: list[str]  # The key points of the review
 
-class ProductReview(TypedDict):
-    """Analysis of a product review."""
-    rating: Optional[int]  # The rating of the product (1-5)
-    sentiment: Literal["positive", "negative"]  # The sentiment of the review
-    key_points: list[str]  # The key points of the review
+    agent = create_agent(
+        model="openai:gpt-5",
+        tools=tools,
+        response_format=ToolStrategy(ProductReview)
+    )
 
-agent = create_agent(
-    model="openai:gpt-5",
-    tools=tools,
-    response_format=ToolStrategy(ProductReview)
-)
+    result = agent.invoke({
+        "messages": [{"role": "user", "content": "Analyze this review: 'Great product: 5 out of 5 stars. Fast shipping, but expensive'"}]
+    })
+    result["structured_response"]
+    # {'rating': 5, 'sentiment': 'positive', 'key_points': ['fast shipping', 'expensive']}
+    ```
 
-result = agent.invoke({
-    "messages": [{"role": "user", "content": "Analyze this review: 'Great product: 5 out of 5 stars. Fast shipping, but expensive'"}]
-})
-result["structured_response"]
-# {'rating': 5, 'sentiment': 'positive', 'key_points': ['fast shipping', 'expensive']}
-```
+    ```python JSON Schema
+    from langchain.agents import create_agent
+    from langchain.agents.structured_output import ToolStrategy
 
-```python JSON Schema
-from langchain.agents import create_agent
-from langchain.agents.structured_output import ToolStrategy
-
-product_review_schema = {
-    "type": "object",
-    "description": "Analysis of a product review.",
-    "properties": {
-        "rating": {
-            "type": ["integer", "null"],
-            "description": "The rating of the product (1-5)",
-            "minimum": 1,
-            "maximum": 5
+    product_review_schema = {
+        "type": "object",
+        "description": "Analysis of a product review.",
+        "properties": {
+            "rating": {
+                "type": ["integer", "null"],
+                "description": "The rating of the product (1-5)",
+                "minimum": 1,
+                "maximum": 5
+            },
+            "sentiment": {
+                "type": "string",
+                "enum": ["positive", "negative"],
+                "description": "The sentiment of the review"
+            },
+            "key_points": {
+                "type": "array",
+                "items": {"type": "string"},
+                "description": "The key points of the review"
+            }
         },
-        "sentiment": {
-            "type": "string",
-            "enum": ["positive", "negative"],
-            "description": "The sentiment of the review"
-        },
-        "key_points": {
-            "type": "array",
-            "items": {"type": "string"},
-            "description": "The key points of the review"
-        }
-    },
-    "required": ["sentiment", "key_points"]
-}
+        "required": ["sentiment", "key_points"]
+    }
 
-agent = create_agent(
-    model="openai:gpt-5",
-    tools=tools,
-    response_format=ToolStrategy(product_review_schema)
-)
+    agent = create_agent(
+        model="openai:gpt-5",
+        tools=tools,
+        response_format=ToolStrategy(product_review_schema)
+    )
 
-result = agent.invoke({
-    "messages": [{"role": "user", "content": "Analyze this review: 'Great product: 5 out of 5 stars. Fast shipping, but expensive'"}]
-})
-result["structured_response"]
-# {'rating': 5, 'sentiment': 'positive', 'key_points': ['fast shipping', 'expensive']}
-```
+    result = agent.invoke({
+        "messages": [{"role": "user", "content": "Analyze this review: 'Great product: 5 out of 5 stars. Fast shipping, but expensive'"}]
+    })
+    result["structured_response"]
+    # {'rating': 5, 'sentiment': 'positive', 'key_points': ['fast shipping', 'expensive']}
+    ```
 
-```python Union Types
-from pydantic import BaseModel, Field
-from typing import Literal, Optional, Union
-from langchain.agents import create_agent
-from langchain.agents.structured_output import ToolStrategy
+    ```python Union Types
+    from pydantic import BaseModel, Field
+    from typing import Literal, Optional, Union
+    from langchain.agents import create_agent
+    from langchain.agents.structured_output import ToolStrategy
 
-class ProductReview(BaseModel):
-    """Analysis of a product review."""
-    rating: Optional[int] = Field(description="The rating of the product", ge=1, le=5)
-    sentiment: Literal["positive", "negative"] = Field(description="The sentiment of the review")
-    key_points: list[str] = Field(description="The key points of the review. Lowercase, 1-3 words each.")
+    class ProductReview(BaseModel):
+        """Analysis of a product review."""
+        rating: Optional[int] = Field(description="The rating of the product", ge=1, le=5)
+        sentiment: Literal["positive", "negative"] = Field(description="The sentiment of the review")
+        key_points: list[str] = Field(description="The key points of the review. Lowercase, 1-3 words each.")
 
-class CustomerComplaint(BaseModel):
-    """A customer complaint about a product or service."""
-    issue_type: Literal["product", "service", "shipping", "billing"] = Field(description="The type of issue")
-    severity: Literal["low", "medium", "high"] = Field(description="The severity of the complaint")
-    description: str = Field(description="Brief description of the complaint")
+    class CustomerComplaint(BaseModel):
+        """A customer complaint about a product or service."""
+        issue_type: Literal["product", "service", "shipping", "billing"] = Field(description="The type of issue")
+        severity: Literal["low", "medium", "high"] = Field(description="The severity of the complaint")
+        description: str = Field(description="Brief description of the complaint")
 
-agent = create_agent(
-    model="openai:gpt-5",
-    tools=tools,
-    response_format=ToolStrategy(Union[ProductReview, CustomerComplaint])
-)
+    agent = create_agent(
+        model="openai:gpt-5",
+        tools=tools,
+        response_format=ToolStrategy(Union[ProductReview, CustomerComplaint])
+    )
 
-result = agent.invoke({
-    "messages": [{"role": "user", "content": "Analyze this review: 'Great product: 5 out of 5 stars. Fast shipping, but expensive'"}]
-})
-result["structured_response"]
-# ProductReview(rating=5, sentiment='positive', key_points=['fast shipping', 'expensive'])
-```
-
+    result = agent.invoke({
+        "messages": [{"role": "user", "content": "Analyze this review: 'Great product: 5 out of 5 stars. Fast shipping, but expensive'"}]
+    })
+    result["structured_response"]
+    # ProductReview(rating=5, sentiment='positive', key_points=['fast shipping', 'expensive'])
+    ```
 </CodeGroup>
 
 ### Custom tool message content
@@ -542,129 +536,128 @@ Returning structured response: {'task': 'update the project timeline', 'assignee
 :::js
 ```ts
 function toolStrategy<StructuredResponseT>(
-  responseFormat:
-    | JsonSchemaFormat
-    | ZodSchema<StructuredResponseT>
-    | (ZodSchema<StructuredResponseT> | JsonSchemaFormat)[]
-  options?: ToolStrategyOptions
+    responseFormat:
+        | JsonSchemaFormat
+        | ZodSchema<StructuredResponseT>
+        | (ZodSchema<StructuredResponseT> | JsonSchemaFormat)[]
+    options?: ToolStrategyOptions
 ): ToolStrategy<StructuredResponseT>
 ```
 
 <ParamField path="schema" required>
-The schema defining the structured output format. Supports:
-- **Zod Schema**: A zod schema
-- **JSON Schema**: A JSON schema object
+    The schema defining the structured output format. Supports:
+    - **Zod Schema**: A zod schema
+    - **JSON Schema**: A JSON schema object
 </ParamField>
 
 <ParamField path="options.toolMessageContent">
-Custom content for the tool message returned when structured output is generated.
-If not provided, defaults to a message showing the structured response data.
+    Custom content for the tool message returned when structured output is generated.
+    If not provided, defaults to a message showing the structured response data.
 </ParamField>
 
 <ParamField path="options.handleError">
-Options parameter containing an optional `handleError` parameter for customizing the error handling strategy.
+    Options parameter containing an optional `handleError` parameter for customizing the error handling strategy.
 
-- **`true`**: Catch all errors with default error template (default)
-- **`False`**: No retry, let exceptions propagate
-- **`(error: ToolStrategyError) => string | Promise<string>`**: retry with the provided message or throw the error
+    - **`true`**: Catch all errors with default error template (default)
+    - **`False`**: No retry, let exceptions propagate
+    - **`(error: ToolStrategyError) => string | Promise<string>`**: retry with the provided message or throw the error
 </ParamField>
 
 <CodeGroup>
+    ```ts Zod Schema
+    import { z } from "zod";
+    import { createAgent, toolStrategy } from "langchain";
 
-```ts Zod Schema
-import { z } from "zod";
-import { createAgent, toolStrategy } from "langchain";
+    const ProductReview = z.object({
+        rating: z.number().min(1).max(5).optional(),
+        sentiment: z.enum(["positive", "negative"]),
+        keyPoints: z.array(z.string()).describe("The key points of the review. Lowercase, 1-3 words each."),
+    });
 
-const ProductReview = z.object({
-    rating: z.number().min(1).max(5).optional(),
-    sentiment: z.enum(["positive", "negative"]),
-    keyPoints: z.array(z.string()).describe("The key points of the review. Lowercase, 1-3 words each."),
-});
+    const agent = createAgent({
+        model: "openai:gpt-5",
+        tools: tools,
+        responseFormat: toolStrategy(ProductReview)
+    })
 
-const agent = createAgent({
-    model: "openai:gpt-5",
-    tools: tools,
-    responseFormat: toolStrategy(ProductReview)
-})
+    result = agent.invoke({
+        "messages": [{"role": "user", "content": "Analyze this review: 'Great product: 5 out of 5 stars. Fast shipping, but expensive'"}]
+    })
 
-result = agent.invoke({
-    "messages": [{"role": "user", "content": "Analyze this review: 'Great product: 5 out of 5 stars. Fast shipping, but expensive'"}]
-})
+    console.log(result.structuredResponse);
+    // { "rating": 5, "sentiment": "positive", "keyPoints": ["fast shipping", "expensive"] }
+    ```
 
-console.log(result.structuredResponse);
-// { "rating": 5, "sentiment": "positive", "keyPoints": ["fast shipping", "expensive"] }
-```
+    ```ts JSON Schema
+    import { createAgent, toolStrategy } from "langchain";
 
-```ts JSON Schema
-import { createAgent, toolStrategy } from "langchain";
-
-const productReviewSchema = {
-    "type": "object",
-    "description": "Analysis of a product review.",
-    "properties": {
-        "rating": {
-            "type": ["integer", "null"],
-            "description": "The rating of the product (1-5)",
-            "minimum": 1,
-            "maximum": 5
+    const productReviewSchema = {
+        "type": "object",
+        "description": "Analysis of a product review.",
+        "properties": {
+            "rating": {
+                "type": ["integer", "null"],
+                "description": "The rating of the product (1-5)",
+                "minimum": 1,
+                "maximum": 5
+            },
+            "sentiment": {
+                "type": "string",
+                "enum": ["positive", "negative"],
+                "description": "The sentiment of the review"
+            },
+            "key_points": {
+                "type": "array",
+                "items": {"type": "string"},
+                "description": "The key points of the review"
+            }
         },
-        "sentiment": {
-            "type": "string",
-            "enum": ["positive", "negative"],
-            "description": "The sentiment of the review"
-        },
-        "key_points": {
-            "type": "array",
-            "items": {"type": "string"},
-            "description": "The key points of the review"
-        }
-    },
-    "required": ["sentiment", "key_points"]
-}
+        "required": ["sentiment", "key_points"]
+    }
 
-const agent = createAgent({
-    model: "openai:gpt-5",
-    tools: tools,
-    responseFormat: toolStrategy(productReviewSchema)
-});
+    const agent = createAgent({
+        model: "openai:gpt-5",
+        tools: tools,
+        responseFormat: toolStrategy(productReviewSchema)
+    });
 
-const result = await agent.invoke({
-    messages: [{"role": "user", "content": "Analyze this review: 'Great product: 5 out of 5 stars. Fast shipping, but expensive'"}]
-})
+    const result = await agent.invoke({
+        messages: [{"role": "user", "content": "Analyze this review: 'Great product: 5 out of 5 stars. Fast shipping, but expensive'"}]
+    })
 
-console.log(result.structuredResponse);
-// { "rating": 5, "sentiment": "positive", "keyPoints": ["fast shipping", "expensive"] }
-```
+    console.log(result.structuredResponse);
+    // { "rating": 5, "sentiment": "positive", "keyPoints": ["fast shipping", "expensive"] }
+    ```
 
-```ts Union Types
-import { z } from "zod";
-import { createAgent, toolStrategy } from "langchain";
+    ```ts Union Types
+    import { z } from "zod";
+    import { createAgent, toolStrategy } from "langchain";
 
-const ProductReview = z.object({
-    rating: z.number().min(1).max(5).optional(),
-    sentiment: z.enum(["positive", "negative"]),
-    keyPoints: z.array(z.string()).describe("The key points of the review. Lowercase, 1-3 words each."),
-});
+    const ProductReview = z.object({
+        rating: z.number().min(1).max(5).optional(),
+        sentiment: z.enum(["positive", "negative"]),
+        keyPoints: z.array(z.string()).describe("The key points of the review. Lowercase, 1-3 words each."),
+    });
 
-const CustomerComplaint = z.object({
-    issueType: z.enum(["product", "service", "shipping", "billing"]),
-    severity: z.enum(["low", "medium", "high"]),
-    description: z.string().describe("Brief description of the complaint"),
-});
+    const CustomerComplaint = z.object({
+        issueType: z.enum(["product", "service", "shipping", "billing"]),
+        severity: z.enum(["low", "medium", "high"]),
+        description: z.string().describe("Brief description of the complaint"),
+    });
 
-const agent = createAgent({
-    model: "openai:gpt-5",
-    tools: tools,
-    responseFormat: toolStrategy([ProductReview, CustomerComplaint])
-});
+    const agent = createAgent({
+        model: "openai:gpt-5",
+        tools: tools,
+        responseFormat: toolStrategy([ProductReview, CustomerComplaint])
+    });
 
-const result = await agent.invoke({
-    messages: [{"role": "user", "content": "Analyze this review: 'Great product: 5 out of 5 stars. Fast shipping, but expensive'"}]
-})
+    const result = await agent.invoke({
+        messages: [{"role": "user", "content": "Analyze this review: 'Great product: 5 out of 5 stars. Fast shipping, but expensive'"}]
+    })
 
-console.log(result.structuredResponse);
-// { "rating": 5, "sentiment": "positive", "keyPoints": ["fast shipping", "expensive"] }
-```
+    console.log(result.structuredResponse);
+    // { "rating": 5, "sentiment": "positive", "keyPoints": ["fast shipping", "expensive"] }
+    ```
 </CodeGroup>
 
 ### Custom tool message content
@@ -802,29 +795,29 @@ import { z } from "zod";
 import { createAgent, toolStrategy } from "langchain";
 
 const ContactInfo = z.object({
-  name: z.string().describe("Person's name"),
-  email: z.string().describe("Email address"),
+    name: z.string().describe("Person's name"),
+    email: z.string().describe("Email address"),
 });
 
 const EventDetails = z.object({
-  event_name: z.string().describe("Name of the event"),
-  date: z.string().describe("Event date"),
+    event_name: z.string().describe("Name of the event"),
+    date: z.string().describe("Event date"),
 });
 
 const agent = createAgent({
-  model: "openai:gpt-5",
-  tools: [],
-  responseFormat: toolStrategy([ContactInfo, EventDetails]),
+    model: "openai:gpt-5",
+    tools: [],
+    responseFormat: toolStrategy([ContactInfo, EventDetails]),
 });
 
 const result = await agent.invoke({
-  messages: [
-    {
-      role: "user",
-      content:
-        "Extract info: John Doe (john@email.com) is organizing Tech Conference on March 15th",
-    },
-  ],
+    messages: [
+        {
+        role: "user",
+        content:
+            "Extract info: John Doe (john@email.com) is organizing Tech Conference on March 15th",
+        },
+    ],
 });
 
 console.log(result);
@@ -997,23 +990,23 @@ import { z } from "zod";
 import { createAgent, toolStrategy } from "langchain";
 
 const ProductRating = z.object({
-  rating: z.number().min(1).max(5).describe("Rating from 1-5"),
-  comment: z.string().describe("Review comment"),
+    rating: z.number().min(1).max(5).describe("Rating from 1-5"),
+    comment: z.string().describe("Review comment"),
 });
 
 const agent = createAgent({
-  model: "openai:gpt-5",
-  tools: [],
-  responseFormat: toolStrategy(ProductRating),
+    model: "openai:gpt-5",
+    tools: [],
+    responseFormat: toolStrategy(ProductRating),
 });
 
 const result = await agent.invoke({
-  messages: [
-    {
-      role: "user",
-      content: "Parse this: Amazing product, 10/10!",
-    },
-  ],
+    messages: [
+        {
+        role: "user",
+        content: "Parse this: Amazing product, 10/10!",
+        },
+    ],
 });
 
 console.log(result);
@@ -1039,7 +1032,7 @@ You can customize how errors are handled using the `handleErrors` parameter:
 **Custom error message:**
 ```ts
 const responseFormat = toolStrategy(ProductRating, {
-  handleError: "Please provide a valid rating between 1-5 and include a comment."
+    handleError: "Please provide a valid rating between 1-5 and include a comment."
 )
 
 // Error message becomes:
@@ -1051,12 +1044,12 @@ const responseFormat = toolStrategy(ProductRating, {
 import { ToolInputParsingException } from "@langchain/core/tools";
 
 const responseFormat = toolStrategy(ProductRating, {
-  handleError: (error: ToolStrategyError) => {
-    if (error instanceof ToolInputParsingException) {
-      return "Please provide a valid rating between 1-5 and include a comment.";
+    handleError: (error: ToolStrategyError) => {
+        if (error instanceof ToolInputParsingException) {
+        return "Please provide a valid rating between 1-5 and include a comment.";
+        }
+        return error.message;
     }
-    return error.message;
-  }
 )
 
 // Only validation errors get retried with default message:
@@ -1066,22 +1059,22 @@ const responseFormat = toolStrategy(ProductRating, {
 **Handle multiple exception types:**
 ```ts
 const responseFormat = toolStrategy(ProductRating, {
-  handleError: (error: ToolStrategyError) => {
-    if (error instanceof ToolInputParsingException) {
-      return "Please provide a valid rating between 1-5 and include a comment.";
+    handleError: (error: ToolStrategyError) => {
+        if (error instanceof ToolInputParsingException) {
+        return "Please provide a valid rating between 1-5 and include a comment.";
+        }
+        if (error instanceof CustomUserError) {
+        return "This is a custom user error.";
+        }
+        return error.message;
     }
-    if (error instanceof CustomUserError) {
-      return "This is a custom user error.";
-    }
-    return error.message;
-  }
 )
 ```
 
 **No error handling:**
 ```ts
 const responseFormat = toolStrategy(ProductRating, {
-  handleError: false  // All errors raised
+    handleError: false  // All errors raised
 )
 ```
 :::

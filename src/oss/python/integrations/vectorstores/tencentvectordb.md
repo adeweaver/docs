@@ -10,12 +10,9 @@ To run, you should have a [Database instance.](https://cloud.tencent.com/documen
 
 ## Basic Usage
 
-
-
 ```python
 !pip3 install tcvectordb langchain-community
 ```
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -27,7 +24,6 @@ from langchain_text_splitters import CharacterTextSplitter
 
 load the documents, split them into chunks.
 
-
 ```python
 loader = TextLoader("../../how_to/state_of_the_union.txt")
 documents = loader.load()
@@ -36,16 +32,16 @@ docs = text_splitter.split_documents(documents)
 ```
 
 we support two ways to embed the documents:
+
 - Use any Embeddings models compatible with Langchain Embeddings.
 - Specify the Embedding model name of the Tencent VectorStore DB, choices are:
-    - `bge-base-zh`, dimension: 768
-    - `m3e-base`, dimension: 768
-    - `text2vec-large-chinese`, dimension: 1024
-    - `e5-large-v2`, dimension: 1024
-    - `multilingual-e5-base`, dimension: 768
+  - `bge-base-zh`, dimension: 768
+  - `m3e-base`, dimension: 768
+  - `text2vec-large-chinese`, dimension: 1024
+  - `e5-large-v2`, dimension: 1024
+  - `multilingual-e5-base`, dimension: 768
 
 flowing code shows both ways to embed the documents, you can choose one of them by commenting the other:
-
 
 ```python
 ##  you can use a Langchain Embeddings model, like OpenAIEmbeddings:
@@ -63,7 +59,6 @@ embeddings = None
 
 now we can create a TencentVectorDB instance, you must provide at least one of the `embeddings` or `t_vdb_embedding` parameters. if both are provided, the `embeddings` parameter will be used:
 
-
 ```python
 conn_params = ConnectionParams(
     url="http://10.0.X.X",
@@ -77,20 +72,15 @@ vector_db = TencentVectorDB.from_documents(
 )
 ```
 
-
 ```python
 query = "What did the president say about Ketanji Brown Jackson"
 docs = vector_db.similarity_search(query)
 docs[0].page_content
 ```
 
-
-
 ```output
 'Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections. \n\nTonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service. \n\nOne of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. \n\nAnd I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.'
 ```
-
-
 
 ```python
 vector_db = TencentVectorDB(embeddings, conn_params)
@@ -101,19 +91,15 @@ docs = vector_db.max_marginal_relevance_search(query)
 docs[0].page_content
 ```
 
-
-
 ```output
 'Ankush went to Princeton'
 ```
-
 
 ## Metadata and filtering
 
 Tencent VectorDB supports metadata and [filtering](https://cloud.tencent.com/document/product/1709/95099#c6f6d3a3-02c5-4891-b0a1-30fe4daf18d8). You can add metadata to the documents and filter the search results based on the metadata.
 
 now we will create a new TencentVectorDB collection with metadata and demonstrate how to filter the search results based on the metadata:
-
 
 ```python
 from langchain_community.vectorstores.tencentvectordb import (
@@ -194,8 +180,6 @@ result = vector_db.similarity_search(query, expr='director="Christopher Nolan"')
 
 result
 ```
-
-
 
 ```output
 [Document(page_content='The Dark Knight is a 2008 superhero film directed by Christopher Nolan.', metadata={'year': 2008, 'rating': '9.0', 'genre': 'superhero', 'director': 'Christopher Nolan'}),

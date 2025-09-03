@@ -8,7 +8,6 @@ OpenVINO models can be run locally through the `HuggingFacePipeline` [class](htt
 
 To use, you should have the ``optimum-intel`` with OpenVINO Accelerator python [package installed](https://github.com/huggingface/optimum-intel?tab=readme-ov-file#installation).
 
-
 ```python
 %pip install --upgrade-strategy eager "optimum[openvino,nncf]" langchain-huggingface --quiet
 ```
@@ -18,7 +17,6 @@ To use, you should have the ``optimum-intel`` with OpenVINO Accelerator python [
 Models can be loaded by specifying the model parameters using the `from_model_id` method.
 
 If you have an Intel GPU, you can specify `model_kwargs={"device": "GPU"}` to run inference on it.
-
 
 ```python
 from langchain_huggingface import HuggingFacePipeline
@@ -35,7 +33,6 @@ ov_llm = HuggingFacePipeline.from_model_id(
 ```
 
 They can also be loaded by passing in an existing [`optimum-intel`](https://huggingface.co/docs/optimum/main/en/intel/inference) pipeline directly
-
 
 ```python
 from optimum.intel.openvino import OVModelForCausalLM
@@ -58,7 +55,6 @@ ov_llm = HuggingFacePipeline(pipeline=ov_pipe)
 With the model loaded into memory, you can compose it with a prompt to
 form a chain.
 
-
 ```python
 from langchain_core.prompts import PromptTemplate
 
@@ -76,7 +72,6 @@ print(chain.invoke({"question": question}))
 
 To get response without prompt, you can bind `skip_prompt=True` with LLM.
 
-
 ```python
 chain = prompt | ov_llm.bind(skip_prompt=True)
 
@@ -89,21 +84,17 @@ print(chain.invoke({"question": question}))
 
 It is possible to [export your model](https://github.com/huggingface/optimum-intel?tab=readme-ov-file#export) to the OpenVINO IR format with the CLI, and load the model from local folder.
 
-
-
 ```python
 !optimum-cli export openvino --model gpt2 ov_model_dir
 ```
 
 It is recommended to apply 8 or 4-bit weight quantization to reduce inference latency and model footprint using `--weight-format`:
 
-
 ```python
 !optimum-cli export openvino --model gpt2  --weight-format int8 ov_model_dir # for 8-bit quantization
 
 !optimum-cli export openvino --model gpt2  --weight-format int4 ov_model_dir # for 4-bit quantization
 ```
-
 
 ```python
 ov_llm = HuggingFacePipeline.from_model_id(
@@ -123,7 +114,6 @@ print(chain.invoke({"question": question}))
 
 You can get additional inference speed improvement with Dynamic Quantization of activations and KV-cache quantization. These options can be enabled with `ov_config` as follows:
 
-
 ```python
 ov_config = {
     "KV_CACHE_PRECISION": "u8",
@@ -137,7 +127,6 @@ ov_config = {
 ### Streaming
 
 You can use `stream` method to get a streaming of LLM output,
-
 
 ```python
 generation_config = {"skip_prompt": True, "pipeline_kwargs": {"max_new_tokens": 100}}

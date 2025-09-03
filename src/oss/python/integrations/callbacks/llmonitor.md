@@ -110,6 +110,7 @@ agent.invoke({"messages": [input_message]})
 ```
 
 ## User Tracking
+
 User tracking allows you to identify your users, track their cost, conversations and more.
 
 ```python
@@ -121,6 +122,7 @@ with identify("user-123"):
 with identify("user-456", user_props={"email": "user456@test.com"}):
     agent.invoke(...)
 ```
+
 ## Support
 
 For any question or issue with integration you can reach out to the LLMonitor team on [Discord](http://discord.com/invite/8PafSG58kK) or via [email](mailto:vince@llmonitor.com).

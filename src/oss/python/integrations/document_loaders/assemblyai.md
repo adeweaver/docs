@@ -19,7 +19,6 @@ First, you need to install the `assemblyai` python package.
 
 You can find more info about it inside the [assemblyai-python-sdk GitHub repo](https://github.com/AssemblyAI/assemblyai-python-sdk).
 
-
 ```python
 %pip install --upgrade --quiet  assemblyai
 ```
@@ -27,7 +26,6 @@ You can find more info about it inside the [assemblyai-python-sdk GitHub repo](h
 ## Example
 
 The `AssemblyAIAudioTranscriptLoader` needs at least the `file_path` argument. Audio files can be specified as an URL or a local file path.
-
 
 ```python
 from langchain_community.document_loaders import AssemblyAIAudioTranscriptLoader
@@ -44,7 +42,6 @@ Note: Calling `loader.load()` blocks until the transcription is finished.
 
 The transcribed text is available in the `page_content`:
 
-
 ```python
 docs[0].page_content
 ```
@@ -54,7 +51,6 @@ docs[0].page_content
 ```
 
 The `metadata` contains the full JSON response with more meta information:
-
 
 ```python
 docs[0].metadata
@@ -81,7 +77,6 @@ Depending on the format, one or more documents are returned. These are the diffe
 - `SUBTITLES_SRT`: One document with the transcript exported in SRT subtitles format
 - `SUBTITLES_VTT`: One document with the transcript exported in VTT subtitles format
 
-
 ```python
 from langchain_community.document_loaders.assemblyai import TranscriptFormat
 
@@ -99,7 +94,6 @@ You can also specify the `config` argument to use different audio intelligence m
 
 Visit the [AssemblyAI API Documentation](https://www.assemblyai.com/docs) to get an overview of all available models!
 
-
 ```python
 import assemblyai as aai
 
@@ -113,7 +107,6 @@ loader = AssemblyAIAudioTranscriptLoader(file_path="./your_file.mp3", config=con
 ## Pass the API Key as argument
 
 Next to setting the API key as environment variable `ASSEMBLYAI_API_KEY`, it is also possible to pass it as argument.
-
 
 ```python
 loader = AssemblyAIAudioTranscriptLoader(

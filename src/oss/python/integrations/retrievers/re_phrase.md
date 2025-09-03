@@ -12,7 +12,6 @@ It can be used to pre-process the user input in any way.
 
 Create a vector store.
 
-
 ```python
 import logging
 
@@ -22,7 +21,6 @@ from langchain_community.document_loaders import WebBaseLoader
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 ```
-
 
 ```python
 logging.basicConfig()
@@ -48,7 +46,6 @@ In this process, you strip out information that is not relevant for \
 the retrieval task. Here is the user query: {question}"""
 ```
 
-
 ```python
 llm = ChatOpenAI(temperature=0)
 retriever_from_llm = RePhraseQueryRetriever.from_llm(
@@ -56,12 +53,12 @@ retriever_from_llm = RePhraseQueryRetriever.from_llm(
 )
 ```
 
-
 ```python
 docs = retriever_from_llm.invoke(
     "Hi I'm Lance. What are the approaches to Task Decomposition?"
 )
 ```
+
 ```output
 INFO:langchain.retrievers.re_phraser:Re-phrased question: The user query can be converted into a query for a vectorstore as follows:
 
@@ -73,11 +70,12 @@ docs = retriever_from_llm.invoke(
     "I live in San Francisco. What are the Types of Memory?"
 )
 ```
+
 ```output
 INFO:langchain.retrievers.re_phraser:Re-phrased question: Query for vectorstore: "Types of Memory"
 ```
-### Custom prompt
 
+### Custom prompt
 
 ```python
 from langchain.chains import LLMChain
@@ -95,19 +93,18 @@ llm = ChatOpenAI(temperature=0)
 llm_chain = LLMChain(llm=llm, prompt=QUERY_PROMPT)
 ```
 
-
 ```python
 retriever_from_llm_chain = RePhraseQueryRetriever(
     retriever=vectorstore.as_retriever(), llm_chain=llm_chain
 )
 ```
 
-
 ```python
 docs = retriever_from_llm_chain.invoke(
     "Hi I'm Lance. What is Maximum Inner Product Search?"
 )
 ```
+
 ```output
 INFO:langchain.retrievers.re_phraser:Re-phrased question: Ahoy matey! What be Maximum Inner Product Search, ye scurvy dog?
 ```

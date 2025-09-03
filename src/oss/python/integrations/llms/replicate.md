@@ -8,7 +8,6 @@ This example goes over how to use LangChain to interact with `Replicate` [models
 
 ## Setup
 
-
 ```python
 # magics to auto-reload external modules in case you are making changes to langchain while working on this notebook
 %load_ext autoreload
@@ -17,10 +16,10 @@ This example goes over how to use LangChain to interact with `Replicate` [models
 
 To run this notebook, you'll need to create a [replicate](https://replicate.com) account and install the [replicate python client](https://github.com/replicate/replicate-python).
 
-
 ```python
 !poetry run pip install replicate
 ```
+
 ```output
 Collecting replicate
   Using cached replicate-0.25.1-py3-none-any.whl.metadata (24 kB)
@@ -48,13 +47,11 @@ from getpass import getpass
 REPLICATE_API_TOKEN = getpass()
 ```
 
-
 ```python
 import os
 
 os.environ["REPLICATE_API_TOKEN"] = REPLICATE_API_TOKEN
 ```
-
 
 ```python
 from langchain.chains import LLMChain
@@ -68,7 +65,6 @@ Find a model on the [replicate explore page](https://replicate.com/explore), and
 
 For example, here is [`Meta Llama 3`](https://replicate.com/meta/meta-llama-3-8b-instruct).
 
-
 ```python
 llm = Replicate(
     model="meta/meta-llama-3-8b-instruct",
@@ -81,12 +77,9 @@ Assistant:
 llm(prompt)
 ```
 
-
-
 ```output
 "Let's break this down step by step:\n\n1. A dog is a living being, specifically a mammal.\n2. Dogs do not possess the cognitive abilities or physical characteristics necessary to operate a vehicle, such as a car.\n3. Operating a car requires complex mental and physical abilities, including:\n\t* Understanding of traffic laws and rules\n\t* Ability to read and comprehend road signs\n\t* Ability to make decisions quickly and accurately\n\t* Ability to physically manipulate the vehicle's controls (e.g., steering wheel, pedals)\n4. Dogs do not possess any of these abilities. They are unable to read or comprehend written language, let alone complex traffic laws.\n5. Dogs also lack the physical dexterity and coordination to operate a vehicle's controls. Their paws and claws are not adapted for grasping or manipulating small, precise objects like a steering wheel or pedals.\n6. Therefore, it is not possible for a dog to drive a car.\n\nAnswer: No."
 ```
-
 
 As another example, for this [dolly model](https://replicate.com/replicate/dolly-v2-12b), click on the API tab. The model name/version would be: `replicate/dolly-v2-12b:ef0e1aefc61f8e096ebe4db6b2bacc297daf2ef6899f0f7e001ec445893500e5`
 
@@ -100,13 +93,11 @@ Replicate(model="stability-ai/stable-diffusion:db21e45d3f7023abc2a46ee38a23973f6
 
 *Note that only the first output of a model will be returned.*
 
-
 ```python
 llm = Replicate(
     model="replicate/dolly-v2-12b:ef0e1aefc61f8e096ebe4db6b2bacc297daf2ef6899f0f7e001ec445893500e5"
 )
 ```
-
 
 ```python
 prompt = """
@@ -116,15 +107,11 @@ Can a dog drive a car?
 llm(prompt)
 ```
 
-
-
 ```output
 'No, dogs lack some of the brain functions required to operate a motor vehicle. They cannot focus and react in time to accelerate or brake correctly. Additionally, they do not have enough muscle control to properly operate a steering wheel.\n\n'
 ```
 
-
 We can call any replicate model using this syntax. For example, we can call stable diffusion.
-
 
 ```python
 text2image = Replicate(
@@ -133,25 +120,21 @@ text2image = Replicate(
 )
 ```
 
-
 ```python
 image_output = text2image("A cat riding a motorcycle by Picasso")
 image_output
 ```
 
-
-
 ```output
 'https://pbxt.replicate.delivery/bqQq4KtzwrrYL9Bub9e7NvMTDeEMm5E9VZueTXkLE7kWumIjA/out-0.png'
 ```
 
-
 The model spits out a URL. Let's render it.
-
 
 ```python
 !poetry run pip install Pillow
 ```
+
 ```output
 Requirement already satisfied: Pillow in /Users/bagatur/langchain/.venv/lib/python3.9/site-packages (9.5.0)
 
@@ -172,8 +155,8 @@ img
 ```
 
 ## Streaming Response
-You can optionally stream the response as it is produced, which is helpful to show interactivity to users for time-consuming generations. See detailed docs on [Streaming](/oss/how-to/streaming_llm) for more information.
 
+You can optionally stream the response as it is produced, which is helpful to show interactivity to users for time-consuming generations. See detailed docs on [Streaming](/oss/how-to/streaming_llm) for more information.
 
 ```python
 from langchain_core.callbacks import StreamingStdOutCallbackHandler
@@ -190,12 +173,14 @@ Assistant:
 """
 _ = llm.invoke(prompt)
 ```
+
 ```output
 1. Dogs do not have the physical ability to operate a vehicle.
 ```
-# Stop Sequences
-You can also specify stop sequences. If you have a definite stop sequence for the generation that you are going to parse with anyway, it is better (cheaper and faster!) to just cancel the generation once one or more stop sequences are reached, rather than letting the model ramble on till the specified `max_length`. Stop sequences work regardless of whether you are in streaming mode or not, and Replicate only charges you for the generation up until the stop sequence.
 
+# Stop Sequences
+
+You can also specify stop sequences. If you have a definite stop sequence for the generation that you are going to parse with anyway, it is better (cheaper and faster!) to just cancel the generation once one or more stop sequences are reached, rather than letting the model ramble on till the specified `max_length`. Stop sequences work regardless of whether you are in streaming mode or not, and Replicate only charges you for the generation up until the stop sequence.
 
 ```python
 import time
@@ -221,6 +206,7 @@ end_time = time.perf_counter()
 print(f"Stopped output:\n {stopped_output}")
 print(f"Stopped output runtime: {end_time - start_time} seconds")
 ```
+
 ```output
 Raw output:
  There are several ways to learn Python, and the best method for you will depend on your learning style and goals. Here are a few suggestions:
@@ -240,16 +226,16 @@ Stopped output:
  There are several ways to learn Python, and the best method for you will depend on your learning style and goals. Here are some suggestions:
 Stopped output runtime: 25.77039254200008 seconds
 ```
-## Chaining Calls
-The whole point of langchain is to... chain! Here's an example of how do that.
 
+## Chaining Calls
+
+The whole point of langchain is to... chain! Here's an example of how do that.
 
 ```python
 from langchain.chains import SimpleSequentialChain
 ```
 
 First, let's define the LLM for this model as a flan-5, and text2image as a stable diffusion model.
-
 
 ```python
 dolly_llm = Replicate(
@@ -262,7 +248,6 @@ text2image = Replicate(
 
 First prompt in the chain
 
-
 ```python
 prompt = PromptTemplate(
     input_variables=["product"],
@@ -274,7 +259,6 @@ chain = LLMChain(llm=dolly_llm, prompt=prompt)
 
 Second prompt to get the logo for company description
 
-
 ```python
 second_prompt = PromptTemplate(
     input_variables=["company_name"],
@@ -284,7 +268,6 @@ chain_two = LLMChain(llm=dolly_llm, prompt=second_prompt)
 ```
 
 Third prompt, let's create the image based on the description output from prompt 2
-
 
 ```python
 third_prompt = PromptTemplate(
@@ -296,7 +279,6 @@ chain_three = LLMChain(llm=text2image, prompt=third_prompt)
 
 Now let's run it!
 
-
 ```python
 # Run the chain specifying only the input variable for the first chain.
 overall_chain = SimpleSequentialChain(
@@ -305,6 +287,7 @@ overall_chain = SimpleSequentialChain(
 catchphrase = overall_chain.run("colorful socks")
 print(catchphrase)
 ```
+
 ```output
 > Entering new SimpleSequentialChain chain...
 Colorful socks could be named after a song by The Beatles or a color (yellow, blue, pink). A good combination of letters and digits would be 6399. Apple also owns the domain 6399.com so this could be reserved for the Company.

@@ -10,13 +10,14 @@ This notebook explains how to use the embeddings functionality of ApertureDB.
 
 This installs the [Python SDK](https://docs.aperturedata.io/category/aperturedb-python-sdk) used to write client code for ApertureDB.
 
-
 ```python
 %pip install --upgrade --quiet aperturedb
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
+
 ## Run an ApertureDB instance
 
 To continue, you should have an [ApertureDB instance up and running](https://docs.aperturedata.io/HowToGuides/start/Setup) and configure your environment to use it.
@@ -28,8 +29,8 @@ adb config create local --active --no-interactive
 ```
 
 ## Download some web documents
-We're going to do a mini-crawl here of one web page.
 
+We're going to do a mini-crawl here of one web page.
 
 ```python
 # For loading documents from web
@@ -38,21 +39,23 @@ from langchain_community.document_loaders import WebBaseLoader
 loader = WebBaseLoader("https://docs.aperturedata.io")
 docs = loader.load()
 ```
+
 ```output
 USER_AGENT environment variable not set, consider setting it to identify your requests.
 ```
+
 ## Select embeddings model
 
 We want to use OllamaEmbeddings so we have to import the necessary modules.
 
 Ollama can be set up as a docker container as described in the [documentation](https://hub.docker.com/r/ollama/ollama), for example:
+
 ```bash
 # Run server
 docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
 # Tell server to load a specific model
 docker exec ollama ollama run llama2
 ```
-
 
 ```python
 from langchain_community.embeddings import OllamaEmbeddings
@@ -63,7 +66,6 @@ embeddings = OllamaEmbeddings()
 ## Split documents into segments
 
 We want to turn our single document into multiple segments.
-
 
 ```python
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -78,7 +80,6 @@ This code creates a vectorstore in the ApertureDB instance.
 Within the instance, this vectorstore is represented as a "[descriptor set](https://docs.aperturedata.io/category/descriptorset-commands)".
 By default, the descriptor set is named `langchain`.  The following code will generate embeddings for each document and store them in ApertureDB as descriptors.  This will take a few seconds as the embeddings are bring generated.
 
-
 ```python
 from langchain_community.vectorstores import ApertureDB
 
@@ -89,7 +90,6 @@ vector_db = ApertureDB.from_documents(documents, embeddings)
 
 Again, we use the Ollama server we set up for local processing.
 
-
 ```python
 from langchain_community.llms import Ollama
 
@@ -99,11 +99,11 @@ llm = Ollama(model="llama2")
 ## Build a RAG chain
 
 Now we have all the components we need to create a RAG (Retrieval-Augmented Generation) chain.  This chain does the following:
+
 1. Generate embedding descriptor for user query
 2. Find text segments that are similar to the user query using the vector store
 3. Pass user query and context documents to the LLM using a prompt template
 4. Return the LLM's answer
-
 
 ```python
 # Create prompt
@@ -133,19 +133,21 @@ from langchain.chains import create_retrieval_chain
 
 retrieval_chain = create_retrieval_chain(retriever, document_chain)
 ```
+
 ```output
 Based on the provided context, ApertureDB can store images. In fact, it is specifically designed to manage multimodal data such as images, videos, documents, embeddings, and associated metadata including annotations. So, ApertureDB has the capability to store and manage images.
 ```
+
 ## Run the RAG chain
 
 Finally we pass a question to the chain and get our answer.  This will take a few seconds to run as the LLM generates an answer from the query and context documents.
-
 
 ```python
 user_query = "How can ApertureDB store images?"
 response = retrieval_chain.invoke({"input": user_query})
 print(response["answer"])
 ```
+
 ```output
 Based on the provided context, ApertureDB can store images in several ways:
 

@@ -39,7 +39,6 @@ At a high-level, we will:
 
 To enable automated tracing of individual tools, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
-
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
 # os.environ["LANGSMITH_TRACING"] = "true"
@@ -49,7 +48,6 @@ To enable automated tracing of individual tools, set your [LangSmith](https://do
 
 This toolkit lives in the `cdp-langchain` package:
 
-
 ```python
 %pip install -qU cdp-langchain
 ```
@@ -57,7 +55,6 @@ This toolkit lives in the `cdp-langchain` package:
 #### Set Environment Variables
 
 To use this toolkit, you must first set the following environment variables to access the [CDP APIs](https://docs.cdp.coinbase.com/mpc-wallet/docs/quickstart) to create wallets and interact onchain. You can sign up for an API key for free on the [CDP Portal](https://cdp.coinbase.com/):
-
 
 ```python
 import getpass
@@ -78,7 +75,6 @@ os.environ["NETWORK_ID"] = "base-sepolia"  # or "base-mainnet"
 
 Now we can instantiate our toolkit:
 
-
 ```python
 from cdp_langchain.agent_toolkits import CdpToolkit
 from cdp_langchain.utils import CdpAgentkitWrapper
@@ -94,7 +90,6 @@ toolkit = CdpToolkit.from_cdp_agentkit_wrapper(cdp)
 
 View [available tools](#tool-features):
 
-
 ```python
 tools = toolkit.get_tools()
 for tool in tools:
@@ -105,7 +100,6 @@ for tool in tools:
 
 We will need a LLM or chat model:
 
-
 ```python
 from langchain_openai import ChatOpenAI
 
@@ -113,7 +107,6 @@ llm = ChatOpenAI(model="gpt-4o-mini")
 ```
 
 Initialize the agent with the tools:
-
 
 ```python
 from langchain.agents import create_agent
@@ -123,7 +116,6 @@ agent_executor = create_agent(llm, tools)
 ```
 
 Example usage:
-
 
 ```python
 example_query = "Send 0.005 ETH to john2879.base.eth"
@@ -137,6 +129,7 @@ for event in events:
 ```
 
 Expected output:
+
 ```
 Transferred 0.005 of eth to john2879.base.eth.
 Transaction hash for the transfer: 0x78c7c2878659a0de216d0764fc87eff0d38b47f3315fa02ba493a83d8e782d1e
@@ -148,7 +141,6 @@ Transaction link for the transfer: https://sepolia.basescan.org/tx/0x78c7c287865
 ### Wallet Management
 
 The toolkit maintains an MPC wallet. The wallet data can be exported and imported to persist between sessions:
-
 
 ```python
 # Export wallet data
@@ -166,6 +158,7 @@ The toolkit supports [multiple networks](https://docs.cdp.coinbase.com/cdp-sdk/d
 ### Gasless Transactions
 
 Some operations support gasless transactions on Base Mainnet:
+
 - USDC transfers
 - EURC transfers
 - cbBTC transfers

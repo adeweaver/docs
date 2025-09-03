@@ -6,11 +6,9 @@ This notebook shows how to use Volcengine Reranker for document compression and 
 
 Volcengine's Rerank Service supports reranking up to 50 documents with a maximum of 4000 tokens. For more, please visit [here](https://www.volcengine.com/docs/84313/1254474) and [here](https://www.volcengine.com/docs/84313/1254605).
 
-
 ```python
 %pip install --upgrade --quiet  volcengine
 ```
-
 
 ```python
 %pip install --upgrade --quiet  faiss
@@ -19,7 +17,6 @@ Volcengine's Rerank Service supports reranking up to 50 documents with a maximum
 
 %pip install --upgrade --quiet  faiss-cpu
 ```
-
 
 ```python
 # To obtain ak/sk: https://www.volcengine.com/docs/84313/1254488
@@ -33,7 +30,6 @@ if "VOLC_API_SK" not in os.environ:
     os.environ["VOLC_API_SK"] = getpass.getpass("Volcengine API SK:")
 ```
 
-
 ```python
 # Helper function for printing docs
 def pretty_print_docs(docs):
@@ -45,8 +41,8 @@ def pretty_print_docs(docs):
 ```
 
 ## Set up the base vector store retriever
-Let's start by initializing a simple vector store retriever and storing the 2023 State of the Union speech (in chunks). We can set up the retriever to retrieve a high number (20) of docs.
 
+Let's start by initializing a simple vector store retriever and storing the 2023 State of the Union speech (in chunks). We can set up the retriever to retrieve a high number (20) of docs.
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -65,6 +61,7 @@ query = "What did the president say about Ketanji Brown Jackson"
 docs = retriever.invoke(query)
 pretty_print_docs(docs)
 ```
+
 ```output
 /Users/terminator/Developer/langchain/.venv/lib/python3.11/site-packages/sentence_transformers/cross_encoder/CrossEncoder.py:11: TqdmExperimentalWarning: Using `tqdm.autonotebook.tqdm` in notebook mode. Use `tqdm.tqdm` instead to force console mode (e.g. in jupyter console)
   from tqdm.autonotebook import tqdm, trange
@@ -287,12 +284,13 @@ In this Capitol, generation after generation, Americans have debated great quest
 ``````output
 huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
 To disable this warning, you can either:
-	- Avoid using `tokenizers` before the fork if possible
-	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+ - Avoid using `tokenizers` before the fork if possible
+ - Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
 ```
-## Reranking with VolcengineRerank
-Now let's wrap our base retriever with a `ContextualCompressionRetriever`. We'll use the `VolcengineRerank` to rerank the returned results.
 
+## Reranking with VolcengineRerank
+
+Now let's wrap our base retriever with a `ContextualCompressionRetriever`. We'll use the `VolcengineRerank` to rerank the returned results.
 
 ```python
 from langchain.retrievers import ContextualCompressionRetriever
@@ -308,6 +306,7 @@ compressed_docs = compression_retriever.invoke(
 )
 pretty_print_docs(compressed_docs)
 ```
+
 ```output
 Document 1:
 

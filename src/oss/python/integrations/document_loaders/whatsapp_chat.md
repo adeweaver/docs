@@ -6,16 +6,13 @@ title: WhatsApp Chat
 
 This notebook covers how to load data from the `WhatsApp Chats` into a format that can be ingested into LangChain.
 
-
 ```python
 from langchain_community.document_loaders import WhatsAppChatLoader
 ```
 
-
 ```python
 loader = WhatsAppChatLoader("example_data/whatsapp_chat.txt")
 ```
-
 
 ```python
 loader.load()

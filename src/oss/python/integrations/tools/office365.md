@@ -12,7 +12,6 @@ To use this toolkit, you need to set up your credentials explained in the [Micro
 
 You can also use the [authentication instructions from here](https://o365.github.io/python-o365/latest/getting_started.html#oauth-setup-pre-requisite).
 
-
 ```python
 %pip install --upgrade --quiet  O365
 %pip install --upgrade --quiet  beautifulsoup4  # This is optional but is useful for parsing HTML messages
@@ -23,7 +22,6 @@ You can also use the [authentication instructions from here](https://o365.github
 
 The toolkit will read the `CLIENT_ID` and `CLIENT_SECRET` environmental variables to authenticate the user so you need to set them here. You will also need to set your `OPENAI_API_KEY` to use the agent later.
 
-
 ```python
 # Set environmental variables here
 ```
@@ -31,7 +29,6 @@ The toolkit will read the `CLIENT_ID` and `CLIENT_SECRET` environmental variable
 ## Create the Toolkit and Get Tools
 
 To start, you need to create the toolkit, so you can access its tools later.
-
 
 ```python
 from langchain_community.agent_toolkits import O365Toolkit
@@ -41,8 +38,6 @@ tools = toolkit.get_tools()
 tools
 ```
 
-
-
 ```output
 [O365SearchEvents(name='events_search', description=" Use this tool to search for the user's calendar events. The input must be the start and end datetimes for the search query. The output is a JSON list of all the events in the user's calendar between the start and end times. You can assume that the user can  not schedule any meeting over existing meetings, and that the user is busy during meetings. Any times without events are free for the user. ", args_schema=<class 'langchain_community.tools.office365.events_search.SearchEventsInput'>, return_direct=False, verbose=False, callbacks=None, callback_manager=None, handle_tool_error=False, account=Account Client Id: f32a022c-3c4c-4d10-a9d8-f6a9a9055302),
  O365CreateDraftMessage(name='create_email_draft', description='Use this tool to create a draft email with the provided message fields.', args_schema=<class 'langchain_community.tools.office365.create_draft_message.CreateDraftMessageSchema'>, return_direct=False, verbose=False, callbacks=None, callback_manager=None, handle_tool_error=False, account=Account Client Id: f32a022c-3c4c-4d10-a9d8-f6a9a9055302),
@@ -51,15 +46,12 @@ tools
  O365SendMessage(name='send_email', description='Use this tool to send an email with the provided message fields.', args_schema=<class 'langchain_community.tools.office365.send_message.SendMessageSchema'>, return_direct=False, verbose=False, callbacks=None, callback_manager=None, handle_tool_error=False, account=Account Client Id: f32a022c-3c4c-4d10-a9d8-f6a9a9055302)]
 ```
 
-
 ## Use within an Agent
-
 
 ```python
 from langchain.agents import AgentType, initialize_agent
 from langchain_openai import OpenAI
 ```
-
 
 ```python
 llm = OpenAI(temperature=0)
@@ -71,7 +63,6 @@ agent = initialize_agent(
 )
 ```
 
-
 ```python
 agent.run(
     "Create an email draft for me to edit of a letter from the perspective of a sentient parrot"
@@ -80,13 +71,9 @@ agent.run(
 )
 ```
 
-
-
 ```output
 'The draft email was created correctly.'
 ```
-
-
 
 ```python
 agent.run(
@@ -94,19 +81,16 @@ agent.run(
 )
 ```
 
-
-
 ```output
 "I found one draft in your drafts folder about collaboration. It was sent on 2023-06-16T18:22:17+0000 and the subject was 'Collaboration Request'."
 ```
-
-
 
 ```python
 agent.run(
     "Can you schedule a 30 minute meeting with a sentient parrot to discuss research collaborations on October 3, 2023 at 2 pm Easter Time?"
 )
 ```
+
 ```output
 /home/vscode/langchain-py-env/lib/python3.11/site-packages/O365/utils/windows_tz.py:639: PytzUsageWarning: The zone attribute is specific to pytz's interface; please migrate to a new time zone provider. For more details on how to do so, see https://pytz-deprecation-shim.readthedocs.io/en/latest/migration.html
   iana_tz.zone if isinstance(iana_tz, tzinfo) else iana_tz)
@@ -114,20 +98,15 @@ agent.run(
   timezone = date_time.tzinfo.zone if date_time.tzinfo is not None else None
 ```
 
-
 ```output
 'I have scheduled a meeting with a sentient parrot to discuss research collaborations on October 3, 2023 at 2 pm Easter Time. Please let me know if you need to make any changes.'
 ```
-
-
 
 ```python
 agent.run(
     "Can you tell me if I have any events on October 3, 2023 in Eastern Time, and if so, tell me if any of them are with a sentient parrot?"
 )
 ```
-
-
 
 ```output
 "Yes, you have an event on October 3, 2023 with a sentient parrot. The event is titled 'Meeting with sentient parrot' and is scheduled from 6:00 PM to 6:30 PM."

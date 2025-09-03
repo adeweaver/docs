@@ -7,6 +7,7 @@ title: ChatCloudflareWorkersAI
 This will help you getting started with Cloudflare Workers AI [chat models](/oss/concepts/chat_models). For detailed documentation of all `ChatCloudflareWorkersAI` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_cloudflare.ChatCloudflareWorkersAI.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | PY support | Package downloads | Package latest |
@@ -44,10 +45,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```typescript
 // @lc-docs-hide-cell
@@ -57,6 +58,7 @@ const CLOUDFLARE_ACCOUNT_ID = Deno.env.get("CLOUDFLARE_ACCOUNT_ID");
 // @ts-expect-error Deno is not recognized
 const CLOUDFLARE_API_TOKEN = Deno.env.get("CLOUDFLARE_API_TOKEN");
 ```
+
 ```typescript
 import { ChatCloudflareWorkersAI } from "@langchain/cloudflare";
 
@@ -71,7 +73,6 @@ const llm = new ChatCloudflareWorkersAI({
 
 ## Invocation
 
-
 ```typescript
 const aiMsg = await llm.invoke([
   [
@@ -82,8 +83,6 @@ const aiMsg = await llm.invoke([
 ])
 aiMsg
 ```
-
-
 
 ```output
 AIMessage {
@@ -109,20 +108,19 @@ AIMessage {
 }
 ```
 
-
-
 ```typescript
 console.log(aiMsg.content)
 ```
+
 ```output
 I can help with that! The translation of "I love programming" in French is:
 
 "J'adore le programmation."
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts"
@@ -147,8 +145,6 @@ await chain.invoke(
 )
 ```
 
-
-
 ```output
 AIMessage {
   lc_serializable: true,
@@ -169,7 +165,6 @@ AIMessage {
 }
 ```
 
-
 ## API reference
 
-For detailed documentation of all `ChatCloudflareWorkersAI` features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_cloudflare.ChatCloudflareWorkersAI.html
+For detailed documentation of all `ChatCloudflareWorkersAI` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_cloudflare.ChatCloudflareWorkersAI.html).

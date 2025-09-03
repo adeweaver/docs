@@ -12,7 +12,6 @@ First, get an Valyu API key and add it as an environment variable. Get $10 free 
 
 The integration lives in the `langchain-valyu` package.
 
-
 ```python
 %pip install -qU langchain-valyu
 ```
@@ -22,7 +21,6 @@ In order to use the package, you will also need to set the `VALYU_API_KEY` envir
 ## Context Retriever
 
 You can use the [`ValyuContextRetriever`](https://pypi.org/project/langchain-valyu/) in a standard retrieval pipeline.
-
 
 ```python
 from langchain_valyu import ValyuRetriever
@@ -52,7 +50,6 @@ for doc in docs:
 ## Context Search Tool
 
 You can use the `ValyuSearchTool` for advanced search queries.
-
 
 ```python
 from langchain_valyu import ValyuSearchTool

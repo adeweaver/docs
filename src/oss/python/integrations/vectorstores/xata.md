@@ -19,16 +19,13 @@ Create a table, again you can name it anything, but we will use `vectors`. Add t
 * `source` of type "Text". This is used as a metadata column by this example.
 * any other columns you want to use as metadata. They are populated from the `Document.metadata` object. For example, if in the `Document.metadata` object you have a `title` property, you can create a `title` column in the table and it will be populated.
 
-
 Let's first install our dependencies:
-
 
 ```python
 %pip install --upgrade --quiet  xata langchain-openai langchain-community tiktoken langchain
 ```
 
 Let's load the OpenAI key to the environment. If you don't have one you can create an OpenAI account and create a key on this [page](https://platform.openai.com/account/api-keys).
-
 
 ```python
 import getpass
@@ -40,12 +37,10 @@ if "OPENAI_API_KEY" not in os.environ:
 
 Similarly, we need to get the environment variables for Xata. You can create a new API key by visiting your [account settings](https://app.xata.io/settings). To find the database URL, go to the Settings page of the database that you have created. The database URL should look something like this: `https://demo-uni3q8.eu-west-1.xata.sh/db/langchain`.
 
-
 ```python
 api_key = getpass.getpass("Xata API key: ")
 db_url = input("Xata database URL (copy it from your DB settings):")
 ```
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -55,8 +50,8 @@ from langchain_text_splitters import CharacterTextSplitter
 ```
 
 ### Create the Xata vector store
-Let's import our test dataset:
 
+Let's import our test dataset:
 
 ```python
 loader = TextLoader("../../how_to/state_of_the_union.txt")
@@ -69,7 +64,6 @@ embeddings = OpenAIEmbeddings()
 
 Now create the actual vector store, backed by the Xata table.
 
-
 ```python
 vector_store = XataVectorStore.from_documents(
     docs, embeddings, api_key=api_key, db_url=db_url, table_name="vectors"
@@ -79,7 +73,6 @@ vector_store = XataVectorStore.from_documents(
 After running the above command, if you go to the Xata UI, you should see the documents loaded together with their embeddings.
 To use an existing Xata table that already contains vector contents, initialize the XataVectorStore constructor:
 
-
 ```python
 vector_store = XataVectorStore(
     api_key=api_key, db_url=db_url, embedding=embeddings, table_name="vectors"
@@ -88,7 +81,6 @@ vector_store = XataVectorStore(
 
 ### Similarity Search
 
-
 ```python
 query = "What did the president say about Ketanji Brown Jackson"
 found_docs = vector_store.similarity_search(query)
@@ -96,7 +88,6 @@ print(found_docs)
 ```
 
 ### Similarity Search with score (vector distance)
-
 
 ```python
 query = "What did the president say about Ketanji Brown Jackson"

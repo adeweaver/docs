@@ -16,6 +16,7 @@ title: Supabase (Postgres)
 In the notebook, we'll demo the `SelfQueryRetriever` wrapped around a `Supabase` vector store.
 
 Specifically, we will:
+
 1. Create a Supabase database
 2. Enable the `pgvector` extension
 3. Create a `documents` table and `match_documents` function that will be used by `SupabaseVectorStore`
@@ -24,8 +25,9 @@ Specifically, we will:
 
 ## Setup Supabase Database
 
-1. Head over to https://database.new to provision your Supabase database.
+1. Head over to [database.new](https://database.new) to provision your Supabase database.
 2. In the studio, jump to the [SQL editor](https://supabase.com/dashboard/project/_/sql/new) and run the following script to enable `pgvector` and setup your database as a vector store:
+
     ```sql
     -- Enable the pgvector extension to work with embedding vectors
     create extension if not exists vector;
@@ -65,26 +67,27 @@ Specifically, we will:
     ```
 
 ## Creating a Supabase vector store
+
 Next we'll want to create a Supabase vector store and seed it with some data. We've created a small demo set of documents that contain summaries of movies.
 
 Be sure to install the latest version of `langchain` with `openai` support:
 
-
 ```python
 %pip install --upgrade --quiet  langchain langchain-openai tiktoken
 ```
-The self-query retriever requires you to have `lark` installed:
 
+The self-query retriever requires you to have `lark` installed:
 
 ```python
 %pip install --upgrade --quiet  lark
 ```
-We also need the `supabase` package:
 
+We also need the `supabase` package:
 
 ```python
 %pip install --upgrade --quiet  supabase
 ```
+
 Since we are using `SupabaseVectorStore` and `OpenAIEmbeddings`, we have to load their API keys.
 
 - To find your `SUPABASE_URL` and `SUPABASE_SERVICE_KEY`, head to your Supabase project's [API settings](https://supabase.com/dashboard/project/_/settings/api).
@@ -92,7 +95,6 @@ Since we are using `SupabaseVectorStore` and `OpenAIEmbeddings`, we have to load
   - `SUPABASE_SERVICE_KEY` corresponds to the `service_role` API key
 
 - To get your `OPENAI_API_KEY`, navigate to [API keys](https://platform.openai.com/account/api-keys) on your OpenAI account and create a new secret key.
-
 
 ```python
 import getpass
@@ -105,12 +107,13 @@ if "SUPABASE_SERVICE_KEY" not in os.environ:
 if "OPENAI_API_KEY" not in os.environ:
     os.environ["OPENAI_API_KEY"] = getpass.getpass("OpenAI API Key:")
 ```
-_Optional:_ If you're storing your Supabase and OpenAI API keys in a `.env` file, you can load them with [`dotenv`](https://github.com/theskumar/python-dotenv).
 
+_Optional:_ If you're storing your Supabase and OpenAI API keys in a `.env` file, you can load them with [`dotenv`](https://github.com/theskumar/python-dotenv).
 
 ```python
 %pip install --upgrade --quiet  python-dotenv
 ```
+
 ```python
 from dotenv import load_dotenv
 
@@ -118,7 +121,6 @@ load_dotenv()
 ```
 
 First we'll create a Supabase client and instantiate a OpenAI embeddings class.
-
 
 ```python
 import os
@@ -136,7 +138,6 @@ embeddings = OpenAIEmbeddings()
 ```
 
 Next let's create our documents.
-
 
 ```python
 docs = [
@@ -181,8 +182,8 @@ vectorstore = SupabaseVectorStore.from_documents(
 ```
 
 ## Creating our self-querying retriever
-Now we can instantiate our retriever. To do this we'll need to provide some information upfront about the metadata fields that our documents support and a short description of the document contents.
 
+Now we can instantiate our retriever. To do this we'll need to provide some information upfront about the metadata fields that our documents support and a short description of the document contents.
 
 ```python
 from langchain.chains.query_constructor.schema import AttributeInfo
@@ -217,17 +218,17 @@ retriever = SelfQueryRetriever.from_llm(
 ```
 
 ## Testing it out
-And now we can try actually using our retriever!
 
+And now we can try actually using our retriever!
 
 ```python
 # This example only specifies a relevant query
 retriever.invoke("What are some movies about dinosaurs")
 ```
+
 ```output
 query='dinosaur' filter=None limit=None
 ```
-
 
 ```output
 [Document(page_content='A bunch of scientists bring back dinosaurs and mayhem breaks loose', metadata={'year': 1993, 'genre': 'science fiction', 'rating': 7.7}),
@@ -236,53 +237,45 @@ query='dinosaur' filter=None limit=None
  Document(page_content='A psychologist / detective gets lost in a series of dreams within dreams within dreams and Inception reused the idea', metadata={'year': 2006, 'rating': 8.6, 'director': 'Satoshi Kon'})]
 ```
 
-
-
 ```python
 # This example only specifies a filter
 retriever.invoke("I want to watch a movie rated higher than 8.5")
 ```
+
 ```output
 query=' ' filter=Comparison(comparator=<Comparator.GT: 'gt'>, attribute='rating', value=8.5) limit=None
 ```
-
 
 ```output
 [Document(page_content='Three men walk into the Zone, three men walk out of the Zone', metadata={'year': 1979, 'genre': 'science fiction', 'rating': 9.9, 'director': 'Andrei Tarkovsky'}),
  Document(page_content='A psychologist / detective gets lost in a series of dreams within dreams within dreams and Inception reused the idea', metadata={'year': 2006, 'rating': 8.6, 'director': 'Satoshi Kon'})]
 ```
 
-
-
 ```python
 # This example specifies a query and a filter
 retriever.invoke("Has Greta Gerwig directed any movies about women?")
 ```
+
 ```output
 query='women' filter=Comparison(comparator=<Comparator.EQ: 'eq'>, attribute='director', value='Greta Gerwig') limit=None
 ```
-
 
 ```output
 [Document(page_content='A bunch of normal-sized women are supremely wholesome and some men pine after them', metadata={'year': 2019, 'rating': 8.3, 'director': 'Greta Gerwig'})]
 ```
 
-
-
 ```python
 # This example specifies a composite filter
 retriever.invoke("What's a highly rated (above 8.5) science fiction film?")
 ```
+
 ```output
 query=' ' filter=Operation(operator=<Operator.AND: 'and'>, arguments=[Comparison(comparator=<Comparator.GTE: 'gte'>, attribute='rating', value=8.5), Comparison(comparator=<Comparator.EQ: 'eq'>, attribute='genre', value='science fiction')]) limit=None
 ```
 
-
 ```output
 [Document(page_content='Three men walk into the Zone, three men walk out of the Zone', metadata={'year': 1979, 'genre': 'science fiction', 'rating': 9.9, 'director': 'Andrei Tarkovsky'})]
 ```
-
-
 
 ```python
 # This example specifies a query and composite filter
@@ -290,22 +283,20 @@ retriever.invoke(
     "What's a movie after 1990 but before (or on) 2005 that's all about toys, and preferably is animated"
 )
 ```
+
 ```output
 query='toys' filter=Operation(operator=<Operator.AND: 'and'>, arguments=[Comparison(comparator=<Comparator.GT: 'gt'>, attribute='year', value=1990), Comparison(comparator=<Comparator.LTE: 'lte'>, attribute='year', value=2005), Comparison(comparator=<Comparator.LIKE: 'like'>, attribute='genre', value='animated')]) limit=None
 ```
 
-
 ```output
 [Document(page_content='Toys come alive and have a blast doing so', metadata={'year': 1995, 'genre': 'animated'})]
 ```
-
 
 ## Filter k
 
 We can also use the self query retriever to specify `k`: the number of documents to fetch.
 
 We can do this by passing `enable_limit=True` to the constructor.
-
 
 ```python
 retriever = SelfQueryRetriever.from_llm(
@@ -318,15 +309,14 @@ retriever = SelfQueryRetriever.from_llm(
 )
 ```
 
-
 ```python
 # This example only specifies a relevant query
 retriever.invoke("what are two movies about dinosaurs")
 ```
+
 ```output
 query='dinosaur' filter=None limit=2
 ```
-
 
 ```output
 [Document(page_content='A bunch of scientists bring back dinosaurs and mayhem breaks loose', metadata={'year': 1993, 'genre': 'science fiction', 'rating': 7.7}),

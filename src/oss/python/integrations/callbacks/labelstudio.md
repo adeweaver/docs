@@ -14,7 +14,6 @@ In this guide, you will learn how to connect a LangChain pipeline to `Label Stud
 
 First install latest versions of Label Studio and Label Studio API client:
 
-
 ```python
 %pip install --upgrade --quiet langchain label-studio label-studio-sdk langchain-openai langchain-community
 ```
@@ -26,7 +25,6 @@ You'll need a token to make API calls.
 Open your LabelStudio instance in your browser, go to `Account & Settings > Access Token` and copy the key.
 
 Set environment variables with your LabelStudio URL, API key and OpenAI API key:
-
 
 ```python
 import os
@@ -71,13 +69,11 @@ Create a project that takes human input in text format and outputs an editable L
 
 You can collect input LLM prompts and output responses in a LabelStudio project, connecting it via `LabelStudioCallbackHandler`:
 
-
 ```python
 from langchain_community.callbacks.labelstudio_callback import (
     LabelStudioCallbackHandler,
 )
 ```
-
 
 ```python
 from langchain_openai import OpenAI
@@ -117,7 +113,6 @@ You can also track and display full chat dialogues in LabelStudio, with the abil
 </View>
 ```
 
-
 ```python
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
@@ -148,7 +143,6 @@ New labeling configuration can be added from UI: go to `Settings > Labeling Inte
 
 Alternatively, you can specify the labeling configuration on the initial call before project creation:
 
-
 ```python
 ls = LabelStudioCallbackHandler(
     project_config="""
@@ -178,5 +172,5 @@ The `LabelStudioCallbackHandler` accepts several optional parameters:
 - **project_name** - Project name if project ID not specified. Creates a new project. Default is `"LangChain-%Y-%m-%d"` formatted with the current date.
 - **project_config** - [custom labeling configuration](#custom-labeling-configuration)
 - **mode**: use this shortcut to create target configuration from scratch:
-   - `"prompt"` - Single prompt, single response. Default.
-   - `"chat"` - Multi-turn chat mode.
+  - `"prompt"` - Single prompt, single response. Default.
+  - `"chat"` - Multi-turn chat mode.

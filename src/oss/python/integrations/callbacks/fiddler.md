@@ -6,7 +6,6 @@ title: Fiddler
 
 ## 1. Installation and Setup
 
-
 ```python
 #!pip install langchain langchain-community langchain-openai fiddler-client
 ```
@@ -21,7 +20,6 @@ title: Fiddler
 
 These can be found by navigating to the *Settings* page of your Fiddler environment.
 
-
 ```python
 URL = ""  # Your Fiddler instance URL, Make sure to include the full URL (including https://). For example: https://demo.fiddler.ai
 ORG_NAME = ""
@@ -33,7 +31,6 @@ MODEL_NAME = ""  # Model name in Fiddler
 ```
 
 ## 3. Create a fiddler callback handler instance
-
 
 ```python
 from langchain_community.callbacks.fiddler_callback import FiddlerCallbackHandler
@@ -49,7 +46,6 @@ fiddler_handler = FiddlerCallbackHandler(
 
 ## Example 1 : Basic Chain
 
-
 ```python
 from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import OpenAI
@@ -64,7 +60,6 @@ chain = llm | output_parser
 chain.invoke("How far is moon from earth?")
 ```
 
-
 ```python
 # Few more invocations
 chain.invoke("What is the temperature on Mars?")
@@ -76,7 +71,6 @@ chain.invoke("What is the meaning of life?")
 ```
 
 ## Example 2 : Chain with prompt templates
-
 
 ```python
 from langchain_core.prompts import (

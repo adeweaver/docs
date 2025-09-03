@@ -12,17 +12,14 @@ title: Tencent COS File
 
 This covers how to load document object from a `Tencent COS File`.
 
-
 ```python
 %pip install --upgrade --quiet  cos-python-sdk-v5
 ```
-
 
 ```python
 from langchain_community.document_loaders import TencentCOSFileLoader
 from qcloud_cos import CosConfig
 ```
-
 
 ```python
 conf = CosConfig(
@@ -32,7 +29,6 @@ conf = CosConfig(
 )
 loader = TencentCOSFileLoader(conf=conf, bucket="you_cos_bucket", key="fake.docx")
 ```
-
 
 ```python
 loader.load()

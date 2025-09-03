@@ -8,7 +8,6 @@ It works by filling in the structure tokens and then sampling the content tokens
 
 **Warning - this module is still experimental**
 
-
 ```python
 %pip install --upgrade --quiet  jsonformer > /dev/null
 ```
@@ -17,13 +16,11 @@ It works by filling in the structure tokens and then sampling the content tokens
 
 First, let's establish a qualitative baseline by checking the output of the model without structured decoding.
 
-
 ```python
 import logging
 
 logging.basicConfig(level=logging.ERROR)
 ```
-
 
 ```python
 import json
@@ -52,7 +49,6 @@ def ask_star_coder(query: str, temperature: float = 1.0, max_new_tokens: float =
     response.raise_for_status()
     return json.loads(response.content.decode("utf-8"))
 ```
-
 
 ```python
 prompt = """You must respond using JSON format, with a single action and single action input.
@@ -87,7 +83,6 @@ Human: 'What's the difference between an iterator and an iterable?'
 AI Assistant:""".format(arg_schema=ask_star_coder.args)
 ```
 
-
 ```python
 from langchain_huggingface import HuggingFacePipeline
 from transformers import pipeline
@@ -101,17 +96,18 @@ original_model = HuggingFacePipeline(pipeline=hf_model)
 generated = original_model.predict(prompt, stop=["Observation:", "Human:"])
 print(generated)
 ```
+
 ```output
 Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
 ``````output
  'What's the difference between an iterator and an iterable?'
 ```
+
 ***That's not so impressive, is it? It didn't follow the JSON format at all! Let's try with the structured decoder.***
 
 ## JSONFormer LLM Wrapper
 
 Let's try that again, now providing a the Action input's JSON Schema to the model.
-
 
 ```python
 decoder_schema = {
@@ -127,23 +123,22 @@ decoder_schema = {
 }
 ```
 
-
 ```python
 from langchain_experimental.llms import JsonFormer
 
 json_former = JsonFormer(json_schema=decoder_schema, pipeline=hf_model)
 ```
 
-
 ```python
 results = json_former.predict(prompt, stop=["Observation:", "Human:"])
 print(results)
 ```
+
 ```output
 {"action": "ask_star_coder", "action_input": {"query": "What's the difference between an iterator and an iter", "temperature": 0.0, "max_new_tokens": 50.0}}
 ```
-**Voila! Free of parsing errors.**
 
+**Voila! Free of parsing errors.**
 
 ```python
 

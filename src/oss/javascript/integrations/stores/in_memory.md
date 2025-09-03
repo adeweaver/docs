@@ -30,10 +30,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our byte store:
-
 
 ```typescript
 import { InMemoryStore } from "@langchain/core/stores"
@@ -41,10 +41,10 @@ import { BaseMessage } from "@langchain/core/messages";
 
 const kvStore = new InMemoryStore<BaseMessage>();
 ```
+
 ## Usage
 
 You can set data under keys like this using the `mset` method:
-
 
 ```typescript
 import { AIMessage, HumanMessage } from "@langchain/core/messages";
@@ -63,6 +63,7 @@ await kvStore.mget(
   ]
 )
 ```
+
 ```output
 [
   HumanMessage {
@@ -79,8 +80,8 @@ await kvStore.mget(
   }
 ]
 ```
-And you can delete data using the `mdelete` method:
 
+And you can delete data using the `mdelete` method:
 
 ```typescript
 await kvStore.mdelete(
@@ -97,13 +98,14 @@ await kvStore.mget(
   ]
 )
 ```
+
 ```output
 [ undefined, undefined ]
 ```
+
 ## Yielding values
 
 If you want to get back all the keys you can call the `yieldKeys` method. Optionally, you can pass a key prefix to only get back keys which match that prefix.
-
 
 ```typescript
 import { InMemoryStore } from "@langchain/core/stores"
@@ -126,9 +128,11 @@ for await (const key of kvStoreForYield.yieldKeys("message:id:")) {
 
 console.log(yieldedKeys);
 ```
+
 ```output
 [ 'message:id:key1', 'message:id:key2' ]
 ```
+
 ## API reference
 
 For detailed documentation of all InMemoryStore features and configurations, head to the [API reference](https://api.js.langchain.com/classes/langchain_core.stores.InMemoryStore.html)

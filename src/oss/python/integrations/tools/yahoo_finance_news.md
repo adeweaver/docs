@@ -4,27 +4,25 @@ title: Yahoo Finance News
 
 This notebook goes over how to use the `yahoo_finance_news` tool with an agent.
 
-
 ## Setting up
 
 First, you need to install `yfinance` python package.
 
-
 ```python
 %pip install --upgrade --quiet  yfinance
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
-## Example with Chain
 
+## Example with Chain
 
 ```python
 import os
 
 os.environ["OPENAI_API_KEY"] = ".."
 ```
-
 
 ```python
 from langchain_community.tools.yahoo_finance_news import YahooFinanceNewsTool
@@ -33,6 +31,7 @@ from langchain.agents import create_agent
 tools = [YahooFinanceNewsTool()]
 agent = create_agent("openai:gpt-4.1-mini", tools)
 ```
+
 ```output
 USER_AGENT environment variable not set, consider setting it to identify your requests.
 ```
@@ -49,6 +48,7 @@ for step in agent.stream(
 ):
     step["messages"][-1].pretty_print()
 ```
+
 ```output
 ================================ Human Message =================================
 
@@ -81,6 +81,7 @@ for step in agent.stream(
 ):
     step["messages"][-1].pretty_print()
 ```
+
 ```output
 ================================ Human Message =================================
 
@@ -114,30 +115,26 @@ Nvidia (NVDA) is also in focus with its strategic moves, such as redesigning AI 
 
 In summary, both Microsoft and Nvidia have positive sentiments today, with Microsoft showing strong financial results and Nvidia making strategic advancements in AI technology and market positioning.
 ```
-# How YahooFinanceNewsTool works?
 
+# How YahooFinanceNewsTool works?
 
 ```python
 tool = YahooFinanceNewsTool()
 ```
 
-
 ```python
 tool.invoke("NVDA")
 ```
-
-
 
 ```output
 'NVIDIA Corporation (NVDA): Among Ken Fisher’s Technology Stock Picks with Huge Upside Potential\nWe recently published an article titled Billionaire Ken Fisher’s 10 Technology Stock Picks with Huge Upside Potential. In this article, we are going to take a look at where NVIDIA Corporation (NASDAQ:NVDA) stands against the other technology stocks. Technology stocks have faced heightened volatility in 2025, with market sentiment swinging sharply in response to President Donald […]\n\nNvidia (NVDA) Redesigns Chips to Sidestep U.S. Export Ban, Eyes June China Rollout\nNvidia plans China-specific AI chip revamp after new U.S. export limits\n\nIs NVIDIA (NVDA) the Best NASDAQ Stock to Buy According to Billionaires?\nWe recently published a list of 10 Best NASDAQ Stocks to Buy According to Billionaires. In this article, we are going to take a look at where NVIDIA Corporation (NASDAQ:NVDA) stands against other best NASDAQ stocks to buy according to billionaires. The latest market data shows that the US economy contracted at an annualized rate […]'
 ```
 
-
-
 ```python
 res = tool.invoke("AAPL")
 print(res)
 ```
+
 ```output
 No news found for company that searched with AAPL ticker.
 ```

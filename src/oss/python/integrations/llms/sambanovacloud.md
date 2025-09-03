@@ -7,11 +7,11 @@ title: SambaNovaCloud
 <Warning>
 **You are currently on a page documenting the use of SambaNovaCloud models as [text completion models](/oss/concepts/text_llms/). We recommend you to use the [chat completion models](/oss/concepts/chat_models).**
 
-
 You may be looking for [SambaNovaCloud Chat Models](/oss/integrations/chat/sambanova/) .
 </Warning>
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | JS support | Package downloads | Package latest |
@@ -23,8 +23,8 @@ This example goes over how to use LangChain to interact with SambaNovaCloud mode
 ## Setup
 
 ### Credentials
-To access ChatSambaNovaCloud models you will need to create a [SambaNovaCloud account](https://cloud.sambanova.ai/), get an API key and set it as the `SAMBANOVA_API_KEY` environment variable:
 
+To access ChatSambaNovaCloud models you will need to create a [SambaNovaCloud account](https://cloud.sambanova.ai/), get an API key and set it as the `SAMBANOVA_API_KEY` environment variable:
 
 ```python
 import getpass
@@ -38,13 +38,11 @@ if "SAMBANOVA_API_KEY" not in os.environ:
 
 The integration lives in the `langchain-community` package. We also need  to install the [sseclient-py](https://pypi.org/project/sseclient-py/) package this is required to run streaming predictions
 
-
 ```python
 %pip install --quiet -U langchain-community sseclient-py
 ```
 
 ## Instantiation
-
 
 ```python
 from langchain_community.llms.sambanova import SambaNovaCloud
@@ -59,8 +57,8 @@ llm = SambaNovaCloud(
 ```
 
 ## Invocation
-Now we can instantiate our model object and generate chat completions:
 
+Now we can instantiate our model object and generate chat completions:
 
 ```python
 input_text = "Why should I use open source models?"
@@ -69,19 +67,16 @@ completion = llm.invoke(input_text)
 completion
 ```
 
-
-
 ```output
 "**Advantages of Open Source Models**\n\nUsing open source models can bring numerous benefits to your project or organization. Here are some reasons why you should consider using open source models:\n\n### 1. **Cost-Effective**\n\nOpen source models are free to use, modify, and distribute. This can significantly reduce the costs associated with developing and maintaining proprietary models.\n\n### 2. **Community Support**\n\nOpen source models are often maintained by a community of developers and users who contribute to their improvement. This community support can lead to faster bug fixes, new feature additions, and better documentation.\n\n### 3. **Transparency and Customizability**\n\nOpen source models provide complete transparency into their architecture and implementation. This allows you to customize and fine-tune the model to suit your specific needs.\n\n### 4. **Faster Development**\n\nBy leveraging pre-trained open source models, you can accelerate your development process. You can focus on fine-tuning the model for your specific use case rather than building one from scratch.\n\n### 5. **Improved Security**\n\nOpen source models are often reviewed and audited by a large community of developers, which can help identify and fix security vulnerabilities.\n\n### 6. **Interoperability**\n\nOpen source models can be easily integrated with other open source tools and frameworks, promoting interoperability and reducing vendor lock-in.\n\n### 7. **Access to State-of-the-Art Technology**\n\nMany open source models are developed by top researchers and institutions, providing access to state-of-the-art technology and techniques.\n\n### Example Use Cases\n\n* **Computer Vision**: Use open source models like TensorFlow's Object Detection API or OpenCV's pre-trained models for image classification, object detection, and segmentation tasks.\n* **Natural Language Processing**: Leverage open source models like spaCy or Stanford CoreNLP for text processing, sentiment analysis, and language translation tasks.\n* **Speech Recognition**: Utilize open source models like Kaldi or Mozilla's DeepSpeech for speech-to-text applications.\n\n**Getting Started**\n\nTo get started with open source models, explore popular repositories on GitHub or model hubs like TensorFlow Hub or PyTorch Hub. Familiarize yourself with the model's documentation, and experiment with pre-trained models before fine-tuning them for your specific use case.\n\nBy embracing open source models, you can accelerate your development process, reduce costs, and tap into the collective knowledge of the developer community."
 ```
-
-
 
 ```python
 # Streaming response
 for chunk in llm.stream("Why should I use open source models?"):
     print(chunk, end="", flush=True)
 ```
+
 ```output
 **Advantages of Open Source Models**
 
@@ -127,9 +122,10 @@ To get started with open source models, you can explore popular repositories on 
 
 By embracing open source models, you can tap into the collective knowledge and expertise of the developer community, accelerate your development process, and create more accurate and efficient AI solutions.
 ```
-## Chaining
-We can chain our completion model with a prompt template like so:
 
+## Chaining
+
+We can chain our completion model with a prompt template like so:
 
 ```python
 from langchain_core.prompts import PromptTemplate
@@ -145,13 +141,10 @@ chain.invoke(
 )
 ```
 
-
-
 ```output
 'The translation of "I love programming" in German is:\n\n"Ich liebe das Programmieren."\n\nHere\'s a breakdown of the sentence:\n\n* "Ich" means "I"\n* "liebe" is the verb "to love" in the first person singular (I love)\n* "das" is the definite article for "Programmieren" (programming)\n* "Programmieren" is the verb "to program" in the infinitive form, but in this context, it\'s used as a noun to refer to the activity of programming.\n\nSo, "Ich liebe das Programmieren" is a common way to express your passion for programming in German.'
 ```
 
-
 ## API reference
 
-For detailed documentation of all `SambaNovaCloud` llm features and configurations head to the API reference: https://python.langchain.com/api_reference/community/llms/langchain_community.llms.sambanova.SambaNovaCloud.html
+For detailed documentation of all `SambaNovaCloud` llm features and configurations head to the API reference: [python.langchain.com/api_reference/community/llms/langchain_community.llms.sambanova.SambaNovaCloud.html](https://python.langchain.com/api_reference/community/llms/langchain_community.llms.sambanova.SambaNovaCloud.html)

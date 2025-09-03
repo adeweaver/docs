@@ -17,9 +17,7 @@ In this guide we will demonstrate how to track your Langchain Experiments, Evalu
 
 ![](https://user-images.githubusercontent.com/7529846/230326720-a9711435-9c6f-4edb-a707-94b67271ab25.png)
 
-
 ### Install Comet and Dependencies
-
 
 ```python
 %pip install --upgrade --quiet  comet_ml langchain langchain-openai google-search-results spacy textstat pandas
@@ -32,7 +30,6 @@ In this guide we will demonstrate how to track your Langchain Experiments, Evalu
 
 You can grab your [Comet API Key here](https://www.comet.com/signup?utm_source=langchain&utm_medium=referral&utm_campaign=comet_notebook) or click the link after initializing Comet
 
-
 ```python
 import comet_ml
 
@@ -43,7 +40,6 @@ comet_ml.init(project_name="comet-example-langchain")
 
 You will need an [OpenAI API Key](https://platform.openai.com/account/api-keys) and a [SerpAPI API Key](https://serpapi.com/dashboard) to run the following examples
 
-
 ```python
 import os
 
@@ -53,7 +49,6 @@ os.environ["SERPAPI_API_KEY"] = "..."
 ```
 
 ### Scenario 1: Using just an LLM
-
 
 ```python
 from langchain_community.callbacks import CometCallbackHandler
@@ -76,7 +71,6 @@ comet_callback.flush_tracker(llm, finish=True)
 ```
 
 ### Scenario 2: Using an LLM in a Chain
-
 
 ```python
 from langchain.chains import LLMChain
@@ -106,7 +100,6 @@ comet_callback.flush_tracker(synopsis_chain, finish=True)
 ```
 
 ### Scenario 3: Using An Agent with Tools
-
 
 ```python
 from langchain.agents import initialize_agent, load_tools
@@ -141,14 +134,11 @@ comet_callback.flush_tracker(agent, finish=True)
 
 The `CometCallbackManager` also allows you to define and use Custom Evaluation Metrics to assess generated outputs from your model. Let's take a look at how this works.
 
-
 In the snippet below, we will use the [ROUGE](https://huggingface.co/spaces/evaluate-metric/rouge) metric to evaluate the quality of a generated summary of an input prompt.
-
 
 ```python
 %pip install --upgrade --quiet  rouge-score
 ```
-
 
 ```python
 from langchain.chains import LLMChain
@@ -230,8 +220,6 @@ comet_callback.flush_tracker(synopsis_chain, finish=True)
 There is another integration with Comet:
 
 See an [example](/oss/integrations/callbacks/comet_tracing).
-
-
 
 ```python
 from langchain_community.callbacks.tracers.comet import CometTracer

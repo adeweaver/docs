@@ -9,8 +9,8 @@ title: BibTeX
 BibTeX files can also store the path to documents, such as `.pdf` files that can be retrieved.
 
 ## Installation
-First, you need to install `bibtexparser` and `PyMuPDF`.
 
+First, you need to install `bibtexparser` and `PyMuPDF`.
 
 ```python
 %pip install --upgrade --quiet  bibtexparser pymupdf
@@ -19,17 +19,16 @@ First, you need to install `bibtexparser` and `PyMuPDF`.
 ## Examples
 
 `BibtexLoader` has these arguments:
+
 - `file_path`: the path of the `.bib` bibtex file
 - optional `max_docs`: default=None, i.e. not limit. Use it to limit number of retrieved documents.
 - optional `max_content_chars`: default=4000. Use it to limit the number of characters in a single document.
 - optional `load_extra_meta`: default=False. By default only the most important fields from the bibtex entries: `Published` (publication year), `Title`, `Authors`, `Summary`, `Journal`, `Keywords`, and `URL`. If True, it will also try to load return `entry_id`, `note`, `doi`, and `links` fields.
 - optional `file_pattern`: default=`r'[^:]+\.pdf'`. Regex pattern to find files in the `file` entry. Default pattern supports `Zotero` flavour bibtex style and bare file path.
 
-
 ```python
 from langchain_community.document_loaders import BibtexLoader
 ```
-
 
 ```python
 # Create a dummy bibtex file and download a pdf.
@@ -59,17 +58,13 @@ with open("./biblio.bib", "w") as file:
     file.write(bibtex_text)
 ```
 
-
 ```python
 docs = BibtexLoader("./biblio.bib").load()
 ```
 
-
 ```python
 docs[0].metadata
 ```
-
-
 
 ```output
 {'id': 'einstein1915',
@@ -81,11 +76,10 @@ docs[0].metadata
  'url': 'https://doi.org/10.1002/andp.19163540702'}
 ```
 
-
-
 ```python
 print(docs[0].page_content[:400])  # all pages of the pdf content
 ```
+
 ```output
 ON THE ELECTRODYNAMICS OF MOVING
 BODIES

@@ -10,7 +10,6 @@ It uses `mwxml` from `mediawiki-utilities` to dump and `mwparserfromhell` from `
 
 Dump files can be obtained with dumpBackup.php or on the Special:Statistics page of the Wiki.
 
-
 ```python
 # mediawiki-utilities supports XML schema 0.11 in unmerged branches
 %pip install --upgrade --quiet git+https://github.com/mediawiki-utilities/python-mwtypes@updates_schema_0.11
@@ -19,11 +18,9 @@ Dump files can be obtained with dumpBackup.php or on the Special:Statistics page
 %pip install --upgrade --quiet mwparserfromhell
 ```
 
-
 ```python
 from langchain_community.document_loaders import MWDumpLoader
 ```
-
 
 ```python
 loader = MWDumpLoader(
@@ -36,6 +33,7 @@ loader = MWDumpLoader(
 documents = loader.load()
 print(f"You have {len(documents)} document(s) in your data ")
 ```
+
 ```output
 You have 177 document(s) in your data
 ```
@@ -44,8 +42,6 @@ You have 177 document(s) in your data
 documents[:5]
 ```
 
-
-
 ```output
 [Document(page_content='\t\n\t\n\tArtist\n\tReleased\n\tRecorded\n\tLength\n\tLabel\n\tProducer', metadata={'source': 'Album'}),
  Document(page_content='{| class="article-table plainlinks" style="width:100%;"\n|- style="font-size:18px;"\n! style="padding:0px;" | Template documentation\n|-\n| Note: portions of the template sample may not be visible without values provided.\n|-\n| View or edit this documentation. (About template documentation)\n|-\n| Editors can experiment in this template\'s [ sandbox] and [ test case] pages.\n|}Category:Documentation templates', metadata={'source': 'Documentation'}),
@@ -53,8 +49,6 @@ documents[:5]
  Document(page_content='Description\nA template link with a variable number of parameters (0-20).\n\nSyntax\n \n\nSource\nImproved version not needing t/piece subtemplate developed on Templates wiki see the list of authors. Copied here via CC-By-SA 3.0 license.\n\nExample\n\nCategory:General wiki templates\nCategory:Template documentation', metadata={'source': 'T/doc'}),
  Document(page_content='\t\n\t\t    \n\t\n\t\t    Aliases\n\t    Relatives\n\t    Affiliation\n        Occupation\n    \n            Biographical information\n        Marital status\n    \tDate of birth\n        Place of birth\n        Date of death\n        Place of death\n    \n            Physical description\n        Species\n        Gender\n        Height\n        Weight\n        Eye color\n\t\n           Appearances\n       Portrayed by\n       Appears in\n       Debut\n    ', metadata={'source': 'Character'})]
 ```
-
-
 
 ```python
 

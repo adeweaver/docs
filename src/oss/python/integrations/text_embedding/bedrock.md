@@ -12,13 +12,9 @@ title: BedrockEmbeddings
 > serverless, you don't have to manage any infrastructure, and you can securely integrate and deploy
 > generative AI capabilities into your applications using the AWS services you are already familiar with.
 
-
-
-
 ```python
 %pip install --upgrade --quiet  boto3
 ```
-
 
 ```python
 from langchain_aws import BedrockEmbeddings
@@ -28,11 +24,9 @@ embeddings = BedrockEmbeddings(
 )
 ```
 
-
 ```python
 embeddings.embed_query("This is a content of the document")
 ```
-
 
 ```python
 embeddings.embed_documents(
@@ -40,12 +34,10 @@ embeddings.embed_documents(
 )
 ```
 
-
 ```python
 # async embed query
 await embeddings.aembed_query("This is a content of the document")
 ```
-
 
 ```python
 # async embed documents

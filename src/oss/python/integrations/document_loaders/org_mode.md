@@ -8,7 +8,6 @@ title: Org-mode
 
 You can load data from Org-mode files with `UnstructuredOrgModeLoader` using the following workflow.
 
-
 ```python
 from langchain_community.document_loaders import UnstructuredOrgModeLoader
 
@@ -19,6 +18,7 @@ docs = loader.load()
 
 print(docs[0])
 ```
+
 ```output
 page_content='Example Docs' metadata={'source': './example_data/README.org', 'category_depth': 0, 'last_modified': '2023-12-19T13:42:18', 'languages': ['eng'], 'filetype': 'text/org', 'file_directory': './example_data', 'filename': 'README.org', 'category': 'Title'}
 ```

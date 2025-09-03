@@ -7,6 +7,7 @@ title: E2B Data Analysis
 E2B's Data Analysis sandbox allows for safe code execution in a sandboxed environment. This is ideal for building tools such as code interpreters, or Advanced Data Analysis like in ChatGPT.
 
 E2B Data Analysis sandbox allows you to:
+
 - Run Python code
 - Generate charts via matplotlib
 - Install Python packages dynamically during runtime
@@ -20,19 +21,15 @@ Get your OpenAI API key and [E2B API key here](https://e2b.dev/docs/getting-star
 
 You can find the full API documentation [here](https://e2b.dev/docs).
 
-
 You'll need to install `e2b` to get started:
-
 
 ```python
 %pip install --upgrade --quiet  langchain e2b langchain-community
 ```
 
-
 ```python
 from langchain_community.tools import E2BDataAnalysisTool
 ```
-
 
 ```python
 import os
@@ -45,7 +42,6 @@ os.environ["OPENAI_API_KEY"] = "<OPENAI_API_KEY>"
 ```
 
 When creating an instance of the `E2BDataAnalysisTool`, you can pass callbacks to listen to the output of the sandbox. This is useful, for example, when creating more responsive UI. Especially with the combination of streaming output from LLMs.
-
 
 ```python
 # Artifacts are charts created by matplotlib when `plt.show()` is called
@@ -71,7 +67,6 @@ e2b_data_analysis_tool = E2BDataAnalysisTool(
 
 Upload an example CSV data file to the sandbox so we can analyze it with our agent. You can use for example [this file](https://storage.googleapis.com/e2b-examples/netflix.csv) about Netflix tv shows.
 
-
 ```python
 with open("./netflix.csv") as f:
     remote_path = e2b_data_analysis_tool.upload_file(
@@ -80,11 +75,12 @@ with open("./netflix.csv") as f:
     )
     print(remote_path)
 ```
+
 ```output
 name='netflix.csv' remote_path='/home/user/netflix.csv' description='Data about Netflix tv shows including their title, category, director, release date, casting, age rating, etc.'
 ```
-Create a `Tool` object and initialize the Langchain agent.
 
+Create a `Tool` object and initialize the Langchain agent.
 
 ```python
 tools = [e2b_data_analysis_tool.as_tool()]
@@ -101,12 +97,12 @@ agent = initialize_agent(
 
 Now we can ask the agent questions about the CSV file we uploaded earlier.
 
-
 ```python
 agent.run(
     "What are the 5 longest movies on netflix released between 2000 and 2010? Create a chart with their lengths."
 )
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 
@@ -134,19 +130,17 @@ Here is the chart showing their lengths:
 > Finished chain.
 ```
 
-
 ```output
 "The 5 longest movies on Netflix released between 2000 and 2010 are:\n\n1. Lagaan - 224 minutes\n2. Jodhaa Akbar - 214 minutes\n3. Kabhi Khushi Kabhie Gham - 209 minutes\n4. No Direction Home: Bob Dylan - 208 minutes\n5. What's Your Raashee? - 203 minutes\n\nHere is the chart showing their lengths:\n\n![Longest Movies](sandbox:/home/user/longest_movies.png)"
 ```
 
-
 E2B also allows you to install both Python and system (via `apt`) packages dynamically during runtime like this:
-
 
 ```python
 # Install Python package
 e2b_data_analysis_tool.install_python_packages("pandas")
 ```
+
 ```output
 stdout: Requirement already satisfied: pandas in /usr/local/lib/python3.10/dist-packages (2.1.1)
 stdout: Requirement already satisfied: python-dateutil>=2.8.2 in /usr/local/lib/python3.10/dist-packages (from pandas) (2.8.2)
@@ -155,8 +149,8 @@ stdout: Requirement already satisfied: numpy>=1.22.4 in /usr/local/lib/python3.1
 stdout: Requirement already satisfied: tzdata>=2022.1 in /usr/local/lib/python3.10/dist-packages (from pandas) (2023.3)
 stdout: Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.10/dist-packages (from python-dateutil>=2.8.2->pandas) (1.16.0)
 ```
-Additionally, you can download any file from the sandbox like this:
 
+Additionally, you can download any file from the sandbox like this:
 
 ```python
 # The path is a remote path in the sandbox
@@ -164,7 +158,6 @@ files_in_bytes = e2b_data_analysis_tool.download_file("/home/user/netflix.csv")
 ```
 
 Lastly, you can run any shell command inside the sandbox via `run_command`.
-
 
 ```python
 # Install SQLite
@@ -177,6 +170,7 @@ print("version: ", output["stdout"])
 print("error: ", output["stderr"])
 print("exit code: ", output["exit_code"])
 ```
+
 ```output
 stderr:
 stderr: WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
@@ -212,8 +206,8 @@ version:  3.37.2 2022-01-06 13:25:41 872ba256cbf61d9290b571c0e6d82a20c224ca3ad82
 error:
 exit code:  0
 ```
-When your agent is finished, don't forget to close the sandbox
 
+When your agent is finished, don't forget to close the sandbox
 
 ```python
 e2b_data_analysis_tool.close()

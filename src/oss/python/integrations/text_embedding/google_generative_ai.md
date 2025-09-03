@@ -8,6 +8,7 @@ Connect to Google's generative AI embeddings service using the `GoogleGenerative
 This will help you get started with Google's Generative AI embedding models (like Gemini) using LangChain. For detailed documentation on `GoogleGenerativeAIEmbeddings` features and configuration options, please refer to the [API reference](https://python.langchain.com/v0.2/api_reference/google_genai/embeddings/langchain_google_genai.embeddings.GoogleGenerativeAIEmbeddings.html).
 
 ## Overview
+
 ### Integration details
 
 <ItemTable category="text_embedding" item="Google Gemini" />
@@ -22,8 +23,6 @@ To use Google Generative AI models, you must have an API key. You can create one
 
 Once you have a key, set it as an environment variable `GOOGLE_API_KEY`:
 
-
-
 ```python
 import getpass
 import os
@@ -34,7 +33,6 @@ if not os.getenv("GOOGLE_API_KEY"):
 
 To enable automated tracing of your model calls, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
-
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -42,13 +40,11 @@ To enable automated tracing of your model calls, set your [LangSmith](https://do
 
 ## Installation
 
-
 ```python
 %pip install --upgrade --quiet  langchain-google-genai
 ```
 
 ## Usage
-
 
 ```python
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
@@ -58,8 +54,6 @@ vector = embeddings.embed_query("hello, world!")
 vector[:5]
 ```
 
-
-
 ```output
 [-0.024917153641581535,
  0.012005362659692764,
@@ -68,11 +62,9 @@ vector[:5]
  0.0020742062479257584]
 ```
 
-
 ## Batch
 
 You can also embed multiple strings at once for a processing speedup:
-
 
 ```python
 vectors = embeddings.embed_documents(
@@ -85,19 +77,15 @@ vectors = embeddings.embed_documents(
 len(vectors), len(vectors[0])
 ```
 
-
-
 ```output
 (3, 3072)
 ```
-
 
 ## Indexing and Retrieval
 
 Embedding models are often used in retrieval-augmented generation (RAG) flows, both as part of indexing data as well as later retrieving it. For more detailed instructions, please see our [RAG tutorials](/oss/tutorials/rag).
 
 Below, see how to index and retrieve data using the `embeddings` object we initialized above. In this example, we will index and retrieve a sample document in the `InMemoryVectorStore`.
-
 
 ```python
 # Create a vector store with a sample text
@@ -120,14 +108,12 @@ retrieved_documents = retriever.invoke("What is LangChain?")
 retrieved_documents[0].page_content
 ```
 
-
-
 ```output
 'LangChain is the framework for building context-aware reasoning applications'
 ```
 
-
 ## Task type
+
 `GoogleGenerativeAIEmbeddings` optionally support a `task_type`, which currently must be one of:
 
 - `SEMANTIC_SIMILARITY`: Used to generate embeddings that are optimized to assess text similarity.
@@ -138,11 +124,9 @@ retrieved_documents[0].page_content
 
 By default, we use `RETRIEVAL_DOCUMENT` in the `embed_documents` method and `RETRIEVAL_QUERY` in the `embed_query` method. If you provide a task type, we will use that for all methods.
 
-
 ```python
 %pip install --upgrade --quiet  matplotlib scikit-learn
 ```
-
 
 ```python
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
@@ -165,6 +149,7 @@ for i, d in enumerate(d_embed):
     print(f"Cosine similarity with query: {cosine_similarity([q_embed], [d])[0][0]}")
     print("---")
 ```
+
 ```output
 Document 1
 Cosine similarity with query: 0.7892893360164779
@@ -173,10 +158,10 @@ Document 2
 Cosine similarity with query: 0.5438283285204146
 ---
 ```
+
 ## API Reference
 
 For detailed documentation on `GoogleGenerativeAIEmbeddings` features and configuration options, please refer to the [API reference](https://python.langchain.com/api_reference/google_genai/embeddings/langchain_google_genai.embeddings.GoogleGenerativeAIEmbeddings.html).
-
 
 ## Additional Configuration
 

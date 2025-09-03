@@ -7,18 +7,15 @@ title: Golden Query
 >The `golden-query` langchain tool is a wrapper on top of the [Golden Query API](https://docs.golden.com/reference/query-api) which enables programmatic access to these results.
 >See the [Golden Query API docs](https://docs.golden.com/reference/query-api) for more information.
 
-
 This notebook goes over how to use the `golden-query` tool.
 
 - Go to the [Golden API docs](https://docs.golden.com/) to get an overview about the Golden API.
 - Get your API key from the [Golden API Settings](https://golden.com/settings/api) page.
 - Save your API key into GOLDEN_API_KEY env variable
 
-
 ```python
 %pip install -qU langchain-community
 ```
-
 
 ```python
 import os
@@ -26,24 +23,19 @@ import os
 os.environ["GOLDEN_API_KEY"] = ""
 ```
 
-
 ```python
 from langchain_community.utilities.golden_query import GoldenQueryAPIWrapper
 ```
 
-
 ```python
 golden_query = GoldenQueryAPIWrapper()
 ```
-
 
 ```python
 import json
 
 json.loads(golden_query.run("companies in nanotech"))
 ```
-
-
 
 ```output
 {'results': [{'id': 4673886,

@@ -19,7 +19,7 @@ Steps:
 
 3) Start Airbyte - `docker compose up`
 
-4) In your browser, just visit http://localhost:8000. You will be asked for a username and password. By default, that's username `airbyte` and password `password`.
+4) In your browser, just visit [localhost:8000](http://localhost:8000). You will be asked for a username and password. By default, that's username `airbyte` and password `password`.
 
 5) Setup any source you wish.
 
@@ -31,16 +31,14 @@ Steps:
 
 8) Find your data and copy path. That path should be saved in the file variable below. It should start with `/tmp/airbyte_local`
 
-
-
 ```python
 from langchain_community.document_loaders import AirbyteJSONLoader
 ```
 
-
 ```python
 !ls /tmp/airbyte_local/json_data/
 ```
+
 ```output
 _airbyte_raw_pokemon.jsonl
 ```
@@ -49,15 +47,14 @@ _airbyte_raw_pokemon.jsonl
 loader = AirbyteJSONLoader("/tmp/airbyte_local/json_data/_airbyte_raw_pokemon.jsonl")
 ```
 
-
 ```python
 data = loader.load()
 ```
 
-
 ```python
 print(data[0].page_content[:500])
 ```
+
 ```output
 abilities:
 ability:

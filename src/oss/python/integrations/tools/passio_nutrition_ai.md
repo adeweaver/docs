@@ -21,7 +21,6 @@ export NUTRITIONAI_SUBSCRIPTION_KEY="..."
 
 ... or provide it to your Python environment via some other means such as the `dotenv` package.  You an also explicitly control the key via constructor calls.
 
-
 ```python
 from dotenv import load_dotenv
 from langchain_core.utils import get_from_env
@@ -33,22 +32,18 @@ nutritionai_subscription_key = get_from_env(
 )
 ```
 
-
 ```python
 from langchain_community.tools.passio_nutrition_ai import NutritionAI
 from langchain_community.utilities.passio_nutrition_ai import NutritionAIAPI
 ```
 
-
 ```python
 nutritionai_search = NutritionAI(api_wrapper=NutritionAIAPI())
 ```
 
-
 ```python
 nutritionai_search.invoke("chicken tikka masala")
 ```
-
 
 ```python
 nutritionai_search.invoke("Schnuck Markets sliced pepper jack cheese")
@@ -57,7 +52,6 @@ nutritionai_search.invoke("Schnuck Markets sliced pepper jack cheese")
 ### Tools
 
 Now that we have the tool, we can create a list of tools that we will use downstream.
-
 
 ```python
 tools = [nutritionai_search]
@@ -69,7 +63,6 @@ Now that we have defined the tools, we can create the agent. We will be using an
 
 First, we choose the LLM we want to be guiding the agent.
 
-
 ```python
 from langchain_openai import ChatOpenAI
 
@@ -77,7 +70,6 @@ llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
 ```
 
 Next, we choose the prompt we want to use to guide the agent.
-
 
 ```python
 from langchain import hub
@@ -87,8 +79,6 @@ prompt = hub.pull("hwchase17/openai-functions-agent")
 prompt.messages
 ```
 
-
-
 ```output
 [SystemMessagePromptTemplate(prompt=PromptTemplate(input_variables=[], template='You are a helpful assistant')),
  MessagesPlaceholder(variable_name='chat_history', optional=True),
@@ -96,9 +86,7 @@ prompt.messages
  MessagesPlaceholder(variable_name='agent_scratchpad')]
 ```
 
-
 Now, we can initialize the agent with the LLM, the prompt, and the tools. The agent is responsible for taking in input and deciding what actions to take. Crucially, the Agent does not execute those actions - that is done by the AgentExecutor (next step). For more information about how to think about these components, see our [conceptual guide](/oss/concepts/agents)
-
 
 ```python
 from langchain.agents import create_openai_functions_agent
@@ -107,7 +95,6 @@ agent = create_openai_functions_agent(llm, tools, prompt)
 ```
 
 Finally, we combine the agent (the brains) with the tools inside the AgentExecutor (which will repeatedly call the agent and execute tools). For more information about how to think about these components, see our [conceptual guide](/oss/concepts/agents)
-
 
 ```python
 from langchain.agents import AgentExecutor
@@ -119,10 +106,10 @@ agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
 We can now run the agent on a few queries! Note that for now, these are all **stateless** queries (it won't remember previous interactions).
 
-
 ```python
 agent_executor.invoke({"input": "hi!"})
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 Hello! How can I assist you today?
@@ -130,12 +117,9 @@ Hello! How can I assist you today?
 > Finished chain.
 ```
 
-
 ```output
 {'input': 'hi!', 'output': 'Hello! How can I assist you today?'}
 ```
-
-
 
 ```python
 agent_executor.invoke({"input": "how many calories are in a slice pepperoni pizza?"})
@@ -143,13 +127,11 @@ agent_executor.invoke({"input": "how many calories are in a slice pepperoni pizz
 
 If we want to keep track of these messages automatically, we can wrap this in a RunnableWithMessageHistory. For more information on how to use this, see [this guide](/oss/how-to/message_history)
 
-
 ```python
 agent_executor.invoke(
     {"input": "I had bacon and eggs for breakfast.  How many calories is that?"}
 )
 ```
-
 
 ```python
 agent_executor.invoke(
@@ -159,7 +141,6 @@ agent_executor.invoke(
 )
 ```
 
-
 ```python
 agent_executor.invoke(
     {
@@ -167,7 +148,6 @@ agent_executor.invoke(
     }
 )
 ```
-
 
 ```python
 agent_executor.invoke(

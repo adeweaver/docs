@@ -10,7 +10,6 @@ For more information, please see the Deep Lake [documentation](https://docs.deep
 
 ## Setting up
 
-
 ```python
 %pip install --upgrade --quiet  langchain-openai langchain-deeplake tiktoken
 ```
@@ -19,16 +18,13 @@ For more information, please see the Deep Lake [documentation](https://docs.deep
 
 [Integration with LangChain](https://docs.activeloop.ai/tutorials/vector-store/deep-lake-vector-store-in-langchain).
 
-
 ## Deep Lake locally
-
 
 ```python
 from langchain_deeplake.vectorstores import DeeplakeVectorStore
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import CharacterTextSplitter
 ```
-
 
 ```python
 import getpass
@@ -40,7 +36,6 @@ if "OPENAI_API_KEY" not in os.environ:
 if "ACTIVELOOP_TOKEN" not in os.environ:
     os.environ["ACTIVELOOP_TOKEN"] = getpass.getpass("activeloop token:")
 ```
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -57,7 +52,6 @@ embeddings = OpenAIEmbeddings()
 
 Create a dataset locally at `./my_deeplake/`, then run similarity search. The Deeplake+LangChain integration uses Deep Lake datasets under the hood, so `dataset` and `vector store` are used interchangeably. To create a dataset in your own cloud, or in the Deep Lake storage, [adjust the path accordingly](https://docs.deeplake.ai/latest/getting-started/storage-and-creds/storage-options/).
 
-
 ```python
 db = DeeplakeVectorStore(
     dataset_path="./my_deeplake/", embedding_function=embeddings, overwrite=True
@@ -69,19 +63,16 @@ db.add_documents(docs)
 
 ### Query dataset
 
-
 ```python
 query = "What did the president say about Ketanji Brown Jackson"
 docs = db.similarity_search(query)
 ```
-
 
 ```python
 print(docs[0].page_content)
 ```
 
 Later, you can reload the dataset without recomputing embeddings
-
 
 ```python
 db = DeeplakeVectorStore(
@@ -92,9 +83,7 @@ docs = db.similarity_search(query)
 
 Setting `read_only=True` revents accidental modifications to the vector store when updates are not needed. This ensures that the data remains unchanged unless explicitly intended. It is generally a good practice to specify this argument to avoid unintended updates.
 
-
 ### Retrieval Question/Answering
-
 
 ```python
 from langchain.chains import RetrievalQA
@@ -107,7 +96,6 @@ qa = RetrievalQA.from_chain_type(
 )
 ```
 
-
 ```python
 query = "What did the president say about Ketanji Brown Jackson"
 qa.run(query)
@@ -116,7 +104,6 @@ qa.run(query)
 ### Attribute based filtering in metadata
 
 Let's create another vector store containing metadata with the year the documents were created.
-
 
 ```python
 import random
@@ -129,7 +116,6 @@ db = DeeplakeVectorStore.from_documents(
 )
 ```
 
-
 ```python
 db.similarity_search(
     "What did the president say about Ketanji Brown Jackson",
@@ -138,9 +124,8 @@ db.similarity_search(
 ```
 
 ### Choosing distance function
+
 Distance function `L2` for Euclidean, `cos` for cosine similarity
-
-
 
 ```python
 db.similarity_search(
@@ -149,8 +134,8 @@ db.similarity_search(
 ```
 
 ### Maximal Marginal relevance
-Using maximal marginal relevance
 
+Using maximal marginal relevance
 
 ```python
 db.max_marginal_relevance_search(
@@ -160,19 +145,17 @@ db.max_marginal_relevance_search(
 
 ### Delete dataset
 
-
 ```python
 db.delete_dataset()
 ```
 
 ## Deep Lake datasets on cloud (Activeloop, AWS, GCS, etc.) or in memory
-By default, Deep Lake datasets are stored locally. To store them in memory, in the Deep Lake Managed DB, or in any object storage, you can provide the [corresponding path and credentials when creating the vector store](https://docs.deeplake.ai/latest/getting-started/storage-and-creds/storage-options/). Some paths require registration with Activeloop and creation of an API token that can be [retrieved here](https://app.activeloop.ai/)
 
+By default, Deep Lake datasets are stored locally. To store them in memory, in the Deep Lake Managed DB, or in any object storage, you can provide the [corresponding path and credentials when creating the vector store](https://docs.deeplake.ai/latest/getting-started/storage-and-creds/storage-options/). Some paths require registration with Activeloop and creation of an API token that can be [retrieved here](https://app.activeloop.ai/)
 
 ```python
 os.environ["ACTIVELOOP_TOKEN"] = activeloop_token
 ```
-
 
 ```python
 # Embed and store the texts
@@ -188,13 +171,11 @@ db = DeeplakeVectorStore(
 ids = db.add_documents(docs)
 ```
 
-
 ```python
 query = "What did the president say about Ketanji Brown Jackson"
 docs = db.similarity_search(query)
 print(docs[0].page_content)
 ```
-
 
 ```python
 # Embed and store the texts
@@ -216,11 +197,9 @@ ids = db.add_documents(docs)
 
 Furthermore, the execution of queries is also supported within the similarity_search method, whereby the query can be specified utilizing Deep Lake's Tensor Query Language (TQL).
 
-
 ```python
 search_id = db.dataset["ids"][0]
 ```
-
 
 ```python
 docs = db.similarity_search(
@@ -229,13 +208,11 @@ docs = db.similarity_search(
 )
 ```
 
-
 ```python
 db.dataset.summary()
 ```
 
 ### Creating vector stores on AWS S3
-
 
 ```python
 dataset_path = "s3://BUCKET/langchain_test"  # could be also ./local/path (much faster locally), hub://bucket/path/to/dataset, gcs://path/to/dataset, etc.
@@ -255,14 +232,13 @@ db = DeeplakeVectorStore.from_documents(
 ```
 
 ## Deep Lake API
-you can access the Deep Lake  dataset at `db.vectorstore`
 
+you can access the Deep Lake  dataset at `db.vectorstore`
 
 ```python
 # get structure of the dataset
 db.dataset.summary()
 ```
-
 
 ```python
 # get embeddings numpy array
@@ -270,8 +246,8 @@ embeds = db.dataset["embeddings"][:]
 ```
 
 ### Transfer local dataset to cloud
-Copy already created dataset to the cloud. You can also transfer from cloud to local.
 
+Copy already created dataset to the cloud. You can also transfer from cloud to local.
 
 ```python
 import deeplake
@@ -283,7 +259,6 @@ destination = f"hub://{username}/langchain_test_copy"  # could be local, s3, gcs
 
 deeplake.copy(src=source, dst=destination)
 ```
-
 
 ```python
 db = DeeplakeVectorStore(dataset_path=destination, embedding_function=embeddings)

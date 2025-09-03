@@ -4,9 +4,10 @@ title: ChatAbso
 
 This will help you get started with ChatAbso [chat models](https://python.langchain.com/docs/concepts/chat_models/). For detailed documentation of all ChatAbso features and configurations, head to the [API reference](https://python.langchain.com/api_reference/en/latest/chat_models/langchain_abso.chat_models.ChatAbso.html).
 
-- You can find the full documentation for the Abso router [here] (https://abso.ai)
+- You can find the full documentation for the Abso router [here] ([abso.ai](https://abso.ai))
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [JS support](https://js.langchain.com/docs/integrations/chat/abso) | Package downloads | Package latest |
@@ -14,6 +15,7 @@ This will help you get started with ChatAbso [chat models](https://python.langch
 | [ChatAbso](https://python.langchain.com/api_reference/en/latest/chat_models/langchain_abso.chat_models.ChatAbso.html) | [langchain-abso](https://python.langchain.com/api_reference/en/latest/abso_api_reference.html) | ❌ | ❌ | ❌ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-abso?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-abso?style=flat-square&label=%20) |
 
 ## Setup
+
 To access ChatAbso models, you'll need to create an OpenAI account, get an API key, and install the `langchain-abso` integration package.
 
 ### Credentials
@@ -21,7 +23,6 @@ To access ChatAbso models, you'll need to create an OpenAI account, get an API k
 - TODO: Update with relevant info.
 
 Head to (TODO: link) to sign up for ChatAbso and generate an API key. Once you've done this, set the ABSO_API_KEY environment variable:
-
 
 ```python
 import getpass
@@ -35,7 +36,6 @@ if not os.getenv("OPENAI_API_KEY"):
 
 The LangChain ChatAbso integration lives in the `langchain-abso` package:
 
-
 ```python
 %pip install -qU langchain-abso
 ```
@@ -44,7 +44,6 @@ The LangChain ChatAbso integration lives in the `langchain-abso` package:
 
 Now we can instantiate our model object and generate chat completions:
 
-
 ```python
 from langchain_abso import ChatAbso
 
@@ -52,8 +51,6 @@ llm = ChatAbso(fast_model="gpt-4o", slow_model="o3-mini")
 ```
 
 ## Invocation
-
-
 
 ```python
 messages = [
@@ -67,7 +64,6 @@ ai_msg = llm.invoke(messages)
 ai_msg
 ```
 
-
 ```python
 print(ai_msg.content)
 ```
@@ -75,8 +71,6 @@ print(ai_msg.content)
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
-
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate
@@ -103,4 +97,4 @@ chain.invoke(
 
 ## API reference
 
-For detailed documentation of all ChatAbso features and configurations head to the API reference: https://python.langchain.com/api_reference/en/latest/chat_models/langchain_abso.chat_models.ChatAbso.html
+For detailed documentation of all ChatAbso features and configurations head to the API reference: [python.langchain.com/api_reference/en/latest/chat_models/langchain_abso.chat_models.ChatAbso.html](https://python.langchain.com/api_reference/en/latest/chat_models/langchain_abso.chat_models.ChatAbso.html)

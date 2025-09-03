@@ -19,13 +19,14 @@ In addition, consider implementing measures to validate URLs before sending requ
 </Warning>
 
 ```
+
 This will help you getting started with the [OpenApiToolkit](/oss/concepts/tools/#toolkits). For detailed documentation of all OpenApiToolkit features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain.agents.OpenApiToolkit.html).
 
 The `OpenAPIToolkit` has access to the following tools:
 
 | Name            | Description |
 |-----------------|-------------|
-| `requests_get`  | A portal to the internet. Use this when you need to get specific content from a website. Input should be a url string (i.e. "https://www.google.com"). The output will be the text response of the GET request. |
+| `requests_get`  | A portal to the internet. Use this when you need to get specific content from a website. Input should be a url string (i.e. "[www.google.com](https://www.google.com)"). The output will be the text response of the GET request. |
 | `requests_post` | Use this when you want to POST to a website. Input should be a json string with two keys: "url" and "data". The value of "url" should be a string, and the value of "data" should be a dictionary of key-value pairs you want to POST to the url as a JSON body. Be careful to always use double quotes for strings in the json string. The output will be the text response of the POST request. |
 | `json_explorer` | Can be used to answer questions about the openapi spec for the API. Always use this tool before trying to make a request. Example inputs to this tool: 'What are the required query parameters for a GET request to the /bar endpoint?' 'What are the required parameters in the request body for a POST request to the /foo endpoint?' Always give this tool a specific question. |
 
@@ -39,6 +40,7 @@ If you want to get automated tracing from runs of individual tools, you can also
 process.env.LANGSMITH_TRACING="true"
 process.env.LANGSMITH_API_KEY="your-api-key"
 ```
+
 ### Installation
 
 This toolkit lives in the `langchain` package:
@@ -51,6 +53,7 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   langchain @langchain/core
 </Npm2Yarn>
 ```
+
 ## Instantiation
 
 Now we can instantiate our toolkit. First, we need to define the LLM we would like to use in the toolkit.
@@ -58,6 +61,7 @@ Now we can instantiate our toolkit. First, we need to define the LLM we would li
 ```{=mdx}
 <ChatModelTabs customVarName="llm" />
 ```
+
 ```typescript
 // @lc-docs-hide-cell
 
@@ -67,7 +71,6 @@ const llm = new ChatOpenAI({
   temperature: 0,
 })
 ```
-
 
 ```typescript
 import { OpenApiToolkit } from "langchain/agents/toolkits"
@@ -95,7 +98,6 @@ const toolkit = new OpenApiToolkit(new JsonSpec(data), llm, headers);
 
 View available tools:
 
-
 ```typescript
 const tools = toolkit.getTools();
 
@@ -104,6 +106,7 @@ console.log(tools.map((tool) => ({
   description: tool.description,
 })))
 ```
+
 ```output
 [
   {
@@ -131,6 +134,7 @@ console.log(tools.map((tool) => ({
   }
 ]
 ```
+
 ## Use within an agent
 
 First, ensure you have LangGraph installed:
@@ -140,12 +144,12 @@ First, ensure you have LangGraph installed:
   @langchain/langgraph
 </Npm2Yarn>
 ```
+
 ```typescript
 import { createAgent } from "langchain"
 
 const agentExecutor = createAgent({ llm, tools });
 ```
-
 
 ```typescript
 const exampleQuery = "Make a POST request to openai /chat/completions. The prompt should be 'tell me a joke.'. Ensure you use the model 'gpt-4o-mini'."
@@ -164,6 +168,7 @@ for await (const event of events) {
   }
 }
 ```
+
 ```output
 [
   {
@@ -204,6 +209,7 @@ Here's a joke for you:
 **Why don't skeletons fight each other?**
 They don't have the guts!
 ```
+
 ## API reference
 
 For detailed documentation of all OpenApiToolkit features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain.agents.OpenApiToolkit.html).

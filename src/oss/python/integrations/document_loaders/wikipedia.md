@@ -10,7 +10,6 @@ This notebook shows how to load wiki pages from `wikipedia.org` into the Documen
 
 First, you need to install the `langchain_community` and `wikipedia` packages.
 
-
 ```python
 %pip install -qU langchain_community wikipedia
 ```
@@ -18,6 +17,7 @@ First, you need to install the `langchain_community` and `wikipedia` packages.
 ## Parameters
 
 `WikipediaLoader` has the following arguments:
+
 - `query`: the free text which used to find documents in Wikipedia
 - `lang` (optional): default="en". Use it to search in a specific language part of Wikipedia
 - `load_max_docs` (optional): default=100. Use it to limit number of downloaded documents. It takes time to download all 100 documents, so use a small number for experiments. There is a hard limit of 300 for now.
@@ -26,30 +26,22 @@ First, you need to install the `langchain_community` and `wikipedia` packages.
 
 ## Example
 
-
 ```python
 from langchain_community.document_loaders import WikipediaLoader
 ```
-
 
 ```python
 docs = WikipediaLoader(query="HUNTER X HUNTER", load_max_docs=2).load()
 len(docs)
 ```
 
-
-
 ```output
 2
 ```
 
-
-
 ```python
 docs[0].metadata  # metadata of the first document
 ```
-
-
 
 ```output
 {'title': 'Hunter × Hunter',
@@ -57,13 +49,9 @@ docs[0].metadata  # metadata of the first document
  'source': 'https://en.wikipedia.org/wiki/Hunter_%C3%97_Hunter'}
 ```
 
-
-
 ```python
 docs[0].page_content[:400]  # a part of the page content
 ```
-
-
 
 ```output
 'Hunter × Hunter (pronounced "hunter hunter") is a Japanese manga series written and illustrated by Yoshihiro Togashi. It has been serialized in Shueisha\'s shōnen manga magazine Weekly Shōnen Jump since March 1998, although the manga has frequently gone on extended hiatuses since 2006. Its chapters have been collected in 37 tankōbon volumes as of November 2022. The story focuses on a young boy name'

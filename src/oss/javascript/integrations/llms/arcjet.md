@@ -8,9 +8,8 @@ Arcjet Redact runs entirely on your own machine and never sends data anywhere el
 
 The Arcjet Redact object is not an LLM itself, instead it wraps an LLM. It redacts the text that is inputted to it and then unredacts the output of the wrapped LLM before returning it.
 
-
-
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | PY Support | Package downloads | Package latest |
@@ -30,8 +29,8 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
-And install LangChain Community:
 
+And install LangChain Community:
 
 ```{=mdx}
 <IntegrationInstallTooltip></IntegrationInstallTooltip>
@@ -43,8 +42,8 @@ And install LangChain Community:
 And now you're ready to start protecting your LLM calls with Arcjet Redaction!
 
 ```
-## Usage
 
+## Usage
 
 ```typescript
 import {

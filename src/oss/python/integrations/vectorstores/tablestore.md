@@ -13,13 +13,11 @@ Here are the [creating instance instructions](https://help.aliyun.com/zh/tablest
 
 ## Setup
 
-
 ```python
 %pip install --upgrade --quiet  langchain-community tablestore
 ```
 
 ## Initialization
-
 
 ```python
 import getpass
@@ -32,7 +30,6 @@ os.environ["access_key_secret"] = getpass.getpass("Tablestore access_key_secret:
 ```
 
 Create vector store.
-
 
 ```python
 import tablestore
@@ -66,14 +63,12 @@ store = TablestoreVectorStore(
 
 Create table and index.
 
-
 ```python
 store.create_table_if_not_exist()
 store.create_search_index_if_not_exist()
 ```
 
 Add documents.
-
 
 ```python
 store.add_documents(
@@ -97,37 +92,27 @@ store.add_documents(
 )
 ```
 
-
-
 ```output
 ['1', '2', '3', '4', '5']
 ```
 
-
 Delete document.
-
 
 ```python
 store.delete(["3"])
 ```
 
-
-
 ```output
 True
 ```
-
 
 Get documents.
 
 ## Query vector store
 
-
 ```python
 store.get_by_ids(["1", "3", "5"])
 ```
-
-
 
 ```output
 [Document(id='1', metadata={'embedding': '[1.3296732307905934, 0.0037521341868022385, 0.9821875819319514, 2.5644103644492393]', 'time': 2000, 'type': 'pc'}, page_content='1 hello world'),
@@ -135,24 +120,18 @@ store.get_by_ids(["1", "3", "5"])
  Document(id='5', metadata={'embedding': '[1.4558082172139821, -1.6441137122167426, -0.13113098640337423, -1.889685473174525]', 'time': 2030, 'type': 'sky'}, page_content='hi world')]
 ```
 
-
 Similarity search.
-
 
 ```python
 store.similarity_search(query="hello world", k=2)
 ```
-
-
 
 ```output
 [Document(id='1', metadata={'embedding': [1.3296732307905934, 0.0037521341868022385, 0.9821875819319514, 2.5644103644492393], 'time': 2000, 'type': 'pc'}, page_content='1 hello world'),
  Document(id='4', metadata={'embedding': [-0.3310144199800685, 0.29250046478723635, -0.0646862290377582, -0.23664360156781225], 'time': 2030, 'type': 'sky'}, page_content='hi world')]
 ```
 
-
 Similarity search with filters.
-
 
 ```python
 store.similarity_search(
@@ -166,13 +145,10 @@ store.similarity_search(
 )
 ```
 
-
-
 ```output
 [Document(id='5', metadata={'embedding': [1.4558082172139821, -1.6441137122167426, -0.13113098640337423, -1.889685473174525], 'time': 2030, 'type': 'sky'}, page_content='hi world'),
  Document(id='4', metadata={'embedding': [-0.3310144199800685, 0.29250046478723635, -0.0646862290377582, -0.23664360156781225], 'time': 2030, 'type': 'sky'}, page_content='hi world')]
 ```
-
 
 ## Usage for retrieval-augmented generation
 
@@ -185,4 +161,4 @@ For guides on how to use this vector store for retrieval-augmented generation (R
 ## API reference
 
 For detailed documentation of all `TablestoreVectorStore` features and configurations head to the API reference:
- https://python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.tablestore.TablestoreVectorStore.html
+ [python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.tablestore.TablestoreVectorStore.html](https://python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.tablestore.TablestoreVectorStore.html)
