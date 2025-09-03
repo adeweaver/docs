@@ -29,6 +29,7 @@ from langsmith.wrappers import wrap_openai
 langsmith_client = Client(
   api_key="YOUR_LANGSMITH_API_KEY",  # This can be retrieved from a secrets manager
   api_url="https://api.smith.langchain.com",  # Update appropriately for self-hosted installations or the EU region
+  workspace_id="YOUR_WORKSPACE_ID", # Must be specified for API keys scoped to multiple workspaces
 )
 
 client = wrap_openai(openai.Client())
