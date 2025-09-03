@@ -2,28 +2,25 @@
 title: Open City Data
 ---
 
-[Socrata](https://dev.socrata.com/foundry/data.sfgov.org/vw6y-z8j6) provides an API for city open data. 
+[Socrata](https://dev.socrata.com/foundry/data.sfgov.org/vw6y-z8j6) provides an API for city open data.
 
-For a dataset such as [SF crime](https://data.sfgov.org/Public-Safety/Police-Department-Incident-Reports-Historical-2003/tmnf-yvry), see the `API` tab on top right. 
+For a dataset such as [SF crime](https://data.sfgov.org/Public-Safety/Police-Department-Incident-Reports-Historical-2003/tmnf-yvry), see the `API` tab on top right.
 
 That provides you with the `dataset identifier`.
 
-Use the dataset identifier to grab specific tables for a given city_id (`data.sfgov.org`) - 
+Use the dataset identifier to grab specific tables for a given city_id (`data.sfgov.org`) -
 
 E.g., `vw6y-z8j6` for [SF 311 data](https://dev.socrata.com/foundry/data.sfgov.org/vw6y-z8j6).
 
 E.g., `tmnf-yvry` for [SF Police data](https://dev.socrata.com/foundry/data.sfgov.org/tmnf-yvry).
 
-
 ```python
 %pip install --upgrade --quiet  sodapy
 ```
 
-
 ```python
 from langchain_community.document_loaders import OpenCityDataLoader
 ```
-
 
 ```python
 dataset = "vw6y-z8j6"  # 311 data
@@ -31,10 +28,10 @@ dataset = "tmnf-yvry"  # crime data
 loader = OpenCityDataLoader(city_id="data.sfgov.org", dataset_id=dataset, limit=2000)
 ```
 
-
 ```python
 docs = loader.load()
 ```
+
 ```output
 WARNING:root:Requests made without an app_token will be subject to strict throttling limits.
 ```
@@ -42,8 +39,6 @@ WARNING:root:Requests made without an app_token will be subject to strict thrott
 ```python
 eval(docs[0].page_content)
 ```
-
-
 
 ```output
 {'pdid': '4133422003074',

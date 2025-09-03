@@ -5,7 +5,6 @@ title: ChatGPT Plugins
 <Warning>
 **Deprecated**
 
-
 OpenAI has [deprecated plugins](https://openai.com/index/chatgpt-plugins/).
 
 </Warning>
@@ -16,27 +15,22 @@ Note 1: This currently only works for plugins with no auth.
 
 Note 2: There are almost certainly other ways to do this, this is just a first pass. If you have better ideas, please open a PR!
 
-
 ```python
 %pip install --upgrade --quiet langchain-community
 ```
 
-
 ```python
 from langchain_community.tools import AIPluginTool
 ```
-
 
 ```python
 from langchain.agents import AgentType, initialize_agent, load_tools
 from langchain_openai import ChatOpenAI
 ```
 
-
 ```python
 tool = AIPluginTool.from_plugin_url("https://www.klarna.com/.well-known/ai-plugin.json")
 ```
-
 
 ```python
 llm = ChatOpenAI(temperature=0)
@@ -48,6 +42,7 @@ agent_chain = initialize_agent(
 )
 agent_chain.run("what t shirts are available in klarna?")
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 I need to check the Klarna Shopping API to see if it has information on available t shirts.
@@ -66,12 +61,9 @@ Final Answer: The available t shirts in Klarna are Lacoste Men's Pack of Plain T
 > Finished chain.
 ```
 
-
 ```output
 "The available t shirts in Klarna are Lacoste Men's Pack of Plain T-Shirts, Hanes Men's Ultimate 6pk. Crewneck T-Shirts, Nike Boy's Jordan Stretch T-shirts, Polo Classic Fit Cotton V-Neck T-Shirts 3-Pack, and adidas Comfort T-shirts Men's 3-pack."
 ```
-
-
 
 ```python
 

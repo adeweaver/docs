@@ -7,11 +7,9 @@ prompts & feedback on AI models.
 >
 >Check out [Trubrics repo](https://github.com/trubrics/trubrics-sdk) for more information on `Trubrics`.
 
-In this guide, we will go over how to set up the `TrubricsCallbackHandler`. 
-
+In this guide, we will go over how to set up the `TrubricsCallbackHandler`.
 
 ## Installation and Setup
-
 
 ```python
 %pip install --upgrade --quiet  trubrics langchain langchain-community
@@ -23,14 +21,12 @@ If you do not have a Trubrics account, create one on [here](https://trubrics.str
 
 Now set your credentials as environment variables:
 
-
 ```python
 import os
 
 os.environ["TRUBRICS_EMAIL"] = "***@***"
 os.environ["TRUBRICS_PASSWORD"] = "***"
 ```
-
 
 ```python
 from langchain_community.callbacks.trubrics_callback import TrubricsCallbackHandler
@@ -45,7 +41,7 @@ class TrubricsCallbackHandler(BaseCallbackHandler):
 
     """
     Callback handler for Trubrics.
-    
+
     Args:
         project: a trubrics project, default project is "default"
         email: a trubrics account email, can equally be set in env variables
@@ -58,22 +54,20 @@ class TrubricsCallbackHandler(BaseCallbackHandler):
 
 Here are two examples of how to use the `TrubricsCallbackHandler` with Langchain [LLMs](/docs/how_to#llms) or [Chat Models](/docs/how_to#chat-models). We will use OpenAI models, so set your `OPENAI_API_KEY` key here:
 
-
 ```python
 os.environ["OPENAI_API_KEY"] = "sk-***"
 ```
 
 ### 1. With an LLM
 
-
 ```python
 from langchain_openai import OpenAI
 ```
 
-
 ```python
 llm = OpenAI(callbacks=[TrubricsCallbackHandler()])
 ```
+
 ```output
 2023-09-26 11:30:02.149 | INFO     | trubrics.platform.auth:get_trubrics_auth_token:61 - User jeff.kayne@trubrics.com has been authenticated.
 ```
@@ -81,6 +75,7 @@ llm = OpenAI(callbacks=[TrubricsCallbackHandler()])
 ```python
 res = llm.generate(["Tell me a joke", "Write me a poem"])
 ```
+
 ```output
 2023-09-26 11:30:07.760 | INFO     | trubrics.platform:log_prompt:102 - User prompt saved to Trubrics.
 2023-09-26 11:30:08.042 | INFO     | trubrics.platform:log_prompt:102 - User prompt saved to Trubrics.
@@ -91,13 +86,14 @@ print("--> GPT's joke: ", res.generations[0][0].text)
 print()
 print("--> GPT's poem: ", res.generations[1][0].text)
 ```
+
 ```output
---> GPT's joke:  
+--> GPT's joke:
 
 Q: What did the fish say when it hit the wall?
 A: Dam!
 
---> GPT's poem:  
+--> GPT's poem:
 
 A Poem of Reflection
 
@@ -126,14 +122,13 @@ But I am ready to take the leap.
 I am ready to take the lead,
 And to create my own destiny.
 ```
-### 2. With a chat model
 
+### 2. With a chat model
 
 ```python
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 ```
-
 
 ```python
 chat_llm = ChatOpenAI(
@@ -148,7 +143,6 @@ chat_llm = ChatOpenAI(
 )
 ```
 
-
 ```python
 chat_res = chat_llm.invoke(
     [
@@ -157,6 +151,7 @@ chat_res = chat_llm.invoke(
     ]
 )
 ```
+
 ```output
 2023-09-26 11:30:10.550 | INFO     | trubrics.platform:log_prompt:102 - User prompt saved to Trubrics.
 ```
@@ -164,6 +159,7 @@ chat_res = chat_llm.invoke(
 ```python
 print(chat_res.content)
 ```
+
 ```output
 Why did the OpenAI computer go to the party?
 

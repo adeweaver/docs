@@ -8,7 +8,6 @@ This notebook covers how to load data from the `LarkSuite` REST API into a forma
 
 The LarkSuite API requires an access token (tenant_access_token or user_access_token), checkout [LarkSuite open platform document](https://open.larksuite.com/document) for API details.
 
-
 ```python
 from getpass import getpass
 
@@ -24,7 +23,6 @@ DOCUMENT_ID = input("larksuite document id")
 
 ## Load From Document
 
-
 ```python
 from pprint import pprint
 
@@ -33,11 +31,12 @@ docs = larksuite_loader.load()
 
 pprint(docs)
 ```
+
 ```output
 [Document(page_content='Test Doc\nThis is a Test Doc\n\n1\n2\n3\n\n', metadata={'document_id': 'V76kdbd2HoBbYJxdiNNccajunPf', 'revision_id': 11, 'title': 'Test Doc'})]
 ```
-## Load From Wiki
 
+## Load From Wiki
 
 ```python
 from pprint import pprint
@@ -48,6 +47,7 @@ docs = larksuite_loader.load()
 
 pprint(docs)
 ```
+
 ```output
 [Document(page_content='Test doc\nThis is a test wiki doc.\n', metadata={'document_id': 'TxOKdtMWaoSTDLxYS4ZcdEI7nwc', 'revision_id': 15, 'title': 'Test doc'})]
 ```

@@ -1,6 +1,7 @@
 <a href="https://colab.research.google.com/github/langchain-ai/langchain/blob/master/docs/docs/integrations/chat/maritalk.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
 ---
+
 title: Maritalk
 ---
 
@@ -13,21 +14,20 @@ This notebook demonstrates how to use MariTalk with LangChain through two exampl
 2. LLM + RAG: The second example shows how to answer a question whose answer is found in a long document that does not fit within the token limit of MariTalk. For this, we will use a simple searcher (BM25) to first search the document for the most relevant sections and then feed them to MariTalk for answering.
 
 ## Installation
-First, install the LangChain library (and all its dependencies) using the following command:
 
+First, install the LangChain library (and all its dependencies) using the following command:
 
 ```python
 !pip install langchain langchain-core langchain-community httpx
 ```
 
 ## API Key
-You will need an API key that can be obtained from chat.maritaca.ai ("Chaves da API" section).
 
+You will need an API key that can be obtained from chat.maritaca.ai ("Chaves da API" section).
 
 ### Example 1 - Pet Name Suggestions
 
 Let's define our language model, ChatMaritalk, and configure it with your API key.
-
 
 ```python
 from langchain_community.chat_models import ChatMaritalk
@@ -63,8 +63,7 @@ print(response)  # should answer something like "1. Max\n2. Bella\n3. Charlie\n4
 
 For tasks involving the generation of long text, such as creating an extensive article or translating a large document, it can be advantageous to receive the response in parts, as the text is generated, instead of waiting for the complete text. This makes the application more responsive and efficient, especially when the generated text is extensive. We offer two approaches to meet this need: one synchronous and another asynchronous.
 
-#### Synchronous:
-
+#### Synchronous
 
 ```python
 from langchain_core.messages import HumanMessage
@@ -75,8 +74,7 @@ for chunk in llm.stream(messages):
     print(chunk.content, end="", flush=True)
 ```
 
-#### Asynchronous:
-
+#### Asynchronous
 
 ```python
 from langchain_core.messages import HumanMessage
@@ -92,8 +90,8 @@ await async_invoke_chain("dog")
 ```
 
 ### Example 2 - RAG + LLM: UNICAMP 2024 Entrance Exam Question Answering System
-For this example, we need to install some extra libraries:
 
+For this example, we need to install some extra libraries:
 
 ```python
 !pip install unstructured rank_bm25 pdf2image pdfminer-six pikepdf pypdf unstructured_inference fastapi kaleido uvicorn "pillow<10.1.0" pillow_heif -q
@@ -102,7 +100,6 @@ For this example, we need to install some extra libraries:
 #### Loading the database
 
 The first step is to create a database with the information from the notice. For this, we will download the notice from the COMVEST website and segment the extracted text into 500-character windows.
-
 
 ```python
 from langchain_community.document_loaders import OnlinePDFLoader
@@ -121,8 +118,8 @@ texts = text_splitter.split_documents(data)
 ```
 
 #### Creating a Searcher
-Now that we have our database, we need a searcher. For this example, we will use a simple BM25 as a search system, but this could be replaced by any other searcher (such as search via embeddings).
 
+Now that we have our database, we need a searcher. For this example, we will use a simple BM25 as a search system, but this could be replaced by any other searcher (such as search via embeddings).
 
 ```python
 from langchain_community.retrievers import BM25Retriever
@@ -131,8 +128,8 @@ retriever = BM25Retriever.from_documents(texts)
 ```
 
 #### Combining Search System + LLM
-Now that we have our searcher, we just need to implement a prompt specifying the task and invoke the chain.
 
+Now that we have our searcher, we just need to implement a prompt specifying the task and invoke the chain.
 
 ```python
 from langchain.chains.question_answering import load_qa_chain

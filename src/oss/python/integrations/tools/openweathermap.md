@@ -10,14 +10,15 @@ First, you need to sign up for an `OpenWeatherMap API` key:
 2. pip install pyowm
 
 Then we will need to set some environment variables:
+
 1. Save your API KEY into OPENWEATHERMAP_API_KEY env variable
 
 ## Use the wrapper
 
-
 ```python
 %pip install --upgrade --quiet pyowm
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
@@ -32,17 +33,17 @@ os.environ["OPENWEATHERMAP_API_KEY"] = ""
 weather = OpenWeatherMapAPIWrapper()
 ```
 
-
 ```python
 weather_data = weather.run("London,GB")
 print(weather_data)
 ```
+
 ```output
 In London,GB, the current weather is as follows:
 Detailed status: overcast clouds
 Wind speed: 4.12 m/s, direction: 10°
 Humidity: 51%
-Temperature: 
+Temperature:
   - Current: 12.82°C
   - High: 13.98°C
   - Low: 12.01°C
@@ -51,21 +52,20 @@ Rain: {}
 Heat index: None
 Cloud cover: 100%
 ```
-## Use the tool
 
+## Use the tool
 
 ```python
 import os
 
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 os.environ["OPENAI_API_KEY"] = ""
 os.environ["OPENWEATHERMAP_API_KEY"] = ""
 
 tools = [weather.run]
-agent = create_react_agent("openai:gpt-4.1-mini", tools)
+agent = create_agent("openai:gpt-4.1-mini", tools)
 ```
-
 
 ```python
 input_message = {
@@ -79,6 +79,7 @@ for step in agent.stream(
 ):
     step["messages"][-1].pretty_print()
 ```
+
 ```output
 ================================ Human Message =================================
 
@@ -96,7 +97,7 @@ In London, the current weather is as follows:
 Detailed status: overcast clouds
 Wind speed: 4.12 m/s, direction: 10°
 Humidity: 51%
-Temperature: 
+Temperature:
   - Current: 12.82°C
   - High: 13.98°C
   - Low: 12.01°C

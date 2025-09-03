@@ -32,7 +32,6 @@
   "contextual": {
     "options": [
       "copy",
-      "view",
       {
         "title": "llms.txt",
         "description": "Open llms.txt for this site",
@@ -40,7 +39,10 @@
         "href": "https://docs.langchain.com/llms.txt"
       },
       "chatgpt",
-      "claude"
+      "claude",
+      "mcp",
+      "cursor",
+      "vscode"
     ]
   },
   "integrations": {
@@ -101,10 +103,6 @@
   "styles": [
     "/hide-version-picker.css"
   ],
-  "banner": {
-    "content": "Our new LangChain Academy Course Deep Research with LangGraph is now live! [Enroll for free](https://academy.langchain.com/courses/deep-research-with-langgraph/?utm_medium=internal&utm_source=docs&utm_campaign=q3-2025_deep-research-course_co).",
-    "dismissible": true
-  },
   "navbar": {
     "links": [
       {
@@ -354,9 +352,20 @@
                   {
                     "group": "Release versions",
                     "pages": [
-                      "oss/python/releases",
                       "oss/python/versioning",
-                      "oss/python/release-policy"
+                      "oss/python/release-policy",
+                      {
+                        "group": "Releases",
+                        "pages": [
+                          "oss/python/releases-v1"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "LangChain reference",
+                    "pages": [
+                      "oss/python/langchain-api-reference"
                     ]
                   },
                   {
@@ -1101,7 +1110,7 @@
         "version": "JavaScript",
         "dropdowns": [
           {
-            "dropdown": "OSS frameworks",
+            "dropdown": "OSS (v1-alpha)",
             "icon": "/images/brand/langgraph-pill.svg",
             "description": "LangChain and LangGraph",
             "tabs": [
@@ -1326,9 +1335,20 @@
                   {
                     "group": "Release versions",
                     "pages": [
-                      "oss/javascript/releases",
                       "oss/javascript/versioning",
-                      "oss/javascript/release-policy"
+                      "oss/javascript/release-policy",
+                      {
+                        "group": "Releases",
+                        "pages": [
+                          "oss/javascript/releases-v1"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "LangChain reference",
+                    "pages": [
+                      "oss/javascript/langchain-api-reference"
                     ]
                   },
                   {

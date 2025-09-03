@@ -2,16 +2,15 @@
 title: OpenLM
 ---
 
-[OpenLM](https://github.com/r2d4/openlm) is a zero-dependency OpenAI-compatible LLM provider that can call different inference endpoints directly via HTTP. 
-
+[OpenLM](https://github.com/r2d4/openlm) is a zero-dependency OpenAI-compatible LLM provider that can call different inference endpoints directly via HTTP.
 
 It implements the OpenAI Completion class so that it can be used as a drop-in replacement for the OpenAI API. This changeset utilizes BaseOpenAI for minimal added code.
 
 This examples goes over how to use LangChain to interact with both OpenAI and HuggingFace. You'll need API keys from both.
 
 ### Setup
-Install dependencies and set API keys.
 
+Install dependencies and set API keys.
 
 ```python
 # Uncomment to install openlm and openai if you haven't already
@@ -19,7 +18,6 @@ Install dependencies and set API keys.
 %pip install --upgrade --quiet  openlm
 %pip install --upgrade --quiet  langchain-openai
 ```
-
 
 ```python
 import os
@@ -40,13 +38,11 @@ if "HF_API_TOKEN" not in os.environ:
 
 Here we're going to call two models in an LLMChain, `text-davinci-003` from OpenAI and `gpt2` on HuggingFace.
 
-
 ```python
 from langchain.chains import LLMChain
 from langchain_community.llms import OpenLM
 from langchain_core.prompts import PromptTemplate
 ```
-
 
 ```python
 question = "What is the capital of France?"
@@ -65,6 +61,7 @@ for model in ["text-davinci-003", "huggingface.co/gpt2"]:
 Result: {}""".format(model, result)
     )
 ```
+
 ```output
 Model: text-davinci-003
 Result:  France is a country in Europe. The capital of France is Paris.

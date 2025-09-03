@@ -14,22 +14,21 @@ Learn more about the package on [GitHub](https://github.com/googleapis/langchain
 
 To run this notebook, you will need to do the following:
 
- * [Create a Google Cloud Project](https://developers.google.com/workspace/guides/create-project)
- * [Enable the AlloyDB API](https://console.cloud.google.com/flows/enableapi?apiid=alloydb.googleapis.com)
- * [Create a AlloyDB cluster and instance.](https://cloud.google.com/alloydb/docs/cluster-create)
- * [Create a AlloyDB database.](https://cloud.google.com/alloydb/docs/quickstart/create-and-connect)
- * [Add a User to the database.](https://cloud.google.com/alloydb/docs/database-users/about)
+* [Create a Google Cloud Project](https://developers.google.com/workspace/guides/create-project)
+* [Enable the AlloyDB API](https://console.cloud.google.com/flows/enableapi?apiid=alloydb.googleapis.com)
+* [Create a AlloyDB cluster and instance.](https://cloud.google.com/alloydb/docs/cluster-create)
+* [Create a AlloyDB database.](https://cloud.google.com/alloydb/docs/quickstart/create-and-connect)
+* [Add a User to the database.](https://cloud.google.com/alloydb/docs/database-users/about)
 
 ### 🦜🔗 Library Installation
-Install the integration library, `langchain-google-alloydb-pg`, and the library for the embedding service, `langchain-google-vertexai`.
 
+Install the integration library, `langchain-google-alloydb-pg`, and the library for the embedding service, `langchain-google-vertexai`.
 
 ```python
 %pip install --upgrade --quiet  langchain-google-alloydb-pg langchain-google-vertexai
 ```
 
 **Colab only:** Uncomment the following cell to restart the kernel or use the button to restart the kernel. For Vertex AI Workbench you can restart the terminal using the button on top.
-
 
 ```python
 # # Automatically restart kernel after installs so that your environment can access the new packages
@@ -40,11 +39,11 @@ Install the integration library, `langchain-google-alloydb-pg`, and the library 
 ```
 
 ### 🔐 Authentication
+
 Authenticate to Google Cloud as the IAM user logged into this notebook in order to access your Google Cloud Project.
 
 * If you are using Colab to run this notebook, use the cell below and continue.
 * If you are using Vertex AI Workbench, check out the setup instructions [here](https://github.com/GoogleCloudPlatform/generative-ai/tree/main/setup-env).
-
 
 ```python
 from google.colab import auth
@@ -53,6 +52,7 @@ auth.authenticate_user()
 ```
 
 ### ☁ Set Your Google Cloud Project
+
 Set your Google Cloud project so that you can leverage Google Cloud resources within this notebook.
 
 If you don't know your project ID, try the following:
@@ -60,7 +60,6 @@ If you don't know your project ID, try the following:
 * Run `gcloud config list`.
 * Run `gcloud projects list`.
 * See the support page: [Locate the project ID](https://support.google.com/googleapi/answer/7014113).
-
 
 ```python
 # @markdown Please fill in the value below with your Google Cloud project ID and then run the cell.
@@ -74,8 +73,8 @@ PROJECT_ID = "my-project-id"  # @param {type:"string"}
 ## Basic Usage
 
 ### Set AlloyDB database values
-Find your database values, in the [AlloyDB Instances page](https://console.cloud.google.com/alloydb/clusters).
 
+Find your database values, in the [AlloyDB Instances page](https://console.cloud.google.com/alloydb/clusters).
 
 ```python
 # @title Set Your Values Here { display-mode: "form" }
@@ -105,9 +104,7 @@ Optionally, [built-in database authentication](https://cloud.google.com/alloydb/
 * `user` : Database user to use for built-in database authentication and login
 * `password` : Database password to use for built-in database authentication and login.
 
-
 **Note:** This tutorial demonstrates the async interface. All async methods have corresponding sync methods.
-
 
 ```python
 from langchain_google_alloydb_pg import AlloyDBEngine
@@ -122,8 +119,8 @@ engine = await AlloyDBEngine.afrom_instance(
 ```
 
 ### Initialize a table
-The `AlloyDBVectorStore` class requires a database table. The `AlloyDBEngine` engine has a helper method `init_vectorstore_table()` that can be used to create a table with the proper schema for you.
 
+The `AlloyDBVectorStore` class requires a database table. The `AlloyDBEngine` engine has a helper method `init_vectorstore_table()` that can be used to create a table with the proper schema for you.
 
 ```python
 await engine.ainit_vectorstore_table(
@@ -137,12 +134,10 @@ await engine.ainit_vectorstore_table(
 You can use any [LangChain embeddings model](/oss/integrations/text_embedding/).
 You may need to enable Vertex AI API to use `VertexAIEmbeddings`. We recommend setting the embedding model's version for production, learn more about the [Text embeddings models](https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/text-embeddings).
 
-
 ```python
 # enable Vertex AI API
 !gcloud services enable aiplatform.googleapis.com
 ```
-
 
 ```python
 from langchain_google_vertexai import VertexAIEmbeddings
@@ -153,7 +148,6 @@ embedding = VertexAIEmbeddings(
 ```
 
 ### Initialize a default AlloyDBVectorStore
-
 
 ```python
 from langchain_google_alloydb_pg import AlloyDBVectorStore
@@ -167,7 +161,6 @@ store = await AlloyDBVectorStore.create(
 
 ### Add texts
 
-
 ```python
 import uuid
 
@@ -180,13 +173,11 @@ await store.aadd_texts(all_texts, metadatas=metadatas, ids=ids)
 
 ### Delete texts
 
-
 ```python
 await store.adelete([ids[1]])
 ```
 
 ### Search for documents
-
 
 ```python
 query = "I'd like a fruit."
@@ -196,7 +187,6 @@ print(docs)
 
 ### Search for documents by vector
 
-
 ```python
 query_vector = embedding.embed_query(query)
 docs = await store.asimilarity_search_by_vector(query_vector, k=2)
@@ -204,8 +194,8 @@ print(docs)
 ```
 
 ## Add a Index
-Speed up vector search queries by applying a vector index. Learn more about [vector indexes](https://cloud.google.com/blog/products/databases/faster-similarity-search-performance-with-pgvector-indexes).
 
+Speed up vector search queries by applying a vector index. Learn more about [vector indexes](https://cloud.google.com/blog/products/databases/faster-similarity-search-performance-with-pgvector-indexes).
 
 ```python
 from langchain_google_alloydb_pg.indexes import IVFFlatIndex
@@ -216,23 +206,21 @@ await store.aapply_vector_index(index)
 
 ### Re-index
 
-
 ```python
 await store.areindex()  # Re-index using default index name
 ```
 
 ### Remove an index
 
-
 ```python
 await store.adrop_vector_index()  # Delete index using default name
 ```
 
 ## Create a custom Vector Store
+
 A Vector Store can take advantage of relational data to filter similarity searches.
 
 Create a table with custom metadata columns.
-
 
 ```python
 from langchain_google_alloydb_pg import Column
@@ -261,7 +249,6 @@ custom_store = await AlloyDBVectorStore.create(
 ```
 
 ### Search for documents with metadata filter
-
 
 ```python
 import uuid

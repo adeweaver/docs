@@ -8,7 +8,6 @@ This notebook shows how to use the `SKLearnVectorStore` vector database.
 
 You'll need to install `langchain-community` with `pip install -qU langchain-community` to use this integration
 
-
 ```python
 %pip install --upgrade --quiet  scikit-learn
 
@@ -19,8 +18,7 @@ You'll need to install `langchain-community` with `pip install -qU langchain-com
 %pip install --upgrade --quiet  pandas pyarrow
 ```
 
-To use OpenAI embeddings, you will need an OpenAI key. You can get one at https://platform.openai.com/account/api-keys or feel free to use any other embeddings.
-
+To use OpenAI embeddings, you will need an OpenAI key. You can get one at [platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys) or feel free to use any other embeddings.
 
 ```python
 import os
@@ -33,7 +31,6 @@ if "OPENAI_API_KEY" not in os.environ:
 ## Basic usage
 
 ### Load a sample document corpus
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -49,7 +46,6 @@ embeddings = OpenAIEmbeddings()
 ```
 
 ### Create the SKLearnVectorStore, index the document corpus and run a sample query
-
 
 ```python
 import tempfile
@@ -67,22 +63,24 @@ query = "What did the president say about Ketanji Brown Jackson"
 docs = vector_store.similarity_search(query)
 print(docs[0].page_content)
 ```
+
 ```output
-Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections. 
+Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections.
 
-Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service. 
+Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service.
 
-One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. 
+One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
 
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.
 ```
-## Saving and loading a vector store
 
+## Saving and loading a vector store
 
 ```python
 vector_store.persist()
 print("Vector store was persisted to", persist_path)
 ```
+
 ```output
 Vector store was persisted to /var/folders/6r/wc15p6m13nl_nl_n_xfqpc5c0000gp/T/union.parquet
 ```
@@ -93,6 +91,7 @@ vector_store2 = SKLearnVectorStore(
 )
 print("A new instance of vector store was loaded from", persist_path)
 ```
+
 ```output
 A new instance of vector store was loaded from /var/folders/6r/wc15p6m13nl_nl_n_xfqpc5c0000gp/T/union.parquet
 ```
@@ -101,17 +100,18 @@ A new instance of vector store was loaded from /var/folders/6r/wc15p6m13nl_nl_n_
 docs = vector_store2.similarity_search(query)
 print(docs[0].page_content)
 ```
+
 ```output
-Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections. 
+Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections.
 
-Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service. 
+Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service.
 
-One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. 
+One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
 
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.
 ```
-## Clean-up
 
+## Clean-up
 
 ```python
 os.remove(persist_path)

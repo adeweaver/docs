@@ -22,11 +22,9 @@ You can then create an `UpstashVectorStore` instance by:
 
 Also, an `Embeddings` instance is required to turn given texts into embeddings. Here we use `OpenAIEmbeddings` as an example
 
-
 ```python
 %pip install langchain-openai langchain langchain-community upstash-vector
 ```
-
 
 ```python
 import os
@@ -57,7 +55,6 @@ If you are interested in trying out this approach, you can update the initializa
 
 Load an example text file and split it into chunks which can be turned into vector embeddings.
 
-
 ```python
 from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import CharacterTextSplitter
@@ -70,27 +67,21 @@ docs = text_splitter.split_documents(documents)
 docs[:3]
 ```
 
-
-
 ```output
 [Document(metadata={'source': '../../how_to/state_of_the_union.txt'}, page_content='Madam Speaker, Madam Vice President, our First Lady and Second Gentleman. Members of Congress and the Cabinet. Justices of the Supreme Court. My fellow Americans.  \n\nLast year COVID-19 kept us apart. This year we are finally together again. \n\nTonight, we meet as Democrats Republicans and Independents. But most importantly as Americans. \n\nWith a duty to one another to the American people to the Constitution. \n\nAnd with an unwavering resolve that freedom will always triumph over tyranny. \n\nSix days ago, Russia’s Vladimir Putin sought to shake the foundations of the free world thinking he could make it bend to his menacing ways. But he badly miscalculated. \n\nHe thought he could roll into Ukraine and the world would roll over. Instead he met a wall of strength he never imagined. \n\nHe met the Ukrainian people. \n\nFrom President Zelenskyy to every Ukrainian, their fearlessness, their courage, their determination, inspires the world.'),
  Document(metadata={'source': '../../how_to/state_of_the_union.txt'}, page_content='Groups of citizens blocking tanks with their bodies. Everyone from students to retirees teachers turned soldiers defending their homeland. \n\nIn this struggle as President Zelenskyy said in his speech to the European Parliament “Light will win over darkness.” The Ukrainian Ambassador to the United States is here tonight. \n\nLet each of us here tonight in this Chamber send an unmistakable signal to Ukraine and to the world. \n\nPlease rise if you are able and show that, Yes, we the United States of America stand with the Ukrainian people. \n\nThroughout our history we’ve learned this lesson when dictators do not pay a price for their aggression they cause more chaos.   \n\nThey keep moving.   \n\nAnd the costs and the threats to America and the world keep rising.   \n\nThat’s why the NATO Alliance was created to secure peace and stability in Europe after World War 2. \n\nThe United States is a member along with 29 other nations. \n\nIt matters. American diplomacy matters. American resolve matters.'),
  Document(metadata={'source': '../../how_to/state_of_the_union.txt'}, page_content='Putin’s latest attack on Ukraine was premeditated and unprovoked. \n\nHe rejected repeated efforts at diplomacy. \n\nHe thought the West and NATO wouldn’t respond. And he thought he could divide us at home. Putin was wrong. We were ready.  Here is what we did.   \n\nWe prepared extensively and carefully. \n\nWe spent months building a coalition of other freedom-loving nations from Europe and the Americas to Asia and Africa to confront Putin. \n\nI spent countless hours unifying our European allies. We shared with the world in advance what we knew Putin was planning and precisely how he would try to falsely justify his aggression.  \n\nWe countered Russia’s lies with truth.   \n\nAnd now that he has acted the free world is holding him accountable. \n\nAlong with twenty-seven members of the European Union including France, Germany, Italy, as well as countries like the United Kingdom, Canada, Japan, Korea, Australia, New Zealand, and many others, even Switzerland.')]
 ```
 
-
 ## Inserting documents
 
 The vectorstore embeds text chunks using the embedding object and batch inserts them into the database. This returns an id array of the inserted vectors.
-
 
 ```python
 inserted_vectors = store.add_documents(docs)
 
 inserted_vectors[:5]
 ```
-
-
 
 ```output
 ['247aa3ae-9be9-43e2-98e4-48f94f920749',
@@ -100,7 +91,6 @@ inserted_vectors[:5]
  '28875612-c672-4de4-b40a-3b658c72036a']
 ```
 
-
 ## Querying
 
 The database can be queried using a vector or a text prompt.
@@ -108,13 +98,10 @@ If a text prompt is used, it's first converted into embedding and then queried.
 
 The `k` parameter specifies how many results to return from the query.
 
-
 ```python
 result = store.similarity_search("technology", k=5)
 result
 ```
-
-
 
 ```output
 [Document(metadata={'source': '../../how_to/state_of_the_union.txt'}, page_content='If you travel 20 miles east of Columbus, Ohio, you’ll find 1,000 empty acres of land. \n\nIt won’t look like much, but if you stop and look closely, you’ll see a “Field of dreams,” the ground on which America’s future will be built. \n\nThis is where Intel, the American company that helped build Silicon Valley, is going to build its $20 billion semiconductor “mega site”. \n\nUp to eight state-of-the-art factories in one place. 10,000 new good-paying jobs. \n\nSome of the most sophisticated manufacturing in the world to make computer chips the size of a fingertip that power the world and our everyday lives. \n\nSmartphones. The Internet. Technology we have yet to invent. \n\nBut that’s just the beginning. \n\nIntel’s CEO, Pat Gelsinger, who is here tonight, told me they are ready to increase their investment from  \n$20 billion to $100 billion. \n\nThat would be one of the biggest investments in manufacturing in American history. \n\nAnd all they’re waiting for is for you to pass this bill.'),
@@ -124,13 +111,11 @@ result
  Document(metadata={'source': '../../how_to/state_of_the_union.txt'}, page_content='And based on the projections, more of the country will reach that point across the next couple of weeks. \n\nThanks to the progress we have made this past year, COVID-19 need no longer control our lives.  \n\nI know some are talking about “living with COVID-19”. Tonight – I say that we will never just accept living with COVID-19. \n\nWe will continue to combat the virus as we do other diseases. And because this is a virus that mutates and spreads, we will stay on guard. \n\nHere are four common sense steps as we move forward safely.  \n\nFirst, stay protected with vaccines and treatments. We know how incredibly effective vaccines are. If you’re vaccinated and boosted you have the highest degree of protection. \n\nWe will never give up on vaccinating more Americans. Now, I know parents with kids under 5 are eager to see a vaccine authorized for their children. \n\nThe scientists are working hard to get that done and we’ll be ready with plenty of vaccines when they do.')]
 ```
 
-
 ## Querying with score
 
-The score of the query can be included for every result. 
+The score of the query can be included for every result.
 
 > The score returned in the query requests is a normalized value between 0 and 1, where 1 indicates the highest similarity and 0 the lowest regardless of the similarity function used. For more information look at the [docs](https://upstash.com/docs/vector/overall/features#vector-similarity-functions).
-
 
 ```python
 result = store.similarity_search_with_score("technology", k=5)
@@ -138,6 +123,7 @@ result = store.similarity_search_with_score("technology", k=5)
 for doc, score in result:
     print(f"{doc.metadata} - {score}")
 ```
+
 ```output
 {'source': '../../how_to/state_of_the_union.txt'} - 0.8968438
 {'source': '../../how_to/state_of_the_union.txt'} - 0.8895128
@@ -145,15 +131,14 @@ for doc, score in result:
 {'source': '../../how_to/state_of_the_union.txt'} - 0.88538057
 {'source': '../../how_to/state_of_the_union.txt'} - 0.88432854
 ```
+
 ## Namespaces
 
 Namespaces can be used to separate different types of documents. This can increase the efficiency of the queries since the search space is reduced. When no namespace is provided, the default namespace is used.
 
-
 ```python
 store_books = UpstashVectorStore(embedding=embeddings, namespace="books")
 ```
-
 
 ```python
 store_books.add_texts(
@@ -178,8 +163,6 @@ store_books.add_texts(
 )
 ```
 
-
-
 ```output
 ['928a5f12-900f-40b7-9406-3861741cc9d6',
  '4908670e-0b9c-455b-96b8-e0f83bc59204',
@@ -190,14 +173,10 @@ store_books.add_texts(
  '695e2bcf-23d9-44d4-af26-a7b554c0c375']
 ```
 
-
-
 ```python
 result = store_books.similarity_search("dystopia", k=3)
 result
 ```
-
-
 
 ```output
 [Document(metadata={'title': '1984', 'author': 'George Orwell', 'year': 1949}, page_content='A chilling portrayal of a totalitarian regime, this dystopian novel offers a bleak vision of a future world dominated by surveillance, propaganda, and thought control. Through the eyes of a disillusioned protagonist, it explores the dangers of totalitarianism and the erosion of individual freedom in a society ruled by fear and oppression.'),
@@ -205,18 +184,14 @@ result
  Document(metadata={'title': 'Brave New World', 'author': 'Aldous Huxley', 'year': 1932}, page_content='In a society where emotion is suppressed and individuality is forbidden, one man dares to defy the oppressive regime. Through acts of rebellion and forbidden love, he discovers the power of human connection and the importance of free will.')]
 ```
 
-
 ## Metadata Filtering
 
 Metadata can be used to filter the results of a query. You can refer to the [docs](https://upstash.com/docs/vector/features/filtering) to see more complex ways of filtering.
-
 
 ```python
 result = store_books.similarity_search("dystopia", k=3, filter="year < 2000")
 result
 ```
-
-
 
 ```output
 [Document(metadata={'title': '1984', 'author': 'George Orwell', 'year': 1949}, page_content='A chilling portrayal of a totalitarian regime, this dystopian novel offers a bleak vision of a future world dominated by surveillance, propaganda, and thought control. Through the eyes of a disillusioned protagonist, it explores the dangers of totalitarianism and the erosion of individual freedom in a society ruled by fear and oppression.'),
@@ -224,29 +199,23 @@ result
  Document(metadata={'title': 'The Catcher in the Rye', 'author': 'J.D. Salinger', 'year': 1951}, page_content='Narrated by a disillusioned teenager, this novel follows his journey of self-discovery and rebellion against the phoniness of the adult world. Through a series of encounters and reflections, it explores themes of alienation, identity, and the search for authenticity in a society marked by conformity and hypocrisy.')]
 ```
 
-
 ## Getting info about vector database
 
 You can get information about your database like the distance metric dimension using the info function.
 
-> When an insert happens, the database an indexing takes place. While this is happening new vectors can not be queried. `pendingVectorCount` represents the number of vector that are currently being indexed. 
-
+> When an insert happens, the database an indexing takes place. While this is happening new vectors can not be queried. `pendingVectorCount` represents the number of vector that are currently being indexed.
 
 ```python
 store.info()
 ```
 
-
-
 ```output
 InfoResult(vector_count=49, pending_vector_count=0, index_size=2978163, dimension=1536, similarity_function='COSINE', namespaces={'': NamespaceInfo(vector_count=42, pending_vector_count=0), 'books': NamespaceInfo(vector_count=7, pending_vector_count=0)})
 ```
 
-
 ## Deleting vectors
 
 Vectors can be deleted by their ids
-
 
 ```python
 store.delete(inserted_vectors)
@@ -255,7 +224,6 @@ store.delete(inserted_vectors)
 ## Clearing the vector database
 
 This will clear the vector database
-
 
 ```python
 store.delete(delete_all=True)

@@ -3,8 +3,8 @@ title: How to add TTLs to your LangGraph application
 sidebarTitle: Add TTLs to your LangGraph application
 ---
 <Tip>
-  **Prerequisites**
-  This guide assumes familiarity with the [LangGraph Platform](/langgraph-platform/index), [Persistence](/oss/langgraph/persistence), and [Cross-thread persistence](/oss/langgraph/persistence#memory-store) concepts.
+**Prerequisites**
+This guide assumes familiarity with the [LangGraph Platform](/langgraph-platform/index), [Persistence](/oss/langgraph/persistence), and [Cross-thread persistence](/oss/langgraph/persistence#memory-store) concepts.
 </Tip>
 
 <Note>
@@ -31,7 +31,7 @@ Add a `checkpointer.ttl` configuration to your `langgraph.json` file:
     "ttl": {
       "strategy": "delete",
       "sweep_interval_minutes": 60,
-      "default_ttl": 43200 
+      "default_ttl": 43200
     }
   }
 }

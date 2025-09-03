@@ -4,7 +4,6 @@ title: OpenSearch
 
 > [OpenSearch](https://opensearch.org/) is a scalable, flexible, and extensible open-source software suite for search, analytics, and observability applications licensed under Apache 2.0. `OpenSearch` is a distributed search and analytics engine based on `Apache Lucene`.
 
-
 This notebook shows how to use functionality related to the `OpenSearch` database.
 
 To run, you should have an OpenSearch instance up and running: [see here for an easy Docker installation](https://hub.docker.com/r/opensearchproject/opensearch).
@@ -14,15 +13,14 @@ large datasets. To perform brute force search we have other search methods known
 Check [this](https://opensearch.org/docs/latest/search-plugins/knn/index/) for more details.
 
 ## Installation
-Install the Python client.
 
+Install the Python client.
 
 ```python
 %pip install --upgrade --quiet  opensearch-py langchain-community
 ```
 
 We want to use OpenAIEmbeddings so we have to get the OpenAI API Key.
-
 
 ```python
 import getpass
@@ -32,14 +30,12 @@ if "OPENAI_API_KEY" not in os.environ:
     os.environ["OPENAI_API_KEY"] = getpass.getpass("OpenAI API Key:")
 ```
 
-
 ```python
 from langchain_community.document_loaders import TextLoader
 from langchain_community.vectorstores import OpenSearchVectorSearch
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import CharacterTextSplitter
 ```
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -55,7 +51,6 @@ embeddings = OpenAIEmbeddings()
 ## similarity_search using Approximate k-NN
 
 `similarity_search` using `Approximate k-NN` Search with Custom Parameters
-
 
 ```python
 docsearch = OpenSearchVectorSearch.from_documents(
@@ -75,17 +70,14 @@ docsearch = OpenSearchVectorSearch.from_documents(
 # )
 ```
 
-
 ```python
 query = "What did the president say about Ketanji Brown Jackson"
 docs = docsearch.similarity_search(query, k=10)
 ```
 
-
 ```python
 print(docs[0].page_content)
 ```
-
 
 ```python
 docsearch = OpenSearchVectorSearch.from_documents(
@@ -102,7 +94,6 @@ query = "What did the president say about Ketanji Brown Jackson"
 docs = docsearch.similarity_search(query)
 ```
 
-
 ```python
 print(docs[0].page_content)
 ```
@@ -110,7 +101,6 @@ print(docs[0].page_content)
 ## similarity_search using Script Scoring
 
 `similarity_search` using `Script Scoring` with Custom Parameters
-
 
 ```python
 docsearch = OpenSearchVectorSearch.from_documents(
@@ -125,7 +115,6 @@ docs = docsearch.similarity_search(
 )
 ```
 
-
 ```python
 print(docs[0].page_content)
 ```
@@ -133,7 +122,6 @@ print(docs[0].page_content)
 ## similarity_search using Painless Scripting
 
 `similarity_search` using `Painless Scripting` with Custom Parameters
-
 
 ```python
 docsearch = OpenSearchVectorSearch.from_documents(
@@ -149,14 +137,13 @@ docs = docsearch.similarity_search(
 )
 ```
 
-
 ```python
 print(docs[0].page_content)
 ```
 
 ## Maximum marginal relevance search (MMR)
-If you’d like to look up for some similar documents, but you’d also like to receive diverse results, MMR is method you should consider. Maximal marginal relevance optimizes for similarity to query AND diversity among selected documents.
 
+If you’d like to look up for some similar documents, but you’d also like to receive diverse results, MMR is method you should consider. Maximal marginal relevance optimizes for similarity to query AND diversity among selected documents.
 
 ```python
 query = "What did the president say about Ketanji Brown Jackson"
@@ -166,7 +153,6 @@ docs = docsearch.max_marginal_relevance_search(query, k=2, fetch_k=10, lambda_pa
 ## Using a preexisting OpenSearch instance
 
 It's also possible to use a preexisting OpenSearch instance with documents that already have vectors present.
-
 
 ```python
 # this is just an example, you would need to change these values to point to another opensearch instance
@@ -191,14 +177,11 @@ docs = docsearch.similarity_search(
 
 It is an example of the `AOSS` with `faiss` engine and `efficient_filter`.
 
-
 We need to install several `python` packages.
-
 
 ```python
 %pip install --upgrade --quiet  boto3 requests requests-aws4auth
 ```
-
 
 ```python
 import boto3
@@ -234,11 +217,9 @@ docs = docsearch.similarity_search(
 
 ## Using AOS (Amazon OpenSearch Service)
 
-
 ```python
 %pip install --upgrade --quiet  boto3
 ```
-
 
 ```python
 # This is just an example to show how to use Amazon OpenSearch Service, you need to set proper values.

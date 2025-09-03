@@ -7,6 +7,7 @@ title: ChatMistralAI
 This will help you getting started with ChatMistralAI [chat models](/oss/concepts/chat_models). For detailed documentation of all ChatMistralAI features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_mistralai.ChatMistralAI.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [PY support](https://python.langchain.com/docs/integrations/chat/mistralai) | Package downloads | Package latest |
@@ -19,7 +20,7 @@ See the links in the table headers below for guides on how to use specific featu
 
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: |
-| ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | 
+| ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ |
 
 ## Setup
 
@@ -53,13 +54,13 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
 
-
 ```typescript
-import { ChatMistralAI } from "@langchain/mistralai" 
+import { ChatMistralAI } from "@langchain/mistralai"
 
 const llm = new ChatMistralAI({
     model: "mistral-large-latest",
@@ -68,6 +69,7 @@ const llm = new ChatMistralAI({
     // other params...
 })
 ```
+
 ## Invocation
 
 When sending chat messages to mistral, there are a few requirements to follow:
@@ -75,7 +77,6 @@ When sending chat messages to mistral, there are a few requirements to follow:
 - The first message can _*not*_ be an assistant (ai) message.
 - Messages _*must*_ alternate between user and assistant (ai) messages.
 - Messages can _*not*_ end with an assistant (ai) or system message.
-
 
 ```typescript
 const aiMsg = await llm.invoke([
@@ -87,6 +88,7 @@ const aiMsg = await llm.invoke([
 ])
 aiMsg
 ```
+
 ```output
 AIMessage {
   "content": "J'adore la programmation.",
@@ -112,13 +114,14 @@ AIMessage {
 ```typescript
 console.log(aiMsg.content)
 ```
+
 ```output
 J'adore la programmation.
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts"
@@ -142,6 +145,7 @@ await chain.invoke(
     }
 )
 ```
+
 ```output
 AIMessage {
   "content": "Ich liebe Programmieren.",
@@ -163,12 +167,12 @@ AIMessage {
   }
 }
 ```
+
 ## Tool calling
 
 Mistral's API supports [tool calling](/oss/concepts/tool_calling) for a subset of their models. You can see which models support tool calling [on this page](https://docs.mistral.ai/capabilities/function_calling/).
 
 The examples below demonstrates how to use it:
-
 
 ```typescript
 import { ChatMistralAI } from "@langchain/mistralai";
@@ -214,6 +218,7 @@ const calcToolRes = await chainWithCalcTool.invoke({
 });
 console.log(calcToolRes.tool_calls);
 ```
+
 ```output
 [
   {
@@ -224,10 +229,10 @@ console.log(calcToolRes.tool_calls);
   }
 ]
 ```
+
 ## Hooks
 
 Mistral AI supports custom hooks for three events: beforeRequest, requestError, and reponse. Examples of the function signature for each hook type can be seen below:
-
 
 ```typescript
 const beforeRequestHook = (req: Request): Request | void | Promise<Request | void> => {
@@ -245,9 +250,8 @@ const responseHook = (res: Response, req: Request): void | Promise<void> => {
 
 To add these hooks to the chat model, either pass them as arguments and they are automatically added:
 
-
 ```typescript
-import { ChatMistralAI } from "@langchain/mistralai" 
+import { ChatMistralAI } from "@langchain/mistralai"
 
 const modelWithHooks = new ChatMistralAI({
     model: "mistral-large-latest",
@@ -262,9 +266,8 @@ const modelWithHooks = new ChatMistralAI({
 
 Or assign and add them manually after instantiation:
 
-
 ```typescript
-import { ChatMistralAI } from "@langchain/mistralai" 
+import { ChatMistralAI } from "@langchain/mistralai"
 
 const model = new ChatMistralAI({
     model: "mistral-large-latest",
@@ -284,7 +287,6 @@ The method addAllHooksToHttpClient clears all currently added hooks before assig
 
 Hooks can be removed one at a time, or all hooks can be cleared from the model at once.
 
-
 ```typescript
 model.removeHookFromHttpClient(beforeRequestHook);
 
@@ -293,4 +295,4 @@ model.removeAllHooksFromHttpClient();
 
 ## API reference
 
-For detailed documentation of all ChatMistralAI features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_mistralai.ChatMistralAI.html
+For detailed documentation of all ChatMistralAI features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_mistralai.ChatMistralAI.html).

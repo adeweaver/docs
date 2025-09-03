@@ -8,11 +8,9 @@ title: BrightDataUnlocker
 
 ### Integration details
 
-
 |Class|Package|Serializable|JS support|Package latest|
 |:--|:--|:-:|:-:|:-:|
 |[BrightDataUnlocker](https://pypi.org/project/langchain-brightdata/)|[langchain-brightdata](https://pypi.org/project/langchain-brightdata/)|✅|❌|![PyPI - Version](https://img.shields.io/pypi/v/langchain-brightdata?style=flat-square&label=%20)|
-
 
 ### Tool features
 
@@ -20,18 +18,15 @@ title: BrightDataUnlocker
 |:-:|:-:|:--|:-:|
 |❌|❌|HTML, Markdown, or screenshot of web pages|Requires Bright Data account|
 
-
 ## Setup
 
 The integration lives in the `langchain-brightdata` package.
-
 
 ```python
 pip install langchain-brightdata
 ```
 
 You'll need a Bright Data API key to use this tool. You can set it as an environment variable:
-
 
 ```python
 import os
@@ -40,7 +35,6 @@ os.environ["BRIGHT_DATA_API_KEY"] = "your-api-key"
 ```
 
 Or pass it directly when initializing the tool:
-
 
 ```python
 from langchain_brightdata import BrightDataUnlocker
@@ -59,14 +53,13 @@ The tool accepts various parameters during instantiation:
 - `country` (optional, str): Two-letter country code for geo-specific access (e.g., "us", "gb", "de", "jp"). Set this when you need to view the website as if accessing from a specific country. Default is None.
 - `zone` (optional, str): Bright Data zone to use for the request. The "unlocker" zone is optimized for accessing websites that might block regular requests. Default is "unlocker".
 - `data_format` (optional, Literal["html", "markdown", "screenshot"]): Output format for the retrieved content. Options include:
-    - "html" - Returns the standard HTML content (default)
-    - "markdown" - Returns content converted to markdown format
-    - "screenshot" - Returns a PNG screenshot of the rendered page
+  - "html" - Returns the standard HTML content (default)
+  - "markdown" - Returns content converted to markdown format
+  - "screenshot" - Returns a PNG screenshot of the rendered page
 
 ## Invocation
 
 ### Basic Usage
-
 
 ```python
 from langchain_brightdata import BrightDataUnlocker
@@ -83,7 +76,6 @@ print(result)
 ```
 
 ### Advanced Usage with Parameters
-
 
 ```python
 from langchain_brightdata import BrightDataUnlocker
@@ -117,7 +109,6 @@ The BrightDataUnlocker tool accepts several parameters for customization:
 |`zone`|str|Bright Data zone to use (default: "unlocker")|
 |`data_format`|str|Output format: None (HTML), "markdown", or "screenshot"|
 
-
 ## Data Format Options
 
 The `data_format` parameter allows you to specify how the content should be returned:
@@ -128,11 +119,10 @@ The `data_format` parameter allows you to specify how the content should be retu
 
 ## Use within an agent
 
-
 ```python
 from langchain_brightdata import BrightDataUnlocker
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 # Initialize the LLM
 llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key="your-api-key")
@@ -141,7 +131,7 @@ llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key="your-api-
 bright_data_tool = BrightDataUnlocker(bright_data_api_key="your-api-key")
 
 # Create the agent
-agent = create_react_agent(llm, [bright_data_tool])
+agent = create_agent(llm, [bright_data_tool])
 
 # Input URLs or prompt
 user_input = "Get the content from https://example.com/region-restricted-page - access it from GB"

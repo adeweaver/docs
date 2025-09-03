@@ -2,7 +2,7 @@
 title: Baidu Cloud ElasticSearch VectorSearch
 ---
 
->[Baidu Cloud VectorSearch](https://cloud.baidu.com/doc/BES/index.html?from=productToDoc) is a fully managed, enterprise-level distributed search and analysis service which is 100% compatible to open source. Baidu Cloud VectorSearch provides low-cost, high-performance, and reliable retrieval and analysis platform level product services for structured/unstructured data. As a vector database , it supports multiple index types and similarity distance methods. 
+>[Baidu Cloud VectorSearch](https://cloud.baidu.com/doc/BES/index.html?from=productToDoc) is a fully managed, enterprise-level distributed search and analysis service which is 100% compatible to open source. Baidu Cloud VectorSearch provides low-cost, high-performance, and reliable retrieval and analysis platform level product services for structured/unstructured data. As a vector database , it supports multiple index types and similarity distance methods.
 
 >`Baidu Cloud ElasticSearch` provides a privilege management mechanism, for you to  configure the cluster privileges freely, so as to further ensure data security.
 
@@ -15,13 +15,11 @@ After the instance is up and running, follow these steps to split documents, get
 
 We need to install the following Python packages first.
 
-
 ```python
 %pip install --upgrade --quiet langchain-community elasticsearch == 7.11.0
 ```
 
 First, we want to use `QianfanEmbeddings` so we have to get the Qianfan AK and SK. Details for QianFan is related to [Baidu Qianfan Workshop](https://cloud.baidu.com/product/wenxinworkshop)
-
 
 ```python
 import getpass
@@ -34,7 +32,6 @@ if "QIANFAN_SK" not in os.environ:
 ```
 
 Secondly, split documents and get embeddings.
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -52,7 +49,6 @@ embeddings = QianfanEmbeddingsEndpoint()
 
 Then, create a Baidu ElasticeSearch accessable instance.
 
-
 ```python
 # Create a bes instance and index docs.
 from langchain_community.vectorstores import BESVectorStore
@@ -68,11 +64,10 @@ bes.client.indices.refresh(index="your vector index")
 
 Finally, Query and retrieve data
 
-
 ```python
 query = "What did the president say about Ketanji Brown Jackson"
 docs = bes.similarity_search(query)
 print(docs[0].page_content)
 ```
 
-Please feel free to contact liuboyao@baidu.com or chenweixu01@baidu.com if you encounter any problems during use, and we will do our best to support you.
+Please feel free to contact [liuboyao@baidu.com](mailto:liuboyao@baidu.com) or [chenweixu01@baidu.com](mailto:chenweixu01@baidu.com) if you encounter any problems during use, and we will do our best to support you.

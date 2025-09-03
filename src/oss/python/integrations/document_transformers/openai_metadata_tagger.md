@@ -4,12 +4,11 @@ title: OpenAI metadata tagger
 
 It can often be useful to tag ingested documents with structured metadata, such as the title, tone, or length of a document, to allow for a more targeted similarity search later. However, for large numbers of documents, performing this labelling process manually can be tedious.
 
-The `OpenAIMetadataTagger` document transformer automates this process by extracting metadata from each provided document according to a provided schema. It uses a configurable `OpenAI Functions`-powered chain under the hood, so if you pass a custom LLM instance, it must be an `OpenAI` model with functions support. 
+The `OpenAIMetadataTagger` document transformer automates this process by extracting metadata from each provided document according to a provided schema. It uses a configurable `OpenAI Functions`-powered chain under the hood, so if you pass a custom LLM instance, it must be an `OpenAI` model with functions support.
 
 **Note:** This document transformer works best with complete documents, so it's best to run it first with whole documents before doing any other splitting or processing!
 
 For example, let's say you wanted to index a set of movie reviews. You could initialize the document transformer with a valid `JSON Schema` object as follows:
-
 
 ```python
 from langchain_community.document_transformers.openai_functions import (
@@ -18,7 +17,6 @@ from langchain_community.document_transformers.openai_functions import (
 from langchain_core.documents import Document
 from langchain_openai import ChatOpenAI
 ```
-
 
 ```python
 schema = {
@@ -42,7 +40,6 @@ document_transformer = create_metadata_tagger(metadata_schema=schema, llm=llm)
 
 You can then simply pass the document transformer a list of documents, and it will extract metadata from the contents:
 
-
 ```python
 original_documents = [
     Document(
@@ -57,7 +54,6 @@ original_documents = [
 enhanced_documents = document_transformer.transform_documents(original_documents)
 ```
 
-
 ```python
 import json
 
@@ -66,6 +62,7 @@ print(
     sep="\n\n---------------\n\n",
 )
 ```
+
 ```output
 Review of The Bee Movie
 By Roger Ebert
@@ -83,10 +80,10 @@ This movie was super boring. 1 out of 5 stars.
 
 {"movie_title": "The Godfather", "critic": "Anonymous", "tone": "negative", "rating": 1, "reliable": false}
 ```
+
 The new documents can then be further processed by a text splitter before being loaded into a vector store. Extracted fields will not overwrite existing metadata.
 
 You can also initialize the document transformer with a Pydantic schema:
-
 
 ```python
 from typing import Literal
@@ -109,6 +106,7 @@ print(
     sep="\n\n---------------\n\n",
 )
 ```
+
 ```output
 Review of The Bee Movie
 By Roger Ebert
@@ -127,11 +125,9 @@ This movie was super boring. 1 out of 5 stars.
 {"movie_title": "The Godfather", "critic": "Anonymous", "tone": "negative", "rating": 1, "reliable": false}
 ```
 
-
 ## Customization
 
 You can pass the underlying tagging chain the standard LLMChain arguments in the document transformer constructor. For example, if you wanted to ask the LLM to focus specific details in the input documents, or extract metadata in a certain style, you could pass in a custom prompt:
-
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate
@@ -152,6 +148,7 @@ print(
     sep="\n\n---------------\n\n",
 )
 ```
+
 ```output
 Review of The Bee Movie
 By Roger Ebert

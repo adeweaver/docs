@@ -2,7 +2,7 @@
 title: Predibase
 ---
 
-[Predibase](https://predibase.com/) allows you to train, fine-tune, and deploy any ML model—from linear regression to large language model. 
+[Predibase](https://predibase.com/) allows you to train, fine-tune, and deploy any ML model—from linear regression to large language model.
 
 This example demonstrates using Langchain with models deployed on Predibase
 
@@ -11,7 +11,6 @@ This example demonstrates using Langchain with models deployed on Predibase
 To run this notebook, you'll need a [Predibase account](https://predibase.com/free-trial/?utm_source=langchain) and an [API key](https://docs.predibase.com/sdk-guide/intro).
 
 You'll also need to install the Predibase Python package:
-
 
 ```python
 %pip install --upgrade --quiet  predibase
@@ -22,7 +21,6 @@ os.environ["PREDIBASE_API_TOKEN"] = "{PREDIBASE_API_TOKEN}"
 
 ## Initial Call
 
-
 ```python
 from langchain_community.llms import Predibase
 
@@ -31,7 +29,6 @@ model = Predibase(
     predibase_api_key=os.environ.get("PREDIBASE_API_TOKEN"),
 )
 ```
-
 
 ```python
 from langchain_community.llms import Predibase
@@ -49,7 +46,6 @@ model = Predibase(
     },
 )
 ```
-
 
 ```python
 from langchain_community.llms import Predibase
@@ -67,7 +63,6 @@ model = Predibase(
 )
 ```
 
-
 ```python
 # Optionally use `kwargs` to dynamically overwrite "generate()" settings.
 response = model.invoke(
@@ -78,7 +73,6 @@ print(response)
 ```
 
 ## Chain Call Setup
-
 
 ```python
 from langchain_community.llms import Predibase
@@ -94,7 +88,6 @@ model = Predibase(
 )
 ```
 
-
 ```python
 # With a fine-tuned adapter hosted at Predibase (adapter_version must be specified).
 model = Predibase(
@@ -109,7 +102,6 @@ model = Predibase(
     },
 )
 ```
-
 
 ```python
 # With a fine-tuned adapter hosted at HuggingFace (adapter_version does not apply and will be ignored).
@@ -125,14 +117,12 @@ llm = Predibase(
 )
 ```
 
-##  SequentialChain
-
+## SequentialChain
 
 ```python
 from langchain.chains import LLMChain
 from langchain_core.prompts import PromptTemplate
 ```
-
 
 ```python
 # This is an LLMChain to write a synopsis given a title of a play.
@@ -143,7 +133,6 @@ Playwright: This is a synopsis for the above play:"""
 prompt_template = PromptTemplate(input_variables=["title"], template=template)
 synopsis_chain = LLMChain(llm=llm, prompt=prompt_template)
 ```
-
 
 ```python
 # This is an LLMChain to write a review of a play given a synopsis.
@@ -156,7 +145,6 @@ prompt_template = PromptTemplate(input_variables=["synopsis"], template=template
 review_chain = LLMChain(llm=llm, prompt=prompt_template)
 ```
 
-
 ```python
 # This is the overall chain where we run these two chains in sequence.
 from langchain.chains import SimpleSequentialChain
@@ -166,13 +154,11 @@ overall_chain = SimpleSequentialChain(
 )
 ```
 
-
 ```python
 review = overall_chain.run("Tragedy at sunset on the beach")
 ```
 
 ## Fine-tuned LLM (Use your own fine-tuned LLM from Predibase)
-
 
 ```python
 from langchain_community.llms import Predibase
@@ -192,7 +178,6 @@ model = Predibase(
 )
 # replace my-base-LLM with the name of your choice of a serverless base model in Predibase
 ```
-
 
 ```python
 # Optionally use `kwargs` to dynamically overwrite "generate()" settings.

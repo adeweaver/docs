@@ -12,20 +12,21 @@ The only prerequisite here is an API key from the OpenAI website. Make sure you 
 
 Initially, we require the installation of certain dependencies, such as OpenAI, Langchain, and Hippo-API. Please note, that you should install the appropriate versions tailored to your environment.
 
-
 ```python
 %pip install --upgrade --quiet  langchain langchain_community tiktoken langchain-openai
 %pip install --upgrade --quiet  hippo-api==1.1.0.rc3
 ```
+
 ```output
 Requirement already satisfied: hippo-api==1.1.0.rc3 in /Users/daochengzhang/miniforge3/envs/py310/lib/python3.10/site-packages (1.1.0rc3)
 Requirement already satisfied: pyyaml>=6.0 in /Users/daochengzhang/miniforge3/envs/py310/lib/python3.10/site-packages (from hippo-api==1.1.0.rc3) (6.0.1)
 ```
+
 Note: Python version needs to be >=3.8.
 
 ## Best Practices
-### Importing Dependency Packages
 
+### Importing Dependency Packages
 
 ```python
 import os
@@ -38,7 +39,6 @@ from langchain_text_splitters import CharacterTextSplitter
 
 ### Loading Knowledge Documents
 
-
 ```python
 os.environ["OPENAI_API_KEY"] = "YOUR OPENAI KEY"
 loader = TextLoader("../../how_to/state_of_the_union.txt")
@@ -49,15 +49,14 @@ documents = loader.load()
 
 Here, we use Langchain's CharacterTextSplitter for segmentation. The delimiter is a period. After segmentation, the text segment does not exceed 1000 characters, and the number of repeated characters is 0.
 
-
 ```python
 text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=0)
 docs = text_splitter.split_documents(documents)
 ```
 
 ### Declaring the Embedding Model
-Below, we create the OpenAI or Azure embedding model using the OpenAIEmbeddings method from Langchain.
 
+Below, we create the OpenAI or Azure embedding model using the OpenAIEmbeddings method from Langchain.
 
 ```python
 # openai
@@ -75,13 +74,11 @@ embeddings = OpenAIEmbeddings()
 
 ### Declaring Hippo Client
 
-
 ```python
 HIPPO_CONNECTION = {"host": "IP", "port": "PORT"}
 ```
 
 ### Storing the Document
-
 
 ```python
 print("input...")
@@ -94,14 +91,17 @@ vector_store = Hippo.from_documents(
 )
 print("success")
 ```
+
 ```output
 input...
 success
 ```
-### Conducting Knowledge-based Question and Answer
-#### Creating a Large Language Question-Answering Model
-Below, we create the OpenAI or Azure large language question-answering model respectively using the AzureChatOpenAI and ChatOpenAI methods from Langchain.
 
+### Conducting Knowledge-based Question and Answer
+
+#### Creating a Large Language Question-Answering Model
+
+Below, we create the OpenAI or Azure large language question-answering model respectively using the AzureChatOpenAI and ChatOpenAI methods from Langchain.
 
 ```python
 # llm = AzureChatOpenAI(
@@ -115,8 +115,7 @@ Below, we create the OpenAI or Azure large language question-answering model res
 llm = ChatOpenAI(openai_api_key="YOUR OPENAI KEY", model_name="gpt-3.5-turbo-16k")
 ```
 
-### Acquiring Related Knowledge Based on the Question：
-
+### Acquiring Related Knowledge Based on the Question
 
 ```python
 query = "Please introduce COVID-19"
@@ -133,7 +132,6 @@ text = "".join(content_list)
 
 ### Constructing a Prompt Template
 
-
 ```python
 prompt = f"""
 Please use the content of the following [Article] to answer my question. If you don't know, please say you don't know, and the answer should be concise."
@@ -144,7 +142,6 @@ Please answer this question in conjunction with the above article:{query}
 
 ### Waiting for the Large Language Model to Generate an Answer
 
-
 ```python
 response_with_hippo = llm.predict(prompt)
 print(f"response_with_hippo:{response_with_hippo}")
@@ -152,6 +149,7 @@ response = llm.predict(query)
 print("==========================================")
 print(f"response_without_hippo:{response}")
 ```
+
 ```output
 response_with_hippo:COVID-19 is a virus that has impacted every aspect of our lives for over two years. It is a highly contagious and mutates easily, requiring us to remain vigilant in combating its spread. However, due to progress made and the resilience of individuals, we are now able to move forward safely and return to more normal routines.
 ==========================================

@@ -16,7 +16,7 @@ This guide assumes basic familiarity with the following concepts:
 * [**LangGraph Platform**](/langgraph-platform/index)
 
 <Note>
-  Custom auth is only available for LangGraph Platform SaaS deployments or Enterprise Self-Hosted deployments.
+Custom auth is only available for LangGraph Platform SaaS deployments or Enterprise Self-Hosted deployments.
 </Note>
 
 ## 1. Create your app
@@ -42,21 +42,21 @@ The server will start and open the studio in your browser:
 > - 🚀 API: http://127.0.0.1:2024
 > - 🎨 Studio UI: https://smith.langchain.com/studio/?baseUrl=http://127.0.0.1:2024
 > - 📚 API Docs: http://127.0.0.1:2024/docs
-> 
+>
 > This in-memory server is designed for development and testing.
 > For production use, please use LangGraph Platform.
 ```
 
-If you were to self-host this on the public internet, anyone could access it!
+If you were to self-host this on the public internet, anyone could access it.
 
-![No auth](/langgraph-platform/images/no-auth.png)
+![No authentication: the dev server is publicly reachable, anyone can access the bot if exposed to the internet.](/langgraph-platform/images/no-auth.png)
 
 ## 2. Add authentication
 
 Now that you have a base LangGraph app, add authentication to it.
 
 <Note>
-  In this tutorial, you will start with a hard-coded token for example purposes. You will get to a "production-ready" authentication scheme in the third tutorial.
+In this tutorial, you will start with a hard-coded token for example purposes. You will get to a "production-ready" authentication scheme in the third tutorial.
 </Note>
 
 The [`Auth`](https://langchain-ai.github.io/langgraph/cloud/reference/sdk/python-sdk_ref#langgraph_sdk.auth.Auth) object lets you register an authentication function that the LangGraph platform will run on every request. This function receives each request and decides whether to accept or reject.
@@ -138,7 +138,7 @@ If you didn't add the `--no-browser`, the studio UI will open in the browser. Yo
 
 You should now only be able to access the bot if you provide a valid token in the request header. Users will still, however, be able to access each other's resources until you add [resource authorization handlers](/langgraph-platform/auth#resource-specific-handlers) in the next section of the tutorial.
 
-![Authentication, no authorization handlers](/langgraph-platform/images/authentication.png)
+![Auth gate passes requests with a valid token, but no per-resource filters are applied yet—so users share visibility until authorization handlers are added in the next step.](/langgraph-platform/images/authentication.png)
 
 Run the following code in a file or notebook:
 

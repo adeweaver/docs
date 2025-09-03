@@ -88,10 +88,10 @@ await openaiClient.chat.completions.create({
 ## Rule-based masking of inputs and outputs
 
 <Info>
-  This feature is available in the following LangSmith SDK versions:
+This feature is available in the following LangSmith SDK versions:
 
-  * Python: 0.1.81 and above
-  * TypeScript: 0.1.33 and above
+* Python: 0.1.81 and above
+* TypeScript: 0.1.33 and above
 </Info>
 
 To mask specific data in inputs and outputs, you can use the `create_anonymizer` / `createAnonymizer` function and pass the newly created anonymizer when instantiating the client. The anonymizer can be either constructed from a list of regex patterns and the replacement values or from a function that accepts and returns a string value.
@@ -153,7 +153,7 @@ const main = traceable(async (inputs: any) => {
 Please note, that using the anonymizer might incur a performance hit with complex regular expressions or large payloads, as the anonymizer serializes the payload to JSON before processing.
 
 <Note>
-  Improving the performance of `anonymizer` API is on our roadmap! If you are encountering performance issues, please contact us at [support@langchain.dev](mailto:support@langchain.dev).
+Improving the performance of `anonymizer` API is on our roadmap! If you are encountering performance issues, please contact us at [support@langchain.dev](mailto:support@langchain.dev).
 </Note>
 
 ![](/langsmith/images/hide-inputs-outputs.png)
@@ -260,7 +260,7 @@ await parent(inputs);
 ## Processing Inputs & Outputs for a Single Function
 
 <Info>
-  The `process_outputs` parameter is available in LangSmith SDK version 0.1.98 and above for Python.
+The `process_outputs` parameter is available in LangSmith SDK version 0.1.98 and above for Python.
 </Info>
 
 In addition to client-level input and output processing, LangSmith provides function-level processing through the `process_inputs` and `process_outputs` parameters of the `@traceable` decorator.
@@ -297,7 +297,7 @@ result = my_function("example")
 In this example, `process_inputs` creates a new dictionary with processed input data, and `process_outputs` transforms the output into a specific format before logging to LangSmith.
 
 <Warning>
-  It's recommended to avoid mutating the source objects in the processor functions. Instead, create and return new objects with the processed data.
+It's recommended to avoid mutating the source objects in the processor functions. Instead, create and return new objects with the processed data.
 </Warning>
 
 For asynchronous functions, the usage is similar:
@@ -318,7 +318,7 @@ You can combine rule-based masking with various anonymizers to scrub sensitive i
 ### Regex
 
 <Info>
-  The implementation below is not exhaustive and may miss some formats or edge cases. Test any implementation thoroughly before using it in production.
+The implementation below is not exhaustive and may miss some formats or edge cases. Test any implementation thoroughly before using it in production.
 </Info>
 
 You can use regex to mask inputs and outputs before they are sent to LangSmith. The implementation below masks email addresses, phone numbers, full names, credit card numbers, and SSNs.
@@ -415,7 +415,7 @@ The non-anonymized run will look like this in LangSmith: ![Non-anonymized run](/
 ### Microsoft Presidio
 
 <Info>
-  The implementation below provides a general example of how to anonymize sensitive information in messages exchanged between a user and an LLM. It is not exhaustive and does not account for all cases. Test any implementation thoroughly before using it in production.
+The implementation below provides a general example of how to anonymize sensitive information in messages exchanged between a user and an LLM. It is not exhaustive and does not account for all cases. Test any implementation thoroughly before using it in production.
 </Info>
 
 Microsoft Presidio is a data protection and de-identification SDK. The implementation below uses Presidio to anonymize inputs and outputs before they are sent to LangSmith. For up to date information, please refer to Presidio's [official documentation](https://microsoft.github.io/presidio/).
@@ -511,7 +511,7 @@ The non-anonymized run will look like this in LangSmith: ![Non-anonymized run](/
 ### Amazon Comprehend
 
 <Info>
-  The implementation below provides a general example of how to anonymize sensitive information in messages exchanged between a user and an LLM. It is not exhaustive and does not account for all cases. Test any implementation thoroughly before using it in production.
+The implementation below provides a general example of how to anonymize sensitive information in messages exchanged between a user and an LLM. It is not exhaustive and does not account for all cases. Test any implementation thoroughly before using it in production.
 </Info>
 
 Comprehend is a natural language processing service that can detect personally identifiable information. The implementation below uses Comprehend to anonymize inputs and outputs before they are sent to LangSmith. For up to date information, please refer to Comprehend's [official documentation](https://docs.aws.amazon.com/comprehend/latest/APIReference/API_DetectPiiEntities.html).

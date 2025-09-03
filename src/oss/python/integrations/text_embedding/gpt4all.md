@@ -8,22 +8,20 @@ This notebook explains how to use [GPT4All embeddings](https://docs.gpt4all.io/g
 
 ## Install GPT4All's Python Bindings
 
-
 ```python
 %pip install --upgrade --quiet  gpt4all > /dev/null
 ```
 
 Note: you may need to restart the kernel to use updated packages.
 
-
 ```python
 from langchain_community.embeddings import GPT4AllEmbeddings
 ```
 
-
 ```python
 gpt4all_embd = GPT4AllEmbeddings()
 ```
+
 ```output
 100%|████████████████████████| 45.5M/45.5M [00:02<00:00, 18.5MiB/s]
 ``````output
@@ -38,13 +36,11 @@ text = "This is a test document."
 
 ## Embed the Textual Data
 
-
 ```python
 query_result = gpt4all_embd.embed_query(text)
 ```
 
 With embed_documents you can embed multiple pieces of text. You can also map these embeddings with [Nomic's Atlas](https://docs.nomic.ai/index.html) to see a visual representation of your data.
-
 
 ```python
 doc_result = gpt4all_embd.embed_documents([text])

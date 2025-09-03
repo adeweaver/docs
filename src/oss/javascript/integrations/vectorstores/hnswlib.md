@@ -9,6 +9,7 @@ title: HNSWLib
 Only available on Node.js.
 </Tip>
 ```
+
 HNSWLib is an in-memory vector store that can be saved to a file. It uses the [HNSWLib library](https://github.com/nmslib/hnswlib).
 
 This guide provides a quick overview for getting started with HNSWLib [vector stores](/oss/concepts/#vectorstores). For detailed documentation of all `HNSWLib` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_vectorstores_hnswlib.HNSWLib.html).
@@ -35,6 +36,7 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/community hnswlib-node @langchain/openai @langchain/core
 </Npm2Yarn>
 ```
+
 ```{=mdx}
 <Warning>
 ****On Windows**, you might need to install [Visual Studio](https://visualstudio.microsoft.com/downloads/) first in order to properly build the `hnswlib-node` package.**
@@ -62,7 +64,6 @@ If you want to get automated tracing of your model calls you can also set your [
 
 ## Instantiation
 
-
 ```typescript
 import { HNSWLib } from "@langchain/community/vectorstores/hnswlib";
 import { OpenAIEmbeddings } from "@langchain/openai";
@@ -77,7 +78,6 @@ const vectorStore = await HNSWLib.fromDocuments([], embeddings);
 ## Manage vector store
 
 ### Add items to vector store
-
 
 ```typescript
 import type { Document } from "@langchain/core/documents";
@@ -111,12 +111,11 @@ Deletion and ids for individual documents are not currently supported.
 
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 
 ### Query directly
 
 Performing a simple similarity search can be done as follows:
-
 
 ```typescript
 const filter = (doc) => doc.metadata.source === "https://example.com";
@@ -127,14 +126,15 @@ for (const doc of similaritySearchResults) {
   console.log(`* ${doc.pageContent} [${JSON.stringify(doc.metadata, null)}]`);
 }
 ```
+
 ```output
 * The powerhouse of the cell is the mitochondria [{"source":"https://example.com"}]
 * Mitochondria are made out of lipids [{"source":"https://example.com"}]
 ```
+
 The filter is optional, and must be a predicate function that takes a document as input, and returns `true` or `false` depending on whether the document should be returned.
 
 If you want to execute a similarity search and receive the corresponding scores you can run:
-
 
 ```typescript
 const similaritySearchWithScoreResults = await vectorStore.similaritySearchWithScore("biology", 2, filter)
@@ -143,14 +143,15 @@ for (const [doc, score] of similaritySearchWithScoreResults) {
   console.log(`* [SIM=${score.toFixed(3)}] ${doc.pageContent} [${JSON.stringify(doc.metadata)}]`);
 }
 ```
+
 ```output
 * [SIM=0.835] The powerhouse of the cell is the mitochondria [{"source":"https://example.com"}]
 * [SIM=0.852] Mitochondria are made out of lipids [{"source":"https://example.com"}]
 ```
+
 ### Query by turning into retriever
 
 You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains.
-
 
 ```typescript
 const retriever = vectorStore.asRetriever({
@@ -160,6 +161,7 @@ const retriever = vectorStore.asRetriever({
 });
 await retriever.invoke("biology");
 ```
+
 ```output
 [
   {
@@ -172,6 +174,7 @@ await retriever.invoke("biology");
   }
 ]
 ```
+
 ### Usage for retrieval-augmented generation
 
 For guides on how to use this vector store for retrieval-augmented generation (RAG), see the following sections:
@@ -183,7 +186,6 @@ For guides on how to use this vector store for retrieval-augmented generation (R
 ## Save to/load from file
 
 HNSWLib supports saving your index to a file, then reloading it at a later date:
-
 
 ```typescript
 // Save the vector store to a directory
@@ -200,7 +202,6 @@ await loadedVectorStore.similaritySearch("hello world", 1);
 ### Delete a saved index
 
 You can use the `.delete` method to clear an index saved to a given directory:
-
 
 ```typescript
 // Load the vector store from the same directory

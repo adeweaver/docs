@@ -14,7 +14,7 @@ Here are the basic steps for backtesting:
 This process will provide you with a new dataset of representative inputs, which you can version and use for backtesting your models.
 
 <Info>
-  Often, you won't have definitive "ground truth" answers available. In such cases, you can manually label the outputs or use evaluators that don't rely on reference data. If your application allows for capturing ground-truth labels, for example by allowing users to leave feedback, we strongly recommend doing so.
+Often, you won't have definitive "ground truth" answers available. In such cases, you can manually label the outputs or use evaluators that don't rely on reference data. If your application allows for capturing ground-truth labels, for example by allowing users to leave feedback, we strongly recommend doing so.
 </Info>
 
 ## Setup
@@ -24,7 +24,7 @@ This process will provide you with a new dataset of representative inputs, which
 Install and set environment variables. This guide requires `langsmith>=0.2.4`.
 
 <Info>
-  For convenience we'll use the LangChain OSS framework in this tutorial, but the LangSmith functionality shown is framework-agnostic.
+For convenience we'll use the LangChain OSS framework in this tutorial, but the LangSmith functionality shown is framework-agnostic.
 </Info>
 
 ```bash
@@ -201,11 +201,11 @@ grounded_model = init_chat_model(model="gpt-4o").with_structured_output(Grade)
 def lt_280_chars(outputs: dict) -> bool:
     messages = convert_to_openai_messages(outputs["messages"])
     return len(messages[-1]['content']) <= 280
-    
+
 def gte_3_emojis(outputs: dict) -> bool:
     messages = convert_to_openai_messages(outputs["messages"])
     return len(emoji.emoji_list(messages[-1]['content'])) >= 3
-    
+
 async def is_grounded(outputs: dict) -> bool:
     context = ""
     messages = convert_to_openai_messages(outputs["messages"])

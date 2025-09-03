@@ -6,7 +6,7 @@ This notebook covers how to MongoDB Atlas vector search in LangChain, using the 
 
 >[MongoDB Atlas](https://www.mongodb.com/docs/atlas/) is a fully-managed cloud database available in AWS, Azure, and GCP.  It supports native Vector Search, full text search (BM25), and hybrid search on your MongoDB document data.
 
->[MongoDB Atlas Vector Search](https://www.mongodb.com/products/platform/atlas-vector-search) allows to store your embeddings in MongoDB documents, create a vector search index, and perform KNN search with an approximate nearest neighbor algorithm (`Hierarchical Navigable Small Worlds`). It uses the [$vectorSearch MQL Stage](https://www.mongodb.com/docs/atlas/atlas-vector-search/vector-search-overview/). 
+>[MongoDB Atlas Vector Search](https://www.mongodb.com/products/platform/atlas-vector-search) allows to store your embeddings in MongoDB documents, create a vector search index, and perform KNN search with an approximate nearest neighbor algorithm (`Hierarchical Navigable Small Worlds`). It uses the [$vectorSearch MQL Stage](https://www.mongodb.com/docs/atlas/atlas-vector-search/vector-search-overview/).
 
 ## Setup
 
@@ -15,7 +15,6 @@ This notebook covers how to MongoDB Atlas vector search in LangChain, using the 
 To use MongoDB Atlas, you must first deploy a cluster. We have a Forever-Free tier of cluster on a cloud of your choice available. To get started head over to Atlas here: [quick start](https://www.mongodb.com/docs/atlas/getting-started/).
 
 You'll need to install `langchain-mongodb` and `pymongo` to use this integration.
-
 
 ```python
 pip install -qU langchain-mongodb pymongo
@@ -27,7 +26,6 @@ For this notebook you will need to find your MongoDB cluster URI.
 
 For information on finding your cluster URI read through [this guide](https://www.mongodb.com/docs/manual/reference/connection-string/).
 
-
 ```python
 import getpass
 
@@ -35,7 +33,6 @@ MONGODB_ATLAS_CLUSTER_URI = getpass.getpass("MongoDB Atlas Cluster URI:")
 ```
 
 If you want to get best in-class automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
-
 
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -46,8 +43,6 @@ If you want to get best in-class automated tracing of your model calls you can a
 
 <EmbeddingTabs/>
 
-
-
 ```python
 # | output: false
 # | echo: false
@@ -55,7 +50,6 @@ from langchain_openai import OpenAIEmbeddings
 
 embeddings = OpenAIEmbeddings()
 ```
-
 
 ```python
 from langchain_mongodb import MongoDBAtlasVectorSearch
@@ -83,6 +77,7 @@ vector_store.create_vector_search_index(dimensions=1536)
 ```
 
 [OPTIONAL] Alternative to the `vector_store.create_vector_search_index` command above, you can also create the vector search index using the Atlas UI with the following index definition:
+
 ```json
 {
   "fields":[
@@ -103,7 +98,6 @@ Once you have created your vector store, we can interact with it by adding and d
 ### Add items to vector store
 
 We can add items to our vector store by using the `add_documents` function.
-
 
 ```python
 from uuid import uuid4
@@ -177,8 +171,6 @@ uuids = [str(uuid4()) for _ in range(len(documents))]
 vector_store.add_documents(documents=documents, ids=uuids)
 ```
 
-
-
 ```output
 ['03ad81e8-32a0-46f0-b7d8-f5b977a6b52a',
  '8396a68d-f4a3-4176-a581-a1a8c303eea4',
@@ -192,32 +184,25 @@ vector_store.add_documents(documents=documents, ids=uuids)
  '30d599a7-4a1a-47a9-bbf8-6ed393e2e33c']
 ```
 
-
 ### Delete items from vector store
-
-
 
 ```python
 vector_store.delete(ids=[uuids[-1]])
 ```
 
-
-
 ```output
 True
 ```
 
-
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 
 ### Query directly
 
 #### Similarity search
 
 Performing a simple similarity search can be done as follows:
-
 
 ```python
 results = vector_store.similarity_search(
@@ -226,28 +211,29 @@ results = vector_store.similarity_search(
 for res in results:
     print(f"* {res.page_content} [{res.metadata}]")
 ```
+
 ```output
 * Building an exciting new project with LangChain - come check it out! [{'_id': 'e7d95150-67f6-499f-b611-84367c50fa60', 'source': 'tweet'}]
 * LangGraph is the best framework for building stateful, agentic applications! [{'_id': '7614bb54-4eb5-4b3b-990c-00e35cb31f99', 'source': 'tweet'}]
 ```
+
 #### Similarity search with score
 
 You can also search with score:
-
 
 ```python
 results = vector_store.similarity_search_with_score("Will it be hot tomorrow?", k=1)
 for res, score in results:
     print(f"* [SIM={score:3f}] {res.page_content} [{res.metadata}]")
 ```
+
 ```output
 * [SIM=0.784560] The weather forecast for tomorrow is cloudy and overcast, with a high of 62 degrees. [{'_id': '8396a68d-f4a3-4176-a581-a1a8c303eea4', 'source': 'news'}]
 ```
+
 ### Pre-filtering with Similarity Search
 
 Atlas Vector Search supports pre-filtering using MQL Operators for filtering.  Below is an example index and query on the same data loaded above that allows you do metadata filtering on the "page" field.  You can update your existing index with the filter defined and do pre-filtering with vector search.
-
-
 
 To enable pre-filtering you need to update the index definition to include a filter field. In this example, we will use the `source` field as the filter field.
 
@@ -262,6 +248,7 @@ vectorstore.create_vector_search_index(
 ```
 
 Alternatively, you can also update the index using the Atlas UI with the following index definition:
+
 ```json
 {
   "fields":[
@@ -293,10 +280,9 @@ There are a variety of other search methods that are not covered in this noteboo
 
 ### Query by turning into retriever
 
-You can also transform the vector store into a retriever for easier usage in your chains. 
+You can also transform the vector store into a retriever for easier usage in your chains.
 
 Here is how to transform your vector store into a retriever and then invoke the retreiever with a simple query and filter.
-
 
 ```python
 retriever = vector_store.as_retriever(
@@ -306,12 +292,9 @@ retriever = vector_store.as_retriever(
 retriever.invoke("Stealing from the bank is a crime")
 ```
 
-
-
 ```output
 [Document(metadata={'_id': '8c31b84e-2636-48b6-8b99-9fccb47f7051', 'source': 'news'}, page_content='Robbers broke into the city bank and stole $1 million in cash.')]
 ```
-
 
 ## Usage for retrieval-augmented generation
 
@@ -322,11 +305,12 @@ For guides on how to use this vector store for retrieval-augmented generation (R
 - [Retrieval conceptual docs](https://python.langchain.com/docs/concepts/retrieval)
 
 # Other Notes
->* More documentation can be found at [MongoDB's LangChain Docs](https://www.mongodb.com/docs/atlas/atlas-vector-search/ai-integrations/langchain/) site
->* This feature is Generally Available and ready for production deployments.
->* The langchain version 0.0.305 ([release notes](https://github.com/langchain-ai/langchain/releases/tag/v0.0.305)) introduces the support for $vectorSearch MQL stage, which is available with MongoDB Atlas 6.0.11 and 7.0.2. Users utilizing earlier versions of MongoDB Atlas need to pin their LangChain version to &lt;=0.0.304
-> 
+>
+>- More documentation can be found at [MongoDB's LangChain Docs](https://www.mongodb.com/docs/atlas/atlas-vector-search/ai-integrations/langchain/) site
+>- This feature is Generally Available and ready for production deployments.
+>- The langchain version 0.0.305 ([release notes](https://github.com/langchain-ai/langchain/releases/tag/v0.0.305)) introduces the support for $vectorSearch MQL stage, which is available with MongoDB Atlas 6.0.11 and 7.0.2. Users utilizing earlier versions of MongoDB Atlas need to pin their LangChain version to &lt;=0.0.304
+>
 
 ## API reference
 
-For detailed documentation of all `MongoDBAtlasVectorSearch` features and configurations head to the API reference: https://python.langchain.com/api_reference/mongodb/index.html
+For detailed documentation of all `MongoDBAtlasVectorSearch` features and configurations head to the API reference: [python.langchain.com/api_reference/mongodb/index.html](https://python.langchain.com/api_reference/mongodb/index.html)

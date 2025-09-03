@@ -6,12 +6,10 @@ title: Dall-E Image Generator
 
 This notebook shows how you can generate images from a prompt synthesized using an OpenAI LLM. The images are generated using `Dall-E`, which uses the same OpenAI API key as the LLM.
 
-
 ```python
 # Needed if you would like to display images in the notebook
 %pip install --upgrade --quiet  opencv-python scikit-image langchain-community
 ```
-
 
 ```python
 import os
@@ -22,7 +20,6 @@ os.environ["OPENAI_API_KEY"] = "insertapikey"
 ```
 
 ## Run as a chain
-
 
 ```python
 from langchain.chains import LLMChain
@@ -38,16 +35,13 @@ prompt = PromptTemplate(
 chain = LLMChain(llm=llm, prompt=prompt)
 ```
 
-
 ```python
 image_url = DallEAPIWrapper().run(chain.run("halloween night at a haunted museum"))
 ```
 
-
 ```python
 image_url
 ```
-
 
 ```python
 # You can click on the link above to display the image
@@ -78,14 +72,13 @@ else:
 
 ## Run as a tool with an agent
 
-
 ```python
 from langchain_community.tools.openai_dalle_image_generation import (
     OpenAIDALLEImageGenerationTool,
 )
 from langchain_community.utilities.dalle_image_generator import DallEAPIWrapper
 from langchain_openai import ChatOpenAI
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
 api_wrapper = DallEAPIWrapper()
@@ -93,7 +86,7 @@ dalle_tool = OpenAIDALLEImageGenerationTool(api_wrapper=api_wrapper)
 
 tools = [dalle_tool]
 
-agent = create_react_agent(llm, tools, debug=True)
+agent = create_agent(llm, tools, debug=True)
 
 # User prompt
 prompt = "Create an image of a halloween night at a haunted museum"

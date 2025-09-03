@@ -46,11 +46,11 @@ export const run = async () => {
     at <anonymous> (/Users/ankushgola/Code/langchainjs/examples/src/index.ts:33:22)
    */
   }
-  const fixParser = OutputFixingParser.fromLLM(
+    const fixParser = OutputFixingParser.fromLLM(
     new ChatOpenAI({ model: "gpt-4o-mini", temperature: 0 }),
     parser
   );
-  const output = await fixParser.parse(badOutput);
+    const output = await fixParser.parse(badOutput);
   console.log("Fixed output: ", output);
   // Fixed output:  { answer: 'foo', sources: [ 'foo.com' ] }
 };

@@ -6,13 +6,11 @@ title: DataForSEO
 >
 >The `DataForSeo API` retrieves `SERP` from the most popular search engines like `Google`, `Bing`, `Yahoo`. It also allows to >get SERPs from different search engine types like `Maps`, `News`, `Events`, etc.
 
-This notebook demonstrates how to use the [DataForSeo API](https://dataforseo.com/apis) to obtain search engine results. 
-
+This notebook demonstrates how to use the [DataForSeo API](https://dataforseo.com/apis) to obtain search engine results.
 
 ```python
 %pip install --upgrade --quiet langchain-community
 ```
-
 
 ```python
 from langchain_community.utilities.dataforseo_api_search import DataForSeoAPIWrapper
@@ -21,7 +19,6 @@ from langchain_community.utilities.dataforseo_api_search import DataForSeoAPIWra
 ## Setting up the API credentials
 
 You can obtain your API credentials by registering on the `DataForSeo` website.
-
 
 ```python
 import os
@@ -34,12 +31,12 @@ wrapper = DataForSeoAPIWrapper()
 
 The run method will return the first result snippet from one of the following elements: answer_box, knowledge_graph, featured_snippet, shopping, organic.
 
-
 ```python
 wrapper.run("Weather in Los Angeles")
 ```
 
 ## The Difference Between `run` and `results`
+
 `run` and `results` are two methods provided by the `DataForSeoAPIWrapper` class.
 
 The `run` method executes the search and returns the first result snippet from the answer box, knowledge graph, featured snippet, shopping, or organic results. These elements are sorted by priority from highest to lowest.
@@ -47,8 +44,8 @@ The `run` method executes the search and returns the first result snippet from t
 The `results` method returns a JSON response configured according to the parameters set in the wrapper. This allows for more flexibility in terms of what data you want to return from the API.
 
 ## Getting Results as JSON
-You can customize the result types and fields you want to return in the JSON response. You can also set a maximum count for the number of top results to return.
 
+You can customize the result types and fields you want to return in the JSON response. You can also set a maximum count for the number of top results to return.
 
 ```python
 json_wrapper = DataForSeoAPIWrapper(
@@ -58,14 +55,13 @@ json_wrapper = DataForSeoAPIWrapper(
 )
 ```
 
-
 ```python
 json_wrapper.results("Bill Gates")
 ```
 
 ## Customizing Location and Language
-You can specify the location and language of your search results by passing additional parameters to the API wrapper.
 
+You can specify the location and language of your search results by passing additional parameters to the API wrapper.
 
 ```python
 customized_wrapper = DataForSeoAPIWrapper(
@@ -78,8 +74,8 @@ customized_wrapper.results("coffee near me")
 ```
 
 ## Customizing the Search Engine
-You can also specify the search engine you want to use.
 
+You can also specify the search engine you want to use.
 
 ```python
 customized_wrapper = DataForSeoAPIWrapper(
@@ -92,8 +88,8 @@ customized_wrapper.results("coffee near me")
 ```
 
 ## Customizing the Search Type
-The API wrapper also allows you to specify the type of search you want to perform. For example, you can perform a maps search.
 
+The API wrapper also allows you to specify the type of search you want to perform. For example, you can perform a maps search.
 
 ```python
 maps_search = DataForSeoAPIWrapper(
@@ -109,8 +105,8 @@ maps_search.results("coffee near me")
 ```
 
 ## Integration with Langchain Agents
-You can use the `Tool` class from the `langchain.agents` module to integrate the `DataForSeoAPIWrapper` with a langchain agent. The `Tool` class encapsulates a function that the agent can call.
 
+You can use the `Tool` class from the `langchain.agents` module to integrate the `DataForSeoAPIWrapper` with a langchain agent. The `Tool` class encapsulates a function that the agent can call.
 
 ```python
 from langchain_core.tools import Tool

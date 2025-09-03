@@ -10,7 +10,6 @@ Infobip provides many services, but this notebook will focus on SMS and Email se
 
 To use this tool you need to have an Infobip account. You can create [free trial account](https://www.infobip.com/docs/essentials/free-trial).
 
-
 `InfobipAPIWrapper` uses name parameters where you can provide credentials:
 
 - `infobip_api_key` - [API Key](https://www.infobip.com/docs/essentials/api-authentication#api-key-header) that you can find in your [developer tools](https://portal.infobip.com/dev/api-keys)
@@ -19,7 +18,6 @@ To use this tool you need to have an Infobip account. You can create [free trial
 You can also provide `infobip_api_key` and `infobip_base_url` as environment variables `INFOBIP_API_KEY` and `INFOBIP_BASE_URL`.
 
 ## Sending a SMS
-
 
 ```python
 from langchain_community.utilities.infobip import InfobipAPIWrapper
@@ -36,7 +34,6 @@ infobip.run(
 
 ## Sending an Email
 
-
 ```python
 from langchain_community.utilities.infobip import InfobipAPIWrapper
 
@@ -51,8 +48,7 @@ infobip.run(
 )
 ```
 
-# How to use it inside an Agent 
-
+# How to use it inside an Agent
 
 ```python
 from langchain import hub

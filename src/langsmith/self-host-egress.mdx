@@ -4,7 +4,7 @@ sidebarTitle: Configure egress for subscription metrics
 ---
 
 <Info>
-  This section only applies to customers who are not running in offline mode and assumes you are using a self-hosted LangSmith instance serving version 0.9.0 or later. Previous versions of LangSmith did not have this feature.
+This section only applies to customers who are not running in offline mode and assumes you are using a self-hosted LangSmith instance serving version 0.9.0 or later. Previous versions of LangSmith did not have this feature.
 </Info>
 
 Self-Hosted LangSmith instances store all information locally and will never send sensitive information outside of your network. We currently only track platform usage for billing purposes according to the entitlements in your order. In order to better remotely support our customers, we do require egress to `https://beacon.langchain.com`.
@@ -12,7 +12,7 @@ Self-Hosted LangSmith instances store all information locally and will never sen
 In the future, we will be introducing support diagnostics to help us ensure that the LangSmith platform is running at an optimal level within your environment.
 
 <Warning>
-  **This will require egress to `https://beacon.langchain.com` from your network. Refer to the [allowlisting IP section](/langsmith/cloud-architecture-and-scalability#allowlisting-ip-addresses) for static IP addresses, if needed.**
+**This will require egress to `https://beacon.langchain.com` from your network. Refer to the [allowlisting IP section](/langsmith/cloud-architecture-and-scalability#allowlisting-ip-addresses) for static IP addresses, if needed.**
 </Warning>
 
 Generally, data that we send to Beacon can be categorized as follows:
@@ -45,7 +45,7 @@ As of version ***0.11***, LangSmith deployments will by default send telemetry d
 * **Distributed traces**: end-to-end traces with timing and error information for high-latency or failed requests.
 
 <Info>
-  We do not collect actual payload contents, database records, or any data that can identify your end users or customers.
+We do not collect actual payload contents, database records, or any data that can identify your end users or customers.
 </Info>
 
 ### How to disable

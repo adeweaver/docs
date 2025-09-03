@@ -12,15 +12,13 @@ This notebook shows how to use LLMs to provide a natural language interface to a
 
 Install a library:
 
-
 ```python
 !pip3 install gremlinpython
 ```
 
-You will need an Azure CosmosDB Graph database instance. One option is to create a [free CosmosDB Graph database instance in Azure](https://learn.microsoft.com/en-us/azure/cosmos-db/free-tier). 
+You will need an Azure CosmosDB Graph database instance. One option is to create a [free CosmosDB Graph database instance in Azure](https://learn.microsoft.com/en-us/azure/cosmos-db/free-tier).
 
 When you create your Cosmos DB account and Graph, use `/type` as a partition key.
-
 
 ```python
 cosmosdb_name = "mycosmosdb"
@@ -28,7 +26,6 @@ cosmosdb_db_id = "graphtesting"
 cosmosdb_db_graph_id = "mygraph"
 cosmosdb_access_Key = "longstring=="
 ```
-
 
 ```python
 import nest_asyncio
@@ -38,7 +35,6 @@ from langchain_community.graphs.graph_document import GraphDocument, Node, Relat
 from langchain_core.documents import Document
 from langchain_openai import AzureChatOpenAI
 ```
-
 
 ```python
 graph = GremlinGraph(
@@ -55,7 +51,6 @@ Assuming your database is empty, you can populate it using the GraphDocuments
 For Gremlin, always add property called 'label' for each Node.
 If no label is set, Node.type is used as a label.
 For cosmos using natural id's make sense, as they are visible in the graph explorer.
-
 
 ```python
 source_doc = Document(
@@ -106,7 +101,6 @@ graph_doc = GraphDocument(
 )
 ```
 
-
 ```python
 # The underlying python-gremlin has a problem when running in notebook
 # The following line is a workaround to fix the problem
@@ -117,14 +111,12 @@ graph.add_graph_documents([graph_doc])
 ```
 
 ## Refresh graph schema information
+
 If the schema of database changes (after updates), you can refresh the schema information.
-
-
 
 ```python
 graph.refresh_schema()
 ```
-
 
 ```python
 print(graph.schema)
@@ -133,7 +125,6 @@ print(graph.schema)
 ## Querying the graph
 
 We can now use the gremlin QA chain to ask question of the graph
-
 
 ```python
 chain = GremlinQAChain.from_llm(
@@ -146,11 +137,9 @@ chain = GremlinQAChain.from_llm(
 )
 ```
 
-
 ```python
 chain.invoke("Who played in The Matrix?")
 ```
-
 
 ```python
 chain.run("How many people played in The Matrix?")

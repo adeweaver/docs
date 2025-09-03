@@ -14,15 +14,15 @@ Compared to the `evaluate()` evaluation flow, this is useful when:
 * You want to take advantage of mocks, watch mode, local results, or other features of the Vitest/Jest ecosystems
 
 <Info>
-  Requires JS/TS SDK version `langsmith>=0.3.1`.
+Requires JS/TS SDK version `langsmith>=0.3.1`.
 </Info>
 
 <Warning>
-  The Vitest/Jest integrations are in beta and are subject to change in upcoming releases.
+The Vitest/Jest integrations are in beta and are subject to change in upcoming releases.
 </Warning>
 
 <Info>
-  The Python SDK has an analogous [pytest integration](/langsmith/pytest).
+The Python SDK has an analogous [pytest integration](/langsmith/pytest).
 </Info>
 
 ## Setup
@@ -88,7 +88,7 @@ export default defineConfig({
 * `setupFiles` runs `dotenv` to load environment variables before running your evals
 
 <Warning>
-  JSDom environments are not supported at this time. You should either omit the `"environment"` field from your config or set it to `"node"`.
+JSDom environments are not supported at this time. You should either omit the `"environment"` field from your config or set it to `"node"`.
 </Warning>
 
 Finally, add the following to the `scripts` field in your `package.json` to run Vitest with the config you just created:
@@ -149,7 +149,7 @@ pnpm add langsmith openai
 </CodeGroup>
 
 <Info>
-  The setup instructions below are for basic JS files and CJS. To add support for TypeScript and ESM, see Jest's official docs or use [Vitest](#vitest).
+The setup instructions below are for basic JS files and CJS. To add support for TypeScript and ESM, see Jest's official docs or use [Vitest](#vitest).
 </Info>
 
 Then create a separate config file named `ls.jest.config.cjs`:
@@ -167,7 +167,7 @@ module.exports = {
 * `setupFiles` runs `dotenv` to load environment variables before running your evals
 
 <Warning>
-  JSDom environments are not supported at this time. You should either omit the `"testEnvironment"` field from your config or set it to `"node"`.
+JSDom environments are not supported at this time. You should either omit the `"testEnvironment"` field from your config or set it to `"node"`.
 </Warning>
 
 Finally, add the following to the `scripts` field in your `package.json` to run Jest with the config you just created:
@@ -414,11 +414,11 @@ const DATASET = [
   {
     inputs: { userQuery: "whats up" },
     referenceOutputs: { sql: "sorry that is not a valid query" }
-  }, 
+  },
   {
     inputs: { userQuery: "what color is the sky?" },
     referenceOutputs: { sql: "sorry that is not a valid query" }
-  }, 
+  },
   {
     inputs: { userQuery: "how are you today?" },
     referenceOutputs: { sql: "sorry that is not a valid query" }

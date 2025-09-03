@@ -10,7 +10,6 @@ This notebook shows how to use functionality related to the `Pinecone` vector da
 
 To use the `PineconeVectorStore` you first need to install the partner package, as well as the other packages used throughout this notebook.
 
-
 ```python
 pip install -qU langchain langchain-pinecone langchain-openai
 ```
@@ -20,7 +19,6 @@ Migration note: if you are migrating from the `langchain_community.vectorstores`
 ### Credentials
 
 Create a new Pinecone account, or sign into your existing one, and create an API key to use in this notebook.
-
 
 ```python
 import getpass
@@ -38,7 +36,6 @@ pc = Pinecone(api_key=pinecone_api_key)
 
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
-
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
 # os.environ["LANGSMITH_TRACING"] = "true"
@@ -47,7 +44,6 @@ If you want to get automated tracing of your model calls you can also set your [
 ## Initialization
 
 Before initializing our vector store, let's connect to a Pinecone index. If one named `index_name` doesn't exist, it will be created.
-
 
 ```python
 from pinecone import ServerlessSpec
@@ -65,13 +61,11 @@ if not pc.has_index(index_name):
 index = pc.Index(index_name)
 ```
 
-
 ```python
 from langchain_openai import OpenAIEmbeddings
 
 embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 ```
-
 
 ```python
 from langchain_pinecone import PineconeVectorStore
@@ -86,7 +80,6 @@ Once you have created your vector store, we can interact with it by adding and d
 ### Add items to vector store
 
 We can add items to our vector store by using the `add_documents` function.
-
 
 ```python
 from uuid import uuid4
@@ -161,19 +154,17 @@ vector_store.add_documents(documents=documents, ids=uuids)
 
 ### Delete items from vector store
 
-
 ```python
 vector_store.delete(ids=[uuids[-1]])
 ```
 
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 
 ### Query directly
 
 Performing a simple similarity search can be done as follows:
-
 
 ```python
 results = vector_store.similarity_search(
@@ -188,7 +179,6 @@ for res in results:
 #### Similarity search with score
 
 You can also search with score:
-
 
 ```python
 results = vector_store.similarity_search_with_score(
@@ -205,7 +195,6 @@ There are more search methods (such as MMR) not listed in this notebook, to find
 ### Query by turning into retriever
 
 You can also transform the vector store into a retriever for easier usage in your chains.
-
 
 ```python
 retriever = vector_store.as_retriever(
@@ -225,4 +214,4 @@ For guides on how to use this vector store for retrieval-augmented generation (R
 
 ## API reference
 
-For detailed documentation of all features and configurations head to the API reference: https://python.langchain.com/api_reference/pinecone/vectorstores/langchain_pinecone.vectorstores.PineconeVectorStore.html
+For detailed documentation of all features and configurations head to the API reference: [python.langchain.com/api_reference/pinecone/vectorstores/langchain_pinecone.vectorstores.PineconeVectorStore.html](https://python.langchain.com/api_reference/pinecone/vectorstores/langchain_pinecone.vectorstores.PineconeVectorStore.html)

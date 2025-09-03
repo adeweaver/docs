@@ -4,21 +4,17 @@ title: Reddit
 
 >[Reddit](https://www.reddit.com) is an American social news aggregation, content rating, and discussion website.
 
-
 This loader fetches the text from the Posts of Subreddits or Reddit users, using the `praw` Python package.
 
 Make a [Reddit Application](https://www.reddit.com/prefs/apps/) and initialize the loader with your Reddit API credentials.
-
 
 ```python
 from langchain_community.document_loaders import RedditPostsLoader
 ```
 
-
 ```python
 %pip install --upgrade --quiet  praw
 ```
-
 
 ```python
 # load using 'subreddit' mode
@@ -49,13 +45,10 @@ loader = RedditPostsLoader(
 # Note: Categories can be only of following value - "controversial" "hot" "new" "rising" "top"
 ```
 
-
 ```python
 documents = loader.load()
 documents[:5]
 ```
-
-
 
 ```output
 [Document(page_content='Hello, I am not looking for investment advice. I will apply my own due diligence. However, I am interested if anyone knows as a UK resident how fees and exchange rate differences would impact performance?\n\nI am planning to create a pie of index funds (perhaps UK, US, europe) or find a fund with a good track record of long term growth at low rates. \n\nDoes anyone have any ideas?', metadata={'post_subreddit': 'r/investing', 'post_category': 'new', 'post_title': 'Long term retirement funds fees/exchange rate query', 'post_score': 1, 'post_id': '130pa6m', 'post_url': 'https://www.reddit.com/r/investing/comments/130pa6m/long_term_retirement_funds_feesexchange_rate_query/', 'post_author': Redditor(name='Badmanshiz')}),

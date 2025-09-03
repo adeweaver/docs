@@ -4,18 +4,19 @@ title: BSHTMLLoader
 
 This guide provides a quick overview for getting started with BeautifulSoup4 [document loader](https://python.langchain.com/docs/concepts/document_loaders). For detailed documentation of all __ModuleName__Loader features and configurations head to the [API reference](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.html_bs.BSHTMLLoader.html).
 
-
 ## Overview
-### Integration details
 
+### Integration details
 
 | Class | Package | Local | Serializable | JS support|
 | :--- | :--- | :---: | :---: |  :---: |
-| [BSHTMLLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.html_bs.BSHTMLLoader.html) | [langchain-community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ❌ | 
+| [BSHTMLLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.html_bs.BSHTMLLoader.html) | [langchain-community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ❌ |
+
 ### Loader features
+
 | Source | Document Lazy Loading | Native Async Support
-| :---: | :---: | :---: | 
-| BSHTMLLoader | ✅ | ❌ | 
+| :---: | :---: | :---: |
+| BSHTMLLoader | ✅ | ❌ |
 
 ## Setup
 
@@ -27,7 +28,6 @@ No credentials are needed to use the `BSHTMLLoader` class.
 
 To enable automated tracing of your model calls, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
-
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
 # os.environ["LANGSMITH_TRACING"] = "true"
@@ -36,7 +36,6 @@ To enable automated tracing of your model calls, set your [LangSmith](https://do
 ### Installation
 
 Install **langchain-community** and **bs4**.
-
 
 ```python
 %pip install -qU langchain-community bs4
@@ -48,7 +47,6 @@ Now we can instantiate our model object and load documents:
 
 - TODO: Update model instantiation with relevant params.
 
-
 ```python
 from langchain_community.document_loaders import BSHTMLLoader
 
@@ -59,28 +57,24 @@ loader = BSHTMLLoader(
 
 ## Load
 
-
 ```python
 docs = loader.load()
 docs[0]
 ```
 
-
-
 ```output
 Document(metadata={'source': './example_data/fake-content.html', 'title': 'Test Title'}, page_content='\nTest Title\n\n\nMy First Heading\nMy first paragraph.\n\n\n')
 ```
 
-
-
 ```python
 print(docs[0].metadata)
 ```
+
 ```output
 {'source': './example_data/fake-content.html', 'title': 'Test Title'}
 ```
-## Lazy Load
 
+## Lazy Load
 
 ```python
 page = []
@@ -94,17 +88,13 @@ for doc in loader.lazy_load():
 page[0]
 ```
 
-
-
 ```output
 Document(metadata={'source': './example_data/fake-content.html', 'title': 'Test Title'}, page_content='\nTest Title\n\n\nMy First Heading\nMy first paragraph.\n\n\n')
 ```
 
-
 ## Adding separator to BS4
 
 We can also pass a separator to use when calling get_text on the soup
-
 
 ```python
 loader = BSHTMLLoader(
@@ -114,17 +104,19 @@ loader = BSHTMLLoader(
 docs = loader.load()
 print(docs[0])
 ```
+
 ```output
 page_content='
-, Test Title, 
-, 
-, 
-, My First Heading, 
-, My first paragraph., 
-, 
-, 
+, Test Title,
+,
+,
+, My First Heading,
+, My first paragraph.,
+,
+,
 ' metadata={'source': './example_data/fake-content.html', 'title': 'Test Title'}
 ```
+
 ## API reference
 
-For detailed documentation of all BSHTMLLoader features and configurations head to the API reference: https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.html_bs.BSHTMLLoader.html
+For detailed documentation of all BSHTMLLoader features and configurations head to the API reference: [python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.html_bs.BSHTMLLoader.html](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.html_bs.BSHTMLLoader.html)

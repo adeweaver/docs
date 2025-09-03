@@ -13,36 +13,37 @@ integration](https://github.com/aerospike/langchain-aerospike).
 ## Install AVS
 
 Before using this notebook, we need to have a running AVS instance. Use one of
-the [available installation methods](https://aerospike.com/docs/vector/install). 
+the [available installation methods](https://aerospike.com/docs/vector/install).
 
 When finished, store your AVS instance's IP address and port to use later
 in this demo:
-
 
 ```python
 AVS_HOST = "<avs_ip>"
 AVS_PORT = 5000
 ```
 
-## Install Dependencies 
-The `sentence-transformers` dependency is large. This step could take several minutes to complete.
+## Install Dependencies
 
+The `sentence-transformers` dependency is large. This step could take several minutes to complete.
 
 ```python
 !pip install --upgrade --quiet aerospike-vector-search==4.2.0 langchain-aerospike langchain-community sentence-transformers langchain
 ```
+
 ```output
 [notice] A new release of pip is available: 25.0.1 -> 25.1.1
 [notice] To update, run: pip install --upgrade pip
 ```
+
 ## Download Quotes Dataset
 
 We will download a dataset of approximately 100,000 quotes and use a subset of those quotes for semantic search.
 
-
 ```python
 !wget https://github.com/aerospike/aerospike-vector-search-examples/raw/7dfab0fccca0852a511c6803aba46578729694b5/quote-semantic-search/container-volumes/quote-search/data/quotes.csv.tgz
 ```
+
 ```output
 --2025-05-07 21:06:30--  https://github.com/aerospike/aerospike-vector-search-examples/raw/7dfab0fccca0852a511c6803aba46578729694b5/quote-semantic-search/container-volumes/quote-search/data/quotes.csv.tgz
 Resolving github.com (github.com)... 140.82.116.3
@@ -60,14 +61,14 @@ HTTP request sent, awaiting response... 200 OK
 Length: 11597643 (11M) [application/octet-stream]
 Saving to: ‘quotes.csv.tgz’
 
-quotes.csv.tgz      100%[===================>]  11.06M  12.7MB/s    in 0.9s    
+quotes.csv.tgz      100%[===================>]  11.06M  12.7MB/s    in 0.9s
 
 2025-05-07 21:06:32 (12.7 MB/s) - ‘quotes.csv.tgz’ saved [11597643/11597643]
 ```
+
 ## Load the Quotes Into Documents
 
 We will load our quotes dataset using the `CSVLoader` document loader. In this case, `lazy_load` returns an iterator to ingest our quotes more efficiently. In this example, we only load 5,000 quotes.
-
 
 ```python
 import itertools
@@ -90,17 +91,17 @@ documents = list(
 )  # Allows us to slice an iterator
 ```
 
-
 ```python
 print(documents[0])
 ```
+
 ```output
 page_content='quote: I'm selfish, impatient and a little insecure. I make mistakes, I am out of control and at times hard to handle. But if you can't handle me at my worst, then you sure as hell don't deserve me at my best.' metadata={'source': './quotes.csv', 'row': 0, 'author': 'Marilyn Monroe', 'category': 'attributed-no-source, best, life, love, mistakes, out-of-control, truth, worst'}
 ```
+
 ## Create your Embedder
 
 In this step, we use HuggingFaceEmbeddings and the "all-MiniLM-L6-v2" sentence transformer model to embed our documents so we can perform a vector search.
-
 
 ```python
 from aerospike_vector_search.types import VectorDistanceMetric
@@ -110,16 +111,17 @@ MODEL_DIM = 384
 MODEL_DISTANCE_CALC = VectorDistanceMetric.COSINE
 embedder = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 ```
+
 ```output
 /var/folders/h5/lm2_c1xs3s32kwp11prnpftw0000gp/T/ipykernel_84638/3255399720.py:6: LangChainDeprecationWarning: The class `HuggingFaceEmbeddings` was deprecated in LangChain 0.2.2 and will be removed in 1.0. An updated version of the class exists in the :class:`~langchain-huggingface package and should be used instead. To use it run `pip install -U :class:`~langchain-huggingface` and import as `from :class:`~langchain_huggingface import HuggingFaceEmbeddings``.
   embedder = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 /Users/dwelch/Desktop/everything/projects/langchain/myfork/langchain/.venv/lib/python3.11/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
   from .autonotebook import tqdm as notebook_tqdm
 ```
+
 ## Create an Aerospike Index and Embed Documents
 
 Before we add documents, we need to create an index in the Aerospike Database. In the example below, we use some convenience code that checks to see if the expected index already exists.
-
 
 ```python
 from aerospike_vector_search import Client, HostPort
@@ -174,12 +176,14 @@ docstore = Aerospike.from_documents(
     distance_strategy=MODEL_DISTANCE_CALC,
 )
 ```
+
 ```output
 quote-miniLM-L6-v2 does not exist. Creating index
 ```
-## Search the Documents
-Now that we have embedded our vectors, we can use vector search on our quotes.
 
+## Search the Documents
+
+Now that we have embedded our vectors, we can use vector search on our quotes.
 
 ```python
 query = "A quote about the beauty of the cosmos"
@@ -199,6 +203,7 @@ def print_documents(docs):
 
 print_documents(docs)
 ```
+
 ```output
 ~~~~ Document 0 ~~~~
 auto-generated id: 4984b472-8a32-4552-b3eb-f03b31b68031
@@ -230,10 +235,10 @@ author:  Thich Nhat Hanh, Teachings on Love
 quote: Through my love for you, I want to express my love for the whole cosmos, the whole of humanity, and all beings. By living with you, I want to learn to love everyone and all species. If I succeed in loving you, I will be able to love everyone and all species on Earth... This is the real message of love.
 ~~~~~~~~~~~~~~~~~~~~
 ```
+
 ## Embedding Additional Quotes as Text
 
 We can use `add_texts` to add additional quotes.
-
 
 ```python
 docstore = Aerospike(
@@ -261,14 +266,15 @@ ids = docstore.add_texts(
 print("New IDs")
 print(ids)
 ```
+
 ```output
 New IDs
 ['adf8064e-9c0e-46e2-b193-169c36432f4c', 'cf65b5ed-a0f4-491a-86ad-dcacc23c2815', '2ef52efd-d9b7-4077-bc14-defdf0b7dd2f']
 ```
+
 ## Search Documents Using Max Marginal Relevance Search
 
 We can use max marginal relevance search to find vectors that are similar to our query but dissimilar to each other. In this example, we create a retriever object using `as_retriever`, but this could be done just as easily by calling `docstore.max_marginal_relevance_search` directly. The `lambda_mult` search argument determines the diversity of our query response. 0 corresponds to maximum diversity and 1 to minimum diversity.
-
 
 ```python
 query = "A quote about our favorite four-legged pets"
@@ -279,6 +285,7 @@ matched_docs = retriever.invoke(query)
 
 print_documents(matched_docs)
 ```
+
 ```output
 ~~~~ Document 0 ~~~~
 auto-generated id: 91e77b39-a528-40c6-a58a-486ae85f991a
@@ -304,10 +311,10 @@ author:  Ray Bradbury
 quote: Stuff your eyes with wonder," he said, "live as if you'd drop dead in ten seconds. See the world. It's more fantastic than any dream made or paid for in factories. Ask no guarantees, ask for no security, there never was such an animal. And if there were, it would be related to the great sloth which hangs upside down in a tree all day every day, sleeping its life away. To hell with that," he said, "shake the tree and knock the great sloth down on his ass.
 ~~~~~~~~~~~~~~~~~~~~
 ```
+
 ## Search Documents with a Relevance Threshold
 
 Another useful feature is a similarity search with a relevance threshold. Generally, we only want results that are most similar to our query but also within some range of proximity. A relevance of 1 is most similar and a relevance of 0 is most dissimilar.
-
 
 ```python
 query = "A quote about stormy weather"
@@ -321,6 +328,7 @@ matched_docs = retriever.invoke(query)
 
 print_documents(matched_docs)
 ```
+
 ```output
 ~~~~ Document 0 ~~~~
 auto-generated id: 6d9e67a6-0427-41e6-9e24-050518120d74
@@ -346,15 +354,15 @@ author:  Edwin Morgan, A Book of Lives
 quote: Valentine WeatherKiss me with rain on your eyelashes,come on, let us sway together,under the trees, and to hell with thunder.
 ~~~~~~~~~~~~~~~~~~~~
 ```
+
 ## Clean up
 
 We need to make sure we close our client to release resources and clean up threads.
-
 
 ```python
 client.close()
 ```
 
-## Ready. Set. Search!
+## Ready. Set. Search
 
 Now that you are up to speed with Aerospike Vector Search's LangChain integration, you have the power of the Aerospike Database and the LangChain ecosystem at your finger tips. Happy building!

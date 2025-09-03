@@ -22,16 +22,16 @@ def evaluator(*, outputs: dict, reference_outputs: dict):
 :::js
 ```typescript
 type EvaluatorParams = {
-  outputs: Record<string, any>;
-  referenceOutputs: Record<string, any>;
+    outputs: Record<string, any>;
+    referenceOutputs: Record<string, any>;
 };
 
 function evaluator({ outputs, referenceOutputs }: EvaluatorParams) {
-  // compare agent outputs against reference outputs
-  const outputMessages = outputs.messages;
-  const referenceMessages = referenceOutputs.messages;
-  const score = compareMessages(outputMessages, referenceMessages);
-  return { key: "evaluator_score", score: score };
+    // compare agent outputs against reference outputs
+    const outputMessages = outputs.messages;
+    const referenceMessages = referenceOutputs.messages;
+    const score = compareMessages(outputMessages, referenceMessages);
+    return { key: "evaluator_score", score: score };
 }
 ```
 :::
@@ -109,37 +109,37 @@ result = evaluator(
 import { createTrajectoryMatchEvaluator } from "agentevals/trajectory/match";
 
 const outputs = [
-  {
-    role: "assistant",
-    tool_calls: [
-      {
-        function: {
-          name: "get_weather",
-          arguments: JSON.stringify({ city: "san francisco" }),
+    {
+        role: "assistant",
+        tool_calls: [
+        {
+            function: {
+            name: "get_weather",
+            arguments: JSON.stringify({ city: "san francisco" }),
+            },
         },
-      },
-      {
-        function: {
-          name: "get_directions",
-          arguments: JSON.stringify({ destination: "presidio" }),
+        {
+            function: {
+            name: "get_directions",
+            arguments: JSON.stringify({ destination: "presidio" }),
+            },
         },
-      },
-    ],
-  },
+        ],
+    },
 ];
 
 const referenceOutputs = [
-  {
-    role: "assistant",
-    tool_calls: [
-      {
-        function: {
-          name: "get_weather",
-          arguments: JSON.stringify({ city: "san francisco" }),
+    {
+        role: "assistant",
+        tool_calls: [
+        {
+            function: {
+            name: "get_weather",
+            arguments: JSON.stringify({ city: "san francisco" }),
+            },
         },
-      },
-    ],
-  },
+        ],
+    },
 ];
 
 // Create the evaluator
@@ -150,8 +150,8 @@ const evaluator = createTrajectoryMatchEvaluator({
 
 // Run the evaluator
 const result = evaluator({
-  outputs: outputs,
-  referenceOutputs: referenceOutputs,
+    outputs: outputs,
+    referenceOutputs: referenceOutputs,
 });
 ```
 :::
@@ -182,13 +182,13 @@ evaluator = create_trajectory_llm_as_judge(
 :::js
 ```typescript
 import {
-  createTrajectoryLlmAsJudge,
-  TRAJECTORY_ACCURACY_PROMPT_WITH_REFERENCE,
+    createTrajectoryLlmAsJudge,
+    TRAJECTORY_ACCURACY_PROMPT_WITH_REFERENCE,
 } from "agentevals/trajectory/llm";
 
 const evaluator = createTrajectoryLlmAsJudge({
-  prompt: TRAJECTORY_ACCURACY_PROMPT_WITH_REFERENCE,
-  model: "openai:o3-mini",
+    prompt: TRAJECTORY_ACCURACY_PROMPT_WITH_REFERENCE,
+    model: "openai:o3-mini",
 });
 ```
 :::
@@ -203,11 +203,11 @@ To run an evaluator, you will first need to create a [LangSmith dataset](https:/
 :::python
 ```python
 from langsmith import Client
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 from agentevals.trajectory.match import create_trajectory_match_evaluator
 
 client = Client()
-agent = create_react_agent(...)
+agent = create_agent(...)
 evaluator = create_trajectory_match_evaluator(...)
 
 experiment_results = client.evaluate(
@@ -222,11 +222,11 @@ experiment_results = client.evaluate(
 :::js
 ```typescript
 import { Client } from "langsmith";
-import { createReactAgent } from "@langchain/langgraph/prebuilt";
+import { createAgent } from "langchain";
 import { createTrajectoryMatchEvaluator } from "agentevals/trajectory/match";
 
 const client = new Client();
-const agent = createReactAgent({...});
+const agent = createAgent({...});
 const evaluator = createTrajectoryMatchEvaluator({...});
 
 const experimentResults = await client.evaluate(

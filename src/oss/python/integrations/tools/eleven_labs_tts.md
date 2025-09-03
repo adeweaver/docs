@@ -6,11 +6,9 @@ This notebook shows how to interact with the `ElevenLabs API` to achieve text-to
 
 First, you need to set up an ElevenLabs account. You can follow the instructions [here](https://docs.elevenlabs.io/welcome/introduction).
 
-
 ```python
 %pip install --upgrade --quiet  elevenlabs langchain-community
 ```
-
 
 ```python
 import os
@@ -19,7 +17,6 @@ os.environ["ELEVENLABS_API_KEY"] = ""
 ```
 
 ## Usage
-
 
 ```python
 from langchain_community.tools import ElevenLabsText2SpeechTool
@@ -30,15 +27,11 @@ tts = ElevenLabsText2SpeechTool()
 tts.name
 ```
 
-
-
 ```output
 'eleven_labs_text2speech'
 ```
 
-
 We can generate audio, save it to the temporary file and then play it.
-
 
 ```python
 speech_file = tts.run(text_to_speak)
@@ -47,19 +40,16 @@ tts.play(speech_file)
 
 Or stream audio directly.
 
-
 ```python
 tts.stream_speech(text_to_speak)
 ```
 
 ## Use within an Agent
 
-
 ```python
 from langchain.agents import AgentType, initialize_agent, load_tools
 from langchain_openai import OpenAI
 ```
-
 
 ```python
 llm = OpenAI(temperature=0)
@@ -72,10 +62,10 @@ agent = initialize_agent(
 )
 ```
 
-
 ```python
 audio_file = agent.run("Tell me a joke and read it out for me.")
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 Action:

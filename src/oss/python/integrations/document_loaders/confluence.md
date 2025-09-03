@@ -23,15 +23,15 @@ The following authentication methods are supported:
 
 You can specify which pages to load using:
 
-- **page_ids** (*list*):  
+- **page_ids** (*list*):
   A list of `page_id` values to load the corresponding pages.
 
-- **space_key** (*string*):  
+- **space_key** (*string*):
   A string of `space_key` value to load all pages within the specified confluence space.
 
 If both `page_ids` and `space_key` are provided, the loader will return the union of pages from both lists.
 
-*Hint:* Both `space_key` and `page_id` can be found in the URL of a Confluence page:  
+*Hint:* Both `space_key` and `page_id` can be found in the URL of a Confluence page:
 `https://yoursite.atlassian.com/wiki/spaces/{space_key}/pages/{page_id}`
 
 ---
@@ -53,7 +53,6 @@ You may include attachments in the loaded `Document` objects by setting the bool
 
 Before using ConfluenceLoader make sure you have the latest version of the atlassian-python-api package installed:
 
-
 ```python
 %pip install --upgrade --quiet  atlassian-python-api
 ```
@@ -63,12 +62,11 @@ Before using ConfluenceLoader make sure you have the latest version of the atlas
 ### Username and Password or Username and API Token (Atlassian Cloud only)
 
 This example authenticates using either a username and password or, if you're connecting to an Atlassian Cloud hosted version of Confluence, a username and an API Token.
-You can generate an API token at: https://id.atlassian.com/manage-profile/security/api-tokens.
+You can generate an API token at: [id.atlassian.com/manage-profile/security/api-tokens](https://id.atlassian.com/manage-profile/security/api-tokens).
 
 The `limit` parameter specifies how many documents will be retrieved in a single call, not how many documents will be retrieved in total.
-By default the code will return up to 1000 documents in 50 documents batches. To control the total number of documents use the `max_pages` parameter. 
-Plese note the maximum value for the `limit` parameter in the atlassian-python-api package is currently 100.  
-
+By default the code will return up to 1000 documents in 50 documents batches. To control the total number of documents use the `max_pages` parameter.
+Plese note the maximum value for the `limit` parameter in the atlassian-python-api package is currently 100.
 
 ```python
 from langchain_community.document_loaders import ConfluenceLoader
@@ -87,10 +85,9 @@ documents = loader.load()
 ### Personal Access Token (Server/On-Prem only)
 
 This method is valid for the Data Center/Server on-prem edition only.
-For more information on how to generate a Personal Access Token (PAT) check the official Confluence documentation at: https://confluence.atlassian.com/enterprise/using-personal-access-tokens-1026032365.html.
-When using a PAT you provide only the token value, you cannot provide a username. 
-Please note that ConfluenceLoader will run under the permissions of the user that generated the PAT and will only be able to load documents for which said user has access to.  
-
+For more information on how to generate a Personal Access Token (PAT) check the official Confluence documentation at: [confluence.atlassian.com/enterprise/using-personal-access-tokens-1026032365.html](https://confluence.atlassian.com/enterprise/using-personal-access-tokens-1026032365.html).
+When using a PAT you provide only the token value, you cannot provide a username.
+Please note that ConfluenceLoader will run under the permissions of the user that generated the PAT and will only be able to load documents for which said user has access to.
 
 ```python
 from langchain_community.document_loaders import ConfluenceLoader

@@ -12,7 +12,6 @@ A lot of source connectors are implemented using the [Airbyte CDK](https://docs.
 
 First, you need to install the `airbyte-cdk` python package.
 
-
 ```python
 %pip install --upgrade --quiet  airbyte-cdk
 ```
@@ -20,7 +19,6 @@ First, you need to install the `airbyte-cdk` python package.
 Then, either install an existing connector from the [Airbyte Github repository](https://github.com/airbytehq/airbyte/tree/master/airbyte-integrations/connectors) or create your own connector using the [Airbyte CDK](https://docs.airbyte.io/connector-development/connector-development).
 
 For example, to install the Github connector, run
-
 
 ```python
 %pip install --upgrade --quiet  "source_github@git+https://github.com/airbytehq/airbyte.git@master#subdirectory=airbyte-integrations/connectors/source-github"
@@ -34,7 +32,6 @@ Now you can create an `AirbyteCDKLoader` based on the imported source. It takes 
 
 * [https://github.com/airbytehq/airbyte/blob/master/airbyte-integrations/connectors/source-github/source_github/spec.json](https://github.com/airbytehq/airbyte/blob/master/airbyte-integrations/connectors/source-github/source_github/spec.json).
 * [https://docs.airbyte.com/integrations/sources/github/](https://docs.airbyte.com/integrations/sources/github/)
-
 
 ```python
 from langchain_community.document_loaders.airbyte import AirbyteCDKLoader
@@ -54,20 +51,17 @@ issues_loader = AirbyteCDKLoader(
 
 Now you can load documents the usual way
 
-
 ```python
 docs = issues_loader.load()
 ```
 
 As `load` returns a list, it will block until all documents are loaded. To have better control over this process, you can also use the `lazy_load` method which returns an iterator instead:
 
-
 ```python
 docs_iterator = issues_loader.lazy_load()
 ```
 
 Keep in mind that by default the page content is empty and the metadata object contains all the information from the record. To create documents in a different way, pass in a record_handler function when creating the loader:
-
 
 ```python
 from langchain_core.documents import Document
@@ -95,7 +89,6 @@ docs = issues_loader.load()
 Some streams allow incremental loading, this means the source keeps track of synced records and won't load them again. This is useful for sources that have a high volume of data and are updated frequently.
 
 To take advantage of this, store the `last_state` property of the loader and pass it in when creating the loader again. This will ensure that only new records are loaded.
-
 
 ```python
 last_state = issues_loader.last_state  # store safely

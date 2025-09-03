@@ -22,7 +22,7 @@ When you create a chain from the chat prompt and execute it, the Kinetica LLM wi
 generate SQL from the input. Optionally you can use ``KineticaSqlOutputParser`` to
 execute the SQL and return the result as a dataframe.
 
-Currently, 2 LLM's are supported for SQL generation: 
+Currently, 2 LLM's are supported for SQL generation:
 
 1. **Kinetica SQL-GPT**: This LLM is based on OpenAI ChatGPT API.
 2. **Kinetica SqlAssist**: This LLM is purpose built to integrate with the Kinetica
@@ -38,7 +38,6 @@ obtain a [free development instance](https://cloud.kinetica.com/trynow).
 
 You will need to install the following packages...
 
-
 ```python
 # Install Langchain community and core packages
 %pip install --upgrade --quiet langchain-core langchain-community
@@ -47,18 +46,18 @@ You will need to install the following packages...
 %pip install --upgrade --quiet 'gpudb>=7.2.0.8' typeguard pandas tqdm
 
 # Install packages needed for this tutorial
-%pip install --upgrade --quiet faker ipykernel 
+%pip install --upgrade --quiet faker ipykernel
 ```
 
 ## Database Connection
 
 You must set the database connection in the following environment variables. If you are using a virtual environment you can set them in the `.env` file of the project:
+
 * `KINETICA_URL`: Database connection URL
 * `KINETICA_USER`: Database user
 * `KINETICA_PASSWD`: Secure password.
 
 If you can create an instance of `KineticaChatLLM` then you are successfully connected.
-
 
 ```python
 from langchain_community.chat_models.kinetica import ChatKinetica
@@ -80,7 +79,6 @@ Before we can generate SQL we will need to create a Kinetica table and an LLM co
 
 We will use the `faker` package to create a dataframe with 100 fake profiles.
 
-
 ```python
 from typing import Generator
 
@@ -101,33 +99,34 @@ def profile_gen(count: int) -> Generator:
 load_df = pd.DataFrame.from_records(data=profile_gen(100), index="id")
 print(load_df.head())
 ```
+
 ```output
          username             name sex  \
-id                                       
-0       eduardo69       Haley Beck   F   
-1        lbarrera  Joshua Stephens   M   
-2         bburton     Paula Kaiser   F   
-3       melissa49      Wendy Reese   F   
-4   melissacarter      Manuel Rios   M   
+id
+0       eduardo69       Haley Beck   F
+1        lbarrera  Joshua Stephens   M
+2         bburton     Paula Kaiser   F
+3       melissa49      Wendy Reese   F
+4   melissacarter      Manuel Rios   M
 
                                               address                    mail  \
-id                                                                              
-0   59836 Carla Causeway Suite 939\nPort Eugene, I...  meltondenise@yahoo.com   
-1   3108 Christina Forges\nPort Timothychester, KY...     erica80@hotmail.com   
-2                    Unit 7405 Box 3052\nDPO AE 09858  timothypotts@gmail.com   
-3   6408 Christopher Hill Apt. 459\nNew Benjamin, ...        dadams@gmail.com   
-4    2241 Bell Gardens Suite 723\nScottside, CA 38463  williamayala@gmail.com   
+id
+0   59836 Carla Causeway Suite 939\nPort Eugene, I...  meltondenise@yahoo.com
+1   3108 Christina Forges\nPort Timothychester, KY...     erica80@hotmail.com
+2                    Unit 7405 Box 3052\nDPO AE 09858  timothypotts@gmail.com
+3   6408 Christopher Hill Apt. 459\nNew Benjamin, ...        dadams@gmail.com
+4    2241 Bell Gardens Suite 723\nScottside, CA 38463  williamayala@gmail.com
 
-    birthdate  
-id             
-0  1997-12-08  
-1  1924-08-03  
-2  1933-12-05  
-3  1988-10-26  
+    birthdate
+id
+0  1997-12-08
+1  1924-08-03
+2  1933-12-05
+3  1988-10-26
 4  1931-03-19
 ```
-### Create a Kinetica table from the Dataframe
 
+### Create a Kinetica table from the Dataframe
 
 ```python
 from gpudb import GPUdbTable
@@ -143,6 +142,7 @@ gpudb_table = GPUdbTable.from_df(
 # See the Kinetica column types
 print(gpudb_table.type_as_df())
 ```
+
 ```output
         name    type   properties
 0   username  string     [char32]
@@ -152,12 +152,12 @@ print(gpudb_table.type_as_df())
 4       mail  string     [char32]
 5  birthdate    long  [timestamp]
 ```
+
 ### Create the LLM context
 
-You can create an LLM Context using the Kinetica Workbench UI or you can manually create it with the `CREATE OR REPLACE CONTEXT` syntax. 
+You can create an LLM Context using the Kinetica Workbench UI or you can manually create it with the `CREATE OR REPLACE CONTEXT` syntax.
 
 Here we create a context from the SQL syntax referencing the table we created.
-
 
 ```python
 from gpudb import GPUdbSamplesClause, GPUdbSqlContext, GPUdbTableClause
@@ -185,24 +185,23 @@ print(context_sql)
 count_affected = kinetica_llm.kdbc.execute(context_sql)
 count_affected
 ```
+
 ```output
 CREATE OR REPLACE CONTEXT "demo"."test_llm_ctx" (
     TABLE = "demo"."user_profiles",
     COMMENT = 'Contains user profiles.'
 ),
 (
-    SAMPLES = ( 
+    SAMPLES = (
         'How many male users are there?' = 'select count(1) as num_users
     from demo.user_profiles
     where sex = ''M'';' )
 )
 ```
 
-
 ```output
 1
 ```
-
 
 ## Use Langchain for inferencing
 
@@ -211,7 +210,6 @@ In the example below we will create a chain from the previously created table an
 ### Load the chat prompt from the Kinetica DB
 
 The `load_messages_from_context()` function will retrieve a context from the DB and convert it into a list of chat messages that we use to create a ``ChatPromptTemplate``.
-
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate
@@ -226,6 +224,7 @@ ctx_messages.append(("human", "{input}"))
 prompt_template = ChatPromptTemplate.from_messages(ctx_messages)
 prompt_template.pretty_print()
 ```
+
 ```output
 ================================ System Message ================================
 
@@ -254,10 +253,10 @@ select count(1) as num_users
 
 {input}
 ```
+
 ### Create the chain
 
 The last element of this chain is `KineticaSqlOutputParser` that will execute the SQL and return a dataframe. This is optional and if we left it out then only SQL would be returned.
-
 
 ```python
 from langchain_community.chat_models.kinetica import (
@@ -272,7 +271,6 @@ chain = prompt_template | kinetica_llm | KineticaSqlOutputParser(kdbc=kinetica_l
 
 The chain we created will take a question as input and return a ``KineticaSqlResponse`` containing the generated SQL and data. The question must be relevant to the to LLM context we used to create the prompt.
 
-
 ```python
 # Here you must ask a question relevant to the LLM context provided in the prompt template.
 response: KineticaSqlResponse = chain.invoke(
@@ -282,6 +280,7 @@ response: KineticaSqlResponse = chain.invoke(
 print(f"SQL: {response.sql}")
 print(response.dataframe.head())
 ```
+
 ```output
 SQL: SELECT username, name
     FROM demo.user_profiles

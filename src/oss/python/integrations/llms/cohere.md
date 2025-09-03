@@ -5,7 +5,6 @@ title: Cohere
 <Warning>
 **You are currently on a page documenting the use of Cohere models as [text completion models](/oss/concepts/text_llms). Many popular Cohere models are [chat completion models](/oss/concepts/chat_models).**
 
-
 You may be looking for [this page instead](/oss/integrations/chat/cohere/).
 </Warning>
 
@@ -14,12 +13,12 @@ You may be looking for [this page instead](/oss/integrations/chat/cohere/).
 Head to the [API reference](https://python.langchain.com/api_reference/community/llms/langchain_community.llms.cohere.Cohere.html) for detailed documentation of all attributes and methods.
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [JS support](https://js.langchain.com/docs/integrations/llms/cohere/) | Package downloads | Package latest |
 | :--- | :--- | :---: | :---: |  :---: | :---: | :---: |
 | [Cohere](https://python.langchain.com/api_reference/community/llms/langchain_community.llms.cohere.Cohere.html) | [langchain-community](https://python.langchain.com/api_reference/community/index.html) | ❌ | beta | ✅ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain_community?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain_community?style=flat-square&label=%20) |
-
 
 ## Setup
 
@@ -28,7 +27,6 @@ The integration lives in the `langchain-community` package. We also need to inst
 ### Credentials
 
 We'll need to get a [Cohere API key](https://cohere.com/) and set the `COHERE_API_KEY` environment variable:
-
 
 ```python
 import getpass
@@ -40,13 +38,11 @@ if "COHERE_API_KEY" not in os.environ:
 
 ### Installation
 
-
 ```python
 pip install -U langchain-community langchain-cohere
 ```
 
 It's also helpful (but not needed) to set up [LangSmith](https://smith.langchain.com/) for best-in-class observability
-
 
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
@@ -57,47 +53,37 @@ It's also helpful (but not needed) to set up [LangSmith](https://smith.langchain
 
 Cohere supports all [LLM](/docs/how_to#llms) functionality:
 
-
 ```python
 from langchain_cohere import Cohere
 from langchain_core.messages import HumanMessage
 ```
 
-
 ```python
 model = Cohere(max_tokens=256, temperature=0.75)
 ```
-
 
 ```python
 message = "Knock knock"
 model.invoke(message)
 ```
 
-
-
 ```output
 " Who's there?"
 ```
-
-
 
 ```python
 await model.ainvoke(message)
 ```
 
-
-
 ```output
 " Who's there?"
 ```
-
-
 
 ```python
 for chunk in model.stream(message):
     print(chunk, end="", flush=True)
 ```
+
 ```output
  Who's there?
 ```
@@ -106,17 +92,13 @@ for chunk in model.stream(message):
 model.batch([message])
 ```
 
-
-
 ```output
 [" Who's there?"]
 ```
 
-
 ## Chaining
 
 You can also easily combine with a prompt template for easy structuring of user input. We can do this using [LCEL](/oss/concepts/lcel)
-
 
 ```python
 from langchain_core.prompts import PromptTemplate
@@ -125,18 +107,14 @@ prompt = PromptTemplate.from_template("Tell me a joke about {topic}")
 chain = prompt | model
 ```
 
-
 ```python
 chain.invoke({"topic": "bears"})
 ```
-
-
 
 ```output
 ' Why did the teddy bear cross the road?\nBecause he had bear crossings.\n\nWould you like to hear another joke? '
 ```
 
-
 ## API reference
 
-For detailed documentation of all `Cohere` llm features and configurations head to the API reference: https://python.langchain.com/api_reference/community/llms/langchain_community.llms.cohere.Cohere.html
+For detailed documentation of all `Cohere` llm features and configurations head to the API reference: [python.langchain.com/api_reference/community/llms/langchain_community.llms.cohere.Cohere.html](https://python.langchain.com/api_reference/community/llms/langchain_community.llms.cohere.Cohere.html)

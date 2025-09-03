@@ -6,7 +6,7 @@ sidebarTitle: Manage prompts programmatically
 You can use the LangSmith Python and TypeScript SDK to manage prompts programmatically.
 
 <Note>
-  Previously this functionality lived in the `langchainhub` package which is now deprecated. All functionality going forward will live in the `langsmith` package.
+Previously this functionality lived in the `langchainhub` package which is now deprecated. All functionality going forward will live in the `langsmith` package.
 </Note>
 
 ## Install packages
@@ -44,7 +44,7 @@ export LANGSMITH_API_KEY="lsv2_..."
 ```
 
 <Note>
-  What we refer to as "prompts" used to be called "repos", so any references to "repo" in the code are referring to a prompt.
+What we refer to as "prompts" used to be called "repos", so any references to "repo" in the code are referring to a prompt.
 </Note>
 
 ## Push a prompt
@@ -241,9 +241,9 @@ const prompt = await hub.pull("efriis/my-first-prompt")
 </CodeGroup>
 
 <Note>
-  For pulling prompts, if you are using Node.js or an environment that supports dynamic imports, we recommend using the `langchain/hub/node` entrypoint, as it handles deserialization of models associated with your prompt configuration automatically.
+For pulling prompts, if you are using Node.js or an environment that supports dynamic imports, we recommend using the `langchain/hub/node` entrypoint, as it handles deserialization of models associated with your prompt configuration automatically.
 
-  If you are in a non-Node environment, "includeModel" is not supported for non-OpenAI models and you should use the base `langchain/hub` entrypoint.
+If you are in a non-Node environment, "includeModel" is not supported for non-OpenAI models and you should use the base `langchain/hub` entrypoint.
 </Note>
 
 ## Use a prompt without LangChain

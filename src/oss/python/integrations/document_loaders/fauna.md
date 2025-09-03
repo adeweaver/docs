@@ -6,13 +6,11 @@ title: Fauna
 
 Query `Fauna` documents
 
-
 ```python
 %pip install --upgrade --quiet  fauna
 ```
 
 ## Query data example
-
 
 ```python
 from langchain_community.document_loaders.fauna import FaunaLoader
@@ -29,10 +27,10 @@ for value in docs:
 ```
 
 ### Query with Pagination
-You get a `after` value if there are more data. You can get values after the curcor by passing in the `after` string in query. 
+
+You get a `after` value if there are more data. You can get values after the curcor by passing in the `after` string in query.
 
 To learn more following [this link](https://fqlx-beta--fauna-docs.netlify.app/fqlx/beta/reference/schema_entities/set/static-paginate)
-
 
 ```python
 query = """

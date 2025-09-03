@@ -8,26 +8,21 @@ against a vector database.
 This notebook covers how to retrieve documents using Identity & Semantic Enforcement (Deny Topics/Entities).
 For more details on Pebblo and its SafeRetriever feature visit [Pebblo documentation](https://daxa-ai.github.io/pebblo/retrieval_chain/)
 
-### Steps:
+### Steps
 
 1. **Loading Documents:**
-We will load documents with authorization and semantic metadata into an in-memory Qdrant vectorstore. This vectorstore will be used as a retriever in PebbloRetrievalQA. 
+We will load documents with authorization and semantic metadata into an in-memory Qdrant vectorstore. This vectorstore will be used as a retriever in PebbloRetrievalQA.
 
 > **Note:** It is recommended to use [PebbloSafeLoader](https://daxa-ai.github.io/pebblo/rag) as the counterpart for loading documents with authentication and semantic metadata on the ingestion side. `PebbloSafeLoader` guarantees the secure and efficient loading of documents while maintaining the integrity of the metadata.
 
-
-
 2. **Testing Enforcement Mechanisms**:
    We will test Identity and Semantic Enforcement separately. For each use case, we will define a specific "ask" function with the required contexts (*auth_context* and *semantic_context*) and then pose our questions.
-
 
 ## Setup
 
 ### Dependencies
 
 We'll use an OpenAI LLM, OpenAI embeddings and a Qdrant vector store in this walkthrough.
-
-
 
 ```python
 %pip install --upgrade --quiet langchain langchain_core langchain-community langchain-openai qdrant_client
@@ -38,18 +33,16 @@ We'll use an OpenAI LLM, OpenAI embeddings and a Qdrant vector store in this wal
 Here we are using Qdrant as a vector database; however, you can use any of the supported vector databases.
 
 **PebbloRetrievalQA chain supports the following vector databases:**
+
 - Qdrant
 - Pinecone
 - Postgres(utilizing the pgvector extension)
 
-
 **Load vector database with authorization and semantic information in metadata:**
 
-In this step, we capture the authorization and semantic information of the source document into the `authorized_identities`, `pebblo_semantic_topics`, and `pebblo_semantic_entities` fields within the metadata of the VectorDB entry for each chunk. 
-
+In this step, we capture the authorization and semantic information of the source document into the `authorized_identities`, `pebblo_semantic_topics`, and `pebblo_semantic_entities` fields within the metadata of the VectorDB entry for each chunk.
 
 *NOTE: To use the PebbloRetrievalQA chain, you must always place authorization and semantic metadata in the specified fields. These fields must contain a list of strings.*
-
 
 ```python
 from langchain_community.vectorstores.qdrant import Qdrant
@@ -65,19 +58,19 @@ page_content = """
 **ACME Corp Financial Report**
 
 **Overview:**
-ACME Corp, a leading player in the merger and acquisition industry, presents its financial report for the fiscal year ending December 31, 2020. 
+ACME Corp, a leading player in the merger and acquisition industry, presents its financial report for the fiscal year ending December 31, 2020.
 Despite a challenging economic landscape, ACME Corp demonstrated robust performance and strategic growth.
 
 **Financial Highlights:**
-Revenue soared to $50 million, marking a 15% increase from the previous year, driven by successful deal closures and expansion into new markets. 
+Revenue soared to $50 million, marking a 15% increase from the previous year, driven by successful deal closures and expansion into new markets.
 Net profit reached $12 million, showcasing a healthy margin of 24%.
 
 **Key Metrics:**
-Total assets surged to $80 million, reflecting a 20% growth, highlighting ACME Corp's strong financial position and asset base. 
+Total assets surged to $80 million, reflecting a 20% growth, highlighting ACME Corp's strong financial position and asset base.
 Additionally, the company maintained a conservative debt-to-equity ratio of 0.5, ensuring sustainable financial stability.
 
 **Future Outlook:**
-ACME Corp remains optimistic about the future, with plans to capitalize on emerging opportunities in the global M&A landscape. 
+ACME Corp remains optimistic about the future, with plans to capitalize on emerging opportunities in the global M&A landscape.
 The company is committed to delivering value to shareholders while maintaining ethical business practices.
 
 **Bank Account Details:**
@@ -111,19 +104,19 @@ vectordb = Qdrant.from_documents(
 
 print("Vectordb loaded.")
 ```
+
 ```output
 Vectordb loaded.
 ```
+
 ## Retrieval with Identity Enforcement
 
-PebbloRetrievalQA chain uses a SafeRetrieval to enforce that the snippets used for in-context are retrieved only from the documents authorized for the user. 
-To achieve this, the Gen-AI application needs to provide an authorization context for this retrieval chain. 
+PebbloRetrievalQA chain uses a SafeRetrieval to enforce that the snippets used for in-context are retrieved only from the documents authorized for the user.
+To achieve this, the Gen-AI application needs to provide an authorization context for this retrieval chain.
 This *auth_context* should be filled with the identity and authorization groups of the user accessing the Gen-AI app.
 
-
-Here is the sample code for the `PebbloRetrievalQA` with `user_auth`(List of user authorizations, which may include their User ID and 
+Here is the sample code for the `PebbloRetrievalQA` with `user_auth`(List of user authorizations, which may include their User ID and
     the groups they are part of) from the user accessing the RAG application, passed in `auth_context`.
-
 
 ```python
 from langchain_community.chains import PebbloRetrievalQA
@@ -152,7 +145,6 @@ def ask(question: str, auth_context: dict):
 
 We ingested data for authorized identities `["finance-team", "exec-leadership"]`, so a user with the authorized identity/group `finance-team` should receive the correct answer.
 
-
 ```python
 auth = {
     "user_id": "finance-user@acme.org",
@@ -165,19 +157,20 @@ question = "Share the financial performance of ACME Corp for the year 2020"
 resp = ask(question, auth)
 print(f"Question: {question}\n\nAnswer: {resp['result']}")
 ```
+
 ```output
 Question: Share the financial performance of ACME Corp for the year 2020
 
-Answer: 
+Answer:
 Revenue: $50 million (15% increase from previous year)
 Net profit: $12 million (24% margin)
 Total assets: $80 million (20% growth)
 Debt-to-equity ratio: 0.5
 ```
+
 ### 2. Questions by Unauthorized User
 
 Since the user's authorized identity/group `eng-support` is not included in the authorized identities `["finance-team", "exec-leadership"]`, we should not receive an answer.
-
 
 ```python
 auth = {
@@ -191,21 +184,23 @@ question = "Share the financial performance of ACME Corp for the year 2020"
 resp = ask(question, auth)
 print(f"Question: {question}\n\nAnswer: {resp['result']}")
 ```
+
 ```output
 Question: Share the financial performance of ACME Corp for the year 2020
 
 Answer:  I don't know.
 ```
-### 3. Using PromptTemplate to provide additional instructions
-You can use PromptTemplate to provide additional instructions to the LLM for generating a custom response.
 
+### 3. Using PromptTemplate to provide additional instructions
+
+You can use PromptTemplate to provide additional instructions to the LLM for generating a custom response.
 
 ```python
 from langchain_core.prompts import PromptTemplate
 
 prompt_template = PromptTemplate.from_template(
     """
-Answer the question using the provided context. 
+Answer the question using the provided context.
 If no context is provided, just say "I'm sorry, but that information is unavailable, or Access to it is restricted.".
 
 Question: {question}
@@ -218,7 +213,6 @@ prompt = prompt_template.format(question=question)
 
 #### 3.1 Questions by Authorized User
 
-
 ```python
 auth = {
     "user_id": "finance-user@acme.org",
@@ -229,14 +223,15 @@ auth = {
 resp = ask(prompt, auth)
 print(f"Question: {question}\n\nAnswer: {resp['result']}")
 ```
+
 ```output
 Question: Share the financial performance of ACME Corp for the year 2020
 
-Answer: 
+Answer:
 Revenue soared to $50 million, marking a 15% increase from the previous year, and net profit reached $12 million, showcasing a healthy margin of 24%. Total assets also grew by 20% to $80 million, and the company maintained a conservative debt-to-equity ratio of 0.5.
 ```
-#### 3.2 Questions by Unauthorized Users
 
+#### 3.2 Questions by Unauthorized Users
 
 ```python
 auth = {
@@ -248,12 +243,14 @@ auth = {
 resp = ask(prompt, auth)
 print(f"Question: {question}\n\nAnswer: {resp['result']}")
 ```
+
 ```output
 Question: Share the financial performance of ACME Corp for the year 2020
 
-Answer: 
+Answer:
 I'm sorry, but that information is unavailable, or Access to it is restricted.
 ```
+
 ## Retrieval with Semantic Enforcement
 
 The PebbloRetrievalQA chain uses SafeRetrieval to ensure that the snippets used in context are retrieved only from documents that comply with the
@@ -262,7 +259,6 @@ To achieve this, the Gen-AI application must provide a semantic context for this
 This `semantic_context` should include the topics and entities that should be denied for the user accessing the Gen-AI app.
 
 Below is a sample code for PebbloRetrievalQA with `topics_to_deny` and `entities_to_deny`. These are passed in `semantic_context` to the chain input.
-
 
 ```python
 from typing import List, Optional
@@ -308,8 +304,6 @@ def ask(
 
 Since no semantic enforcement is applied, the system should return the answer without excluding any context due to the semantic labels associated with the context.
 
-
-
 ```python
 topic_to_deny = []
 entities_to_deny = []
@@ -320,18 +314,19 @@ print(
     f"Question: {question}\nAnswer: {resp['result']}"
 )
 ```
+
 ```output
 Topics to deny: []
 Entities to deny: []
 Question: Share the financial performance of ACME Corp for the year 2020
-Answer: 
+Answer:
 Revenue for ACME Corp increased by 15% to $50 million in 2020, with a net profit of $12 million and a strong asset base of $80 million. The company also maintained a conservative debt-to-equity ratio of 0.5.
 ```
+
 ### 2. Deny financial-report topic
 
 Data has been ingested with the topics: `["financial-report"]`.
 Therefore, an app that denies the `financial-report` topic should not receive an answer.
-
 
 ```python
 topic_to_deny = ["financial-report"]
@@ -343,17 +338,19 @@ print(
     f"Question: {question}\nAnswer: {resp['result']}"
 )
 ```
+
 ```output
 Topics to deny: ['financial-report']
 Entities to deny: []
 Question: Share the financial performance of ACME Corp for the year 2020
-Answer: 
+Answer:
 
 Unfortunately, I do not have access to the financial performance of ACME Corp for the year 2020.
 ```
-### 3. Deny us-bank-account-number entity
-Since the entity `us-bank-account-number` is denied, the system should not return the answer.
 
+### 3. Deny us-bank-account-number entity
+
+Since the entity `us-bank-account-number` is denied, the system should not return the answer.
 
 ```python
 topic_to_deny = []
@@ -365,6 +362,7 @@ print(
     f"Question: {question}\nAnswer: {resp['result']}"
 )
 ```
+
 ```output
 Topics to deny: []
 Entities to deny: ['us-bank-account-number']

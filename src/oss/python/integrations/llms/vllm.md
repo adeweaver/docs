@@ -4,7 +4,7 @@ title: vLLM
 
 [vLLM](https://vllm.readthedocs.io/en/latest/index.html) is a fast and easy-to-use library for LLM inference and serving, offering:
 
-* State-of-the-art serving throughput 
+* State-of-the-art serving throughput
 * Efficient management of attention key and value memory with PagedAttention
 * Continuous batching of incoming requests
 * Optimized CUDA kernels
@@ -13,11 +13,9 @@ This notebooks goes over how to use a LLM with langchain and vLLM.
 
 To use, you should have the `vllm` python package installed.
 
-
 ```python
 %pip install --upgrade --quiet  vllm -q
 ```
-
 
 ```python
 from langchain_community.llms import VLLM
@@ -33,6 +31,7 @@ llm = VLLM(
 
 print(llm.invoke("What is the capital of France ?"))
 ```
+
 ```output
 INFO 08-06 11:37:33 llm_engine.py:70] Initializing an LLM engine with config: model='mosaicml/mpt-7b', tokenizer='mosaicml/mpt-7b', tokenizer_mode=auto, trust_remote_code=True, dtype=torch.bfloat16, use_dummy_weights=False, download_dir=None, use_np_weights=False, tensor_parallel_size=1, seed=0)
 INFO 08-06 11:37:41 llm_engine.py:196] # GPU blocks: 861, # CPU blocks: 512
@@ -41,8 +40,8 @@ Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  2.00i
 ``````output
 What is the capital of France ? The capital of France is Paris.
 ```
-## Integrate the model in an LLMChain
 
+## Integrate the model in an LLMChain
 
 ```python
 from langchain.chains import LLMChain
@@ -59,6 +58,7 @@ question = "Who was the US president in the year the first Pokemon game was rele
 
 print(llm_chain.invoke(question))
 ```
+
 ```output
 Processed prompts: 100%|██████████| 1/1 [00:01<00:00,  1.34s/it]
 ``````output
@@ -67,20 +67,20 @@ Processed prompts: 100%|██████████| 1/1 [00:01<00:00,  1.34s
 3. Clinton was president from 1993 to 2001.
 4. The answer is Clinton.
 ```
+
 ## Distributed Inference
 
-vLLM supports distributed tensor-parallel inference and serving. 
+vLLM supports distributed tensor-parallel inference and serving.
 
 To run multi-GPU inference with the LLM class, set the `tensor_parallel_size` argument to the number of GPUs you want to use. For example, to run inference on 4 GPUs
-
 
 ```python
 from langchain_community.llms import VLLM
 
 llm = VLLM(
-    model="mosaicml/mpt-30b",
-    tensor_parallel_size=4,
-    trust_remote_code=True,  # mandatory for hf models
+        model="mosaicml/mpt-30b",
+        tensor_parallel_size=4,
+        trust_remote_code=True,  # mandatory for hf models
 )
 
 llm.invoke("What is the future of AI?")
@@ -90,13 +90,12 @@ llm.invoke("What is the future of AI?")
 
 vLLM supports `awq` quantization. To enable it, pass `quantization` to `vllm_kwargs`.
 
-
 ```python
 llm_q = VLLM(
-    model="TheBloke/Llama-2-7b-Chat-AWQ",
-    trust_remote_code=True,
-    max_new_tokens=512,
-    vllm_kwargs={"quantization": "awq"},
+        model="TheBloke/Llama-2-7b-Chat-AWQ",
+        trust_remote_code=True,
+        max_new_tokens=512,
+        vllm_kwargs={"quantization": "awq"},
 )
 ```
 
@@ -108,36 +107,37 @@ This server can be queried in the same format as OpenAI API.
 
 ### OpenAI-Compatible Completion
 
-
 ```python
 from langchain_community.llms import VLLMOpenAI
 
 llm = VLLMOpenAI(
-    openai_api_key="EMPTY",
-    openai_api_base="http://localhost:8000/v1",
-    model_name="tiiuae/falcon-7b",
-    model_kwargs={"stop": ["."]},
+        openai_api_key="EMPTY",
+        openai_api_base="http://localhost:8000/v1",
+        model_name="tiiuae/falcon-7b",
+        model_kwargs={"stop": ["."]},
 )
 print(llm.invoke("Rome is"))
 ```
+
 ```output
  a city that is filled with history, ancient buildings, and art around every corner
 ```
-## LoRA adapter
-LoRA adapters can be used with any vLLM model that implements `SupportsLoRA`.
 
+## LoRA adapter
+
+LoRA adapters can be used with any vLLM model that implements `SupportsLoRA`.
 
 ```python
 from langchain_community.llms import VLLM
 from vllm.lora.request import LoRARequest
 
 llm = VLLM(
-    model="meta-llama/Llama-3.2-3B-Instruct",
-    max_new_tokens=300,
-    top_k=1,
-    top_p=0.90,
-    temperature=0.1,
-    vllm_kwargs={
+        model="meta-llama/Llama-3.2-3B-Instruct",
+        max_new_tokens=300,
+        top_k=1,
+        top_p=0.90,
+        temperature=0.1,
+        vllm_kwargs={
         "gpu_memory_utilization": 0.5,
         "enable_lora": True,
         "max_model_len": 350,
@@ -147,6 +147,6 @@ LoRA_ADAPTER_PATH = "path/to/adapter"
 lora_adapter = LoRARequest("lora_adapter", 1, LoRA_ADAPTER_PATH)
 
 print(
-    llm.invoke("What are some popular Korean street foods?", lora_request=lora_adapter)
+        llm.invoke("What are some popular Korean street foods?", lora_request=lora_adapter)
 )
 ```

@@ -16,11 +16,9 @@ The download will produce a `.zip` file in your Downloads folder (or wherever yo
 
 Copy the path to the `.zip` file, and assign it as `LOCAL_ZIPFILE` below.
 
-
 ```python
 from langchain_community.document_loaders import SlackDirectoryLoader
 ```
-
 
 ```python
 # Optionally set your Slack URL. This will give you proper URLs in the docs sources.
@@ -29,7 +27,6 @@ LOCAL_ZIPFILE = ""  # Paste the local path to your Slack zip file here.
 
 loader = SlackDirectoryLoader(LOCAL_ZIPFILE, SLACK_WORKSPACE_URL)
 ```
-
 
 ```python
 docs = loader.load()

@@ -8,6 +8,7 @@ This page will help you get started with xAI [chat models](../../concepts/chat_m
 [xAI](https://console.x.ai/) offers an API to interact with Grok models.
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [JS support](https://js.langchain.com/docs/integrations/chat/xai) | Package downloads | Package latest |
@@ -15,6 +16,7 @@ This page will help you get started with xAI [chat models](../../concepts/chat_m
 | [ChatXAI](https://python.langchain.com/api_reference/xai/chat_models/langchain_xai.chat_models.ChatXAI.html) | [langchain-xai](https://python.langchain.com/api_reference/xai/index.html) | ❌ | beta | ✅ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-xai?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-xai?style=flat-square&label=%20) |
 
 ### Model features
+
 | [Tool calling](../../how_to/tool_calling.ipynb) | [Structured output](../../how_to/structured_output.ipynb) | JSON mode | [Image input](../../how_to/multimodal_inputs.ipynb) | Audio input | Video input | [Token-level streaming](../../how_to/chat_streaming.ipynb) | Native async | [Token usage](../../how_to/chat_token_usage_tracking.ipynb) | [Logprobs](../../how_to/logprobs.ipynb) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
 | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ✅ |
@@ -27,7 +29,6 @@ To access xAI models, you'll need to create an xAI account, get an API key, and 
 
 Head to [this page](https://console.x.ai/) to sign up for xAI and generate an API key. Once you've done this, set the `XAI_API_KEY` environment variable:
 
-
 ```python
 import getpass
 import os
@@ -38,7 +39,6 @@ if "XAI_API_KEY" not in os.environ:
 
 To enable automated tracing of your model calls, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
-
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
 # os.environ["LANGSMITH_TRACING"] = "true"
@@ -48,7 +48,6 @@ To enable automated tracing of your model calls, set your [LangSmith](https://do
 
 The LangChain xAI integration lives in the `langchain-xai` package:
 
-
 ```python
 %pip install -qU langchain-xai
 ```
@@ -56,7 +55,6 @@ The LangChain xAI integration lives in the `langchain-xai` package:
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```python
 from langchain_xai import ChatXAI
@@ -73,7 +71,6 @@ llm = ChatXAI(
 
 ## Invocation
 
-
 ```python
 messages = [
     (
@@ -86,24 +83,21 @@ ai_msg = llm.invoke(messages)
 ai_msg
 ```
 
-
-
 ```output
 AIMessage(content="J'adore programmer.", additional_kwargs={'refusal': None}, response_metadata={'token_usage': {'completion_tokens': 6, 'prompt_tokens': 30, 'total_tokens': 36, 'completion_tokens_details': None, 'prompt_tokens_details': None}, 'model_name': 'grok-beta', 'system_fingerprint': 'fp_14b89b2dfc', 'finish_reason': 'stop', 'logprobs': None}, id='run-adffb7a3-e48a-4f52-b694-340d85abe5c3-0', usage_metadata={'input_tokens': 30, 'output_tokens': 6, 'total_tokens': 36, 'input_token_details': {}, 'output_token_details': {}})
 ```
 
-
-
 ```python
 print(ai_msg.content)
 ```
+
 ```output
 J'adore programmer.
 ```
+
 ## Chaining
 
 We can [chain](../../how_to/sequence.ipynb) our model with a prompt template like so:
-
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate
@@ -128,12 +122,9 @@ chain.invoke(
 )
 ```
 
-
-
 ```output
 AIMessage(content='Ich liebe das Programmieren.', additional_kwargs={'refusal': None}, response_metadata={'token_usage': {'completion_tokens': 7, 'prompt_tokens': 25, 'total_tokens': 32, 'completion_tokens_details': None, 'prompt_tokens_details': None}, 'model_name': 'grok-beta', 'system_fingerprint': 'fp_14b89b2dfc', 'finish_reason': 'stop', 'logprobs': None}, id='run-569fc8dc-101b-4e6d-864e-d4fa80df2b63-0', usage_metadata={'input_tokens': 25, 'output_tokens': 7, 'total_tokens': 32, 'input_token_details': {}, 'output_token_details': {}})
 ```
-
 
 ## Tool calling
 
@@ -142,6 +133,7 @@ ChatXAI has a [tool calling](https://docs.x.ai/docs#capabilities) (we use "tool 
 ### ChatXAI.bind_tools()
 
 With `ChatXAI.bind_tools`, we can easily pass in Pydantic classes, dict schemas, LangChain tools, or even functions as tools to the model. Under the hood, these are converted to an OpenAI tool schema, which looks like:
+
 ```
 {
     "name": "...",
@@ -149,8 +141,8 @@ With `ChatXAI.bind_tools`, we can easily pass in Pydantic classes, dict schemas,
     "parameters": {...}  # JSONSchema
 }
 ```
-and passed in every model invocation.
 
+and passed in every model invocation.
 
 ```python
 from pydantic import BaseModel, Field
@@ -165,7 +157,6 @@ class GetWeather(BaseModel):
 llm_with_tools = llm.bind_tools([GetWeather])
 ```
 
-
 ```python
 ai_msg = llm_with_tools.invoke(
     "what is the weather like in San Francisco",
@@ -173,17 +164,13 @@ ai_msg = llm_with_tools.invoke(
 ai_msg
 ```
 
-
-
 ```output
 AIMessage(content='I am retrieving the current weather for San Francisco.', additional_kwargs={'tool_calls': [{'id': '0', 'function': {'arguments': '{"location":"San Francisco, CA"}', 'name': 'GetWeather'}, 'type': 'function'}], 'refusal': None}, response_metadata={'token_usage': {'completion_tokens': 11, 'prompt_tokens': 151, 'total_tokens': 162, 'completion_tokens_details': None, 'prompt_tokens_details': None}, 'model_name': 'grok-beta', 'system_fingerprint': 'fp_14b89b2dfc', 'finish_reason': 'tool_calls', 'logprobs': None}, id='run-73707da7-afec-4a52-bee1-a176b0ab8585-0', tool_calls=[{'name': 'GetWeather', 'args': {'location': 'San Francisco, CA'}, 'id': '0', 'type': 'tool_call'}], usage_metadata={'input_tokens': 151, 'output_tokens': 11, 'total_tokens': 162, 'input_token_details': {}, 'output_token_details': {}})
 ```
 
-
 ## Live Search
 
 xAI supports a [Live Search](https://docs.x.ai/docs/guides/live-search) feature that enables Grok to ground its answers using results from web searches:
-
 
 ```python
 from langchain_xai import ChatXAI

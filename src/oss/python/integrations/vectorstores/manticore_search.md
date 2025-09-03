@@ -12,7 +12,6 @@ As of now, the vector search functionality is only accessible in the development
 
 Starting Docker-container with ManticoreSearch and installing manticore-columnar-lib package (optional)
 
-
 ```python
 import time
 
@@ -32,20 +31,21 @@ container_id = containers[0]
 # Restart container
 !docker restart {container_id}
 ```
+
 ```output
 Get:1 http://repo.manticoresearch.com/repository/manticoresearch_jammy_dev jammy InRelease [3525 kB]
-Get:2 http://archive.ubuntu.com/ubuntu jammy InRelease [270 kB]            
-Get:3 http://security.ubuntu.com/ubuntu jammy-security InRelease [110 kB]      
-Get:4 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [119 kB]        
+Get:2 http://archive.ubuntu.com/ubuntu jammy InRelease [270 kB]
+Get:3 http://security.ubuntu.com/ubuntu jammy-security InRelease [110 kB]
+Get:4 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [119 kB]
 Get:5 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [1074 kB]
-Get:6 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [109 kB]      
-Get:7 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages [17.5 MB] 
+Get:6 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [109 kB]
+Get:7 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages [17.5 MB]
 Get:8 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [1517 kB]
 Get:9 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [1889 kB]
 Get:10 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [44.6 kB]
 Get:11 http://archive.ubuntu.com/ubuntu jammy/restricted amd64 Packages [164 kB]
 Get:12 http://archive.ubuntu.com/ubuntu jammy/multiverse amd64 Packages [266 kB]
-Get:13 http://archive.ubuntu.com/ubuntu jammy/main amd64 Packages [1792 kB]    
+Get:13 http://archive.ubuntu.com/ubuntu jammy/main amd64 Packages [1792 kB]
 Get:14 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages [50.4 kB]
 Get:15 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [1927 kB]
 Get:16 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1346 kB]
@@ -53,7 +53,7 @@ Get:17 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [1796 
 Get:18 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages [28.1 kB]
 Get:19 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages [50.4 kB]
 Get:20 http://repo.manticoresearch.com/repository/manticoresearch_jammy_dev jammy/main amd64 Packages [5020 kB]
-Fetched 38.6 MB in 7s (5847 kB/s)                                              
+Fetched 38.6 MB in 7s (5847 kB/s)
 Reading package lists... Done
 Reading package lists... Done
 Building dependency tree... Done
@@ -64,7 +64,7 @@ The following NEW packages will be installed:
 Need to get 1990 kB of archives.
 After this operation, 10.0 MB of additional disk space will be used.
 Get:1 http://repo.manticoresearch.com/repository/manticoresearch_jammy_dev jammy/main amd64 manticore-columnar-lib amd64 2.2.5-240217-a5342a1 [1990 kB]
-Fetched 1990 kB in 1s (1505 kB/s)                 
+Fetched 1990 kB in 1s (1505 kB/s)
 debconf: delaying package configuration, since apt-utils is not installed
 Selecting previously unselected package manticore-columnar-lib.
 (Reading database ... 12260 files and directories currently installed.)
@@ -73,26 +73,26 @@ Unpacking manticore-columnar-lib (2.2.5-240217-a5342a1) ...
 Setting up manticore-columnar-lib (2.2.5-240217-a5342a1) ...
 a546aec22291
 ```
-Installing ManticoreSearch python client
 
+Installing ManticoreSearch python client
 
 ```python
 %pip install --upgrade --quiet manticoresearch-dev
 ```
+
 ```output
 [notice] A new release of pip is available: 23.2.1 -> 24.0
 [notice] To update, run: pip install --upgrade pip
 Note: you may need to restart the kernel to use updated packages.
 ```
-We want to use OpenAIEmbeddings so we have to get the OpenAI API Key.
 
+We want to use OpenAIEmbeddings so we have to get the OpenAI API Key.
 
 ```python
 from langchain_community.embeddings import GPT4AllEmbeddings
 from langchain_community.vectorstores import ManticoreSearch, ManticoreSearchSettings
 from langchain_text_splitters import CharacterTextSplitter
 ```
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -104,6 +104,7 @@ docs = text_splitter.split_documents(documents)
 
 embeddings = GPT4AllEmbeddings()
 ```
+
 ```output
 Created a chunk of size 338, which is longer than the specified 100
 Created a chunk of size 508, which is longer than the specified 100
@@ -282,7 +283,7 @@ bert_load_from_file: bert tokenizer vocab = 30522
 
 ```python
 for d in docs:
-    d.metadata = {"some": "metadata"}
+        d.metadata = {"some": "metadata"}
 settings = ManticoreSearchSettings(table="manticoresearch_vector_search_example")
 docsearch = ManticoreSearch.from_documents(docs, embeddings, config=settings)
 
@@ -290,6 +291,7 @@ query = "Robert Morris is"
 docs = docsearch.similarity_search(query)
 print(docs)
 ```
+
 ```output
 [Document(page_content='Computer Science is an uneasy alliance between two halves, theory and systems. The theory people prove things, and the systems people build things. I wanted to build things. I had plenty of respect for theory — indeed, a sneaking suspicion that it was the more admirable of the two halves — but building things seemed so much more exciting.', metadata={'some': 'metadata'}), Document(page_content="I applied to 3 grad schools: MIT and Yale, which were renowned for AI at the time, and Harvard, which I'd visited because Rich Draves went there, and was also home to Bill Woods, who'd invented the type of parser I used in my SHRDLU clone. Only Harvard accepted me, so that was where I went.", metadata={'some': 'metadata'}), Document(page_content='For my undergraduate thesis, I reverse-engineered SHRDLU. My God did I love working on that program. It was a pleasing bit of code, but what made it even more exciting was my belief — hard to imagine now, but not unique in 1985 — that it was already climbing the lower slopes of intelligence.', metadata={'some': 'metadata'}), Document(page_content="The problem with systems work, though, was that it didn't last. Any program you wrote today, no matter how good, would be obsolete in a couple decades at best. People might mention your software in footnotes, but no one would actually use it. And indeed, it would seem very feeble work. Only people with a sense of the history of the field would even realize that, in its time, it had been good.", metadata={'some': 'metadata'})]
 ```

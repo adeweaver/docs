@@ -9,6 +9,7 @@ title: Oxylabs
 This package contains the LangChain integration with Oxylabs, providing tools to scrape Google search results with Oxylabs Web Scraper API using LangChain's framework.
 
 The following classes are provided by this package:
+
 - `OxylabsSearchRun` - A tool that returns scraped Google search results in a formatted text
 - `OxylabsSearchResults` - A tool that returns scraped Google search results in a JSON format
 - `OxylabsSearchAPIWrapper` - An API wrapper for initializing Oxylabs API
@@ -21,7 +22,6 @@ The following classes are provided by this package:
 
 Install the required dependencies.
 
-
 ```python
 %pip install -qU langchain-oxylabs
 ```
@@ -29,7 +29,6 @@ Install the required dependencies.
 ### Credentials
 
 Set up the proper API keys and environment variables. Create your API user credentials: Sign up for a free trial or purchase the product in the [Oxylabs dashboard](https://dashboard.oxylabs.io/en/registration) to create your API user credentials (OXYLABS_USERNAME and OXYLABS_PASSWORD).
-
 
 ```python
 import getpass
@@ -40,7 +39,6 @@ os.environ["OXYLABS_PASSWORD"] = getpass.getpass("Enter your Oxylabs password: "
 ```
 
 ## Instantiation
-
 
 ```python
 from langchain_oxylabs import OxylabsSearchAPIWrapper, OxylabsSearchRun
@@ -55,13 +53,11 @@ tool_ = OxylabsSearchRun(wrapper=oxylabs_wrapper)
 
 The `OxylabsSearchRun` tool takes a single "query" argument, which should be a natural language query and returns combined string format result:
 
-
 ```python
 tool_.invoke({"query": "Restaurants in Paris."})
 ```
 
 ### Invoke with ToolCall
-
 
 ```python
 tool_ = OxylabsSearchRun(
@@ -74,7 +70,6 @@ tool_ = OxylabsSearchRun(
     },
 )
 ```
-
 
 ```python
 from pprint import pprint
@@ -95,13 +90,12 @@ pprint(tool_call_result.content)
 ```
 
 ## Use within an agent
-Install the required dependencies.
 
+Install the required dependencies.
 
 ```python
 %pip install -qU "langchain[openai]" langgraph
 ```
-
 
 ```python
 import getpass
@@ -113,14 +107,13 @@ os.environ["OPENAI_API_KEY"] = getpass.getpass("Enter API key for OpenAI: ")
 llm = init_chat_model("gpt-4o-mini", model_provider="openai")
 ```
 
-
 ```python
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 # Initialize OxylabsSearchRun tool
 tool_ = OxylabsSearchRun(wrapper=oxylabs_wrapper)
 
-agent = create_react_agent(llm, [tool_])
+agent = create_agent(llm, [tool_])
 
 user_input = "What happened in the latest Burning Man floods?"
 
@@ -132,8 +125,8 @@ for step in agent.stream(
 ```
 
 ## JSON results
-`OxylabsSearchResults` tool can be used as an alternative to `OxylabsSearchRun` to retrieve results in a JSON format:
 
+`OxylabsSearchResults` tool can be used as an alternative to `OxylabsSearchRun` to retrieve results in a JSON format:
 
 ```python
 import json
@@ -151,6 +144,7 @@ for result in response_results:
 ```
 
 ## API reference
-More information about this integration package can be found here: https://github.com/oxylabs/langchain-oxylabs
 
-Oxylabs Web Scraper API documentation: https://developers.oxylabs.io/scraper-apis/web-scraper-api
+More information about this integration package can be found here: [github.com/oxylabs/langchain-oxylabs](https://github.com/oxylabs/langchain-oxylabs)
+
+Oxylabs Web Scraper API documentation: [developers.oxylabs.io/scraper-apis/web-scraper-api](https://developers.oxylabs.io/scraper-apis/web-scraper-api)

@@ -7,6 +7,7 @@ This will help you get started with SambaNova's SambaStudio embedding models usi
 **[SambaNova](https://sambanova.ai/)'s** [SambaStudio](https://sambanova.ai/technology/full-stack-ai-platform) is a platform for running your own open-source models
 
 ## Overview
+
 ### Integration details
 
 | Provider | Package |
@@ -29,6 +30,7 @@ Get the URL and API Key from your SambaStudio deployed endpoint and add them to 
 export SAMBASTUDIO_URL="sambastudio-url-key-here"
 export SAMBASTUDIO_API_KEY="your-api-key-here"
 ```
+
 ```python
 import getpass
 import os
@@ -46,7 +48,6 @@ if not os.getenv("SAMBASTUDIO_API_KEY"):
 
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
-
 ```python
 # os.environ["LANGCHAIN_TRACING_V2"] = "true"
 # os.environ["LANGCHAIN_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -56,7 +57,6 @@ If you want to get automated tracing of your model calls you can also set your [
 
 The LangChain SambaNova integration lives in the `langchain-sambanova` package:
 
-
 ```python
 %pip install -qU langchain-sambanova
 ```
@@ -64,7 +64,6 @@ The LangChain SambaNova integration lives in the `langchain-sambanova` package:
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```python
 from langchain_sambanova import SambaStudioEmbeddings
@@ -79,7 +78,6 @@ embeddings = SambaStudioEmbeddings(
 Embedding models are often used in retrieval-augmented generation (RAG) flows, both as part of indexing data as well as later retrieving it. For more detailed instructions, please see our [RAG tutorials](/oss/tutorials/rag).
 
 Below, see how to index and retrieve data using the `embeddings` object we initialized above. In this example, we will index and retrieve a sample document in the `InMemoryVectorStore`.
-
 
 ```python
 # Create a vector store with a sample text
@@ -112,7 +110,6 @@ You can directly call these methods to get embeddings for your own use cases.
 
 You can embed single texts or documents with `embed_query`:
 
-
 ```python
 single_vector = embeddings.embed_query(text)
 print(str(single_vector)[:100])  # Show the first 100 characters of the vector
@@ -121,7 +118,6 @@ print(str(single_vector)[:100])  # Show the first 100 characters of the vector
 ### Embed multiple texts
 
 You can embed multiple texts with `embed_documents`:
-
 
 ```python
 text2 = (

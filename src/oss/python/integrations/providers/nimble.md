@@ -8,15 +8,13 @@ We empower businesses with mission-critical real-time external data to unlock ad
 
 If you'd like to learn more about Nimble, visit us at [nimbleway.com](https://www.nimbleway.com/).
 
-
-## Retrievers:
+## Retrievers
 
 ### NimbleSearchRetriever
 
 Enables developers to build RAG applications and AI Agents that can search, access, and retrieve online information from anywhere on the web.
 
 We need to install the `langchain-nimble` python package.
-
 
 ```python
 %pip install -U langchain-nimble

@@ -13,7 +13,7 @@ from LangChain applications.
 ### Key Features
 
 - **SOQL Queries**: Execute Salesforce Object Query Language (SOQL) queries
-- **Object Management**: Create, read, update, and delete (CRUD) operations on Salesforce objects  
+- **Object Management**: Create, read, update, and delete (CRUD) operations on Salesforce objects
 - **Schema Exploration**: Describe object schemas and list available objects
 - **Async Support**: Asynchronous operation support
 - **Error Handling**: Detailed error messages
@@ -22,27 +22,28 @@ from LangChain applications.
 ## Setup
 
 Install the required dependencies:
- 
+
 ```bash
  pip install langchain-salesforce
  ```
- 
+
 ## Authentication Setup
 
 These environment variables will be automatically picked up by the integration.
- 
+
 ## Getting Your Security Token
- 
+
 If you need a security token:
+
  1. Log into Salesforce
  2. Go to Settings
  3. Click on "Reset My Security Token" under "My Personal Information"
  4. Check your email for the new token
- 
+
 ### Environment Variables (Recommended)
- 
+
  Set up your Salesforce credentials as environment variables:
- 
+
  ```bash
  export SALESFORCE_USERNAME="your-username@company.com"
  export SALESFORCE_PASSWORD="your-password"
@@ -51,7 +52,6 @@ If you need a security token:
  ```
 
 ## Instantiation
-
 
 ```python
 import os
@@ -67,8 +67,8 @@ tool = SalesforceTool(
     username=username, password=password, security_token=security_token, domain=domain
 )
 ```
-## Invocation
 
+## Invocation
 
 ```python
 def execute_salesforce_operation(
@@ -87,34 +87,38 @@ def execute_salesforce_operation(
     result = tool.invoke(request)
     return result
 ```
-## Query
-This example queries Salesforce for 5 contacts.
 
+## Query
+
+This example queries Salesforce for 5 contacts.
 
 ```python
 query_result = execute_salesforce_operation(
     operation="query", query="SELECT Id, Name, Email FROM Contact LIMIT 5"
 )
 ```
-## Describe an Object
-Fetches metadata for a specific Salesforce object.
 
+## Describe an Object
+
+Fetches metadata for a specific Salesforce object.
 
 ```python
 describe_result = execute_salesforce_operation(
     operation="describe", object_name="Account"
 )
 ```
-## List Available Objects
-Retrieves all objects available in the Salesforce instance.
 
+## List Available Objects
+
+Retrieves all objects available in the Salesforce instance.
 
 ```python
 list_objects_result = execute_salesforce_operation(operation="list_objects")
 ```
-## Create a New Contact
-Creates a new contact record in Salesforce.
 
+## Create a New Contact
+
+Creates a new contact record in Salesforce.
 
 ```python
 create_result = execute_salesforce_operation(
@@ -123,9 +127,10 @@ create_result = execute_salesforce_operation(
     record_data={"LastName": "Doe", "Email": "doe@example.com"},
 )
 ```
-## Update a Contact
-Updates an existing contact record.
 
+## Update a Contact
+
+Updates an existing contact record.
 
 ```python
 update_result = execute_salesforce_operation(
@@ -135,17 +140,18 @@ update_result = execute_salesforce_operation(
     record_data={"Email": "updated@example.com"},
 )
 ```
-## Delete a Contact
-Deletes a contact record from Salesforce.
 
+## Delete a Contact
+
+Deletes a contact record from Salesforce.
 
 ```python
 delete_result = execute_salesforce_operation(
     operation="delete", object_name="Contact", record_id="003XXXXXXXXXXXXXXX"
 )
 ```
-## Chaining
 
+## Chaining
 
 ```python
 from langchain_anthropic import ChatAnthropic
@@ -175,9 +181,9 @@ if contacts_result and "records" in contacts_result:
     # Create a message asking the LLM to analyze the contact data
     analysis_prompt = f"""
     Please analyze the following Salesforce contact data and provide insights:
-    
+
     Contact Data: {contact_data}
-    
+
     Please provide:
     1. A summary of the contacts
     2. Any patterns you notice

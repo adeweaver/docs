@@ -16,9 +16,9 @@ Open SWE uses GitHub OAuth for client-side authentication, providing secure acce
 - **Settings management** is available at `/settings` for updating GitHub authentication
 
 <Note>
-  GitHub OAuth provides the foundation for all user interactions, enabling Open
-  SWE to access repositories and perform actions on behalf of authenticated
-  users.
+GitHub OAuth provides the foundation for all user interactions, enabling Open
+SWE to access repositories and perform actions on behalf of authenticated
+users.
 </Note>
 
 ## LangGraph Server Authentication
@@ -30,9 +30,9 @@ All requests to the LangGraph server are authenticated through a sophisticated p
 The Next.js application includes a proxy route (`apps/web/src/app/api/[..._path]/route.ts`) that acts as an intermediary for all LangGraph server requests. This proxy uses the [`langgraph-nextjs-api-passthrough`](https://www.npmjs.com/package/langgraph-nextjs-api-passthrough) package to handle request forwarding with enhanced security.
 
 <Tip>
-  The proxy route ensures that sensitive authentication tokens never reach the
-  client directly, maintaining security while enabling seamless communication
-  with the LangGraph server.
+The proxy route ensures that sensitive authentication tokens never reach the
+client directly, maintaining security while enabling seamless communication
+with the LangGraph server.
 </Tip>
 
 ## Simple API Key (Bearer) Authentication
@@ -87,9 +87,9 @@ The proxy route automatically injects the following encrypted headers into each 
 - **`x-github-installation-name`** - Installation name (username or organization name)
 
 <Note>
-  All headers are prefixed with `x-` to ensure they're included in LangGraph run
-  configurations, making them accessible during execution while maintaining
-  security through encryption.
+All headers are prefixed with `x-` to ensure they're included in LangGraph run
+configurations, making them accessible during execution while maintaining
+security through encryption.
 </Note>
 
 ### Token Encryption
@@ -107,8 +107,8 @@ The encryption process uses the `SECRETS_ENCRYPTION_KEY` environment variable an
 - **Base64 encoding** for safe transport
 
 <Tip>
-  The same encryption key must be configured in both the web application and
-  LangGraph agent for proper token decryption.
+The same encryption key must be configured in both the web application and
+LangGraph agent for proper token decryption.
 </Tip>
 
 ## Authentication Middleware
@@ -124,8 +124,8 @@ The middleware first checks for GitHub webhook requests by detecting the `X-Hub-
 3. **Separate user verification** in subsequent run creation requests
 
 <Note>
-  Webhook authentication is handled separately from user authentication to
-  enable automated GitHub issue processing while maintaining security.
+Webhook authentication is handled separately from user authentication to
+enable automated GitHub issue processing while maintaining security.
 </Note>
 
 ### Standard Request Authentication
@@ -165,8 +165,8 @@ Upon successful authentication, the middleware returns an identity object contai
 - **Comprehensive permissions** for LangGraph operations
 
 <Tip>
-  The user ID serves as the primary identifier for resource access control,
-  ensuring users can only access their own threads, runs, and assistants.
+The user ID serves as the primary identifier for resource access control,
+ensuring users can only access their own threads, runs, and assistants.
 </Tip>
 
 ## Resource Access Control
@@ -188,11 +188,11 @@ During LangGraph run execution, encrypted tokens are accessible through the run'
 3. **Action execution** (creating issues, making commits, etc.)
 
 <Note>
-  This design ensures tokens remain encrypted in storage and traces while being
-  available for necessary GitHub operations during run execution.
+This design ensures tokens remain encrypted in storage and traces while being
+available for necessary GitHub operations during run execution.
 </Note>
 
 <Tip>
-  Always ensure the `SECRETS_ENCRYPTION_KEY` environment variable is identical
-  between your web application and LangGraph agent deployments.
+Always ensure the `SECRETS_ENCRYPTION_KEY` environment variable is identical
+between your web application and LangGraph agent deployments.
 </Tip>

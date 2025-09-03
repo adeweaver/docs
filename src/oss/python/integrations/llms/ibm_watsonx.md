@@ -9,6 +9,7 @@ This example shows how to communicate with `watsonx.ai` models using `LangChain`
 ## Overview
 
 ### Integration details
+
 | Class | Package | Local | Serializable | [JS support](https://js.langchain.com/docs/integrations/llms/ibm/) | Package downloads | Package latest |
 | :--- | :--- | :---: | :---: |  :---: | :---: | :---: |
 | [WatsonxLLM](https://python.langchain.com/api_reference/ibm/llms/langchain_ibm.llms.WatsonxLLM.html) | [langchain-ibm](https://python.langchain.com/api_reference/ibm/index.html) | ❌ | ❌ | ✅ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-ibm?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-ibm?style=flat-square&label=%20) |
@@ -24,7 +25,6 @@ The cell below defines the credentials required to work with watsonx Foundation 
 **Action:** Provide the IBM Cloud user API key. For details, see
 [Managing user API keys](https://cloud.ibm.com/docs/account?topic=account-userapikey&interface=ui).
 
-
 ```python
 import os
 from getpass import getpass
@@ -33,8 +33,7 @@ watsonx_api_key = getpass()
 os.environ["WATSONX_APIKEY"] = watsonx_api_key
 ```
 
-Additionaly you are able to pass additional secrets as an environment variable. 
-
+Additionaly you are able to pass additional secrets as an environment variable.
 
 ```python
 import os
@@ -50,7 +49,6 @@ os.environ["WATSONX_INSTANCE_ID"] = "your instance_id for accessing the CPD clus
 
 The LangChain IBM integration lives in the `langchain-ibm` package:
 
-
 ```python
 !pip install -qU langchain-ibm
 ```
@@ -58,7 +56,6 @@ The LangChain IBM integration lives in the `langchain-ibm` package:
 ## Instantiation
 
 You might need to adjust model `parameters` for different models or tasks. For details, refer to [documentation](https://ibm.github.io/watsonx-ai-python-sdk/fm_model.html#metanames.GenTextParamsMetaNames).
-
 
 ```python
 parameters = {
@@ -73,17 +70,14 @@ parameters = {
 
 Initialize the `WatsonxLLM` class with previously set parameters.
 
-
-**Note**: 
+**Note**:
 
 - To provide context for the API call, you must add `project_id` or `space_id`. For more information see [documentation](https://www.ibm.com/docs/en/watsonx-as-a-service?topic=projects).
 - Depending on the region of your provisioned service instance, use one of the urls described [here](https://ibm.github.io/watsonx-ai-python-sdk/setup_cloud.html#authentication).
 
 In this example, we’ll use the `project_id` and Dallas url.
 
-
 You need to specify `model_id` that will be used for inferencing. All available models you can find in [documentation](https://ibm.github.io/watsonx-ai-python-sdk/fm_model.html#TextModels).
-
 
 ```python
 from langchain_ibm import WatsonxLLM
@@ -96,8 +90,7 @@ watsonx_llm = WatsonxLLM(
 )
 ```
 
-Alternatively you can use Cloud Pak for Data credentials. For details, see [documentation](https://ibm.github.io/watsonx-ai-python-sdk/setup_cpd.html).    
-
+Alternatively you can use Cloud Pak for Data credentials. For details, see [documentation](https://ibm.github.io/watsonx-ai-python-sdk/setup_cpd.html).
 
 ```python
 watsonx_llm = WatsonxLLM(
@@ -114,7 +107,6 @@ watsonx_llm = WatsonxLLM(
 
 Instead of `model_id`, you can also pass the `deployment_id` of the previously tuned model. The entire model tuning workflow is described in [Working with TuneExperiment and PromptTuner](https://ibm.github.io/watsonx-ai-python-sdk/pt_tune_experiment_run.html).
 
-
 ```python
 watsonx_llm = WatsonxLLM(
     deployment_id="PASTE YOUR DEPLOYMENT_ID HERE",
@@ -125,7 +117,6 @@ watsonx_llm = WatsonxLLM(
 ```
 
 For certain requirements, there is an option to pass the IBM's [`APIClient`](https://ibm.github.io/watsonx-ai-python-sdk/base.html#apiclient) object into the `WatsonxLLM` class.
-
 
 ```python
 from ibm_watsonx_ai import APIClient
@@ -140,7 +131,6 @@ watsonx_llm = WatsonxLLM(
 
 You can also pass the IBM's [`ModelInference`](https://ibm.github.io/watsonx-ai-python-sdk/fm_model_inference.html) object into the `WatsonxLLM` class.
 
-
 ```python
 from ibm_watsonx_ai.foundation_models import ModelInference
 
@@ -150,8 +140,8 @@ watsonx_llm = WatsonxLLM(watsonx_model=model)
 ```
 
 ## Invocation
-To obtain completions, you can call the model directly using a string prompt.
 
+To obtain completions, you can call the model directly using a string prompt.
 
 ```python
 # Calling a single prompt
@@ -159,13 +149,9 @@ To obtain completions, you can call the model directly using a string prompt.
 watsonx_llm.invoke("Who is man's best friend?")
 ```
 
-
-
 ```output
 "Man's best friend is his dog. Dogs are man's best friend because they are always there for you, they never judge you, and they love you unconditionally. Dogs are also great companions and can help reduce stress levels. "
 ```
-
-
 
 ```python
 # Calling multiple prompts
@@ -178,17 +164,13 @@ watsonx_llm.generate(
 )
 ```
 
-
-
 ```output
 LLMResult(generations=[[Generation(text='The fastest dog in the world is the greyhound. Greyhounds can run up to 45 mph, which is about the same speed as a Usain Bolt.', generation_info={'finish_reason': 'eos_token'})], [Generation(text='The Labrador Retriever is a breed of retriever that was bred for hunting. They are a very smart breed and are very easy to train. They are also very loyal and will make great companions. ', generation_info={'finish_reason': 'eos_token'})]], llm_output={'token_usage': {'generated_token_count': 82, 'input_token_count': 13}, 'model_id': 'ibm/granite-13b-instruct-v2', 'deployment_id': None}, run=[RunInfo(run_id=UUID('750b8a0f-8846-456d-93d0-e039e95b1276')), RunInfo(run_id=UUID('aa4c2a1c-5b08-4fcf-87aa-50228de46db5'))], type='LLMResult')
 ```
 
-
-## Streaming the Model output 
+## Streaming the Model output
 
 You can stream the model output.
-
 
 ```python
 for chunk in watsonx_llm.stream(
@@ -196,12 +178,14 @@ for chunk in watsonx_llm.stream(
 ):
     print(chunk, end="")
 ```
+
 ```output
 My favorite breed of dog is a Labrador Retriever. They are my favorite breed because they are my favorite color, yellow. They are also very smart and easy to train.
 ```
-## Chaining
-Create `PromptTemplate` objects which will be responsible for creating a random question.
 
+## Chaining
+
+Create `PromptTemplate` objects which will be responsible for creating a random question.
 
 ```python
 from langchain_core.prompts import PromptTemplate
@@ -213,7 +197,6 @@ prompt = PromptTemplate.from_template(template)
 
 Provide a topic and run the chain.
 
-
 ```python
 llm_chain = prompt | watsonx_llm
 
@@ -222,12 +205,9 @@ topic = "dog"
 llm_chain.invoke(topic)
 ```
 
-
-
 ```output
 'What is the origin of the name "Pomeranian"?'
 ```
-
 
 ## API reference
 

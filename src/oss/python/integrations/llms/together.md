@@ -5,7 +5,6 @@ title: Together AI
 <Warning>
 **You are currently on a page documenting the use of Together AI models as [text completion models](/oss/concepts/text_llms). Many popular Together AI models are [chat completion models](/oss/concepts/chat_models).**
 
-
 You may be looking for [this page instead](/oss/integrations/chat/together/).
 </Warning>
 
@@ -15,7 +14,6 @@ This example goes over how to use LangChain to interact with Together AI models.
 
 ## Installation
 
-
 ```python
 %pip install --upgrade langchain-together
 ```
@@ -23,12 +21,10 @@ This example goes over how to use LangChain to interact with Together AI models.
 ## Environment
 
 To use Together AI, you'll need an API key which you can find here:
-https://api.together.ai/settings/api-keys. This can be passed in as an init param
+[api.together.ai/settings/api-keys](https://api.together.ai/settings/api-keys). This can be passed in as an init param
 ``together_api_key`` or set as environment variable ``TOGETHER_API_KEY``.
 
-
 ## Example
-
 
 ```python
 # Querying chat models with Together AI
@@ -48,7 +44,6 @@ for m in chat.stream("Tell me fun things to do in NYC"):
 # if you don't want to do streaming, you can use the invoke method
 # chat.invoke("Tell me fun things to do in NYC")
 ```
-
 
 ```python
 # Querying code and language models with Together AI

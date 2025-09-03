@@ -17,21 +17,17 @@ You may either initialize the loader directly with the access token, or store it
 
 An alternative to this approach is to export the `Joplin`'s note database to Markdown files (optionally, with Front Matter metadata) and use a Markdown loader, such as ObsidianLoader, to load them.
 
-
 ```python
 from langchain_community.document_loaders import JoplinLoader
 ```
-
 
 ```python
 loader = JoplinLoader(access_token="<access-token>")
 ```
 
-
 ```python
 docs = loader.load()
 ```
-
 
 ```python
 

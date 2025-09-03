@@ -10,8 +10,7 @@ Robocorp is the easiest way to extend the capabilities of AI agents, assistants 
 
 First, see the [Robocorp Quickstart](https://github.com/robocorp/robocorp#quickstart) on how to setup `Action Server` and create your Actions.
 
-In your LangChain application, install the `langchain-robocorp` package: 
-
+In your LangChain application, install the `langchain-robocorp` package:
 
 ```python
 # Install package
@@ -49,7 +48,7 @@ We then start the server:
 action-server start
 ```
 
-And we can see: 
+And we can see:
 
 ```
 Found new action: get_weather_forecast
@@ -67,7 +66,6 @@ Optionally you can set the following environment variables:
 ## Usage
 
 We started the local action server, above, running on `http://localhost:8080`.
-
 
 ```python
 from langchain.agents import AgentExecutor, OpenAIFunctionsAgent
@@ -91,6 +89,7 @@ executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
 executor.invoke("What is the current weather today in San Francisco in fahrenheit?")
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 
@@ -102,19 +101,16 @@ Invoking: `robocorp_action_server_get_weather_forecast` with `{'city': 'San Fran
 > Finished chain.
 ```
 
-
 ```output
 {'input': 'What is the current weather today in San Francisco in fahrenheit?',
  'output': 'The current weather today in San Francisco is 75F and sunny.'}
 ```
 
-
 ### Single input tools
 
-By default `toolkit.get_tools()` will return the actions as Structured Tools. 
+By default `toolkit.get_tools()` will return the actions as Structured Tools.
 
 To return single input tools, pass a Chat model to be used for processing the inputs.
-
 
 ```python
 # Initialize single input Action Server Toolkit

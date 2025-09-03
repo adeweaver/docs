@@ -15,7 +15,9 @@ The Naver Search Tool provides a simple interface to search Naver and get result
 **Search** : The Naver Search Tool provides a simple interface to search Naver and get results.
 
 ## Setup
+
 ### Setting Up API Credentials
+
 To use Naver Search, you need to obtain API credentials. Follow these steps:
 
 Sign in to the [Naver Developers portal](https://developers.naver.com/main/).
@@ -23,13 +25,12 @@ Create a new application and enable the Search API.
 Obtain your **NAVER_CLIENT_ID** and **NAVER_CLIENT_SECRET** from the "Application List" section.
 
 ### Setting Up Environment Variables
-After obtaining the credentials, set them as environment variables in your script:
 
+After obtaining the credentials, set them as environment variables in your script:
 
 ```python
 %pip install --upgrade --quiet  langchain-naver-community
 ```
-
 
 ```python
 import getpass
@@ -46,7 +47,6 @@ if not os.environ.get("NAVER_CLIENT_SECRET"):
 
 ## Instantiation
 
-
 ```python
 from langchain_naver_community.utils import NaverSearchAPIWrapper
 
@@ -55,12 +55,9 @@ search = NaverSearchAPIWrapper()
 
 ## Invocation
 
-
 ```python
 search.results("Seoul")[:3]
 ```
-
-
 
 ```output
 [{'title': 'Seoul shares rise for 4th day on tech gains; won at 2-week low',
@@ -77,9 +74,7 @@ search.results("Seoul")[:3]
   'pubDate': 'Thu, 20 Mar 2025 14:35:00 +0900'}]
 ```
 
-
 ## Tool Usage
-
 
 ```python
 from langchain_naver_community.tool import NaverSearchResults
@@ -92,8 +87,6 @@ tool = NaverSearchResults(api_wrapper=search)
 tool.invoke("what is the weather in seoul?")[3:5]
 ```
 
-
-
 ```output
 [{'title': "2025 is here. Here's what to watch out for",
   'link': 'https://n.news.naver.com/mnews/article/044/0000265707?sid=104',
@@ -105,12 +98,9 @@ tool.invoke("what is the weather in seoul?")[3:5]
   'pubDate': 'Sun, 25 Jun 2023 17:22:00 +0900'}]
 ```
 
-
 ## Use within an agent
 
 The Naver Search tool can be integrated into LangChain agents for more complex tasks. Below we demonstrate how to set up an agent that can search Naver for current information.
-
-
 
 ```python
 from langchain_openai import ChatOpenAI
@@ -122,14 +112,13 @@ You are a helpful assistant that can search the web for information.
 """
 ```
 
-
 ```python
 from langchain_naver_community.tool import NaverNewsSearch
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 tools = [NaverNewsSearch()]
 
-agent_executor = create_react_agent(
+agent_executor = create_agent(
     llm,
     tools,
     prompt=system_prompt,
@@ -137,7 +126,6 @@ agent_executor = create_react_agent(
 ```
 
 Now we can run the agent with a query.
-
 
 ```python
 query = "What is the weather in Seoul?"

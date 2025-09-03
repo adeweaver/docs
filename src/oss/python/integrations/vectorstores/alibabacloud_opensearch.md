@@ -12,16 +12,16 @@ This notebook shows how to use functionality related to the `Alibaba Cloud OpenS
 
 ## Setting up
 
-
 ### Purchase an instance and configure it
 
 Purchase OpenSearch Vector Search Edition from [Alibaba Cloud](https://opensearch.console.aliyun.com) and configure the instance according to the help [documentation](https://help.aliyun.com/document_detail/463198.html?spm=a2c4g.465092.0.0.2cd15002hdwavO).
 
 To run, you should have an [OpenSearch Vector Search Edition](https://opensearch.console.aliyun.com) instance up and running.
 
-  
 ### Alibaba Cloud OpenSearch Vector Store class
+
                                                                                                                 `AlibabaCloudOpenSearch` class supports functions:
+
 - `add_texts`
 - `add_documents`
 - `from_texts`
@@ -33,22 +33,19 @@ To run, you should have an [OpenSearch Vector Search Edition](https://opensearch
 - `similarity_search_with_relevance_scores`
 - `delete_doc_by_texts`
 
-
 Read the [help document](https://www.alibabacloud.com/help/en/opensearch/latest/vector-search) to quickly familiarize and configure OpenSearch Vector Search Edition instance.
 
-If you encounter any problems during use, please feel free to contact xingshaomin.xsm@alibaba-inc.com, and we will do our best to provide you with assistance and support.
+If you encounter any problems during use, please feel free to contact [xingshaomin.xsm@alibaba-inc.com](mailto:xingshaomin.xsm@alibaba-inc.com), and we will do our best to provide you with assistance and support.
 
 After the instance is up and running, follow these steps to split documents, get embeddings, connect to the alibaba cloud opensearch instance, index documents, and perform vector retrieval.
 
 We need to install the following Python packages first.
-
 
 ```python
 %pip install --upgrade --quiet  langchain-community alibabacloud_ha3engine_vector
 ```
 
 We want to use `OpenAIEmbeddings` so we have to get the OpenAI API Key.
-
 
 ```python
 import getpass
@@ -60,7 +57,6 @@ if "OPENAI_API_KEY" not in os.environ:
 
 ## Example
 
-
 ```python
 from langchain_community.vectorstores import (
     AlibabaCloudOpenSearch,
@@ -71,7 +67,6 @@ from langchain_text_splitters import CharacterTextSplitter
 ```
 
 Split documents and get embeddings.
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -85,7 +80,6 @@ embeddings = OpenAIEmbeddings()
 ```
 
 Create opensearch settings.
-
 
 ```python
 settings = AlibabaCloudOpenSearchSettings(
@@ -132,7 +126,6 @@ settings = AlibabaCloudOpenSearchSettings(
 
 Create an opensearch access instance by settings.
 
-
 ```python
 # Create an opensearch instance and index docs.
 opensearch = AlibabaCloudOpenSearch.from_texts(
@@ -142,14 +135,12 @@ opensearch = AlibabaCloudOpenSearch.from_texts(
 
 or
 
-
 ```python
 # Create an opensearch instance.
 opensearch = AlibabaCloudOpenSearch(embedding=embeddings, config=settings)
 ```
 
 Add texts and build index.
-
 
 ```python
 metadatas = [
@@ -163,7 +154,6 @@ opensearch.add_texts(texts=docs, ids=[], metadatas=metadatas)
 
 Query and retrieve data.
 
-
 ```python
 query = "What did the president say about Ketanji Brown Jackson"
 docs = opensearch.similarity_search(query)
@@ -171,8 +161,6 @@ print(docs[0].page_content)
 ```
 
 Query and retrieve data with metadata.
-
-
 
 ```python
 query = "What did the president say about Ketanji Brown Jackson"
@@ -186,4 +174,4 @@ docs = opensearch.similarity_search(query, filter=metadata)
 print(docs[0].page_content)
 ```
 
-If you encounter any problems during use, please feel free to contact xingshaomin.xsm@alibaba-inc.com, and we will do our best to provide you with assistance and support.
+If you encounter any problems during use, please feel free to contact [xingshaomin.xsm@alibaba-inc.com](mailto:xingshaomin.xsm@alibaba-inc.com), and we will do our best to provide you with assistance and support.

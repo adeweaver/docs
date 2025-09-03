@@ -7,6 +7,7 @@ title: Outline Document Loader
 This notebook shows how to obtain langchain Documents from your Outline collections.
 
 ## Overview
+
 The [Outline Document Loader](https://github.com/10Pines/langchain-outline) can be used to load Outline collections as LangChain Documents for integration into Retrieval-Augmented Generation (RAG) workflows.
 
 This example demonstrates:
@@ -14,11 +15,11 @@ This example demonstrates:
 * Setting up a Document Loader to load all documents from an Outline instance.
 
 ### Setup
+
 Before starting, ensure you have the following environment variables set:
 
-* OUTLINE_API_KEY: Your API key for authenticating with your Outline instance (https://www.getoutline.com/developers#section/Authentication).
+* OUTLINE_API_KEY: Your API key for authenticating with your Outline instance ([www.getoutline.com/developers#section/Authentication](https://www.getoutline.com/developers#section/Authentication)).
 * OUTLINE_INSTANCE_URL: The URL (including protocol) of your Outline instance.
-
 
 ```python
 import os
@@ -28,6 +29,7 @@ os.environ["OUTLINE_INSTANCE_URL"] = "https://app.getoutline.com"
 ```
 
 ## Initialization
+
 To initialize the OutlineLoader, you need the following parameters:
 
 * outline_base_url: The URL of your outline instance (or it will be taken from the environment variable).
@@ -36,7 +38,6 @@ To initialize the OutlineLoader, you need the following parameters:
 * page_size: Because the Outline API uses paginated results you can configure how many results (documents) per page will be retrieved per API request.  If this is not specified a default will be used.
 
 ## Instantiation
-
 
 ```python
 # Option 1: Using environment variables (ensure they are set)
@@ -51,16 +52,16 @@ loader = OutlineLoader(
 ```
 
 ## Load
-To load and return all documents available in the Outline instance
 
+To load and return all documents available in the Outline instance
 
 ```python
 loader.load()
 ```
 
 ## Lazy Load
-The lazy_load method allows you to iteratively load documents from the Outline collection, yielding each document as it is fetched:
 
+The lazy_load method allows you to iteratively load documents from the Outline collection, yielding each document as it is fetched:
 
 ```python
 loader.lazy_load()
@@ -68,4 +69,4 @@ loader.lazy_load()
 
 ## API reference
 
-For detailed documentation of all `Outline` features and configurations head to the API reference: https://www.getoutline.com/developers
+For detailed documentation of all `Outline` features and configurations head to the API reference: [www.getoutline.com/developers](https://www.getoutline.com/developers)

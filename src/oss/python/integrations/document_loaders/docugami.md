@@ -5,10 +5,10 @@ title: Docugami
 This notebook covers how to load documents from `Docugami`. It provides the advantages of using this system over alternative data loaders.
 
 ## Prerequisites
+
 1. Install necessary python packages.
 2. Grab an access token for your workspace, and make sure it is set as the `DOCUGAMI_API_KEY` environment variable.
-3. Grab some docset and document IDs for your processed documents, as described here: https://help.docugami.com/home/docugami-api
-
+3. Grab some docset and document IDs for your processed documents, as described here: [help.docugami.com/home/docugami-api](https://help.docugami.com/home/docugami-api)
 
 ```python
 # You need the dgml-utils package to use the DocugamiLoader (run pip install directly without "poetry run" if you are not using poetry)
@@ -20,7 +20,7 @@ This notebook covers how to load documents from `Docugami`. It provides the adva
 1. Create a [Docugami workspace](http://www.docugami.com) (free trials available)
 2. Add your documents (PDF, DOCX or DOC) and allow Docugami to ingest and cluster them into sets of similar documents, e.g. NDAs, Lease Agreements, and Service Agreements. There is no fixed set of document types supported by the system, the clusters created depend on your particular documents, and you can [change the docset assignments](https://help.docugami.com/home/working-with-the-doc-sets-view) later.
 3. Create an access token via the Developer Playground for your workspace. [Detailed instructions](https://help.docugami.com/home/docugami-api)
-4. Explore the [Docugami API](https://api-docs.docugami.com) to get a list of your processed docset IDs, or just the document IDs for a particular docset. 
+4. Explore the [Docugami API](https://api-docs.docugami.com) to get a list of your processed docset IDs, or just the document IDs for a particular docset.
 6. Use the DocugamiLoader as detailed below, to get rich semantic chunks for your documents.
 7. Optionally, build and publish one or more [reports or abstracts](https://help.docugami.com/home/reports). This helps Docugami improve the semantic XML with better tags based on your preferences, which are then added to the DocugamiLoader output as metadata. Use techniques like [self-querying retriever](/oss/how-to/self_query) to do high accuracy Document QA.
 
@@ -33,8 +33,6 @@ Appropriate chunking of your documents is critical for retrieval from documents.
 3. **Structured Representation:** In addition, the XML tree indicates the structural contours of every document, using attributes denoting headings, paragraphs, lists, tables, and other common elements, and does that consistently across all supported document formats, such as scanned PDFs or DOCX files. It appropriately handles long-form document characteristics like page headers/footers or multi-column flows for clean text extraction.
 4. **Additional Metadata:** Chunks are also annotated with additional metadata, if a user has been using Docugami. This additional metadata can be used for high-accuracy Document QA without context window restrictions. See detailed code walk-through below.
 
-
-
 ```python
 import os
 
@@ -45,11 +43,9 @@ from docugami_langchain.document_loaders import DocugamiLoader
 
 If the DOCUGAMI_API_KEY environment variable is set, there is no need to pass it in to the loader explicitly otherwise you can pass it in as the `access_token` parameter.
 
-
 ```python
 DOCUGAMI_API_KEY = os.environ.get("DOCUGAMI_API_KEY")
 ```
-
 
 ```python
 docset_id = "26xpy3aes7xp"
@@ -61,26 +57,22 @@ chunks = loader.load()
 len(chunks)
 ```
 
-
-
 ```output
 120
 ```
-
 
 The `metadata` for each `Document` (really, a chunk of an actual PDF, DOC or DOCX) contains some useful additional information:
 
 1. **id and source:** ID and Name of the file (PDF, DOC or DOCX) the chunk is sourced from within Docugami.
 2. **xpath:** XPath inside the XML representation of the document, for the chunk. Useful for source citations directly to the actual chunk inside the document XML.
 3. **structure:** Structural attributes of the chunk, e.g. h1, h2, div, table, td, etc. Useful to filter out certain kinds of chunks if needed by the caller.
-4. **tag:** Semantic tag for the chunk, using various generative and extractive techniques. More details here: https://github.com/docugami/DFM-benchmarks
+4. **tag:** Semantic tag for the chunk, using various generative and extractive techniques. More details here: [github.com/docugami/DFM-benchmarks](https://github.com/docugami/DFM-benchmarks)
 
 You can control chunking behavior by setting the following properties on the `DocugamiLoader` instance:
 
 1. You can set min and max chunk size, which the system tries to adhere to with minimal truncation. You can set `loader.min_text_length` and `loader.max_text_length` to control these.
 2. By default, only the text for chunks is returned. However, Docugami's XML knowledge graph has additional rich information including semantic tags for entities inside the chunk. Set `loader.include_xml_tags = True` if you want the additional xml metadata on the returned chunks.
 3. In addition, you can set `loader.parent_hierarchy_levels` if you want Docugami to return parent chunks in the chunks it returns. The child chunks point to the parent chunks via the `loader.parent_id_key` value. This is useful e.g. with the [MultiVector Retriever](/oss/how-to/multi_vector) for [small-to-big](https://www.youtube.com/watch?v=ihSiRrOUwmg) retrieval. See detailed example later in this notebook.
-
 
 ```python
 loader.min_text_length = 64
@@ -90,6 +82,7 @@ chunks = loader.load()
 for chunk in chunks[:5]:
     print(chunk)
 ```
+
 ```output
 page_content='MASTER SERVICES AGREEMENT\n <ThisServicesAgreement> This Services Agreement (the “Agreement”) sets forth terms under which <Company>MagicSoft, Inc. </Company>a <Org><USState>Washington </USState>Corporation </Org>(“Company”) located at <CompanyAddress><CompanyStreetAddress><Company>600 </Company><Company>4th Ave</Company></CompanyStreetAddress>, <Company>Seattle</Company>, <Client>WA </Client><ProvideServices>98104 </ProvideServices></CompanyAddress>shall provide services to <Client>Daltech, Inc.</Client>, a <Company><USState>Washington </USState>Corporation </Company>(the “Client”) located at <ClientAddress><ClientStreetAddress><Client>701 </Client><Client>1st St</Client></ClientStreetAddress>, <Client>Kirkland</Client>, <State>WA </State><Client>98033</Client></ClientAddress>. This Agreement is effective as of <EffectiveDate>February 15, 2021 </EffectiveDate>(“Effective Date”). </ThisServicesAgreement>' metadata={'xpath': '/dg:chunk/docset:MASTERSERVICESAGREEMENT-section/dg:chunk', 'id': 'c28554d0af5114e2b102e6fc4dcbbde5', 'name': 'Master Services Agreement - Daltech.docx', 'source': 'Master Services Agreement - Daltech.docx', 'structure': 'h1 p', 'tag': 'chunk ThisServicesAgreement', 'Liability': '', 'Workers Compensation Insurance': '$1,000,000', 'Limit': '$1,000,000', 'Commercial General Liability Insurance': '$2,000,000', 'Technology Professional Liability Errors Omissions Policy': '$5,000,000', 'Excess Liability Umbrella Coverage': '$9,000,000', 'Client': 'Daltech, Inc.', 'Services Agreement Date': 'INITIAL STATEMENT  OF WORK (SOW)  The purpose of this SOW is to describe the Software and Services that Company will initially provide to  Daltech, Inc.  the “Client”) under the terms and conditions of the  Services Agreement  entered into between the parties on  June 15, 2021', 'Completion of the Services by Company Date': 'February 15, 2022', 'Charge': 'one hundred percent (100%)', 'Company': 'MagicSoft, Inc.', 'Effective Date': 'February 15, 2021', 'Start Date': '03/15/2021', 'Scheduled Onsite Visits Are Cancelled': 'ten (10) working days', 'Limit on Liability': '', 'Liability Cap': '', 'Business Automobile Liability': 'Business Automobile Liability  covering all vehicles that Company owns, hires or leases with a limit of no less than  $1,000,000  (combined single limit for bodily injury and property damage) for each accident.', 'Contractual Liability Coverage': 'Commercial General Liability insurance including  Contractual Liability Coverage , with coverage for products liability, completed operations, property damage and bodily injury, including  death , with an aggregate limit of no less than  $2,000,000 . This policy shall name Client as an additional insured with respect to the provision of services provided under this Agreement. This policy shall include a waiver of subrogation against Client.', 'Technology Professional Liability Errors Omissions': 'Technology Professional Liability Errors & Omissions policy (which includes Cyber Risk coverage and Computer Security and Privacy Liability coverage) with a limit of no less than  $5,000,000  per occurrence and in the aggregate.'}
 page_content='A. STANDARD SOFTWARE AND SERVICES AGREEMENT\n 1. Deliverables.\n Company shall provide Client with software, technical support, product management, development, and <_testRef>testing </_testRef>services (“Services”) to the Client as described on one or more Statements of Work signed by Company and Client that reference this Agreement (“SOW” or “Statement of Work”). Company shall perform Services in a prompt manner and have the final product or service (“Deliverable”) ready for Client no later than the due date specified in the applicable SOW (“Completion Date”). This due date is subject to change in accordance with the Change Order process defined in the applicable SOW. Client shall assist Company by promptly providing all information requests known or available and relevant to the Services in a timely manner.' metadata={'xpath': '/dg:chunk/docset:MASTERSERVICESAGREEMENT-section/docset:MASTERSERVICESAGREEMENT/dg:chunk[1]/docset:Standard/dg:chunk[1]/dg:chunk[1]', 'id': 'de60160d328df10fa2637637c803d2d4', 'name': 'Master Services Agreement - Daltech.docx', 'source': 'Master Services Agreement - Daltech.docx', 'structure': 'lim h1 lim h1 div', 'tag': 'chunk', 'Liability': '', 'Workers Compensation Insurance': '$1,000,000', 'Limit': '$1,000,000', 'Commercial General Liability Insurance': '$2,000,000', 'Technology Professional Liability Errors Omissions Policy': '$5,000,000', 'Excess Liability Umbrella Coverage': '$9,000,000', 'Client': 'Daltech, Inc.', 'Services Agreement Date': 'INITIAL STATEMENT  OF WORK (SOW)  The purpose of this SOW is to describe the Software and Services that Company will initially provide to  Daltech, Inc.  the “Client”) under the terms and conditions of the  Services Agreement  entered into between the parties on  June 15, 2021', 'Completion of the Services by Company Date': 'February 15, 2022', 'Charge': 'one hundred percent (100%)', 'Company': 'MagicSoft, Inc.', 'Effective Date': 'February 15, 2021', 'Start Date': '03/15/2021', 'Scheduled Onsite Visits Are Cancelled': 'ten (10) working days', 'Limit on Liability': '', 'Liability Cap': '', 'Business Automobile Liability': 'Business Automobile Liability  covering all vehicles that Company owns, hires or leases with a limit of no less than  $1,000,000  (combined single limit for bodily injury and property damage) for each accident.', 'Contractual Liability Coverage': 'Commercial General Liability insurance including  Contractual Liability Coverage , with coverage for products liability, completed operations, property damage and bodily injury, including  death , with an aggregate limit of no less than  $2,000,000 . This policy shall name Client as an additional insured with respect to the provision of services provided under this Agreement. This policy shall include a waiver of subrogation against Client.', 'Technology Professional Liability Errors Omissions': 'Technology Professional Liability Errors & Omissions policy (which includes Cyber Risk coverage and Computer Security and Privacy Liability coverage) with a limit of no less than  $5,000,000  per occurrence and in the aggregate.'}
@@ -97,15 +90,14 @@ page_content='2. Onsite Services.\n 2.1 Onsite visits will be charged on a <Freq
 page_content='2.2 <Expenses>Time and expenses will be charged based on actuals unless otherwise described in an Order Form or accompanying SOW. </Expenses>' metadata={'xpath': '/dg:chunk/docset:MASTERSERVICESAGREEMENT-section/docset:MASTERSERVICESAGREEMENT/dg:chunk[1]/docset:Standard/dg:chunk[3]/dg:chunk[2]/docset:ADailyBasis/dg:chunk[2]/dg:chunk', 'id': '506220fa472d5c48c8ee3db78c1122c1', 'name': 'Master Services Agreement - Daltech.docx', 'source': 'Master Services Agreement - Daltech.docx', 'structure': 'lim p', 'tag': 'chunk Expenses', 'Liability': '', 'Workers Compensation Insurance': '$1,000,000', 'Limit': '$1,000,000', 'Commercial General Liability Insurance': '$2,000,000', 'Technology Professional Liability Errors Omissions Policy': '$5,000,000', 'Excess Liability Umbrella Coverage': '$9,000,000', 'Client': 'Daltech, Inc.', 'Services Agreement Date': 'INITIAL STATEMENT  OF WORK (SOW)  The purpose of this SOW is to describe the Software and Services that Company will initially provide to  Daltech, Inc.  the “Client”) under the terms and conditions of the  Services Agreement  entered into between the parties on  June 15, 2021', 'Completion of the Services by Company Date': 'February 15, 2022', 'Charge': 'one hundred percent (100%)', 'Company': 'MagicSoft, Inc.', 'Effective Date': 'February 15, 2021', 'Start Date': '03/15/2021', 'Scheduled Onsite Visits Are Cancelled': 'ten (10) working days', 'Limit on Liability': '', 'Liability Cap': '', 'Business Automobile Liability': 'Business Automobile Liability  covering all vehicles that Company owns, hires or leases with a limit of no less than  $1,000,000  (combined single limit for bodily injury and property damage) for each accident.', 'Contractual Liability Coverage': 'Commercial General Liability insurance including  Contractual Liability Coverage , with coverage for products liability, completed operations, property damage and bodily injury, including  death , with an aggregate limit of no less than  $2,000,000 . This policy shall name Client as an additional insured with respect to the provision of services provided under this Agreement. This policy shall include a waiver of subrogation against Client.', 'Technology Professional Liability Errors Omissions': 'Technology Professional Liability Errors & Omissions policy (which includes Cyber Risk coverage and Computer Security and Privacy Liability coverage) with a limit of no less than  $5,000,000  per occurrence and in the aggregate.'}
 page_content='2.3 <RegularWorkingHours>All work will be executed during regular working hours <RegularWorkingHours>Monday</RegularWorkingHours>-<Weekday>Friday </Weekday><RegularWorkingHours><RegularWorkingHours>0800</RegularWorkingHours>-<Number>1900</Number></RegularWorkingHours>. For work outside of these hours on weekdays, Company will charge <Charge>one hundred percent (100%) </Charge>of the regular hourly rate and <Charge>two hundred percent (200%) </Charge>for Saturdays, Sundays and public holidays applicable to Company. </RegularWorkingHours>' metadata={'xpath': '/dg:chunk/docset:MASTERSERVICESAGREEMENT-section/docset:MASTERSERVICESAGREEMENT/dg:chunk[1]/docset:Standard/dg:chunk[3]/dg:chunk[2]/docset:ADailyBasis/dg:chunk[3]/dg:chunk', 'id': 'dac7a3ded61b5c4f3e59771243ea46c1', 'name': 'Master Services Agreement - Daltech.docx', 'source': 'Master Services Agreement - Daltech.docx', 'structure': 'lim p', 'tag': 'chunk RegularWorkingHours', 'Liability': '', 'Workers Compensation Insurance': '$1,000,000', 'Limit': '$1,000,000', 'Commercial General Liability Insurance': '$2,000,000', 'Technology Professional Liability Errors Omissions Policy': '$5,000,000', 'Excess Liability Umbrella Coverage': '$9,000,000', 'Client': 'Daltech, Inc.', 'Services Agreement Date': 'INITIAL STATEMENT  OF WORK (SOW)  The purpose of this SOW is to describe the Software and Services that Company will initially provide to  Daltech, Inc.  the “Client”) under the terms and conditions of the  Services Agreement  entered into between the parties on  June 15, 2021', 'Completion of the Services by Company Date': 'February 15, 2022', 'Charge': 'one hundred percent (100%)', 'Company': 'MagicSoft, Inc.', 'Effective Date': 'February 15, 2021', 'Start Date': '03/15/2021', 'Scheduled Onsite Visits Are Cancelled': 'ten (10) working days', 'Limit on Liability': '', 'Liability Cap': '', 'Business Automobile Liability': 'Business Automobile Liability  covering all vehicles that Company owns, hires or leases with a limit of no less than  $1,000,000  (combined single limit for bodily injury and property damage) for each accident.', 'Contractual Liability Coverage': 'Commercial General Liability insurance including  Contractual Liability Coverage , with coverage for products liability, completed operations, property damage and bodily injury, including  death , with an aggregate limit of no less than  $2,000,000 . This policy shall name Client as an additional insured with respect to the provision of services provided under this Agreement. This policy shall include a waiver of subrogation against Client.', 'Technology Professional Liability Errors Omissions': 'Technology Professional Liability Errors & Omissions policy (which includes Cyber Risk coverage and Computer Security and Privacy Liability coverage) with a limit of no less than  $5,000,000  per occurrence and in the aggregate.'}
 ```
+
 ## Basic Use: Docugami Loader for Document QA
 
 You can use the Docugami Loader like a standard loader for Document QA over multiple docs, albeit with much better chunks that follow the natural contours of the document. There are many great tutorials on how to do this, e.g. [this one](https://www.youtube.com/watch?v=3yPBVii7Ct0). We can just use the same code, but use the `DocugamiLoader` for better chunking, instead of loading text or PDF files directly with basic splitting techniques.
 
-
 ```python
 !poetry run pip install --upgrade langchain-openai tiktoken langchain-chroma hnswlib
 ```
-
 
 ```python
 # For this example, we already have a processed docset for a set of lease documents
@@ -123,13 +115,14 @@ for chunk in chunks:
 
 print(len(chunks))
 ```
+
 ```output
 4674
 ```
+
 The documents returned by the loader are already split, so we don't need to use a text splitter. Optionally, we can use the metadata on each document, for example the structure or tag attributes, to do any post-processing we want.
 
 We will just use the output of the `DocugamiLoader` as-is to set up a retrieval QA chain the usual way.
-
 
 ```python
 from langchain.chains import RetrievalQA
@@ -144,13 +137,10 @@ qa_chain = RetrievalQA.from_chain_type(
 )
 ```
 
-
 ```python
 # Try out the retriever with an example query
 qa_chain("What can tenants do with signage on their properties?")
 ```
-
-
 
 ```output
 {'query': 'What can tenants do with signage on their properties?',
@@ -161,32 +151,24 @@ qa_chain("What can tenants do with signage on their properties?")
   Document(page_content='8. SIGNS:\n Tenant shall not install signs upon the Premises without Landlord’s prior written approval, which approval shall not be unreasonably withheld or delayed, and any such signage shall be subject to any applicable governmental laws, ordinances, regulations, and other requirements. Tenant shall remove all such signs by the terminations of this Lease. Such installations and removals shall be made in such a manner as to avoid injury or defacement of the Building and other improvements, and Tenant shall repair any injury or defacement, including without limitation discoloration caused by such installations and/or removal.', metadata={'id': '6b7d88f0c979c65d5db088fc177fa81f', 'name': 'Lease Agreements/Bioplex, Inc.pdf', 'structure': 'lim h1 div', 'xpath': '/dg:chunk/docset:WITNESSETH-section/docset:WITNESSETH/dg:chunk/docset:TheObligation/dg:chunk[8]/dg:chunk'})]}
 ```
 
-
 ## Using Docugami Knowledge Graph for High Accuracy Document QA
 
 One issue with large documents is that the correct answer to your question may depend on chunks that are far apart in the document. Typical chunking techniques, even with overlap, will struggle with providing the LLM sufficent context to answer such questions. With upcoming very large context LLMs, it may be possible to stuff a lot of tokens, perhaps even entire documents, inside the context but this will still hit limits at some point with very long documents, or a lot of documents.
 
 For example, if we ask a more complex question that requires the LLM to draw on chunks from different parts of the document, even OpenAI's powerful LLM is unable to answer correctly.
 
-
 ```python
 chain_response = qa_chain("What is rentable area for the property owned by DHA Group?")
 chain_response["result"]  # correct answer should be 13,500 sq ft
 ```
 
-
-
 ```output
 " I don't know."
 ```
 
-
-
 ```python
 chain_response["source_documents"]
 ```
-
-
 
 ```output
 [Document(page_content='1.6 Rentable Area of the Premises.', metadata={'id': '5b39a1ae84d51682328dca1467be211f', 'name': 'Sample Commercial Leases/Shorebucks LLC_WA.pdf', 'structure': 'lim h1', 'xpath': '/docset:OFFICELEASE-section/docset:OFFICELEASE-section/docset:OFFICELEASE/docset:WITNESSETH-section/docset:WITNESSETH/dg:chunk/dg:chunk/docset:BasicLeaseInformation/docset:BASICLEASEINFORMATIONANDDEFINEDTERMS-section/docset:BASICLEASEINFORMATIONANDDEFINEDTERMS/docset:CatalystGroup/dg:chunk[6]/dg:chunk'}),
@@ -195,13 +177,11 @@ chain_response["source_documents"]
  Document(page_content='1.6 Rentable Area of the Premises.', metadata={'id': '5b39a1ae84d51682328dca1467be211f', 'name': 'Sample Commercial Leases/Shorebucks LLC_TX.pdf', 'structure': 'lim h1', 'xpath': '/docset:OFFICELEASE-section/docset:OFFICELEASE/docset:WITNESSETH-section/docset:WITNESSETH/dg:chunk/dg:chunk/docset:BasicLeaseInformation/docset:BASICLEASEINFORMATIONANDDEFINEDTERMS-section/docset:BASICLEASEINFORMATIONANDDEFINEDTERMS/docset:LandmarkLlc/dg:chunk[6]/dg:chunk'})]
 ```
 
-
 At first glance the answer may seem reasonable, but it is incorrect. If you review the source chunks carefully for this answer, you will see that the chunking of the document did not end up putting the Landlord name and the rentable area in the same context, and produced irrelevant chunks therefore the answer is incorrect (should be **13,500 sq ft**)
 
 Docugami can help here. Chunks are annotated with additional metadata created using different techniques if a user has been [using Docugami](https://help.docugami.com/home/reports). More technical approaches will be added later.
 
 Specifically, let's ask Docugami to return XML tags on its output, as well as additional metadata:
-
 
 ```python
 loader = DocugamiLoader(docset_id="zo954yqy53wp")
@@ -211,16 +191,16 @@ loader.include_xml_tags = (
 chunks = loader.load()
 print(chunks[0].metadata)
 ```
+
 ```output
 {'xpath': '/docset:OFFICELEASE-section/dg:chunk', 'id': '47297e277e556f3ce8b570047304560b', 'name': 'Sample Commercial Leases/Shorebucks LLC_AZ.pdf', 'source': 'Sample Commercial Leases/Shorebucks LLC_AZ.pdf', 'structure': 'h1 h1 p', 'tag': 'chunk Lease', 'Lease Date': 'March  29th , 2019', 'Landlord': 'Menlo Group', 'Tenant': 'Shorebucks LLC', 'Premises Address': '1564  E Broadway Rd ,  Tempe ,  Arizona  85282', 'Term of Lease': '96  full calendar months', 'Square Feet': '16,159'}
 ```
-We can use a [self-querying retriever](/oss/how-to/self_query) to improve our query accuracy, using this additional metadata:
 
+We can use a [self-querying retriever](/oss/how-to/self_query) to improve our query accuracy, using this additional metadata:
 
 ```python
 !poetry run pip install --upgrade lark --quiet
 ```
-
 
 ```python
 from langchain.chains.query_constructor.schema import AttributeInfo
@@ -256,18 +236,17 @@ qa_chain = RetrievalQA.from_chain_type(
 
 Let's run the same question again. It returns the correct result since all the chunks have metadata key/value pairs on them carrying key information about the document even if this information is physically very far away from the source chunk used to generate the answer.
 
-
 ```python
 qa_chain(
     "What is rentable area for the property owned by DHA Group?"
 )  # correct answer should be 13,500 sq ft
 ```
+
 ```output
 > Entering new RetrievalQA chain...
 
 > Finished chain.
 ```
-
 
 ```output
 {'query': 'What is rentable area for the property owned by DHA Group?',
@@ -278,7 +257,6 @@ qa_chain(
   Document(page_content='1.11 Percentage Rent.\n (a) <GrossRevenue><Percent>55% </Percent>of Gross Revenue to Landlord until Landlord receives Percentage Rent in an amount equal to the Annual Market Rent Hurdle (as escalated); and </GrossRevenue>', metadata={'Landlord': 'DHA Group', 'Lease Date': 'March  29th , 2019', 'Premises Address': '111  Bauer Dr ,  Oakland ,  New Jersey ,  07436', 'Square Feet': '13,500', 'Tenant': 'Shorebucks LLC', 'Term of Lease': '84  full calendar  months', 'id': 'c8bb9cbedf65a578d9db3f25f519dd3d', 'name': 'Sample Commercial Leases/Shorebucks LLC_NJ.pdf', 'source': 'Sample Commercial Leases/Shorebucks LLC_NJ.pdf', 'structure': 'lim h1 lim p', 'tag': 'chunk GrossRevenue', 'xpath': '/docset:OFFICELEASE-section/docset:OFFICELEASE-section/docset:OFFICELEASE/docset:WITNESSETH-section/docset:WITNESSETH/docset:GrossRentCredit-section/docset:GrossRentCredit/dg:chunk/dg:chunk/dg:chunk/docset:PercentageRent/dg:chunk[1]/dg:chunk[1]'})]}
 ```
 
-
 This time the answer is correct, since the self-querying retriever created a filter on the landlord attribute of the metadata, correctly filtering to document that specifically is about the DHA Group landlord. The resulting source chunks are all relevant to this landlord, and this improves answer accuracy even though the landlord is not directly mentioned in the specific chunk that contains the correct answer.
 
 # Advanced Topic: Small-to-Big Retrieval with Document Knowledge Graph Hierarchy
@@ -286,7 +264,6 @@ This time the answer is correct, since the self-querying retriever created a fil
 Documents are inherently semi-structured and the DocugamiLoader is able to navigate the semantic and structural contours of the document to provide parent chunk references on the chunks it returns. This is useful e.g. with the [MultiVector Retriever](/oss/how-to/multi_vector) for [small-to-big](https://www.youtube.com/watch?v=ihSiRrOUwmg) retrieval.
 
 To get parent chunk references, you can set `loader.parent_hierarchy_levels` to a non-zero value.
-
 
 ```python
 from typing import Dict, List
@@ -321,7 +298,6 @@ for chunk in chunks:
         children_by_id[chunk_id] = chunk
 ```
 
-
 ```python
 # Explore some of the parent chunk relationships
 for id, chunk in list(children_by_id.items())[:5]:
@@ -331,6 +307,7 @@ for id, chunk in list(children_by_id.items())[:5]:
         print(f"PARENT CHUNK {parent_chunk_id}: {parents_by_id[parent_chunk_id]}")
         print(f"CHUNK {id}: {chunk}")
 ```
+
 ```output
 PARENT CHUNK 7df09fbfc65bb8377054808aac2d16fd: page_content='OFFICE LEASE\n THIS OFFICE LEASE\n <Lease>(the "Lease") is made and entered into as of <LeaseDate>March 29th, 2019</LeaseDate>, by and between Landlord and Tenant. "Date of this Lease" shall mean the date on which the last one of the Landlord and Tenant has signed this Lease. </Lease>\nW I T N E S S E T H\n <TheTerms> Subject to and on the terms and conditions of this Lease, Landlord leases to Tenant and Tenant hires from Landlord the Premises. </TheTerms>\n1. BASIC LEASE INFORMATION AND DEFINED TERMS.\nThe key business terms of this Lease and the defined terms used in this Lease are as follows:' metadata={'xpath': '/docset:OFFICELEASE-section/dg:chunk', 'id': '7df09fbfc65bb8377054808aac2d16fd', 'name': 'Sample Commercial Leases/Shorebucks LLC_NJ.pdf', 'source': 'Sample Commercial Leases/Shorebucks LLC_NJ.pdf', 'structure': 'h1 h1 p h1 p lim h1 p', 'tag': 'chunk Lease chunk TheTerms'}
 CHUNK 47297e277e556f3ce8b570047304560b: page_content='OFFICE LEASE\n THIS OFFICE LEASE\n <Lease>(the "Lease") is made and entered into as of <LeaseDate>March 29th, 2019</LeaseDate>, by and between Landlord and Tenant. "Date of this Lease" shall mean the date on which the last one of the Landlord and Tenant has signed this Lease. </Lease>' metadata={'xpath': '/docset:OFFICELEASE-section/dg:chunk', 'id': '47297e277e556f3ce8b570047304560b', 'name': 'Sample Commercial Leases/Shorebucks LLC_NJ.pdf', 'source': 'Sample Commercial Leases/Shorebucks LLC_NJ.pdf', 'structure': 'h1 h1 p', 'tag': 'chunk Lease', 'doc_id': '7df09fbfc65bb8377054808aac2d16fd'}
@@ -371,7 +348,6 @@ retriever.vectorstore.add_documents(list(children_by_id.values()))
 retriever.docstore.mset(parents_by_id.items())
 ```
 
-
 ```python
 # Query vector store directly, should return chunks
 found_chunks = vectorstore.similarity_search(
@@ -382,6 +358,7 @@ for chunk in found_chunks:
     print(chunk.page_content)
     print(chunk.metadata[loader.parent_id_key])
 ```
+
 ```output
 24. SIGNS.
  <SIGNS>No signage shall be placed by Tenant on any portion of the Project. However, Tenant shall be permitted to place a sign bearing its name in a location approved by Landlord near the entrance to the Premises (at Tenant's cost) and will be furnished a single listing of its name in the Building's directory (at Landlord's cost), all in accordance with the criteria adopted <Frequency>from time to time </Frequency>by Landlord for the Project. Any changes or additional listings in the directory shall be furnished (subject to availability of space) for the then Building Standard charge. </SIGNS>
@@ -399,6 +376,7 @@ for chunk in retrieved_parent_docs:
     print(chunk.page_content)
     print(chunk.metadata["id"])
 ```
+
 ```output
 21. SERVICES AND UTILITIES.
  <SERVICESANDUTILITIES>Landlord shall have no obligation to provide any utilities or services to the Premises other than passenger elevator service to the Premises. Tenant shall be solely responsible for and shall promptly pay all charges for water, electricity, or any other utility used or consumed in the Premises, including all costs associated with separately metering for the Premises. Tenant shall be responsible for repairs and maintenance to exit lighting, emergency lighting, and fire extinguishers for the Premises. Tenant is responsible for interior janitorial, pest control, and waste removal services. Landlord may at any time change the electrical utility provider for the Building. Tenant’s use of electrical, HVAC, or other services furnished by Landlord shall not exceed, either in voltage, rated capacity, use, or overall load, that which Landlord deems to be standard for the Building. In no event shall Landlord be liable for damages resulting from the failure to furnish any service, and any interruption or failure shall in no manner entitle Tenant to any remedies including abatement of Rent. If at any time during the Lease Term the Project has any type of card access system for the Parking Areas or the Building, Tenant shall purchase access cards for all occupants of the Premises from Landlord at a Building Standard charge and shall comply with Building Standard terms relating to access to the Parking Areas and the Building. </SERVICESANDUTILITIES>

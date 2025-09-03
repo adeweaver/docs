@@ -14,7 +14,6 @@ To access Writer models you'll need to create a Writer account, get an API key, 
 
 Head to [Writer AI Studio](https://app.writer.com/aistudio/signup?utm_campaign=devrel) to sign up to OpenAI and generate an API key. Once you've done this set the WRITER_API_KEY environment variable:
 
-
 ```python
 import getpass
 import os
@@ -27,17 +26,17 @@ if not os.environ.get("WRITER_API_KEY"):
 
 The LangChain Writer integration lives in the `langchain-community` package:
 
-
 ```python
 %pip install -qU langchain-community writer-sdk
 ```
+
 ```output
 [notice] A new release of pip is available: 24.2 -> 24.3.1
 [notice] To update, run: pip install --upgrade pip
 Note: you may need to restart the kernel to use updated packages.
 ```
-Now we can initialize our model object to interact with writer LLMs
 
+Now we can initialize our model object to interact with writer LLMs
 
 ```python
 from langchain_community.llms import Writer as WriterLLM
@@ -51,11 +50,9 @@ llm = WriterLLM(
 
 ## Invocation
 
-
 ```python
 response_text = llm.invoke(input="Write a poem")
 ```
-
 
 ```python
 print(response_text)
@@ -63,11 +60,9 @@ print(response_text)
 
 ## Streaming
 
-
 ```python
 stream_response = llm.stream(input="Tell me a fairytale")
 ```
-
 
 ```python
 for chunk in stream_response:
