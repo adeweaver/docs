@@ -41,7 +41,7 @@ This example uses OpenAI, but you can adapt it to use any LLM provider.
 
 If you're using Anthropic, use the [Anthropic wrapper](/langsmith/annotate-code#wrap-the-anthropic-client-python-only) to trace your calls. For other providers, use [the traceable wrapper](/langsmith/annotate-code#use-%40traceable-%2F-traceable).
 
-For API keys scoped to more than one workspace, add LANGSMITH_WORKSPACE_ID to the environment variables to specify the workspace being used.
+If your LangSmith API key is linked to multiple workspaces, set the `LANGSMITH_WORKSPACE_ID` environment variable to specify which workspace to use.
 
 ``` bash
 export LANGSMITH_TRACING=true
