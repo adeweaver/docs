@@ -12,10 +12,10 @@ import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
 
 In addition to text generation, many models support:
 
-* <Icon icon="hammer" size={16} /> [Tool calling](#tool-calling) - where models call external tools (like databases queries or API calls) and use results in their responses.
+* <Icon icon="hammer" size={16} /> [Tool calling](#tool-calling) - calling external tools (like databases queries or API calls) and use results in their responses.
 * <Icon icon="shapes" size={16} /> [Structured output](#structured-outputs) - where the model's response is constrained follow a defined format.
-* <Icon icon="image" size={16} /> [Multimodal](#multimodal) - where models can process and return data other than text, such as images, audio, and video.
-* <Icon icon="brain" size={16} /> [Reasoning](#reasoning) - where models are able to perform multi-step reasoning to arrive at a conclusion.
+* <Icon icon="image" size={16} /> [Multimodal](#multimodal) - process and return data other than text, such as images, audio, and video.
+* <Icon icon="brain" size={16} /> [Reasoning](#reasoning) - models perform multi-step reasoning to arrive at a conclusion.
 
 ## Basic usage
 
@@ -86,11 +86,11 @@ A chat model takes parameters that can be used to configure its behavior. The fu
 :::
 
 <ParamField body="temperature" type="number">
-    Controls the randomness of the model's output. A higher number makes responses more creative, while a lower one makes them more deterministic.
+    Controls the randomness of the model's output. A higher number makes responses more creative; lower ones makes them more deterministic.
 </ParamField>
 
 <ParamField body="stop" type="string[]">
-    A sequence of characters that indicates when the model should stop generating its output. String or list of strings.
+    A sequence of characters that indicates when the model should stop generating its output.
 </ParamField>
 
 <ParamField body="timeout" type="number">
@@ -214,7 +214,6 @@ Calling @[`stream()`][BaseChatModel.stream] returns an <Tooltip tip="An object t
     ```
 </CodeGroup>
 :::
-
 :::js
 <CodeGroup>
     ```typescript Basic text streaming
@@ -243,11 +242,9 @@ Calling @[`stream()`][BaseChatModel.stream] returns an <Tooltip tip="An object t
 </CodeGroup>
 :::
 
-As opposed to `invoke()`, which returns a single @[`AIMessage`][AIMessage] after the model has finished generating its full response, `stream()` returns multiple @[`AIMessageChunk`][AIMessageChunk] objects, each containing a portion of the output text.
+As opposed to `invoke()`, which returns a single @[`AIMessage`][AIMessage] after the model has finished generating its full response, `stream()` returns multiple @[`AIMessageChunk`][AIMessageChunk] objects, each containing a portion of the output text. Importantly, each chunk in a stream is designed to be gathered into a full message via summation:
 
 :::python
-Importantly, each `AIMessageChunk` in a stream is designed to be gathered into a full message via summation:
-
 ```python Construct an AIMessage
 full = None  # None | AIMessageChunk
 for chunk in model.stream("What color is the sky?"):
@@ -267,8 +264,6 @@ print(full.content_blocks)
 :::
 
 :::js
-Importantly, each `AIMessageChunk` in a stream is designed to be gathered into a full message using the `.concat()` method on `AIMessageChunk`.
-
 ```typescript Construct AIMessage
 let full: AIMessageChunk | null = null;
 for await (const chunk of stream) {
@@ -387,10 +382,6 @@ The resulting message can be treated the same as a message that was generated wi
 
 ### Batch
 
-<Note>
-    This section describes a chat model method `batch()`, which parallelizes model calls client-side. It is distinct from batch APIs supported by inference providers.
-</Note>
-
 Batching a collection of independent requests to a model can significantly improve performance and reduce costs, as the processing can be done in parallel:
 
 :::python
@@ -429,17 +420,17 @@ for response in model.batch_as_completed([
 
     ```python Batch with max concurrency
     model.batch(
-    list_of_inputs,
-    config={
-    'max_concurrency': 5,  # Limit to 5 parallel calls
-    }
+        list_of_inputs,
+        config={
+            'max_concurrency': 5,  # Limit to 5 parallel calls
+        }
     )
     ```
 
     See the @[`RunnableConfig`][RunnableConfig] reference for a full list of supported attributes.
 </Tip>
 
-For more details on batching, see the [reference](https://python.langchain.com/api_reference/core/language_models/langchain_core.language_models.chat_models.BaseChatModel.html#langchain_core.language_models.chat_models.BaseChatModel.batch).
+For more details on batching, see the @[reference](BaseChatModel.batch).
 :::
 
 :::js
@@ -462,17 +453,17 @@ for (const response of responses) {
 
     ```typescript Batch with max concurrency
     model.batch(
-    listOfInputs,
-    {
-    maxConcurrency: 5,  // Limit to 5 parallel calls
-    }
+        listOfInputs,
+        {
+            maxConcurrency: 5,  // Limit to 5 parallel calls
+        }
     )
     ```
 
     See the @[`RunnableConfig`][RunnableConfig] reference for a full list of supported attributes.
 </Tip>
 
-For more details on batching, see the [reference](https://js.langchain.com/api_reference/core/language_models/langchain_core.language_models.chat_models.BaseChatModel.html#langchain_core.language_models.chat_models.BaseChatModel.batch).
+For more details on batching, see the @[reference](BaseChatModel.batch).
 :::
 
 ---
@@ -499,7 +490,6 @@ To make tools that you have defined available for use by a model, you must bind 
 Some model providers offer built-in tools that can be enabled via model parameters. Check the respective [provider reference](/oss/integrations/providers) for details.
 
 <Tip>
-    See the [tools guide](/oss/langchain-tools) for details and other options for creating tools.
     See the [tools guide](/oss/langchain-tools) for details and other options for creating tools.
 </Tip>
 
@@ -592,11 +582,11 @@ Below, we show some common ways you can use tool calling.
 
         <CodeGroup>
             ```python Force use of any tool
-                    model_with_tools = model.bind_tools([tool_1], tool_choice="any")
+                model_with_tools = model.bind_tools([tool_1], tool_choice="any")
             ```
 
             ```python Force use of specific tools
-                    model_with_tools = model.bind_tools([tool_1], tool_choice="tool_1")
+                model_with_tools = model.bind_tools([tool_1], tool_choice="tool_1")
             ```
         </CodeGroup>
     </Accordion>
@@ -676,11 +666,11 @@ Below, we show some common ways you can use tool calling.
 
         ```typescript Tool execution loop
         //  Bind (potentially multiple) tools to the model
-                const modelWithTools = model.bindTools([get_weather])
+        const modelWithTools = model.bindTools([get_weather])
 
         // Step 1: Model generates tool calls
-                const messages = [{"role": "user", "content": "What's the weather in Boston?"}]
-                const response = await modelWithTools.invoke(messages)
+        const messages = [{"role": "user", "content": "What's the weather in Boston?"}]
+        const response = await modelWithTools.invoke(messages)
         messages.push(response)
 
         // Step 2: Execute tools and collect results
@@ -697,24 +687,17 @@ Below, we show some common ways you can use tool calling.
         ```
 
         Each `ToolMessage` returned by the tool includes a `tool_call_id` that matches the original tool call, helping the model correlate results with requests.
-        Each `ToolMessage` returned by the tool includes a `tool_call_id` that matches the original tool call, helping the model correlate results with requests.
     </Accordion>
     <Accordion title="Forcing tool calls" icon="asterisk">
         By default, the model has the freedom to choose which bound tool to use based on the user's input. However, you might want to force choosing a tool, ensuring the model uses either a particular tool or *any* tool from a given list:
 
         <CodeGroup>
             ```typescript Force use of any tool
-                    const modelWithTools = model.bindTools([tool_1], { toolChoice: "any" })
-            ```
-            ```typescript Force use of any tool
-                    const modelWithTools = model.bindTools([tool_1], { toolChoice: "any" })
+            const modelWithTools = model.bindTools([tool_1], { toolChoice: "any" })
             ```
 
             ```typescript Force use of specific tools
-                    const modelWithTools = model.bindTools([tool_1], { toolChoice: "tool_1" })
-            ```
-            ```typescript Force use of specific tools
-                    const modelWithTools = model.bindTools([tool_1], { toolChoice: "tool_1" })
+            const modelWithTools = model.bindTools([tool_1], { toolChoice: "tool_1" })
             ```
         </CodeGroup>
     </Accordion>
@@ -757,13 +740,6 @@ Below, we show some common ways you can use tool calling.
             "What's the weather in Boston and Tokyo?"
         )
         for await (const chunk of stream) {
-            // Tool call chunks arrive progressively
-            if (chunk.tool_call_chunks) {
-                for (const tool_chunk of chunk.tool_call_chunks) {
-                console.log(`Tool: ${tool_chunk.get('name', '')}`)
-                console.log(`Args: ${tool_chunk.get('args', '')}`)
-                }
-            }
             // Tool call chunks arrive progressively
             if (chunk.tool_call_chunks) {
                 for (const tool_chunk of chunk.tool_call_chunks) {
@@ -923,20 +899,20 @@ Models can be requested to provide their response in a format matching a given s
             "type": "object",
             "properties": {
                 "title": {
-                "type": "string",
-                "description": "The title of the movie"
+                    "type": "string",
+                    "description": "The title of the movie"
                 },
                 "year": {
-                "type": "integer",
-                "description": "The year the movie was released"
+                    "type": "integer",
+                    "description": "The year the movie was released"
                 },
                 "director": {
-                "type": "string",
-                "description": "The director of the movie"
+                    "type": "string",
+                    "description": "The director of the movie"
                 },
                 "rating": {
-                "type": "number",
-                "description": "The movie's rating out of 10"
+                    "type": "number",
+                    "description": "The movie's rating out of 10"
                 }
             },
             "required": ["title", "year", "director", "rating"]
@@ -961,9 +937,6 @@ Models can be requested to provide their response in a format matching a given s
     - **Method parameter**: Some providers support different methods (`'json_schema'`, `'function_calling'`, `'json_mode'`)
     - **Include raw**: Use `include_raw=True` to get both the parsed output and the raw AI message
     - **Validation**: Pydantic models provide automatic validation, while `TypedDict` and JSON Schema require manual validation
-    - **Method parameter**: Some providers support different methods (`'json_schema'`, `'function_calling'`, `'json_mode'`)
-    - **Include raw**: Use `include_raw=True` to get both the parsed output and the raw AI message
-    - **Validation**: Pydantic models provide automatic validation, while `TypedDict` and JSON Schema require manual validation
 </Note>
 :::
 
@@ -971,9 +944,6 @@ Models can be requested to provide their response in a format matching a given s
 <Note>
     **Key considerations for structured outputs:**
 
-    - **Method parameter**: Some providers support different methods (`'jsonSchema'`, `'functionCalling'`, `'jsonMode'`)
-    - **Include raw**: Use `includeRaw=true` to get both the parsed output and the raw AI message
-    - **Validation**: Zod models provide automatic validation, while JSON Schema requires manual validation
     - **Method parameter**: Some providers support different methods (`'jsonSchema'`, `'functionCalling'`, `'jsonMode'`)
     - **Include raw**: Use `includeRaw=true` to get both the parsed output and the raw AI message
     - **Validation**: Zod models provide automatic validation, while JSON Schema requires manual validation
@@ -1591,20 +1561,6 @@ configurable_model.invoke(
         },
     )
     ```
-    first_llm.invoke("what's your name")
-    ```
-    ```python
-    first_llm.invoke(
-        "what's your name",
-            config={
-            "configurable": {
-                "first_model": "claude-3-5-sonnet-latest",
-                "first_temperature": 0.5,
-                "first_max_tokens": 100,
-            }
-        },
-    )
-    ```
 </Accordion>
 
 <Accordion title="Using a configurable model declaratively">
@@ -1630,7 +1586,7 @@ configurable_model.invoke(
     llm_with_tools = llm.bind_tools([GetWeather, GetPopulation])
 
     llm_with_tools.invoke(
-            "what's bigger in 2024 LA or NYC", config={"configurable": {"model": "gpt-4.1-mini"}}
+        "what's bigger in 2024 LA or NYC", config={"configurable": {"model": "gpt-4.1-mini"}}
     ).tool_calls
     ```
     ```

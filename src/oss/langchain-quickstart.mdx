@@ -153,7 +153,7 @@ Let's walk through each step:
         const getUserInfo = tool(
             (_, config) => {
                 const { user_id } = config.context as {
-                user_id: keyof typeof USER_LOCATION;
+                    user_id: keyof typeof USER_LOCATION;
                 };
                 console.log("user_id", config.context);
                 return USER_LOCATION[user_id];
@@ -174,22 +174,21 @@ Let's walk through each step:
             <Accordion title="Example: Using JSON schema for tool input">
                 ```ts
                 const getWeather = tool(
-                ({ city }) => `It's always sunny in ${city}!`,
+                    ({ city }) => `It's always sunny in ${city}!`,
                 {
-                name: "get_weather",
-                description: "Get the weather for a given city",
-                schema: {
-                type: "object",
-                properties: {
-                city: {
-                type: "string",
-                description: "The city to get the weather for"
-                }
-                },
-                required: ["city"]
-                },
-                }
-                );
+                    name: "get_weather",
+                    description: "Get the weather for a given city",
+                    schema: {
+                    type: "object",
+                    properties: {
+                        city: {
+                            type: "string",
+                            description: "The city to get the weather for"
+                        }
+                    },
+                    required: ["city"]
+                    },
+                });
             ```
             </Accordion>
         </Note>
@@ -214,8 +213,8 @@ Let's walk through each step:
         import { initChatModel } from "langchain/chat_models";
 
         const model = await initChatModel(
-        "anthropic:claude-3-7-sonnet-latest",
-        temperature: 0
+            "anthropic:claude-3-7-sonnet-latest",
+            temperature: 0
         );
         ```
         :::
