@@ -632,13 +632,14 @@ Separately, LangChain provides dedicated content types for text, reasoning, cita
 server-side tool calls, and other message content. See
 [content blocks](#standard-content-blocks) below.
 
-LangChain chat models accept message content containing:
+LangChain chat models accept message content in the `.content` attribute, and can
+contain:
 
 1. A string
 2. A list of content blocks in a provider-native format
 3. A list of [LangChain's standard content blocks](#standard-content-blocks)
 
-in the `.content` attribute:
+See below for an example using [multimodal](#multimodal) inputs:
 
 :::python
 ```python
