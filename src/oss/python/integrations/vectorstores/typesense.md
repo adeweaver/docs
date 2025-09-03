@@ -12,13 +12,11 @@ This notebook shows you how to use Typesense as your VectorStore.
 
 Let's first install our dependencies:
 
-
 ```python
 %pip install --upgrade --quiet  typesense openapi-schema-pydantic langchain-openai langchain-community tiktoken
 ```
 
 We want to use `OpenAIEmbeddings` so we have to get the OpenAI API Key.
-
 
 ```python
 import getpass
@@ -27,7 +25,6 @@ import os
 if "OPENAI_API_KEY" not in os.environ:
     os.environ["OPENAI_API_KEY"] = getpass.getpass("OpenAI API Key:")
 ```
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -38,7 +35,6 @@ from langchain_text_splitters import CharacterTextSplitter
 
 Let's import our test dataset:
 
-
 ```python
 loader = TextLoader("../../how_to/state_of_the_union.txt")
 documents = loader.load()
@@ -47,7 +43,6 @@ docs = text_splitter.split_documents(documents)
 
 embeddings = OpenAIEmbeddings()
 ```
-
 
 ```python
 docsearch = Typesense.from_documents(
@@ -65,12 +60,10 @@ docsearch = Typesense.from_documents(
 
 ## Similarity Search
 
-
 ```python
 query = "What did the president say about Ketanji Brown Jackson"
 found_docs = docsearch.similarity_search(query)
 ```
-
 
 ```python
 print(found_docs[0].page_content)
@@ -80,12 +73,10 @@ print(found_docs[0].page_content)
 
 Typesense, as all the other vector stores, is a LangChain Retriever, by using cosine similarity.
 
-
 ```python
 retriever = docsearch.as_retriever()
 retriever
 ```
-
 
 ```python
 query = "What did the president say about Ketanji Brown Jackson"

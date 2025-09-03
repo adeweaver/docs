@@ -14,22 +14,21 @@ Learn more about the package on [GitHub](https://github.com/googleapis/langchain
 
 To run this notebook, you will need to do the following:
 
- * [Create a Google Cloud Project](https://developers.google.com/workspace/guides/create-project)
- * [Enable the Cloud SQL Admin API.](https://console.cloud.google.com/flows/enableapi?apiid=sqladmin.googleapis.com)
- * [Create a Cloud SQL instance.](https://cloud.google.com/sql/docs/mysql/connect-instance-auth-proxy#create-instance) (version must be >= **8.0.36** with **cloudsql_vector** database flag configured to "On")
- * [Create a Cloud SQL database.](https://cloud.google.com/sql/docs/mysql/create-manage-databases)
- * [Add a User to the database.](https://cloud.google.com/sql/docs/mysql/create-manage-users)
+* [Create a Google Cloud Project](https://developers.google.com/workspace/guides/create-project)
+* [Enable the Cloud SQL Admin API.](https://console.cloud.google.com/flows/enableapi?apiid=sqladmin.googleapis.com)
+* [Create a Cloud SQL instance.](https://cloud.google.com/sql/docs/mysql/connect-instance-auth-proxy#create-instance) (version must be >= **8.0.36** with **cloudsql_vector** database flag configured to "On")
+* [Create a Cloud SQL database.](https://cloud.google.com/sql/docs/mysql/create-manage-databases)
+* [Add a User to the database.](https://cloud.google.com/sql/docs/mysql/create-manage-users)
 
 ### 🦜🔗 Library Installation
-Install the integration library, `langchain-google-cloud-sql-mysql`, and the library for the embedding service, `langchain-google-vertexai`.
 
+Install the integration library, `langchain-google-cloud-sql-mysql`, and the library for the embedding service, `langchain-google-vertexai`.
 
 ```python
 %pip install --upgrade --quiet langchain-google-cloud-sql-mysql langchain-google-vertexai
 ```
 
 **Colab only:** Uncomment the following cell to restart the kernel or use the button to restart the kernel. For Vertex AI Workbench you can restart the terminal using the button on top.
-
 
 ```python
 # # Automatically restart kernel after installs so that your environment can access the new packages
@@ -40,11 +39,11 @@ Install the integration library, `langchain-google-cloud-sql-mysql`, and the lib
 ```
 
 ### 🔐 Authentication
+
 Authenticate to Google Cloud as the IAM user logged into this notebook in order to access your Google Cloud Project.
 
 * If you are using Colab to run this notebook, use the cell below and continue.
 * If you are using Vertex AI Workbench, check out the setup instructions [here](https://github.com/GoogleCloudPlatform/generative-ai/tree/main/setup-env).
-
 
 ```python
 from google.colab import auth
@@ -53,6 +52,7 @@ auth.authenticate_user()
 ```
 
 ### ☁ Set Your Google Cloud Project
+
 Set your Google Cloud project so that you can leverage Google Cloud resources within this notebook.
 
 If you don't know your project ID, try the following:
@@ -60,7 +60,6 @@ If you don't know your project ID, try the following:
 * Run `gcloud config list`.
 * Run `gcloud projects list`.
 * See the support page: [Locate the project ID](https://support.google.com/googleapi/answer/7014113).
-
 
 ```python
 # @markdown Please fill in the value below with your Google Cloud project ID and then run the cell.
@@ -74,12 +73,12 @@ PROJECT_ID = "my-project-id"  # @param {type:"string"}
 ## Basic Usage
 
 ### Set Cloud SQL database values
+
 Find your database values, in the [Cloud SQL Instances page](https://console.cloud.google.com/sql?_ga=2.223735448.2062268965.1707700487-2088871159.1707257687).
 
 **Note:** MySQL vector support is only available on MySQL instances with version **>= 8.0.36**.
 
 For existing instances, you may need to perform a [self-service maintenance update](https://cloud.google.com/sql/docs/mysql/self-service-maintenance) to update your maintenance version to **MYSQL_8_0_36.R20240401.03_00** or greater. Once updated, [configure your database flags](https://cloud.google.com/sql/docs/mysql/flags) to have the new **cloudsql_vector** flag to "On".
-
 
 ```python
 # @title Set Your Values Here { display-mode: "form" }
@@ -112,8 +111,6 @@ Optionally, [built-in database authentication](https://cloud.google.com/sql/docs
 * `user` : Database user to use for built-in database authentication and login
 * `password` : Database password to use for built-in database authentication and login.
 
-
-
 ```python
 from langchain_google_cloud_sql_mysql import MySQLEngine
 
@@ -123,8 +120,8 @@ engine = MySQLEngine.from_instance(
 ```
 
 ### Initialize a table
-The `MySQLVectorStore` class requires a database table. The `MySQLEngine` class has a helper method `init_vectorstore_table()` that can be used to create a table with the proper schema for you.
 
+The `MySQLVectorStore` class requires a database table. The `MySQLEngine` class has a helper method `init_vectorstore_table()` that can be used to create a table with the proper schema for you.
 
 ```python
 engine.init_vectorstore_table(
@@ -140,12 +137,10 @@ You may need to enable the Vertex AI API to use `VertexAIEmbeddings`.
 
 We recommend pinning the embedding model's version for production, learn more about the [Text embeddings models](https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/text-embeddings).
 
-
 ```python
 # enable Vertex AI API
 !gcloud services enable aiplatform.googleapis.com
 ```
-
 
 ```python
 from langchain_google_vertexai import VertexAIEmbeddings
@@ -163,7 +158,6 @@ To initialize a `MySQLVectorStore` class you need to provide only 3 things:
 1. `embedding_service` - An instance of a LangChain embedding model.
 1. `table_name` : The name of the table within the Cloud SQL database to use as the vector store.
 
-
 ```python
 from langchain_google_cloud_sql_mysql import MySQLVectorStore
 
@@ -175,7 +169,6 @@ store = MySQLVectorStore(
 ```
 
 ### Add texts
-
 
 ```python
 import uuid
@@ -191,36 +184,38 @@ store.add_texts(all_texts, metadatas=metadatas, ids=ids)
 
 Delete vectors from the vector store by ID.
 
-
 ```python
 store.delete([ids[1]])
 ```
 
 ### Search for documents
 
-
 ```python
 query = "I'd like a fruit."
 docs = store.similarity_search(query)
 print(docs[0].page_content)
 ```
+
 ```output
 Pineapple
 ```
+
 ### Search for documents by vector
 
 It is also possible to do a search for documents similar to a given embedding vector using `similarity_search_by_vector` which accepts an embedding vector as a parameter instead of a string.
-
 
 ```python
 query_vector = embedding.embed_query(query)
 docs = store.similarity_search_by_vector(query_vector, k=2)
 print(docs)
 ```
+
 ```output
 [Document(page_content='Pineapple', metadata={'len': 9}), Document(page_content='Banana', metadata={'len': 6})]
 ```
+
 ### Add an index
+
 Speed up vector search queries by applying a vector index. Learn more about [MySQL vector indexes](https://github.com/googleapis/langchain-google-cloud-sql-mysql-python/blob/main/src/langchain_google_cloud_sql_mysql/indexes.py).
 
 **Note:** For IAM database authentication (default usage), the IAM database user will need to be granted the following permissions by a privileged database user for full control of vector indexes.
@@ -232,7 +227,6 @@ GRANT EXECUTE ON PROCEDURE mysql.drop_vector_index TO '<IAM_DB_USER>'@'%';
 GRANT SELECT ON mysql.vector_indexes TO '<IAM_DB_USER>'@'%';
 ```
 
-
 ```python
 from langchain_google_cloud_sql_mysql import VectorIndex
 
@@ -240,7 +234,6 @@ store.apply_vector_index(VectorIndex())
 ```
 
 ### Remove an index
-
 
 ```python
 store.drop_vector_index()
@@ -253,7 +246,6 @@ store.drop_vector_index()
 A vector store can take advantage of relational data to filter similarity searches.
 
 Create a table and `MySQLVectorStore` instance with custom metadata columns.
-
 
 ```python
 from langchain_google_cloud_sql_mysql import Column
@@ -287,7 +279,6 @@ It can be helpful to narrow down the documents before working with them.
 
 For example, documents can be filtered on metadata using the `filter` argument.
 
-
 ```python
 import uuid
 
@@ -303,6 +294,7 @@ docs = custom_store.similarity_search_by_vector(query_vector, filter="len >= 6")
 
 print(docs)
 ```
+
 ```output
 [Document(page_content='Pineapple', metadata={'len': 9}), Document(page_content='Banana', metadata={'len': 6}), Document(page_content='Apples and oranges', metadata={'len': 18}), Document(page_content='Cars and airplanes', metadata={'len': 18})]
 ```

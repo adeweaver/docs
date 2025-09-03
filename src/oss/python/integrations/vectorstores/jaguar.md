@@ -14,6 +14,7 @@ title: Jaguar Vector Database
 ## Prerequisites
 
 There are two requirements for running the examples in this file.
+
 1. You must install and set up the JaguarDB server and its HTTP gateway server.
    Please refer to the instructions in:
    [www.jaguardb.com](http://www.jaguardb.com)
@@ -22,18 +23,16 @@ There are two requirements for running the examples in this file.
    docker run -d -p 8888:8888 -p 8080:8080 --name jaguardb  jaguardb/jaguardb
 
 2. You must install the http client package for JaguarDB:
+
    ```
        pip install -U jaguardb-http-client
    ```
 
 3. You'll need to install `langchain-community` with `pip install -qU langchain-community` to use this integration
 
-
 ## RAG With Langchain
 
 This section demonstrates chatting with LLM together with Jaguar in the langchain software stack.
-
-
 
 ```python
 from langchain.chains import RetrievalQAWithSourcesChain
@@ -138,11 +137,10 @@ rag_chain = (
 resp = rag_chain.invoke("What did the president say about Justice Breyer?")
 print(resp)
 ```
+
 ## Interaction With Jaguar Vector Store
 
 Users can interact directly with the Jaguar vector store for similarity search and anomaly detection.
-
-
 
 ```python
 from langchain_community.vectorstores.jaguar import Jaguar

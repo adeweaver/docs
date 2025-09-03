@@ -4,11 +4,9 @@ title: Google Serper
 
 This notebook goes over how to use the `Google Serper` component to search the web. First you need to sign up for a free account at [serper.dev](https://serper.dev) and get your api key.
 
-
 ```python
 %pip install --upgrade --quiet  langchain-community langchain-openai
 ```
-
 
 ```python
 import os
@@ -17,36 +15,29 @@ import pprint
 os.environ["SERPER_API_KEY"] = "your-serper-api-key"
 ```
 
-
 ```python
 from langchain_community.utilities import GoogleSerperAPIWrapper
 
 search = GoogleSerperAPIWrapper()
 ```
 
-
 ```python
 search.run("Obama's first name?")
 ```
-
-
 
 ```output
 'Barack Hussein Obama II'
 ```
 
-
 ## As part of a Self Ask With Search Agent
 
 In order to create an agent that uses the Google Serper tool install Langgraph
-
 
 ```python
 %pip install --upgrade --quiet langgraph langchain-openai
 ```
 
-and use the `create_agent` functionality to initialize a ReAct agent. You will also need to set up your OPENAI_API_KEY (visit https://platform.openai.com) in order to access OpenAI's chat models.
-
+and use the `create_agent` functionality to initialize a ReAct agent. You will also need to set up your OPENAI_API_KEY (visit [platform.openai.com](https://platform.openai.com)) in order to access OpenAI's chat models.
 
 ```python
 from langchain.chat_models import init_chat_model
@@ -81,14 +72,15 @@ for event in events:
 ```
 
 ## Obtaining results with metadata
-If you would also like to obtain the results in a structured way including metadata. For this we will be using the `results` method of the wrapper.
 
+If you would also like to obtain the results in a structured way including metadata. For this we will be using the `results` method of the wrapper.
 
 ```python
 search = GoogleSerperAPIWrapper()
 results = search.results("Apple Inc.")
 pprint.pp(results)
 ```
+
 ```output
 {'searchParameters': {'q': 'Apple Inc.',
                       'gl': 'us',
@@ -223,15 +215,17 @@ pprint.pp(results)
                      {'query': 'Apple Inc Net worth'}],
  'credits': 1}
 ```
-## Searching for Google Images
-We can also query Google Images using this wrapper. For example:
 
+## Searching for Google Images
+
+We can also query Google Images using this wrapper. For example:
 
 ```python
 search = GoogleSerperAPIWrapper(type="images")
 results = search.results("Lion")
 pprint.pp(results)
 ```
+
 ```output
 {'searchParameters': {'q': 'Lion',
                       'gl': 'us',
@@ -367,15 +361,17 @@ pprint.pp(results)
              'position': 10}],
  'credits': 1}
 ```
-## Searching for Google News
-We can also query Google News using this wrapper. For example:
 
+## Searching for Google News
+
+We can also query Google News using this wrapper. For example:
 
 ```python
 search = GoogleSerperAPIWrapper(type="news")
 results = search.results("Tesla Inc.")
 pprint.pp(results)
 ```
+
 ```output
 {'searchParameters': {'q': 'Tesla Inc.',
                       'gl': 'us',
@@ -480,14 +476,15 @@ pprint.pp(results)
            'position': 10}],
  'credits': 1}
 ```
-If you want to only receive news articles published in the last hour, you can do the following:
 
+If you want to only receive news articles published in the last hour, you can do the following:
 
 ```python
 search = GoogleSerperAPIWrapper(type="news", tbs="qdr:h")
 results = search.results("Tesla Inc.")
 pprint.pp(results)
 ```
+
 ```output
 {'searchParameters': {'q': 'Tesla Inc.',
                       'gl': 'us',
@@ -508,6 +505,7 @@ pprint.pp(results)
            'position': 1}],
  'credits': 1}
 ```
+
 Some examples of the `tbs` parameter:
 
 `qdr:h` (past hour)
@@ -525,16 +523,16 @@ You can specify intermediate time periods by adding a number:
 
 For all supported filters simply go to [Google Search](https://google.com), search for something, click on "Tools", add your date filter and check the URL for "tbs=".
 
-
 ## Searching for Google Places
-We can also query Google Places using this wrapper. For example:
 
+We can also query Google Places using this wrapper. For example:
 
 ```python
 search = GoogleSerperAPIWrapper(type="places")
 results = search.results("Italian restaurants in Upper East Side")
 pprint.pp(results)
 ```
+
 ```output
 {'searchParameters': {'q': 'Italian restaurants in Upper East Side',
                       'gl': 'us',

@@ -6,7 +6,6 @@ This notebook goes over how to use Langchain with [YandexGPT](https://cloud.yand
 
 To use, you should have the `yandexcloud` python package installed.
 
-
 ```python
 %pip install --upgrade --quiet  yandexcloud
 ```
@@ -14,6 +13,7 @@ To use, you should have the `yandexcloud` python package installed.
 First, you should [create service account](https://cloud.yandex.com/en/docs/iam/operations/sa/create) with the `ai.languageModels.user` role.
 
 Next, you have two authentication options:
+
 - [IAM token](https://cloud.yandex.com/en/docs/iam/operations/iam-token/create-for-sa).
     You can specify the token in a constructor parameter `iam_token` or in an environment variable `YC_IAM_TOKEN`.
 
@@ -24,17 +24,14 @@ To specify the model you can use `model_uri` parameter, see [the documentation](
 
 By default, the latest version of `yandexgpt-lite` is used from the folder specified in the parameter `folder_id` or `YC_FOLDER_ID` environment variable.
 
-
 ```python
 from langchain_community.chat_models import ChatYandexGPT
 from langchain_core.messages import HumanMessage, SystemMessage
 ```
 
-
 ```python
 chat_model = ChatYandexGPT()
 ```
-
 
 ```python
 answer = chat_model.invoke(
@@ -47,8 +44,6 @@ answer = chat_model.invoke(
 )
 answer
 ```
-
-
 
 ```output
 AIMessage(content='Je adore le programmement.')

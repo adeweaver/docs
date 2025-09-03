@@ -14,23 +14,19 @@ title: Rockset
 
 This notebook demonstrates how to use Rockset as a document loader in langchain. To get started, make sure you have a Rockset account and an API key available.
 
-
-
-
 ## Setting up the environment
 
 1. Go to the [Rockset console](https://console.rockset.com/apikeys) and get an API key. Find your API region from the [API reference](https://rockset.com/docs/rest-api/#introduction). For the purpose of this notebook, we will assume you're using Rockset from `Oregon(us-west-2)`.
 2. Set your the environment variable `ROCKSET_API_KEY`.
 3. Install the Rockset python client, which will be used by langchain to interact with the Rockset database.
 
-
 ```python
 %pip install --upgrade --quiet  rockset
 ```
 
 # Loading Documents
-The Rockset integration with LangChain allows you to load documents from Rockset collections with SQL queries. In order to do this you must construct a `RocksetLoader` object. Here is an example snippet that initializes a `RocksetLoader`.
 
+The Rockset integration with LangChain allows you to load documents from Rockset collections with SQL queries. In order to do this you must construct a `RocksetLoader` object. Here is an example snippet that initializes a `RocksetLoader`.
 
 ```python
 from langchain_community.document_loaders import RocksetLoader
@@ -54,19 +50,18 @@ The `text` column in the collection is used as the page content, and the record'
 
 To execute the query and access an iterator over the resulting `Document`s, run:
 
-
 ```python
 loader.lazy_load()
 ```
 
 To execute the query and access all resulting `Document`s at once, run:
 
-
 ```python
 loader.load()
 ```
 
 Here is an example response of `loader.load()`:
+
 ```python
 [
     Document(
@@ -87,7 +82,6 @@ Here is an example response of `loader.load()`:
 ## Using multiple columns as content
 
 You can choose to use multiple columns as content:
-
 
 ```python
 from langchain_community.document_loaders import RocksetLoader
@@ -111,7 +105,6 @@ You can define you own function to join content columns by setting the `content_
 
 For example, if you wanted to join sentence1 and sentence2 with a space instead of a new line, you could set `content_columns_joiner` like so:
 
-
 ```python
 RocksetLoader(
     RocksetClient(Regions.usw2a1, "<api key>"),
@@ -130,7 +123,6 @@ This is the first sentence. This is the second sentence.
 ```
 
 Oftentimes you want to include the column name in the `page_content`. You can do that like this:
-
 
 ```python
 RocksetLoader(

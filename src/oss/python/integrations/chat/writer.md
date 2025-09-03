@@ -6,14 +6,16 @@ This guide provides a quick overview for getting started with Writer [chat](/oss
 
 Writer has several chat models. You can find information about their latest models and their costs, context windows, and supported input types in the [Writer docs](https://dev.writer.com/home).
 
-
 ## Overview
 
 ### Integration details
+
 | Class                                                                                                                    | Package          | Local | Serializable | JS support |                                        Package downloads                                         |                                        Package latest                                         |
 |:-------------------------------------------------------------------------------------------------------------------------|:-----------------| :---: | :---: |:----------:|:------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------:|
 | [ChatWriter](https://github.com/writer/langchain-writer/blob/main/langchain_writer/chat_models.py#L308) | [langchain-writer](https://pypi.org/project/langchain-writer/) |      ❌       |                                       ❌                                       | ❌ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-writer?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-writer?style=flat-square&label=%20) |
+
 ### Model features
+
 | [Tool calling](/oss/how-to/tool_calling) | Structured output | JSON mode | Image input | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | Native async |         [Token usage](/oss/how-to/chat_token_usage_tracking/)          | Logprobs |
 | :---: |:-----------------:| :---: | :---: |  :---: | :---: | :---: | :---: |:--------------------------------:|:--------:|
 | ✅ |         ❌         | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |                ✅                 |    ❌     |
@@ -21,7 +23,6 @@ Writer has several chat models. You can find information about their latest mode
 ### Credentials
 
 Sign up for [Writer AI Studio](https://app.writer.com/aistudio/signup?utm_campaign=devrel) and follow this [Quickstart](https://dev.writer.com/api-guides/quickstart) to obtain an API key. Then, set the WRITER_API_KEY environment variable:
-
 
 ```python
 import getpass
@@ -33,7 +34,6 @@ if not os.getenv("WRITER_API_KEY"):
 
 If you want to get automated tracing of your model calls, you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
-
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -43,7 +43,6 @@ If you want to get automated tracing of your model calls, you can also set your 
 
 `ChatWriter` is available from the `langchain-writer` package. Install it with:
 
-
 ```python
 %pip install -qU langchain-writer
 ```
@@ -51,7 +50,6 @@ If you want to get automated tracing of your model calls, you can also set your 
 ### Instantiation
 
 Now we can instantiate our model object in order to generate chat completions:
-
 
 ```python
 from langchain_writer import ChatWriter
@@ -69,7 +67,6 @@ llm = ChatWriter(
 
 To use the model, you pass in a list of messages and call the `invoke` method:
 
-
 ```python
 messages = [
     (
@@ -84,7 +81,6 @@ ai_msg
 
 Then, you can access the content of the message:
 
-
 ```python
 print(ai_msg.content)
 ```
@@ -92,7 +88,6 @@ print(ai_msg.content)
 ## Streaming
 
 You can also stream the response. First, create a stream:
-
 
 ```python
 messages = [
@@ -108,7 +103,6 @@ ai_stream
 
 Then, iterate over the stream to get the chunks:
 
-
 ```python
 for chunk in ai_stream:
     print(chunk.content, end="")
@@ -121,6 +115,7 @@ Writer models like Palmyra X 004 support [tool calling](https://dev.writer.com/a
 ### Binding tools
 
 With `ChatWriter.bind_tools`, you can easily pass in Pydantic classes, dictionary schemas, LangChain tools, or even functions as tools to the model. Under the hood, these are converted to tool schemas, which look like this:
+
 ```
 {
     "name": "...",
@@ -128,10 +123,10 @@ With `ChatWriter.bind_tools`, you can easily pass in Pydantic classes, dictionar
     "parameters": {...}  # JSONSchema
 }
 ```
+
 These are passed in every model invocation.
 
 For example, to use a tool that gets the weather in a given location, you can define a Pydantic class and pass it to `ChatWriter.bind_tools`:
-
 
 ```python
 from pydantic import BaseModel, Field
@@ -148,7 +143,6 @@ llm.bind_tools([GetWeather])
 
 Then, you can invoke the model with the tool:
 
-
 ```python
 ai_msg = llm.invoke(
     "what is the weather like in New York City",
@@ -157,7 +151,6 @@ ai_msg
 ```
 
 Finally, you can access the tool calls and proceed to execute your functions:
-
 
 ```python
 print(ai_msg.tool_calls)
@@ -173,7 +166,6 @@ For more information about tool usage in LangChain, visit the [LangChain tool ca
 
 You can also batch requests and set the `max_concurrency`:
 
-
 ```python
 ai_batch = llm.batch(
     [
@@ -188,7 +180,6 @@ ai_batch
 
 Then, iterate over the batch to get the results:
 
-
 ```python
 for batch in ai_batch:
     print(batch.content)
@@ -202,8 +193,6 @@ All features above (invocation, streaming, batching, tools calling) also support
 ## Prompt templates
 
 [Prompt templates](https://python.langchain.com/docs/concepts/prompt_templates/) help to translate user input and parameters into instructions for a language model. You can use `ChatWriter` with a prompt template like so:
-
-
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate
@@ -229,7 +218,9 @@ chain.invoke(
 ```
 
 ## API reference
+
 For detailed documentation of all ChatWriter features and configurations, head to the [API reference](https://python.langchain.com/api_reference/writer/chat_models/langchain_writer.chat_models.ChatWriter.html#langchain_writer.chat_models.ChatWriter).
 
 ## Additional resources
+
 You can find information about Writer's models (including costs, context windows, and supported input types) and tools in the [Writer docs](https://dev.writer.com/home).

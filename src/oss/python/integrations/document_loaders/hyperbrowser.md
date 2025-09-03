@@ -5,6 +5,7 @@ title: HyperbrowserLoader
 [Hyperbrowser](https://hyperbrowser.ai) is a platform for running and scaling headless browsers. It lets you launch and manage browser sessions at scale and provides easy to use solutions for any webscraping needs, such as scraping a single page or crawling an entire site.
 
 Key Features:
+
 - Instant Scalability - Spin up hundreds of browser sessions in seconds without infrastructure headaches
 - Simple Integration - Works seamlessly with popular tools like Puppeteer and Playwright
 - Powerful APIs - Easy to use APIs for scraping/crawling any site, and much more
@@ -15,12 +16,15 @@ This guide provides a quick overview for getting started with Hyperbrowser [docu
 For more information about Hyperbrowser, please visit the [Hyperbrowser website](https://hyperbrowser.ai) or if you want to check out the docs, you can visit the [Hyperbrowser docs](https://docs.hyperbrowser.ai).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | JS support|
 | :--- | :--- | :---: | :---: |  :---: |
 | HyperbrowserLoader | langchain-hyperbrowser | ❌ | ❌ | ❌ |
+
 ### Loader features
+
 | Source | Document Lazy Loading | Native Async Support |
 | :---: | :---: | :---: |
 | HyperbrowserLoader | ✅ | ✅ |
@@ -33,11 +37,9 @@ To access Hyperbrowser document loader you'll need to install the `langchain-hyp
 
 Head to [Hyperbrowser](https://app.hyperbrowser.ai/) to sign up and generate an API key. Once you've done this set the HYPERBROWSER_API_KEY environment variable:
 
-
 ### Installation
 
 Install **langchain-hyperbrowser**.
-
 
 ```python
 %pip install -qU langchain-hyperbrowser
@@ -46,8 +48,6 @@ Install **langchain-hyperbrowser**.
 ## Initialization
 
 Now we can instantiate our model object and load documents:
-
-
 
 ```python
 from langchain_hyperbrowser import HyperbrowserLoader
@@ -60,26 +60,20 @@ loader = HyperbrowserLoader(
 
 ## Load
 
-
 ```python
 docs = loader.load()
 docs[0]
 ```
 
-
-
 ```output
 Document(metadata={'title': 'Example Domain', 'viewport': 'width=device-width, initial-scale=1', 'sourceURL': 'https://example.com'}, page_content='Example Domain\n\n# Example Domain\n\nThis domain is for use in illustrative examples in documents. You may use this\ndomain in literature without prior coordination or asking for permission.\n\n[More information...](https://www.iana.org/domains/example)')
 ```
-
-
 
 ```python
 print(docs[0].metadata)
 ```
 
 ## Lazy Load
-
 
 ```python
 page = []
@@ -96,15 +90,13 @@ for doc in loader.lazy_load():
 
 You can specify the operation to be performed by the loader. The default operation is `scrape`. For `scrape`, you can provide a single URL or a list of URLs to be scraped. For `crawl`, you can only provide a single URL. The `crawl` operation will crawl the provided page and subpages and return a document for each page.
 
-
 ```python
 loader = HyperbrowserLoader(
     urls="https://hyperbrowser.ai", api_key="YOUR_API_KEY", operation="crawl"
 )
 ```
 
-Optional params for the loader can also be provided in the `params` argument. For more information on the supported params, visit https://docs.hyperbrowser.ai/reference/sdks/python/scrape#start-scrape-job-and-wait or https://docs.hyperbrowser.ai/reference/sdks/python/crawl#start-crawl-job-and-wait.
-
+Optional params for the loader can also be provided in the `params` argument. For more information on the supported params, visit [docs.hyperbrowser.ai/reference/sdks/python/scrape#start-scrape-job-and-wait](https://docs.hyperbrowser.ai/reference/sdks/python/scrape#start-scrape-job-and-wait) or [docs.hyperbrowser.ai/reference/sdks/python/crawl#start-crawl-job-and-wait](https://docs.hyperbrowser.ai/reference/sdks/python/crawl#start-crawl-job-and-wait).
 
 ```python
 loader = HyperbrowserLoader(

@@ -6,16 +6,13 @@ title: StackExchange
 
 The ``StackExchange`` component integrates the StackExchange API into LangChain allowing access to the [StackOverflow](https://stackoverflow.com/) site of the Stack Excchange network. Stack Overflow focuses on computer programming.
 
-
 This notebook goes over how to use the ``StackExchange`` component.
 
 We first have to install the python package stackapi which implements the Stack Exchange API.
 
-
 ```python
 pip install --upgrade stackapi
 ```
-
 
 ```python
 from langchain_community.utilities import StackExchangeAPIWrapper

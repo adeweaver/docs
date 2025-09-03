@@ -7,14 +7,15 @@ title: Portkey
 ## LLMOps for Langchain
 
 Portkey brings production readiness to Langchain. With Portkey, you can
+
 - [x] Connect to 150+ models through a unified API,
 - [x] View 42+ **metrics & logs** for all requests,
 - [x] Enable **semantic cache** to reduce latency & costs,
 - [x] Implement automatic **retries & fallbacks** for failed requests,
 - [x] Add **custom tags** to requests for better tracking and analysis and [more](https://portkey.ai/docs).
 
-
 ## Quickstart - Portkey & Langchain
+
 Since Portkey is fully compatible with the OpenAI signature, you can connect to the Portkey AI Gateway through the `ChatOpenAI` interface.
 
 - Set the `base_url` as `PORTKEY_GATEWAY_URL`
@@ -23,11 +24,13 @@ Since Portkey is fully compatible with the OpenAI signature, you can connect to 
 To start, get your Portkey API key by [signing up here](https://app.portkey.ai/signup). (Click the profile icon on the bottom left, then click on "Copy API Key") or deploy the open source AI gateway in [your own environment](https://github.com/Portkey-AI/gateway/blob/main/docs/installation-deployments.md).
 
 Next, install the Portkey SDK
+
 ```python
 pip install -U portkey_ai
 ```
 
 We can now connect to the Portkey AI Gateway by updating the `ChatOpenAI` model in Langchain
+
 ```python
 from langchain_openai import ChatOpenAI
 from portkey_ai import createHeaders, PORTKEY_GATEWAY_URL
@@ -47,6 +50,7 @@ The request is routed through your Portkey AI Gateway to the specified `provider
 ![View logs from Langchain in Portkey](https://assets.portkey.ai/docs/langchain-logs.gif)
 
 ## Using 150+ models through the AI Gateway
+
 The power of the AI gateway comes when you're able to use the above code snippet to connect with 150+ models across 20+ providers supported through the AI gateway.
 
 Let's modify the code above to make a call to Anthropic's `claude-3-opus-20240229` model.
@@ -76,6 +80,7 @@ The Portkey AI gateway will authenticate the API request to Anthropic and get th
 The AI gateway extends Langchain's `ChatOpenAI` class making it a single interface to call any provider and any model.
 
 ## Advanced Routing - Load Balancing, Fallbacks, Retries
+
 The Portkey AI Gateway brings capabilities like load-balancing, fallbacks, experimentation and canary testing to Langchain through a configuration-first approach.
 
 Let's take an **example** where we might want to split traffic between `gpt-4` and `claude-opus` 50:50 to test the two large models. The gateway configuration for this would look like the following:
@@ -165,12 +170,12 @@ agent_executor.invoke({
 **You can see the requests' logs along with the trace id on Portkey dashboard:**
 ![Langchain Agent Logs on Portkey](https://assets.portkey.ai/docs/agent_tracing.gif)
 
-
 Additional Docs are available here:
-- Observability - https://portkey.ai/docs/product/observability-modern-monitoring-for-llms
-- AI Gateway - https://portkey.ai/docs/product/ai-gateway-streamline-llm-integrations
-- Prompt Library - https://portkey.ai/docs/product/prompt-library
 
-You can check out our popular Open Source AI Gateway here - https://github.com/portkey-ai/gateway
+- Observability - [portkey.ai/docs/product/observability-modern-monitoring-for-llms](https://portkey.ai/docs/product/observability-modern-monitoring-for-llms)
+- AI Gateway - [portkey.ai/docs/product/ai-gateway-streamline-llm-integrations](https://portkey.ai/docs/product/ai-gateway-streamline-llm-integrations)
+- Prompt Library - [portkey.ai/docs/product/prompt-library](https://portkey.ai/docs/product/prompt-library)
+
+You can check out our popular Open Source AI Gateway here - [github.com/portkey-ai/gateway](https://github.com/portkey-ai/gateway)
 
 For detailed information on each feature and how to use it, [please refer to the Portkey docs](https://portkey.ai/docs). If you have any questions or need further assistance, [reach out to us on Twitter.](https://twitter.com/portkeyai) or our [support email](mailto:hello@portkey.ai).

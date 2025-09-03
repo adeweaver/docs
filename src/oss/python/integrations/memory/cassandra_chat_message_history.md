@@ -8,19 +8,15 @@ title: Cassandra
 
 This notebook goes over how to use Cassandra to store chat message history.
 
-
-
 ## Setting up
 
 To run this notebook you need either a running `Cassandra` cluster or a `DataStax Astra DB` instance running in the cloud (you can get one for free at [datastax.com](https://astra.datastax.com)). Check [cassio.org](https://cassio.org/start_here/) for more information.
-
 
 ```python
 %pip install --upgrade --quiet  "cassio>=0.1.0 langchain-community"
 ```
 
 ### Set up the database connection parameters and secrets
-
 
 ```python
 import getpass
@@ -40,7 +36,6 @@ elif database_mode == "C":
 ```
 
 Depending on whether local or cloud-based Astra DB, create the corresponding database connection "Session" object.
-
 
 ```python
 from cassandra.auth import PlainTextAuthProvider
@@ -72,7 +67,6 @@ else:
 
 ## Example
 
-
 ```python
 from langchain_community.chat_message_histories import (
     CassandraChatMessageHistory,
@@ -89,7 +83,6 @@ message_history.add_user_message("hi!")
 message_history.add_ai_message("whats up?")
 ```
 
-
 ```python
 message_history.messages
 ```
@@ -97,7 +90,6 @@ message_history.messages
 #### Attribution statement
 
 > Apache Cassandra, Cassandra and Apache are either registered trademarks or trademarks of the [Apache Software Foundation](http://www.apache.org/) in the United States and/or other countries.
-
 
 ```python
 

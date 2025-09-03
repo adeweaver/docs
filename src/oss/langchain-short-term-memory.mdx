@@ -8,38 +8,30 @@ import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
 
 ## Overview
 
-Memory is a system that remembers information about previous interactions.
-For AI agents, memory is crucial because it lets them remember previous interactions, learn from feedback,
-and adapt to user preferences. As agents tackle more complex tasks with numerous user interactions,
-this capability becomes essential for both efficiency and user satisfaction.
+Memory is a system that remembers information about previous interactions. For AI agents, memory is crucial because it lets them remember previous interactions, learn from feedback, and adapt to user preferences. As agents tackle more complex tasks with numerous user interactions, this capability becomes essential for both efficiency and user satisfaction.
 
 Short term memory lets your application remember previous interactions within a single thread or conversation.
 
 <Note>
-A thread organizes multiple interactions in a session, similar to the way email groups messages in a single conversation.
+    A thread organizes multiple interactions in a session, similar to the way email groups messages in a single conversation.
 </Note>
 
-Conversation history is the most common form of short-term memory, and long conversations pose a challenge
-to today's LLMs. A full history may not fit inside an LLM's context window, resulting in an irrecoverable error.
-Even if your LLM supports the full context length, most LLMs still perform poorly over long contexts.
-They get "distracted" by stale or off-topic content, all while suffering from slower response times and higher costs.
+Conversation history is the most common form of short-term memory, and long conversations pose a challenge to today's LLMs. A full history may not fit inside an LLM's context window, resulting in an irrecoverable error. Even if your LLM supports the full context length, most LLMs still perform poorly over long contexts. They get "distracted" by stale or off-topic content, all while suffering from slower response times and higher costs.
 
-Chat models accept context using messages, which include developer provided instructions (a system message) and user
-inputs (human messages). In chat applications, messages alternate between human inputs and model responses, resulting
-in a list of messages that grows longer over time. Because context windows are limited and token-rich message lists can
-be costly, many applications can benefit from using techniques to manually remove or forget stale information.
+Chat models accept context using messages, which include developer provided instructions (a system message) and user inputs (human messages). In chat applications, messages alternate between human inputs and model responses, resulting in a list of messages that grows longer over time. Because context windows are limited and token-rich message lists can be costly, many applications can benefit from using techniques to manually remove or forget stale information.
 
 ## Usage
 
-To add short-term memory (thread-level persistence) to an agent, you need to specify a `checkpointer` when creating
-an agent.
+To add short-term memory (thread-level persistence) to an agent, you need to specify a `checkpointer` when creating an agent.
 
 <Info>
-LangChain's agent manages short-term memory as a part of your agent's state.
-By storing these in the graph's state, the agent can access the full context for a given conversation while maintaining separation between different threads.
+    LangChain's agent manages short-term memory as a part of your agent's state.
 
-State is persisted to a database (or memory) using a checkpointer so the thread can be resumed at any time.
-Short-term memory updates when the agent is invoked or a step (like a tool call) is completed, and the state is read at the start of each step.
+    By storing these in the graph's state, the agent can access the full context for a given conversation while maintaining separation between different threads.
+
+    State is persisted to a database (or memory) using a checkpointer so the thread can be resumed at any time.
+
+    Short-term memory updates when the agent is invoked or a step (like a tool call) is completed, and the state is read at the start of each step.
 </Info>
 
 :::python
@@ -66,14 +58,14 @@ import { createAgent, MemorySaver } from "langchain";
 const checkpointer = new MemorySaver();
 
 const agent = createAgent({
-  model: "anthropic:claude-3-7-sonnet-latest",
-  tools: [],
-  checkpointer,
+    model: "anthropic:claude-3-7-sonnet-latest",
+    tools: [],
+    checkpointer,
 });
 
 await agent.invoke(
-  { messages: [{ role: "user", content: "hi! i am Bob" }] },
-  { configurable: { thread_id: "1" } }
+    { messages: [{ role: "user", content: "hi! i am Bob" }] },
+    { configurable: { thread_id: "1" } }
 );
 ```
 :::
@@ -109,6 +101,7 @@ const checkpointer = PostgresSaver.fromConnString(DB_URI);
 ## Customizing agent memory
 
 By default, agents use `AgentState` to manage short term memory, specifically the conversation history via a `messages` key.
+
 Users can subclass `AgentState` to add additional fields to the state.
 
 This custom state can then be accessed via tools and dynamic prompt / model functions.
@@ -135,15 +128,15 @@ import { z } from "zod";
 import { createAgent, MemorySaver } from "langchain";
 
 const stateSchema = z.object({
-  messages: z.array(z.any()),
+    messages: z.array(z.any()),
 });
 
 const checkpointer = new MemorySaver();
 const agent = createAgent({
-  model: "openai:gpt-5",
-  tools: [],
-  stateSchema,
-  checkpointer,
+    model: "openai:gpt-5",
+    tools: [],
+    stateSchema,
+    checkpointer,
 });
 ```
 :::
@@ -162,10 +155,8 @@ This allows the agent to keep track of the conversation without exceeding the LL
 ### Trim messages
 
 Most LLMs have a maximum supported context window (denominated in tokens).
-One way to decide when to truncate messages is to count the tokens in the message history
-and truncate whenever it approaches that limit. If you're using LangChain, you can use the
-trim messages utility and specify the number of tokens to keep from the list, as well as the `strategy`
-(e.g., keep the last `maxTokens`) to use for handling the boundary.
+
+One way to decide when to truncate messages is to count the tokens in the message history and truncate whenever it approaches that limit. If you're using LangChain, you can use the trim messages utility and specify the number of tokens to keep from the list, as well as the `strategy` (e.g., keep the last `maxTokens`) to use for handling the boundary.
 
 :::python
 To trim message history in an agent, use @[`pre_model_hook`][create_agent] with the [`trim_messages`](https://python.langchain.com/api_reference/core/messages/langchain_core.messages.utils.trim_messages.html) function:
@@ -212,7 +203,7 @@ final_response["messages"][-1].pretty_print()
 ================================== Ai Message ==================================
 
 Your name is Bob. You told me that earlier.
-If you’d like me to call you a nickname or use a different name, just say the word.
+If you'd like me to call you a nickname or use a different name, just say the word.
 """
 ```
 :::
@@ -222,31 +213,31 @@ To trim message history in an agent, use `stateModifier` with the [`trimMessages
 
 ```typescript
 import {
-  createAgent,
-  trimMessages,
-  MemorySaver,
-  type AgentState,
+    createAgent,
+    trimMessages,
+    MemorySaver,
+    type AgentState,
 } from "langchain";
 
 // This function will be called every time before the node that calls LLM
 const stateModifier = async (state: AgentState) => {
-  return {
-    messages: await trimMessages(state.messages, {
-      strategy: "last",
-      maxTokens: 384,
-      startOn: "human",
-      endOn: ["human", "tool"],
-      tokenCounter: (msgs) => msgs.length,
-    }),
-  };
+    return {
+        messages: await trimMessages(state.messages, {
+        strategy: "last",
+        maxTokens: 384,
+        startOn: "human",
+        endOn: ["human", "tool"],
+        tokenCounter: (msgs) => msgs.length,
+        }),
+    };
 };
 
 const checkpointer = new MemorySaver();
 const agent = createAgent({
-  model: "openai:gpt-5",
-  tools: [],
-  preModelHook: stateModifier,
-  checkpointer,
+    model: "openai:gpt-5",
+    tools: [],
+    preModelHook: stateModifier,
+    checkpointer,
 });
 ```
 :::
@@ -254,11 +245,14 @@ const agent = createAgent({
 ### Delete messages
 
 You can delete messages from the graph state to manage the message history.
+
 This is useful when you want to remove specific messages or clear the entire message history.
 
 :::python
 To delete messages from the graph state, you can use the `RemoveMessage`.
+
 For `RemoveMessage` to work, you need to use a state key with @[`add_messages`][add_messages] [reducer](/oss/graph-api#reducers),.
+
 The default `AgentState` provides this.
 
 To remove specific messages:
@@ -292,24 +286,24 @@ To remove specific messages:
 import { RemoveMessage } from "@langchain/core/messages";
 
 const deleteMessages = (state) => {
-  const messages = state.messages;
-  if (messages.length > 2) {
-    // remove the earliest two messages
-    return {
-      messages: messages
-        .slice(0, 2)
-        .map((m) => new RemoveMessage({ id: m.id })),
-    };
-  }
+    const messages = state.messages;
+    if (messages.length > 2) {
+        // remove the earliest two messages
+        return {
+        messages: messages
+            .slice(0, 2)
+            .map((m) => new RemoveMessage({ id: m.id })),
+        };
+    }
 };
 ```
 :::
 
 <Warning>
-When deleting messages, **make sure** that the resulting message history is valid. Check the limitations of the LLM provider you're using. For example:
+    When deleting messages, **make sure** that the resulting message history is valid. Check the limitations of the LLM provider you're using. For example:
 
-* some providers expect message history to start with a `user` message
-* most providers require `assistant` messages with tool calls to be followed by corresponding `tool` result messages.
+    * Some providers expect message history to start with a `user` message
+    * Most providers require `assistant` messages with tool calls to be followed by corresponding `tool` result messages.
 </Warning>
 
 :::python
@@ -368,52 +362,52 @@ import { RemoveMessage } from "@langchain/core/messages";
 import { AgentState, createAgent, MemorySaver } from "langchain";
 
 const deleteMessages = (state: AgentState) => {
-  const messages = state.messages;
-  if (messages.length > 2) {
-    // remove the earliest two messages
-    return {
-      messages: messages
-        .slice(0, 2)
-        .map((m) => new RemoveMessage({ id: m.id! })),
-    };
-  }
-  return {};
+    const messages = state.messages;
+    if (messages.length > 2) {
+        // remove the earliest two messages
+        return {
+        messages: messages
+            .slice(0, 2)
+            .map((m) => new RemoveMessage({ id: m.id! })),
+        };
+    }
+    return {};
 };
 
 const agent = createAgent({
-  model: "openai:gpt-5-nano",
-  tools: [],
-  prompt: "Please be concise and to the point.",
-  postModelHook: deleteMessages,
-  checkpointer: new MemorySaver(),
+    model: "openai:gpt-5-nano",
+    tools: [],
+    prompt: "Please be concise and to the point.",
+    postModelHook: deleteMessages,
+    checkpointer: new MemorySaver(),
 });
 
 const config = { configurable: { thread_id: "1" } };
 
 const streamA = await agent.stream(
-  { messages: [{ role: "user", content: "hi! I'm bob" }] },
-  { ...config, streamMode: "values" }
+    { messages: [{ role: "user", content: "hi! I'm bob" }] },
+    { ...config, streamMode: "values" }
 );
 for await (const event of streamA) {
-  const messageDetails = event.messages.map((message) => [
-    message.getType(),
-    message.content,
-  ]);
-  console.log(messageDetails);
+    const messageDetails = event.messages.map((message) => [
+        message.getType(),
+        message.content,
+    ]);
+    console.log(messageDetails);
 }
 
 const streamB = await agent.stream(
-  {
-    messages: [{ role: "user", content: "what's my name?" }],
-  },
-  { ...config, streamMode: "values" }
+    {
+        messages: [{ role: "user", content: "what's my name?" }],
+    },
+    { ...config, streamMode: "values" }
 );
 for await (const event of streamB) {
-  const messageDetails = event.messages.map((message) => [
-    message.getType(),
-    message.content,
-  ]);
-  console.log(messageDetails);
+    const messageDetails = event.messages.map((message) => [
+        message.getType(),
+        message.content,
+    ]);
+    console.log(messageDetails);
 }
 ```
 
@@ -501,6 +495,7 @@ You can access the short-term memory of an agent in a few different ways:
 #### Read short-term memory in a tool
 
 Access short term memory (state) in a tool by injecting the agent's state into the tool signature with the `InjectedState` annotation.
+
 This annotation hides the state from the tool signature (so the model doesn't see it), but the tool can access it.
 
 :::python
@@ -539,36 +534,36 @@ import { z } from "zod";
 import { createAgent, tool } from "langchain";
 
 const stateSchema = z.object({
-  userId: z.string(),
+    userId: z.string(),
 });
 
 const getUserInfo = tool(
-  async (_, config) => {
-    const userId = config.context?.userId;
-    return { userId };
-  },
-  {
-    name: "get_user_info",
-    description: "Get user info",
-    schema: z.object({}),
-  }
+    async (_, config) => {
+        const userId = config.context?.userId;
+        return { userId };
+    },
+    {
+        name: "get_user_info",
+        description: "Get user info",
+        schema: z.object({}),
+    }
 );
 
 const agent = createAgent({
-  model: "openai:gpt-5-nano",
-  tools: [getUserInfo],
-  stateSchema,
+    model: "openai:gpt-5-nano",
+    tools: [getUserInfo],
+    stateSchema,
 });
 
 const result = await agent.invoke(
-  {
-    messages: [{ role: "user", content: "what's my name?" }],
-  },
-  {
-    context: {
-      userId: "user_123",
+    {
+        messages: [{ role: "user", content: "what's my name?" }],
     },
-  }
+    {
+        context: {
+        userId: "user_123",
+        },
+    }
 );
 
 console.log(result.messages.at(-1)?.content);
@@ -579,6 +574,7 @@ console.log(result.messages.at(-1)?.content);
 #### Write short-term memory from tools
 
 To modify the agent's short-term memory (state) during execution, you can return state updates directly from the tools.
+
 This is useful for persisting intermediate results or making information accessible to subsequent tools or prompts.
 
 :::python
@@ -645,56 +641,56 @@ import { tool, createAgent } from "langchain";
 import { MessagesZodState, Command } from "@langchain/langgraph";
 
 const CustomState = z.object({
-  messages: MessagesZodState.shape.messages,
-  userName: z.string().optional(),
+    messages: MessagesZodState.shape.messages,
+    userName: z.string().optional(),
 });
 
 const updateUserInfo = tool(
-  async (_, config) => {
-    const userId = config.context?.userId;
-    const name = userId === "user_123" ? "John Smith" : "Unknown user";
-    return new Command({
-      update: {
-        userName: name,
-        // update the message history
-        messages: [
-          {
-            role: "tool",
-            content: "Successfully looked up user information",
-            tool_call_id: config.toolCall?.id,
-          },
-        ],
-      },
-    });
-  },
-  {
-    name: "update_user_info",
-    description: "Look up and update user info.",
-    schema: z.object({}),
-  }
+    async (_, config) => {
+        const userId = config.context?.userId;
+        const name = userId === "user_123" ? "John Smith" : "Unknown user";
+        return new Command({
+        update: {
+            userName: name,
+            // update the message history
+            messages: [
+            {
+                role: "tool",
+                content: "Successfully looked up user information",
+                tool_call_id: config.toolCall?.id,
+            },
+            ],
+        },
+        });
+    },
+    {
+        name: "update_user_info",
+        description: "Look up and update user info.",
+        schema: z.object({}),
+    }
 );
 
 const greet = tool(
-  async (_, config) => {
-    const userName = config.context?.userName;
-    return `Hello ${userName}!`;
-  },
-  {
-    name: "greet",
-    description: "Use this to greet the user once you found their info.",
-    schema: z.object({}),
-  }
+    async (_, config) => {
+        const userName = config.context?.userName;
+        return `Hello ${userName}!`;
+    },
+    {
+        name: "greet",
+        description: "Use this to greet the user once you found their info.",
+        schema: z.object({}),
+    }
 );
 
 const agent = createAgent({
-  llm: model,
-  tools: [updateUserInfo, greet],
-  stateSchema: CustomState,
+    llm: model,
+    tools: [updateUserInfo, greet],
+    stateSchema: CustomState,
 });
 
 await agent.invoke(
-  { messages: [{ role: "user", content: "greet the user" }] },
-  { context: { userId: "user_123" } }
+    { messages: [{ role: "user", content: "greet the user" }] },
+    { context: { userId: "user_123" } }
 );
 ```
 :::
@@ -766,45 +762,45 @@ import { z } from "zod";
 import { createAgent, tool, SystemMessage } from "langchain";
 
 const contextSchema = z.object({
-  userName: z.string(),
+    userName: z.string(),
 });
 
 const getWeather = tool(
-  async ({ city }, config) => {
-    return `The weather in ${city} is always sunny!`;
-  },
-  {
-    name: "get_weather",
-    description: "Get user info",
-    schema: z.object({
-      city: z.string(),
-    }),
-  }
+    async ({ city }, config) => {
+        return `The weather in ${city} is always sunny!`;
+    },
+    {
+        name: "get_weather",
+        description: "Get user info",
+        schema: z.object({
+        city: z.string(),
+        }),
+    }
 );
 
 const agent = createAgent({
-  model: "openai:gpt-5-nano",
-  tools: [getWeather],
-  contextSchema,
-  prompt: (state, config) => {
-    return [
-      new SystemMessage(
-        `You are a helpful assistant. Address the user as ${config.context?.userName}.`
-      ),
-      ...state.messages,
-    ];
-  },
+    model: "openai:gpt-5-nano",
+    tools: [getWeather],
+    contextSchema,
+    prompt: (state, config) => {
+        return [
+        new SystemMessage(
+            `You are a helpful assistant. Address the user as ${config.context?.userName}.`
+        ),
+        ...state.messages,
+        ];
+    },
 });
 
 const result = await agent.invoke(
-  {
-    messages: [{ role: "user", content: "What is the weather in SF?" }],
-  },
-  {
-    context: {
-      userName: "John Smith",
+    {
+        messages: [{ role: "user", content: "What is the weather in SF?" }],
     },
-  }
+    {
+        context: {
+        userName: "John Smith",
+        },
+    }
 );
 
 for (const message of result.messages) {
@@ -882,37 +878,37 @@ print(result["messages"][-1].content)
 :::js
 ```typescript
 import {
-  createAgent,
-  type AgentState,
-  trimMessages,
-  type BaseMessage,
+    createAgent,
+    type AgentState,
+    trimMessages,
+    type BaseMessage,
 } from "langchain";
 
 const preModelHook = async (state: AgentState) => {
-  return {
-    messages: await trimMessages(state.messages, {
-      maxTokens: 384,
-      strategy: "last",
-      startOn: "human",
-      endOn: ["human", "tool"],
-      tokenCounter: (msgs: BaseMessage[]) => msgs.length,
-    }),
-  };
+    return {
+        messages: await trimMessages(state.messages, {
+        maxTokens: 384,
+        strategy: "last",
+        startOn: "human",
+        endOn: ["human", "tool"],
+        tokenCounter: (msgs: BaseMessage[]) => msgs.length,
+        }),
+    };
 };
 
 const agent = createAgent({
-  model: "openai:gpt-5-nano",
-  tools: [],
-  preModelHook,
+    model: "openai:gpt-5-nano",
+    tools: [],
+    preModelHook,
 });
 
 const result = await agent.invoke(
-  {
-    messages: [{ role: "user", content: "hi, my name is bob" }],
-  },
-  {
-    context: { thread_id: "1" },
-  }
+    {
+        messages: [{ role: "user", content: "hi, my name is bob" }],
+    },
+    {
+        context: { thread_id: "1" },
+    }
 );
 console.log(result.messages.at(-1)?.content);
 ```
@@ -949,22 +945,22 @@ import { RemoveMessage } from "@langchain/core/messages";
 import { createAgent, type AgentState } from "langchain";
 
 function validateResponse(state: AgentState) {
-  const lastMessage = state.messages.at(-1)?.content;
-  if (
-    typeof lastMessage === "string" &&
-    lastMessage.toLowerCase().includes("confidential")
-  ) {
-    return {
-      messages: [new RemoveMessage({ id: "all" }), ...state.messages],
-    };
-  }
-  return {};
+    const lastMessage = state.messages.at(-1)?.content;
+    if (
+        typeof lastMessage === "string" &&
+        lastMessage.toLowerCase().includes("confidential")
+    ) {
+        return {
+        messages: [new RemoveMessage({ id: "all" }), ...state.messages],
+        };
+    }
+    return {};
 }
 
 const agent = createAgent({
-  model: "openai:gpt-5",
-  tools: [],
-  postModelHook: validateResponse,
+    model: "openai:gpt-5",
+    tools: [],
+    postModelHook: validateResponse,
 });
 ```
 :::

@@ -15,7 +15,6 @@ title: OpenLLM
 
 Install `openllm` through [PyPI](https://pypi.org/project/openllm/)
 
-
 ```python
 %pip install --upgrade --quiet  openllm
 ```
@@ -28,9 +27,7 @@ To start an LLM server, use `openllm hello` command:
 openllm hello
 ```
 
-
 ## Wrapper
-
 
 ```python
 from langchain_community.llms import OpenLLM
@@ -38,7 +35,6 @@ from langchain_community.llms import OpenLLM
 server_url = "http://localhost:3000"  # Replace with remote host if you are running on a remote server
 llm = OpenLLM(base_url=server_url, api_key="na")
 ```
-
 
 ```python
 llm("To build a LLM from scratch, the following are the steps:")

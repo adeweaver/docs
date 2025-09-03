@@ -24,7 +24,6 @@ To create an `AstraDBByteStore` byte store, you'll need to [create a DataStax ac
 
 After signing up, set the following credentials:
 
-
 ```python
 from getpass import getpass
 
@@ -36,7 +35,6 @@ ASTRA_DB_APPLICATION_TOKEN = getpass("ASTRA_DB_APPLICATION_TOKEN = ")
 
 The LangChain AstraDB integration lives in the `langchain-astradb` package:
 
-
 ```python
 %pip install -qU langchain-astradb
 ```
@@ -44,7 +42,6 @@ The LangChain AstraDB integration lives in the `langchain-astradb` package:
 ## Instantiation
 
 Now we can instantiate our byte store:
-
 
 ```python
 from langchain_astradb import AstraDBByteStore
@@ -59,7 +56,6 @@ kv_store = AstraDBByteStore(
 ## Usage
 
 You can set data under keys like this using the `mset` method:
-
 
 ```python
 kv_store.mset(
@@ -77,15 +73,11 @@ kv_store.mget(
 )
 ```
 
-
-
 ```output
 [b'value1', b'value2']
 ```
 
-
 And you can delete data using the `mdelete` method:
-
 
 ```python
 kv_store.mdelete(
@@ -103,15 +95,12 @@ kv_store.mget(
 )
 ```
 
-
-
 ```output
 [None, None]
 ```
-
 
 You can use an `AstraDBByteStore` anywhere you'd use other ByteStores, including as a [cache for embeddings](/oss/how-to/caching_embeddings).
 
 ## API reference
 
-For detailed documentation of all `AstraDBByteStore` features and configurations, head to the API reference: https://python.langchain.com/api_reference/astradb/storage/langchain_astradb.storage.AstraDBByteStore.html
+For detailed documentation of all `AstraDBByteStore` features and configurations, head to the API reference: [python.langchain.com/api_reference/astradb/storage/langchain_astradb.storage.AstraDBByteStore.html](https://python.langchain.com/api_reference/astradb/storage/langchain_astradb.storage.AstraDBByteStore.html)

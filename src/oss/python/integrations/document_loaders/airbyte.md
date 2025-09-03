@@ -10,7 +10,6 @@ This covers how to load any source from Airbyte into LangChain documents
 
 In order to use `AirbyteLoader` you need to install the `langchain-airbyte` integration package.
 
-
 ```python
 %pip install -qU langchain-airbyte
 ```
@@ -24,7 +23,6 @@ Note: This package also currently requires Python 3.10+.
 
 By default, the `AirbyteLoader` will load any structured data from a stream and output yaml-formatted documents.
 
-
 ```python
 from langchain_airbyte import AirbyteLoader
 
@@ -36,6 +34,7 @@ loader = AirbyteLoader(
 docs = loader.load()
 print(docs[0].page_content[:500])
 ```
+
 ```output
 \`\`\`yaml
 academic_degree: PhD
@@ -63,8 +62,8 @@ title: M.Sc.Tech.
 updated_at: '2024-02-27T16:41:01+00:00'
 weight: 6
 ```
-You can also specify a custom prompt template for formatting documents:
 
+You can also specify a custom prompt template for formatting documents:
 
 ```python
 from langchain_core.prompts import PromptTemplate
@@ -80,13 +79,14 @@ loader_templated = AirbyteLoader(
 docs_templated = loader_templated.load()
 print(docs_templated[0].page_content)
 ```
+
 ```output
 My name is Verdie and I am 1.73 meters tall.
 ```
+
 ## Lazy Loading Documents
 
 One of the powerful features of `AirbyteLoader` is its ability to load large documents from upstream sources. When working with large datasets, the default `.load()` behavior can be slow and memory-intensive. To avoid this, you can use the `.lazy_load()` method to load documents in a more memory-efficient manner.
-
 
 ```python
 import time
@@ -106,23 +106,25 @@ print(
     f"Just calling lazy load is quick! This took {time.time() - start_time:.4f} seconds"
 )
 ```
+
 ```output
 Just calling lazy load is quick! This took 0.0001 seconds
 ```
-And you can iterate over documents as they're yielded:
 
+And you can iterate over documents as they're yielded:
 
 ```python
 for doc in my_iterator:
     print(doc.page_content)
 ```
+
 ```output
 My name is Andera and I am 1.91 meters tall.
 My name is Jody and I am 1.85 meters tall.
 My name is Zonia and I am 1.53 meters tall.
 ```
-You can also lazy load documents in an async manner with `.alazy_load()`:
 
+You can also lazy load documents in an async manner with `.alazy_load()`:
 
 ```python
 loader = AirbyteLoader(
@@ -139,11 +141,13 @@ my_async_iterator = loader.alazy_load()
 async for doc in my_async_iterator:
     print(doc.page_content)
 ```
+
 ```output
 My name is Carmelina and I am 1.74 meters tall.
 My name is Ali and I am 1.90 meters tall.
 My name is Rochell and I am 1.83 meters tall.
 ```
+
 ## Configuration
 
 `AirbyteLoader` can be configured with the following options:

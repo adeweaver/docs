@@ -8,15 +8,14 @@ Using the OCI Generative AI service you can access ready-to-use pretrained model
 This notebook explains how to use OCI's Generative AI complete models with LangChain.
 
 ## Setup
-Ensure that the oci sdk and the langchain-community package are installed
 
+Ensure that the oci sdk and the langchain-community package are installed
 
 ```python
 !pip install -U oci langchain-community
 ```
 
 ## Usage
-
 
 ```python
 from langchain_community.llms.oci_generative_ai import OCIGenAI
@@ -33,7 +32,6 @@ print(response)
 ```
 
 #### Chaining with prompt templates
-
 
 ```python
 from langchain_core.prompts import PromptTemplate
@@ -54,7 +52,6 @@ print(response)
 
 #### Streaming
 
-
 ```python
 llm = OCIGenAI(
     model_id="cohere.command",
@@ -68,10 +65,10 @@ for chunk in llm.stream("Write me a song about sparkling water."):
 ```
 
 ## Authentication
+
 The authentication methods supported for LlamaIndex are equivalent to those used with other OCI services and follow the __[standard SDK authentication](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/sdk_authentication_methods.htm)__ methods, specifically API Key, session token, instance principal, and resource principal.
 
 API key is the default authentication method used in the examples above. The following example demonstrates how to use a different authentication method (session token)
-
 
 ```python
 llm = OCIGenAI(
@@ -85,10 +82,10 @@ llm = OCIGenAI(
 ```
 
 ## Dedicated AI Cluster
+
 To access models hosted in a dedicated AI cluster __[create an endpoint](https://docs.oracle.com/en-us/iaas/api/#/en/generative-ai-inference/20231130/)__ whose assigned OCID (currently prefixed by ‘ocid1.generativeaiendpoint.oc1.us-chicago-1’) is used as your model ID.
 
 When accessing models hosted in a dedicated AI cluster you will need to initialize the OCIGenAI interface with two extra required params ("provider" and "context_size").
-
 
 ```python
 llm = OCIGenAI(

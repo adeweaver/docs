@@ -6,7 +6,6 @@ title: FlashRank reranker
 
 This notebook shows how to use [flashrank](https://github.com/PrithivirajDamodaran/FlashRank) for document compression and retrieval.
 
-
 ```python
 %pip install --upgrade --quiet  flashrank
 %pip install --upgrade --quiet  faiss
@@ -15,7 +14,6 @@ This notebook shows how to use [flashrank](https://github.com/PrithivirajDamodar
 
 %pip install --upgrade --quiet  faiss_cpu
 ```
-
 
 ```python
 # Helper function for printing docs
@@ -33,8 +31,8 @@ def pretty_print_docs(docs):
 ```
 
 ## Set up the base vector store retriever
-Let's start by initializing a simple vector store retriever and storing the 2023 State of the Union speech (in chunks). We can set up the retriever to retrieve a high number (20) of docs.
 
+Let's start by initializing a simple vector store retriever and storing the 2023 State of the Union speech (in chunks). We can set up the retriever to retrieve a high number (20) of docs.
 
 ```python
 import getpass
@@ -42,7 +40,6 @@ import os
 
 os.environ["OPENAI_API_KEY"] = getpass.getpass()
 ```
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -65,6 +62,7 @@ query = "What did the president say about Ketanji Brown Jackson"
 docs = retriever.invoke(query)
 pretty_print_docs(docs)
 ```
+
 ```output
 Document 1:
 
@@ -267,9 +265,10 @@ The United States of America.
 
 May God bless you all. May God protect our troops.
 ```
-## Doing reranking with FlashRank
-Now let's wrap our base retriever with a `ContextualCompressionRetriever`, using `FlashrankRerank` as a compressor.
 
+## Doing reranking with FlashRank
+
+Now let's wrap our base retriever with a `ContextualCompressionRetriever`, using `FlashrankRerank` as a compressor.
 
 ```python
 from langchain.retrievers import ContextualCompressionRetriever
@@ -288,15 +287,17 @@ compressed_docs = compression_retriever.invoke(
 )
 print([doc.metadata["id"] for doc in compressed_docs])
 ```
+
 ```output
 [0, 5, 3]
 ```
-After reranking, the top 3 documents are different from the top 3 documents retrieved by the base retriever.
 
+After reranking, the top 3 documents are different from the top 3 documents retrieved by the base retriever.
 
 ```python
 pretty_print_docs(compressed_docs)
 ```
+
 ```output
 Document 1:
 
@@ -328,8 +329,8 @@ I’m a capitalist, but capitalism without competition isn’t capitalism.
 
 It’s exploitation—and it drives up prices.
 ```
-## QA reranking with FlashRank
 
+## QA reranking with FlashRank
 
 ```python
 from langchain.chains import RetrievalQA
@@ -337,12 +338,9 @@ from langchain.chains import RetrievalQA
 chain = RetrievalQA.from_chain_type(llm=llm, retriever=compression_retriever)
 ```
 
-
 ```python
 chain.invoke(query)
 ```
-
-
 
 ```output
 {'query': 'What did the president say about Ketanji Brown Jackson',

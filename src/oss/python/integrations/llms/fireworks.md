@@ -5,7 +5,6 @@ title: Fireworks
 <Warning>
 **You are currently on a page documenting the use of Fireworks models as [text completion models](/oss/concepts/text_llms). Many popular Fireworks models are [chat completion models](/oss/concepts/chat_models).**
 
-
 You may be looking for [this page instead](/oss/integrations/chat/fireworks/).
 </Warning>
 
@@ -14,6 +13,7 @@ You may be looking for [this page instead](/oss/integrations/chat/fireworks/).
 This example goes over how to use LangChain to interact with `Fireworks` models.
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [JS support](https://js.langchain.com/v0.1/docs/integrations/llms/fireworks/) | Package downloads | Package latest |
@@ -27,7 +27,6 @@ This example goes over how to use LangChain to interact with `Fireworks` models.
 Sign in to [Fireworks AI](http://fireworks.ai) for the an API Key to access our models, and make sure it is set as the `FIREWORKS_API_KEY` environment variable.
 3. Set up your model using a model id. If the model is not set, the default model is fireworks-llama-v2-7b-chat. See the full, most up-to-date model list on [fireworks.ai](https://fireworks.ai).
 
-
 ```python
 import getpass
 import os
@@ -40,15 +39,15 @@ if "FIREWORKS_API_KEY" not in os.environ:
 
 You need to install the `langchain-fireworks` python package for the rest of the notebook to work.
 
-
 ```python
 %pip install -qU langchain-fireworks
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
-## Instantiation
 
+## Instantiation
 
 ```python
 from langchain_fireworks import Fireworks
@@ -64,16 +63,16 @@ llm = Fireworks(
 
 You can call the model directly with string prompts to get completions.
 
-
 ```python
 output = llm.invoke("Who's the best quarterback in the NFL?")
 print(output)
 ```
+
 ```output
  If Manningville Station, Lions rookie EJ Manuel's
 ```
-### Invoking with multiple prompts
 
+### Invoking with multiple prompts
 
 ```python
 # Calling multiple prompts
@@ -85,11 +84,12 @@ output = llm.generate(
 )
 print(output.generations)
 ```
+
 ```output
 [[Generation(text=" We're not just asking, we've done some research. We'")], [Generation(text=' The conversation is dominated by Kobe Bryant, Dwyane Wade,')]]
 ```
-### Invoking with additional parameters
 
+### Invoking with additional parameters
 
 ```python
 # Setting additional parameters: temperature, max_tokens, top_p
@@ -101,13 +101,14 @@ llm = Fireworks(
 )
 print(llm.invoke("What's the weather like in Kansas City in December?"))
 ```
+
 ```output
 December is a cold month in Kansas City, with temperatures of
 ```
+
 ## Chaining
 
 You can use the LangChain Expression Language to create a simple chain with non-chat models.
-
 
 ```python
 from langchain_core.prompts import PromptTemplate
@@ -124,21 +125,24 @@ chain = prompt | llm
 
 print(chain.invoke({"topic": "bears"}))
 ```
+
 ```output
  What do you call a bear with no teeth? A gummy bear!
 ```
+
 ## Streaming
 
 You can stream the output, if you want.
-
 
 ```python
 for token in chain.stream({"topic": "bears"}):
     print(token, end="", flush=True)
 ```
+
 ```output
  Why do bears hate shoes so much? They like to run around in their
 ```
+
 ## API reference
 
-For detailed documentation of all `Fireworks` LLM features and configurations head to the API reference: https://python.langchain.com/api_reference/fireworks/llms/langchain_fireworks.llms.Fireworks.html#langchain_fireworks.llms.Fireworks
+For detailed documentation of all `Fireworks` LLM features and configurations head to the API reference: [python.langchain.com/api_reference/fireworks/llms/langchain_fireworks.llms.Fireworks.html#langchain_fireworks.llms.Fireworks](https://python.langchain.com/api_reference/fireworks/llms/langchain_fireworks.llms.Fireworks.html#langchain_fireworks.llms.Fireworks)

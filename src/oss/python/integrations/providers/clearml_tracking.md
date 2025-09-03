@@ -3,6 +3,7 @@ title: ClearML
 ---
 
 > [ClearML](https://github.com/allegroai/clearml) is a ML/DL development and production suite, it contains 5 main modules:
+>
 > - `Experiment Manager` - Automagical experiment tracking, environments and results
 > - `MLOps` - Orchestration, Automation & Pipelines solution for ML/DL jobs (K8s / Cloud / bare-metal)
 > - `Data-Management` - Fully differentiable data management & version control solution on top of object-storage (S3 / GS / Azure / NAS)
@@ -20,7 +21,6 @@ In order to properly keep track of your langchain experiments and their results,
 
 ## Installation and Setup
 
-
 ```python
 %pip install --upgrade --quiet  clearml
 %pip install --upgrade --quiet  pandas
@@ -33,10 +33,9 @@ In order to properly keep track of your langchain experiments and their results,
 
 We'll be using quite some APIs in this notebook, here is a list and where to get them:
 
-- ClearML: https://app.clear.ml/settings/workspace-configuration
-- OpenAI: https://platform.openai.com/account/api-keys
-- SerpAPI (google search): https://serpapi.com/dashboard
-
+- ClearML: [app.clear.ml/settings/workspace-configuration](https://app.clear.ml/settings/workspace-configuration)
+- OpenAI: [platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys)
+- SerpAPI (google search): [serpapi.com/dashboard](https://serpapi.com/dashboard)
 
 ```python
 import os
@@ -50,11 +49,9 @@ os.environ["SERPAPI_API_KEY"] = ""
 
 ## Callbacks
 
-
 ```python
 from langchain_community.callbacks import ClearMLCallbackHandler
 ```
-
 
 ```python
 from langchain_core.callbacks import StdOutCallbackHandler
@@ -75,13 +72,14 @@ callbacks = [StdOutCallbackHandler(), clearml_callback]
 # Get the OpenAI model ready to go
 llm = OpenAI(temperature=0, callbacks=callbacks)
 ```
+
 ```output
 The clearml callback is currently in beta and is subject to change based on updates to `langchain`. Please report any issues to https://github.com/allegroai/clearml/issues with the tag `langchain`.
 ```
+
 ### Scenario 1: Just an LLM
 
 First, let's just run a single LLM a few times and capture the resulting prompt-answer conversation in ClearML
-
 
 ```python
 # SCENARIO 1 - LLM
@@ -90,6 +88,7 @@ llm_result = llm.generate(["Tell me a joke", "Tell me a poem"] * 3)
 # prompts and other output are properly saved separately
 clearml_callback.flush_tracker(langchain_asset=llm, name="simple_sequential")
 ```
+
 ```output
 {'action': 'on_llm_start', 'name': 'OpenAI', 'step': 3, 'starts': 2, 'ends': 1, 'errors': 0, 'text_ctr': 0, 'chain_starts': 0, 'chain_ends': 0, 'llm_starts': 2, 'llm_ends': 1, 'llm_streams': 0, 'tool_starts': 0, 'tool_ends': 0, 'agent_ends': 0, 'prompts': 'Tell me a joke'}
 {'action': 'on_llm_start', 'name': 'OpenAI', 'step': 3, 'starts': 2, 'ends': 1, 'errors': 0, 'text_ctr': 0, 'chain_starts': 0, 'chain_ends': 0, 'llm_starts': 2, 'llm_ends': 1, 'llm_streams': 0, 'tool_starts': 0, 'tool_ends': 0, 'agent_ends': 0, 'prompts': 'Tell me a poem'}
@@ -308,7 +307,8 @@ clearml_callback.flush_tracker(langchain_asset=llm, name="simple_sequential")
 [12 rows x 24 columns]}
 2023-03-29 14:00:25,948 - clearml.Task - INFO - Completed model upload to https://files.clear.ml/langchain_callback_demo/llm.988bd727b0e94a29a3ac0ee526813545/models/simple_sequential
 ```
-At this point you can already go to https://app.clear.ml and take a look at the resulting ClearML Task that was created.
+
+At this point you can already go to [app.clear.ml](https://app.clear.ml) and take a look at the resulting ClearML Task that was created.
 
 Among others, you should see that this notebook is saved along with any git information. The model JSON that contains the used parameters is saved as an artifact, there are also console logs and under the plots section, you'll find tables that represent the flow of the chain.
 
@@ -319,7 +319,6 @@ Finally, if you enabled visualizations, these are stored as HTML files under deb
 To show a more advanced workflow, let's create an agent with access to tools. The way ClearML tracks the results is not different though, only the table will look slightly different as there are other types of actions taken when compared to the earlier, simpler example.
 
 You can now also see the use of the `finish=True` keyword, which will fully close the ClearML Task, instead of just resetting the parameters and prompts for a new conversation.
-
 
 ```python
 from langchain.agents import AgentType, initialize_agent, load_tools
@@ -337,6 +336,7 @@ clearml_callback.flush_tracker(
     langchain_asset=agent, name="Agent with Tools", finish=True
 )
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 {'action': 'on_chain_start', 'name': 'AgentExecutor', 'step': 1, 'starts': 1, 'ends': 0, 'errors': 0, 'text_ctr': 0, 'chain_starts': 1, 'chain_ends': 0, 'llm_starts': 0, 'llm_ends': 0, 'llm_streams': 0, 'tool_starts': 0, 'tool_ends': 0, 'agent_ends': 0, 'input': 'Who is the wife of the person who sang summer of 69?'}
@@ -470,6 +470,7 @@ Final Answer: Bryan Adams has never been married.
 ``````output
 Could not update last created model in Task 988bd727b0e94a29a3ac0ee526813545, Task status 'completed' cannot be updated
 ```
+
 ### Tips and Next Steps
 
 - Make sure you always use a unique `name` argument for the `clearml_callback.flush_tracker` function. If not, the model parameters used for a run will override the previous run!
@@ -477,8 +478,6 @@ Could not update last created model in Task 988bd727b0e94a29a3ac0ee526813545, Ta
 - If you close the ClearML Callback using `clearml_callback.flush_tracker(..., finish=True)` the Callback cannot be used anymore. Make a new one if you want to keep logging.
 
 - Check out the rest of the open-source ClearML ecosystem, there is a data version manager, a remote execution agent, automated pipelines and much more!
-
-
 
 ```python
 

@@ -20,7 +20,6 @@ To run this notebook, you will need to do the following:
 
 After confirmed access to database in the runtime environment of this notebook, filling the following values and run the cell before running example scripts.
 
-
 ```python
 # @markdown Please specify an endpoint associated with the instance or demo purpose.
 ENDPOINT = "redis://127.0.0.1:6379"  # @param {type:"string"}
@@ -30,13 +29,11 @@ ENDPOINT = "redis://127.0.0.1:6379"  # @param {type:"string"}
 
 The integration lives in its own `langchain-google-memorystore-redis` package, so we need to install it.
 
-
 ```python
 %pip install -upgrade --quiet langchain-google-memorystore-redis
 ```
 
 **Colab only:** Uncomment the following cell to restart the kernel or use the button to restart the kernel. For Vertex AI Workbench you can restart the terminal using the button on top.
-
 
 ```python
 # # Automatically restart kernel after installs so that your environment can access the new packages
@@ -47,6 +44,7 @@ The integration lives in its own `langchain-google-memorystore-redis` package, s
 ```
 
 ### ☁ Set Your Google Cloud Project
+
 Set your Google Cloud project so that you can leverage Google Cloud resources within this notebook.
 
 If you don't know your project ID, try the following:
@@ -54,7 +52,6 @@ If you don't know your project ID, try the following:
 * Run `gcloud config list`.
 * Run `gcloud projects list`.
 * See the support page: [Locate the project ID](https://support.google.com/googleapi/answer/7014113).
-
 
 ```python
 # @markdown Please fill in the value below with your Google Cloud project ID and then run the cell.
@@ -66,11 +63,11 @@ PROJECT_ID = "my-project-id"  # @param {type:"string"}
 ```
 
 ### 🔐 Authentication
+
 Authenticate to Google Cloud as the IAM user logged into this notebook in order to access your Google Cloud Project.
 
 * If you are using Colab to run this notebook, use the cell below and continue.
 * If you are using Vertex AI Workbench, check out the setup instructions [here](https://github.com/GoogleCloudPlatform/generative-ai/tree/main/setup-env).
-
 
 ```python
 from google.colab import auth
@@ -87,7 +84,6 @@ To initialize the `MemorystoreMessageHistory` class you need to provide only 2 t
 1. `redis_client` - An instance of a Memorystore Redis.
 1. `session_id` - Each chat message history object must have a unique session ID. If the session ID already has messages stored in Redis, they will can be retrieved.
 
-
 ```python
 import redis
 from langchain_google_memorystore_redis import MemorystoreChatMessageHistory
@@ -98,7 +94,6 @@ redis_client = redis.from_url("redis://127.0.0.1:6379")
 message_history = MemorystoreChatMessageHistory(redis_client, session_id="session1")
 ```
 
-
 ```python
 message_history.messages
 ```
@@ -108,7 +103,6 @@ message_history.messages
 When the history of a specific session is obsolete and can be deleted, it can be done the following way.
 
 **Note:** Once deleted, the data is no longer stored in Memorystore for Redis and is gone forever.
-
 
 ```python
 message_history.clear()

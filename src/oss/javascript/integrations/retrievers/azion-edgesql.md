@@ -8,11 +8,9 @@ This will help you getting started with the [AzionRetriever](/oss/concepts/#retr
 
 ### Integration details
 
-
 | Retriever | Self-host | Cloud offering | Package | [Py support] |
 | :--- | :---: | :---: | :---: | :---: |
 [AzionRetriever](https://api.js.langchain.com/classes/_langchain_community.retrievers_azion_edgesql.AzionRetriever.html) | ❌ | ❌ | @langchain/community | ❌ |
-
 
 ## Setup
 
@@ -27,6 +25,7 @@ If you are using OpenAI embeddings for this guide, you'll need to set your OpenA
 ```typescript
 process.env.OPENAI_API_KEY = "YOUR_API_KEY";
 ```
+
 If you want to get automated tracing from individual queries, you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
 ```typescript
@@ -46,10 +45,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   azion @langchain/openai @langchain/community
 </Npm2Yarn>
 ```
+
 ## Instantiation
 
 Now we can instantiate our retriever:
-
 
 ```typescript
 import { AzionRetriever } from "@langchain/community/retrievers/azion_edgesql";
@@ -78,14 +77,15 @@ const retriever = new AzionRetriever(embeddingModel,
 
 }) // number of results to return from the vector index
 ```
-## Usage
 
+## Usage
 
 ```typescript
 const query = "Australia"
 
 await retriever.invoke(query);
 ```
+
 ```output
 [
   Document {
@@ -105,6 +105,7 @@ await retriever.invoke(query);
   }
 ]
 ```
+
 ## Use within a chain
 
 Like other retrievers, AzionRetriever can be incorporated into LLM applications via [chains](/oss/how-to/sequence/).
@@ -114,6 +115,7 @@ We will need a LLM or chat model:
 ```{=mdx}
 <ChatModelTabs customVarName="llm" />
 ```
+
 ```typescript
 // @lc-docs-hide-cell
 
@@ -124,7 +126,6 @@ const llm = new ChatOpenAI({
   temperature: 0,
 });
 ```
-
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts";
@@ -156,13 +157,14 @@ const ragChain = RunnableSequence.from([
 ]);
 ```
 
-
 ```typescript
 await ragChain.invoke("Paris")
 ```
+
 ```output
 The context mentions that the 2024 Olympics are in Paris.
 ```
+
 ## API reference
 
 For detailed documentation of all AzionRetriever features and configurations head to the [API reference](https://api.js.langchain.com/classes/_langchain_community.retrievers_azion_edgesql.AzionRetriever.html).

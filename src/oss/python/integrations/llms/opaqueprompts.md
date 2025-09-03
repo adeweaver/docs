@@ -4,9 +4,7 @@ title: OpaquePrompts
 
 [OpaquePrompts](https://opaqueprompts.readthedocs.io/en/latest/) is a service that enables applications to leverage the power of language models without compromising user privacy. Designed for composability and ease of integration into existing applications and services, OpaquePrompts is consumable via a simple Python library as well as through LangChain. Perhaps more importantly, OpaquePrompts leverages the power of [confidential computing](https://en.wikipedia.org/wiki/Confidential_computing) to ensure that even the OpaquePrompts service itself cannot access the data it is protecting.
 
-
 This notebook goes over how to use LangChain to interact with `OpaquePrompts`.
-
 
 ```python
 # install the opaqueprompts and langchain packages
@@ -14,7 +12,6 @@ This notebook goes over how to use LangChain to interact with `OpaquePrompts`.
 ```
 
 Accessing the OpaquePrompts API requires an API key, which you can get by creating an account on [the OpaquePrompts website](https://opaqueprompts.opaque.co/). Once you have an account, you can find your API key on [the API Keys page](https:opaqueprompts.opaque.co/api-keys).
-
 
 ```python
 import os
@@ -28,7 +25,6 @@ os.environ["OPENAI_API_KEY"] = "<OPENAI_API_KEY>"
 # Use OpaquePrompts LLM Wrapper
 
 Applying OpaquePrompts to your application could be as simple as wrapping your LLM using the OpaquePrompts class by replace `llm=OpenAI()` with `llm=OpaquePrompts(base_llm=OpenAI())`.
-
 
 ```python
 from langchain.chains import LLMChain
@@ -130,7 +126,6 @@ Hey John, just wanted to remind you to do a password reset for your website http
 # Use OpaquePrompts in LangChain expression
 
 There are functions that can be used with LangChain expression as well if a drop-in replacement doesn't offer the flexibility you need.
-
 
 ```python
 import langchain_community.utilities.opaqueprompts as op

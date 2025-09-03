@@ -6,6 +6,7 @@ The `Gitlab` toolkit contains tools that enable an LLM agent to interact with a 
 The tool is a wrapper for the [python-gitlab](https://github.com/python-gitlab/python-gitlab) library.
 
 ## Quickstart
+
 1. Install the python-gitlab library
 2. Create a Gitlab personal access token
 3. Set your environmental variables
@@ -29,12 +30,9 @@ Each of these steps will be explained in great detail below.
 
 8. **Delete File**- deletes a file from the repository.
 
-
-
 ## Setup
 
 ### 1. Install the `python-gitlab` library
-
 
 ```python
 %pip install --upgrade --quiet  python-gitlab langchain-community
@@ -52,15 +50,13 @@ Each of these steps will be explained in great detail below.
 
 Before initializing your agent, the following environmental variables need to be set:
 
-* **GITLAB_URL** - The URL hosted Gitlab. Defaults to "https://gitlab.com".
+* **GITLAB_URL** - The URL hosted Gitlab. Defaults to "[gitlab.com](https://gitlab.com)".
 * **GITLAB_PERSONAL_ACCESS_TOKEN**- The personal access token you created in the last step
 * **GITLAB_REPOSITORY**- The name of the Gitlab repository you want your bot to act upon. Must follow the format \{username\}/\{repo-name\}.
 * **GITLAB_BRANCH**- The branch where the bot will make its commits. Defaults to 'main.'
 * **GITLAB_BASE_BRANCH**- The base branch of your repo, usually either 'main' or 'master.' This is where merge requests will base from. Defaults to 'main.'
 
-
 ## Example: Simple Agent
-
 
 ```python
 import os
@@ -70,7 +66,6 @@ from langchain_community.agent_toolkits.gitlab.toolkit import GitLabToolkit
 from langchain_community.utilities.gitlab import GitLabAPIWrapper
 from langchain_openai import OpenAI
 ```
-
 
 ```python
 # Set your environment variables using os.environ
@@ -84,7 +79,6 @@ os.environ["GITLAB_BASE_BRANCH"] = "main"
 os.environ["OPENAI_API_KEY"] = ""
 ```
 
-
 ```python
 llm = OpenAI(temperature=0)
 gitlab = GitLabAPIWrapper()
@@ -94,12 +88,12 @@ agent = initialize_agent(
 )
 ```
 
-
 ```python
 agent.run(
     "You have the software engineering capabilities of a Google Principle engineer. You are tasked with completing issues on a gitlab repository. Please look at the open issues and complete them by creating merge requests that solve the issues."
 )
 ```
+
 ```output
 > Entering new AgentExecutor chain...
  I need to look at the open issues and figure out how to solve them.
@@ -150,12 +144,9 @@ Final Answer: I have created a merge request with number 12 that solves issue 15
 > Finished chain.
 ```
 
-
 ```output
 'I have created a merge request with number 12 that solves issue 15.'
 ```
-
-
 
 ```python
 

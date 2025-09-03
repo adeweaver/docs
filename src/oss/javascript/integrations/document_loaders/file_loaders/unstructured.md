@@ -13,9 +13,11 @@ Only available on Node.js.
 </Tip>
 
 ```
+
 This notebook provides a quick overview for getting started with `UnstructuredLoader` [document loaders](/oss/concepts/document_loaders). For detailed documentation of all `UnstructuredLoader` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_document_loaders_fs_unstructured.UnstructuredLoader.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Compatibility | Local | [PY support](https://python.langchain.com/docs/integrations/document_loaders/unstructured_file) |
@@ -33,6 +35,7 @@ You can run Unstructured locally in your computer using Docker. To do so, you ne
 ```bash
 docker run -p 8000:8000 -d --rm --name unstructured-api downloads.unstructured.io/unstructured-io/unstructured-api:latest --port 8000 --host 0.0.0.0
 ```
+
 ### Credentials
 
 Head to [unstructured.io](https://unstructured.io/api-key-hosted) to sign up to Unstructured and generate an API key. Once you've done this set the `UNSTRUCTURED_API_KEY` environment variable:
@@ -40,6 +43,7 @@ Head to [unstructured.io](https://unstructured.io/api-key-hosted) to sign up to 
 ```bash
 export UNSTRUCTURED_API_KEY="your-api-key"
 ```
+
 ### Installation
 
 The LangChain UnstructuredLoader integration lives in the `@langchain/community` package:
@@ -53,23 +57,24 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and load documents:
-
 
 ```typescript
 import { UnstructuredLoader } from "@langchain/community/document_loaders/fs/unstructured"
 
 const loader = new UnstructuredLoader("../../../../../../examples/src/document_loaders/example_data/notion.md")
 ```
-## Load
 
+## Load
 
 ```typescript
 const docs = await loader.load()
 docs[0]
 ```
+
 ```output
 Document {
   pageContent: '# Testing the notion markdownloader',
@@ -86,6 +91,7 @@ Document {
 ```typescript
 console.log(docs[0].metadata)
 ```
+
 ```output
 {
   filename: 'notion.md',
@@ -94,11 +100,10 @@ console.log(docs[0].metadata)
   category: 'NarrativeText'
 }
 ```
+
 ## Directories
 
 You can also load all of the files in the directory using [`UnstructuredDirectoryLoader`](https://api.js.langchain.com/classes/langchain.document_loaders_fs_unstructured.UnstructuredDirectoryLoader.html), which inherits from [`DirectoryLoader`](/oss/integrations/document_loaders/file_loaders/directory):
-
-
 
 ```typescript
 import { UnstructuredDirectoryLoader } from "@langchain/community/document_loaders/fs/unstructured";
@@ -112,6 +117,7 @@ console.log("directoryDocs.length: ", directoryDocs.length);
 console.log(directoryDocs[0])
 
 ```
+
 ```output
 Unknown file type: Star_Wars_The_Clone_Wars_S06E07_Crisis_at_the_Heart.srt
 Unknown file type: test.mp3
@@ -129,6 +135,7 @@ Document {
   id: undefined
 }
 ```
+
 ## API reference
 
-For detailed documentation of all UnstructuredLoader features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_community_document_loaders_fs_unstructured.UnstructuredLoader.html
+For detailed documentation of all UnstructuredLoader features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_document_loaders_fs_unstructured.UnstructuredLoader.html).

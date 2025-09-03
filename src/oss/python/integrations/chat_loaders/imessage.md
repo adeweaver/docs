@@ -16,7 +16,6 @@ It's likely that your terminal is denied access to `~/Library/Messages`. To use 
 
 We have created an example database you can use at [this linked drive file](https://drive.google.com/file/d/1NebNKqTA2NXApCmeH6mu0unJD2tANZzo/view?usp=sharing).
 
-
 ```python
 # This uses some example data
 import requests
@@ -43,18 +42,18 @@ url = (
 # Download file to chat.db
 download_drive_file(url)
 ```
+
 ```output
 File chat.db downloaded.
 ```
+
 ## 2. Create the Chat Loader
 
 Provide the loader with the file path to the zip directory. You can optionally specify the user id that maps to an ai message as well as configure whether to merge message runs.
 
-
 ```python
 from langchain_community.chat_loaders.imessage import IMessageChatLoader
 ```
-
 
 ```python
 loader = IMessageChatLoader(
@@ -67,7 +66,6 @@ loader = IMessageChatLoader(
 The `load()` (or `lazy_load`) methods return a list of "ChatSessions" that currently just contain a list of messages per loaded conversation. All messages are mapped to "HumanMessage" objects to start.
 
 You can optionally choose to merge message "runs" (consecutive messages from the same sender) and select a sender to represent the "AI". The fine-tuned LLM will learn to generate these AI messages.
-
 
 ```python
 from typing import List
@@ -87,14 +85,11 @@ chat_sessions: List[ChatSession] = list(
 )
 ```
 
-
 ```python
 # Now all of the Tortoise's messages will take the AI message class
 # which maps to the 'assistant' role in OpenAI's training format
 chat_sessions[0]["messages"][:3]
 ```
-
-
 
 ```output
 [AIMessage(content="Slow and steady, that's my motto.", additional_kwargs={'message_time': 1693182723, 'sender': 'Tortoise'}, example=False),
@@ -102,34 +97,31 @@ chat_sessions[0]["messages"][:3]
  AIMessage(content='A balanced approach is more reliable.', additional_kwargs={'message_time': 1693182783, 'sender': 'Tortoise'}, example=False)]
 ```
 
-
 ## 3. Prepare for fine-tuning
 
 Now it's time to convert our chat  messages to OpenAI dictionaries. We can use the `convert_messages_for_finetuning` utility to do so.
-
 
 ```python
 from langchain_community.adapters.openai import convert_messages_for_finetuning
 ```
 
-
 ```python
 training_data = convert_messages_for_finetuning(chat_sessions)
 print(f"Prepared {len(training_data)} dialogues for training")
 ```
+
 ```output
 Prepared 10 dialogues for training
 ```
+
 ## 4. Fine-tune the model
 
 It's time to fine-tune the model. Make sure you have `openai` installed
 and have set your `OPENAI_API_KEY` appropriately
 
-
 ```python
 %pip install --upgrade --quiet  langchain-openai
 ```
-
 
 ```python
 import json
@@ -156,11 +148,12 @@ while status != "processed":
     status = openai.files.retrieve(training_file.id).status
 print(f"File {training_file.id} ready after {time.time() - start_time:.2f} seconds.")
 ```
+
 ```output
 File file-zHIgf4r8LltZG3RFpkGd4Sjf ready after 10.19 seconds.
 ```
-With the file ready, it's time to kick off a training job.
 
+With the file ready, it's time to kick off a training job.
 
 ```python
 job = openai.fine_tuning.jobs.create(
@@ -171,7 +164,6 @@ job = openai.fine_tuning.jobs.create(
 
 Grab a cup of tea while your model is being prepared. This may take some time!
 
-
 ```python
 status = openai.fine_tuning.jobs.retrieve(job.id).status
 start_time = time.time()
@@ -181,6 +173,7 @@ while status != "succeeded":
     job = openai.fine_tuning.jobs.retrieve(job.id)
     status = job.status
 ```
+
 ```output
 Status=[running]... 524.95s
 ```
@@ -188,13 +181,14 @@ Status=[running]... 524.95s
 ```python
 print(job.fine_tuned_model)
 ```
+
 ```output
 ft:gpt-3.5-turbo-0613:personal::7sKoRdlz
 ```
+
 ## 5. Use in LangChain
 
 You can use the resulting model ID directly the `ChatOpenAI` model class.
-
 
 ```python
 from langchain_openai import ChatOpenAI
@@ -204,7 +198,6 @@ model = ChatOpenAI(
     temperature=1,
 )
 ```
-
 
 ```python
 from langchain_core.output_parsers import StrOutputParser
@@ -220,11 +213,11 @@ prompt = ChatPromptTemplate.from_messages(
 chain = prompt | model | StrOutputParser()
 ```
 
-
 ```python
 for tok in chain.stream({"input": "What's the golden thread?"}):
     print(tok, end="", flush=True)
 ```
+
 ```output
 A symbol of interconnectedness.
 ```

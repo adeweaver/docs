@@ -4,21 +4,17 @@ title: Xorbits Pandas DataFrame
 
 This notebook goes over how to load data from a [xorbits.pandas](https://doc.xorbits.io/en/latest/reference/pandas/frame.html) DataFrame.
 
-
 ```python
 %pip install --upgrade --quiet  xorbits
 ```
-
 
 ```python
 import xorbits.pandas as pd
 ```
 
-
 ```python
 df = pd.read_csv("example_data/mlb_teams_2012.csv")
 ```
-
 
 ```python
 df.head()
@@ -27,8 +23,6 @@ df.head()
 ```output
   0%|          |   0.00/100 [00:00<?, ?it/s]
 ```
-
-
 
 ```html
 <div>
@@ -90,17 +84,13 @@ df.head()
 </div>
 ```
 
-
-
 ```python
 from langchain_community.document_loaders import XorbitsLoader
 ```
 
-
 ```python
 loader = XorbitsLoader(df, page_content_column="Team")
 ```
-
 
 ```python
 loader.load()
@@ -109,8 +99,6 @@ loader.load()
 ```output
   0%|          |   0.00/100 [00:00<?, ?it/s]
 ```
-
-
 
 ```output
 [Document(page_content='Nationals', metadata={' "Payroll (millions)"': 81.34, ' "Wins"': 98}),
@@ -145,8 +133,6 @@ loader.load()
  Document(page_content='Astros', metadata={' "Payroll (millions)"': 60.65, ' "Wins"': 55})]
 ```
 
-
-
 ```python
 # Use lazy load for larger table, which won't read the full table into memory
 for i in loader.lazy_load():
@@ -156,6 +142,7 @@ for i in loader.lazy_load():
 ```output
   0%|          |   0.00/100 [00:00<?, ?it/s]
 ```
+
 ```output
 page_content='Nationals' metadata={' "Payroll (millions)"': 81.34, ' "Wins"': 98}
 page_content='Reds' metadata={' "Payroll (millions)"': 82.2, ' "Wins"': 97}

@@ -8,7 +8,6 @@ title: TSV
 
 You can also load the table using the `UnstructuredTSVLoader`. One advantage of using `UnstructuredTSVLoader` is that if you use it in `"elements"` mode, an HTML representation of the table will be available in the metadata.
 
-
 ```python
 from langchain_community.document_loaders.tsv import UnstructuredTSVLoader
 
@@ -19,6 +18,7 @@ docs = loader.load()
 
 print(docs[0].metadata["text_as_html"])
 ```
+
 ```output
 <table border="1" class="dataframe">
   <tbody>

@@ -4,11 +4,11 @@ title: Titan Takeoff
 
 `TitanML` helps businesses build and deploy better, smaller, cheaper, and faster NLP models through our training, compression, and inference optimization platform.
 
-Our inference server, [Titan Takeoff](https://docs.titanml.co/docs/intro) enables deployment of LLMs locally on your hardware in a single command. Most embedding models are supported out of the box, if you experience trouble with a specific model, please let us know at hello@titanml.co.
+Our inference server, [Titan Takeoff](https://docs.titanml.co/docs/intro) enables deployment of LLMs locally on your hardware in a single command. Most embedding models are supported out of the box, if you experience trouble with a specific model, please let us know at [hello@titanml.co](mailto:hello@titanml.co).
 
 ## Example usage
-Here are some helpful examples to get started using Titan Takeoff Server. You need to make sure Takeoff Server has been started in the background before running these commands. For more information see [docs page for launching Takeoff](https://docs.titanml.co/docs/Docs/launching/).
 
+Here are some helpful examples to get started using Titan Takeoff Server. You need to make sure Takeoff Server has been started in the background before running these commands. For more information see [docs page for launching Takeoff](https://docs.titanml.co/docs/Docs/launching/).
 
 ```python
 import time
@@ -17,8 +17,8 @@ from langchain_community.embeddings import TitanTakeoffEmbed
 ```
 
 ### Example 1
-Basic use assuming Takeoff is running on your machine using its default ports (ie localhost:3000).
 
+Basic use assuming Takeoff is running on your machine using its default ports (ie localhost:3000).
 
 ```python
 embed = TitanTakeoffEmbed()
@@ -29,10 +29,10 @@ print(output)
 ```
 
 ### Example 2
+
 Starting readers using TitanTakeoffEmbed Python Wrapper. If you haven't created any readers with first launching Takeoff, or you want to add another you can do so when you initialize the TitanTakeoffEmbed object. Just pass a list of models you want to start as the `models` parameter.
 
 You can use `embed.query_documents` to embed multiple documents at once. The expected input is a list of strings, rather than just a string expected for the `embed_query` method.
-
 
 ```python
 # Model config for the embedding model, where you can specify the following parameters:

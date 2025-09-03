@@ -5,11 +5,11 @@ title: Kinetica Vectorstore based Retriever
 >[Kinetica](https://www.kinetica.com/) is a database with integrated support for vector similarity search
 
 It supports:
+
 - exact and approximate nearest neighbor search
 - L2 distance, inner product, and cosine distance
 
 This notebook shows how to use a retriever based on Kinetica vector store (`Kinetica`).
-
 
 ```python
 # Please ensure that this connector is installed in your working environment.
@@ -17,7 +17,6 @@ This notebook shows how to use a retriever based on Kinetica vector store (`Kine
 ```
 
 We want to use `OpenAIEmbeddings` so we have to get the OpenAI API Key.
-
 
 ```python
 import getpass
@@ -27,14 +26,12 @@ if "OPENAI_API_KEY" not in os.environ:
     os.environ["OPENAI_API_KEY"] = getpass.getpass("OpenAI API Key:")
 ```
 
-
 ```python
 ## Loading Environment Variables
 from dotenv import load_dotenv
 
 load_dotenv()
 ```
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -46,7 +43,6 @@ from langchain_core.documents import Document
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import CharacterTextSplitter
 ```
-
 
 ```python
 # Kinetica needs the connection to the database.
@@ -62,7 +58,6 @@ def create_config() -> KineticaSettings:
 ```
 
 ## Create Retriever from vector store
-
 
 ```python
 loader = TextLoader("../../how_to/state_of_the_union.txt")
@@ -90,7 +85,6 @@ retriever = db.as_retriever(search_kwargs={"k": 2})
 ```
 
 ## Search with retriever
-
 
 ```python
 result = retriever.get_relevant_documents(

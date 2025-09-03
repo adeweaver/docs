@@ -7,6 +7,7 @@ title: ChatGoogleGenerativeAI
 This will help you getting started with `ChatGoogleGenerativeAI` [chat models](/oss/concepts/chat_models). For detailed documentation of all `ChatGoogleGenerativeAI` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_google_genai.ChatGoogleGenerativeAI.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [PY support](https://python.langchain.com/docs/integrations/chat/google_generative_ai) | Package downloads | Package latest |
@@ -37,6 +38,7 @@ Click [here](/oss/integrations/chat/google_vertex_ai) to read the docs.
 </Tip>
 
 ```
+
 ### Credentials
 
 Get an API key here: [https://ai.google.dev/tutorials/setup](https://ai.google.dev/tutorials/setup)
@@ -46,12 +48,14 @@ Then set the `GOOGLE_API_KEY` environment variable:
 ```bash
 export GOOGLE_API_KEY="your-api-key"
 ```
+
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
 ```bash
 # export LANGSMITH_TRACING="true"
 # export LANGSMITH_API_KEY="your-api-key"
 ```
+
 ### Installation
 
 The LangChain `ChatGoogleGenerativeAI` integration lives in the `@langchain/google-genai` package:
@@ -65,10 +69,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```typescript
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai"
@@ -80,8 +84,8 @@ const llm = new ChatGoogleGenerativeAI({
     // other params...
 })
 ```
-## Invocation
 
+## Invocation
 
 ```typescript
 const aiMsg = await llm.invoke([
@@ -93,6 +97,7 @@ const aiMsg = await llm.invoke([
 ])
 aiMsg
 ```
+
 ```output
 AIMessage {
   "content": "J'adore programmer. \n",
@@ -153,13 +158,14 @@ AIMessage {
 ```typescript
 console.log(aiMsg.content)
 ```
+
 ```output
 J'adore programmer.
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts"
@@ -183,6 +189,7 @@ await chain.invoke(
     }
 )
 ```
+
 ```output
 AIMessage {
   "content": "Ich liebe das Programmieren. \n",
@@ -239,10 +246,10 @@ AIMessage {
   }
 }
 ```
+
 ## Safety Settings
 
 Gemini models have default safety settings that can be overridden. If you are receiving lots of "Safety Warnings" from your models, you can try tweaking the safety_settings attribute of the model. For example, to turn off safety blocking for dangerous content, you can import enums from the `@google/generative-ai` package, then construct your LLM as follows:
-
 
 ```typescript
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
@@ -275,7 +282,6 @@ and
 
 Instead, you should explicitly define the properties of the object field. Here's an example:
 
-
 ```typescript
 import { tool } from "@langchain/core/tools";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
@@ -306,6 +312,7 @@ const toolRes = await llmWithTool.invoke([
 
 console.log(toolRes.tool_calls);
 ```
+
 ```output
 [
   {
@@ -318,10 +325,10 @@ console.log(toolRes.tool_calls);
   }
 ]
 ```
+
 ### Built in Google Search Retrieval
 
 Google also offers a built in search tool which you can use to ground content generation in real-world information. Here's an example of how to use it:
-
 
 ```typescript
 import { DynamicRetrievalMode, GoogleSearchRetrievalTool } from "@google/generative-ai";
@@ -345,15 +352,17 @@ const searchRetrievalResult = await searchRetrievalModel.invoke("Who won the 202
 
 console.log(searchRetrievalResult.content);
 ```
+
 ```output
 The Los Angeles Dodgers won the 2024 World Series, defeating the New York Yankees in Game 5 on October 30, 2024, by a score of 7-6. This victory marks the Dodgers' eighth World Series title and their first in a full season since 1988.  They achieved this win by overcoming a 5-0 deficit, making them the first team in World Series history to win a clinching game after being behind by such a margin.  The Dodgers also became the first team in MLB postseason history to overcome a five-run deficit, fall behind again, and still win.  Walker Buehler earned the save in the final game, securing the championship for the Dodgers.
 ```
-The response also includes metadata about the search result:
 
+The response also includes metadata about the search result:
 
 ```typescript
 console.dir(searchRetrievalResult.response_metadata?.groundingMetadata, { depth: null });
 ```
+
 ```output
 {
   searchEntryPoint: {
@@ -519,10 +528,10 @@ console.dir(searchRetrievalResult.response_metadata?.groundingMetadata, { depth:
   webSearchQueries: [ 'who won the 2024 mlb world series' ]
 }
 ```
+
 ### Code Execution
 
 Google Generative AI also supports code execution. Using the built in `CodeExecutionTool`, you can make the model generate code, execute it, and use the results in a final completion:
-
 
 ```typescript
 import { CodeExecutionTool } from "@google/generative-ai";
@@ -541,6 +550,7 @@ const codeExecutionResult = await codeExecutionModel.invoke("Use code execution 
 
 console.dir(codeExecutionResult.content, { depth: null });
 ```
+
 ```output
 [
   {
@@ -578,8 +588,8 @@ console.dir(codeExecutionResult.content, { depth: null });
   }
 ]
 ```
-You can also pass this generation back to the model as chat history:
 
+You can also pass this generation back to the model as chat history:
 
 ```typescript
 const codeExecutionExplanation = await codeExecutionModel.invoke([
@@ -592,6 +602,7 @@ const codeExecutionExplanation = await codeExecutionModel.invoke([
 
 console.log(codeExecutionExplanation.content);
 ```
+
 ```output
 You asked for the sum of the first three and the last three numbers in the list `[1, 2, 3, 72638, 8, 727, 4, 5, 6]`.
 
@@ -616,10 +627,10 @@ The output of the code was:
 
 Therefore, the answer to your question is 21.
 ```
+
 ## Context Caching
 
 Context caching allows you to pass some content to the model once, cache the input tokens, and then refer to the cached tokens for subsequent requests to reduce cost. You can create a `CachedContent` object using `GoogleAICacheManager` class and then pass the `CachedContent` object to your `ChatGoogleGenerativeAIModel` with `enableCachedContent()` method.
-
 
 ```typescript
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
@@ -670,6 +681,7 @@ await model.invoke("Summarize the video");
 ```
 
 **Note**
+
 - Context caching supports both Gemini 1.5 Pro and Gemini 1.5 Flash. Context caching is only available for stable models with fixed versions (for example, gemini-1.5-pro-001). You must include the version postfix (for example, the -001 in gemini-1.5-pro-001).
 - The minimum input token count for context caching is 32,768, and the maximum is the same as the maximum for the given model.
 
@@ -682,7 +694,6 @@ As of the time this doc was written (2023/12/12), Gemini has some restrictions o
 3. For regular chat conversations, messages must follow the human/ai/human/ai alternating pattern. You may not provide 2 AI or human messages in sequence.
 4. Message may be blocked if they violate the safety checks of the LLM. In this case, the model will return an empty response.
 
-
 ## API reference
 
-For detailed documentation of all ChatGoogleGenerativeAI features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_google_genai.ChatGoogleGenerativeAI.html
+For detailed documentation of all ChatGoogleGenerativeAI features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_google_genai.ChatGoogleGenerativeAI.html).

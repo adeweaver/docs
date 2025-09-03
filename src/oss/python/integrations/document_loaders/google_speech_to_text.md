@@ -16,7 +16,6 @@ You can find more info about it on the [Speech-to-Text client libraries](https:/
 
 Follow the [quickstart guide](https://cloud.google.com/speech-to-text/v2/docs/sync-recognize) in the Google Cloud documentation to create a project and enable the API.
 
-
 ```python
 %pip install --upgrade --quiet langchain-google-community[speech]
 ```
@@ -26,7 +25,6 @@ Follow the [quickstart guide](https://cloud.google.com/speech-to-text/v2/docs/sy
 The `SpeechToTextLoader` must include the `project_id` and `file_path` arguments. Audio files can be specified as a Google Cloud Storage URI (`gs://...`) or a local file path.
 
 Only synchronous requests are supported by the loader, which has a [limit of 60 seconds or 10MB](https://cloud.google.com/speech-to-text/v2/docs/sync-recognize#:~:text=60%20seconds%20and/or%2010%20MB) per audio file.
-
 
 ```python
 from langchain_google_community import SpeechToTextLoader
@@ -44,7 +42,6 @@ Note: Calling `loader.load()` blocks until the transcription is finished.
 
 The transcribed text is available in the `page_content`:
 
-
 ```python
 docs[0].page_content
 ```
@@ -54,7 +51,6 @@ docs[0].page_content
 ```
 
 The `metadata` contains the full JSON response with more meta information:
-
 
 ```python
 docs[0].metadata
@@ -79,7 +75,6 @@ If you don't specify a `config`, the following options will be selected automati
 - Language: `en-US`
 - Audio Encoding: Automatically Detected
 - Automatic Punctuation: Enabled
-
 
 ```python
 from google.cloud.speech_v2 import (

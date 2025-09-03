@@ -9,15 +9,14 @@ The OpenGradient langchain package currently offers a toolkit that allows develo
 The toolkit solves this problem by encapsulating all data processing logic within the tool definition itself. This approach keeps the agent's context window clean while giving developers complete flexibility to implement custom data processing and live-data retrieval for their ML models.
 
 ## Installation and Setup
-Ensure that you have an OpenGradient API key in order to access the OpenGradient network. If you already have an API key, simply set the environment variable:
 
+Ensure that you have an OpenGradient API key in order to access the OpenGradient network. If you already have an API key, simply set the environment variable:
 
 ```python
 !export OPENGRADIENT_PRIVATE_KEY="your-api-key"
 ```
 
 If you need to set up a new API key, download the opengradient SDK and follow the instructions to initialize a new configuration.
-
 
 ```python
 !pip install opengradient
@@ -26,15 +25,16 @@ If you need to set up a new API key, download the opengradient SDK and follow th
 
 Once you have set up your API key, install the langchain-opengradient package.
 
-
 ```python
 pip install -U langchain-opengradient
 ```
 
 ## OpenGradient Toolkit
+
 The OpenGradientToolkit empowers developers to create specialized tools based on [ML models](https://hub.opengradient.ai/models) and [workflows](https://docs.opengradient.ai/developers/sdk/ml_workflows.html) deployed on the OpenGradient decentralized network. This integration enables LangChain agents to access powerful ML capabilities while maintaining efficient context usage.
 
 ### Key Benefits
+
 * 🔄 Real-time data integration - Process live data feeds within your tools
 
 * 🎯 Dynamic processing - Custom data pipelines that adapt to specific agent inputs

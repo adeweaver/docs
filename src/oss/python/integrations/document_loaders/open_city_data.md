@@ -14,16 +14,13 @@ E.g., `vw6y-z8j6` for [SF 311 data](https://dev.socrata.com/foundry/data.sfgov.o
 
 E.g., `tmnf-yvry` for [SF Police data](https://dev.socrata.com/foundry/data.sfgov.org/tmnf-yvry).
 
-
 ```python
 %pip install --upgrade --quiet  sodapy
 ```
 
-
 ```python
 from langchain_community.document_loaders import OpenCityDataLoader
 ```
-
 
 ```python
 dataset = "vw6y-z8j6"  # 311 data
@@ -31,10 +28,10 @@ dataset = "tmnf-yvry"  # crime data
 loader = OpenCityDataLoader(city_id="data.sfgov.org", dataset_id=dataset, limit=2000)
 ```
 
-
 ```python
 docs = loader.load()
 ```
+
 ```output
 WARNING:root:Requests made without an app_token will be subject to strict throttling limits.
 ```
@@ -42,8 +39,6 @@ WARNING:root:Requests made without an app_token will be subject to strict thrott
 ```python
 eval(docs[0].page_content)
 ```
-
-
 
 ```output
 {'pdid': '4133422003074',

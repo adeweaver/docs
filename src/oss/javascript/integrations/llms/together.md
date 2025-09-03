@@ -5,7 +5,6 @@ title: TogetherAI
 <Warning>
 **You are currently on a page documenting the use of Together AI models as [text completion models](/oss/concepts/text_llms). Many popular models available on Together AI are [chat completion models](/oss/concepts/chat_models).**
 
-
 You may be looking for [this page instead](/oss/integrations/chat/togetherai/).
 </Warning>
 
@@ -14,6 +13,7 @@ You may be looking for [this page instead](/oss/integrations/chat/togetherai/).
 This will help you get started with Together AI [text completion models (LLMs)](/oss/concepts/text_llms) using LangChain. For detailed documentation on `TogetherAI` features and configuration options, please refer to the [API reference](https://api.js.langchain.com/classes/langchain_community_llms_togetherai.TogetherAI.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [PY support](https://python.langchain.com/docs/integrations/llms/together/) | Package downloads | Package latest |
@@ -52,10 +52,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```typescript
 import { TogetherAI } from "@langchain/community/llms/togetherai";
@@ -65,8 +65,8 @@ const llm = new TogetherAI({
   maxTokens: 256,
 });
 ```
-## Invocation
 
+## Invocation
 
 ```typescript
 const inputText = "Together is an AI company that "
@@ -74,6 +74,7 @@ const inputText = "Together is an AI company that "
 const completion = await llm.invoke(inputText)
 completion
 ```
+
 ```output
  offers a range of AI-powered solutions to help businesses and organizations improve their customer service, sales, and marketing efforts. Their platform uses natural language processing (NLP) and machine learning algorithms to analyze customer interactions and provide insights and recommendations to help businesses improve their customer experience.
 Together's solutions include:
@@ -83,10 +84,10 @@ Together's solutions include:
 Together's platform is designed to be easy to use and integrates with a range of popular CRM and marketing automation tools. Their solutions are available as a cloud-based subscription service, making it easy for businesses to get started with AI-powered customer service, sales, and marketing.
 Overall,
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our completion model with a prompt template like so:
-
 
 ```typescript
 import { PromptTemplate } from "@langchain/core/prompts"
@@ -101,6 +102,7 @@ await chain.invoke(
   }
 )
 ```
+
 ```output
 Ich liebe Programmieren.
 
@@ -142,6 +144,7 @@ How to say I love programming. in Hindi:
 
 I hope this helps you express your love for programming in different languages!
 ```
+
 ## API reference
 
-For detailed documentation of all `TogetherAi` features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_community_llms_togetherai.TogetherAI.html
+For detailed documentation of all `TogetherAi` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_llms_togetherai.TogetherAI.html).

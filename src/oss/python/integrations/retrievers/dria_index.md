@@ -8,7 +8,6 @@ title: Dria
 
 Ensure you have the `dria` package installed. You can install it using pip:
 
-
 ```python
 %pip install --upgrade --quiet dria
 ```
@@ -16,7 +15,6 @@ Ensure you have the `dria` package installed. You can install it using pip:
 # Configure API Key
 
 Set up your Dria API key for access.
-
 
 ```python
 import os
@@ -28,7 +26,6 @@ os.environ["DRIA_API_KEY"] = "DRIA_API_KEY"
 
 Create an instance of `DriaRetriever`.
 
-
 ```python
 from langchain_community.retrievers import DriaRetriever
 
@@ -39,7 +36,6 @@ retriever = DriaRetriever(api_key=api_key)
 # **Create Knowledge Base**
 
 Create a knowledge on [Dria's Knowledge Hub](https://dria.co/knowledge)
-
 
 ```python
 contract_id = retriever.create_knowledge_base(
@@ -53,7 +49,6 @@ contract_id = retriever.create_knowledge_base(
 # Add Data
 
 Load data into your Dria knowledge base.
-
 
 ```python
 texts = [
@@ -69,7 +64,6 @@ print("Data added with IDs:", ids)
 # Retrieve Data
 
 Use the retriever to find relevant documents given a query.
-
 
 ```python
 query = "Find information about Dria."

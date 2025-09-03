@@ -16,7 +16,6 @@ Install the `langchain-sqlserver` python package.
 
 The code lives in an integration package called:[langchain-sqlserver](https:\github.com\langchain-ai\langchain-azure\tree\main\libs\sqlserver).
 
-
 ```python
 !pip install langchain-sqlserver==0.1.1
 ```
@@ -26,14 +25,12 @@ The code lives in an integration package called:[langchain-sqlserver](https:\git
 There are no credentials needed to run this notebook, just make sure you downloaded the `langchain-sqlserver` package
 If you want to get best in-class automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
-
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
 # os.environ["LANGSMITH_TRACING"] = "true"
 ```
 
 ## Initialization
-
 
 ```python
 from langchain_sqlserver import SQLServer_VectorStore
@@ -42,7 +39,6 @@ from langchain_sqlserver import SQLServer_VectorStore
 Find your Azure SQL DB connection string in the Azure portal under your database settings
 
 For more info: [Connect to Azure SQL DB - Python](https:\learn.microsoft.com\en-us\azure\azure-sql\database\connect-query-python?view=azuresql)
-
 
 ```python
 import os
@@ -70,11 +66,9 @@ In this example we use Azure OpenAI to generate embeddings , however you can use
 
 You can deploy a version of Azure OpenAI instance on Azure Portal following this [guide](https:\learn.microsoft.com\en-us\azure\ai-services\openai\how-to\create-resource?pivots=web-portal). Once you have your instance running, make sure you have the name of your instance and key. You can find the key in the Azure Portal, under the "Keys and Endpoint" section of your instance.
 
-
 ```python
 !pip install langchain-openai
 ```
-
 
 ```python
 # Import the necessary Libraries
@@ -107,7 +101,6 @@ embeddings = AzureOpenAIEmbeddings(
 
 ## Manage vector store
 
-
 ```python
 from langchain_community.vectorstores.utils import DistanceStrategy
 from langchain_sqlserver import SQLServer_VectorStore
@@ -123,7 +116,6 @@ vector_store = SQLServer_VectorStore(
 ```
 
 ### Add items to vector store
-
 
 ```python
 ## we will use some artificial data for this example
@@ -157,36 +149,33 @@ query_metadata = [
 ]
 ```
 
-
 ```python
 vector_store.add_texts(texts=query, metadatas=query_metadata)
 ```
-
-
 
 ```output
 [1, 8, 4, 11, 5, 2, 9, 6, 3, 7, 10]
 ```
 
-
 ## Query vector store
+
 Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 
 Performing a simple similarity search can be done as follows:
-
 
 ```python
 # Perform a similarity search between the embedding of the query and the embeddings of the documents
 simsearch_result = vector_store.similarity_search("Good reviews", k=3)
 print(simsearch_result)
 ```
+
 ```output
 [Document(metadata={'id': 1, 'summary': 'Good Quality Dog Food'}, page_content='I have bought several of the Vitality canned dog food products and have found them all to be of good quality. The product looks more like a stew than a processed meat and it smells better. My Labrador is finicky and she appreciates this product better than  most.'), Document(metadata={'id': 7, 'summary': 'This stuff is great'}, page_content='I have used this product in smoothies for my son and he loves it. Additionally, I use this oil in the shower as a skin conditioner and it has made my skin look great. Some of the stretch marks on my belly has disappeared quickly. Highly recommend!!!'), Document(metadata={'id': 5, 'summary': 'Great for the kids!'}, page_content="If you are looking for a less messy version of licorice for the children, then be sure to try these!  They're soft, easy to chew, and they don't get your hands all sticky and gross in the car, in the summer, at the beach, etc. We love all the flavos and sometimes mix these in with the chocolate to have a very nice snack! Great item, great price too, highly recommend!")]
 ```
-### Filtering Support:
+
+### Filtering Support
 
 The vectorstore supports a set of filters that can be applied against the metadata fields of the documents.This feature enables developers and data analysts to refine their queries, ensuring that the search results are accurately aligned with their needs. By applying filters based on specific metadata attributes, users can limit the scope of their searches, concentrating only on the most relevant data subsets.
-
 
 ```python
 # hybrid search -> filter for cases where id not equal to 1.
@@ -195,12 +184,14 @@ hybrid_simsearch_result = vector_store.similarity_search(
 )
 print(hybrid_simsearch_result)
 ```
+
 ```output
 [Document(metadata={'id': 7, 'summary': 'This stuff is great'}, page_content='I have used this product in smoothies for my son and he loves it. Additionally, I use this oil in the shower as a skin conditioner and it has made my skin look great. Some of the stretch marks on my belly has disappeared quickly. Highly recommend!!!'), Document(metadata={'id': 5, 'summary': 'Great for the kids!'}, page_content="If you are looking for a less messy version of licorice for the children, then be sure to try these!  They're soft, easy to chew, and they don't get your hands all sticky and gross in the car, in the summer, at the beach, etc. We love all the flavos and sometimes mix these in with the chocolate to have a very nice snack! Great item, great price too, highly recommend!"), Document(metadata={'id': 3, 'summary': 'Taste is neutral, quantity is DECEITFUL!'}, page_content='The taste of these white cheddar flat breads is like a regular cracker - which is not bad, except that I bought them because I wanted a cheese taste.<br /><br />What was a HUGE disappointment? How misleading the packaging of the box is. The photo on the box (I bought these in store) makes it look like it is full of long flatbreads (expanding the length and width of the box). Wrong! The plastic tray that holds the crackers is about 2 smaller all around - leaving you with about 15 or so small flatbreads.<br /><br />What is also bad about this is that the company states they use biodegradable and eco-friendly packaging. FAIL! They used a HUGE box for a ridiculously small amount of crackers. Not ecofriendly at all.<br /><br />Would I buy these again? No - I feel ripped off. The other crackers (like Sesame Tarragon) give you a little<br />more bang for your buck and have more flavor.')]
 ```
-### Similarity Search with Score:
-If you want to execute a similarity search and receive the corresponding scores you can run:
 
+### Similarity Search with Score
+
+If you want to execute a similarity search and receive the corresponding scores you can run:
 
 ```python
 simsearch_with_score_result = vector_store.similarity_search_with_score(
@@ -208,13 +199,14 @@ simsearch_with_score_result = vector_store.similarity_search_with_score(
 )
 print(simsearch_with_score_result)
 ```
+
 ```output
 [(Document(metadata={'id': 3, 'summary': 'Taste is neutral, quantity is DECEITFUL!'}, page_content='The taste of these white cheddar flat breads is like a regular cracker - which is not bad, except that I bought them because I wanted a cheese taste.<br /><br />What was a HUGE disappointment? How misleading the packaging of the box is. The photo on the box (I bought these in store) makes it look like it is full of long flatbreads (expanding the length and width of the box). Wrong! The plastic tray that holds the crackers is about 2 smaller all around - leaving you with about 15 or so small flatbreads.<br /><br />What is also bad about this is that the company states they use biodegradable and eco-friendly packaging. FAIL! They used a HUGE box for a ridiculously small amount of crackers. Not ecofriendly at all.<br /><br />Would I buy these again? No - I feel ripped off. The other crackers (like Sesame Tarragon) give you a little<br />more bang for your buck and have more flavor.'), 0.651870006770711), (Document(metadata={'id': 8, 'summary': 'Nasty No flavor'}, page_content='The candy is just red , No flavor . Just  plan and chewy .  I would never buy them again'), 0.6908952973052638), (Document(metadata={'id': 4, 'summary': 'stale product'}, page_content='Arrived in 6 days and were so stale i could not eat any of the 6 bags!!'), 0.7360955776468822), (Document(metadata={'id': 1, 'summary': 'Good Quality Dog Food'}, page_content='I have bought several of the Vitality canned dog food products and have found them all to be of good quality. The product looks more like a stew than a processed meat and it smells better. My Labrador is finicky and she appreciates this product better than  most.'), 0.7408823529514486), (Document(metadata={'id': 9, 'summary': 'Nearly killed the cats'}, page_content="Too much of a good thing? We worked this kibble in over time, slowly shifting the percentage of Felidae to national junk-food brand until the bowl was all natural. By this time, the cats couldn't keep it in or down. What a mess. We've moved on."), 0.782995248991772), (Document(metadata={'id': 7, 'summary': 'This stuff is great'}, page_content='I have used this product in smoothies for my son and he loves it. Additionally, I use this oil in the shower as a skin conditioner and it has made my skin look great. Some of the stretch marks on my belly has disappeared quickly. Highly recommend!!!'), 0.7912681479906212), (Document(metadata={'id': 2, 'summary': 'yum falafel'}, page_content='We had trouble finding this locally - delivery was fast, no more hunting up and down the flour aisle at our local grocery stores.'), 0.809213468778896), (Document(metadata={'id': 10, 'summary': "The reviews don't lie"}, page_content='Been taking Coconut Oil for YEARS.  This is the best on the retail market.  I wish it was in glass, but this is the one.'), 0.8281482301097155), (Document(metadata={'id': 5, 'summary': 'Great for the kids!'}, page_content="If you are looking for a less messy version of licorice for the children, then be sure to try these!  They're soft, easy to chew, and they don't get your hands all sticky and gross in the car, in the summer, at the beach, etc. We love all the flavos and sometimes mix these in with the chocolate to have a very nice snack! Great item, great price too, highly recommend!"), 0.8283754326400574), (Document(metadata={'id': 6, 'summary': 'Price cannot be correct'}, page_content='Hey, the description says 360 grams - that is roughly 13 ounces at under $4.00 per can. No way - that is the approximate price for a 100 gram can.'), 0.8323967822635847), (Document(metadata={'id': 11, 'summary': 'Great value and convenient ramen'}, page_content="Got these on sale for roughly 25 cents per cup, which is half the price of my local grocery stores, plus they rarely stock the spicy flavors. These things are a GREAT snack for my office where time is constantly crunched and sometimes you can't escape for a real meal. This is one of my favorite flavors of Instant Lunch and will be back to buy every time it goes on sale."), 0.8387189489406939)]
 ```
+
 For a full list of the different searches you can execute on a Azure SQL vector store, please refer to the [API reference](https://python.langchain.com/api_reference/sqlserver/index.html).
 
 ### Similarity Search when you already have embeddings you want to search on
-
 
 ```python
 # if you already have embeddings you want to search on
@@ -223,6 +215,7 @@ simsearch_by_vector = vector_store.similarity_search_by_vector(
 )
 print(simsearch_by_vector)
 ```
+
 ```output
 [Document(metadata={'id': 8, 'summary': 'Nasty No flavor'}, page_content='The candy is just red , No flavor . Just  plan and chewy .  I would never buy them again'), Document(metadata={'id': 4, 'summary': 'stale product'}, page_content='Arrived in 6 days and were so stale i could not eat any of the 6 bags!!'), Document(metadata={'id': 3, 'summary': 'Taste is neutral, quantity is DECEITFUL!'}, page_content='The taste of these white cheddar flat breads is like a regular cracker - which is not bad, except that I bought them because I wanted a cheese taste.<br /><br />What was a HUGE disappointment? How misleading the packaging of the box is. The photo on the box (I bought these in store) makes it look like it is full of long flatbreads (expanding the length and width of the box). Wrong! The plastic tray that holds the crackers is about 2 smaller all around - leaving you with about 15 or so small flatbreads.<br /><br />What is also bad about this is that the company states they use biodegradable and eco-friendly packaging. FAIL! They used a HUGE box for a ridiculously small amount of crackers. Not ecofriendly at all.<br /><br />Would I buy these again? No - I feel ripped off. The other crackers (like Sesame Tarragon) give you a little<br />more bang for your buck and have more flavor.'), Document(metadata={'id': 6, 'summary': 'Price cannot be correct'}, page_content='Hey, the description says 360 grams - that is roughly 13 ounces at under $4.00 per can. No way - that is the approximate price for a 100 gram can.')]
 ```
@@ -234,28 +227,25 @@ simsearch_by_vector_with_score = vector_store.similarity_search_by_vector_with_s
 )
 print(simsearch_by_vector_with_score)
 ```
+
 ```output
 [(Document(metadata={'id': 8, 'summary': 'Nasty No flavor'}, page_content='The candy is just red , No flavor . Just  plan and chewy .  I would never buy them again'), 0.9648153551769503), (Document(metadata={'id': 4, 'summary': 'stale product'}, page_content='Arrived in 6 days and were so stale i could not eat any of the 6 bags!!'), 0.9655108580341948), (Document(metadata={'id': 3, 'summary': 'Taste is neutral, quantity is DECEITFUL!'}, page_content='The taste of these white cheddar flat breads is like a regular cracker - which is not bad, except that I bought them because I wanted a cheese taste.<br /><br />What was a HUGE disappointment? How misleading the packaging of the box is. The photo on the box (I bought these in store) makes it look like it is full of long flatbreads (expanding the length and width of the box). Wrong! The plastic tray that holds the crackers is about 2 smaller all around - leaving you with about 15 or so small flatbreads.<br /><br />What is also bad about this is that the company states they use biodegradable and eco-friendly packaging. FAIL! They used a HUGE box for a ridiculously small amount of crackers. Not ecofriendly at all.<br /><br />Would I buy these again? No - I feel ripped off. The other crackers (like Sesame Tarragon) give you a little<br />more bang for your buck and have more flavor.'), 0.9840511208615808), (Document(metadata={'id': 6, 'summary': 'Price cannot be correct'}, page_content='Hey, the description says 360 grams - that is roughly 13 ounces at under $4.00 per can. No way - that is the approximate price for a 100 gram can.'), 0.9915737524649991)]
 ```
+
 ## Delete items from vector store
 
 ### Delete Row by ID
-
 
 ```python
 # delete row by id
 vector_store.delete(["3", "7"])
 ```
 
-
-
 ```output
 True
 ```
 
-
 ### Drop Vector Store
-
 
 ```python
 # drop vectorstore
@@ -267,11 +257,9 @@ vector_store.drop()
 Below is example of loading a file from Azure Blob Storage container into the SQL Vector store after splitting the document into chunks.
 [Azure Blog Storage](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction) is Microsoft's object storage solution for the cloud. Blob Storage is optimized for storing massive amounts of unstructured data.
 
-
 ```python
 pip install azure-storage-blob
 ```
-
 
 ```python
 from langchain.document_loaders import AzureBlobStorageFileLoader
@@ -298,11 +286,12 @@ split_documents = text_splitter.split_documents(documents)
 # Print the number of split documents
 print(f"Number of split documents: {len(split_documents)}")
 ```
+
 ```output
 Number of split documents: 528
 ```
-API Reference:[AzureBlobStorageContainerLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.azure_blob_storage_container.AzureBlobStorageContainerLoader.html)
 
+API Reference:[AzureBlobStorageContainerLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.azure_blob_storage_container.AzureBlobStorageContainerLoader.html)
 
 ```python
 # # Initialize the vector store & insert the documents in AzureSQLDB with their embeddings
@@ -320,11 +309,12 @@ for i, doc in enumerate(split_documents):
 
 print("Documents added to the vector store successfully!")
 ```
+
 ```output
 Documents added to the vector store successfully!
 ```
-## Query directly
 
+## Query directly
 
 ```python
 from typing import List, Tuple
@@ -341,6 +331,7 @@ for doc, score in docs_with_score:
     print(doc.page_content)
     print("-" * 60)
 ```
+
 ```output
 ------------------------------------------------------------
 Score:  0.3626232679001803
@@ -369,6 +360,7 @@ Hagrid was watching him sadly.
 But at that moment, Hagrid leapt from the sofa and drew a battered pink umbrella from inside his coat. Pointing this at Uncle Vernon like a sword, he said, “I’m warning you, Dursley — I’m warning you — one more word….”
 ------------------------------------------------------------
 ```
+
 ## Usage for retrieval-augmented generation
 
 #### Use Case 1: Q&A System based on the Story Book
@@ -380,7 +372,6 @@ The Q&A function allows users to ask specific questions about the story, charact
 The LangChain Vector store simplifies building sophisticated Q&A systems by enabling efficient similarity searches to find the top 10 relevant documents based on the user's query. The **retriever** is created from the **vector\_store,** and the question-answer chain is built using the **create\_stuff\_documents\_chain** function. A prompt template is crafted using the **ChatPromptTemplate** class, ensuring structured and context-rich responses. Often in Q&A applications it's important to show users the sources that were used to generate the answer. LangChain's built-in **create\_retrieval\_chain** will propagate retrieved source documents to the output under the "context" key:
 
 Read more about Langchain RAG tutorials & the terminologies mentioned above [here](/oss/tutorials/rag)
-
 
 ```python
 from typing import List, Tuple
@@ -458,7 +449,6 @@ def get_answer_and_sources(user_query: str):
     print(df.to_markdown(index=False))
 ```
 
-
 ```python
 # Define the user query
 user_query = "How did Harry feel when he first learnt that he was a Wizard?"
@@ -466,6 +456,7 @@ user_query = "How did Harry feel when he first learnt that he was a Wizard?"
 # Call the function to get the answer and sources
 get_answer_and_sources(user_query)
 ```
+
 ```output
 Answer: When Harry first learned that he was a wizard, he felt quite sure there had been a horrible mistake. He struggled to believe it because he had spent his life being bullied and mistreated by the Dursleys. If he was really a wizard, he wondered why he hadn't been able to use magic to defend himself. This disbelief and surprise were evident when he gasped, “I’m a what?”
 
@@ -485,6 +476,7 @@ user_query = "Did Harry have a pet? What was it"
 # Call the function to get the answer and sources
 get_answer_and_sources(user_query)
 ```
+
 ```output
 Yes, Harry had a pet owl named Hedwig. He decided to call her Hedwig after finding the name in a book titled *A History of Magic*.
 
@@ -496,10 +488,12 @@ Sources:
 | 01 Harry Potter and the Sorcerers Stone.txt | As the snake slid swiftly past him, Harry could ha... |
 | 01 Harry Potter and the Sorcerers Stone.txt | Ron reached inside his jacket and pulled out a fat... |
 ```
+
 ## API reference
 
 For detailed documentation of SQLServer Vectorstore features and configurations head to the API reference: [https://python.langchain.com/api\_reference/sqlserver/index.html](https:\python.langchain.com\api_reference\sqlserver\index.html)
 
 ## Related
+
 - Vector store [conceptual guide](https://python.langchain.com/docs/concepts/vectorstores/)
 - Vector store [how-to guides](https://python.langchain.com/docs/how_to/#vector-stores)

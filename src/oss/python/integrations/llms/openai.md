@@ -5,7 +5,6 @@ title: OpenAI
 <Warning>
 **You are currently on a page documenting the use of OpenAI [text completion models](/oss/concepts/text_llms). The latest and most popular OpenAI models are [chat completion models](/oss/concepts/chat_models).**
 
-
 Unless you are specifically using `gpt-3.5-turbo-instruct`, you are probably looking for [this page instead](/oss/integrations/chat/openai/).
 </Warning>
 
@@ -16,10 +15,10 @@ This example goes over how to use LangChain to interact with `OpenAI` [models](h
 ## Overview
 
 ### Integration details
+
 | Class | Package | Local | Serializable | [JS support](https://js.langchain.com/docs/integrations/chat/openai) | Package downloads | Package latest |
 | :--- | :--- | :---: | :---: |  :---: | :---: | :---: |
 | [ChatOpenAI](https://python.langchain.com/api_reference/openai/chat_models/langchain_openai.chat_models.base.ChatOpenAI.html) | [langchain-openai](https://python.langchain.com/api_reference/openai/index.html) | ❌ | beta | ✅ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-openai?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-openai?style=flat-square&label=%20) |
-
 
 ## Setup
 
@@ -27,8 +26,7 @@ To access OpenAI models you'll need to create an OpenAI account, get an API key,
 
 ### Credentials
 
-Head to https://platform.openai.com to sign up to OpenAI and generate an API key. Once you've done this set the OPENAI_API_KEY environment variable:
-
+Head to [platform.openai.com](https://platform.openai.com) to sign up to OpenAI and generate an API key. Once you've done this set the OPENAI_API_KEY environment variable:
 
 ```python
 import getpass
@@ -40,7 +38,6 @@ if "OPENAI_API_KEY" not in os.environ:
 
 To enable automated tracing of your model calls, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
-
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
 # os.environ["LANGSMITH_TRACING"] = "true"
@@ -50,7 +47,6 @@ To enable automated tracing of your model calls, set your [LangSmith](https://do
 
 The LangChain OpenAI integration lives in the `langchain-openai` package:
 
-
 ```python
 %pip install -qU langchain-openai
 ```
@@ -58,6 +54,7 @@ The LangChain OpenAI integration lives in the `langchain-openai` package:
 Should you need to specify your organization ID, you can use the following cell. However, it is not required if you are only part of a single organization or intend to use your default organization. You can check your default organization [here](https://platform.openai.com/account/api-keys).
 
 To specify your organization, you can use this:
+
 ```python
 OPENAI_ORGANIZATION = getpass()
 
@@ -68,7 +65,6 @@ os.environ["OPENAI_ORGANIZATION"] = OPENAI_ORGANIZATION
 
 Now we can instantiate our model object and generate chat completions:
 
-
 ```python
 from langchain_openai import OpenAI
 
@@ -77,20 +73,15 @@ llm = OpenAI()
 
 ## Invocation
 
-
 ```python
 llm.invoke("Hello how are you?")
 ```
-
-
 
 ```output
 '\n\nI am an AI and do not have emotions like humans do, so I am always functioning at my optimal level. Thank you for asking! How can I assist you today?'
 ```
 
-
 ## Chaining
-
 
 ```python
 from langchain_core.prompts import PromptTemplate
@@ -106,17 +97,13 @@ chain.invoke(
 )
 ```
 
-
-
 ```output
 '\nIch liebe Programmieren.'
 ```
 
-
 ## Using a proxy
 
 If you are behind an explicit proxy, you can specify the http_client to pass through
-
 
 ```python
 %pip install httpx
@@ -128,6 +115,7 @@ openai = OpenAI(
     http_client=httpx.Client(proxies="http://proxy.yourcompany.com:8080"),
 )
 ```
+
 ## API reference
 
-For detailed documentation of all `OpenAI` llm features and configurations head to the API reference: https://python.langchain.com/api_reference/openai/llms/langchain_openai.llms.base.OpenAI.html
+For detailed documentation of all `OpenAI` llm features and configurations head to the API reference: [python.langchain.com/api_reference/openai/llms/langchain_openai.llms.base.OpenAI.html](https://python.langchain.com/api_reference/openai/llms/langchain_openai.llms.base.OpenAI.html)

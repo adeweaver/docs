@@ -6,16 +6,13 @@ This will help you get started with the Zotero [retriever](/oss/concepts/retriev
 
 ### Integration details
 
-
 | Retriever | Source | Package |
 | :--- | :--- | :---: |
 [ZoteroRetriever](https://github.com/TimBMK/langchain-zotero-retriever) | [Zotero API](https://www.zotero.org/support/dev/web_api/v3/start) | langchain-community |
 
 ## Setup
 
-
 If you want to get automated tracing from individual queries, you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
-
 
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -26,7 +23,6 @@ If you want to get automated tracing from individual queries, you can also set y
 
 This retriever lives in the `langchain-zotero-retriever` package. We also require the `pyzotero` dependency:
 
-
 ```python
 %pip install -qU langchain-zotero-retriever pyzotero
 ```
@@ -34,14 +30,13 @@ This retriever lives in the `langchain-zotero-retriever` package. We also requir
 ## Instantiation
 
 `ZoteroRetriever` parameters include:
+
 - `k`: Number of results to include (Default: 50)
 - `type`: Type of search to perform. "Top" retrieves top level Zotero library items, "items" returns any Zotero library items. (Default: top)
 - `get_fulltext`: Retrieves full texts if they are attached to the items in the library. If False, or no text is attached, returns an empty string as page_content. (Default: True)
 - `library_id`: ID of the Zotero library to search. Required to connect to a library.
 - `library_type`: Type of library to search. "user" for personal library, "group" for shared group libraries. (Default: user)
 - `api_key`: Zotero API key if not set as an environment variable. Optional, required to access non-public group libraries or your personal library. Fetched automatically if provided as ZOTERO_API_KEY environment variable.
-
-
 
 ```python
 from langchain_zotero_retriever.retrievers import ZoteroRetriever
@@ -56,22 +51,21 @@ retriever = ZoteroRetriever(
 ## Usage
 
 Apart from the `query`, the retriever provides these additional search parameters:
+
 - `itemType`: Type of item to search for (e.g. "book" or "journalArticle")
 - `tag`: for searching over tags attached to library items (see search syntax for combining multiple tags)
 - `qmode`: Search mode to use. Changes what the query searches over. "everything" includes full-text content. "titleCreatorYear" to search over title, authors and year.
 - `since`: Return only objects modified after the specified library version. Defaults to return everything.
 
-For Search Syntax, see Zotero API Documentation: https://www.zotero.org/support/dev/web_api/v3/basics#search_syntax
+For Search Syntax, see Zotero API Documentation: [www.zotero.org/support/dev/web_api/v3/basics#search_syntax](https://www.zotero.org/support/dev/web_api/v3/basics#search_syntax)
 
-For the full API schema (including available itemTypes) see: https://github.com/zotero/zotero-schema
-
+For the full API schema (including available itemTypes) see: [github.com/zotero/zotero-schema](https://github.com/zotero/zotero-schema)
 
 ```python
 query = "Zuboff"
 
 retriever.invoke(query)
 ```
-
 
 ```python
 tags = [
@@ -85,7 +79,6 @@ retriever.invoke("", tag=tags)
 ## Use within a chain
 
 Due to the way the Zotero API search operates, directly passing a user question to the ZoteroRetriever will often not return satisfactory results. For use in chains or agentic frameworks, it is recommended to turn the ZoteroRetriever into a [tool](https://python.langchain.com/docs/how_to/custom_tools/#creating-tools-from-functions). This way, the LLM can turn the user query into a more concise search query for the API. Furthermore, this allows the LLM to fill in additional search parameters, such as tag or item type.
-
 
 ```python
 from typing import List, Optional, Union

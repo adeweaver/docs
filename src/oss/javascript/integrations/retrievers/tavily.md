@@ -1,4 +1,5 @@
 ---
+
 title: TavilySearchAPIRetriever
 ----
 
@@ -37,10 +38,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/community @langchain/core
 </Npm2Yarn>
 ```
+
 ## Instantiation
 
 Now we can instantiate our retriever:
-
 
 ```typescript
 import { TavilySearchAPIRetriever } from "@langchain/community/retrievers/tavily_search_api";
@@ -49,16 +50,17 @@ const retriever = new TavilySearchAPIRetriever({
   k: 3,
 });
 ```
+
 For a full list of allowed arguments, see [the official documentation](https://docs.tavily.com/docs/tavily-api/rest_api#parameters). You can pass any param to the SDK via a `kwargs` object.
 
 ## Usage
-
 
 ```typescript
 const query = "what is the current weather in SF?";
 
 await retriever.invoke(query);
 ```
+
 ```output
 [
   Document {
@@ -93,6 +95,7 @@ await retriever.invoke(query);
   }
 ]
 ```
+
 ## Use within a chain
 
 Like other retrievers, `TavilySearchAPIRetriever` can be incorporated into LLM applications via [chains](/oss/how-to/sequence/).
@@ -102,6 +105,7 @@ We will need a LLM or chat model:
 ```{=mdx}
 <ChatModelTabs customVarName="llm" />
 ```
+
 ```typescript
 // @lc-docs-hide-cell
 
@@ -112,7 +116,6 @@ const llm = new ChatOpenAI({
   temperature: 0,
 });
 ```
-
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts";
@@ -144,13 +147,14 @@ const ragChain = RunnableSequence.from([
 ]);
 ```
 
-
 ```typescript
 await ragChain.invoke(query);
 ```
+
 ```output
 The current weather in San Francisco is partly cloudy with a temperature of 16.8°C (62.2°F). The wind is coming from the west at 13.2 mph (21.2 kph), and the humidity is at 74%. There is no precipitation, and visibility is 10 km (6 miles).
 ```
+
 ## API reference
 
 For detailed documentation of all `TavilySearchAPIRetriever` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_retrievers_tavily_search_api.TavilySearchAPIRetriever.html).

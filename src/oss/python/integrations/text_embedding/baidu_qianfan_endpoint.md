@@ -13,8 +13,6 @@ Basically, those model are split into the following type:
 In this notebook, we will introduce how to use langchain with [Qianfan](https://cloud.baidu.com/doc/WENXINWORKSHOP/index.html) mainly in `Embedding` corresponding
  to the package `langchain/embeddings` in langchain:
 
-
-
 ## API Initialization
 
 To use the LLM services based on Baidu Qianfan, you have to initialize these parameters:
@@ -25,8 +23,6 @@ You could either choose to init the AK,SK in environment variables or init param
 export QIANFAN_AK=XXX
 export QIANFAN_SK=XXX
 ```
-
-
 
 ```python
 """For basic init and call"""
@@ -60,6 +56,7 @@ async def aioEmbedDocs():
 
 await aioEmbedDocs()
 ```
+
 ```output
 [INFO] [09-15 20:01:35] logging.py:55 [t:140292313159488]: trying to refresh access_token
 [INFO] [09-15 20:01:35] logging.py:55 [t:140292313159488]: successfully refresh access_token
@@ -71,13 +68,13 @@ await aioEmbedDocs()
  [0.0427522286772728, -0.030367236584424973, -0.14847028255462646, 0.055074431002140045, -0.04177454113960266, -0.059512972831726074, -0.043774791061878204, 0.0028191760648041964]
  [0.03803155943751335, -0.013231384567916393, 0.0032379645854234695, 0.015074018388986588, -0.006529552862048149, -0.13813287019729614, 0.03297128155827522, 0.044519297778606415]
 ```
+
 ## Use different models in Qianfan
 
 In the case you want to deploy your own model based on Ernie Bot or third-party open sources model, you could follow these steps:
 
 - 1. （Optional, if the model are included in the default models, skip it）Deploy your model in Qianfan Console, get your own customized deploy endpoint.
 - 2. Set up the field called `endpoint` in the initialization:
-
 
 ```python
 embed = QianfanEmbeddingsEndpoint(model="bge_large_zh", endpoint="bge_large_zh")
@@ -86,6 +83,7 @@ res = embed.embed_documents(["hi", "world"])
 for r in res:
     print(r[:8])
 ```
+
 ```output
 [INFO] [09-15 20:01:40] logging.py:55 [t:140292313159488]: requesting llm api endpoint: /embeddings/bge_large_zh
 ``````output

@@ -13,11 +13,9 @@ This notebooks goes over how to use a LLM with langchain and vLLM.
 
 To use, you should have the `vllm` python package installed.
 
-
 ```python
 %pip install --upgrade --quiet  vllm -q
 ```
-
 
 ```python
 from langchain_community.llms import VLLM
@@ -33,6 +31,7 @@ llm = VLLM(
 
 print(llm.invoke("What is the capital of France ?"))
 ```
+
 ```output
 INFO 08-06 11:37:33 llm_engine.py:70] Initializing an LLM engine with config: model='mosaicml/mpt-7b', tokenizer='mosaicml/mpt-7b', tokenizer_mode=auto, trust_remote_code=True, dtype=torch.bfloat16, use_dummy_weights=False, download_dir=None, use_np_weights=False, tensor_parallel_size=1, seed=0)
 INFO 08-06 11:37:41 llm_engine.py:196] # GPU blocks: 861, # CPU blocks: 512
@@ -41,8 +40,8 @@ Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  2.00i
 ``````output
 What is the capital of France ? The capital of France is Paris.
 ```
-## Integrate the model in an LLMChain
 
+## Integrate the model in an LLMChain
 
 ```python
 from langchain.chains import LLMChain
@@ -59,6 +58,7 @@ question = "Who was the US president in the year the first Pokemon game was rele
 
 print(llm_chain.invoke(question))
 ```
+
 ```output
 Processed prompts: 100%|██████████| 1/1 [00:01<00:00,  1.34s/it]
 ``````output
@@ -67,12 +67,12 @@ Processed prompts: 100%|██████████| 1/1 [00:01<00:00,  1.34s
 3. Clinton was president from 1993 to 2001.
 4. The answer is Clinton.
 ```
+
 ## Distributed Inference
 
 vLLM supports distributed tensor-parallel inference and serving.
 
 To run multi-GPU inference with the LLM class, set the `tensor_parallel_size` argument to the number of GPUs you want to use. For example, to run inference on 4 GPUs
-
 
 ```python
 from langchain_community.llms import VLLM
@@ -89,7 +89,6 @@ llm.invoke("What is the future of AI?")
 ## Quantization
 
 vLLM supports `awq` quantization. To enable it, pass `quantization` to `vllm_kwargs`.
-
 
 ```python
 llm_q = VLLM(
@@ -108,7 +107,6 @@ This server can be queried in the same format as OpenAI API.
 
 ### OpenAI-Compatible Completion
 
-
 ```python
 from langchain_community.llms import VLLMOpenAI
 
@@ -120,12 +118,14 @@ llm = VLLMOpenAI(
 )
 print(llm.invoke("Rome is"))
 ```
+
 ```output
  a city that is filled with history, ancient buildings, and art around every corner
 ```
-## LoRA adapter
-LoRA adapters can be used with any vLLM model that implements `SupportsLoRA`.
 
+## LoRA adapter
+
+LoRA adapters can be used with any vLLM model that implements `SupportsLoRA`.
 
 ```python
 from langchain_community.llms import VLLM

@@ -8,16 +8,13 @@ How to load data from subtitle (`.srt`) files
 
 Please, download the [example .srt file from here](https://www.opensubtitles.org/en/subtitles/5575150/star-wars-the-clone-wars-crisis-at-the-heart-en).
 
-
 ```python
 %pip install --upgrade --quiet  pysrt
 ```
 
-
 ```python
 from langchain_community.document_loaders import SRTLoader
 ```
-
 
 ```python
 loader = SRTLoader(
@@ -25,17 +22,13 @@ loader = SRTLoader(
 )
 ```
 
-
 ```python
 docs = loader.load()
 ```
 
-
 ```python
 docs[0].page_content[:100]
 ```
-
-
 
 ```output
 '<i>Corruption discovered\nat the core of the Banking Clan!</i> <i>Reunited, Rush Clovis\nand Senator A'

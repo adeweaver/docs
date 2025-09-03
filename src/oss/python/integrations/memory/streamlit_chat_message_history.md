@@ -23,7 +23,6 @@ pip install -U langchain-community streamlit
 You can see the [full app example running here](https://langchain-st-memory.streamlit.app/), and more examples in
 [github.com/langchain-ai/streamlit-agent](https://github.com/langchain-ai/streamlit-agent).
 
-
 ```python
 from langchain_community.chat_message_histories import (
     StreamlitChatMessageHistory,
@@ -35,7 +34,6 @@ history.add_user_message("hi!")
 history.add_ai_message("whats up?")
 ```
 
-
 ```python
 history.messages
 ```
@@ -44,7 +42,6 @@ We can easily combine this message history class with [LCEL Runnables](/oss/how-
 
 The history will be persisted across re-runs of the Streamlit app within a given user session. A given `StreamlitChatMessageHistory` will NOT be persisted or shared across user sessions.
 
-
 ```python
 # Optionally, specify your own session_state key for storing messages
 msgs = StreamlitChatMessageHistory(key="special_app_key")
@@ -52,7 +49,6 @@ msgs = StreamlitChatMessageHistory(key="special_app_key")
 if len(msgs.messages) == 0:
     msgs.add_ai_message("How can I help you?")
 ```
-
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
@@ -70,7 +66,6 @@ prompt = ChatPromptTemplate.from_messages(
 chain = prompt | ChatOpenAI()
 ```
 
-
 ```python
 chain_with_history = RunnableWithMessageHistory(
     chain,
@@ -81,7 +76,6 @@ chain_with_history = RunnableWithMessageHistory(
 ```
 
 Conversational Streamlit apps will often re-draw each previous chat message on every re-run. This is easy to do by iterating through `StreamlitChatMessageHistory.messages`:
-
 
 ```python
 import streamlit as st

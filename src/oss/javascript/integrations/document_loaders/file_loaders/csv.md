@@ -14,11 +14,13 @@ Only available on Node.js.
 </Tip>
 
 ```
+
 This notebook provides a quick overview for getting started with `CSVLoader` [document loaders](/oss/concepts/document_loaders). For detailed documentation of all `CSVLoader` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_document_loaders_fs_csv.CSVLoader.html).
 
 This example goes over how to load data from CSV files. The second argument is the `column` name to extract from the CSV file. One document will be created for each row in the CSV file. When `column` is not specified, each row is converted into a key/value pair with each key/value pair outputted to a new line in the document's `pageContent`. When `column` is specified, one document is created for each row, and the value of the specified column is used as the document's `pageContent`.
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Compatibility | Local | [PY support](https://python.langchain.com/docs/integrations/document_loaders/csv)|
@@ -42,10 +44,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and load documents:
-
 
 ```typescript
 import { CSVLoader } from "@langchain/community/document_loaders/fs/csv"
@@ -54,13 +56,14 @@ const exampleCsvPath = "../../../../../../langchain/src/document_loaders/tests/e
 
 const loader = new CSVLoader(exampleCsvPath)
 ```
-## Load
 
+## Load
 
 ```typescript
 const docs = await loader.load()
 docs[0]
 ```
+
 ```output
 Document {
   pageContent: 'id｜html: 1｜"<i>Corruption discovered at the core of the Banking Clan!</i>"',
@@ -75,12 +78,14 @@ Document {
 ```typescript
 console.log(docs[0].metadata)
 ```
+
 ```output
 {
   source: '../../../../../../langchain/src/document_loaders/tests/example_data/example_separator.csv',
   line: 1
 }
 ```
+
 ## Usage, extracting a single column
 
 Example CSV file:
@@ -92,7 +97,6 @@ id｜html
 3｜"<i>discover the full extent of the deception.</i>"
 4｜"<i>Anakin Skywalker is sent to the rescue!</i>"
 ```
-
 
 ```typescript
 import { CSVLoader } from "@langchain/community/document_loaders/fs/csv";
@@ -108,6 +112,7 @@ const singleColumnLoader = new CSVLoader(
 const singleColumnDocs = await singleColumnLoader.load();
 console.log(singleColumnDocs[0]);
 ```
+
 ```output
 Document {
   pageContent: '<i>Corruption discovered at the core of the Banking Clan!</i>',
@@ -118,6 +123,7 @@ Document {
   id: undefined
 }
 ```
+
 ## API reference
 
-For detailed documentation of all CSVLoader features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_community_document_loaders_fs_csv.CSVLoader.html
+For detailed documentation of all CSVLoader features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_document_loaders_fs_csv.CSVLoader.html).

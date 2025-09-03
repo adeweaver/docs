@@ -27,6 +27,7 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   langchain @langchain/core
 </Npm2Yarn>
 ```
+
 ## Instantiation
 
 Now we can instantiate our toolkit. First, we need to define the LLM we'll use in the toolkit.
@@ -34,6 +35,7 @@ Now we can instantiate our toolkit. First, we need to define the LLM we'll use i
 ```{=mdx}
 <ChatModelTabs customVarName="llm" />
 ```
+
 ```typescript
 // @lc-docs-hide-cell
 
@@ -44,7 +46,6 @@ const llm = new ChatOpenAI({
   temperature: 0,
 })
 ```
-
 
 ```typescript
 import { VectorStoreToolkit, VectorStoreInfo } from "langchain/agents/toolkits"
@@ -75,7 +76,6 @@ const toolkit = new VectorStoreToolkit(vectorStoreInfo, llm);
 
 Here, we can see it converts our vector store into a tool:
 
-
 ```typescript
 const tools = toolkit.getTools();
 
@@ -84,6 +84,7 @@ console.log(tools.map((tool) => ({
   description: tool.description,
 })))
 ```
+
 ```output
 [
   {
@@ -92,6 +93,7 @@ console.log(tools.map((tool) => ({
   }
 ]
 ```
+
 ## Use within an agent
 
 First, ensure you have LangGraph installed:
@@ -101,14 +103,15 @@ First, ensure you have LangGraph installed:
   @langchain/langgraph
 </Npm2Yarn>
 ```
-Then, instantiate the agent:
 
+Then, instantiate the agent:
 
 ```typescript
 import { createAgent } from "langchain"
 
 const agentExecutor = createAgent({ llm, tools });
 ```
+
 ```typescript
 const exampleQuery = "What did biden say about Ketanji Brown Jackson is the state of the union address?"
 
@@ -126,6 +129,7 @@ for await (const event of events) {
   }
 }
 ```
+
 ```output
 [
   {
@@ -140,6 +144,7 @@ for await (const event of events) {
 In the State of the Union address, Biden mentioned that he nominated Circuit Court of Appeals Judge Ketanji Brown Jackson, describing her as one of the nation’s top legal minds who will continue Justice Breyer’s legacy of excellence. He highlighted her background as a former top litigator in private practice, a former federal public defender, and noted that she comes from a family of public school educators and police officers. He also pointed out that she has received a broad range of support since her nomination.
 In the State of the Union address, President Biden spoke about Ketanji Brown Jackson, stating that he nominated her as one of the nation’s top legal minds who will continue Justice Breyer’s legacy of excellence. He highlighted her experience as a former top litigator in private practice and a federal public defender, as well as her background coming from a family of public school educators and police officers. Biden also noted that she has received a broad range of support since her nomination.
 ```
+
 ## API reference
 
 For detailed documentation of all VectorStoreToolkit features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain.agents.VectorStoreToolkit.html).

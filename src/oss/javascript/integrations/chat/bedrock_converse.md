@@ -7,6 +7,7 @@ title: ChatBedrockConverse
 This will help you getting started with Amazon Bedrock Converse [chat models](/oss/concepts/chat_models). For detailed documentation of all `ChatBedrockConverse` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_aws.ChatBedrockConverse.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [PY support](https://python.langchain.com/docs/integrations/chat/bedrock/#beta-bedrock-converse-api) | Package downloads | Package latest |
@@ -49,12 +50,12 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions.
 
 There are a few different ways to authenticate with AWS - the below examples rely on an access key, secret access key and region set in your environment variables:
-
 
 ```typescript
 import { ChatBedrockConverse } from "@langchain/aws";
@@ -68,8 +69,8 @@ const llm = new ChatBedrockConverse({
   },
 });
 ```
-## Invocation
 
+## Invocation
 
 ```typescript
 const aiMsg = await llm.invoke([
@@ -81,6 +82,7 @@ const aiMsg = await llm.invoke([
 ])
 aiMsg
 ```
+
 ```output
 AIMessage {
   "id": "f5dc5791-224e-4fe5-ba2e-4cc51d9e7795",
@@ -116,13 +118,14 @@ AIMessage {
 ```typescript
 console.log(aiMsg.content)
 ```
+
 ```output
 J'adore la programmation.
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts"
@@ -146,6 +149,7 @@ await chain.invoke(
   }
 )
 ```
+
 ```output
 AIMessage {
   "id": "c6401e11-8f85-4a71-8e15-4856d55aef78",
@@ -177,10 +181,11 @@ AIMessage {
   }
 }
 ```
+
 ## Tool calling
 
 Tool calling with Bedrock models works in a similar way to [other models](/oss/how-to/tool_calling), but note that not all Bedrock models support tool calling. Please refer to the [AWS model documentation](https://docs.aws.amazon.com/bedrock/latest/APIReference/welcome.html) for more information.
 
 ## API reference
 
-For detailed documentation of all `ChatBedrockConverse` features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_aws.ChatBedrockConverse.html
+For detailed documentation of all `ChatBedrockConverse` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_aws.ChatBedrockConverse.html).

@@ -6,12 +6,15 @@ title: WebPDFLoader
 This notebook provides a quick overview for getting started with [WebPDFLoader](/oss/integrations/document_loaders/). For detailed documentation of all WebPDFLoader features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_pdf.WebPDFLoader.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | PY support |
 | :--- | :--- | :---: | :---: |  :---: |
 | [WebPDFLoader](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_pdf.WebPDFLoader.html) | [@langchain/community](https://api.js.langchain.com/modules/langchain_community_document_loaders_web_pdf.html) | ✅ | beta | ❌ |
+
 ### Loader features
+
 | Source | Web Loader | Node Envs Only
 | :---: | :---: | :---: |
 | WebPDFLoader | ✅ | ❌ |
@@ -45,10 +48,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and load documents:
-
 
 ```typescript
 import fs from "fs/promises";
@@ -67,13 +70,14 @@ const loader = new WebPDFLoader(nike10kPDFBlob, {
   // optional params = ...
 })
 ```
-## Load
 
+## Load
 
 ```typescript
 const docs = await loader.load()
 docs[0]
 ```
+
 ```output
 Document {
   pageContent: 'Table of Contents\n' +
@@ -149,6 +153,7 @@ Document {
 ```typescript
 console.log(docs[0].metadata)
 ```
+
 ```output
 {
   pdf: {
@@ -172,6 +177,7 @@ console.log(docs[0].metadata)
   loc: { pageNumber: 1 }
 }
 ```
+
 ## Usage, custom `pdfjs` build
 
 By default we use the `pdfjs` build bundled with `pdf-parse`, which is compatible with most environments, including Node.js and modern browsers. If you want to use a more recent version of `pdfjs-dist` or if you want to use a custom build of `pdfjs-dist`, you can do so by providing a custom `pdfjs` function that returns a promise that resolves to the `PDFJS` object.
@@ -184,6 +190,7 @@ In the following example we use the "legacy" (see [pdfjs docs](https://github.co
 </Npm2Yarn>
 
 ```
+
 ```typescript
 import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
 
@@ -201,7 +208,6 @@ const customBuildLoader = new WebPDFLoader(blob, {
 PDFs come in many varieties, which makes reading them a challenge. The loader parses individual text elements and joins them together with a space by default, but
 if you are seeing excessive spaces, this may not be the desired behavior. In that case, you can override the separator with an empty string like this:
 
-
 ```typescript
 import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
 
@@ -213,4 +219,4 @@ const eliminatingExtraSpacesLoader = new WebPDFLoader(new Blob(), {
 
 ## API reference
 
-For detailed documentation of all WebPDFLoader features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_community_document_loaders_web_pdf.WebPDFLoader.html
+For detailed documentation of all WebPDFLoader features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_pdf.WebPDFLoader.html).

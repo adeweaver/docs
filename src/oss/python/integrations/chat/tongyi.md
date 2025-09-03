@@ -5,12 +5,10 @@ Tongyi Qwen is a large language model developed by Alibaba's Damo Academy. It is
 In this notebook, we will introduce how to use langchain with [Tongyi](https://www.aliyun.com/product/dashscope) mainly in `Chat` corresponding
  to the package `langchain/chat_models` in langchain
 
-
 ```python
 # Install the package
 %pip install --upgrade --quiet  dashscope
 ```
-
 
 ```python
 # Get a new token: https://help.aliyun.com/document_detail/611472.html?spm=a2c4g.2399481.0.0
@@ -19,13 +17,11 @@ from getpass import getpass
 DASHSCOPE_API_KEY = getpass()
 ```
 
-
 ```python
 import os
 
 os.environ["DASHSCOPE_API_KEY"] = DASHSCOPE_API_KEY
 ```
-
 
 ```python
 from langchain_community.chat_models.tongyi import ChatTongyi
@@ -38,6 +34,7 @@ res = chatLLM.stream([HumanMessage(content="hi")], streaming=True)
 for r in res:
     print("chat resp:", r)
 ```
+
 ```output
 chat resp: content='Hello' id='run-f2301962-6d46-423c-8afa-1e667bd11e2b'
 chat resp: content='!' id='run-f2301962-6d46-423c-8afa-1e667bd11e2b'
@@ -60,22 +57,21 @@ messages = [
 ]
 chatLLM(messages)
 ```
+
 ```output
 /Users/cheese/PARA/Projects/langchain-contribution/langchain/libs/core/langchain_core/_api/deprecation.py:119: LangChainDeprecationWarning: The method `BaseChatModel.__call__` was deprecated in langchain-core 0.1.7 and will be removed in 0.2.0. Use invoke instead.
   warn_deprecated(
 ```
 
-
 ```output
 AIMessage(content="J'adore programmer.", response_metadata={'model_name': 'qwen-turbo', 'finish_reason': 'stop', 'request_id': 'ae725086-0ffa-9728-8c72-b204c7bc7eeb', 'token_usage': {'input_tokens': 36, 'output_tokens': 6, 'total_tokens': 42}}, id='run-060cc103-ef5f-4c8a-af40-792ac7f40c26-0')
 ```
 
-
 ## Tool Calling
+
 ChatTongyi supports tool calling API that lets you describe tools and their arguments, and have the model return a JSON object with a tool to invoke and the inputs to that tool.
 
 ### Use with `bind_tools`
-
 
 ```python
 from langchain_community.chat_models.tongyi import ChatTongyi
@@ -96,11 +92,12 @@ msg = llm_with_tools.invoke("What's 5 times forty two")
 
 print(msg)
 ```
+
 ```output
 content='' additional_kwargs={'tool_calls': [{'function': {'name': 'multiply', 'arguments': '{"first_int": 5, "second_int": 42}'}, 'id': '', 'type': 'function'}]} response_metadata={'model_name': 'qwen-turbo', 'finish_reason': 'tool_calls', 'request_id': '4acf0e36-44af-987a-a0c0-8b5c5eaa1a8b', 'token_usage': {'input_tokens': 200, 'output_tokens': 25, 'total_tokens': 225}} id='run-0ecd0f09-1d20-4e55-a4f3-f14d1f710ae7-0' tool_calls=[{'name': 'multiply', 'args': {'first_int': 5, 'second_int': 42}, 'id': ''}]
 ```
-### Construct args manually
 
+### Construct args manually
 
 ```python
 from langchain_community.chat_models.tongyi import ChatTongyi
@@ -144,16 +141,13 @@ ai_message = chatLLM.bind(**llm_kwargs).invoke(messages)
 ai_message
 ```
 
-
-
 ```output
 AIMessage(content='', additional_kwargs={'tool_calls': [{'function': {'name': 'get_current_weather', 'arguments': '{"location": "San Francisco"}'}, 'id': '', 'type': 'function'}]}, response_metadata={'model_name': 'qwen-turbo', 'finish_reason': 'tool_calls', 'request_id': '87ef33d2-5c6b-9457-91e2-39faad7120eb', 'token_usage': {'input_tokens': 229, 'output_tokens': 19, 'total_tokens': 248}}, id='run-7939ba7f-e3f7-46f8-980b-30499b52723c-0', tool_calls=[{'name': 'get_current_weather', 'args': {'location': 'San Francisco'}, 'id': ''}])
 ```
 
-
 ## Partial Mode
-Enable the large model to continue generating content from the initial text you provide.
 
+Enable the large model to continue generating content from the initial text you provide.
 
 ```python
 from langchain_community.chat_models.tongyi import ChatTongyi
@@ -172,16 +166,13 @@ ai_message = chatLLM.invoke(messages)
 ai_message
 ```
 
-
-
 ```output
 AIMessage(content=' has cast off its heavy cloak of snow, donning instead a vibrant garment of fresh greens and floral hues; it is as if the world has woken from a long slumber, stretching and reveling in the warm caress of the sun. Everywhere I look, there is a symphony of life: birdsong fills the air, bees dance from flower to flower, and a gentle breeze carries the sweet fragrance of blossoms. It is in this season that my heart finds particular joy, for it whispers promises of renewal and growth, reminding me that even after the coldest winters, there will always be a spring to follow.', additional_kwargs={}, response_metadata={'model_name': 'qwen-turbo', 'finish_reason': 'stop', 'request_id': '447283e9-ee31-9d82-8734-af572921cb05', 'token_usage': {'input_tokens': 40, 'output_tokens': 127, 'prompt_tokens_details': {'cached_tokens': 0}, 'total_tokens': 167}}, id='run-6a35a91c-cc12-4afe-b56f-fd26d9035357-0')
 ```
 
-
 ## Tongyi With Vision
-Qwen-VL(qwen-vl-plus/qwen-vl-max) are models that can process images.
 
+Qwen-VL(qwen-vl-plus/qwen-vl-max) are models that can process images.
 
 ```python
 from langchain_community.chat_models import ChatTongyi
@@ -197,8 +188,6 @@ text_message = {
 message = HumanMessage(content=[text_message, image_message])
 chatLLM.invoke([message])
 ```
-
-
 
 ```output
 AIMessage(content=[{'text': 'The image presents a flowchart of an artificial intelligence system. The system is divided into two main components: short-term memory and long-term memory, which are connected to the "Memory" box.\n\nFrom the "Memory" box, there are three branches leading to different functionalities:\n\n1. "Tools" - This branch represents various tools that the AI system can utilize, including "Calendar()", "Calculator()", "CodeInterpreter()", "Search()" and others not explicitly listed.\n\n2. "Action" - This branch represents the action taken by the AI system based on its processing of information. It\'s connected to both the "Tools" and the "Agent" boxes.\n\n3. "Planning" - This branch represents the planning process of the AI system, which involves reflection, self-critics, chain of thoughts, subgoal decomposition, and other processes not shown.\n\nThe central component of the system is the "Agent" box, which seems to orchestrate the flow of information between the different components. The "Agent" interacts with the "Tools" and "Memory" boxes, suggesting it plays a crucial role in the AI\'s decision-making process. \n\nOverall, the image depicts a complex and interconnected artificial intelligence system, where different components work together to process information, make decisions, and take actions.'}], response_metadata={'model_name': 'qwen-vl-max', 'finish_reason': 'stop', 'request_id': '6a2b9e90-7c3b-960d-8a10-6a0cf9991ae5', 'token_usage': {'input_tokens': 1262, 'output_tokens': 260, 'image_tokens': 1232}}, id='run-fd030661-c734-4580-b977-b77d42680742-0')

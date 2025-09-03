@@ -4,6 +4,7 @@ title: Vectara
 
 [Vectara](https://vectara.com/) is the trusted AI Assistant and Agent platform which focuses on enterprise readiness for mission-critical applications.
 Vectara serverless RAG-as-a-service provides all the components of RAG behind an easy-to-use API, including:
+
 1. A way to extract text from files (PDF, PPT, DOCX, etc)
 2. ML-based chunking that provides state of the art performance.
 3. The [Boomerang](https://vectara.com/how-boomerang-takes-retrieval-augmented-generation-to-the-next-level-via-grounded-generation/) embeddings model.
@@ -12,18 +13,16 @@ Vectara serverless RAG-as-a-service provides all the components of RAG behind an
 6. An LLM for creating a [generative summary](https://docs.vectara.com/docs/learn/grounded-generation/grounded-generation-overview), based on the retrieved documents (context), including citations.
 
 For more information:
+
 - [Documentation](https://docs.vectara.com/docs/)
 - [API Playground](https://docs.vectara.com/docs/rest-api/)
 - [Quickstart](https://docs.vectara.com/docs/quickstart)
 
 This notebook shows how to use the basic retrieval functionality, when utilizing Vectara just as a Vector Store (without summarization), incuding: `similarity_search` and `similarity_search_with_score` as well as using the LangChain `as_retriever` functionality.
 
-
 ## Setup
 
 To use the `VectaraVectorStore` you first need to install the partner package.
-
-
 
 ```python
 !uv pip install -U pip && uv pip install -qU langchain-vectara
@@ -32,6 +31,7 @@ To use the `VectaraVectorStore` you first need to install the partner package.
 # Getting Started
 
 To get started, use the following steps:
+
 1. If you don't already have one, [Sign up](https://www.vectara.com/integrations/langchain) for your free Vectara trial.
 2. Within your account you can create one or more corpora. Each corpus represents an area that stores text data upon ingest from input documents. To create a corpus, use the **"Create Corpus"** button. You then provide a name to your corpus as well as a description. Optionally you can define filtering attributes and apply some advanced options. If you click on your created corpus, you can see its name and corpus ID right on the top.
 3. Next you'll need to create API keys to access the corpus. Click on the **"Access Control"** tab in the corpus view and then the **"Create API Key"** button. Give your key a name, and choose whether you want query-only or query+index for your key. Click "Create" and you now have an active API key. Keep this key confidential.
@@ -60,7 +60,6 @@ vectara = Vectara(
 
 In this notebook we assume they are provided in the environment.
 
-
 ```python
 import os
 
@@ -88,7 +87,6 @@ Note that we use the add_files interface which does not require any local proces
 
 In this case it uses a .txt file but the same works for many other [file types](https://docs.vectara.com/docs/api-reference/indexing-apis/file-upload/file-upload-filetypes).
 
-
 ```python
 corpus_key = os.getenv("VECTARA_CORPUS_KEY")
 file_obj = File(
@@ -98,20 +96,16 @@ file_obj = File(
 vectara.add_files([file_obj], corpus_key)
 ```
 
-
-
 ```output
 ['state_of_the_union.txt']
 ```
 
-
 ## Vectara RAG (retrieval augmented generation)
 
 We now create a `VectaraQueryConfig` object to control the retrieval and summarization options:
-* We enable summarization, specifying we would like the LLM to pick the top 7 matching chunks and respond in English
+- We enable summarization, specifying we would like the LLM to pick the top 7 matching chunks and respond in English
 
 Using this configuration, let's create a LangChain `Runnable` object that encpasulates the full Vectara RAG pipeline, using the `as_rag` method:
-
 
 ```python
 generation_config = GenerationConfig(
@@ -142,15 +136,11 @@ rag = vectara.as_rag(config)
 rag.invoke(query_str)["answer"]
 ```
 
-
-
 ```output
 "President Biden discussed several key issues in his recent statements. He emphasized the importance of keeping schools open and noted that with a high vaccination rate and reduced hospitalizations, most Americans can safely return to normal activities without masks [1]. He addressed the need to hold social media platforms accountable for their impact on children and called for stronger privacy protections and mental health services [2]. Biden also announced measures against Russia, including preventing its central bank from defending the Ruble and targeting Russian oligarchs' assets, as part of efforts to weaken Russia's economy and military [3]. Additionally, he highlighted the importance of protecting women's rights, specifically the right to choose as affirmed in Roe v. Wade [5]. Lastly, he advocated for funding the police with necessary resources and training to ensure community safety [6]."
 ```
 
-
 We can also use the streaming interface like this:
-
 
 ```python
 output = {}
@@ -165,9 +155,11 @@ for chunk in rag.stream(query_str):
             print(chunk[key], end="", flush=True)
         curr_key = key
 ```
+
 ```output
 President Biden emphasized several key points in his statements. He highlighted the importance of keeping schools open and noted that with a high vaccination rate and reduced hospitalizations, most Americans can safely return to normal activities without masks [1]. He addressed the need to hold social media platforms accountable for their impact on children and called for stronger privacy protections and mental health services [2]. Biden also discussed measures against Russia, including preventing their central bank from defending the Ruble and targeting Russian oligarchs' assets [3]. Additionally, he reaffirmed the commitment to protect women's rights, particularly the right to choose as affirmed in Roe v. Wade [5]. Lastly, he advocated for funding the police to ensure community safety [6].
 ```
+
 For more details about Vectara as VectorStore [go to this notebook](../vectorstores/vectara.ipynb).
 
 ## Vectara Chat
@@ -175,7 +167,6 @@ For more details about Vectara as VectorStore [go to this notebook](../vectorsto
 In most uses of LangChain to create chatbots, one must integrate a special `memory` component that maintains the history of chat sessions and then uses that history to ensure the chatbot is aware of conversation history.
 
 With Vectara Chat - all of that is performed in the backend by Vectara automatically.
-
 
 ```python
 generation_config = GenerationConfig(
@@ -200,21 +191,19 @@ bot = vectara.as_chat(config)
 bot.invoke("What did the president say about Ketanji Brown Jackson?")["answer"]
 ```
 
-
-
 ```output
 'The president stated that nominating someone to serve on the United States Supreme Court is one of the most serious constitutional responsibilities he has. He nominated Circuit Court of Appeals Judge Ketanji Brown Jackson, describing her as one of the nation’s top legal minds who will continue Justice Breyer’s legacy of excellence [1].'
 ```
 
-
 For more details about Vectara chat [go to this notebook](../chat/vectara.ipynb).
 
 ## Vectara as self-querying retriever
+
 Vectara offers Intelligent Query Rewriting option which  enhances search precision by automatically generating metadata filter expressions from natural language queries. This capability analyzes user queries, extracts relevant metadata filters, and rephrases the query to focus on the core information need. For more details [go to this notebook](../retrievers/self_query/vectara_self_query.ipynb).
 
 ## Vectara tools
-Vectara provides serval tools that can be used with Langchain. For more details [go to this notebook](../tools/vectara.ipynb)
 
+Vectara provides serval tools that can be used with Langchain. For more details [go to this notebook](../tools/vectara.ipynb)
 
 ```python
 

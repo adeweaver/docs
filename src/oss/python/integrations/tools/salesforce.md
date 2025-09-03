@@ -34,6 +34,7 @@ These environment variables will be automatically picked up by the integration.
 ## Getting Your Security Token
 
 If you need a security token:
+
  1. Log into Salesforce
  2. Go to Settings
  3. Click on "Reset My Security Token" under "My Personal Information"
@@ -52,7 +53,6 @@ If you need a security token:
 
 ## Instantiation
 
-
 ```python
 import os
 
@@ -67,8 +67,8 @@ tool = SalesforceTool(
     username=username, password=password, security_token=security_token, domain=domain
 )
 ```
-## Invocation
 
+## Invocation
 
 ```python
 def execute_salesforce_operation(
@@ -87,34 +87,38 @@ def execute_salesforce_operation(
     result = tool.invoke(request)
     return result
 ```
-## Query
-This example queries Salesforce for 5 contacts.
 
+## Query
+
+This example queries Salesforce for 5 contacts.
 
 ```python
 query_result = execute_salesforce_operation(
     operation="query", query="SELECT Id, Name, Email FROM Contact LIMIT 5"
 )
 ```
-## Describe an Object
-Fetches metadata for a specific Salesforce object.
 
+## Describe an Object
+
+Fetches metadata for a specific Salesforce object.
 
 ```python
 describe_result = execute_salesforce_operation(
     operation="describe", object_name="Account"
 )
 ```
-## List Available Objects
-Retrieves all objects available in the Salesforce instance.
 
+## List Available Objects
+
+Retrieves all objects available in the Salesforce instance.
 
 ```python
 list_objects_result = execute_salesforce_operation(operation="list_objects")
 ```
-## Create a New Contact
-Creates a new contact record in Salesforce.
 
+## Create a New Contact
+
+Creates a new contact record in Salesforce.
 
 ```python
 create_result = execute_salesforce_operation(
@@ -123,9 +127,10 @@ create_result = execute_salesforce_operation(
     record_data={"LastName": "Doe", "Email": "doe@example.com"},
 )
 ```
-## Update a Contact
-Updates an existing contact record.
 
+## Update a Contact
+
+Updates an existing contact record.
 
 ```python
 update_result = execute_salesforce_operation(
@@ -135,17 +140,18 @@ update_result = execute_salesforce_operation(
     record_data={"Email": "updated@example.com"},
 )
 ```
-## Delete a Contact
-Deletes a contact record from Salesforce.
 
+## Delete a Contact
+
+Deletes a contact record from Salesforce.
 
 ```python
 delete_result = execute_salesforce_operation(
     operation="delete", object_name="Contact", record_id="003XXXXXXXXXXXXXXX"
 )
 ```
-## Chaining
 
+## Chaining
 
 ```python
 from langchain_anthropic import ChatAnthropic

@@ -9,6 +9,7 @@ Writer's [context-aware splitting endpoint](https://dev.writer.com/api-guides/to
 ## Overview
 
 ### Integration details
+
 | Class                                                                                                                                    | Package          | Local | Serializable | JS support |                                        Package downloads                                         |                                        Package latest                                         |
 |:-----------------------------------------------------------------------------------------------------------------------------------------|:-----------------| :---: | :---: |:----------:|:------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------:|
 | [WriterTextSplitter](https://github.com/writer/langchain-writer/blob/main/langchain_writer/text_splitter.py#L11) | [langchain-writer](https://pypi.org/project/langchain-writer/) |      ❌       |                                       ❌                                       | ❌ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-writer?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-writer?style=flat-square&label=%20) |
@@ -17,7 +18,6 @@ Writer's [context-aware splitting endpoint](https://dev.writer.com/api-guides/to
 
 The `WriterTextSplitter` is available in the `langchain-writer` package:
 
-
 ```python
 %pip install --quiet -U langchain-writer
 ```
@@ -25,7 +25,6 @@ The `WriterTextSplitter` is available in the `langchain-writer` package:
 ### Credentials
 
 Sign up for [Writer AI Studio](https://app.writer.com/aistudio/signup?utm_campaign=devrel) to generate an API key (you can follow this [Quickstart](https://dev.writer.com/api-guides/quickstart)). Then, set the WRITER_API_KEY environment variable:
-
 
 ```python
 import getpass
@@ -36,7 +35,6 @@ if not os.getenv("WRITER_API_KEY"):
 ```
 
 It's also helpful (but not needed) to set up [LangSmith](https://smith.langchain.com/) for best-in-class observability. If you wish to do so, you can set the `LANGSMITH_TRACING` and `LANGSMITH_API_KEY` environment variables:
-
 
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
@@ -51,8 +49,6 @@ Instantiate an instance of `WriterTextSplitter` with the `strategy` parameter se
 - `fast_split`: Uses heuristic-based approach for quick splitting
 - `hybrid_split`: Combines both approaches
 
-
-
 ```python
 from langchain_writer.text_splitter import WriterTextSplitter
 
@@ -60,11 +56,12 @@ splitter = WriterTextSplitter(strategy="fast_split")
 ```
 
 ## Usage
+
 The `WriterTextSplitter` can be used synchronously or asynchronously.
 
 ### Synchronous usage
-To use the `WriterTextSplitter` synchronously, call the `split_text` method with the text you want to split:
 
+To use the `WriterTextSplitter` synchronously, call the `split_text` method with the text you want to split:
 
 ```python
 text = """Reeeeeeeeeeeeeeeeeeeeeaally long text you want to divide into smaller chunks. For example you can add a poem multiple times:
@@ -147,14 +144,13 @@ chunks
 
 You can print the length of the chunks to see how many chunks were created:
 
-
 ```python
 print(len(chunks))
 ```
 
 ### Asynchronous usage
-To use the `WriterTextSplitter` asynchronously, call the `asplit_text` method with the text you want to split:
 
+To use the `WriterTextSplitter` asynchronously, call the `asplit_text` method with the text you want to split:
 
 ```python
 async_chunks = await splitter.asplit_text(text)
@@ -163,13 +159,14 @@ async_chunks
 
 Print the length of the chunks to see how many chunks were created:
 
-
 ```python
 print(len(async_chunks))
 ```
 
 ## API reference
+
 For detailed documentation of all `WriterTextSplitter` features and configurations head to the [API reference](https://python.langchain.com/api_reference/writer/text_splitter/langchain_writer.text_splitter.WriterTextSplitter.html#langchain_writer.text_splitter.WriterTextSplitter).
 
 ## Additional resources
+
 You can find information about Writer's models (including costs, context windows, and supported input types) and tools in the [Writer docs](https://dev.writer.com/home).

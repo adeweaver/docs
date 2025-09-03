@@ -12,13 +12,11 @@ First, get an Valyu API key and add it as an environment variable. Get $10 free 
 
 The integration lives in the `langchain-valyu` package.
 
-
 ```python
 %pip install -qU langchain-valyu
 ```
 
 In order to use the package, you will also need to set the `VALYU_API_KEY` environment variable to your Valyu API key.
-
 
 ```python
 import os
@@ -55,7 +53,6 @@ The `ValyuContextRetriever` can be configured with several parameters:
 - `valyu_api_key: Optional[str] = None`
   Your Valyu API key. If not provided, the retriever will look for the `VALYU_API_KEY` environment variable.
 
-
 ```python
 from langchain_valyu import ValyuRetriever
 
@@ -73,7 +70,6 @@ retriever = ValyuRetriever(
 
 ## Usage
 
-
 ```python
 query = "What are the benefits of renewable energy?"
 docs = retriever.invoke(query)
@@ -86,7 +82,6 @@ for doc in docs:
 ## Use within a chain
 
 We can easily combine this retriever in to a chain.
-
 
 ```python
 from langchain_core.output_parsers import StrOutputParser
@@ -119,4 +114,4 @@ chain = (
 
 ## API reference
 
-For detailed documentation of all Valyu Context API features and configurations head to the API reference: https://docs.valyu.network/overview
+For detailed documentation of all Valyu Context API features and configurations head to the API reference: [docs.valyu.network/overview](https://docs.valyu.network/overview)

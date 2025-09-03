@@ -6,6 +6,7 @@ title: ChatXinference
 speech recognition models, and multimodal models, even on your laptop. It supports a variety of models compatible with GGML, such as chatglm, baichuan, whisper, vicuna, orca, and many others.
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [JS support] | Package downloads | Package latest |
@@ -13,6 +14,7 @@ speech recognition models, and multimodal models, even on your laptop. It suppor
 | ChatXinference| langchain-xinference | ✅ | ❌ | ✅ | ✅ | ✅ |
 
 ### Model features
+
 | [Tool calling](/oss/how-to/tool_calling/) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | Native async | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: |:----------------------------------------------------:| :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
 | ✅ |                          ✅                           | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ |
@@ -21,12 +23,11 @@ speech recognition models, and multimodal models, even on your laptop. It suppor
 
 Install `Xinference` through PyPI:
 
-
 ```python
 %pip install --upgrade --quiet  "xinference[all]"
 ```
 
-### Deploy Xinference Locally or in a Distributed Cluster.
+### Deploy Xinference Locally or in a Distributed Cluster
 
 For local deployment, run `xinference`.
 
@@ -35,23 +36,24 @@ To deploy Xinference in a cluster, first start an Xinference supervisor using th
 Then, start the Xinference workers using `xinference-worker` on each server you want to run them on.
 
 You can consult the README file from [Xinference](https://github.com/xorbitsai/inference) for more information.
+
 ### Wrapper
 
 To use Xinference with LangChain, you need to first launch a model. You can use command line interface (CLI) to do so:
 
-
 ```python
 %xinference launch -n vicuna-v1.3 -f ggmlv3 -q q4_0
 ```
+
 ```output
 Model uid: 7167b2b0-2a04-11ee-83f0-d29396a3f064
 ```
+
 A model UID is returned for you to use. Now you can use Xinference with LangChain:
 
 ## Installation
 
 The LangChain Xinference integration lives in the `langchain-xinference` package:
-
 
 ```python
 %pip install -qU langchain-xinference
@@ -62,8 +64,6 @@ Make sure you're using the latest Xinference version for structured outputs.
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
-
 
 ```python
 from langchain_xinference.chat_models import ChatXinference
@@ -79,7 +79,6 @@ llm.invoke(
 ```
 
 ## Invocation
-
 
 ```python
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -98,7 +97,6 @@ llm.invoke([HumanMessage(content=human_message), SystemMessage(content=system_me
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```python
 from langchain.prompts import PromptTemplate
@@ -119,4 +117,4 @@ chain.stream(input={"country": "France"})
 
 ## API reference
 
-For detailed documentation of all ChatXinference features and configurations head to the API reference: https://github.com/TheSongg/langchain-xinference
+For detailed documentation of all ChatXinference features and configurations head to the API reference: [github.com/TheSongg/langchain-xinference](https://github.com/TheSongg/langchain-xinference)

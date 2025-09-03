@@ -5,6 +5,7 @@ title: Azure Cognitive Services Toolkit
 This toolkit is used to interact with the `Azure Cognitive Services API` to achieve some multimodal capabilities.
 
 Currently There are four tools bundled in this toolkit:
+
 - AzureCogsImageAnalysisTool: used to extract caption, objects, tags, and text from images. (Note: this tool is not available on Mac OS yet, due to the dependency on `azure-ai-vision` package, which is only supported on Windows and Linux currently.)
 - AzureCogsFormRecognizerTool: used to extract text, tables, and key-value pairs from documents.
 - AzureCogsSpeech2TextTool: used to transcribe speech to text.
@@ -15,7 +16,6 @@ First, you need to set up an Azure account and create a Cognitive Services resou
 
 Then, you need to get the endpoint, key and region of your resource, and set them as environment variables. You can find them in the "Keys and Endpoint" page of your resource.
 
-
 ```python
 %pip install --upgrade --quiet  azure-ai-formrecognizer > /dev/null
 %pip install --upgrade --quiet  azure-cognitiveservices-speech > /dev/null
@@ -25,11 +25,9 @@ Then, you need to get the endpoint, key and region of your resource, and set the
 %pip install --upgrade --quiet  azure-ai-vision > /dev/null
 ```
 
-
 ```python
 %pip install -qU langchain-community
 ```
-
 
 ```python
 import os
@@ -42,19 +40,15 @@ os.environ["AZURE_COGS_REGION"] = ""
 
 ## Create the Toolkit
 
-
 ```python
 from langchain_community.agent_toolkits import AzureCognitiveServicesToolkit
 
 toolkit = AzureCognitiveServicesToolkit()
 ```
 
-
 ```python
 [tool.name for tool in toolkit.get_tools()]
 ```
-
-
 
 ```output
 ['Azure Cognitive Services Image Analysis',
@@ -63,15 +57,12 @@ toolkit = AzureCognitiveServicesToolkit()
  'Azure Cognitive Services Text2Speech']
 ```
 
-
 ## Use within an Agent
-
 
 ```python
 from langchain.agents import AgentType, initialize_agent
 from langchain_openai import OpenAI
 ```
-
 
 ```python
 llm = OpenAI(temperature=0)
@@ -83,13 +74,13 @@ agent = initialize_agent(
 )
 ```
 
-
 ```python
 agent.run(
     "What can I make with these ingredients?"
     "https://images.openai.com/blob/9ad5a2ab-041f-475f-ad6a-b51899c50182/ingredients.png"
 )
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 
@@ -117,16 +108,14 @@ Action:
 > Finished chain.
 ```
 
-
 ```output
 'You can make pancakes, omelettes, or quiches with these ingredients!'
 ```
 
-
-
 ```python
 audio_file = agent.run("Tell me a joke and read it out for me.")
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 Action:
@@ -151,12 +140,9 @@ Action:
 > Finished chain.
 ```
 
-
 ```output
 '/tmp/tmpa3uu_j6b.wav'
 ```
-
-
 
 ```python
 from IPython import display
@@ -164,7 +150,6 @@ from IPython import display
 audio = display.Audio(audio_file)
 display.display(audio)
 ```
-
 
 ```python
 agent.run(
@@ -180,6 +165,7 @@ List all the diagnoses.
 """
 )
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 Action:
@@ -203,12 +189,9 @@ Action:
 > Finished chain.
 ```
 
-
 ```output
 'The text contains the following diagnoses: progressive angina, coronary artery disease, myocardial infarction, and coronary artery bypass grafting.'
 ```
-
-
 
 ```python
 
