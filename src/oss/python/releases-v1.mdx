@@ -115,14 +115,14 @@ The **`langchain`** release focuses on reducing LangChain's surface area and nar
 
 ### ReAct agent migration
 
-**`create_react_agent` has moved from `langgraph` to `langchain`** with significant enhancements:
+**`create_react_agent` has moved from `langgraph.prebuilts` to `langchain.agents`** with significant enhancements:
 
 **Enhanced structured output**
 
-`create_react_agent` enhances coercion of outputs to structured data types:
+`create_agent` has improved coercion of outputs to structured data types:
 
 ```python
-from langchain.agents import create_react_agent
+from langchain.agents import create_agent
 from langchain_core.messages import HumanMessage
 from pydantic import BaseModel
 
@@ -134,7 +134,7 @@ def weather_tool(city: str) -> str:
     """Get the weather for a city."""
     return f"it's sunny and 70 degrees in {city}"
 
-agent = create_react_agent(
+agent = create_agent(
     "openai:gpt-4o-mini",
     tools=[weather_tool],
     response_format=Weather
@@ -157,6 +157,7 @@ Two strategies for structured output generation:
 1. **Artificial tool calling** (default for most models)
     - LangChain generates tools matching your response format schema
     - Model calls these tools, LangChain coerces args to desired format
+    - Configure with `ToolStrategy` hint
 
 2. **Provider implementations**
     - Uses native structured output support when available
@@ -188,15 +189,15 @@ Configure behavior via `handle_tool_errors` arg to `ToolNode`.
 
 **Pre-bound models**
 
-To better support structured output, `create_react_agent` no longer supports pre-bound models with tools or configuration:
+To better support structured output, `create_agent` no longer supports pre-bound models with tools or configuration:
 
 ```python
 # No longer supported
 model_with_tools = ChatOpenAI().bind_tools([some_tool])
-agent = create_react_agent(model_with_tools, tools=[])
+agent = create_agent(model_with_tools, tools=[])
 
 # Use instead
-agent = create_react_agent("openai:gpt-4o-mini", tools=[some_tool])
+agent = create_agent("openai:gpt-4o-mini", tools=[some_tool])
 ```
 
 <Note>
@@ -207,10 +208,10 @@ agent = create_react_agent("openai:gpt-4o-mini", tools=[some_tool])
 
 ```python
 # Before
-from langgraph.prebuilts import create_react_agent, ToolNode, AgentState
+from langgraph.prebuilts import create_agent, ToolNode, AgentState
 
 # After
-from langchain.agents import create_react_agent, ToolNode, AgentState
+from langchain.agents import create_agent, ToolNode, AgentState
 ```
 
 ## <Icon icon="bullhorn" /> Reporting issues

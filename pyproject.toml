@@ -24,6 +24,7 @@ test = [
     "ruff>=0.12",
     "types-pyyaml>=6.0.12.20250516",
     "types-tqdm>=4.67.0.20250516",
+    "requests",
 ]
 
 [project.scripts]
