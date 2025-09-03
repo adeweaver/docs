@@ -6,12 +6,10 @@ title: OpenVINO Reranker
 
 Hugging Face rerank model can be supported by OpenVINO through ``OpenVINOReranker`` class. If you have an Intel GPU, you can specify `model_kwargs={"device": "GPU"}` to run inference on it.
 
-
 ```python
 %pip install --upgrade-strategy eager "optimum[openvino,nncf]" --quiet
 %pip install --upgrade --quiet  faiss-cpu
 ```
-
 
 ```python
 # Helper function for printing docs
@@ -29,8 +27,8 @@ def pretty_print_docs(docs):
 ```
 
 ## Set up the base vector store retriever
-Let's start by initializing a simple vector store retriever and storing the 2023 State of the Union speech (in chunks). We can set up the retriever to retrieve a high number (20) of docs.
 
+Let's start by initializing a simple vector store retriever and storing the 2023 State of the Union speech (in chunks). We can set up the retriever to retrieve a high number (20) of docs.
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -55,6 +53,7 @@ query = "What did the president say about Ketanji Brown Jackson"
 docs = retriever.invoke(query)
 pretty_print_docs(docs)
 ```
+
 ```output
 /home/ethan/intel/langchain_test/lib/python3.10/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
   from .autonotebook import tqdm as notebook_tqdm
@@ -283,9 +282,10 @@ Imagine what it’s like to look at your child who needs insulin and have no ide
 What it does to your dignity, your ability to look your child in the eye, to be the parent you expect to be.
 Metadata: {'source': '../../how_to/state_of_the_union.txt', 'id': 40}
 ```
-## Reranking with OpenVINO
-Now let's wrap our base retriever with a `ContextualCompressionRetriever`, using `OpenVINOReranker` as a compressor.
 
+## Reranking with OpenVINO
+
+Now let's wrap our base retriever with a `ContextualCompressionRetriever`, using `OpenVINOReranker` as a compressor.
 
 ```python
 from langchain.retrievers import ContextualCompressionRetriever
@@ -306,10 +306,10 @@ print([doc.metadata["id"] for doc in compressed_docs])
 
 After reranking, the top 4 documents are different from the top 4 documents retrieved by the base retriever.
 
-
 ```python
 pretty_print_docs(compressed_docs)
 ```
+
 ```output
 Document 1:
 
@@ -347,9 +347,10 @@ And I’m taking robust action to make sure the pain of our sanctions  is target
 Tonight, I can announce that the United States has worked with 30 other countries to release 60 Million barrels of oil from reserves around the world.
 Metadata: {'id': 6, 'relevance_score': tensor(0.0098)}
 ```
-## Export IR model
-It is possible to export your rerank model to the OpenVINO IR format with ``OVModelForSequenceClassification``, and load the model from local folder.
 
+## Export IR model
+
+It is possible to export your rerank model to the OpenVINO IR format with ``OVModelForSequenceClassification``, and load the model from local folder.
 
 ```python
 from pathlib import Path
@@ -359,13 +360,14 @@ if not Path(ov_model_dir).exists():
     ov_compressor.save_model(ov_model_dir)
 ```
 
-
 ```python
 ov_compressor = OpenVINOReranker(model_name_or_path=ov_model_dir)
 ```
+
 ```output
 Compiling the model to CPU ...
 ```
+
 For more information refer to:
 
 * [OpenVINO LLM guide](https://docs.openvino.ai/2024/learn-openvino/llm_inference_guide.html).

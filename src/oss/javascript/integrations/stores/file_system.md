@@ -13,6 +13,7 @@ Only available on Node.js.
 </Tip>
 
 ```
+
 This will help you get started with [LocalFileStore](/oss/concepts/key_value_stores). For detailed documentation of all LocalFileStore features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain.storage_file_system.LocalFileStore.html).
 
 ## Overview
@@ -37,6 +38,7 @@ Make sure that the path you specify when initializing the store is free of other
 </Warning>
 
 ```
+
 ### Integration details
 
 | Class | Package | Local | [PY support](https://python.langchain.com/docs/integrations/stores/file_system/) | Package downloads | Package latest |
@@ -59,27 +61,27 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our byte store:
-
 
 ```typescript
 import { LocalFileStore } from "langchain/storage/file_system"
 
 const kvStore = await LocalFileStore.fromPath("./messages");
 ```
-Define an encoder and decoder for converting the data to `Uint8Array` and back:
 
+Define an encoder and decoder for converting the data to `Uint8Array` and back:
 
 ```typescript
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 ```
+
 ## Usage
 
 You can set data under keys like this using the `mset` method:
-
 
 ```typescript
 await kvStore.mset(
@@ -97,11 +99,12 @@ const results = await kvStore.mget(
 )
 console.log(results.map((v) => decoder.decode(v)));
 ```
+
 ```output
 [ 'value1', 'value2' ]
 ```
-And you can delete data using the `mdelete` method:
 
+And you can delete data using the `mdelete` method:
 
 ```typescript
 await kvStore.mdelete(
@@ -118,13 +121,14 @@ await kvStore.mget(
   ]
 )
 ```
+
 ```output
 [ undefined, undefined ]
 ```
+
 ## Yielding values
 
 If you want to get back all the keys you can call the `yieldKeys` method. Optionally, you can pass a key prefix to only get back keys which match that prefix.
-
 
 ```typescript
 import { LocalFileStore } from "langchain/storage/file_system"
@@ -148,6 +152,7 @@ for await (const key of kvStoreForYield.yieldKeys("message:id:")) {
 
 console.log(yieldedKeys);
 ```
+
 ```output
 [ 'message:id:key1', 'message:id:key2' ]
 ```

@@ -13,7 +13,6 @@ library/service that extracts texts, tables, attached files and document structu
 `Dedoc` supports `DOCX`, `XLSX`, `PPTX`, `EML`, `HTML`, `PDF`, images and more.
 Full list of supported formats can be found [here](https://dedoc.readthedocs.io/en/latest/#id1).
 
-
 ### Integration details
 
 | Class                                                                                                                                                | Package                                                                                        | Local | Serializable | JS support |
@@ -21,7 +20,6 @@ Full list of supported formats can be found [here](https://dedoc.readthedocs.io/
 | [DedocFileLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.dedoc.DedocFileLoader.html)       | [langchain_community](https://python.langchain.com/api_reference/community/index.html) |   ❌   |     beta     |     ❌      |
 | [DedocPDFLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.DedocPDFLoader.html)           | [langchain_community](https://python.langchain.com/api_reference/community/index.html) |   ❌   |     beta     |     ❌      |
 | [DedocAPIFileLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.dedoc.DedocAPIFileLoader.html) | [langchain_community](https://python.langchain.com/api_reference/community/index.html) |   ❌   |     beta     |     ❌      |
-
 
 ### Loader features
 
@@ -46,16 +44,16 @@ docker run -p 1231:1231
 
 `Dedoc` installation instruction is given [here](https://dedoc.readthedocs.io/en/latest/getting_started/installation.html).
 
-
 ```python
 # Install package
 %pip install --quiet "dedoc[torch]"
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
-## Instantiation
 
+## Instantiation
 
 ```python
 from langchain_community.document_loaders import DedocFileLoader
@@ -65,21 +63,16 @@ loader = DedocFileLoader("./example_data/state_of_the_union.txt")
 
 ## Load
 
-
 ```python
 docs = loader.load()
 docs[0].page_content[:100]
 ```
 
-
-
 ```output
 '\nMadam Speaker, Madam Vice President, our First Lady and Second Gentleman. Members of Congress and t'
 ```
 
-
 ## Lazy Load
-
 
 ```python
 docs = loader.lazy_load()
@@ -88,16 +81,18 @@ for doc in docs:
     print(doc.page_content[:100])
     break
 ```
+
 ```output
 Madam Speaker, Madam Vice President, our First Lady and Second Gentleman. Members of Congress and t
 ```
+
 ## API reference
 
 For detailed information on configuring and calling `Dedoc` loaders, please see the API references:
 
-* https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.dedoc.DedocFileLoader.html
-* https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.DedocPDFLoader.html
-* https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.dedoc.DedocAPIFileLoader.html
+* [python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.dedoc.DedocFileLoader.html](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.dedoc.DedocFileLoader.html)
+* [python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.DedocPDFLoader.html](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.DedocPDFLoader.html)
+* [python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.dedoc.DedocAPIFileLoader.html](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.dedoc.DedocAPIFileLoader.html)
 
 ## Loading any file
 
@@ -113,7 +108,6 @@ to get more details about configuration parameters.
 
 ### Basic example
 
-
 ```python
 from langchain_community.document_loaders import DedocFileLoader
 
@@ -124,22 +118,19 @@ docs = loader.load()
 docs[0].page_content[:400]
 ```
 
-
-
 ```output
 '\nMadam Speaker, Madam Vice President, our First Lady and Second Gentleman. Members of Congress and the Cabinet. Justices of the Supreme Court. My fellow Americans.  \n\n\n\nLast year COVID-19 kept us apart. This year we are finally together again. \n\n\n\nTonight, we meet as Democrats Republicans and Independents. But most importantly as Americans. \n\n\n\nWith a duty to one another to the American people to '
 ```
-
 
 ### Modes of split
 
 `DedocFileLoader` supports different types of document splitting into parts (each part is returned separately).
 For this purpose, `split` parameter is used with the following options:
+
 * `document` (default value): document text is returned as a single langchain `Document` object (don't split);
 * `page`: split document text into pages (works for `PDF`, `DJVU`, `PPTX`, `PPT`, `ODP`);
 * `node`: split document text into `Dedoc` tree nodes (title nodes, list item nodes, raw text nodes);
 * `line`: split document text into textual lines.
-
 
 ```python
 loader = DedocFileLoader(
@@ -153,12 +144,9 @@ docs = loader.load()
 len(docs)
 ```
 
-
-
 ```output
 2
 ```
-
 
 ### Handling tables
 
@@ -169,7 +157,6 @@ Tables are not split - each table corresponds to one langchain `Document` object
 For tables, `Document` object has additional `metadata` fields `type="table"`
 and `text_as_html` with table `HTML` representation.
 
-
 ```python
 loader = DedocFileLoader("./example_data/mlb_teams_2012.csv")
 
@@ -178,13 +165,10 @@ docs = loader.load()
 docs[1].metadata["type"], docs[1].metadata["text_as_html"][:200]
 ```
 
-
-
 ```output
 ('table',
  '<table border="1" style="border-collapse: collapse; width: 100%;">\n<tbody>\n<tr>\n<td colspan="1" rowspan="1">Team</td>\n<td colspan="1" rowspan="1"> &quot;Payroll (millions)&quot;</td>\n<td colspan="1" r')
 ```
-
 
 ### Handling attached files
 
@@ -194,7 +178,6 @@ to `True` during loader initialization (`with_attachments=False` by default).
 Attachments are split according to the `split` parameter.
 For attachments, langchain `Document` object has an additional metadata
 field `type="attachment"`.
-
 
 ```python
 loader = DedocFileLoader(
@@ -207,13 +190,10 @@ docs = loader.load()
 docs[1].metadata["type"], docs[1].page_content
 ```
 
-
-
 ```output
 ('attachment',
- '\nContent-Type\nmultipart/mixed; boundary="0000000000005d654405f082adb7"\nDate\nFri, 23 Dec 2022 12:08:48 -0600\nFrom\nMallori Harrell <mallori@unstructured.io>\nMIME-Version\n1.0\nMessage-ID\n<CAPgNNXSzLVJ-d1OCX_TjFgJU7ugtQrjFybPtAMmmYZzphxNFYg@mail.gmail.com>\nSubject\nFake email with attachment\nTo\nMallori Harrell <mallori@unstructured.io>')
+ '\nContent-Type\nmultipart/mixed; boundary="0000000000005d654405f082adb7"\nDate\nFri, 23 Dec 2022 12:08:48 -0600\nFrom\nMallori Harrell [mallori@unstructured.io](mailto:mallori@unstructured.io)\nMIME-Version\n1.0\nMessage-ID\n[CAPgNNXSzLVJ-d1OCX_TjFgJU7ugtQrjFybPtAMmmYZzphxNFYg@mail.gmail.com](mailto:CAPgNNXSzLVJ-d1OCX_TjFgJU7ugtQrjFybPtAMmmYZzphxNFYg@mail.gmail.com)\nSubject\nFake email with attachment\nTo\nMallori Harrell [mallori@unstructured.io](mailto:mallori@unstructured.io)')
 ```
-
 
 ## Loading PDF file
 
@@ -230,7 +210,6 @@ to get more details.
 For `PDF` without a textual layer, `Tesseract OCR` and its language packages should be installed.
 In this case, [the instruction](https://dedoc.readthedocs.io/en/latest/tutorials/add_new_language.html) can be useful.
 
-
 ```python
 from langchain_community.document_loaders import DedocPDFLoader
 
@@ -243,12 +222,9 @@ docs = loader.load()
 docs[0].page_content[:400]
 ```
 
-
-
 ```output
 '\n2\n\nZ. Shen et al.\n\n37], layout detection [38, 22], table detection [26], and scene text detection [4].\n\nA generalized learning-based framework dramatically reduces the need for the\n\nmanual speciﬁcation of complicated rules, which is the status quo with traditional\n\nmethods. DL has the potential to transform DIA pipelines and beneﬁt a broad\n\nspectrum of large-scale document digitization projects.\n'
 ```
-
 
 ## Dedoc API
 
@@ -267,7 +243,6 @@ docker run -p 1231:1231
 
 Please do not use our demo URL `https://dedoc-readme.hf.space` in your code.
 
-
 ```python
 from langchain_community.document_loaders import DedocAPIFileLoader
 
@@ -281,13 +256,9 @@ docs = loader.load()
 docs[0].page_content[:400]
 ```
 
-
-
 ```output
 '\nMadam Speaker, Madam Vice President, our First Lady and Second Gentleman. Members of Congress and the Cabinet. Justices of the Supreme Court. My fellow Americans.  \n\n\n\nLast year COVID-19 kept us apart. This year we are finally together again. \n\n\n\nTonight, we meet as Democrats Republicans and Independents. But most importantly as Americans. \n\n\n\nWith a duty to one another to the American people to '
 ```
-
-
 
 ```python
 

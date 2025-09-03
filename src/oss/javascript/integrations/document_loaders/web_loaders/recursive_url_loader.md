@@ -13,15 +13,19 @@ Only available on Node.js.
 </Tip>
 
 ```
+
 This notebook provides a quick overview for getting started with [RecursiveUrlLoader](/oss/integrations/document_loaders/). For detailed documentation of all RecursiveUrlLoader features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_recursive_url.RecursiveUrlLoader.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | PY support |
 | :--- | :--- | :---: | :---: |  :---: |
 | [RecursiveUrlLoader](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_recursive_url.RecursiveUrlLoader.html) | [@langchain/community](https://api.js.langchain.com/modules/langchain_community_document_loaders_web_recursive_url.html) | ✅ | beta | ❌ |
+
 ### Loader features
+
 | Source | Web Loader | Node Envs Only
 | :---: | :---: | :---: |
 | RecursiveUrlLoader | ✅ | ✅ |
@@ -50,6 +54,7 @@ If you want to get automated tracing of your model calls you can also set your [
 # export LANGSMITH_TRACING="true"
 # export LANGSMITH_API_KEY="your-api-key"
 ```
+
 ### Installation
 
 The LangChain RecursiveUrlLoader integration lives in the `@langchain/community` package:
@@ -70,10 +75,10 @@ We also suggest adding a package like [`html-to-text`](https://www.npmjs.com/pac
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and load documents:
-
 
 ```typescript
 import { RecursiveUrlLoader } from "@langchain/community/document_loaders/web/recursive_url"
@@ -87,13 +92,14 @@ const loader = new RecursiveUrlLoader("https://langchain.com/",  {
   excludeDirs: ["/docs/api/"],
 })
 ```
-## Load
 
+## Load
 
 ```typescript
 const docs = await loader.load()
 docs[0]
 ```
+
 ```output
 {
   pageContent: '\n' +
@@ -330,6 +336,7 @@ docs[0]
 ```typescript
 console.log(docs[0].metadata)
 ```
+
 ```output
 {
   source: 'https://langchain.com/',
@@ -338,6 +345,7 @@ console.log(docs[0].metadata)
   language: 'en'
 }
 ```
+
 ## Options
 
 ```typescript
@@ -355,4 +363,4 @@ However, since it's hard to perform a perfect filter, you may still see some irr
 
 ## API reference
 
-For detailed documentation of all RecursiveUrlLoader features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_community_document_loaders_web_recursive_url.RecursiveUrlLoader.html
+For detailed documentation of all RecursiveUrlLoader features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_recursive_url.RecursiveUrlLoader.html).

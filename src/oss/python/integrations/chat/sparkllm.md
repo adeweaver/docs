@@ -6,7 +6,6 @@ SparkLLM chat models API by iFlyTek. For more information, see [iFlyTek Open Pla
 
 ## Basic use
 
-
 ```python
 """For basic init and call"""
 from langchain_community.chat_models import ChatSparkLLM
@@ -19,17 +18,13 @@ message = HumanMessage(content="Hello")
 chat([message])
 ```
 
-
-
 ```output
 AIMessage(content='Hello! How can I help you today?')
 ```
 
-
 - Get SparkLLM's app_id, api_key and api_secret from [iFlyTek SparkLLM API Console](https://console.xfyun.cn/services/bm3) (for more info, see [iFlyTek SparkLLM Intro](https://xinghuo.xfyun.cn/sparkapi) ), then set environment variables `IFLYTEK_SPARK_APP_ID`, `IFLYTEK_SPARK_API_KEY` and `IFLYTEK_SPARK_API_SECRET` or pass parameters when creating `ChatSparkLLM` as the demo above.
 
 ## For ChatSparkLLM with Streaming
-
 
 ```python
 chat = ChatSparkLLM(
@@ -41,11 +36,12 @@ chat = ChatSparkLLM(
 for chunk in chat.stream("Hello!"):
     print(chunk.content, end="")
 ```
+
 ```output
 Hello! How can I help you today?
 ```
-## For v2
 
+## For v2
 
 ```python
 """For basic init and call"""

@@ -22,7 +22,6 @@ To run this notebook, you will need to do the following:
 
 After confirmed access to database in the runtime environment of this notebook, filling the following values and run the cell before running example scripts.
 
-
 ```python
 # @markdown Please specify an instance id, a database, and a table for demo purpose.
 INSTANCE_ID = "test_instance"  # @param {type:"string"}
@@ -34,13 +33,11 @@ TABLE_NAME = "test_table"  # @param {type:"string"}
 
 The integration lives in its own `langchain-google-spanner` package, so we need to install it.
 
-
 ```python
 %pip install -upgrade --quiet langchain-google-spanner langchain
 ```
 
 **Colab only**: Uncomment the following cell to restart the kernel or use the button to restart the kernel. For Vertex AI Workbench you can restart the terminal using the button on top.
-
 
 ```python
 # # Automatically restart kernel after installs so that your environment can access the new packages
@@ -51,6 +48,7 @@ The integration lives in its own `langchain-google-spanner` package, so we need 
 ```
 
 ### ☁ Set Your Google Cloud Project
+
 Set your Google Cloud project so that you can leverage Google Cloud resources within this notebook.
 
 If you don't know your project ID, try the following:
@@ -58,7 +56,6 @@ If you don't know your project ID, try the following:
 * Run `gcloud config list`.
 * Run `gcloud projects list`.
 * See the support page: [Locate the project ID](https://support.google.com/googleapi/answer/7014113).
-
 
 ```python
 # @markdown Please fill in the value below with your Google Cloud project ID and then run the cell.
@@ -73,9 +70,8 @@ PROJECT_ID = "my-project-id"  # @param {type:"string"}
 
 Authenticate to Google Cloud as the IAM user logged into this notebook in order to access your Google Cloud Project.
 
-- If you are using Colab to run this notebook, use the cell below and continue.
-- If you are using Vertex AI Workbench, check out the setup instructions [here](https://github.com/GoogleCloudPlatform/generative-ai/tree/main/setup-env).
-
+* If you are using Colab to run this notebook, use the cell below and continue.
+* If you are using Vertex AI Workbench, check out the setup instructions [here](https://github.com/GoogleCloudPlatform/generative-ai/tree/main/setup-env).
 
 ```python
 from google.colab import auth
@@ -92,7 +88,6 @@ Save langchain documents with `SpannerDocumentSaver.add_documents(<documents>)`.
 1. `instance_id` - An instance of Spanner to load data from.
 1. `database_id` - An instance of Spanner database to load data from.
 1. `table_name` - The name of the table within the Spanner database to store langchain documents.
-
 
 ```python
 from langchain_core.documents import Document
@@ -133,7 +128,6 @@ Load langchain documents with `SpannerLoader.load()` or `SpannerLoader.lazy_load
 1. `database_id` - An instance of Spanner database to load data from.
 1. `query` - A query of the database dialect.
 
-
 ```python
 from langchain_google_spanner import SpannerLoader
 
@@ -153,7 +147,6 @@ for doc in loader.lazy_load():
 
 Delete a list of langchain documents from the table with `SpannerDocumentSaver.delete(<documents>)`.
 
-
 ```python
 docs = loader.load()
 print("Documents before delete:", docs)
@@ -168,7 +161,6 @@ print("Documents after delete:", loader.load())
 ### Custom client
 
 The client created by default is the default client. To pass in `credentials` and `project` explicitly, a custom client can be passed to the constructor.
-
 
 ```python
 from google.cloud import spanner
@@ -192,7 +184,6 @@ The loader will returns a list of Documents with page content from a specific da
 
 The SpannerLoader assumes there is a column called `page_content`. These defaults can be changed like so:
 
-
 ```python
 custom_content_loader = SpannerLoader(
     INSTANCE_ID, DATABASE_ID, query, content_columns=["custom_content"]
@@ -205,7 +196,6 @@ If multiple columns are specified, the page content's string format will default
 
 The SpannerLoader assumes there is a metadata column called `langchain_metadata` that store JSON data. The metadata column will be used as the base dictionary. By default, all other column data will be added and may overwrite the original value. These defaults can be changed like so:
 
-
 ```python
 custom_metadata_loader = SpannerLoader(
     INSTANCE_ID, DATABASE_ID, query, metadata_columns=["column1", "column2"]
@@ -216,7 +206,6 @@ custom_metadata_loader = SpannerLoader(
 
 By default, the loader uses `langchain_metadata` as the base dictionary. This can be customized to select a JSON column to use as base dictionary for the Document's metadata.
 
-
 ```python
 custom_metadata_json_loader = SpannerLoader(
     INSTANCE_ID, DATABASE_ID, query, metadata_json_column="another-json-column"
@@ -226,7 +215,6 @@ custom_metadata_json_loader = SpannerLoader(
 ### Custom staleness
 
 The default [staleness](https://cloud.google.com/python/docs/reference/spanner/latest/snapshot-usage#beginning-a-snapshot) is 15s. This can be customized by specifying a weaker bound (which can either be to perform all reads as of a given timestamp), or as of a given duration in the past.
-
 
 ```python
 import datetime
@@ -239,7 +227,6 @@ custom_timestamp_loader = SpannerLoader(
     staleness=timestamp,
 )
 ```
-
 
 ```python
 duration = 20.0
@@ -255,7 +242,6 @@ custom_duration_loader = SpannerLoader(
 
 By default, the loader will not use [data boost](https://cloud.google.com/spanner/docs/databoost/databoost-overview) since it has additional costs associated, and require additional IAM permissions. However, user can choose to turn it on.
 
-
 ```python
 custom_databoost_loader = SpannerLoader(
     INSTANCE_ID,
@@ -268,7 +254,6 @@ custom_databoost_loader = SpannerLoader(
 ### Custom client
 
 The client created by default is the default client. To pass in `credentials` and `project` explicitly, a custom client can be passed to the constructor.
-
 
 ```python
 from google.cloud import spanner
@@ -286,13 +271,11 @@ saver = SpannerDocumentSaver(
 
 The SpannerDocumentSaver allows custom initialization. This allows user to specify how the Document is saved into the table.
 
-
 content_column: This will be used as the column name for the Document's page content. Defaulted to `page_content`.
 
 metadata_columns: These metadata will be saved into specific columns if the key exists in the Document's metadata.
 
 metadata_json_column: This will be the column name for the spcial JSON column. Defaulted to `langchain_metadata`.
-
 
 ```python
 custom_saver = SpannerDocumentSaver(
@@ -308,7 +291,6 @@ custom_saver = SpannerDocumentSaver(
 ### Initialize custom schema for Spanner
 
 The SpannerDocumentSaver will have a `init_document_table` method to create a new table to store docs with custom schema.
-
 
 ```python
 from langchain_google_spanner import Column

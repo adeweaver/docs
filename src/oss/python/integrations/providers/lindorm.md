@@ -6,7 +6,6 @@ Lindorm is a cloud-native multimodal database from Alibaba-Cloud, It supports un
 
 To use the AI and vector capabilities of Lindorm, you should [get the service](https://help.aliyun.com/document_detail/174640.html?spm=a2c4g.11186623.help-menu-172543.d_0_1_0.4c6367558DN8Uq) and install `langchain-lindorm-integration` package.
 
-
 ```python
 !pip install -U langchain-lindorm-integration
 ```
@@ -14,7 +13,6 @@ To use the AI and vector capabilities of Lindorm, you should [get the service](h
 ## Embeddings
 
 To use the embedding model deployed in Lindorm AI Service, import the LindormAIEmbeddings.
-
 
 ```python
 from langchain_lindorm_integration import LindormAIEmbeddings
@@ -24,7 +22,6 @@ from langchain_lindorm_integration import LindormAIEmbeddings
 
 The Lindorm AI Service also supports reranking.
 
-
 ```python
 from langchain_lindorm_integration.reranker import LindormAIRerank
 ```
@@ -33,7 +30,6 @@ from langchain_lindorm_integration.reranker import LindormAIRerank
 
 Lindorm also supports vector store.
 
-
 ```python
 from langchain_lindorm_integration import LindormVectorStore
 ```
@@ -41,7 +37,6 @@ from langchain_lindorm_integration import LindormVectorStore
 ## ByteStore
 
 Use ByteStore from Lindorm
-
 
 ```python
 from langchain_lindorm_integration import LindormByteStore

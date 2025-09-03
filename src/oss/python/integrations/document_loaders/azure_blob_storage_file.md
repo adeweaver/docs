@@ -6,16 +6,13 @@ title: Azure Blob Storage File
 
 This covers how to load document objects from Azure Files.
 
-
 ```python
 %pip install --upgrade --quiet  azure-storage-blob
 ```
 
-
 ```python
 from langchain_community.document_loaders import AzureBlobStorageFileLoader
 ```
-
 
 ```python
 loader = AzureBlobStorageFileLoader(
@@ -25,18 +22,13 @@ loader = AzureBlobStorageFileLoader(
 )
 ```
 
-
 ```python
 loader.load()
 ```
 
-
-
 ```output
 [Document(page_content='Lorem ipsum dolor sit amet.', lookup_str='', metadata={'source': '/var/folders/y6/8_bzdg295ld6s1_97_12m4lr0000gn/T/tmpxvave6wl/fake.docx'}, lookup_index=0)]
 ```
-
-
 
 ```python
 

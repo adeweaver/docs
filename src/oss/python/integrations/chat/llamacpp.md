@@ -18,15 +18,16 @@ title: Llama.cpp
 >   - Vision API support
 >   - Multiple Models
 
-
 ## Overview
 
 ### Integration details
+
 | Class | Package | Local | Serializable | JS support |
 | :--- | :--- | :---: | :---: |  :---: |
 | [ChatLlamaCpp](https://python.langchain.com/api_reference/community/chat_models/langchain_community.chat_models.llamacpp.ChatLlamaCpp.html) | [langchain-community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ❌ |
 
 ### Model features
+
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | Image input | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | Native async | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
 | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ✅ |
@@ -42,13 +43,12 @@ Hermes-2-Pro-Llama-3-8B-GGUF](https://huggingface.co/NousResearch/Hermes-2-Pro-L
 
 See our guides on local models to go deeper:
 
-* [Run LLMs locally](https://python.langchain.com/v0.1/docs/guides/development/local_llms/)
-* [Using local models with RAG](https://python.langchain.com/v0.1/docs/use_cases/question_answering/local_retrieval_qa/)
+- [Run LLMs locally](https://python.langchain.com/v0.1/docs/guides/development/local_llms/)
+- [Using local models with RAG](https://python.langchain.com/v0.1/docs/use_cases/question_answering/local_retrieval_qa/)
 
 ### Installation
 
 The LangChain LlamaCpp integration lives in the `langchain-community` and `llama-cpp-python` packages:
-
 
 ```python
 %pip install -qU langchain-community llama-cpp-python
@@ -58,12 +58,10 @@ The LangChain LlamaCpp integration lives in the `langchain-community` and `llama
 
 Now we can instantiate our model object and generate chat completions:
 
-
 ```python
 # Path to your model weights
 local_model = "local/path/to/Hermes-2-Pro-Llama-3-8B-Q8_0.gguf"
 ```
-
 
 ```python
 import multiprocessing
@@ -86,7 +84,6 @@ llm = ChatLlamaCpp(
 
 ## Invocation
 
-
 ```python
 messages = [
     (
@@ -100,10 +97,10 @@ ai_msg = llm.invoke(messages)
 ai_msg
 ```
 
-
 ```python
 print(ai_msg.content)
 ```
+
 ```output
 J'aime programmer. (In France, "programming" is often used in its original sense of scheduling or organizing events.)
 
@@ -112,10 +109,10 @@ Je suis amoureux de la programmation informatique.
 
 (You might also say simply 'programmation', which would be understood as both meanings - depending on context).
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate
@@ -147,6 +144,7 @@ Firstly, it works mostly the same as OpenAI Function Calling
 OpenAI has a [tool calling](https://platform.openai.com/docs/guides/function-calling) (we use "tool calling" and "function calling" interchangeably here) API that lets you describe tools and their arguments, and have the model return a JSON object with a tool to invoke and the inputs to that tool. tool-calling is extremely useful for building tool-using chains and agents, and for getting structured outputs from models more generally.
 
 With `ChatLlamaCpp.bind_tools`, we can easily pass in Pydantic classes, dict schemas, LangChain tools, or even functions as tools to the model. Under the hood, these are converted to an OpenAI tool schema, which looks like:
+
 ```
 {
     "name": "...",
@@ -154,12 +152,13 @@ With `ChatLlamaCpp.bind_tools`, we can easily pass in Pydantic classes, dict sch
     "parameters": {...}  # JSONSchema
 }
 ```
-and passed in every model invocation.
 
+and passed in every model invocation.
 
 However, it cannot automatically trigger a function/tool, we need to force it by specifying the 'tool choice' parameter. This parameter is typically formatted as described below.
 
 ```{"type": "function", "function": {"name": <<tool_name>>}}.```
+
 ```python
 from langchain_core.tools import tool
 from pydantic import BaseModel, Field
@@ -182,27 +181,21 @@ llm_with_tools = llm.bind_tools(
 )
 ```
 
-
 ```python
 ai_msg = llm_with_tools.invoke(
     "what is the weather like in HCMC in celsius",
 )
 ```
 
-
 ```python
 ai_msg.tool_calls
 ```
-
-
 
 ```output
 [{'name': 'get_current_weather',
   'args': {'location': 'Ho Chi Minh City', 'unit': 'celsius'},
   'id': 'call__0_get_current_weather_cmpl-394d9943-0a1f-425b-8139-d2826c1431f2'}]
 ```
-
-
 
 ```python
 class MagicFunctionInput(BaseModel):
@@ -227,12 +220,9 @@ ai_msg = llm_with_tools.invoke(
 ai_msg
 ```
 
-
 ```python
 ai_msg.tool_calls
 ```
-
-
 
 ```output
 [{'name': 'get_magic_function',
@@ -240,9 +230,7 @@ ai_msg.tool_calls
   'id': 'call__0_get_magic_function_cmpl-cd83a994-b820-4428-957c-48076c68335a'}]
 ```
 
-
 # Structured output
-
 
 ```python
 from langchain_core.utils.function_calling import convert_to_openai_tool
@@ -262,22 +250,16 @@ result = structured_llm.invoke("Tell me a joke about birds")
 result
 ```
 
-
 ```python
 result
 ```
-
-
 
 ```output
 {'setup': '- Why did the chicken cross the playground?',
  'punchline': '\n\n- To get to its gilded cage on the other side!'}
 ```
 
-
 # Streaming
-
-
 
 ```python
 for chunk in llm.stream("what is 25x5"):
@@ -286,4 +268,4 @@ for chunk in llm.stream("what is 25x5"):
 
 ## API reference
 
-For detailed documentation of all ChatLlamaCpp features and configurations, head to the API reference: https://python.langchain.com/api_reference/community/chat_models/langchain_community.chat_models.llamacpp.ChatLlamaCpp.html
+For detailed documentation of all ChatLlamaCpp features and configurations, head to the API reference: [python.langchain.com/api_reference/community/chat_models/langchain_community.chat_models.llamacpp.ChatLlamaCpp.html](https://python.langchain.com/api_reference/community/chat_models/langchain_community.chat_models.llamacpp.ChatLlamaCpp.html)

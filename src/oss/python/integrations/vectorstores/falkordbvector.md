@@ -5,6 +5,7 @@ title: FalkorDBVectorStore
 <a href="https://docs.falkordb.com/" target="_blank">FalkorDB</a> is an open-source graph database with integrated support for vector similarity search
 
 it supports:
+
 - approximate nearest neighbor search
 - Euclidean similarity & Cosine Similarity
 - Hybrid search combining vector and keyword searches
@@ -13,10 +14,7 @@ This notebook shows how to use the FalkorDB vector index (`FalkorDB`)
 
 See the <a href="https://docs.falkordb.com/" target="_blank">installation instruction</a>
 
-
-
 ## Setup
-
 
 ```python
 # Pip install necessary package
@@ -24,6 +22,7 @@ See the <a href="https://docs.falkordb.com/" target="_blank">installation instru
 %pip install --upgrade  tiktoken
 %pip install --upgrade  langchain langchain_huggingface
 ```
+
 ```output
 Requirement already satisfied: falkordb in c:\users\dell\desktop\langchain\.venv\lib\site-packages (1.0.10)Note: you may need to restart the kernel to use updated packages.
 
@@ -99,9 +98,10 @@ Requirement already satisfied: threadpoolctl>=3.1.0 in c:\users\dell\desktop\lan
 Requirement already satisfied: exceptiongroup>=1.0.2 in c:\users\dell\desktop\langchain\.venv\lib\site-packages (from anyio->httpx<1,>=0.23.0->langsmith<0.2.0,>=0.1.17->langchain) (1.2.2)
 Requirement already satisfied: MarkupSafe>=2.0 in c:\users\dell\desktop\langchain\.venv\lib\site-packages (from jinja2->torch>=1.11.0->sentence-transformers>=2.6.0->langchain_huggingface) (3.0.2)
 ```
-### Credentials
-We want to use `HuggingFace` so we have to get the HuggingFace API Key
 
+### Credentials
+
+We want to use `HuggingFace` so we have to get the HuggingFace API Key
 
 ```python
 import getpass
@@ -113,14 +113,12 @@ if "HUGGINGFACE_API_KEY" not in os.environ:
 
 If you want to get automated tracing of your model calls you can also set your LangSmith API key by uncommenting below:
 
-
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
 # os.environ["LANGSMITH_TRACING"] = "true"
 ```
 
 ## Initialization
-
 
 ```python
 from langchain_community.vectorstores.falkordb_vector import FalkorDBVector
@@ -130,14 +128,12 @@ from langchain_huggingface import HuggingFaceEmbeddings
 
 You can use FalkorDBVector locally with docker. See <a href="https://docs.falkordb.com/" target="_blank">installation instruction</a>
 
-
 ```python
 host = "localhost"
 port = 6379
 ```
 
 Or you can use FalkorDBVector with <a href="https://app.falkordb.cloud">FalkorDB Cloud</a>
-
 
 ```python
 # E.g
@@ -147,7 +143,6 @@ Or you can use FalkorDBVector with <a href="https://app.falkordb.cloud">FalkorDB
 # password = "password" # SET ON FALKORDB CLOUD
 ```
 
-
 ```python
 vector_store = FalkorDBVector(host=host, port=port, embedding=HuggingFaceEmbeddings())
 ```
@@ -155,7 +150,6 @@ vector_store = FalkorDBVector(host=host, port=port, embedding=HuggingFaceEmbeddi
 ## Manage vector store
 
 ### Add items to vector store
-
 
 ```python
 from langchain_core.documents import Document
@@ -171,15 +165,11 @@ documents = [document_1, document_2, document_3]
 vector_store.add_documents(documents=documents, ids=["1", "2", "3"])
 ```
 
-
-
 ```output
 ['1', '2', '3']
 ```
 
-
 ### Update items in vector store
-
 
 ```python
 updated_document = Document(
@@ -190,7 +180,6 @@ vector_store.update_documents(document_id="1", document=updated_document)
 ```
 
 ### Delete items from vector store
-
 
 ```python
 vector_store.delete(ids=["3"])
@@ -204,7 +193,6 @@ Once your vector store has been created and the relevant documents have been add
 
 Performing a simple similarity search can be done as follows:
 
-
 ```python
 results = vector_store.similarity_search(
     query="thud", k=1, filter={"source": "https://another-example.com"}
@@ -212,42 +200,44 @@ results = vector_store.similarity_search(
 for doc in results:
     print(f"* {doc.page_content} [{doc.metadata}]")
 ```
+
 ```output
 * qux [{'text': 'qux', 'id': '1', 'source': 'https://another-example.com'}]
 ```
-If you want to execute a similarity search and receive the corresponding scores you can run:
 
+If you want to execute a similarity search and receive the corresponding scores you can run:
 
 ```python
 results = vector_store.similarity_search_with_score(query="bar")
 for doc, score in results:
     print(f"* [SIM={score:3f}] {doc.page_content} [{doc.metadata}]")
 ```
+
 ```output
 * [SIM=0.000001] bar [{'text': 'bar', 'id': '2', 'source': 'https://example.com'}]
 ```
-### Query by turning into retriever
-You can also transform the vector store into a retriever for easier usage in your chains.
 
+### Query by turning into retriever
+
+You can also transform the vector store into a retriever for easier usage in your chains.
 
 ```python
 retriever = vector_store.as_retriever(search_type="mmr", search_kwargs={"k": 1})
 retriever.invoke("thud")
 ```
 
-
-
 ```output
 [Document(metadata={'text': 'qux', 'id': '1', 'source': 'https://another-example.com'}, page_content='qux')]
 ```
 
-
 ## Usage for retrieval-augmented generation
+
 For guides on how to use this vector store for retrieval-augmented generation (RAG), see the following sections:
+
 - <a href="https://python.langchain.com/v0.2/docs/tutorials/#working-with-external-knowledge" target="_blank">Tutorials: working with external knowledge</a>
 - <a href="https://python.langchain.com/v0.2/docs/how_to/#qa-with-rag" target="_blank">How-to: Question and answer with RAG</a>
 - <a href="Retrieval conceptual docs" target="_blank">Retrieval conceptual docs</a>
 
-
 ## API reference
-For detailed documentation of all `FalkorDBVector` features and configurations head to the API reference: https://python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.falkordb_vector.FalkorDBVector.html
+
+For detailed documentation of all `FalkorDBVector` features and configurations head to the API reference: [python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.falkordb_vector.FalkorDBVector.html](https://python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.falkordb_vector.FalkorDBVector.html)

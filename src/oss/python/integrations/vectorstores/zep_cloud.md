@@ -16,10 +16,10 @@ In the examples below, we're using Zep's auto-embedding feature which automatica
 using low-latency embedding models.
 
 ## Note
+
 - These examples use Zep's async interfaces. Call sync interfaces by removing the `a` prefix from the method names.
 
 ## Load or create a Collection from documents
-
 
 ```python
 from uuid import uuid4
@@ -50,7 +50,6 @@ vs = ZepCloudVectorStore.from_documents(
 )
 ```
 
-
 ```python
 # wait for the collection embedding to complete
 
@@ -75,11 +74,12 @@ async def wait_for_ready(collection_name: str) -> None:
 
 await wait_for_ready(collection_name)
 ```
+
 ```output
 Embedding status: 401/401 documents embedded
 ```
-## Simarility Search Query over the Collection
 
+## Simarility Search Query over the Collection
 
 ```python
 # query it
@@ -90,6 +90,7 @@ docs_scores = await vs.asimilarity_search_with_relevance_scores(query, k=3)
 for d, s in docs_scores:
     print(d.page_content, " -> ", s, "\n====\n")
 ```
+
 ```output
 the positions of the two principal planets, (and these the most
 necessary for the navigator,) Jupiter and Saturn, require each not less
@@ -122,10 +123,10 @@ We have thus attempted to convey some notion (though necessarily a very
 inadequate one) of the immense extent of numerical tables which it has  ->  0.7840130925178528
 ====
 ```
+
 ## Search over Collection Re-ranked by MMR
 
 Zep offers native, hardware-accelerated MMR re-ranking of search results.
-
 
 ```python
 query = "what is the structure of our solar system?"
@@ -134,6 +135,7 @@ docs = await vs.asearch(query, search_type="mmr", k=3)
 for d in docs:
     print(d.page_content, "\n====\n")
 ```
+
 ```output
 the positions of the two principal planets, (and these the most
 necessary for the navigator,) Jupiter and Saturn, require each not less
@@ -163,10 +165,10 @@ multiplicity and complexity of the tables necessary for the purposes of
 the astronomer and navigator. We feel, nevertheless, that the truly
 ====
 ```
+
 # Filter by Metadata
 
 Use a metadata filter to narrow down results. First, load another book: "Adventures of Sherlock Holmes"
-
 
 ```python
 # Let's add more content to the existing Collection
@@ -182,6 +184,7 @@ await vs.aadd_documents(docs)
 
 await wait_for_ready(collection_name)
 ```
+
 ```output
 Adding documents
 generated documents 1290
@@ -194,8 +197,8 @@ Embedding status: 1211/1691 documents embedded
 Embedding status: 1431/1691 documents embedded
 Embedding status: 1691/1691 documents embedded
 ```
-We see results from both books. Note the `source` metadata
 
+We see results from both books. Note the `source` metadata
 
 ```python
 query = "Was he interested in astronomy?"
@@ -204,6 +207,7 @@ docs = await vs.asearch(query, search_type="similarity", k=3)
 for d in docs:
     print(d.page_content, " -> ", d.metadata, "\n====\n")
 ```
+
 ```output
 of astronomy, and its kindred sciences, with the various arts dependent
 on them. In none are computations more operose than those which
@@ -233,8 +237,8 @@ slightest disrespect for these distinguished persons, when we express
 our regret, that a discovery of such paramount practical value, in a  ->  {'source': 'https://www.gutenberg.org/cache/epub/71292/pg71292.txt'}
 ====
 ```
-Now, we set up a filter
 
+Now, we set up a filter
 
 ```python
 filter = {
@@ -250,6 +254,7 @@ docs = await vs.asearch(query, search_type="similarity", metadata=filter, k=3)
 for d in docs:
     print(d.page_content, " -> ", d.metadata, "\n====\n")
 ```
+
 ```output
 possess all knowledge which is likely to be useful to him in his work,
 and this I have endeavored in my case to do. If I remember rightly, you

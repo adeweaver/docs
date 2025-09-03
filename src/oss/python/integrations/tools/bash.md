@@ -8,11 +8,9 @@ The LLM can use it to execute any shell commands. A common use case for this is 
 
 **Note:** Shell tool does not work with Windows OS.
 
-
 ```python
 %pip install --upgrade --quiet langchain-community
 ```
-
 
 ```python
 from langchain_community.tools import ShellTool
@@ -20,24 +18,24 @@ from langchain_community.tools import ShellTool
 shell_tool = ShellTool()
 ```
 
-
 ```python
 print(shell_tool.run({"commands": ["echo 'Hello World!'", "time"]}))
 ```
+
 ```output
 Hello World!
 
-real	0m0.000s
-user	0m0.000s
-sys	0m0.000s
+real 0m0.000s
+user 0m0.000s
+sys 0m0.000s
 ``````output
 /Users/wfh/code/lc/lckg/langchain/tools/shell/tool.py:34: UserWarning: The shell tool has no safeguards by default. Use at your own risk.
   warnings.warn(
 ```
+
 ### Use with Agents
 
 As with all tools, these can be given to an agent to accomplish more complex tasks. Let's have the agent fetch some links from a web page.
-
 
 ```python
 from langchain.agents import create_agent
@@ -59,6 +57,7 @@ for step in agent.stream(
 ):
     step["messages"][-1].pretty_print()
 ```
+
 ```output
 ================================ Human Message =================================
 

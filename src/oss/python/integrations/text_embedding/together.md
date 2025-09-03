@@ -5,6 +5,7 @@ title: TogetherEmbeddings
 This will help you get started with Together embedding models using LangChain. For detailed documentation on `TogetherEmbeddings` features and configuration options, please refer to the [API reference](https://python.langchain.com/api_reference/together/embeddings/langchain_together.embeddings.TogetherEmbeddings.html).
 
 ## Overview
+
 ### Integration details
 
 <ItemTable category="text_embedding" item="Together" />
@@ -17,7 +18,6 @@ To access Together embedding models you'll need to create a/an Together account,
 
 Head to [https://api.together.xyz/](https://api.together.xyz/) to sign up to Together and generate an API key. Once you've done this set the TOGETHER_API_KEY environment variable:
 
-
 ```python
 import getpass
 import os
@@ -28,7 +28,6 @@ if not os.getenv("TOGETHER_API_KEY"):
 
 To enable automated tracing of your model calls, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
-
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -38,19 +37,19 @@ To enable automated tracing of your model calls, set your [LangSmith](https://do
 
 The LangChain Together integration lives in the `langchain-together` package:
 
-
 ```python
 %pip install -qU langchain-together
 ```
+
 ```output
 [notice] A new release of pip is available: 24.0 -> 24.2
 [notice] To update, run: python -m pip install --upgrade pip
 Note: you may need to restart the kernel to use updated packages.
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```python
 from langchain_together import TogetherEmbeddings
@@ -65,7 +64,6 @@ embeddings = TogetherEmbeddings(
 Embedding models are often used in retrieval-augmented generation (RAG) flows, both as part of indexing data as well as later retrieving it. For more detailed instructions, please see our [RAG tutorials](/oss/tutorials/rag).
 
 Below, see how to index and retrieve data using the `embeddings` object we initialized above. In this example, we will index and retrieve a sample document in the `InMemoryVectorStore`.
-
 
 ```python
 # Create a vector store with a sample text
@@ -88,12 +86,9 @@ retrieved_documents = retriever.invoke("What is LangChain?")
 retrieved_documents[0].page_content
 ```
 
-
-
 ```output
 'LangChain is the framework for building context-aware reasoning applications'
 ```
-
 
 ## Direct Usage
 
@@ -105,18 +100,18 @@ You can directly call these methods to get embeddings for your own use cases.
 
 You can embed single texts or documents with `embed_query`:
 
-
 ```python
 single_vector = embeddings.embed_query(text)
 print(str(single_vector)[:100])  # Show the first 100 characters of the vector
 ```
+
 ```output
 [0.3812227, -0.052848946, -0.10564975, 0.03480297, 0.2878488, 0.0084609175, 0.11605915, 0.05303011,
 ```
+
 ### Embed multiple texts
 
 You can embed multiple texts with `embed_documents`:
-
 
 ```python
 text2 = (
@@ -126,10 +121,12 @@ two_vectors = embeddings.embed_documents([text, text2])
 for vector in two_vectors:
     print(str(vector)[:100])  # Show the first 100 characters of the vector
 ```
+
 ```output
 [0.3812227, -0.052848946, -0.10564975, 0.03480297, 0.2878488, 0.0084609175, 0.11605915, 0.05303011,
 [0.066308185, -0.032866564, 0.115751594, 0.19082588, 0.14017, -0.26976448, -0.056340694, -0.26923394
 ```
+
 ## API Reference
 
 For detailed documentation on `TogetherEmbeddings` features and configuration options, please refer to the [API reference](https://python.langchain.com/api_reference/together/embeddings/langchain_together.embeddings.TogetherEmbeddings.html).

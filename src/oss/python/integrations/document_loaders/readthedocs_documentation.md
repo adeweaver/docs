@@ -10,26 +10,21 @@ For an example of this in the wild, see [here](https://github.com/langchain-ai/c
 
 This assumes that the HTML has already been scraped into a folder. This can be done by uncommenting and running the following command
 
-
 ```python
 %pip install --upgrade --quiet  beautifulsoup4
 ```
-
 
 ```python
 #!wget -r -A.html -P rtdocs https://python.langchain.com/en/latest/
 ```
 
-
 ```python
 from langchain_community.document_loaders import ReadTheDocsLoader
 ```
 
-
 ```python
 loader = ReadTheDocsLoader("rtdocs")
 ```
-
 
 ```python
 docs = loader.load()

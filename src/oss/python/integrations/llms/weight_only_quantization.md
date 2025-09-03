@@ -12,7 +12,6 @@ These can be called from LangChain through this local pipeline wrapper class.
 
 To use, you should have the ``transformers`` python [package installed](https://pypi.org/project/transformers/), as well as [pytorch](https://pytorch.org/get-started/locally/), [intel-extension-for-transformers](https://github.com/intel/intel-extension-for-transformers).
 
-
 ```python
 %pip install transformers --quiet
 %pip install intel-extension-for-transformers
@@ -21,7 +20,6 @@ To use, you should have the ``transformers`` python [package installed](https://
 ### Model Loading
 
 Models can be loaded by specifying the model parameters using the `from_model_id` method. The model parameters include `WeightOnlyQuantConfig` class in intel_extension_for_transformers.
-
 
 ```python
 from intel_extension_for_transformers.transformers import WeightOnlyQuantConfig
@@ -37,7 +35,6 @@ hf = WeightOnlyQuantPipeline.from_model_id(
 ```
 
 They can also be loaded by passing in an existing `transformers` pipeline directly
-
 
 ```python
 from intel_extension_for_transformers.transformers import AutoModelForSeq2SeqLM
@@ -56,7 +53,6 @@ hf = WeightOnlyQuantPipeline(pipeline=pipe)
 
 With the model loaded into memory, you can compose it with a prompt to
 form a chain.
-
 
 ```python
 from langchain_core.prompts import PromptTemplate
@@ -77,7 +73,6 @@ print(chain.invoke({"question": question}))
 
 Now intel-extension-for-transformers only support CPU device inference. Will support intel GPU soon.When running on a machine with CPU, you can specify the `device="cpu"` or `device=-1` parameter to put the model on CPU device.
 Defaults to `-1` for CPU inference.
-
 
 ```python
 conf = WeightOnlyQuantConfig(weight_dtype="nf4")
@@ -103,7 +98,6 @@ print(chain.invoke({"question": question}))
 ### Batch CPU Inference
 
 You can also run inference on the CPU in batch mode.
-
 
 ```python
 conf = WeightOnlyQuantConfig(weight_dtype="nf4")
@@ -136,6 +130,7 @@ We support quantize the weights to following data types for storing(weight_dtype
 * **fp4_e2m1**: Uses regular float 4-bit data type. "e2" means that 2 bits are used for the exponent, and "m1" means that 1 bits are used for the mantissa.
 
 While these techniques store weights in 4 or 8 bit, the computation still happens in float32, bfloat16 or int8(compute_dtype in WeightOnlyQuantConfig):
+
 * **fp32**: Uses the float32 data type to compute.
 * **bf16**: Uses the bfloat16 data type to compute.
 * **int8**: Uses 8-bit data type to compute.
@@ -149,6 +144,7 @@ Quantization algorithms supported in intel-extension-for-transformers(algorithm 
 |       RTN      |  &#10004;  |  &#10004;  |
 |       AWQ      |  &#10004;  | stay tuned |
 |      TEQ      | &#10004; | stay tuned |
+
 > **RTN:** A quantification method that we can think of very intuitively. It does not require additional datasets and is a very fast quantization method. Generally speaking, RTN will convert the weight into a uniformly distributed integer data type, but some algorithms, such as Qlora, propose a non-uniform NF4 data type and prove its theoretical optimality.
 
 > **AWQ:** Proved that protecting only 1% of salient weights can greatly reduce quantization error. the salient weight channels are selected by observing the distribution of activation and weight per channel. The salient weights are also quantized after multiplying a big scale factor before quantization for preserving.

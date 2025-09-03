@@ -17,8 +17,8 @@ Use [this document](https://www.alibabacloud.com/help/en/pai/user-guide/service-
 export EAS_SERVICE_URL=XXX
 export EAS_SERVICE_TOKEN=XXX
 ```
-Another option is to use this code:
 
+Another option is to use this code:
 
 ```python
 import os
@@ -38,14 +38,12 @@ chat = PaiEasChatEndpoint(
 
 You can use the default settings to call EAS service as follows:
 
-
 ```python
 output = chat.invoke([HumanMessage(content="write a funny joke")])
 print("output:", output)
 ```
 
 Or, call EAS service with new inference params:
-
 
 ```python
 kwargs = {"temperature": 0.8, "top_p": 0.8, "top_k": 5}
@@ -54,7 +52,6 @@ print("output:", output)
 ```
 
 Or, run a stream call to get a stream response:
-
 
 ```python
 outputs = chat.stream([HumanMessage(content="hi")], streaming=True)

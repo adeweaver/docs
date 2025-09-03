@@ -12,13 +12,11 @@ Follow these steps to download your `Discord` data:
 
 It might take 30 days for you to receive your data. You'll receive an email at the address which is registered with Discord. That email will have a download button using which you would be able to download your personal Discord data.
 
-
 ```python
 import os
 
 import pandas as pd
 ```
-
 
 ```python
 path = input('Please enter the path to the contents of the Discord "messages" folder: ')
@@ -33,11 +31,9 @@ for f in os.listdir(path):
 df = pd.concat(li, axis=0, ignore_index=True, sort=False)
 ```
 
-
 ```python
 from langchain_community.document_loaders.discord import DiscordChatLoader
 ```
-
 
 ```python
 loader = DiscordChatLoader(df, user_id_col="ID")

@@ -10,16 +10,13 @@ Public accounts can the queried by default without any authentication. If non-pu
 
 Then you need to pass in the Mastodon account names you want to extract, in the `@account@instance` format.
 
-
 ```python
 from langchain_community.document_loaders import MastodonTootsLoader
 ```
 
-
 ```python
 %pip install --upgrade --quiet  Mastodon.py
 ```
-
 
 ```python
 loader = MastodonTootsLoader(
@@ -38,13 +35,13 @@ loader = MastodonTootsLoader(
 # )
 ```
 
-
 ```python
 documents = loader.load()
 for doc in documents[:3]:
     print(doc.page_content)
     print("=" * 80)
 ```
+
 ```output
 <p>It is tough to leave this behind and go back to reality. And some people live here! I’m sure there are downsides but it sounds pretty good to me right now.</p>
 ================================================================================
@@ -53,4 +50,5 @@ for doc in documents[:3]:
 <p>Last day of the honeymoon. And it’s <a href="https://mastodon.social/tags/caturday" class="mention hashtag" rel="tag">#<span>caturday</span></a>! This cute tabby came to the restaurant to beg for food and got some chicken.</p>
 ================================================================================
 ```
+
 The toot texts (the documents' `page_content`) is by default HTML as returned by the Mastodon API.

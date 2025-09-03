@@ -39,7 +39,6 @@ Hyperbrowser's extraction capabilities use AI to pull specific information from 
 | Scrape Tool  | langchain-hyperbrowser |  ❌   |      ❌      |     ❌     |
 | Extract Tool | langchain-hyperbrowser |  ❌   |      ❌      |     ❌     |
 
-
 ## Setup
 
 To access the Hyperbrowser web tools you'll need to install the `langchain-hyperbrowser` integration package, and create a Hyperbrowser account and get an API key.
@@ -55,8 +54,6 @@ export HYPERBROWSER_API_KEY=<your-api-key>
 ### Installation
 
 Install **langchain-hyperbrowser**.
-
-
 
 ```python
 %pip install -qU langchain-hyperbrowser
@@ -91,14 +88,11 @@ from langchain_hyperbrowser import HyperbrowserExtractTool
 tool = HyperbrowserExtractTool()
 ```
 
-
 ## Invocation
 
 ### Basic Usage
 
 #### Crawl Tool
-
-
 
 ```python
 from langchain_hyperbrowser import HyperbrowserCrawlTool
@@ -112,12 +106,12 @@ result = HyperbrowserCrawlTool().invoke(
 )
 print(result)
 ```
+
 ```output
 {'data': [CrawledPage(metadata={'url': 'https://www.example.com/', 'title': 'Example Domain', 'viewport': 'width=device-width, initial-scale=1', 'sourceURL': 'https://example.com'}, html=None, markdown='Example Domain\n\n# Example Domain\n\nThis domain is for use in illustrative examples in documents. You may use this\ndomain in literature without prior coordination or asking for permission.\n\n[More information...](https://www.iana.org/domains/example)', links=None, screenshot=None, url='https://example.com', status='completed', error=None)], 'error': None}
 ```
+
 #### Scrape Tool
-
-
 
 ```python
 from langchain_hyperbrowser import HyperbrowserScrapeTool
@@ -127,12 +121,12 @@ result = HyperbrowserScrapeTool().invoke(
 )
 print(result)
 ```
+
 ```output
 {'data': ScrapeJobData(metadata={'url': 'https://www.example.com/', 'title': 'Example Domain', 'viewport': 'width=device-width, initial-scale=1', 'sourceURL': 'https://example.com'}, html=None, markdown='Example Domain\n\n# Example Domain\n\nThis domain is for use in illustrative examples in documents. You may use this\ndomain in literature without prior coordination or asking for permission.\n\n[More information...](https://www.iana.org/domains/example)', links=None, screenshot=None), 'error': None}
 ```
+
 #### Extract Tool
-
-
 
 ```python
 from langchain_hyperbrowser import HyperbrowserExtractTool
@@ -151,14 +145,14 @@ result = HyperbrowserExtractTool().invoke(
 )
 print(result)
 ```
+
 ```output
 {'data': {'title': 'Example Domain'}, 'error': None}
 ```
+
 ### With Custom Options
 
 #### Crawl Tool with Custom Options
-
-
 
 ```python
 result = HyperbrowserCrawlTool().run(
@@ -173,12 +167,12 @@ result = HyperbrowserCrawlTool().run(
 )
 print(result)
 ```
+
 ```output
 {'data': [CrawledPage(metadata={'url': 'https://www.example.com/', 'title': 'Example Domain', 'viewport': 'width=device-width, initial-scale=1', 'sourceURL': 'https://example.com'}, html=None, markdown='Example Domain\n\n# Example Domain\n\nThis domain is for use in illustrative examples in documents. You may use this\ndomain in literature without prior coordination or asking for permission.\n\n[More information...](https://www.iana.org/domains/example)', links=None, screenshot=None, url='https://example.com', status='completed', error=None)], 'error': None}
 ```
+
 #### Scrape Tool with Custom Options
-
-
 
 ```python
 result = HyperbrowserScrapeTool().run(
@@ -192,12 +186,12 @@ result = HyperbrowserScrapeTool().run(
 )
 print(result)
 ```
+
 ```output
 {'data': ScrapeJobData(metadata={'url': 'https://www.example.com/', 'title': 'Example Domain', 'viewport': 'width=device-width, initial-scale=1', 'sourceURL': 'https://example.com'}, html='<html><head>\n    <title>Example Domain</title>\n\n    <meta charset="utf-8">\n    <meta http-equiv="Content-type" content="text/html; charset=utf-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1">\n        \n</head>\n\n<body>\n<div>\n    <h1>Example Domain</h1>\n    <p>This domain is for use in illustrative examples in documents. You may use this\n    domain in literature without prior coordination or asking for permission.</p>\n    <p><a href="https://www.iana.org/domains/example">More information...</a></p>\n</div>\n\n\n</body></html>', markdown='Example Domain\n\n# Example Domain\n\nThis domain is for use in illustrative examples in documents. You may use this\ndomain in literature without prior coordination or asking for permission.\n\n[More information...](https://www.iana.org/domains/example)', links=None, screenshot=None), 'error': None}
 ```
+
 #### Extract Tool with Custom Schema
-
-
 
 ```python
 from typing import List
@@ -223,14 +217,14 @@ result = HyperbrowserExtractTool().run(
 )
 print(result)
 ```
+
 ```output
 {'data': {'products': [{'price': 9.99, 'title': 'Essence Mascara Lash Princess'}, {'price': 19.99, 'title': 'Eyeshadow Palette with Mirror'}, {'price': 14.99, 'title': 'Powder Canister'}, {'price': 12.99, 'title': 'Red Lipstick'}, {'price': 8.99, 'title': 'Red Nail Polish'}, {'price': 49.99, 'title': 'Calvin Klein CK One'}, {'price': 129.99, 'title': 'Chanel Coco Noir Eau De'}, {'price': 89.99, 'title': "Dior J'adore"}, {'price': 69.99, 'title': 'Dolce Shine Eau de'}, {'price': 79.99, 'title': 'Gucci Bloom Eau de'}]}, 'error': None}
 ```
+
 ### Async Usage
 
 All tools support async usage:
-
-
 
 ```python
 from typing import List
@@ -308,8 +302,6 @@ NameError: name 'List' is not defined
 
 Here's how to use any of the web tools within an agent:
 
-
-
 ```python
 from langchain_hyperbrowser import HyperbrowserCrawlTool
 from langchain_openai import ChatOpenAI
@@ -329,6 +321,7 @@ for step in agent.stream(
 ):
     step["messages"][-1].pretty_print()
 ```
+
 ```output
 ================================ Human Message =================================
 
@@ -362,6 +355,7 @@ domain in literature without prior coordination or asking for permission.
 
 If you would like to crawl more pages or need additional information, please let me know!
 ```
+
 ## Configuration Options
 
 ### Common Options
@@ -397,7 +391,6 @@ For more details, see the respective API references:
 - [Crawl API Reference](https://docs.hyperbrowser.ai/reference/api-reference/crawl)
 - [Scrape API Reference](https://docs.hyperbrowser.ai/reference/api-reference/scrape)
 - [Extract API Reference](https://docs.hyperbrowser.ai/reference/api-reference/extract)
-
 
 ## API reference
 

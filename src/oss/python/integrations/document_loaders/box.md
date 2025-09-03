@@ -26,7 +26,9 @@ The `BoxLoader` will skip files without a text representation, while the `BoxBlo
 | :--- | :--- | :---: | :---: |  :---: |
 | [BoxLoader](https://python.langchain.com/api_reference/box/document_loaders/langchain_box.document_loaders.box.BoxLoader.html) | [langchain_box](https://python.langchain.com/api_reference/box/index.html) | ✅ | ❌ | ❌ |
 | [BoxBlobLoader](https://python.langchain.com/api_reference/box/document_loaders/langchain_box.blob_loaders.box.BoxBlobLoader.html) | [langchain_box](https://python.langchain.com/api_reference/box/index.html) | ✅ | ❌ | ❌ |
+
 ### Loader features
+
 | Source | Document Lazy Loading | Async Support
 | :---: | :---: | :---: |
 | BoxLoader | ✅ | ❌ |
@@ -44,19 +46,18 @@ In order to use the Box package, you will need a few things:
 
 For these examples, we will use [token authentication](https://developer.box.com/guides/authentication/tokens/developer-tokens). This can be used with any [authentication method](https://developer.box.com/guides/authentication/). Just get the token with whatever methodology. If you want to learn more about how to use other authentication types with `langchain-box`, visit the [Box provider](/oss/integrations/providers/box) document.
 
-
-
 ```python
 import getpass
 import os
 
 box_developer_token = getpass.getpass("Enter your Box Developer Token: ")
 ```
+
 ```output
 Enter your Box Developer Token:  ········
 ```
-To enable automated tracing of your model calls, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
+To enable automated tracing of your model calls, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -66,7 +67,6 @@ To enable automated tracing of your model calls, set your [LangSmith](https://do
 ### Installation
 
 Install **langchain_box**.
-
 
 ```python
 %pip install -qU langchain_box
@@ -84,7 +84,6 @@ This requires 1 piece of information:
 
 #### BoxLoader
 
-
 ```python
 from langchain_box.document_loaders import BoxLoader
 
@@ -98,7 +97,6 @@ loader = BoxLoader(
 ```
 
 #### BoxBlobLoader
-
 
 ```python
 from langchain_box.blob_loaders import BoxBlobLoader
@@ -120,7 +118,6 @@ This requires 1 piece of information:
 
 #### BoxLoader
 
-
 ```python
 from langchain_box.document_loaders import BoxLoader
 
@@ -134,7 +131,6 @@ loader = BoxLoader(
 ```
 
 #### BoxBlobLoader
-
 
 ```python
 from langchain_box.blob_loaders import BoxBlobLoader
@@ -156,10 +152,10 @@ This requires 1 piece of information:
 * **query** (`str`)- A string containing the search query to perform.
 
 You can also provide a `BoxSearchOptions` object to narrow down that search
+
 * **box_search_options** (`BoxSearchOptions`)
 
 #### BoxBlobLoader search
-
 
 ```python
 from langchain_box.blob_loaders import BoxBlobLoader
@@ -191,10 +187,10 @@ This requires 1 piece of information:
 * **query** (`str`)- A string containing the search query to perform.
 
 You can also provide a `BoxSearchOptions` object to narrow down that search
+
 * **box_search_options** (`BoxSearchOptions`)
 
 #### BoxBlobLoader Metadata query
-
 
 ```python
 from langchain_box.blob_loaders import BoxBlobLoader
@@ -214,41 +210,38 @@ loader = BoxBlobLoader(box_metadata_query=query)
 
 #### BoxLoader
 
-
 ```python
 docs = loader.load()
 docs[0]
 ```
 
-
-
 ```output
 Document(metadata={'source': 'https://dl.boxcloud.com/api/2.0/internal_files/1514555423624/versions/1663171610024/representations/extracted_text/content/', 'title': 'Invoice-A5555_txt'}, page_content='Vendor: AstroTech Solutions\nInvoice Number: A5555\n\nLine Items:\n    - Gravitational Wave Detector Kit: $800\n    - Exoplanet Terrarium: $120\nTotal: $920')
 ```
 
-
-
 ```python
 print(docs[0].metadata)
 ```
+
 ```output
 {'source': 'https://dl.boxcloud.com/api/2.0/internal_files/1514555423624/versions/1663171610024/representations/extracted_text/content/', 'title': 'Invoice-A5555_txt'}
 ```
-#### BoxBlobLoader
 
+#### BoxBlobLoader
 
 ```python
 for blob in loader.yield_blobs():
     print(f"Blob({blob})")
 ```
+
 ```output
 Blob(id='1514555423624' metadata={'source': 'https://app.box.com/0/260935730128/260931903795/Invoice-A5555.txt', 'name': 'Invoice-A5555.txt', 'file_size': 150} data="b'Vendor: AstroTech Solutions\\nInvoice Number: A5555\\n\\nLine Items:\\n    - Gravitational Wave Detector Kit: $800\\n    - Exoplanet Terrarium: $120\\nTotal: $920'" mimetype='text/plain' path='https://app.box.com/0/260935730128/260931903795/Invoice-A5555.txt')
 Blob(id='1514553902288' metadata={'source': 'https://app.box.com/0/260935730128/260931903795/Invoice-B1234.txt', 'name': 'Invoice-B1234.txt', 'file_size': 168} data="b'Vendor: Galactic Gizmos Inc.\\nInvoice Number: B1234\\nPurchase Order Number: 001\\nLine Items:\\n    - Quantum Flux Capacitor: $500\\n    - Anti-Gravity Pen Set: $75\\nTotal: $575'" mimetype='text/plain' path='https://app.box.com/0/260935730128/260931903795/Invoice-B1234.txt')
 ```
+
 ## Lazy Load
 
 #### BoxLoader only
-
 
 ```python
 page = []
@@ -267,7 +260,6 @@ All Box connectors offer the ability to select additional fields from the Box `F
 
 The connector will add this field to the list of fields the integration needs to function and then add the results to the metadata returned in the `Document` or `Blob`, like `"metadata" : { "source" : "source, "shared_link" : "shared_link" }`. If the field is unavailable for that file, it will be returned as an empty string, like `"shared_link" : ""`.
 
-
 ```python
 
 ```
@@ -275,7 +267,6 @@ The connector will add this field to the list of fields the integration needs to
 ## API reference
 
 For detailed documentation of all BoxLoader features and configurations head to the [API reference](https://python.langchain.com/api_reference/box/document_loaders/langchain_box.document_loaders.box.BoxLoader.html)
-
 
 ## Help
 

@@ -30,7 +30,6 @@ Cube’s data model provides structure and definitions that are used as a contex
 
 - `dimension_values_retry_delay`: Delay between retries to load dimension values.
 
-
 ```python
 import jwt
 from langchain_community.document_loaders import CubeSemanticLoader
@@ -57,7 +56,6 @@ Returns a list of documents with the following attributes:
   - `column_description`
   - `column_values`
   - `cube_data_obj_type`
-
 
 ```python
 # Given string containing page content

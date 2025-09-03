@@ -4,7 +4,6 @@ title: SingleStoreDB
 
 This notebook goes over how to use SingleStoreDB to store chat message history.
 
-
 ```python
 from langchain_community.chat_message_histories import (
     SingleStoreDBChatMessageHistory,
@@ -18,7 +17,6 @@ history.add_user_message("hi!")
 
 history.add_ai_message("whats up?")
 ```
-
 
 ```python
 history.messages

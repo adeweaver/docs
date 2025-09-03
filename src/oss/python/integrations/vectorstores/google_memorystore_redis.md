@@ -24,13 +24,11 @@ To run this notebook, you will need to do the following:
 
 The integration lives in its own `langchain-google-memorystore-redis` package, so we need to install it.
 
-
 ```python
 %pip install -upgrade --quiet langchain-google-memorystore-redis langchain
 ```
 
 **Colab only:** Uncomment the following cell to restart the kernel or use the button to restart the kernel. For Vertex AI Workbench you can restart the terminal using the button on top.
-
 
 ```python
 # # Automatically restart kernel after installs so that your environment can access the new packages
@@ -41,6 +39,7 @@ The integration lives in its own `langchain-google-memorystore-redis` package, s
 ```
 
 ### ☁ Set Your Google Cloud Project
+
 Set your Google Cloud project so that you can leverage Google Cloud resources within this notebook.
 
 If you don't know your project ID, try the following:
@@ -48,7 +47,6 @@ If you don't know your project ID, try the following:
 * Run `gcloud config list`.
 * Run `gcloud projects list`.
 * See the support page: [Locate the project ID](https://support.google.com/googleapi/answer/7014113).
-
 
 ```python
 # @markdown Please fill in the value below with your Google Cloud project ID and then run the cell.
@@ -60,11 +58,11 @@ PROJECT_ID = "my-project-id"  # @param {type:"string"}
 ```
 
 ### 🔐 Authentication
+
 Authenticate to Google Cloud as the IAM user logged into this notebook in order to access your Google Cloud Project.
 
 * If you are using Colab to run this notebook, use the cell below and continue.
 * If you are using Vertex AI Workbench, check out the setup instructions [here](https://github.com/GoogleCloudPlatform/generative-ai/tree/main/setup-env).
-
 
 ```python
 from google.colab import auth
@@ -75,7 +73,6 @@ auth.authenticate_user()
 ## Basic Usage
 
 ### Initialize a Vector Index
-
 
 ```python
 import redis
@@ -104,7 +101,6 @@ Text needs processing and numerical representation before interacting with a vec
 * Loading Text: The TextLoader obtains text data from a file (e.g., "state_of_the_union.txt").
 * Text Splitting: The CharacterTextSplitter breaks the text into smaller chunks for embedding models.
 
-
 ```python
 from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import CharacterTextSplitter
@@ -123,7 +119,6 @@ After text preparation and embedding generation, the following methods insert th
 
 This approach combines embedding creation and insertion into a single step using the from_documents classmethod:
 
-
 ```python
 from langchain_community.embeddings.fake import FakeEmbeddings
 
@@ -135,11 +130,11 @@ rvs = RedisVectorStore.from_documents(
 ```
 
 #### Method 2: Instance-Based Insertion
+
 This approach offers flexibility when working with a new or existing RedisVectorStore:
 
 * [Optional] Create a RedisVectorStore Instance: Instantiate a RedisVectorStore object for customization. If you already have an instance, proceed to the next step.
 * Add Text with Metadata: Provide raw text and metadata to the instance. Embedding generation and insertion into the vector store are handled automatically.
-
 
 ```python
 rvs = RedisVectorStore(
@@ -157,7 +152,6 @@ With the vector store populated, it's possible to search for text semantically s
 * Formulate the Query: A natural language question expresses the search intent (e.g., "What did the president say about Ketanji Brown Jackson").
 * Retrieve Similar Results: The `similarity_search` method finds items in the vector store closest to the query in meaning.
 
-
 ```python
 import pprint
 
@@ -174,7 +168,6 @@ Range queries provide more control by specifying a desired similarity threshold 
 * Set Similarity Threshold: The distance_threshold parameter determines how close a match must be considered relevant.
 * Retrieve Results: The `similarity_search_with_score` method finds items from the vector store that fall within the specified similarity threshold.
 
-
 ```python
 rq_results = rvs.similarity_search_with_score(query=query, distance_threshold=0.8)
 pprint.pprint(rq_results)
@@ -188,7 +181,6 @@ MMR queries aim to find results that are both relevant to the query and diverse 
 * Balance Relevance and Diversity: The lambda_mult parameter controls the trade-off between strict relevance and promoting variety in the results.
 * Retrieve MMR Results: The `max_marginal_relevance_search` method returns items that optimize the combination of relevance and diversity based on the lambda setting.
 
-
 ```python
 mmr_results = rvs.max_marginal_relevance_search(query=query, lambda_mult=0.90)
 pprint.pprint(mmr_results)
@@ -200,7 +192,6 @@ For seamless integration with other LangChain components, a vector store can be 
 
 * LangChain Compatibility: Many LangChain tools and methods are designed to directly interact with retrievers.
 * Ease of Use: The `as_retriever()` method converts the vector store into a format that simplifies querying.
-
 
 ```python
 retriever = rvs.as_retriever()
@@ -214,7 +205,6 @@ pprint.pprint(results)
 
 Occasionally, it's necessary to remove documents (and their associated vectors) from the vector store.  The `delete` method provides this functionality.
 
-
 ```python
 rvs.delete(ids)
 ```
@@ -227,7 +217,6 @@ There might be circumstances where the deletion of an existing vector index is n
 * Storage Management: Removing unused indices can help free up space within the Redis instance.
 
 Caution: Vector index deletion is an irreversible operation. Be certain that the stored vectors and search functionality are no longer required before proceeding.
-
 
 ```python
 # Delete the vector index

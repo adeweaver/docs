@@ -7,6 +7,7 @@ title: ChatTogetherAI
 This guide will help you getting started with `ChatTogetherAI` [chat models](/oss/concepts/chat_models). For detailed documentation of all `ChatTogetherAI` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_chat_models_togetherai.ChatTogetherAI.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [PY support](https://python.langchain.com/docs/integrations/chat/togetherai) | Package downloads | Package latest |
@@ -53,10 +54,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```typescript
 import { ChatTogetherAI } from "@langchain/community/chat_models/togetherai"
@@ -67,8 +68,8 @@ const llm = new ChatTogetherAI({
     // other params...
 })
 ```
-## Invocation
 
+## Invocation
 
 ```typescript
 const aiMsg = await llm.invoke([
@@ -80,6 +81,7 @@ const aiMsg = await llm.invoke([
 ])
 aiMsg
 ```
+
 ```output
 AIMessage {
   "id": "chatcmpl-9rT9qEDPZ6iLCk6jt3XTzVDDH6pcI",
@@ -106,13 +108,14 @@ AIMessage {
 ```typescript
 console.log(aiMsg.content)
 ```
+
 ```output
 J'adore la programmation.
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts"
@@ -136,6 +139,7 @@ await chain.invoke(
     }
 )
 ```
+
 ```output
 AIMessage {
   "id": "chatcmpl-9rT9wolZWfJ3xovORxnkdf1rcPbbY",
@@ -158,8 +162,9 @@ AIMessage {
   }
 }
 ```
+
 Behind the scenes, TogetherAI uses the OpenAI SDK and OpenAI compatible API, with some caveats:
 
 ## API reference
 
-For detailed documentation of all ChatTogetherAI features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_community_chat_models_togetherai.ChatTogetherAI.html
+For detailed documentation of all ChatTogetherAI features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_chat_models_togetherai.ChatTogetherAI.html).

@@ -8,7 +8,6 @@ title: Text Embeddings Inference
 
 To use it within langchain, first install `huggingface-hub`.
 
-
 ```python
 %pip install --upgrade huggingface-hub
 ```
@@ -27,45 +26,34 @@ Specifics on Docker usage might vary with the underlying hardware. For example, 
 
 Finally, instantiate the client and embed your texts.
 
-
 ```python
 from langchain_huggingface.embeddings import HuggingFaceEndpointEmbeddings
 ```
-
 
 ```python
 embeddings = HuggingFaceEndpointEmbeddings(model="http://localhost:8080")
 ```
 
-
 ```python
 text = "What is deep learning?"
 ```
-
 
 ```python
 query_result = embeddings.embed_query(text)
 query_result[:3]
 ```
 
-
-
 ```output
 [0.018113142, 0.00302585, -0.049911194]
 ```
-
-
 
 ```python
 doc_result = embeddings.embed_documents([text])
 ```
 
-
 ```python
 doc_result[0][:3]
 ```
-
-
 
 ```output
 [0.018113142, 0.00302585, -0.049911194]

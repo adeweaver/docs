@@ -6,6 +6,7 @@ sidebarTitle: VertexAIEmbeddings
 This will help you get started with Google Vertex AI Embeddings models using LangChain. For detailed documentation on `Google Vertex AI Embeddings` features and configuration options, please refer to the [API reference](https://python.langchain.com/api_reference/google_vertexai/embeddings/langchain_google_vertexai.embeddings.VertexAIEmbeddings.html).
 
 ## Overview
+
 ### Integration details
 
 | Provider | Package |
@@ -15,26 +16,22 @@ This will help you get started with Google Vertex AI Embeddings models using Lan
 ## Setup
 
 To access Google Vertex AI Embeddings models you'll need to
+
 - Create a Google Cloud account
 - Install the `langchain-google-vertexai` integration package.
 
-
-
-
 ### Credentials
-
 
 Head to [Google Cloud](https://cloud.google.com/free/) to sign up to create an account. Once you've done this set the GOOGLE_APPLICATION_CREDENTIALS environment variable:
 
 For more information, see:
 
-https://cloud.google.com/docs/authentication/application-default-credentials#GAC
-https://googleapis.dev/python/google-auth/latest/reference/google.auth.html#module-google.auth
+[cloud.google.com/docs/authentication/application-default-credentials#GAC](https://cloud.google.com/docs/authentication/application-default-credentials#GAC)
+[googleapis.dev/python/google-auth/latest/reference/google.auth.html#module-google.auth](https://googleapis.dev/python/google-auth/latest/reference/google.auth.html#module-google.auth)
 
 **OPTIONAL : Authenticate your notebook environment (Colab only)**
 
 If you're running this notebook on Google Colab, run the cell below to authenticate your environment.
-
 
 ```python
 import sys
@@ -51,7 +48,6 @@ To get started using Vertex AI, you must have an existing Google Cloud project a
 
 Learn more about [setting up a project and a development environment](https://cloud.google.com/vertex-ai/docs/start/cloud-environment).
 
-
 ```python
 PROJECT_ID = "[your-project-id]"  # @param {type:"string"}
 LOCATION = "us-central1"  # @param {type:"string"}
@@ -63,7 +59,6 @@ vertexai.init(project=PROJECT_ID, location=LOCATION)
 
 To enable automated tracing of your model calls, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
-
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -73,7 +68,6 @@ To enable automated tracing of your model calls, set your [LangSmith](https://do
 
 The LangChain Google Vertex AI Embeddings integration lives in the `langchain-google-vertexai` package:
 
-
 ```python
 %pip install -qU langchain-google-vertexai
 ```
@@ -82,7 +76,6 @@ The LangChain Google Vertex AI Embeddings integration lives in the `langchain-go
 
 Now we can instantiate our model object and generate embeddings:
 >Check the list of [Supported Models](https://cloud.google.com/vertex-ai/generative-ai/docs/embeddings/get-text-embeddings#supported-models)
-
 
 ```python
 from langchain_google_vertexai import VertexAIEmbeddings
@@ -96,7 +89,6 @@ embeddings = VertexAIEmbeddings(model_name="text-embedding-004")
 Embedding models are often used in retrieval-augmented generation (RAG) flows, both as part of indexing data as well as later retrieving it. For more detailed instructions, please see our [RAG tutorials](/oss/tutorials/rag).
 
 Below, see how to index and retrieve data using the `embeddings` object we initialized above. In this example, we will index and retrieve a sample document in the `InMemoryVectorStore`.
-
 
 ```python
 # Create a vector store with a sample text
@@ -119,12 +111,9 @@ retrieved_documents = retriever.invoke("What is LangChain?")
 retrieved_documents[0].page_content
 ```
 
-
-
 ```output
 'LangChain is the framework for building context-aware reasoning applications'
 ```
-
 
 ## Direct Usage
 
@@ -136,18 +125,18 @@ You can directly call these methods to get embeddings for your own use cases.
 
 You can embed single texts or documents with `embed_query`:
 
-
 ```python
 single_vector = embeddings.embed_query(text)
 print(str(single_vector)[:100])  # Show the first 100 characters of the vector
 ```
+
 ```output
 [-0.02831101417541504, 0.022063178941607475, -0.07454229146242142, 0.006448323838412762, 0.001955120
 ```
+
 ### Embed multiple texts
 
 You can embed multiple texts with `embed_documents`:
-
 
 ```python
 text2 = (
@@ -157,10 +146,12 @@ two_vectors = embeddings.embed_documents([text, text2])
 for vector in two_vectors:
     print(str(vector)[:100])  # Show the first 100 characters of the vector
 ```
+
 ```output
 [-0.01092718355357647, 0.01213780976831913, -0.05650627985596657, 0.006737854331731796, 0.0085973171
 [0.010135706514120102, 0.01234869472682476, -0.07284046709537506, 0.00027134662377648056, 0.01546290
 ```
+
 ## API Reference
 
 For detailed documentation on `Google Vertex AI Embeddings

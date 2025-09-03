@@ -6,15 +6,15 @@ This notebook shows how to use agents to interact with the NASA toolkit. The too
 
 **Note: NASA Image and Video Library search queries can result in large responses when the number of desired media results is not specified. Consider this prior to using the agent with LLM token credits.**
 
-## Example Use:
----
-### Initializing the agent
+## Example Use
 
+---
+
+### Initializing the agent
 
 ```python
 %pip install -qU langchain-community
 ```
-
 
 ```python
 from langchain.agents import AgentType, initialize_agent
@@ -32,7 +32,6 @@ agent = initialize_agent(
 
 ### Querying media assets
 
-
 ```python
 agent.run(
     "Can you find three pictures of the moon published between the years 2014 and 2020?"
@@ -40,7 +39,6 @@ agent.run(
 ```
 
 ### Querying details about media assets
-
 
 ```python
 output = agent.run(

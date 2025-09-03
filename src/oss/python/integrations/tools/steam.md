@@ -7,6 +7,7 @@ title: Steam Toolkit
 >[Steam](https://store.steampowered.com/about/) is the ultimate destination for playing, discussing, and creating games.
 
 Steam toolkit has two tools:
+
 - `Game Details`
 - `Recommended Games`
 
@@ -18,17 +19,18 @@ We have to install two python libraries.
 
 ## Imports
 
-
 ```python
 %pip install --upgrade --quiet python-steam-api python-decouple steamspypi
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
+
 ## Assign Environmental Variables
+
 To use this toolkit, please have your OpenAI API Key, Steam API key (from [here](https://steamcommunity.com/dev/apikey)) and your own SteamID handy. Once you have received a Steam API Key, you can input it as an environmental variable below.
 The toolkit will read the "STEAM_KEY" API Key as an environmental variable to authenticate you so please set them here. You will also need to set your "OPENAI_API_KEY" and your "STEAM_ID".
-
 
 ```python
 import os
@@ -38,10 +40,11 @@ os.environ["STEAM_ID"] = ""
 os.environ["OPENAI_API_KEY"] = ""
 ```
 
-## Initialization:
-Initialize the LLM, SteamWebAPIWrapper, SteamToolkit and most importantly the langchain agent to process your query!
-## Example
+## Initialization
 
+Initialize the LLM, SteamWebAPIWrapper, SteamToolkit and most importantly the langchain agent to process your query!
+
+## Example
 
 ```python
 from langchain_community.agent_toolkits.steam.toolkit import SteamToolkit
@@ -51,13 +54,11 @@ steam = SteamWebAPIWrapper()
 tools = [steam.run]
 ```
 
-
 ```python
 from langchain.agents import create_agent
 
 agent = create_agent("openai:gpt-4.1-mini", tools)
 ```
-
 
 ```python
 events = agent.stream(
@@ -67,6 +68,7 @@ events = agent.stream(
 for event in events:
     event["messages"][-1].pretty_print()
 ```
+
 ```output
 ================================ Human Message =================================
 

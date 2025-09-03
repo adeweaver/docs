@@ -6,6 +6,7 @@ title: Lindorm
 This will help you get started with Lindorm embedding models using LangChain.
 
 ## Overview
+
 ### Integration details
 
 | Provider |              Package              |
@@ -14,15 +15,11 @@ This will help you get started with Lindorm embedding models using LangChain.
 
 ## Setup
 
-
 To access Lindorm embedding models you'll need to create a Lindorm account, get AK&SK, and install the `langchain-lindorm-integration` integration package.
 
 ### Credentials
 
-
 You can get you credentials in the [console](https://lindorm.console.aliyun.com/cn-hangzhou/clusterhou/cluster?spm=a2c4g.11186623.0.0.466534e93Xj6tt)
-
-
 
 ```python
 import os
@@ -40,18 +37,17 @@ class Config:
 
 The LangChain Lindorm integration lives in the `langchain-lindorm-integration` package:
 
-
 ```python
 %pip install -qU langchain-lindorm-integration
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
-
 
 ```python
 from langchain_lindorm_integration import LindormAIEmbeddings
@@ -69,7 +65,6 @@ embeddings = LindormAIEmbeddings(
 Embedding models are often used in retrieval-augmented generation (RAG) flows, both as part of indexing data as well as later retrieving it. For more detailed instructions, please see our [RAG tutorials](/oss/tutorials/rag).
 
 Below, see how to index and retrieve data using the `embeddings` object we initialized above. In this example, we will index and retrieve a sample document in the `InMemoryVectorStore`.
-
 
 ```python
 # Create a vector store with a sample text
@@ -92,12 +87,9 @@ retrieved_documents = retriever.invoke("What is LangChain?")
 retrieved_documents[0].page_content
 ```
 
-
-
 ```output
 'LangChain is the framework for building context-aware reasoning applications'
 ```
-
 
 ## Direct Usage
 
@@ -109,18 +101,18 @@ You can directly call these methods to get embeddings for your own use cases.
 
 You can embed single texts or documents with `embed_query`:
 
-
 ```python
 single_vector = embeddings.embed_query(text)
 print(str(single_vector)[:100])  # Show the first 100 characters of the vector
 ```
+
 ```output
 [-0.016254117712378502, -0.01154549140483141, 0.0042558759450912476, -0.011416379362344742, -0.01770
 ```
+
 ### Embed multiple texts
 
 You can embed multiple texts with `embed_documents`:
-
 
 ```python
 text2 = (
@@ -130,10 +122,12 @@ two_vectors = embeddings.embed_documents([text, text2])
 for vector in two_vectors:
     print(str(vector)[:100])  # Show the first 100 characters of the vector
 ```
+
 ```output
 [-0.016254086047410965, -0.011545476503670216, 0.0042558712884783745, -0.011416426859796047, -0.0177
 [-0.07268096506595612, -3.236892371205613e-05, -0.0019329536007717252, -0.030644644051790237, -0.018
 ```
+
 ## API Reference
 
 For detailed documentation on `LindormEmbeddings` features and configuration options, please refer to the [API reference](https://pypi.org/project/langchain-lindorm-integration/).

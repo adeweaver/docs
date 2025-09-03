@@ -8,15 +8,15 @@ import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
 
 ## Overview
 
-LangChain agents use [LangGraph persistence](/oss/langgraph/persistence#memory-store) to enable long term memory.
-This is a more advanced topic and requires knowledge of LangGraph to use.
+LangChain agents use [LangGraph persistence](/oss/langgraph/persistence#memory-store) to enable long term memory. This is a more advanced topic and requires knowledge of LangGraph to use.
 
 
 ## Memory storage
 
 LangGraph stores long-term memories as JSON documents in a [store](/oss/langgraph/persistence#memory-store).
-Each memory is organized under a custom `namespace` (similar to a folder) and a distinct `key` (like a file name).
-Namespaces often include user or org IDs or other labels that makes it easier to organize information.
+
+Each memory is organized under a custom `namespace` (similar to a folder) and a distinct `key` (like a file name). Namespaces often include user or org IDs or other labels that makes it easier to organize information.
+
 This structure enables hierarchical organization of memories. Cross-namespace searching is then supported through content filters.
 
 :::python
@@ -156,16 +156,16 @@ import { InMemoryStore, type Runtime } from "@langchain/langgraph";
 
 const store = new InMemoryStore();
 const contextSchema = z.object({
-  userId: z.string(),
+    userId: z.string(),
 });
 
 await store.put(
-  ["users"],
-  "user_123",
-  {
-    name: "John Smith",
-    language: "English",
-  }
+    ["users"],
+    "user_123",
+    {
+        name: "John Smith",
+        language: "English",
+    }
 );
 
 const getUserInfo = tool(
@@ -176,27 +176,19 @@ const getUserInfo = tool(
     if (!userId) {
       throw new Error("userId is required");
     }
-    const userInfo = await runtime.store?.get(["users"], userId);
-    return userInfo?.value ? JSON.stringify(userInfo.value) : "Unknown user";
-  },
-  {
-    name: "get_user_info",
-    description: "Look up user info.",
-    schema: z.object({}),
-  }
 );
 
 const agent = createAgent({
-  model: "openai:gpt-4o-mini",
-  tools: [getUserInfo],
-  contextSchema,
-  store,
+    model: "openai:gpt-4o-mini",
+    tools: [getUserInfo],
+    contextSchema,
+    store,
 });
 
 // Run the agent
 const result = await agent.invoke(
-  { messages: [{ role: "user", content: "look up user information" }] },
-  { context: { userId: "user_123" } }
+    { messages: [{ role: "user", content: "look up user information" }] },
+    { context: { userId: "user_123" } }
 );
 
 console.log(result.messages.at(-1)?.content);
@@ -276,11 +268,11 @@ import { InMemoryStore, type Runtime } from "@langchain/langgraph";
 const store = new InMemoryStore();
 
 const contextSchema = z.object({
-  userId: z.string(),
+    userId: z.string(),
 });
 
 const UserInfo = z.object({
-  name: z.string(),
+    name: z.string(),
 });
 
 const saveUserInfo = tool(
@@ -289,28 +281,19 @@ const saveUserInfo = tool(
     if (!userId) {
       throw new Error("userId is required");
     }
-    // Same as that provided to `createAgent`
-    await runtime.store?.put(["users"], userId, userInfo);
-    return "Successfully saved user info.";
-  },
-  {
-    name: "save_user_info",
-    description: "Save user info.",
-    schema: UserInfo,
-  }
 );
 
 const agent = createAgent({
-  model: "openai:gpt-4o-mini",
-  tools: [saveUserInfo],
-  contextSchema,
-  store,
+    model: "openai:gpt-4o-mini",
+    tools: [saveUserInfo],
+    contextSchema,
+    store,
 });
 
 // Run the agent
 await agent.invoke(
-  { messages: [{ role: "user", content: "My name is John Smith" }] },
-  { context: { userId: "user_123" } }
+    { messages: [{ role: "user", content: "My name is John Smith" }] },
+    { context: { userId: "user_123" } }
 );
 
 // You can access the store directly to get the value

@@ -6,10 +6,10 @@ title: ChatGreenNode
 
 This page will help you get started with GreenNode Serverless AI [chat models](../../concepts/chat_models). For detailed documentation of all ChatGreenNode features and configurations head to the [API reference](https://python.langchain.com/api_reference/greennode/chat_models/langchain_greennode.chat_models.ChatGreenNode.html).
 
-
 [GreenNode AI](https://greennode.ai/) offers an API to query [20+ leading open-source models](https://aiplatform.console.greennode.ai/models)
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | JS support | Package downloads | Package latest |
@@ -17,6 +17,7 @@ This page will help you get started with GreenNode Serverless AI [chat models](.
 | [ChatGreenNode](https://python.langchain.com/api_reference/greennode/chat_models/langchain_greennode.chat_models.ChatGreenNode.html) | [langchain-greennode](https://python.langchain.com/api_reference/greennode/index.html) | ❌ | beta | ❌ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-greennode?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-greennode?style=flat-square&label=%20) |
 
 ### Model features
+
 | [Tool calling](../../how_to/tool_calling.ipynb) | [Structured output](../../how_to/structured_output.ipynb) | JSON mode | [Image input](../../how_to/multimodal_inputs.ipynb) | Audio input | Video input | [Token-level streaming](../../how_to/chat_streaming.ipynb) | Native async | [Token usage](../../how_to/chat_token_usage_tracking.ipynb) | [Logprobs](../../how_to/logprobs.ipynb) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
 | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ |
@@ -29,7 +30,6 @@ To access GreenNode models you'll need to create a GreenNode account, get an API
 
 Head to [this page](https://aiplatform.console.greennode.ai/api-keys) to sign up to GreenNode AI Platform and generate an API key. Once you've done this, set the GREENNODE_API_KEY environment variable:
 
-
 ```python
 import getpass
 import os
@@ -40,7 +40,6 @@ if not os.getenv("GREENNODE_API_KEY"):
 
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
-
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -50,17 +49,17 @@ If you want to get automated tracing of your model calls you can also set your [
 
 The LangChain GreenNode integration lives in the `langchain-greennode` package:
 
-
 ```python
 %pip install -qU langchain-greennode
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```python
 from langchain_greennode import ChatGreenNode
@@ -76,8 +75,6 @@ llm = ChatGreenNode(
 
 ## Invocation
 
-
-
 ```python
 messages = [
     (
@@ -90,29 +87,27 @@ ai_msg = llm.invoke(messages)
 ai_msg
 ```
 
-
-
 ```output
 AIMessage(content="\n\nJ'aime la programmation.", additional_kwargs={'refusal': None}, response_metadata={'token_usage': {'completion_tokens': 248, 'prompt_tokens': 23, 'total_tokens': 271, 'completion_tokens_details': None, 'prompt_tokens_details': None}, 'model_name': 'deepseek-ai/DeepSeek-R1-Distill-Qwen-32B', 'system_fingerprint': None, 'id': 'chatcmpl-271edac4958846068c37877586368afe', 'service_tier': None, 'finish_reason': 'stop', 'logprobs': None}, id='run--5c12d208-2bc2-4f29-8b50-1ce3b515a3cf-0', usage_metadata={'input_tokens': 23, 'output_tokens': 248, 'total_tokens': 271, 'input_token_details': {}, 'output_token_details': {}})
 ```
 
-
-
 ```python
 print(ai_msg.content)
 ```
+
 ```output
 J'aime la programmation.
 ```
+
 ### Streaming
 
 You can also stream the response using the `stream` method:
-
 
 ```python
 for chunk in llm.stream("Write a short poem about artificial intelligence"):
     print(chunk.content, end="", flush=True)
 ```
+
 ```output
 **Beneath the Circuits**
 
@@ -136,10 +131,10 @@ We must remember the night.
 For wisdom isn't just speed and skill,
 It's how we choose to build our will.
 ```
+
 ### Chat Messages
 
 You can use different message types to structure your conversations with the model:
-
 
 ```python
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
@@ -156,13 +151,14 @@ messages = [
 response = llm.invoke(messages)
 print(response.content[:100])
 ```
+
 ```output
 Black holes are formed through several processes, depending on their type. The most common way bla
 ```
+
 ## Chaining
 
 You can use `ChatGreenNode` in LangChain chains and agents:
-
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate
@@ -187,12 +183,9 @@ chain.invoke(
 )
 ```
 
-
-
 ```output
 AIMessage(content='\n\nIch liebe Programmieren.', additional_kwargs={'refusal': None}, response_metadata={'token_usage': {'completion_tokens': 198, 'prompt_tokens': 18, 'total_tokens': 216, 'completion_tokens_details': None, 'prompt_tokens_details': None}, 'model_name': 'deepseek-ai/DeepSeek-R1-Distill-Qwen-32B', 'system_fingerprint': None, 'id': 'chatcmpl-e01201b9fd9746b7a9b2ed6d70f29d45', 'service_tier': None, 'finish_reason': 'stop', 'logprobs': None}, id='run--ce52b9d8-dd84-46b3-845b-da27855816ee-0', usage_metadata={'input_tokens': 18, 'output_tokens': 198, 'total_tokens': 216, 'input_token_details': {}, 'output_token_details': {}})
 ```
-
 
 ## Available Models
 

@@ -6,6 +6,7 @@ title: Kuzu
 > It is permissively licensed with an MIT license, and you can see its source code [here](https://github.com/kuzudb/kuzu).
 
 > Key characteristics of Kùzu:
+>
 >- Performance and scalability: Implements modern, state-of-the-art join algorithms for graphs.
 >- Usability: Very easy to set up and get started with, as there are no servers (embedded architecture).
 >- Interoperability: Can conveniently scan and copy data from external columnar formats, CSV, JSON and relational databases.
@@ -29,7 +30,6 @@ respective Python packages that come with LangChain.
 
 Here's how you would first create a Kùzu database on your local machine and connect to it:
 
-
 ```python
 import kuzu
 
@@ -42,7 +42,6 @@ conn = kuzu.Connection(db)
 Kùzu's integration with LangChain makes it convenient to create and update graphs from unstructured text, and also to query graphs via a Text2Cypher pipeline that utilizes the
 power of LangChain's LLM chains. To begin, we create a `KuzuGraph` object that uses the database object we created above in combination with the `KuzuGraph` constructor.
 
-
 ```python
 from langchain_kuzu.graphs.kuzu_graph import KuzuGraph
 
@@ -51,7 +50,6 @@ graph = KuzuGraph(db, allow_dangerous_requests=True)
 
 Say we want to transform the following text into a graph:
 
-
 ```python
 text = "Tim Cook is the CEO of Apple. Apple has its headquarters in California."
 ```
@@ -59,7 +57,6 @@ text = "Tim Cook is the CEO of Apple. Apple has its headquarters in California."
 We will make use of `LLMGraphTransformer` to use an LLM to extract nodes and relationships from the text.
 To make the graph more useful, we will define the following schema, such that the LLM will only
 extract nodes and relationships that match the schema.
-
 
 ```python
 # Define schema
@@ -71,7 +68,6 @@ allowed_relationships = [
 ```
 
 The `LLMGraphTransformer` class provides a convenient way to convert the text into a list of graph documents.
-
 
 ```python
 from langchain_core.documents import Document
@@ -89,21 +85,16 @@ documents = [Document(page_content=text)]
 graph_documents = llm_transformer.convert_to_graph_documents(documents)
 ```
 
-
 ```python
 graph_documents[:2]
 ```
-
-
 
 ```output
 [GraphDocument(nodes=[Node(id='Tim Cook', type='Person', properties={}), Node(id='Apple', type='Company', properties={}), Node(id='California', type='Location', properties={})], relationships=[Relationship(source=Node(id='Tim Cook', type='Person', properties={}), target=Node(id='Apple', type='Company', properties={}), type='IS_CEO_OF', properties={}), Relationship(source=Node(id='Apple', type='Company', properties={}), target=Node(id='California', type='Location', properties={}), type='HAS_HEADQUARTERS_IN', properties={})], source=Document(metadata={}, page_content='Tim Cook is the CEO of Apple. Apple has its headquarters in California.'))]
 ```
 
-
 We can then call the above defined `KuzuGraph` object's `add_graph_documents` method to ingest the graph documents into the Kùzu database.
 The `include_source` argument is set to `True` so that we also create relationships between each entity node and the source document that it came from.
-
 
 ```python
 # Add the graph document to the graph
@@ -116,7 +107,6 @@ graph.add_graph_documents(
 ## Creating `KuzuQAChain`
 
 To query the graph via a Text2Cypher pipeline, we can define a `KuzuQAChain` object. Then, we can invoke the chain with a query by connecting to the existing database that's stored in the `test_db` directory defined above.
-
 
 ```python
 from langchain_kuzu.chains.graph_qa.kuzu import KuzuQAChain
@@ -134,10 +124,10 @@ Note that we set a temperature that's slightly higher than zero to avoid the LLM
 
 Let's ask some questions using the QA chain.
 
-
 ```python
 chain.invoke("Who is the CEO of Apple?")
 ```
+
 ```output
 > Entering new KuzuQAChain chain...
 Generated Cypher:
@@ -148,17 +138,15 @@ Full Context:
 > Finished chain.
 ```
 
-
 ```output
 {'query': 'Who is the CEO of Apple?',
  'result': 'Tim Cook is the CEO of Apple.'}
 ```
 
-
-
 ```python
 chain.invoke("Where is Apple headquartered?")
 ```
+
 ```output
 > Entering new KuzuQAChain chain...
 Generated Cypher:
@@ -169,33 +157,31 @@ Full Context:
 > Finished chain.
 ```
 
-
 ```output
 {'query': 'Where is Apple headquartered?',
  'result': 'Apple is headquartered in California.'}
 ```
-
 
 ## Refresh graph schema
 
 If you mutate or update the graph, you can inspect the refreshed schema information that's used by the Text2Cypher chain to generate Cypher statements.
 You don't need to manually call `refresh_schema()` each time as it's called automatically when you invoke the chain.
 
-
 ```python
 graph.refresh_schema()
 
 print(graph.get_schema)
 ```
+
 ```output
 Node properties: [{'properties': [('id', 'STRING'), ('type', 'STRING')], 'label': 'Person'}, {'properties': [('id', 'STRING'), ('type', 'STRING')], 'label': 'Location'}, {'properties': [('id', 'STRING'), ('text', 'STRING'), ('type', 'STRING')], 'label': 'Chunk'}, {'properties': [('id', 'STRING'), ('type', 'STRING')], 'label': 'Company'}]
 Relationships properties: [{'properties': [], 'label': 'HAS_HEADQUARTERS_IN'}, {'properties': [('label', 'STRING'), ('triplet_source_id', 'STRING')], 'label': 'MENTIONS_Chunk_Person'}, {'properties': [('label', 'STRING'), ('triplet_source_id', 'STRING')], 'label': 'MENTIONS_Chunk_Location'}, {'properties': [], 'label': 'IS_CEO_OF'}, {'properties': [('label', 'STRING'), ('triplet_source_id', 'STRING')], 'label': 'MENTIONS_Chunk_Company'}]
 Relationships: ['(:Company)-[:HAS_HEADQUARTERS_IN]->(:Location)', '(:Chunk)-[:MENTIONS_Chunk_Person]->(:Person)', '(:Chunk)-[:MENTIONS_Chunk_Location]->(:Location)', '(:Person)-[:IS_CEO_OF]->(:Company)', '(:Chunk)-[:MENTIONS_Chunk_Company]->(:Company)']
 ```
+
 ## Use separate LLMs for Cypher and answer generation
 
 You can specify `cypher_llm` and `qa_llm` separately to use different LLMs for Cypher generation and answer generation.
-
 
 ```python
 chain = KuzuQAChain.from_llm(
@@ -207,10 +193,10 @@ chain = KuzuQAChain.from_llm(
 )
 ```
 
-
 ```python
 chain.invoke("Who is the CEO of Apple?")
 ```
+
 ```output
 > Entering new KuzuQAChain chain...
 Generated Cypher:
@@ -220,7 +206,6 @@ Full Context:
 
 > Finished chain.
 ```
-
 
 ```output
 {'query': 'Who is the CEO of Apple?',

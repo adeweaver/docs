@@ -7,14 +7,13 @@ ModelScope ([Home](https://www.modelscope.cn/) | [GitHub](https://github.com/mod
 
 This will help you get started with ModelScope Chat Endpoint.
 
-
 ## Overview
+
 ### Integration details
 
 |Provider| Class | Package | Local | Serializable | Package downloads | Package latest |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 |[ModelScope](/oss/integrations/providers/modelscope/)| ModelScopeChatEndpoint | [langchain-modelscope-integration](https://pypi.org/project/langchain-modelscope-integration/) | ❌ | ❌ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-modelscope-integration?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-modelscope-integration?style=flat-square&label=%20) |
-
 
 ## Setup
 
@@ -23,8 +22,6 @@ To access ModelScope chat endpoint you'll need to create a ModelScope account, g
 ### Credentials
 
 Head to [ModelScope](https://modelscope.cn/) to sign up to ModelScope and generate an [SDK token](https://modelscope.cn/my/myaccesstoken). Once you've done this set the `MODELSCOPE_SDK_TOKEN` environment variable:
-
-
 
 ```python
 import getpass
@@ -40,7 +37,6 @@ if not os.getenv("MODELSCOPE_SDK_TOKEN"):
 
 The LangChain ModelScope integration lives in the `langchain-modelscope-integration` package:
 
-
 ```python
 %pip install -qU langchain-modelscope-integration
 ```
@@ -48,8 +44,6 @@ The LangChain ModelScope integration lives in the `langchain-modelscope-integrat
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
-
 
 ```python
 from langchain_modelscope import ModelScopeChatEndpoint
@@ -66,8 +60,6 @@ llm = ModelScopeChatEndpoint(
 
 ## Invocation
 
-
-
 ```python
 messages = [
     (
@@ -80,25 +72,21 @@ ai_msg = llm.invoke(messages)
 ai_msg
 ```
 
-
-
 ```output
 AIMessage(content='我喜欢编程。', additional_kwargs={'refusal': None}, response_metadata={'token_usage': {'completion_tokens': 3, 'prompt_tokens': 33, 'total_tokens': 36, 'completion_tokens_details': None, 'prompt_tokens_details': None}, 'model_name': 'qwen2.5-coder-32b-instruct', 'system_fingerprint': None, 'finish_reason': 'stop', 'logprobs': None}, id='run-60bb3461-60ae-4c0b-8997-ab55ef77fcd6-0', usage_metadata={'input_tokens': 33, 'output_tokens': 3, 'total_tokens': 36, 'input_token_details': {}, 'output_token_details': {}})
 ```
 
-
-
 ```python
 print(ai_msg.content)
 ```
+
 ```output
 我喜欢编程。
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
-
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate
@@ -123,13 +111,10 @@ chain.invoke(
 )
 ```
 
-
-
 ```output
 AIMessage(content='我喜欢编程。', additional_kwargs={'refusal': None}, response_metadata={'token_usage': {'completion_tokens': 3, 'prompt_tokens': 28, 'total_tokens': 31, 'completion_tokens_details': None, 'prompt_tokens_details': None}, 'model_name': 'qwen2.5-coder-32b-instruct', 'system_fingerprint': None, 'finish_reason': 'stop', 'logprobs': None}, id='run-9f011a3a-9a11-4759-8d16-5b1843a78862-0', usage_metadata={'input_tokens': 28, 'output_tokens': 3, 'total_tokens': 31, 'input_token_details': {}, 'output_token_details': {}})
 ```
 
-
 ## API reference
 
-For detailed documentation of all ModelScopeChatEndpoint features and configurations head to the reference: https://modelscope.cn/docs/model-service/API-Inference/intro
+For detailed documentation of all ModelScopeChatEndpoint features and configurations head to the reference: [modelscope.cn/docs/model-service/API-Inference/intro](https://modelscope.cn/docs/model-service/API-Inference/intro)

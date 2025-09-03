@@ -11,6 +11,7 @@ Only available on Node.js.
 
 </Tip>
 ```
+
 This notebook provides a quick overview for getting started with [PuppeteerWebBaseLoader](/oss/integrations/document_loaders/). For detailed documentation of all PuppeteerWebBaseLoader features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_puppeteer.PuppeteerWebBaseLoader.html).
 
 Puppeteer is a Node.js library that provides a high-level API for controlling headless Chrome or Chromium. You can use Puppeteer to automate web page interactions, including extracting data from dynamic web pages that require JavaScript to render.
@@ -18,12 +19,15 @@ Puppeteer is a Node.js library that provides a high-level API for controlling he
 If you want a lighterweight solution, and the webpages you want to load do not require JavaScript to render, you can use the [CheerioWebBaseLoader](/oss/integrations/document_loaders/web_loaders/web_cheerio) instead.
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | PY support |
 | :--- | :--- | :---: | :---: |  :---: |
 | [PuppeteerWebBaseLoader](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_puppeteer.PuppeteerWebBaseLoader.html) | [@langchain/community](https://api.js.langchain.com/modules/langchain_community_document_loaders_web_puppeteer.html) | ✅ | beta | ❌ |
+
 ### Loader features
+
 | Source | Web Loader | Node Envs Only
 | :---: | :---: | :---: |
 | PuppeteerWebBaseLoader | ✅ | ✅ |
@@ -40,6 +44,7 @@ If you want to get automated tracing of your model calls you can also set your [
 # export LANGSMITH_TRACING="true"
 # export LANGSMITH_API_KEY="your-api-key"
 ```
+
 ### Installation
 
 The LangChain PuppeteerWebBaseLoader integration lives in the `@langchain/community` package:
@@ -53,10 +58,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and load documents:
-
 
 ```typescript
 import { PuppeteerWebBaseLoader } from "@langchain/community/document_loaders/web/puppeteer"
@@ -66,13 +71,14 @@ const loader = new PuppeteerWebBaseLoader("https://langchain.com", {
   // optional params = ...
 })
 ```
-## Load
 
+## Load
 
 ```typescript
 const docs = await loader.load()
 docs[0]
 ```
+
 ```output
 Document {
   pageContent: '<div class="page-wrapper"><div class="global-styles w-embed"><style>\n' +
@@ -383,9 +389,11 @@ Document {
 ```typescript
 console.log(docs[0].metadata)
 ```
+
 ```output
 { source: 'https://langchain.com' }
 ```
+
 ## Options
 
 Here's an explanation of the parameters you can pass to the PuppeteerWebBaseLoader constructor using the PuppeteerWebBaseLoaderOptions interface:
@@ -406,12 +414,10 @@ type PuppeteerWebBaseLoaderOptions = {
 
 By passing these options to the `PuppeteerWebBaseLoader` constructor, you can customize the behavior of the loader and use Puppeteer's powerful features to scrape and interact with web pages.
 
-
 ## Screenshots
 
 To take a screenshot of a site, initialize the loader the same as above, and call the `.screenshot()` method.
 This will return an instance of `Document` where the page content is a base64 encoded image, and the metadata contains a `source` field with the URL of the page.
-
 
 ```typescript
 import { PuppeteerWebBaseLoader } from "@langchain/community/document_loaders/web/puppeteer";
@@ -429,10 +435,12 @@ const screenshot = await loaderForScreenshot.screenshot();
 console.log(screenshot.pageContent.slice(0, 100));
 console.log(screenshot.metadata);
 ```
+
 ```output
 iVBORw0KGgoAAAANSUhEUgAACWAAAAdoCAIAAAA/Q2IJAAAAAXNSR0IArs4c6QAAIABJREFUeJzsvUuzHUeSJuaPiMjMk3nOuU88
 { source: 'https://langchain.com' }
 ```
+
 ## API reference
 
-For detailed documentation of all PuppeteerWebBaseLoader features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_community_document_loaders_web_puppeteer.PuppeteerWebBaseLoader.html
+For detailed documentation of all PuppeteerWebBaseLoader features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_puppeteer.PuppeteerWebBaseLoader.html).
