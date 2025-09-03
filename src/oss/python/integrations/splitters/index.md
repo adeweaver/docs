@@ -73,3 +73,9 @@ Examples of structure-based splitting:
 - [Split JSON](/oss/integrations/splitters/recursive_json_splitter)
 - [Split code](/oss/integrations/splitters/code_splitter)
 - [Split HTML](/oss/integrations/splitters/split_html)
+
+## Provider-specific
+
+<Columns cols={3}>
+<Card title="Writer" icon="link" href="/oss/integrations/splitters/writer" arrow="true" cta="View guide" />
+</Columns>
