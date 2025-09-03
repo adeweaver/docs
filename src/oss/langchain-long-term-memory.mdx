@@ -151,8 +151,8 @@ agent.invoke(
 :::js
 ```typescript title="A tool the agent can use to look up user information" highlight={5,9-17,24,38}
 import { z } from "zod";
-import { createAgent, tool, type AgentRuntime } from "langchain";
-import { InMemoryStore } from "@langchain/langgraph";
+import { createAgent, tool } from "langchain";
+import { InMemoryStore, type Runtime } from "@langchain/langgraph";
 
 const store = new InMemoryStore();
 const contextSchema = z.object({
@@ -169,20 +169,12 @@ await store.put(
 );
 
 const getUserInfo = tool(
-    // Look up user info.
-    async (_, runtime: AgentRuntime<z.infer<typeof contextSchema>>) => {
-        // Same as that provided to `createAgent`
-        const userId = runtime.context?.userId;
-        if (!userId) {
-        throw new Error("userId is required");
-        }
-        const userInfo = await runtime.store?.get(["users"], userId);
-        return userInfo?.value ? JSON.stringify(userInfo.value) : "Unknown user";
-    },
-    {
-        name: "get_user_info",
-        description: "Look up user info.",
-        schema: z.object({}),
+  // Look up user info.
+  async (_, runtime: Runtime<z.infer<typeof contextSchema>>) => {
+    // Same as that provided to `createAgent`
+    const userId = runtime.context?.userId;
+    if (!userId) {
+      throw new Error("userId is required");
     }
 );
 
@@ -271,7 +263,7 @@ store.get(("users",), "user_123").value
 ```typescript title="Example of a tool that updates user information" highlight={5,11-14,19,39}
 import { z } from "zod";
 import { tool, createAgent, type AgentRuntime } from "langchain";
-import { InMemoryStore } from "@langchain/langgraph";
+import { InMemoryStore, type Runtime } from "@langchain/langgraph";
 
 const store = new InMemoryStore();
 
@@ -284,19 +276,10 @@ const UserInfo = z.object({
 });
 
 const saveUserInfo = tool(
-    async (userInfo, runtime: AgentRuntime<z.infer<typeof contextSchema>>) => {
-        const userId = runtime.context?.userId;
-        if (!userId) {
-        throw new Error("userId is required");
-        }
-        // Same as that provided to `createAgent`
-        await runtime.store?.put(["users"], userId, userInfo);
-        return "Successfully saved user info.";
-    },
-    {
-        name: "save_user_info",
-        description: "Save user info.",
-        schema: UserInfo,
+  async (userInfo, runtime: Runtime<z.infer<typeof contextSchema>>) => {
+    const userId = runtime.context?.userId;
+    if (!userId) {
+      throw new Error("userId is required");
     }
 );
 
