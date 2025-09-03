@@ -699,13 +699,16 @@ LangChain maintains a standard set of types for message content that works acros
 providers (see [reference](#content-block-reference) below).
 
 Messages also implement a `content_blocks` property that will lazily parse
-the `content` attribute into this standard, type-safe representation. For example, a
-message generated from [ChatAnthropic](/oss/integrations/chat/anthropic) will
-include Anthropic's `thinking` blocks, but can be lazily parsed into a cross-provider
-compatible [ReasoningContentBlock](#content-block-reference):
+the `content` attribute into this standard, type-safe representation. For example,
+messages generated from [ChatAnthropic](/oss/integrations/chat/anthropic) or
+[ChatOpenAI](/oss/integrations/openai) will include `thinking` or `reasoning` blocks
+in the format of the respective provider, but these can be lazily parsed into a
+consistent [ReasoningContentBlock](#content-block-reference) representation:
 
 :::python
-```python
+<Tabs>
+<Tab title="Anthropic">
+```python Anthropic
 from langchain_core.messages import AIMessage
 
 message = AIMessage(
@@ -723,22 +726,80 @@ message.content_blocks
   'extras': {'signature': 'WaUjzkyp...'}},
  {'type': 'text', 'text': '...'}]
 ```
+</Tab>
+
+<Tab title="OpenAI">
+```python
+from langchain_core.messages import AIMessage
+
+message = AIMessage(
+    content=[
+        {
+            "type": "reasoning",
+            "id": "rs_abc123",
+            "summary": [
+                {"type": "summary_text", "text": "summary 1"},
+                {"type": "summary_text", "text": "summary 2"},
+            ],
+        },
+        {"type": "text", "text": "...", "id": "msg_abc123"},
+    ],
+    response_metadata={"model_provider": "openai"}
+)
+message.content_blocks
+```
+```
+[{'type': 'reasoning', 'id': 'rs_abc123', 'reasoning': 'summary 1'},
+ {'type': 'reasoning', 'id': 'rs_abc123', 'reasoning': 'summary 2'},
+ {'type': 'text', 'text': '...', 'id': 'msg_abc123'}]
+```
+</Tab>
+</Tabs>
 :::
 
 :::js
+<Tabs>
+<Tab title="Anthropic">
 ```typescript
 import { AIMessage } from "@langchain/core/messages";
 
 const message = new AIMessage({
     content: [
         {"type": "thinking", "thinking": "...", "signature": "WaUjzkyp..."},
-        {"type": "text", "text": "..."},
+        {"type": "text", "text": "...", "id": "msg_abc123"},
     ],
     response_metadata: { model_provider: "anthropic" }
 })
 console.log(message.contentBlocks);
 ```
+</Tab>
+
+<Tab title="OpenAI">
+```typescript
+import { AIMessage } from "@langchain/core/messages";
+
+const message = new AIMessage({
+    content: [
+        {
+            "type": "reasoning",
+            "id": "rs_abc123",
+            "summary": [
+                {"type": "summary_text", "text": "summary 1"},
+                {"type": "summary_text", "text": "summary 2"},
+            ],
+        },
+        {"type": "text", "text": "..."},
+    ],
+    response_metadata: { model_provider: "openai" }
+})
+console.log(message.contentBlocks);
+```
+</Tab>
+</Tabs>
 :::
+
+See the [integrations guide](/oss/integrations/providers) to get started with the
+inference provider of your choice.
 
 #### Serializing standard content
 
@@ -865,13 +926,13 @@ it as output. Below we show short examples of input messages featuring multimoda
 <CodeGroup>
     ```typescript Image input
     // From URL
-        const response = await model.invoke([
+    const response = await model.invoke([
         { type: "text", text: "Describe the content of this image." },
         { type: "image", url: "https://example.com/path/to/image.jpg" },
     ])
 
     // From base64 data
-        const response = await model.invoke([
+    const response = await model.invoke([
         { type: "text", text: "Describe the content of this image." },
         {
             type: "image",
@@ -881,7 +942,7 @@ it as output. Below we show short examples of input messages featuring multimoda
     ])
 
     // From provider-managed File ID
-        const response = await model.invoke([
+    const response = await model.invoke([
         { type: "text", text: "Describe the content of this image." },
         { type: "image", fileId: "file-abc123" },
     ])
@@ -889,13 +950,13 @@ it as output. Below we show short examples of input messages featuring multimoda
 
     ```typescript PDF document input
     // From URL
-        const response = await model.invoke([
+    const response = await model.invoke([
         { type: "text", text: "Describe the content of this document." },
         { type: "file", url: "https://example.com/path/to/document.pdf" },
     ])
 
     // From base64 data
-        const response = await model.invoke([
+    const response = await model.invoke([
         { type: "text", text: "Describe the content of this document." },
         {
             type: "file",
@@ -905,7 +966,7 @@ it as output. Below we show short examples of input messages featuring multimoda
     ])
 
     // From provider-managed File ID
-        const response = await model.invoke([
+    const response = await model.invoke([
         { type: "text", text: "Describe the content of this document." },
         { type: "file", fileId: "file-abc123" },
     ])
@@ -913,7 +974,7 @@ it as output. Below we show short examples of input messages featuring multimoda
 
     ```typescript Audio input
     // From base64 data
-        const response = await model.invoke([
+    const response = await model.invoke([
         { type: "text", text: "Describe the content of this audio." },
         {
             type: "audio",
@@ -923,7 +984,7 @@ it as output. Below we show short examples of input messages featuring multimoda
     ])
 
     // From provider-managed File ID
-        const response = await model.invoke([
+    const response = await model.invoke([
         { type: "text", text: "Describe the content of this audio." },
         { type: "audio", fileId: "file-abc123" },
     ])
@@ -931,7 +992,7 @@ it as output. Below we show short examples of input messages featuring multimoda
 
     ```typescript Video input
     // From base64 data
-        const response = await model.invoke([
+    const response = await model.invoke([
         { type: "text", text: "Describe the content of this video." },
         {
             type: "video",
@@ -941,7 +1002,7 @@ it as output. Below we show short examples of input messages featuring multimoda
     ])
 
     // From provider-managed File ID
-        const response = await model.invoke([
+    const response = await model.invoke([
         { type: "text", text: "Describe the content of this video." },
         { type: "video", fileId: "file-abc123" },
     ])
