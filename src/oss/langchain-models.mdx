@@ -1347,9 +1347,9 @@ A number of model providers return token usage information as part of the invoca
     Some provider APIs, notably OpenAI and Azure OpenAI chat completions, require users opt-in to receiving token usage data in streaming contexts. See the [streaming usage metadata](/oss/integrations/chat/openai#streaming-usage-metadata) section of the integration guide for details.
 </Note>
 
+:::python
 You can track aggregate token counts across models in an application using either a callback or context manager, as shown below:
 
-:::python
 <Tabs>
     <Tab title="Callback handler">
         ```python Callback handler
