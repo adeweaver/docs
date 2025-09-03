@@ -4,14 +4,14 @@ sidebarTitle: Configurable headers
 ---
 LangGraph allows runtime configuration to modify agent behavior and permissions dynamically. When using the [LangGraph Platform](/langgraph-platform/deployment-quickstart), you can pass this configuration in the request body (`config`) or specific request headers. This enables adjustments based on user identity or other reques
 
-For privacy, control which headers are passed to the runtime configuration via the `http.configurable-headers` section in your `langgraph.json` file.
+For privacy, control which headers are passed to the runtime configuration via the `http.configurable_headers` section in your `langgraph.json` file.
 
 Here's how to customize the included and excluded headers:
 
 ```json
 {
   "http": {
-    "configurable-headers": {
+    "configurable_headers": {
       "include": ["x-user-id", "x-organization-id", "my-prefix-*"],
       "exclude": ["authorization", "x-api-key"]
     }
@@ -72,7 +72,7 @@ If you'd like to opt-out of configurable headers, you can simply set a wildcard 
 ```json
 {
   "http": {
-    "configurable-headers": {
+    "configurable_headers": {
       "exclude": ["*"]
     }
   }
