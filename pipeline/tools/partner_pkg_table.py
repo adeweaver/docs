@@ -1,5 +1,4 @@
-"""
-This script populates the Python integrations landing page at
+"""This script populates the Python integrations landing page at
 
 oss/python/integrations/providers
 
@@ -63,9 +62,7 @@ def _get_type(package: dict) -> str:
 
 
 def _enrich_package(p: dict) -> dict | None:
-    p["name_short"] = (
-        p["name"][10:] if p["name"].startswith("langchain-") else p["name"]
-    )
+    p["name_short"] = p["name"].removeprefix("langchain-")
     p["name_title"] = p.get("name_title") or p["name_short"].title().replace(
         "-", " "
     ).replace("db", "DB").replace("Db", "DB").replace("ai", "AI").replace("Ai", "AI")
@@ -78,7 +75,9 @@ def _enrich_package(p: dict) -> dict | None:
     custom_provider_page = p.get("provider_page")
     default_provider_page = f"/oss/integrations/providers/{p['name_short']}/"
     default_provider_page_exists = bool(
-        glob.glob(str(DOCS_DIR / f"src/oss/python/integrations/providers/{p['name_short']}.*"))
+        glob.glob(
+            str(DOCS_DIR / f"src/oss/python/integrations/providers/{p['name_short']}.*")
+        )
     )
     if custom_provider_page:
         p["provider_page"] = f"/oss/integrations/providers/{custom_provider_page}"
