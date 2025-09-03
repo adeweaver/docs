@@ -10,7 +10,6 @@ These can be called from LangChain either through this local pipeline wrapper or
 
 To use, you should have the ``mlx-lm`` python [package installed](https://pypi.org/project/mlx-lm/), as well as [transformers](https://pypi.org/project/transformers/). You can also install `huggingface_hub`.
 
-
 ```python
 %pip install --upgrade --quiet  mlx-lm transformers huggingface_hub
 ```
@@ -18,7 +17,6 @@ To use, you should have the ``mlx-lm`` python [package installed](https://pypi.o
 ### Model Loading
 
 Models can be loaded by specifying the model parameters using the `from_model_id` method.
-
 
 ```python
 from langchain_community.llms.mlx_pipeline import MLXPipeline
@@ -31,7 +29,6 @@ pipe = MLXPipeline.from_model_id(
 
 They can also be loaded by passing in an existing `transformers` pipeline directly
 
-
 ```python
 from mlx_lm import load
 
@@ -43,7 +40,6 @@ pipe = MLXPipeline(model=model, tokenizer=tokenizer)
 
 With the model loaded into memory, you can compose it with a prompt to
 form a chain.
-
 
 ```python
 from langchain_core.prompts import PromptTemplate

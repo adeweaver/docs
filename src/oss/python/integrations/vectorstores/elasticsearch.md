@@ -10,7 +10,6 @@ This notebook shows how to use functionality related to the `Elasticsearch` vect
 
 In order to use the `Elasticsearch` vector search you must install the `langchain-elasticsearch` package.
 
-
 ```python
 %pip install -qU langchain-elasticsearch
 ```
@@ -27,22 +26,19 @@ embedding object to the constructor.
 
 2. Local Install Elasticsearch: Get started with Elasticsearch by running it locally. The easiest way is to use the official Elasticsearch Docker image. See the [Elasticsearch Docker documentation](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html) for more information.
 
-
 ### Running Elasticsearch via Docker
-Example: Run a single-node Elasticsearch instance with security disabled. This is not recommended for production use.
 
+Example: Run a single-node Elasticsearch instance with security disabled. This is not recommended for production use.
 
 ```python
 %docker run -p 9200:9200 -e "discovery.type=single-node" -e "xpack.security.enabled=false" -e "xpack.security.http.ssl.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:8.12.1
 ```
 
-
 ### Running with Authentication
+
 For production, we recommend you run with security enabled. To connect with login credentials, you can use the parameters `es_api_key` or `es_user` and `es_password`.
 
 <EmbeddingTabs/>
-
-
 
 ```python
 # | output: false
@@ -51,7 +47,6 @@ from langchain_openai import OpenAIEmbeddings
 
 embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
 ```
-
 
 ```python
 from langchain_elasticsearch import ElasticsearchStore
@@ -68,7 +63,8 @@ elastic_vector_search = ElasticsearchStore(
 #### How to obtain a password for the default "elastic" user?
 
 To obtain your Elastic Cloud password for the default "elastic" user:
-1. Log in to the Elastic Cloud console at https://cloud.elastic.co
+
+1. Log in to the Elastic Cloud console at [cloud.elastic.co](https://cloud.elastic.co)
 2. Go to "Security" > "Users"
 3. Locate the "elastic" user and click "Edit"
 4. Click "Reset password"
@@ -77,7 +73,8 @@ To obtain your Elastic Cloud password for the default "elastic" user:
 #### How to obtain an API key?
 
 To obtain an API key:
-1. Log in to the Elastic Cloud console at https://cloud.elastic.co
+
+1. Log in to the Elastic Cloud console at [cloud.elastic.co](https://cloud.elastic.co)
 2. Open Kibana and go to Stack Management > API Keys
 3. Click "Create API key"
 4. Enter a name for the API key and click "Create"
@@ -86,7 +83,6 @@ To obtain an API key:
 ### Elastic Cloud
 
 To connect to an Elasticsearch instance on Elastic Cloud, you can use either the `es_cloud_id` parameter or `es_url`.
-
 
 ```python
 elastic_vector_search = ElasticsearchStore(
@@ -100,7 +96,6 @@ elastic_vector_search = ElasticsearchStore(
 
 If you want to get best in-class automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
-
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
 # os.environ["LANGSMITH_TRACING"] = "true"
@@ -109,8 +104,6 @@ If you want to get best in-class automated tracing of your model calls you can a
 ## Initialization
 
 Elasticsearch is running locally on localhost:9200 with [docker](#running-elasticsearch-via-docker). For more details on how to connect to Elasticsearch from Elastic Cloud, see [connecting with authentication](#running-with-authentication) above.
-
-
 
 ```python
 from langchain_elasticsearch import ElasticsearchStore
@@ -123,7 +116,6 @@ vector_store = ElasticsearchStore(
 ## Manage vector store
 
 ### Add items to vector store
-
 
 ```python
 from uuid import uuid4
@@ -197,8 +189,6 @@ uuids = [str(uuid4()) for _ in range(len(documents))]
 vector_store.add_documents(documents=documents, ids=uuids)
 ```
 
-
-
 ```output
 ['21cca03c-9089-42d2-b41c-3d156be2b519',
  'a6ceb967-b552-4802-bb06-c0e95fce386e',
@@ -212,20 +202,15 @@ vector_store.add_documents(documents=documents, ids=uuids)
  'ca182769-c4fc-4e25-8f0a-8dd0a525955c']
 ```
 
-
 ### Delete items from vector store
-
 
 ```python
 vector_store.delete(ids=[uuids[-1]])
 ```
 
-
-
 ```output
 True
 ```
-
 
 ## Query vector store
 
@@ -237,7 +222,6 @@ Once your vector store has been created and the relevant documents have been add
 
 Performing a simple similarity search with filtering on metadata can be done as follows:
 
-
 ```python
 results = vector_store.similarity_search(
     query="LangChain provides abstractions to make working with LLMs easy",
@@ -247,14 +231,15 @@ results = vector_store.similarity_search(
 for res in results:
     print(f"* {res.page_content} [{res.metadata}]")
 ```
+
 ```output
 * Building an exciting new project with LangChain - come check it out! [{'source': 'tweet'}]
 * LangGraph is the best framework for building stateful, agentic applications! [{'source': 'tweet'}]
 ```
+
 #### Similarity search with score
 
 If you want to execute a similarity search and receive the corresponding scores you can run:
-
 
 ```python
 results = vector_store.similarity_search_with_score(
@@ -265,13 +250,14 @@ results = vector_store.similarity_search_with_score(
 for doc, score in results:
     print(f"* [SIM={score:3f}] {doc.page_content} [{doc.metadata}]")
 ```
+
 ```output
 * [SIM=0.765887] The weather forecast for tomorrow is cloudy and overcast, with a high of 62 degrees. [{'source': 'news'}]
 ```
+
 ### Query by turning into retriever
 
 You can also transform the vector store into a retriever for easier usage in your chains.
-
 
 ```python
 retriever = vector_store.as_retriever(
@@ -280,15 +266,12 @@ retriever = vector_store.as_retriever(
 retriever.invoke("Stealing from the bank is a crime")
 ```
 
-
-
 ```output
 [Document(metadata={'source': 'news'}, page_content='Robbers broke into the city bank and stole $1 million in cash.'),
  Document(metadata={'source': 'news'}, page_content='The stock market is down 500 points today due to fears of a recession.'),
  Document(metadata={'source': 'website'}, page_content='Is the new iPhone worth the price? Read this review to find out.'),
  Document(metadata={'source': 'tweet'}, page_content='Building an exciting new project with LangChain - come check it out!')]
 ```
-
 
 ## Distance Similarity Algorithm
 
@@ -303,7 +286,6 @@ The cosine similarity algorithm is the default.
 You can specify the similarity Algorithm needed via the similarity parameter.
 
 **NOTE**: Depending on the retrieval strategy, the similarity algorithm cannot be changed at query time. It is needed to be set when creating the index mapping for field. If you need to change the similarity algorithm, you need to delete the index and recreate it with the correct distance_strategy.
-
 
 ```python
 db = ElasticsearchStore.from_documents(
@@ -326,7 +308,6 @@ By default, `ElasticsearchStore` uses the `DenseVectorStrategy` (was called `App
 ### DenseVectorStrategy
 
 This will return the top k most similar vectors to the query vector. The `k` parameter is set when the `ElasticsearchStore` is initialized. The default value is 10.
-
 
 ```python
 from langchain_elasticsearch import DenseVectorStrategy
@@ -352,7 +333,6 @@ We use RRF to balance the two scores from different retrieval methods.
 
 To enable hybrid retrieval, we need to set `hybrid=True` in the `DenseVectorStrategy` constructor.
 
-
 ```python
 db = ElasticsearchStore.from_documents(
     docs,
@@ -368,7 +348,6 @@ When hybrid is enabled, the query performed will be a combination of approximate
 It will use rrf (Reciprocal Rank Fusion) to balance the two scores from different retrieval methods.
 
 **Note**: RRF requires Elasticsearch 8.9.0 or above.
-
 
 ```python
 {
@@ -407,7 +386,6 @@ This example will show how to configure `ElasticsearchStore` to use the embeddin
 To use this, specify the model_id in `DenseVectorStrategy` constructor via the `query_model_id` argument.
 
 **NOTE**: This requires the model to be deployed and running in Elasticsearch ML node. See [notebook example](https://github.com/elastic/elasticsearch-labs/blob/main/notebooks/integrations/hugging-face/loading-model-from-hugging-face.ipynb) on how to deploy the model with `eland`.
-
 
 ```python
 DENSE_SELF_DEPLOYED_INDEX_NAME = "test-dense-self-deployed"
@@ -484,7 +462,6 @@ This strategy uses Elasticsearch's sparse vector retrieval to retrieve the top-k
 
 To use this, specify `SparseVectorStrategy` (was called `SparseVectorRetrievalStrategy` prior to version 0.2.0) in the `ElasticsearchStore` constructor. You will need to provide a model ID.
 
-
 ```python
 from langchain_elasticsearch import SparseVectorStrategy
 
@@ -513,7 +490,6 @@ This strategy uses Elasticsearch's script score query to perform exact vector re
 
 To use this, specify `DenseVectorScriptScoreStrategy` in `ElasticsearchStore` constructor.
 
-
 ```python
 from langchain_elasticsearch import SparseVectorStrategy
 
@@ -531,7 +507,6 @@ db = ElasticsearchStore.from_documents(
 Finally, you can use full-text keyword search.
 
 To use this, specify `BM25Strategy` in `ElasticsearchStore` constructor.
-
 
 ```python
 from langchain_elasticsearch import BM25Strategy
@@ -551,8 +526,6 @@ This strategy allows the user to perform searches using pure BM25 without vector
 To use this, specify `BM25RetrievalStrategy` in `ElasticsearchStore` constructor.
 
 Note that in the example below, the embedding option is not specified, indicating that the search is conducted without using embeddings.
-
-
 
 ```python
 from langchain_elasticsearch import ElasticsearchStore
@@ -574,8 +547,6 @@ print(results)
 ## Customise the Query
 
 With `custom_query` parameter at search, you are able to adjust the query that is used to retrieve documents from Elasticsearch. This is useful if you want to use a more complex query, to support linear boosting of fields.
-
-
 
 ```python
 # Example of a custom query thats just doing a BM25 search on the text field.
@@ -612,8 +583,6 @@ print(results[0])
 ## Customize the Document Builder
 
 With `doc_builder` parameter at search, you are able to adjust how a Document is being built using data retrieved from Elasticsearch. This is especially useful if you have indices which were not created using Langchain.
-
-
 
 ```python
 from typing import Dict
@@ -652,11 +621,13 @@ For guides on how to use this vector store for retrieval-augmented generation (R
 # FAQ
 
 ## Question: Im getting timeout errors when indexing documents into Elasticsearch. How do I fix this?
+
 One possible issue is your documents might take longer to index into Elasticsearch. ElasticsearchStore uses the Elasticsearch bulk API which has a few defaults that you can adjust to reduce the chance of timeout errors.
 
 This is also a good idea when you're using SparseVectorRetrievalStrategy.
 
 The defaults are:
+
 - `chunk_size`: 500
 - `max_chunk_bytes`: 100MB
 
@@ -751,4 +722,4 @@ db.client.indices.delete(
 
 ## API reference
 
-For detailed documentation of all `ElasticSearchStore` features and configurations head to the API reference: https://python.langchain.com/api_reference/elasticsearch/vectorstores/langchain_elasticsearch.vectorstores.ElasticsearchStore.html
+For detailed documentation of all `ElasticSearchStore` features and configurations head to the API reference: [python.langchain.com/api_reference/elasticsearch/vectorstores/langchain_elasticsearch.vectorstores.ElasticsearchStore.html](https://python.langchain.com/api_reference/elasticsearch/vectorstores/langchain_elasticsearch.vectorstores.ElasticsearchStore.html)

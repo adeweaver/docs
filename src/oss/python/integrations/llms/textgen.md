@@ -12,11 +12,9 @@ Once `text-generation-webui` is installed and confirmed working via the web inte
 
 ## Set model_url and run the example
 
-
 ```python
 model_url = "http://localhost:5000"
 ```
-
 
 ```python
 from langchain.chains import LLMChain
@@ -44,11 +42,9 @@ llm_chain.run(question)
 You should install websocket-client to use this feature.
 `pip install websocket-client`
 
-
 ```python
 model_url = "ws://localhost:5005"
 ```
-
 
 ```python
 from langchain.chains import LLMChain
@@ -73,7 +69,6 @@ question = "What NFL team won the Super Bowl in the year Justin Bieber was born?
 
 llm_chain.run(question)
 ```
-
 
 ```python
 llm = TextGen(model_url=model_url, streaming=True)

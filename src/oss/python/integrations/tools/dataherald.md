@@ -11,14 +11,13 @@ First, you need to set up your Dataherald account and get your API KEY:
 3. pip install dataherald
 
 Then we will need to set some environment variables:
-1. Save your API KEY into DATAHERALD_API_KEY env variable
 
+1. Save your API KEY into DATAHERALD_API_KEY env variable
 
 ```python
 pip install dataherald
 %pip install --upgrade --quiet langchain-community
 ```
-
 
 ```python
 import os
@@ -26,22 +25,17 @@ import os
 os.environ["DATAHERALD_API_KEY"] = ""
 ```
 
-
 ```python
 from langchain_community.utilities.dataherald import DataheraldAPIWrapper
 ```
-
 
 ```python
 dataherald = DataheraldAPIWrapper(db_connection_id="65fb766367dd22c99ce1a12d")
 ```
 
-
 ```python
 dataherald.run("How many employees are in the company?")
 ```
-
-
 
 ```output
 'select COUNT(*) from employees'

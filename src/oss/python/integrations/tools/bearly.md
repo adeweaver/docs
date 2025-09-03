@@ -4,8 +4,7 @@ title: Bearly Code Interpreter
 
 > Bearly Code Interpreter allows for remote execution of code. This makes it perfect for a code sandbox for agents, to allow for safe implementation of things like Code Interpreter
 
-Get your api key here: https://bearly.ai/dashboard/developers
-
+Get your api key here: [bearly.ai/dashboard/developers](https://bearly.ai/dashboard/developers)
 
 ```python
 %pip install --upgrade --quiet langchain-community
@@ -13,11 +12,9 @@ Get your api key here: https://bearly.ai/dashboard/developers
 
 In this notebook, we will create an example of an agent that uses Bearly to interact with data
 
-
 ```python
 from langchain_community.tools import BearlyInterpreterTool
 ```
-
 
 ```python
 from langchain.agents import AgentType, initialize_agent
@@ -26,13 +23,11 @@ from langchain_openai import ChatOpenAI
 
 Initialize the interpreter
 
-
 ```python
 bearly_tool = BearlyInterpreterTool(api_key="...")
 ```
 
 Let's add some files to the sandbox
-
 
 ```python
 bearly_tool.add_file(
@@ -45,27 +40,22 @@ bearly_tool.add_file(
 
 Create a `Tool` object now. This is necessary, because we added the files, and we want the tool description to reflect that
 
-
 ```python
 tools = [bearly_tool.as_tool()]
 ```
-
 
 ```python
 tools[0].name
 ```
 
-
-
 ```output
 'bearly_interpreter'
 ```
 
-
-
 ```python
 print(tools[0].description)
 ```
+
 ```output
 Evaluates python code in a sandbox environment. The environment resets on every execution. You must send the whole script every time and print your outputs. Script should be pure python code that can be evaluated. It should be in python format NOT markdown. The code should NOT be wrapped in backticks. All python packages including requests, matplotlib, scipy, numpy, pandas, etc are available. If you have any files outputted write them to "output/" relative to the execution
 path. Output can only be read from the directory, stdout, and stdin. Do not use things like plot.show() as it will
@@ -79,8 +69,8 @@ The following files available in the evaluation environment:
  first four lines: ['DATE,GDP\n', '1947-01-01,243.164\n', '1947-04-01,245.968\n', '1947-07-01,249.585\n']
  description: ``
 ```
-Initialize an agent
 
+Initialize an agent
 
 ```python
 llm = ChatOpenAI(model="gpt-4", temperature=0)
@@ -93,11 +83,11 @@ agent = initialize_agent(
 )
 ```
 
-
 ```python
 # Extract pdf content
 agent.run("What is the text on page 3 of the pdf?")
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 
@@ -151,17 +141,15 @@ Anthropogenic Risk, Evolutionary Learning, and the Future of the Social State’
 > Finished chain.
 ```
 
-
 ```output
 'The text on page 3 of the PDF is:\n\n"1 COVID-19 at Work: \nExposing how risk is assessed and its consequences in England and Sweden \nPeter Andersson and Tonia Novitz* \n1.Introduction\nThe crisis which arose suddenly at the beginning of 2020 relating to coronavirus was immediately \ncentred on risk. Predictions had to be made swiftly regarding how it would spread, who it might \naffect and what measures could be taken to prevent exposure in everyday social interaction, \nincluding in the workplace. This was in no way a straightforward assessment, because initially so \nmuch was unknown. Those gaps in our knowledge have since, partially, been ameliorated. It is \nevident that not all those exposed to COVID-19 become ill, and many who contract the virus remain \nasymptomatic, so that the odds on becoming seriously ill may seem small. But those odds are also stacked against certain segments of the population. The likelihood of mortality and morbidity are associated  with age and ethnicity as well as pre-existing medical conditions (such as diabetes), but \nalso with poverty which correlates to the extent of exposure in certain occupations.\n1 Some risks \narise which remain  less predictable, as previously healthy people with no signs of particular \nvulnerability can experience serious long term illness as well and in rare cases will even die.2 \nPerceptions of risk in different countries have led to particular measures taken, ranging from handwashing to social distancing, use of personal protective equipment (PPE) such as face coverings, and even ‘lockdowns’ which have taken various forms.\n3 Use of testing and vaccines \nalso became part of the remedial landscape, with their availability and administration  being \n*This paper is part of the project An  inclusive and sustainable Swedish labour law – the way\nahead, dnr. 2017-03134 financed by the Swedish research council led by Petra Herzfeld Olssonat Stockholm University. The authors would like to thank her and other participants, Niklas\nBruun and Erik Sjödin for their helpful comments on earlier drafts. A much shorter article titled\n‘Risk Assessment and COVID -19: Systems at work (or not) in England and Sweden’ is published\nin the (2021) Comparative Labour and Social Security Review /\n Revue de droit comparé du\ntravail et de la sécurité sociale.\n1 Public Health England, Disparities in the risk and outcomes of COVID-19 (2 June 2020 -\nhttps://assets.publishing.service.gov.uk/government/uploads/ system /uploads/attachment_data/file\n/890258/disparities_review.pdf.\n2 Nisreen A. Alwan, ‘Track COVID- 19 sickness, not just positive tests and deaths’ ( 2020)\n584.7820 Nature  170- 171; Elisabeth Mahase, ‘Covid-19: What do we know about “long covid”?’\n(2020) BMJ  370.\n3 Sarah Dryhurst, Claudia R. Schneider, John Kerr, Alexandra LJ Freeman, Gabriel Recchia,\nAnne Marthe Van Der Bles, David Spiegelhalter, and Sander van der Linden, ‘Risk perceptionsof COVID-19 around the world’ (2020) 23(7- 8) Journal of Risk Research  994; Wändi Bruine de\nBruin, and Daniel Bennett, ‘Relationships between initial COVID -19 risk perceptions and\nprotective health behaviors: A national survey’ (2020) 59(2) American Journal of Preventive\nMedicine  157; and Simon Deakin and Gaofeng Meng, ‘The Governance of Covid- 19:\nAnthropogenic Risk, Evolutionary Learning, and the Future of the Social State’ (2020)49(4) Industrial Law Journal  539."'
 ```
-
-
 
 ```python
 # Simple Queries
 agent.run("What was the US GDP in 2019?")
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 
@@ -178,17 +166,15 @@ Invoking: `bearly_interpreter` with `{'python_code': "import pandas as pd\n\n# L
 > Finished chain.
 ```
 
-
 ```output
 'The US GDP for each quarter in 2019 was as follows:\n\n- Q1: 21104.133 billion dollars\n- Q2: 21384.775 billion dollars\n- Q3: 21694.282 billion dollars\n- Q4: 21902.39 billion dollars'
 ```
-
-
 
 ```python
 # Calculations
 agent.run("What would the GDP be in 2030 if the latest GDP number grew by 50%?")
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 
@@ -200,17 +186,15 @@ Invoking: `bearly_interpreter` with `{'python_code': "import pandas as pd\n\n# L
 > Finished chain.
 ```
 
-
 ```output
 'If the latest GDP number grew by 50%, the GDP in 2030 would be approximately 40,594.518 billion dollars.'
 ```
-
-
 
 ```python
 # Chart output
 agent.run("Create a nice and labeled chart of the GDP growth over time")
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 Could not parse tool input: {'name': 'bearly_interpreter', 'arguments': '{\n  "python_code": "\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\n# Load the data\ndf = pd.read_csv(\'US_GDP.csv\')\n\n# Convert the \'DATE\' column to datetime format\ndf[\'DATE\'] = pd.to_datetime(df[\'DATE\'])\n\n# Plot the data\nplt.figure(figsize=(10,6))\nplt.plot(df[\'DATE\'], df[\'GDP\'], label=\'US GDP\')\nplt.xlabel(\'Year\')\nplt.ylabel(\'GDP (in billions)\')\nplt.title(\'US GDP Over Time\')\nplt.legend()\nplt.grid(True)\nplt.savefig(\'output/US_GDP.png\')\n"\n}'} because the `arguments` is not valid JSON.Invalid or incomplete response
@@ -226,12 +210,9 @@ The x-axis represents the year and the y-axis represents the GDP in billions. Th
 > Finished chain.
 ```
 
-
 ```output
 'Here is the chart of the US GDP growth over time:\n\n![US GDP Over Time](https://bearly-cubby.c559ae877a0a39985f534614a037d899.r2.cloudflarestorage.com/prod/bearly-cubby/temp/interpreter/2023_10/089daf37e9e343ba5ff21afaaa78b967c3466a550b3b11bd5c710c052b559e97/sxhM8gop2AYP88n5uHCsOJ6yTYNQm-HimZ70DcwQ4VI.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=c058d02de50a3cf0bb7e21c8e2d062c5%2F20231010%2F%2Fs3%2Faws4_request&X-Amz-Date=20231010T000000Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=104dc0d4a4b71eeea1030dda1830059920cb0f354fa00197b439eb8565bf141a)\n\nThe x-axis represents the year and the y-axis represents the GDP in billions. The line plot shows the growth of the US GDP over time.'
 ```
-
-
 
 ```python
 

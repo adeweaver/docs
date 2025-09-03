@@ -17,18 +17,15 @@ Follow [instructions to set up an AWS account](https://docs.aws.amazon.com/athen
 
 Install a python library:
 
-
 ```python
 ! pip install boto3
 ```
 
 ## Example
 
-
 ```python
 from langchain_community.document_loaders.athena import AthenaLoader
 ```
-
 
 ```python
 database_name = "my_database"
@@ -48,7 +45,6 @@ print(documents)
 ```
 
 Example with metadata columns
-
 
 ```python
 database_name = "my_database"

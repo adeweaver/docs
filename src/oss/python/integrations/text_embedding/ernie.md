@@ -19,7 +19,6 @@ they are 2 why we recommend users to use `QianfanEmbeddingsEndpoint`:
 
 Some tips for migration:
 
-
 ```python
 from langchain_community.embeddings import QianfanEmbeddingsEndpoint
 
@@ -31,21 +30,17 @@ embeddings = QianfanEmbeddingsEndpoint(
 
 ## Usage
 
-
 ```python
 from langchain_community.embeddings import ErnieEmbeddings
 ```
-
 
 ```python
 embeddings = ErnieEmbeddings()
 ```
 
-
 ```python
 query_result = embeddings.embed_query("foo")
 ```
-
 
 ```python
 doc_results = embeddings.embed_documents(["foo"])

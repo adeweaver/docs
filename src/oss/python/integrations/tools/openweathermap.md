@@ -10,14 +10,15 @@ First, you need to sign up for an `OpenWeatherMap API` key:
 2. pip install pyowm
 
 Then we will need to set some environment variables:
+
 1. Save your API KEY into OPENWEATHERMAP_API_KEY env variable
 
 ## Use the wrapper
 
-
 ```python
 %pip install --upgrade --quiet pyowm
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
@@ -32,11 +33,11 @@ os.environ["OPENWEATHERMAP_API_KEY"] = ""
 weather = OpenWeatherMapAPIWrapper()
 ```
 
-
 ```python
 weather_data = weather.run("London,GB")
 print(weather_data)
 ```
+
 ```output
 In London,GB, the current weather is as follows:
 Detailed status: overcast clouds
@@ -51,8 +52,8 @@ Rain: {}
 Heat index: None
 Cloud cover: 100%
 ```
-## Use the tool
 
+## Use the tool
 
 ```python
 import os
@@ -66,7 +67,6 @@ tools = [weather.run]
 agent = create_agent("openai:gpt-4.1-mini", tools)
 ```
 
-
 ```python
 input_message = {
     "role": "user",
@@ -79,6 +79,7 @@ for step in agent.stream(
 ):
     step["messages"][-1].pretty_print()
 ```
+
 ```output
 ================================ Human Message =================================
 

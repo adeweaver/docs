@@ -6,9 +6,7 @@ title: RELLM
 
 It works by generating tokens one at a time. At each step, it masks tokens that don't conform to the provided partial regular expression.
 
-
 **Warning - this module is still experimental**
-
 
 ```python
 %pip install --upgrade --quiet  rellm langchain-huggingface > /dev/null
@@ -17,7 +15,6 @@ It works by generating tokens one at a time. At each step, it masks tokens that 
 ### Hugging Face Baseline
 
 First, let's establish a qualitative baseline by checking the output of the model without structured decoding.
-
 
 ```python
 import logging
@@ -42,7 +39,6 @@ Human: 'What's the capital of Maryland?'
 AI Assistant:"""
 ```
 
-
 ```python
 from langchain_huggingface import HuggingFacePipeline
 from transformers import pipeline
@@ -56,17 +52,18 @@ original_model = HuggingFacePipeline(pipeline=hf_model)
 generated = original_model.generate([prompt], stop=["Human:"])
 print(generated)
 ```
+
 ```output
 Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
 ``````output
 generations=[[Generation(text=' "What\'s the capital of Maryland?"\n', generation_info=None)]] llm_output=None
 ```
+
 ***That's not so impressive, is it? It didn't answer the question and it didn't follow the JSON format at all! Let's try with the structured decoder.***
 
 ## RELLM LLM Wrapper
 
 Let's try that again, now providing a regex to match the JSON structured format.
-
 
 ```python
 import regex  # Note this is the regex library NOT python's re stdlib module
@@ -81,7 +78,6 @@ pattern = regex.compile(
 )
 ```
 
-
 ```python
 from langchain_experimental.llms import RELLM
 
@@ -90,13 +86,14 @@ model = RELLM(pipeline=hf_model, regex=pattern, max_new_tokens=200)
 generated = model.predict(prompt, stop=["Human:"])
 print(generated)
 ```
+
 ```output
 {"action": "Final Answer",
   "action_input": "The capital of Maryland is Baltimore."
 }
 ```
-**Voila! Free of parsing errors.**
 
+**Voila! Free of parsing errors.**
 
 ```python
 

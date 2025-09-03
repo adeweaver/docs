@@ -14,11 +14,9 @@ pip install "infinity-emb[all]"
 infinity_emb v2 --model-id mixedbread-ai/mxbai-rerank-xsmall-v1
 ```
 
-
 ```python
 %pip install --upgrade --quiet  infinity_client
 ```
-
 
 ```python
 %pip install --upgrade --quiet  faiss
@@ -27,7 +25,6 @@ infinity_emb v2 --model-id mixedbread-ai/mxbai-rerank-xsmall-v1
 
 %pip install --upgrade --quiet  faiss-cpu
 ```
-
 
 ```python
 # Helper function for printing docs
@@ -40,8 +37,8 @@ def pretty_print_docs(docs):
 ```
 
 ## Set up the base vector store retriever
-Let's start by initializing a simple vector store retriever and storing the 2023 State of the Union speech (in chunks). We can set up the retriever to retrieve a high number (20) of docs.
 
+Let's start by initializing a simple vector store retriever and storing the 2023 State of the Union speech (in chunks). We can set up the retriever to retrieve a high number (20) of docs.
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -60,6 +57,7 @@ query = "What did the president say about Ketanji Brown Jackson"
 docs = retriever.invoke(query)
 pretty_print_docs(docs)
 ```
+
 ```output
 Document 1:
 
@@ -275,9 +273,10 @@ My fellow Americans—tonight , we have gathered in a sacred space—the citadel
 
 In this Capitol, generation after generation, Americans have debated great questions amid great strife, and have done great things.
 ```
-## Reranking with InfinityRerank
-Now let's wrap our base retriever with a `ContextualCompressionRetriever`. We'll use the `InfinityRerank` to rerank the returned results.
 
+## Reranking with InfinityRerank
+
+Now let's wrap our base retriever with a `ContextualCompressionRetriever`. We'll use the `InfinityRerank` to rerank the returned results.
 
 ```python
 from infinity_client import Client
@@ -296,6 +295,7 @@ compressed_docs = compression_retriever.invoke(
 )
 pretty_print_docs(compressed_docs)
 ```
+
 ```output
 Document 1:
 

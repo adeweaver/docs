@@ -5,7 +5,6 @@ title: Etherscan
 >[Etherscan](https://docs.etherscan.io/)  is the leading blockchain explorer, search, API and analytics platform for Ethereum,
 a decentralized smart contracts platform.
 
-
 ## Overview
 
 The `Etherscan` loader use `Etherscan API` to load transactions histories under specific account on `Ethereum Mainnet`.
@@ -21,7 +20,6 @@ The loader supports the following six functionalities:
 * Retrieve erc1155 transactions under specific account on Ethereum Mainet
 * Retrieve ethereum balance in wei under specific account on Ethereum Mainet
 
-
 If the account does not have corresponding transactions, the loader will a list with one document. The content of document is ''.
 
 You can pass different filters to loader to access different functionalities we mentioned above:
@@ -34,7 +32,7 @@ You can pass different filters to loader to access different functionalities we 
 * "erc1155_transaction"
 The filter is default to normal_transaction
 
-If you have any questions, you can access [Etherscan API Doc](https://etherscan.io/tx/0x0ffa32c787b1398f44303f731cb06678e086e4f82ce07cebf75e99bb7c079c77) or contact me via i@inevitable.tech.
+If you have any questions, you can access [Etherscan API Doc](https://etherscan.io/tx/0x0ffa32c787b1398f44303f731cb06678e086e4f82ce07cebf75e99bb7c079c77) or contact me via [i@inevitable.tech](mailto:i@inevitable.tech).
 
 All functions related to transactions histories are restricted 1000 histories maximum because of Etherscan limit. You can use the following parameters to find the transaction histories you need:
 
@@ -46,16 +44,13 @@ All functions related to transactions histories are restricted 1000 histories ma
 
 ## Setup
 
-
 ```python
 %pip install --upgrade --quiet  langchain -q
 ```
 
-
 ```python
 etherscanAPIKey = "..."
 ```
-
 
 ```python
 import os
@@ -63,13 +58,11 @@ import os
 from langchain_community.document_loaders import EtherscanLoader
 ```
 
-
 ```python
 os.environ["ETHERSCAN_API_KEY"] = etherscanAPIKey
 ```
 
 ## Create a ERC20 transaction loader
-
 
 ```python
 account_address = "0x9dd134d14d1e65f84b706d6f205cd5b1cd03a46b"
@@ -77,8 +70,6 @@ loader = EtherscanLoader(account_address, filter="erc20_transaction")
 result = loader.load()
 eval(result[0].page_content)
 ```
-
-
 
 ```output
 {'blockNumber': '13242975',
@@ -102,9 +93,7 @@ eval(result[0].page_content)
  'confirmations': '4492277'}
 ```
 
-
 ## Create a normal transaction loader with customized parameters
-
 
 ```python
 loader = EtherscanLoader(
@@ -118,10 +107,10 @@ loader = EtherscanLoader(
 result = loader.load()
 result
 ```
+
 ```output
 20
 ```
-
 
 ```output
 [Document(page_content="{'blockNumber': '1723771', 'timeStamp': '1466213371', 'hash': '0xe00abf5fa83a4b23ee1cc7f07f9dda04ab5fa5efe358b315df8b76699a83efc4', 'nonce': '3155', 'blockHash': '0xc2c2207bcaf341eed07f984c9a90b3f8e8bdbdbd2ac6562f8c2f5bfa4b51299d', 'transactionIndex': '5', 'from': '0x3763e6e1228bfeab94191c856412d1bb0a8e6996', 'to': '0x9dd134d14d1e65f84b706d6f205cd5b1cd03a46b', 'value': '13149213761000000000', 'gas': '90000', 'gasPrice': '22655598156', 'isError': '0', 'txreceipt_status': '', 'input': '0x', 'contractAddress': '', 'cumulativeGasUsed': '126000', 'gasUsed': '21000', 'confirmations': '16011481', 'methodId': '0x', 'functionName': ''}", metadata={'from': '0x3763e6e1228bfeab94191c856412d1bb0a8e6996', 'tx_hash': '0xe00abf5fa83a4b23ee1cc7f07f9dda04ab5fa5efe358b315df8b76699a83efc4', 'to': '0x9dd134d14d1e65f84b706d6f205cd5b1cd03a46b'}),

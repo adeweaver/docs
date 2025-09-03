@@ -9,8 +9,8 @@ This notebook covers how to get started with the SQLiteVec vector store.
 This notebook shows how to use the `SQLiteVec` vector database.
 
 ## Setup
-You'll need to install `langchain-community` with `pip install -qU langchain-community` to use this integration
 
+You'll need to install `langchain-community` with `pip install -qU langchain-community` to use this integration
 
 ```python
 # You need to install sqlite-vec as a dependency.
@@ -18,10 +18,10 @@ You'll need to install `langchain-community` with `pip install -qU langchain-com
 ```
 
 ### Credentials
+
 SQLiteVec does not require any credentials to use as the vector store is a simple SQLite file.
 
 ## Initialization
-
 
 ```python
 from langchain_community.embeddings.sentence_transformer import (
@@ -39,37 +39,39 @@ vector_store = SQLiteVec(
 
 ### Add items to vector store
 
-
 ```python
 vector_store.add_texts(texts=["Ketanji Brown Jackson is awesome", "foo", "bar"])
 ```
 
 ### Update items in vector store
+
 Not supported yet
 
 ### Delete items from vector store
+
 Not supported yet
 
 ## Query vector store
 
 ### Query directly
 
-
 ```python
 data = vector_store.similarity_search("Ketanji Brown Jackson", k=4)
 ```
 
 ### Query by turning into retriever
+
 Not supported yet
 
 ## Usage for retrieval-augmented generation
-Refer to the documentation on sqlite-vec at https://alexgarcia.xyz/sqlite-vec/ for more information on how to use it for retrieval-augmented generation.
+
+Refer to the documentation on sqlite-vec at [alexgarcia.xyz/sqlite-vec/](https://alexgarcia.xyz/sqlite-vec/) for more information on how to use it for retrieval-augmented generation.
 
 ## API reference
-For detailed documentation of all SQLiteVec features and configurations head to the API reference: https://python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.sqlitevec.SQLiteVec.html
+
+For detailed documentation of all SQLiteVec features and configurations head to the API reference: [python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.sqlitevec.SQLiteVec.html](https://python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.sqlitevec.SQLiteVec.html)
 
 ### Other examples
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -111,15 +113,11 @@ data = db.similarity_search(query)
 data[0].page_content
 ```
 
-
-
 ```output
 'Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections. \n\nTonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service. \n\nOne of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. \n\nAnd I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.'
 ```
 
-
 ### Example using existing SQLite connection
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -155,8 +153,6 @@ data = db1.similarity_search(query)
 # print results
 data[0].page_content
 ```
-
-
 
 ```output
 'Ketanji Brown Jackson is awesome'

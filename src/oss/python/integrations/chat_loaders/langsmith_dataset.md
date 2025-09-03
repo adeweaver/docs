@@ -17,11 +17,9 @@ Before diving in, let's install our prerequisites.
 
 Ensure you've installed langchain >= 0.0.311 and have configured your environment with your LangSmith API key.
 
-
 ```python
 %pip install --upgrade --quiet  langchain langchain-openai
 ```
-
 
 ```python
 import os
@@ -38,13 +36,11 @@ This notebook fine-tunes a model directly on selecting which runs to fine-tune o
 
 For the sake of this tutorial, we will upload an existing dataset here that you can use.
 
-
 ```python
 from langsmith.client import Client
 
 client = Client()
 ```
-
 
 ```python
 import requests
@@ -55,12 +51,10 @@ response.raise_for_status()
 data = response.json()
 ```
 
-
 ```python
 dataset_name = f"Extraction Fine-tuning Dataset {uid}"
 ds = client.create_dataset(dataset_name=dataset_name, data_type="chat")
 ```
-
 
 ```python
 _ = client.create_examples(
@@ -71,8 +65,8 @@ _ = client.create_examples(
 ```
 
 ## 2. Prepare Data
-Now we can create an instance of LangSmithRunChatLoader and load the chat sessions using its lazy_load() method.
 
+Now we can create an instance of LangSmithRunChatLoader and load the chat sessions using its lazy_load() method.
 
 ```python
 from langchain_community.chat_loaders.langsmith import LangSmithDatasetChatLoader
@@ -82,8 +76,7 @@ loader = LangSmithDatasetChatLoader(dataset_name=dataset_name)
 chat_sessions = loader.lazy_load()
 ```
 
-#### With the chat sessions loaded, convert them into a format suitable for fine-tuning.
-
+#### With the chat sessions loaded, convert them into a format suitable for fine-tuning
 
 ```python
 from langchain_community.adapters.openai import convert_messages_for_finetuning
@@ -92,8 +85,8 @@ training_data = convert_messages_for_finetuning(chat_sessions)
 ```
 
 ## 3. Fine-tune the Model
-Now, initiate the fine-tuning process using the OpenAI library.
 
+Now, initiate the fine-tuning process using the OpenAI library.
 
 ```python
 import json
@@ -124,13 +117,14 @@ while status != "succeeded":
 
 # Now your model is fine-tuned!
 ```
+
 ```output
 Status=[running]... 429.55s. 46.34s
 ```
+
 ## 4. Use in LangChain
 
 After fine-tuning, use the resulting model ID with the ChatOpenAI model class in your LangChain app.
-
 
 ```python
 # Get the fine-tuned model ID
@@ -146,16 +140,12 @@ model = ChatOpenAI(
 )
 ```
 
-
 ```python
 model.invoke("There were three ravens sat on a tree.")
 ```
 
-
-
 ```output
 AIMessage(content='[{"s": "There were three ravens", "object": "tree", "relation": "sat on"}, {"s": "three ravens", "object": "a tree", "relation": "sat on"}]')
 ```
-
 
 Now you have successfully fine-tuned a model using data from LangSmith LLM runs!

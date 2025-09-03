@@ -8,12 +8,11 @@ This notebook goes over how to use Xinference embeddings within LangChain
 
 Install `Xinference` through PyPI:
 
-
 ```python
 %pip install --upgrade --quiet  "xinference[all]"
 ```
 
-## Deploy Xinference Locally or in a Distributed Cluster.
+## Deploy Xinference Locally or in a Distributed Cluster
 
 For local deployment, run `xinference`.
 
@@ -27,15 +26,15 @@ You can consult the README file from [Xinference](https://github.com/xorbitsai/i
 
 To use Xinference with LangChain, you need to first launch a model. You can use command line interface (CLI) to do so:
 
-
 ```python
 !xinference launch -n vicuna-v1.3 -f ggmlv3 -q q4_0
 ```
+
 ```output
 Model uid: 915845ee-2a04-11ee-8ed4-d29396a3f064
 ```
-A model UID is returned for you to use. Now you can use Xinference embeddings with LangChain:
 
+A model UID is returned for you to use. Now you can use Xinference embeddings with LangChain:
 
 ```python
 from langchain_community.embeddings import XinferenceEmbeddings
@@ -45,18 +44,15 @@ xinference = XinferenceEmbeddings(
 )
 ```
 
-
 ```python
 query_result = xinference.embed_query("This is a test query")
 ```
-
 
 ```python
 doc_result = xinference.embed_documents(["text A", "text B"])
 ```
 
 Lastly, terminate the model when you do not need to use it:
-
 
 ```python
 !xinference terminate --model-uid "915845ee-2a04-11ee-8ed4-d29396a3f064"

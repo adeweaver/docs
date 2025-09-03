@@ -6,11 +6,9 @@ title: Apify Dataset
 
 This notebook shows how to load Apify datasets to LangChain.
 
-
 ## Prerequisites
 
 You need to have an existing dataset on the Apify platform. This example shows how to load a dataset produced by the [Website Content Crawler](https://apify.com/apify/website-content-crawler).
-
 
 ```python
 %pip install --upgrade --quiet langchain langchain-apify langchain-openai
@@ -18,14 +16,12 @@ You need to have an existing dataset on the Apify platform. This example shows h
 
 First, import `ApifyDatasetLoader` into your source code:
 
-
 ```python
 from langchain_apify import ApifyDatasetLoader
 from langchain_core.documents import Document
 ```
 
 Find your [Apify API token](https://console.apify.com/account/integrations) and [OpenAI API key](https://platform.openai.com/account/api-keys) and initialize these into environment variable:
-
 
 ```python
 import os
@@ -47,7 +43,6 @@ For example, if your dataset items are structured like this:
 
 The mapping function in the code below will convert them to LangChain `Document` format, so that you can use them further with any LLM model (e.g. for question answering).
 
-
 ```python
 loader = ApifyDatasetLoader(
     dataset_id="your-dataset-id",
@@ -57,7 +52,6 @@ loader = ApifyDatasetLoader(
 )
 ```
 
-
 ```python
 data = loader.load()
 ```
@@ -65,7 +59,6 @@ data = loader.load()
 ## An example with question answering
 
 In this example, we use data from a dataset to answer a question.
-
 
 ```python
 from langchain.indexes import VectorstoreIndexCreator
@@ -76,7 +69,6 @@ from langchain_openai import ChatOpenAI
 from langchain_openai.embeddings import OpenAIEmbeddings
 ```
 
-
 ```python
 loader = ApifyDatasetLoader(
     dataset_id="your-dataset-id",
@@ -86,29 +78,26 @@ loader = ApifyDatasetLoader(
 )
 ```
 
-
 ```python
 index = VectorstoreIndexCreator(
     vectorstore_cls=InMemoryVectorStore, embedding=OpenAIEmbeddings()
 ).from_loaders([loader])
 ```
 
-
 ```python
 llm = ChatOpenAI(model="gpt-4o-mini")
 ```
-
 
 ```python
 query = "What is Apify?"
 result = index.query_with_sources(query, llm=llm)
 ```
 
-
 ```python
 print(result["answer"])
 print(result["sources"])
 ```
+
 ```output
  Apify is a platform for developing, running, and sharing serverless cloud programs. It enables users to create web scraping and automation tools and publish them on the Apify platform.
 

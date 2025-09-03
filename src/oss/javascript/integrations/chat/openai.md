@@ -7,6 +7,7 @@ title: ChatOpenAI
 This guide will help you getting started with ChatOpenAI [chat models](/oss/concepts/chat_models). For detailed documentation of all ChatOpenAI features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_openai.ChatOpenAI.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [PY support](https://python.langchain.com/docs/integrations/chat/openai) | Package downloads | Package latest |
@@ -54,10 +55,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```typescript
 import { ChatOpenAI } from "@langchain/openai"
@@ -68,8 +69,8 @@ const llm = new ChatOpenAI({
   // other params...
 })
 ```
-## Invocation
 
+## Invocation
 
 ```typescript
 const aiMsg = await llm.invoke([
@@ -84,6 +85,7 @@ const aiMsg = await llm.invoke([
 ])
 aiMsg
 ```
+
 ```output
 AIMessage {
   "id": "chatcmpl-ADItECqSPuuEuBHHPjeCkh9wIO1H5",
@@ -111,13 +113,14 @@ AIMessage {
 ```typescript
 console.log(aiMsg.content)
 ```
+
 ```output
 J'adore la programmation.
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts"
@@ -141,6 +144,7 @@ await chain.invoke(
   }
 )
 ```
+
 ```output
 AIMessage {
   "id": "chatcmpl-ADItFaWFNqkSjSmlxeGk6HxcBHzVN",
@@ -164,10 +168,10 @@ AIMessage {
   }
 }
 ```
+
 ## Custom URLs
 
 You can customize the base URL the SDK sends requests to by passing a `configuration` parameter like this:
-
 
 ```typescript
 import { ChatOpenAI } from "@langchain/openai";
@@ -191,7 +195,6 @@ If you are hosting on Azure OpenAI, see the [dedicated page instead](/oss/integr
 
 You can specify custom headers in the same `configuration` field:
 
-
 ```typescript
 import { ChatOpenAI } from "@langchain/openai";
 
@@ -211,7 +214,6 @@ await llmWithCustomHeaders.invoke("Hi there!");
 ## Disabling streaming usage metadata
 
 Some proxies or third-party providers present largely the same API interface as OpenAI, but don't support the more recently added `stream_options` parameter to return streaming usage. You can use `ChatOpenAI` to access these providers by disabling streaming usage like this:
-
 
 ```typescript
 import { ChatOpenAI } from "@langchain/openai";
@@ -233,7 +235,6 @@ await llmWithoutStreamUsage.invoke("Hi there!");
 You can call fine-tuned OpenAI models by passing in your corresponding `modelName` parameter.
 
 This generally takes the form of `ft:{OPENAI_MODEL_NAME}:{ORG_NAME}::{MODEL_ID}`. For example:
-
 
 ```typescript
 import { ChatOpenAI } from "@langchain/openai";
@@ -258,6 +259,7 @@ If you need additional information like logprobs or token usage, these will be r
 :::
 
 ```
+
 ```typescript
 import { ChatOpenAI } from "@langchain/openai";
 
@@ -271,6 +273,7 @@ const llmWithLogprobs = new ChatOpenAI({
 const responseMessageWithLogprobs = await llmWithLogprobs.invoke("Hi there!");
 console.dir(responseMessageWithLogprobs.response_metadata.logprobs, { depth: null });
 ```
+
 ```output
 {
   content: [
@@ -336,6 +339,7 @@ console.dir(responseMessageWithLogprobs.response_metadata.logprobs, { depth: nul
   refusal: null
 }
 ```
+
 ## Tool calling
 
 Tool calling with OpenAI models works in a similar to [other models](/oss/how-to/tool_calling). Additionally, the following guides have some information especially relevant to OpenAI:
@@ -349,7 +353,6 @@ Tool calling with OpenAI models works in a similar to [other models](/oss/how-to
 [Custom tools](https://platform.openai.com/docs/guides/function-calling#custom-tools) support tools with arbitrary string inputs. They can be particularly useful when you expect your string arguments to be long or complex.
 
 If you use a model that supports custom tools, you can use the `ChatOpenAI` class and the `customTool` function to create a custom tool.
-
 
 ```typescript
 import { ChatOpenAI, customTool } from "@langchain/openai";
@@ -382,7 +385,6 @@ console.log(result);
 <summary>Context-free grammars</summary>
 
 OpenAI supports the specification of a [context-free grammar](https://platform.openai.com/docs/guides/function-calling#context-free-grammars) for custom tool inputs in `lark` or `regex` format. See [OpenAI docs](https://platform.openai.com/docs/guides/function-calling#context-free-grammars) for details. The `format` parameter can be passed into `customTool` as shown below:
-
 
 ```typescript
 import { ChatOpenAI, customTool } from "@langchain/openai";
@@ -428,7 +430,7 @@ console.log(result);
 
 ## ``strict: true``
 
-As of Aug 6, 2024, OpenAI supports a `strict` argument when calling tools that will enforce that the tool argument schema is respected by the model. See more here: https://platform.openai.com/docs/guides/function-calling.
+As of Aug 6, 2024, OpenAI supports a `strict` argument when calling tools that will enforce that the tool argument schema is respected by the model. See more [here](https://platform.openai.com/docs/guides/function-calling).
 
 ```{=mdx}
 
@@ -439,8 +441,8 @@ As of Aug 6, 2024, OpenAI supports a `strict` argument when calling tools that w
 
 
 ```
-Here's an example with tool calling. Passing an extra `strict: true` argument to `.bindTools` will pass the param through to all tool definitions:
 
+Here's an example with tool calling. Passing an extra `strict: true` argument to `.bindTools` will pass the param through to all tool definitions:
 
 ```typescript
 import { ChatOpenAI } from "@langchain/openai";
@@ -468,6 +470,7 @@ const strictTrueResult = await llmWithStrictTrue.invoke("What is 127862 times 12
 
 console.dir(strictTrueResult.tool_calls, { depth: null });
 ```
+
 ```output
 [
   {
@@ -478,8 +481,8 @@ console.dir(strictTrueResult.tool_calls, { depth: null });
   }
 ]
 ```
-If you only want to apply this parameter to a select number of tools, you can also pass OpenAI formatted tool schemas directly:
 
+If you only want to apply this parameter to a select number of tools, you can also pass OpenAI formatted tool schemas directly:
 
 ```typescript
 import { zodToJsonSchema } from "zod-to-json-schema";
@@ -511,6 +514,7 @@ const weatherToolResult = await llmWithStrictTrueTools.invoke([{
 
 weatherToolResult.tool_calls;
 ```
+
 ```output
 [
   {
@@ -521,10 +525,10 @@ weatherToolResult.tool_calls;
   }
 ]
 ```
+
 ## Structured output
 
 We can also pass `strict: true` to the [`.withStructuredOutput()`](https://js.langchain.com/docs/how_to/structured_output/#the-.withstructuredoutput-method). Here's an example:
-
 
 ```typescript
 import { ChatOpenAI } from "@langchain/openai";
@@ -545,14 +549,15 @@ await structuredLlm.invoke([{
   content: `I am 6'5" tall and love fruit.`
 }]);
 ```
+
 ```output
 { traits: [ `6'5" tall`, 'love fruit' ] }
 ```
+
 ## Responses API
 
 <Warning>
 **Compatibility**
-
 
 The below points apply to `@langchain/openai>=0.4.5-rc.0`. Please see here for a [guide on upgrading](/oss/how-to/installation/#installing-integration-packages).
 
@@ -573,14 +578,11 @@ To trigger a web search, pass `{"type": "web_search_preview"}` to the model as y
 <Tip>
 **You can also pass built-in tools as invocation params:**
 
-
 ```ts
 llm.invoke("...", { tools: [{ type: "web_search_preview" }] });
 ```
 
 </Tip>
-
-
 
 ```typescript
 import { ChatOpenAI } from "@langchain/openai";
@@ -598,8 +600,6 @@ Note that the response includes structured [content blocks](/oss/concepts/messag
 #### File search
 
 To trigger a file search, pass a [file search tool](https://platform.openai.com/docs/guides/tools-file-search) to the model as you would another tool. You will need to populate an OpenAI-managed vector store and include the vector store ID in the tool definition. See [OpenAI documentation](https://platform.openai.com/docs/guides/tools-file-search) for more details.
-
-
 
 ```typescript
 import { ChatOpenAI } from "@langchain/openai";
@@ -621,7 +621,6 @@ ChatOpenAI supports the `computer-use-preview` model, which is a specialized mod
 Currently tool outputs for computer use are present in `AIMessage.additional_kwargs.tool_outputs`. To reply to the computer use tool call, you need to set `additional_kwargs.type: "computer_call_output"` while creating a corresponding `ToolMessage`.
 
 See [OpenAI documentation](https://platform.openai.com/docs/guides/tools-computer-use) for more details.
-
 
 ```typescript
 import { AIMessage, ToolMessage } from "@langchain/core/messages";
@@ -679,7 +678,6 @@ if (computerCall) {
 
 ChatOpenAI allows you to use the built-in [code interpreter tool](https://platform.openai.com/docs/guides/tools-code-interpreter) to support the sandboxed generation and execution of code.
 
-
 ```typescript
 import { ChatOpenAI } from "@langchain/openai";
 
@@ -703,7 +701,6 @@ const response = await llmWithTools.invoke(
 
 Note that the above command creates a new [container](https://platform.openai.com/docs/guides/tools-code-interpreter#containers). We can re-use containers across calls by specifying an existing container ID.
 
-
 ```typescript
 const tool_outputs: Record<string, any>[] = response.additional_kwargs.tool_outputs
 const container_id = tool_outputs[0].container_id
@@ -720,7 +717,6 @@ const llmWithTools = llm.bindTools([
 #### Remote MCP
 
 ChatOpenAI supports the built-in [remote MCP tool](https://platform.openai.com/docs/guides/tools-remote-mcp) that allows for model-generated calls to MCP servers to happen on OpenAI servers.
-
 
 ```typescript
 import { ChatOpenAI } from "@langchain/openai";
@@ -769,6 +765,7 @@ const response = await llmWithMcp.invoke(
     "What transport protocols does the 2025-03-26 version of the MCP spec (modelcontextprotocol/modelcontextprotocol) support?"
 );
 ```
+
 With this configuration, responses can contain tool outputs typed as `mcp_approval_request`. To submit approvals for an approval request, you can structure it into a content block in a followup message:
 
 ```typescript
@@ -792,12 +789,12 @@ const nextResponse = await model.invoke(
   ],
 );
 ```
+
 </Note>
 
 #### Image Generation
 
 ChatOpenAI allows you to bring the built-in [image generation tool](https://platform.openai.com/docs/guides/tools-image-generation) to create images as apart of multi-turn conversations through the responses API.
-
 
 ```typescript
 import { ChatOpenAI } from "@langchain/openai";
@@ -818,6 +815,7 @@ const response = await llmWithImageGeneration.invoke(
   "Draw a random short word in green font."
 )
 ```
+
 ### Reasoning models
 
 ```{=mdx}
@@ -829,10 +827,10 @@ The below points apply to `@langchain/openai>=0.4.0`. Please see here for a [gui
 
 </Warning>
 ```
+
 When using reasoning models like `o1`, the default method for `withStructuredOutput` is OpenAI's built-in method for structured output (equivalent to passing `method: "jsonSchema"` as an option into `withStructuredOutput`). JSON schema mostly works the same as other models, but with one important caveat: when defining schema, `z.optional()` is not respected, and you should instead use `z.nullable()`.
 
 Here's an example:
-
 
 ```typescript
 import { z } from "zod";
@@ -854,11 +852,12 @@ await reasoningModelOptionalSchema.invoke([{
   content: `I am 6'5" tall and love fruit.`
 }]);
 ```
+
 ```output
 { color: 'No color mentioned' }
 ```
-And here's an example with `z.nullable()`:
 
+And here's an example with `z.nullable()`:
 
 ```typescript
 import { z } from "zod";
@@ -880,9 +879,11 @@ await reasoningModelNullableSchema.invoke([{
   content: `I am 6'5" tall and love fruit.`
 }]);
 ```
+
 ```output
 { color: null }
 ```
+
 ## Prompt caching
 
 Newer OpenAI models will automatically [cache parts of your prompt](https://openai.com/index/api-prompt-caching/) if your inputs are above a certain size (1024 tokens at the time of writing) in order to reduce costs for use-cases that require long context.
@@ -890,7 +891,6 @@ Newer OpenAI models will automatically [cache parts of your prompt](https://open
 **Note:** The number of tokens cached for a given query is not yet standardized in `AIMessage.usage_metadata`, and is instead contained in the `AIMessage.response_metadata` field.
 
 Here's an example
-
 
 ```typescript
 // @lc-docs-hide-cell
@@ -1162,7 +1162,6 @@ The current date is ${new Date().toISOString()}`;
 void 0;
 ```
 
-
 ```typescript
 import { ChatOpenAI } from "@langchain/openai";
 
@@ -1192,6 +1191,7 @@ const originalRes = await modelWithCaching.invoke(longMessages);
 
 console.log("USAGE:", originalRes.response_metadata.usage);
 ```
+
 ```output
 USAGE: {
   prompt_tokens: 2624,
@@ -1207,6 +1207,7 @@ const resWitCaching = await modelWithCaching.invoke(longMessages);
 
 console.log("USAGE:", resWitCaching.response_metadata.usage);
 ```
+
 ```output
 USAGE: {
   prompt_tokens: 2624,
@@ -1216,12 +1217,12 @@ USAGE: {
   completion_tokens_details: { reasoning_tokens: 0 }
 }
 ```
+
 ## Predicted output
 
 Some OpenAI models (such as their `gpt-4o` and `gpt-4o-mini` series) support [Predicted Outputs](https://platform.openai.com/docs/guides/latency-optimization#use-predicted-outputs), which allow you to pass in a known portion of the LLM's expected output ahead of time to reduce latency. This is useful for cases such as editing text or code, where only a small part of the model's output will change.
 
 Here's an example:
-
 
 ```typescript
 import { ChatOpenAI } from "@langchain/openai";
@@ -1275,6 +1276,7 @@ await modelWithPredictions.invoke(
   }
 );
 ```
+
 ```output
 AIMessage {
   "id": "chatcmpl-AQLyQKnazr7lEV7ejLTo1UqhzHDBl",
@@ -1317,12 +1319,12 @@ AIMessage {
   }
 }
 ```
+
 Note that currently predictions are billed as additional tokens and will increase your usage and costs in exchange for this reduced latency.
 
 ## Audio output
 
 Some OpenAI models (such as `gpt-4o-audio-preview`) support generating audio output. This example shows how to use that feature:
-
 
 ```typescript
 import { ChatOpenAI } from "@langchain/openai";
@@ -1345,6 +1347,7 @@ console.log({
   data: castAudioContent.data.slice(0, 100) // Sliced for brevity
 })
 ```
+
 ```output
 {
   id: 'audio_67129e9466f48190be70372922464162',
@@ -1353,12 +1356,12 @@ console.log({
   transcript: "Why did the cat sit on the computer's keyboard? Because it wanted to keep an eye on the mouse!"
 }
 ```
+
 We see that the audio data is returned inside the `data` field. We are also provided an `expires_at` date field. This field represents the date the audio response will no longer be accessible on the server for use in multi-turn conversations.
 
 ### Streaming Audio Output
 
 OpenAI also supports streaming audio output. Here's an example:
-
 
 ```typescript
 import { AIMessageChunk } from "@langchain/core/messages";
@@ -1386,6 +1389,7 @@ console.log({
   data: castStreamedAudioContent.data.slice(0, 100) // Sliced for brevity
 })
 ```
+
 ```output
 {
   id: 'audio_67129e976ce081908103ba4947399a3eaudio_67129e976ce081908103ba4947399a3e',
@@ -1395,10 +1399,10 @@ console.log({
   expires_at: 1729277096
 }
 ```
+
 ### Audio input
 
 These models also support passing audio as input. For this, you must specify `input_audio` fields as seen below:
-
 
 ```typescript
 import { HumanMessage } from "@langchain/core/messages";
@@ -1418,9 +1422,11 @@ const userInputAudioRes = await modelWithAudioOutput.invoke([userInput]);
 
 console.log((userInputAudioRes.additional_kwargs.audio as Record<string, any>).transcript);
 ```
+
 ```output
 That's a great joke! It's always fun to imagine why cats do the funny things they do. Keeping an eye on the "mouse" is a creatively punny way to describe it!
 ```
+
 ## API reference
 
-For detailed documentation of all ChatOpenAI features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_openai.ChatOpenAI.html
+For detailed documentation of all ChatOpenAI features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_openai.ChatOpenAI.html).

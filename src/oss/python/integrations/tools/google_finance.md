@@ -4,26 +4,25 @@ title: Google Finance
 
 This notebook goes over how to use the Google Finance Tool to get information from the Google Finance page.
 
-To get an SerpApi key key, sign up at: https://serpapi.com/users/sign_up.
+To get an SerpApi key key, sign up at: [serpapi.com/users/sign_up](https://serpapi.com/users/sign_up).
 
 To use the tool with Langchain install following packages
-
 
 ```python
 %pip install --upgrade --quiet google-search-results langchain-community
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
-Then set the environment variable SERPAPI_API_KEY to your SerpApi key or pass the key in as a argument to the wrapper serp_api_key="your secret key".
 
+Then set the environment variable SERPAPI_API_KEY to your SerpApi key or pass the key in as a argument to the wrapper serp_api_key="your secret key".
 
 ```python
 import os
 
 os.environ["SERPAPI_API_KEY"] = ""
 ```
-
 
 ```python
 from langchain_community.tools.google_finance import GoogleFinanceQueryRun
@@ -32,29 +31,25 @@ from langchain_community.utilities.google_finance import GoogleFinanceAPIWrapper
 tool = GoogleFinanceQueryRun(api_wrapper=GoogleFinanceAPIWrapper())
 ```
 
-
 ```python
 tool.run("Google")
 ```
-
-
 
 ```output
 '\nQuery: Google\nstock: GOOGL:NASDAQ\nprice: $159.96\npercentage: 0.94\nmovement: Up\nus: price = 42210.57, movement = Down\neurope: price = 23638.56, movement = Up\nasia: price = 38183.26, movement = Up\n'
 ```
 
-
 In order to create an agent that uses the Google Finance tool install Langgraph
-
 
 ```python
 %pip install --upgrade --quiet langgraph langchain-openai
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
-and use the `create_agent` functionality to initialize a ReAct agent. You will also need to set up your OPEN_API_KEY (visit https://platform.openai.com) in order to access OpenAI's chat models.
 
+and use the `create_agent` functionality to initialize a ReAct agent. You will also need to set up your OPEN_API_KEY (visit [platform.openai.com](https://platform.openai.com)) in order to access OpenAI's chat models.
 
 ```python
 import os
@@ -63,20 +58,17 @@ os.environ["OPENAI_API_KEY"] = ""
 os.environ["SERP_API_KEY"] = ""
 ```
 
-
 ```python
 from langchain.chat_models import init_chat_model
 
 llm = init_chat_model("gpt-4o-mini", model_provider="openai")
 ```
 
-
 ```python
 from langchain_community.agent_toolkits.load_tools import load_tools
 
 tools = load_tools(["google-scholar", "google-finance"], llm=llm)
 ```
-
 
 ```python
 from langchain.agents import create_agent
@@ -90,6 +82,7 @@ events = agent.stream(
 for event in events:
     event["messages"][-1].pretty_print()
 ```
+
 ```output
 ================================ Human Message =================================
 

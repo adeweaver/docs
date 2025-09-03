@@ -10,11 +10,9 @@ This example goes over how to use LangChain to interact with Snowflake Cortex.
 
 We start by installing the `snowflake-snowpark-python` library, using the command below. Then we configure the credentials for connecting to Snowflake, as environment variables or pass them directly.
 
-
 ```python
 %pip install --upgrade --quiet snowflake-snowpark-python
 ```
-
 
 ```python
 import getpass
@@ -44,7 +42,6 @@ if os.environ.get("SNOWFLAKE_WAREHOUSE") is None:
 if os.environ.get("SNOWFLAKE_ROLE") is None:
     os.environ["SNOWFLAKE_ROLE"] = getpass.getpass("Role: ")
 ```
-
 
 ```python
 from langchain_community.chat_models import ChatSnowflakeCortex
@@ -79,6 +76,7 @@ chat = ChatSnowflakeCortex(
 ```
 
 ### Calling the chat model
+
 We can now call the chat model using the `invoke` or `stream` methods.
 
 messages = [
@@ -88,7 +86,6 @@ messages = [
 chat.invoke(messages)
 
 ### Stream
-
 
 ```python
 # Sample input prompt

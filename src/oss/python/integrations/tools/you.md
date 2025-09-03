@@ -10,11 +10,9 @@ The tool lives in the `langchain-community` package.
 
 You also need to set your you.com API key.
 
-
 ```python
 %pip install --upgrade --quiet langchain-community
 ```
-
 
 ```python
 import os
@@ -33,14 +31,12 @@ os.environ["OPENAI_API_KEY"] = ""
 
 It's also helpful (but not needed) to set up [LangSmith](https://smith.langchain.com/) for best-in-class observability
 
-
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass()
 ```
 
 ## Tool Usage
-
 
 ```python
 from langchain_community.tools.you import YouSearchTool
@@ -52,13 +48,9 @@ tool = YouSearchTool(api_wrapper=api_wrapper)
 tool
 ```
 
-
-
 ```output
 YouSearchTool(api_wrapper=YouSearchAPIWrapper(ydc_api_key='054da371-e73b-47c1-a6d9-3b0cddf0fa3e<__>1Obt7EETU8N2v5f4MxaH0Zhx', num_web_results=1, safesearch=None, country=None, k=None, n_snippets_per_hit=None, endpoint_type='search', n_hits=None))
 ```
-
-
 
 ```python
 # .invoke wraps utility.results
@@ -70,6 +62,7 @@ print(len(response))
 for item in response:
     print(item)
 ```
+
 ```output
 7
 page_content='10 Day Weather-Manhattan, NY\nToday43°/39°1%\nToday\nSun 31 | Day\nGenerally cloudy. High 43F. Winds W at 10 to 15 mph.\n- Humidity54%\n- UV Index0 of 11\n- Sunrise7:19 am\n- Sunset4:38 pm\nSun 31 | Night\nCloudy. Low 39F. Winds light and variable.\n- Humidity70%\n- UV Index0 of 11\n- Moonrise9:13 pmWaning Gibbous\n- Moonset10:28 am\nMon 0145°/33°7%\nMon 01\nMon 01 | Day\nConsiderable cloudiness. High around 45F. Winds light and variable.\n- Humidity71%\n- UV Index1 of 11\n- Sunrise7:19 am\n- Sunset4:39 pm\nMon 01 | Night\nA few clouds. Low 33F. Winds NNW at 5 to 10 mph.\n- Humidity64%\n- UV Index0 of 11\n- Moonrise10:14 pmWaning Gibbous\n- Moonset10:49 am\nTue 0246°/35°4%\nTue 02\nTue 02 | Day\nMainly sunny. High 46F. Winds NW at 5 to 10 mph.\n- Humidity52%\n- UV Index2 of 11\n- Sunrise7:19 am\n- Sunset4:40 pm\nTue 02 | Night\nA few clouds overnight. Low around 35F. Winds W at 5 to 10 mph.\n- Humidity64%\n- UV Index0 of 11\n- Moonrise11:13 pmWaning Gibbous\n- Moonset11:08 am\nWed 0346°/38°4%\nWed 03\nWed 03 | Day' metadata={'url': 'https://weather.com/weather/tenday/l/New+York+NY+USNY0996:1:US', 'thumbnail_url': None, 'title': '10-Day Weather Forecast for Manhattan, NY - The Weather Channel ...', 'description': 'Some sun in the morning with increasing clouds during the afternoon. High around 45F. Winds SSE at 5 to 10 mph. ... Cloudy with showers. Low near 40F. Winds SSE at 5 to 10 mph. Chance of rain 60%. ... A steady rain in the morning. Showers continuing in the afternoon.'}
@@ -80,16 +73,15 @@ page_content='- Humidity91%\n- UV Index0 of 11\n- Moonrise5:50 amWaning Crescent
 page_content='Sat 1346°/36°53%\nSat 13\nSat 13 | Day\nCloudy with showers. High 46F. Winds WSW at 10 to 15 mph. Chance of rain 50%.\n- Humidity73%\n- UV Index1 of 11\n- Sunrise7:18 am\n- Sunset4:50 pm\nSat 13 | Night\nRain showers early transitioning to snow showers late. Low 36F. Winds W at 10 to 15 mph. Chance of precip 50%.\n- Humidity70%\n- UV Index0 of 11\n- Moonrise9:14 amWaxing Crescent\n- Moonset7:33 pm\nSun 1442°/34°37%\nSun 14\nSun 14 | Day\nSnow showers early will transition to a few showers later. High 42F. Winds WSW at 10 to 15 mph. Chance of rain 40%.\n- Humidity63%\n- UV Index1 of 11\n- Sunrise7:18 am\n- Sunset4:51 pm\nSun 14 | Night\nVariable clouds with snow showers. Low 34F. Winds W at 10 to 15 mph. Chance of snow 60%. Snow accumulations less than one inch.\n- UV Index0 of 11\n- Moonrise9:44 amWaxing Crescent\n- Moonset8:52 pm\nMon 1540°/31°51%\nMon 15\nMon 15 | Day' metadata={'url': 'https://weather.com/weather/tenday/l/New+York+NY+USNY0996:1:US', 'thumbnail_url': None, 'title': '10-Day Weather Forecast for Manhattan, NY - The Weather Channel ...', 'description': 'Some sun in the morning with increasing clouds during the afternoon. High around 45F. Winds SSE at 5 to 10 mph. ... Cloudy with showers. Low near 40F. Winds SSE at 5 to 10 mph. Chance of rain 60%. ... A steady rain in the morning. Showers continuing in the afternoon.'}
 page_content='- Humidity70%\n- UV Index1 of 11\n- Sunrise7:18 am\n- Sunset4:34 pm\nMon 25 | Night\nOvercast with showers at times. Low 43F. Winds light and variable. Chance of rain 40%.\n- Humidity80%\n- UV Index0 of 11\n- Moonrise3:08 pmWaxing Gibbous\n- Moonset6:14 am\nTue 2653°/45°58%\nTue 26\nTue 26 | Day\nOvercast with rain showers at times. High 53F. Winds E at 5 to 10 mph. Chance of rain 60%.\n- Humidity79%\n- UV Index1 of 11\n- Sunrise7:18 am\n- Sunset4:34 pm\nTue 26 | Night\nShowers early then scattered thunderstorms developing late. Low near 45F. Winds ESE at 5 to 10 mph. Chance of rain 60%.\n- Humidity93%\n- UV Index0 of 11\n- Moonrise4:00 pmFull Moon\n- Moonset7:17 am\nWed 2751°/41°58%\nWed 27\nWed 27 | Day\nCloudy with showers. High 51F. Winds WSW at 5 to 10 mph. Chance of rain 60%.\n- Humidity79%\n- UV Index1 of 11\n- Sunrise7:18 am\n- Sunset4:35 pm\nWed 27 | Night\nCloudy with showers. Low 41F. Winds NW at 5 to 10 mph. Chance of rain 60%.\n- Humidity72%\n- UV Index0 of 11\n- Moonrise4:59 pmFull Moon\n- Moonset8:13 am' metadata={'url': 'https://weather.com/weather/tenday/l/New+York+NY+USNY0996:1:US', 'thumbnail_url': None, 'title': '10-Day Weather Forecast for Manhattan, NY - The Weather Channel ...', 'description': 'Some sun in the morning with increasing clouds during the afternoon. High around 45F. Winds SSE at 5 to 10 mph. ... Cloudy with showers. Low near 40F. Winds SSE at 5 to 10 mph. Chance of rain 60%. ... A steady rain in the morning. Showers continuing in the afternoon.'}
 ```
+
 ## Chaining
 
 We show here how to use it as part of an [agent](/oss/tutorials/agents). We use the OpenAI Functions Agent, so we will need to setup and install the required dependencies for that. We will also use [LangSmith Hub](https://smith.langchain.com/hub) to pull the prompt from, so we will need to install that.
-
 
 ```python
 # you need a model to use in the chain
 !pip install --upgrade --quiet langchain langchain-openai langchainhub langchain-community
 ```
-
 
 ```python
 from langchain import hub
@@ -110,10 +102,10 @@ agent_executor = AgentExecutor(
 )
 ```
 
-
 ```python
 agent_executor.invoke({"input": "What is the weather in NY today?"})
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 
@@ -135,7 +127,6 @@ For more details, you can visit [The Weather Channel](https://weather.com/weathe
 
 > Finished chain.
 ```
-
 
 ```output
 {'input': 'What is the weather in NY today?',

@@ -9,21 +9,18 @@ It is designed and expected to be used to parse academic papers, where it works 
 This loader uses Grobid to parse PDFs into `Documents` that retain metadata associated with the section of text.
 
 ---
-The best approach is to install Grobid via docker, see https://grobid.readthedocs.io/en/latest/Grobid-docker/.
+The best approach is to install Grobid via docker, see [grobid.readthedocs.io/en/latest/Grobid-docker/](https://grobid.readthedocs.io/en/latest/Grobid-docker/).
 
 (Note: additional instructions can be found [here](/oss/integrations/providers/grobid).)
 
 Once grobid is up-and-running you can interact as described below.
 
-
 Now, we can use the data loader.
-
 
 ```python
 from langchain_community.document_loaders.generic import GenericLoader
 from langchain_community.document_loaders.parsers import GrobidParser
 ```
-
 
 ```python
 loader = GenericLoader.from_filesystem(
@@ -35,24 +32,17 @@ loader = GenericLoader.from_filesystem(
 docs = loader.load()
 ```
 
-
 ```python
 docs[3].page_content
 ```
-
-
 
 ```output
 'Unlike Chinchilla, PaLM, or GPT-3, we only use publicly available data, making our work compatible with open-sourcing, while most existing models rely on data which is either not publicly available or undocumented (e.g."Books -2TB" or "Social media conversations").There exist some exceptions, notably OPT (Zhang et al., 2022), GPT-NeoX (Black et al., 2022), BLOOM (Scao et al., 2022) and GLM (Zeng et al., 2022), but none that are competitive with PaLM-62B or Chinchilla.'
 ```
 
-
-
 ```python
 docs[3].metadata
 ```
-
-
 
 ```output
 {'text': 'Unlike Chinchilla, PaLM, or GPT-3, we only use publicly available data, making our work compatible with open-sourcing, while most existing models rely on data which is either not publicly available or undocumented (e.g."Books -2TB" or "Social media conversations").There exist some exceptions, notably OPT (Zhang et al., 2022), GPT-NeoX (Black et al., 2022), BLOOM (Scao et al., 2022) and GLM (Zeng et al., 2022), but none that are competitive with PaLM-62B or Chinchilla.',

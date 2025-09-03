@@ -5,11 +5,9 @@ title: Human as a tool
 Human are AGI so they can certainly be used as a tool to help out AI agent
 when it is confused.
 
-
 ```python
 %pip install --upgrade --quiet  langchain-community
 ```
-
 
 ```python
 from langchain.agents import AgentType, initialize_agent, load_tools
@@ -33,11 +31,11 @@ agent_chain = initialize_agent(
 In the above code you can see the tool takes input directly from command line.
 You can customize `prompt_func` and `input_func` according to your need (as shown below).
 
-
 ```python
 agent_chain.run("What's my friend Eric's surname?")
 # Answer with 'Zhu'
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 I don't know Eric's surname, so I should ask a human for guidance.
@@ -55,18 +53,15 @@ Final Answer: Eric's surname is Zhu.
 > Finished chain.
 ```
 
-
 ```output
 "Eric's surname is Zhu."
 ```
-
 
 ## Configuring the Input Function
 
 By default, the `HumanInputRun` tool uses the python `input` function to get input from the user.
 You can customize the input_func to be anything you'd like.
 For instance, if you want to accept multi-line input, you could do the following:
-
 
 ```python
 def get_input() -> str:
@@ -87,14 +82,12 @@ def get_input() -> str:
 tools = load_tools(["human", "ddg-search"], llm=math_llm, input_func=get_input)
 ```
 
-
 ```python
 # Or you can directly instantiate the tool
 from langchain_community.tools import HumanInputRun
 
 tool = HumanInputRun(input_func=get_input)
 ```
-
 
 ```python
 agent_chain = initialize_agent(
@@ -105,10 +98,10 @@ agent_chain = initialize_agent(
 )
 ```
 
-
 ```python
 agent_chain.run("I need help attributing a quote")
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 I should ask a human for guidance
@@ -147,12 +140,9 @@ Final Answer: Julius Caesar said the quote "Veni, vidi, vici" which means "I cam
 > Finished chain.
 ```
 
-
 ```output
 'Julius Caesar said the quote "Veni, vidi, vici" which means "I came, I saw, I conquered".'
 ```
-
-
 
 ```python
 

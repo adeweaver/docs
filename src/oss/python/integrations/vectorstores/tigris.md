@@ -8,18 +8,17 @@ title: Tigris
 This notebook guides you how to use Tigris as your VectorStore
 
 **Pre requisites**
+
 1. An OpenAI account. You can sign up for an account [here](https://platform.openai.com/)
 2. [Sign up for a free Tigris account](https://console.preview.tigrisdata.cloud). Once you have signed up for the Tigris account, create a new project called `vectordemo`. Next, make a note of the *Uri* for the region you've created your project in, the **clientId** and **clientSecret**. You can get all this information from the **Application Keys** section of the project.
 
 Let's first install our dependencies:
-
 
 ```python
 %pip install --upgrade --quiet  tigrisdb openapi-schema-pydantic langchain-openai langchain-community tiktoken
 ```
 
 We will load the `OpenAI` api key and `Tigris` credentials in our environment
-
 
 ```python
 import getpass
@@ -35,7 +34,6 @@ if "TIGRIS_CLIENT_SECRET" not in os.environ:
     os.environ["TIGRIS_CLIENT_SECRET"] = getpass.getpass("Tigris Client Secret:")
 ```
 
-
 ```python
 from langchain_community.document_loaders import TextLoader
 from langchain_community.vectorstores import Tigris
@@ -44,8 +42,8 @@ from langchain_text_splitters import CharacterTextSplitter
 ```
 
 ### Initialize Tigris vector store
-Let's import our test dataset:
 
+Let's import our test dataset:
 
 ```python
 loader = TextLoader("../../../state_of_the_union.txt")
@@ -56,13 +54,11 @@ docs = text_splitter.split_documents(documents)
 embeddings = OpenAIEmbeddings()
 ```
 
-
 ```python
 vector_store = Tigris.from_documents(docs, embeddings, index_name="my_embeddings")
 ```
 
 ### Similarity Search
-
 
 ```python
 query = "What did the president say about Ketanji Brown Jackson"
@@ -71,7 +67,6 @@ print(found_docs)
 ```
 
 ### Similarity Search with score (vector distance)
-
 
 ```python
 query = "What did the president say about Ketanji Brown Jackson"

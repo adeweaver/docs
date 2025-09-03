@@ -10,11 +10,9 @@ Extracting metadata from documents is helpful for a variety of tasks, including:
 * **Data mining:** Extract structured data that can be used for data analysis
 * **Style transfer:** Change the way text is written to more closely match expected user input, improving vector search results
 
-
 ```python
 %pip install --upgrade --quiet  doctran
 ```
-
 
 ```python
 import json
@@ -23,23 +21,19 @@ from langchain_community.document_transformers import DoctranPropertyExtractor
 from langchain_core.documents import Document
 ```
 
-
 ```python
 from dotenv import load_dotenv
 
 load_dotenv()
 ```
 
-
-
 ```output
 True
 ```
 
-
 ## Input
-This is the document we'll extract properties from.
 
+This is the document we'll extract properties from.
 
 ```python
 sample_text = """[Generated with ChatGPT]
@@ -79,6 +73,7 @@ jason@psychic.dev
 """
 print(sample_text)
 ```
+
 ```output
 [Generated with ChatGPT]
 
@@ -148,8 +143,8 @@ property_extractor = DoctranPropertyExtractor(properties=properties)
 ```
 
 ## Output
-After extracting properties from a document, the result will be returned as a new document with properties provided in the metadata
 
+After extracting properties from a document, the result will be returned as a new document with properties provided in the metadata
 
 ```python
 extracted_document = property_extractor.transform_documents(
@@ -157,10 +152,10 @@ extracted_document = property_extractor.transform_documents(
 )
 ```
 
-
 ```python
 print(json.dumps(extracted_document[0].metadata, indent=2))
 ```
+
 ```output
 {
   "extracted_properties": {

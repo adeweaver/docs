@@ -24,13 +24,11 @@ After confirmed access to database in the runtime environment of this notebook, 
 
 The integration lives in its own `langchain-google-firestore` package, so we need to install it.
 
-
 ```python
 %pip install --upgrade --quiet langchain-google-firestore
 ```
 
 **Colab only**: Uncomment the following cell to restart the kernel or use the button to restart the kernel. For Vertex AI Workbench you can restart the terminal using the button on top.
-
 
 ```python
 # # Automatically restart kernel after installs so that your environment can access the new packages
@@ -41,6 +39,7 @@ The integration lives in its own `langchain-google-firestore` package, so we nee
 ```
 
 ### ☁ Set Your Google Cloud Project
+
 Set your Google Cloud project so that you can leverage Google Cloud resources within this notebook.
 
 If you don't know your project ID, try the following:
@@ -48,7 +47,6 @@ If you don't know your project ID, try the following:
 * Run `gcloud config list`.
 * Run `gcloud projects list`.
 * See the support page: [Locate the project ID](https://support.google.com/googleapi/answer/7014113).
-
 
 ```python
 # @markdown Please fill in the value below with your Google Cloud project ID and then run the cell.
@@ -63,9 +61,8 @@ PROJECT_ID = "my-project-id"  # @param {type:"string"}
 
 Authenticate to Google Cloud as the IAM user logged into this notebook in order to access your Google Cloud Project.
 
-- If you are using Colab to run this notebook, use the cell below and continue.
-- If you are using Vertex AI Workbench, check out the setup instructions [here](https://github.com/GoogleCloudPlatform/generative-ai/tree/main/setup-env).
-
+* If you are using Colab to run this notebook, use the cell below and continue.
+* If you are using Vertex AI Workbench, check out the setup instructions [here](https://github.com/GoogleCloudPlatform/generative-ai/tree/main/setup-env).
 
 ```python
 from google.colab import auth
@@ -82,7 +79,6 @@ To initialize the `FirestoreChatMessageHistory` class you need to provide only 3
 1. `session_id` - A unique identifier string that specifies an id for the session.
 1. `collection` : The single `/`-delimited path to a Firestore collection.
 
-
 ```python
 from langchain_google_firestore import FirestoreChatMessageHistory
 
@@ -94,16 +90,15 @@ chat_history.add_user_message("Hi!")
 chat_history.add_ai_message("How can I help you?")
 ```
 
-
 ```python
 chat_history.messages
 ```
 
 #### Cleaning up
+
 When the history of a specific session is obsolete and can be deleted from the database and memory, it can be done the following way.
 
 **Note:** Once deleted, the data is no longer stored in Firestore and is gone forever.
-
 
 ```python
 chat_history.clear()
@@ -112,7 +107,6 @@ chat_history.clear()
 ### Custom Client
 
 The client is created by default using the available environment variables. A [custom client](https://cloud.google.com/python/docs/reference/firestore/latest/client) can be passed to the constructor.
-
 
 ```python
 from google.auth import compute_engine

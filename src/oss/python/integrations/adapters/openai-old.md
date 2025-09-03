@@ -8,7 +8,6 @@ A lot of people get started with OpenAI but want to explore other models. LangCh
 
 At the moment this only deals with output and does not return other information (token counts, stop reasons, etc).
 
-
 ```python
 import openai
 from langchain_community.adapters import openai as lc_openai
@@ -16,13 +15,11 @@ from langchain_community.adapters import openai as lc_openai
 
 ## ChatCompletion.create
 
-
 ```python
 messages = [{"role": "user", "content": "hi"}]
 ```
 
 Original OpenAI call
-
 
 ```python
 result = openai.ChatCompletion.create(
@@ -31,15 +28,11 @@ result = openai.ChatCompletion.create(
 result["choices"][0]["message"].to_dict_recursive()
 ```
 
-
-
 ```output
 {'role': 'assistant', 'content': 'Hello! How can I assist you today?'}
 ```
 
-
 LangChain OpenAI wrapper call
-
 
 ```python
 lc_result = lc_openai.ChatCompletion.create(
@@ -48,15 +41,11 @@ lc_result = lc_openai.ChatCompletion.create(
 lc_result["choices"][0]["message"]
 ```
 
-
-
 ```output
 {'role': 'assistant', 'content': 'Hello! How can I assist you today?'}
 ```
 
-
 Swapping out model providers
-
 
 ```python
 lc_result = lc_openai.ChatCompletion.create(
@@ -65,17 +54,13 @@ lc_result = lc_openai.ChatCompletion.create(
 lc_result["choices"][0]["message"]
 ```
 
-
-
 ```output
 {'role': 'assistant', 'content': ' Hello!'}
 ```
 
-
 ## ChatCompletion.stream
 
 Original OpenAI call
-
 
 ```python
 for c in openai.ChatCompletion.create(
@@ -83,6 +68,7 @@ for c in openai.ChatCompletion.create(
 ):
     print(c["choices"][0]["delta"].to_dict_recursive())
 ```
+
 ```output
 {'role': 'assistant', 'content': ''}
 {'content': 'Hello'}
@@ -96,8 +82,8 @@ for c in openai.ChatCompletion.create(
 {'content': '?'}
 {}
 ```
-LangChain OpenAI wrapper call
 
+LangChain OpenAI wrapper call
 
 ```python
 for c in lc_openai.ChatCompletion.create(
@@ -105,6 +91,7 @@ for c in lc_openai.ChatCompletion.create(
 ):
     print(c["choices"][0]["delta"])
 ```
+
 ```output
 {'role': 'assistant', 'content': ''}
 {'content': 'Hello'}
@@ -118,8 +105,8 @@ for c in lc_openai.ChatCompletion.create(
 {'content': '?'}
 {}
 ```
-Swapping out model providers
 
+Swapping out model providers
 
 ```python
 for c in lc_openai.ChatCompletion.create(
@@ -131,6 +118,7 @@ for c in lc_openai.ChatCompletion.create(
 ):
     print(c["choices"][0]["delta"])
 ```
+
 ```output
 {'role': 'assistant', 'content': ' Hello'}
 {'content': '!'}

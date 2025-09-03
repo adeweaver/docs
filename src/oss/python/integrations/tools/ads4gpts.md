@@ -4,7 +4,6 @@ title: ADS4GPTs
 
 Integrate AI native advertising into your Agentic application.
 
-
 ## Overview
 
 This notebook outlines how to use the ADS4GPTs Tools and Toolkit in LangChain directly. In your LangGraph application though you will most likely use our prebuilt LangGraph agents.
@@ -12,8 +11,8 @@ This notebook outlines how to use the ADS4GPTs Tools and Toolkit in LangChain di
 ## Setup
 
 ### Install ADS4GPTs Package
-Install the ADS4GPTs package using pip.
 
+Install the ADS4GPTs package using pip.
 
 ```python
 # Install ADS4GPTs Package
@@ -22,7 +21,6 @@ Install the ADS4GPTs package using pip.
 ```
 
 Set up the environment variables for API authentication ([Obtain API Key](https://www.ads4gpts.com)).
-
 
 ```python
 # Setup Environment Variables
@@ -37,7 +35,6 @@ Import the necessary libraries, including ADS4GPTs tools and toolkit.
 
 Initialize the ADS4GPTs tools such as Ads4gptsInlineSponsoredResponseTool. We are going to work with one tool because the process is the same for every other tool we provide.
 
-
 ```python
 # Import Required Libraries
 
@@ -46,7 +43,6 @@ from getpass import getpass
 
 from ads4gpts_langchain import Ads4gptsInlineSponsoredResponseTool, Ads4gptsToolkit
 ```
-
 
 ```python
 # Initialize ADS4GPTs Tools
@@ -57,8 +53,8 @@ inline_sponsored_response_tool = Ads4gptsInlineSponsoredResponseTool(
 ```
 
 ### Toolkit Instantiation
-Initialize the Ads4gptsToolkit with the required parameters.
 
+Initialize the Ads4gptsToolkit with the required parameters.
 
 ```python
 # Toolkit Initialization
@@ -74,14 +70,15 @@ tools = toolkit.get_tools()
 for tool in tools:
     print(f"Initialized tool: {tool.__class__.__name__}")
 ```
+
 ```output
 Initialized tool: Ads4gptsInlineSponsoredResponseTool
 Initialized tool: Ads4gptsSuggestedPromptTool
 ```
+
 ## Invocation
 
 Run the ADS4GPTs tools with sample inputs and display the results.
-
 
 ```python
 # Run ADS4GPTs Tools
@@ -104,12 +101,14 @@ inline_sponsored_response_result = inline_sponsored_response_tool._run(
 )
 print("Inline Sponsored Response Result:", inline_sponsored_response_result)
 ```
+
 ```output
 Inline Sponsored Response Result: {'ad_text': '<- Promoted Content ->\n\nLearn the sartorial ways and get your handmade tailored suit by the masters themselves with Bespoke Tailors. [Subscribe now](https://youtube.com/@bespoketailorsdubai?si=9iH587ujoWKkueFa)\n\n<->'}
 ```
-### Async Run ADS4GPTs Tools
-Run the ADS4GPTs tools asynchronously with sample inputs and display the results.
 
+### Async Run ADS4GPTs Tools
+
+Run the ADS4GPTs tools asynchronously with sample inputs and display the results.
 
 ```python
 import asyncio
@@ -123,12 +122,14 @@ async def run_ads4gpts_tools_async():
     )
     print("Async Inline Sponsored Response Result:", inline_sponsored_response_result)
 ```
+
 ```output
 Async Inline Sponsored Response Result: {'ad_text': '<- Promoted Content ->\n\nGet the best tailoring content from Jonathan Farley. Learn to tie 100 knots and more! [Subscribe now](https://www.youtube.com/channel/UCx5hk4LN3p02jcUt3j_cexQ)\n\n<->'}
 ```
-### Toolkit Invocation
-Use the Ads4gptsToolkit to get and run tools.
 
+### Toolkit Invocation
+
+Use the Ads4gptsToolkit to get and run tools.
 
 ```python
 # Sample input data for the tools
@@ -159,19 +160,18 @@ async def run_toolkit_tools_async():
 # Execute the async function
 await run_toolkit_tools_async()
 ```
+
 ```output
 Result from Ads4gptsInlineSponsoredResponseTool: {'ad_text': '<- Promoted Content ->\n\nLearn the sartorial ways and get your handmade tailored suit by the masters themselves with Bespoke Tailors. [Subscribe now](https://youtube.com/@bespoketailorsdubai?si=9iH587ujoWKkueFa)\n\n<->'}
 Async result from Ads4gptsInlineSponsoredResponseTool: {'ad_text': '<- Promoted Content ->\n\nGet the best tailoring content from Jonathan Farley. Learn to tie 100 knots and more! [Subscribe now](https://www.youtube.com/channel/UCx5hk4LN3p02jcUt3j_cexQ)\n\n<->'}
 ```
+
 ## Chaining
-
-
 
 ```python
 if not os.environ.get("OPENAI_API_KEY"):
     os.environ["OPENAI_API_KEY"] = getpass("Enter your OPENAI_API_KEY API key: ")
 ```
-
 
 ```python
 import os
@@ -185,9 +185,11 @@ model_response = model.invoke(
 )
 print("Tool call:", model_response)
 ```
+
 ```output
 Tool call: content='' additional_kwargs={'tool_calls': [{'id': 'call_XLR5UjF8JhylVHvrk9mTjhj8', 'function': {'arguments': '{"id":"unique_user_id_001","user_gender":"male","user_age":"18-24","ad_recommendation":"Stylish and trendy clothing suitable for young men going out with friends.","undesired_ads":"formal wear, women\'s clothing, children\'s clothing","context":"A young man looking for clothing to go out with friends","num_ads":1,"style":"youthful and trendy","ad_format":"INLINE_SPONSORED_RESPONSE"}', 'name': 'ads4gpts_inline_sponsored_response'}, 'type': 'function'}], 'refusal': None} response_metadata={'token_usage': {'completion_tokens': 106, 'prompt_tokens': 1070, 'total_tokens': 1176, 'completion_tokens_details': {'accepted_prediction_tokens': 0, 'audio_tokens': 0, 'reasoning_tokens': 0, 'rejected_prediction_tokens': 0}, 'prompt_tokens_details': {'audio_tokens': 0, 'cached_tokens': 1024}}, 'model_name': 'gpt-4o-2024-08-06', 'system_fingerprint': 'fp_eb9dce56a8', 'finish_reason': 'tool_calls', 'logprobs': None} id='run-e3e64b4b-4505-4a71-bf02-a8d77bb68eee-0' tool_calls=[{'name': 'ads4gpts_inline_sponsored_response', 'args': {'id': 'unique_user_id_001', 'user_gender': 'male', 'user_age': '18-24', 'ad_recommendation': 'Stylish and trendy clothing suitable for young men going out with friends.', 'undesired_ads': "formal wear, women's clothing, children's clothing", 'context': 'A young man looking for clothing to go out with friends', 'num_ads': 1, 'style': 'youthful and trendy', 'ad_format': 'INLINE_SPONSORED_RESPONSE'}, 'id': 'call_XLR5UjF8JhylVHvrk9mTjhj8', 'type': 'tool_call'}] usage_metadata={'input_tokens': 1070, 'output_tokens': 106, 'total_tokens': 1176, 'input_token_details': {'audio': 0, 'cache_read': 1024}, 'output_token_details': {'audio': 0, 'reasoning': 0}}
 ```
+
 ## API reference
 
 You can learn more about ADS4GPTs and the tools at our [GitHub](https://github.com/ADS4GPTs/ads4gpts/tree/main)

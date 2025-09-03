@@ -28,7 +28,6 @@ We'll demonstrate:
 3. Viewing the enriched messages.
 4. Vector search over the conversation history.
 
-
 ```python
 from uuid import uuid4
 
@@ -46,14 +45,12 @@ ZEP_API_URL = "http://localhost:8000"
 session_id = str(uuid4())  # This is a unique identifier for the user
 ```
 
-
 ```python
 # Provide your OpenAI key
 import getpass
 
 openai_key = getpass.getpass()
 ```
-
 
 ```python
 # Provide your Zep API key. Note that this is optional. See https://docs.getzep.com/deployment/auth
@@ -62,8 +59,6 @@ zep_api_key = getpass.getpass()
 ```
 
 ### Initialize the Zep Chat Message History Class and initialize the Agent
-
-
 
 ```python
 search = WikipediaAPIWrapper()
@@ -98,8 +93,6 @@ agent_chain = initialize_agent(
 ```
 
 ### Add some history data
-
-
 
 ```python
 # Preload some messages into the memory. The default message window is 12 messages. We want to push beyond this to demonstrate auto-summarization.
@@ -178,13 +171,12 @@ for msg in test_history:
 
 Doing so will automatically add the input and response to the Zep memory.
 
-
-
 ```python
 agent_chain.run(
     input="What is the book's relevance to the challenges facing contemporary society?",
 )
 ```
+
 ```output
 > Entering new  chain...
 Thought: Do I need to use a tool? No
@@ -193,19 +185,15 @@ AI: Parable of the Sower is a prescient novel that speaks to the challenges faci
 > Finished chain.
 ```
 
-
 ```output
 'Parable of the Sower is a prescient novel that speaks to the challenges facing contemporary society, such as climate change, inequality, and violence. It is a cautionary tale that warns of the dangers of unchecked greed and the need for individuals to take responsibility for their own lives and the lives of those around them.'
 ```
-
 
 ### Inspect the Zep memory
 
 Note the summary, and that the history has been enriched with token counts, UUIDs, and timestamps.
 
 Summaries are biased towards the most recent messages.
-
-
 
 ```python
 def print_messages(messages):
@@ -217,6 +205,7 @@ print(memory.chat_memory.zep_summary)
 print("\n")
 print_messages(memory.chat_memory.messages)
 ```
+
 ```output
 The human inquires about Octavia Butler. The AI identifies her as an American science fiction author. The human then asks which books of hers were made into movies. The AI responds by mentioning the FX series Kindred, based on her novel of the same name. The human then asks about her contemporaries, and the AI lists Ursula K. Le Guin, Samuel R. Delany, and Joanna Russ.
 
@@ -240,13 +229,12 @@ human :
 ai :
  {'content': 'Parable of the Sower is a prescient novel that speaks to the challenges facing contemporary society, such as climate change, inequality, and violence. It is a cautionary tale that warns of the dangers of unchecked greed and the need for individuals to take responsibility for their own lives and the lives of those around them.', 'additional_kwargs': {'uuid': '3e14ac8f-b7c1-4360-958b-9f3eae1f784f', 'created_at': '2023-07-09T19:23:19.332517Z', 'token_count': 66, 'metadata': {'system': {'entities': [{'Label': 'GPE', 'Matches': [{'End': 20, 'Start': 15, 'Text': 'Sower'}], 'Name': 'Sower'}], 'intent': 'The subject is providing an analysis and evaluation of the novel "Parable of the Sower" and highlighting its relevance to contemporary societal challenges.'}}}, 'example': False}
 ```
+
 ### Vector search over the Zep memory
 
 Zep provides native vector search over historical conversation memory via the `ZepRetriever`.
 
 You can use the `ZepRetriever` with chains that support passing in a Langchain `Retriever` object.
-
-
 
 ```python
 retriever = ZepRetriever(
@@ -260,6 +248,7 @@ for r in search_results:
     if r.dist > 0.8:  # Only print results with similarity of 0.8 or higher
         print(r.message, r.dist)
 ```
+
 ```output
 {'uuid': 'ccdcc901-ea39-4981-862f-6fe22ab9289b', 'created_at': '2023-07-09T19:23:16.62678Z', 'role': 'human', 'content': 'Which other women sci-fi writers might I want to read?', 'metadata': {'system': {'entities': [], 'intent': 'The subject is seeking recommendations for additional women science fiction writers to explore.'}}, 'token_count': 14} 0.9119619869747062
 {'uuid': '7977099a-0c62-4c98-bfff-465bbab6c9c3', 'created_at': '2023-07-09T19:23:16.631721Z', 'role': 'ai', 'content': 'You might want to read Ursula K. Le Guin or Joanna Russ.', 'metadata': {'system': {'entities': [{'Label': 'ORG', 'Matches': [{'End': 40, 'Start': 23, 'Text': 'Ursula K. Le Guin'}], 'Name': 'Ursula K. Le Guin'}, {'Label': 'PERSON', 'Matches': [{'End': 55, 'Start': 44, 'Text': 'Joanna Russ'}], 'Name': 'Joanna Russ'}], 'intent': 'The subject is suggesting that the person should consider reading the works of Ursula K. Le Guin or Joanna Russ.'}}, 'token_count': 18} 0.8534346954749745

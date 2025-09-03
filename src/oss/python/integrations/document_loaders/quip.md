@@ -18,9 +18,7 @@ Specify a list `folder_ids` and/or `thread_ids` to load in the corresponding doc
 You can also set `include_all_folders` as `True` will fetch group_folder_ids and
 You can also specify a boolean `include_attachments` to include attachments, this is set to False by default, if set to True all attachments will be downloaded and QuipLoader will extract the text from the attachments and add it to the Document object. Currently supported attachment types are: `PDF`, `PNG`, `JPEG/JPG`, `SVG`, `Word` and `Excel`. Also you can sepcify a boolean `include_comments` to include comments in document, this is set to False by default, if set to True all comments in document will be fetched and QuipLoader will add them to Document objec.
 
-
 Before using QuipLoader make sure you have the latest version of the quip-api package installed:
-
 
 ```python
 %pip install --upgrade --quiet  quip-api
@@ -29,7 +27,6 @@ Before using QuipLoader make sure you have the latest version of the quip-api pa
 ## Examples
 
 ### Personal Access Token
-
 
 ```python
 from langchain_community.document_loaders.quip import QuipLoader

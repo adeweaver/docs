@@ -7,6 +7,7 @@ title: ChatXAI
 This guide will help you getting started with `ChatXAI` [chat models](/oss/concepts/chat_models). For detailed documentation of all `ChatXAI` features and configurations head to the [API reference](https://api.js.langchain.com/classes/_langchain_xai.ChatXAI.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | PY support | Package downloads | Package latest |
@@ -54,10 +55,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```typescript
 import { ChatXAI } from "@langchain/xai"
@@ -70,8 +71,8 @@ const llm = new ChatXAI({
     // other params...
 })
 ```
-## Invocation
 
+## Invocation
 
 ```typescript
 const aiMsg = await llm.invoke([
@@ -83,6 +84,7 @@ const aiMsg = await llm.invoke([
 ])
 console.log(aiMsg)
 ```
+
 ```output
 AIMessage {
   "id": "71d7e3d8-30dd-472c-8038-b6b283dcee63",
@@ -117,13 +119,14 @@ AIMessage {
 ```typescript
 console.log(aiMsg.content)
 ```
+
 ```output
 J'adore programmer.
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts"
@@ -147,6 +150,7 @@ await chain.invoke(
   }
 )
 ```
+
 ```output
 AIMessage {
   "id": "b2738008-8247-40e1-81dc-d9bf437a1a0c",
@@ -177,8 +181,9 @@ AIMessage {
   }
 }
 ```
+
 Behind the scenes, xAI uses the OpenAI SDK and OpenAI compatible API.
 
 ## API reference
 
-For detailed documentation of all ChatXAI features and configurations head to the API reference: https://api.js.langchain.com/classes/_langchain_xai.ChatXAI.html
+For detailed documentation of all ChatXAI features and configurations head to the [API reference](https://api.js.langchain.com/classes/_langchain_xai.ChatXAI.html).

@@ -8,17 +8,14 @@ To learn more about prompt engineering and the callback please refer to this not
 
 <a href="https://colab.research.google.com/drive/1DXH4beT4HFaRKy_Vm4PoxhXVDRf7Ym8L?usp=sharing" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
-
 View a detailed description and examples in the [W&B article](https://wandb.ai/a-sh0ts/langchain_callback_demo/reports/Prompt-Engineering-LLMs-with-LangChain-and-W-B--VmlldzozNjk1NTUw#👋-how-to-build-a-callback-in-langchain-for-better-prompt-engineering
 ).
-
 
 **Note**: _the `WandbCallbackHandler` is being deprecated in favour of the `WandbTracer`_ . In future please use the `WandbTracer` as it is more flexible and allows for more granular logging.
 
 To know more about the `WandbTracer` refer to the [agent_with_wandb_tracing](/oss/integrations/providers/wandb_tracing) notebook or use the following [colab notebook](http://wandb.me/prompts-quickstart).
 
 To know more about Weights & Biases Prompts refer to the following [prompts documentation](https://docs.wandb.ai/guides/prompts).
-
 
 ```python
 %pip install --upgrade --quiet  wandb
@@ -28,7 +25,6 @@ To know more about Weights & Biases Prompts refer to the following [prompts docu
 !python -m spacy download en_core_web_sm
 ```
 
-
 ```python
 import os
 
@@ -36,7 +32,6 @@ os.environ["WANDB_API_KEY"] = ""
 # os.environ["OPENAI_API_KEY"] = ""
 # os.environ["SERPAPI_API_KEY"] = ""
 ```
-
 
 ```python
 from datetime import datetime
@@ -70,9 +65,7 @@ complexity_metrics: bool = False,
 stream_logs: bool = False,
 ```
 
-
 NOTE: For beta workflows we have made the default analysis based on textstat and the visualizations based on spacy
-
 
 ```python
 """Main function.
@@ -94,9 +87,11 @@ wandb_callback = WandbCallbackHandler(
 callbacks = [StdOutCallbackHandler(), wandb_callback]
 llm = OpenAI(temperature=0, callbacks=callbacks)
 ```
+
 ```output
 wandb: Currently logged in as: harrison-chase. Use `wandb login --relogin` to force relogin
 ```
+
 ```html
 Tracking run with wandb version 0.14.0
 ```
@@ -116,10 +111,10 @@ View project at <a href='https://wandb.ai/harrison-chase/langchain_callback_demo
 ```html
 View run at <a href='https://wandb.ai/harrison-chase/langchain_callback_demo/runs/e47j1914' target="_blank">https://wandb.ai/harrison-chase/langchain_callback_demo/runs/e47j1914</a>
 ```
+
 ```output
 wandb: WARNING The wandb callback is currently in beta and is subject to change based on updates to `langchain`. Please report any issues to https://github.com/wandb/wandb/issues with the tag `langchain`.
 ```
-
 
 ```
 # Defaults for WandbCallbackHandler.flush_tracker(...)
@@ -128,14 +123,11 @@ reset: bool = True,
 finish: bool = False,
 ```
 
-
-
 The `flush_tracker` function is used to log LangChain sessions to Weights & Biases. It takes in the LangChain module or agent, and logs at minimum the prompts and generations alongside the serialized form of the LangChain module to the specified Weights & Biases project. By default we reset the session as opposed to concluding the session outright.
 
 ## Usage Scenarios
 
 ### With LLM
-
 
 ```python
 # SCENARIO 1 - LLM
@@ -181,12 +173,10 @@ View run at <a href='https://wandb.ai/harrison-chase/langchain_callback_demo/run
 
 ### Within Chains
 
-
 ```python
 from langchain.chains import LLMChain
 from langchain_core.prompts import PromptTemplate
 ```
-
 
 ```python
 # SCENARIO 2 - Chain
@@ -245,11 +235,9 @@ View run at <a href='https://wandb.ai/harrison-chase/langchain_callback_demo/run
 
 ### With Agents
 
-
 ```python
 from langchain.agents import AgentType, initialize_agent, load_tools
 ```
-
 
 ```python
 # SCENARIO 3 - Agent with Tools
@@ -265,6 +253,7 @@ agent.run(
 )
 wandb_callback.flush_tracker(agent, reset=False, finish=True)
 ```
+
 ```output
 > Entering new AgentExecutor chain...
  I need to find out who Leo DiCaprio's girlfriend is and then calculate her age raised to the 0.43 power.
@@ -281,6 +270,7 @@ Final Answer: Leo DiCaprio's girlfriend is Camila Morrone and her current age ra
 
 > Finished chain.
 ```
+
 ```html
 Waiting for W&B process to finish... <strong style="color:green">(success).</strong>
 ```
@@ -292,7 +282,6 @@ View run <strong style="color:#cdcd00">agent</strong> at: <a href='https://wandb
 ```html
 Find logs at: <code>./wandb/run-20230318_150550-wzy59zjq/logs</code>
 ```
-
 
 ```python
 

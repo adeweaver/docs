@@ -12,6 +12,7 @@ You may be looking for [this page instead](/oss/integrations/chat/google_vertex_
 </Warning>
 
 ```
+
 [Google Vertex](https://cloud.google.com/vertex-ai) is a service that exposes all foundation models available in Google Cloud, like `gemini-1.5-pro`, `gemini-1.5-flash`, etc.
 
 This will help you get started with VertexAI completion models (LLMs) using LangChain. For detailed documentation on `VertexAI` features and configuration options, please refer to the [API reference](https://api.js.langchain.com/classes/langchain_google_vertexai.VertexAI.html).
@@ -59,6 +60,7 @@ Then, you'll need to add your service account credentials directly as a `GOOGLE_
 ```
 GOOGLE_VERTEX_AI_WEB_CREDENTIALS={"type":"service_account","project_id":"YOUR_PROJECT-12345",...}
 ```
+
 You can also pass your credentials directly in code like this:
 
 ```typescript
@@ -72,12 +74,14 @@ const model = new VertexAI({
   },
 });
 ```
+
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
 ```bash
 # export LANGSMITH_TRACING="true"
 # export LANGSMITH_API_KEY="your-api-key"
 ```
+
 ### Installation
 
 The LangChain VertexAI integration lives in the `@langchain/google-vertexai` package:
@@ -97,10 +101,10 @@ or for web environments:
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```typescript
 import { VertexAI } from "@langchain/google-vertexai-web"
@@ -112,8 +116,8 @@ const llm = new VertexAI({
   // other params...
 })
 ```
-## Invocation
 
+## Invocation
 
 ```typescript
 const inputText = "VertexAI is an AI company that "
@@ -121,6 +125,7 @@ const inputText = "VertexAI is an AI company that "
 const completion = await llm.invoke(inputText)
 completion
 ```
+
 ```txt
 offers a wide range of cloud computing services and artificial intelligence solutions to businesses and developers worldwide.
 ```
@@ -128,7 +133,6 @@ offers a wide range of cloud computing services and artificial intelligence solu
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our completion model with a prompt template like so:
-
 
 ```typescript
 import { PromptTemplate } from "@langchain/core/prompts"
@@ -165,4 +169,4 @@ Both versions are correct and commonly used.
 
 ## API reference
 
-For detailed documentation of all VertexAI features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_google_vertexai.VertexAI.html
+For detailed documentation of all VertexAI features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_google_vertexai.VertexAI.html).

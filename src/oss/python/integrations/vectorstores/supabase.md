@@ -11,6 +11,7 @@ This notebook shows how to use `Supabase` and `pgvector` as your VectorStore.
 You'll need to install `langchain-community` with `pip install -qU langchain-community` to use this integration
 
 To run this notebook, please ensure:
+
 - the `pgvector` extension is enabled
 - you have installed the `supabase-py` package
 - that you have created a `match_documents` function in your database
@@ -56,7 +57,6 @@ end;
 $$;
 ```
 
-
 ```python
 # with pip
 %pip install --upgrade --quiet  supabase
@@ -67,7 +67,6 @@ $$;
 
 We want to use `OpenAIEmbeddings` so we have to get the OpenAI API Key.
 
-
 ```python
 import getpass
 import os
@@ -76,18 +75,15 @@ if "OPENAI_API_KEY" not in os.environ:
     os.environ["OPENAI_API_KEY"] = getpass.getpass("OpenAI API Key:")
 ```
 
-
 ```python
 if "SUPABASE_URL" not in os.environ:
     os.environ["SUPABASE_URL"] = getpass.getpass("Supabase URL:")
 ```
 
-
 ```python
 if "SUPABASE_SERVICE_KEY" not in os.environ:
     os.environ["SUPABASE_SERVICE_KEY"] = getpass.getpass("Supabase Service Key:")
 ```
-
 
 ```python
 # If you're storing your Supabase and OpenAI API keys in a .env file, you can load them with dotenv
@@ -97,7 +93,6 @@ load_dotenv()
 ```
 
 First we'll create a Supabase client and instantiate a OpenAI embeddings class.
-
 
 ```python
 import os
@@ -115,7 +110,6 @@ embeddings = OpenAIEmbeddings()
 
 Next we'll load and parse some data for our vector store (skip if you already have documents with embeddings stored in your DB).
 
-
 ```python
 from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import CharacterTextSplitter
@@ -127,7 +121,6 @@ docs = text_splitter.split_documents(documents)
 ```
 
 Insert the above documents into the database. Embeddings will automatically be generated for each document. You can adjust the chunk_size based on the amount of documents you have. The default is 500 but lowering it may be necessary.
-
 
 ```python
 vector_store = SupabaseVectorStore.from_documents(
@@ -142,7 +135,6 @@ vector_store = SupabaseVectorStore.from_documents(
 
 Alternatively if you already have documents with embeddings in your database, simply instantiate a new `SupabaseVectorStore` directly:
 
-
 ```python
 vector_store = SupabaseVectorStore(
     embedding=embeddings,
@@ -154,16 +146,15 @@ vector_store = SupabaseVectorStore(
 
 Finally, test it out by performing a similarity search:
 
-
 ```python
 query = "What did the president say about Ketanji Brown Jackson"
 matched_docs = vector_store.similarity_search(query)
 ```
 
-
 ```python
 print(matched_docs[0].page_content)
 ```
+
 ```output
 Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections.
 
@@ -173,28 +164,23 @@ One of the most serious constitutional responsibilities a President has is nomin
 
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.
 ```
+
 ## Similarity search with score
 
-
 The returned distance score is cosine distance. Therefore, a lower score is better.
-
 
 ```python
 matched_docs = vector_store.similarity_search_with_relevance_scores(query)
 ```
 
-
 ```python
 matched_docs[0]
 ```
-
-
 
 ```output
 (Document(page_content='Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections. \n\nTonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service. \n\nOne of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. \n\nAnd I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.', metadata={'source': '../../../state_of_the_union.txt'}),
  0.802509746274066)
 ```
-
 
 ## Retriever options
 
@@ -204,23 +190,20 @@ This section goes over different options for how to use SupabaseVectorStore as a
 
 In addition to using similarity search in the retriever object, you can also use `mmr`.
 
-
-
 ```python
 retriever = vector_store.as_retriever(search_type="mmr")
 ```
 
-
 ```python
 matched_docs = retriever.invoke(query)
 ```
-
 
 ```python
 for i, d in enumerate(matched_docs):
     print(f"\n## Document {i}\n")
     print(d.page_content)
 ```
+
 ```output
 ## Document 0
 
