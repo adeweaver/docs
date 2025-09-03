@@ -82,10 +82,8 @@ def _enrich_package(p: dict) -> dict | None:
     )
     if custom_provider_page:
         p["provider_page"] = f"/oss/integrations/providers/{custom_provider_page}"
-        print(f"Custom: {custom_provider_page}")
     elif default_provider_page_exists:
         p["provider_page"] = default_provider_page
-        print(f"Default: {default_provider_page}")
     else:
         msg = (
             f"Provider page not found for {p['name_short']}. "
