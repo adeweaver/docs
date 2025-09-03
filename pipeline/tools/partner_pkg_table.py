@@ -145,7 +145,7 @@ If you'd like to contribute an integration, see [Contributing integrations](/oss
 
 </Info>
 
-## Integration Packages
+## Integration packages
 
 These providers have standalone `langchain-{{provider}}` packages for improved versioning, dependency management and testing.
 
