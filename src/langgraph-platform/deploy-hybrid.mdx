@@ -38,7 +38,11 @@ The Hybrid deployment option requires an [Enterprise](/langgraph-platform/plans)
     3. Enter a unique `Compute ID` for the listener. The `Compute ID` is a user-defined identifier that should be unique across all listeners in the current LangSmith workspace. The `Compute ID` is displayed to end users when they are creating a new deployment. Ensure that the `Compute ID` provides context to the end user about where their LangGraph Server deployments will be deployed to. For example, a `Compute ID` can be set to `k8s-cluster-name-dev-01`. In this example, the name of the Kubernetes cluster is `k8s-cluster-name`, `dev` denotes that the cluster is reserved for "development" workloads, and `01` is a numerical suffix to reduce naming collisions.
     4. Enter one or more Kubernetes namespaces. Later, the "listener" application will be configured to deploy to each of these namespaces.
     5. In the top-right on the page, select `Submit`.
-    6. After the listener is created, copy the listener ID. You will use it later when installing the actual "listener" application in the Kubernetes cluster (step 5). **Note**: Creating a listener from the LangSmith UI does not install the "listener" application in the Kubernetes cluster.
+    6. After the listener is created, copy the listener ID. You will use it later when installing the actual "listener" application in the Kubernetes cluster (step 5).
+    <Info>
+    **Important**
+    Creating a listener from the LangSmith UI does not install the "listener" application in the Kubernetes cluster.
+    </Info>
 3. A [Helm chart](https://github.com/langchain-ai/helm/tree/main/charts/langgraph-dataplane) is provided to install the necesssary components in your Kubernetes cluster.
     - `langgraph-listener`: This is a service that listens to LangChain's [control plane](/langgraph-platform/control-plane) for changes to your deployments and creates/updates downstream CRDs. This is the ["listener" application](/langgraph-platform/data-plane#”listener”-application).
     - `LangGraphPlatform CRD`: A CRD for LangGraph Platform deployments. This contains the spec for managing an instance of a LangGraph Platform deployment.
