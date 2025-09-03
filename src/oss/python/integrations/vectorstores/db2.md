@@ -5,10 +5,10 @@ title: IBM Db2 Vector Store and Vector Search
 LangChain's Db2 integration (langchain-db2) provides vector store and vector search capabilities for working with IBM relational database Db2 version v12.1.2 and above, distributed under the MIT license. Users can use the provided implementations as-is or customize them for specific needs.
  Key features include:
 
- * Vector storage with metadata
- * Vector similarity search and max marginal relevance search, with metadata filtering options
- * Support for dot production, cosine, and euclidean distance metrics
- * Performance optimization by index creation and Approximate nearest neighbors search. (Will be added shortly)
+* Vector storage with metadata
+* Vector similarity search and max marginal relevance search, with metadata filtering options
+* Support for dot production, cosine, and euclidean distance metrics
+* Performance optimization by index creation and Approximate nearest neighbors search. (Will be added shortly)
 
 ## Setup
 
@@ -18,7 +18,6 @@ Install package `langchain-db2` which is the integration package for the db2 Lan
 
 The installation of the package should also install its dependencies like `langchain-core` and `ibm_db`.
 
-
 ```python
 # pip install -U langchain-db2
 ```
@@ -26,7 +25,6 @@ The installation of the package should also install its dependencies like `langc
 ### Connect to Db2 Vector Store
 
 The following sample code will show how to connect to Db2 Database. Besides the dependencies above, you will need a Db2 database instance (with version v12.1.2+, which has the vector datatype support) running.
-
 
 ```python
 import ibm_db
@@ -45,7 +43,6 @@ except Exception as e:
 
 ### Import the required dependencies
 
-
 ```python
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores.utils import DistanceStrategy
@@ -57,7 +54,6 @@ from langchain_db2.db2vs import DB2VS
 ## Initialization
 
 ### Create Documents
-
 
 ```python
 # Define a list of documents
@@ -85,7 +81,6 @@ documents_json_list = [
 ]
 ```
 
-
 ```python
 # Create Langchain Documents
 
@@ -103,8 +98,6 @@ First we will create three vector stores each with different distance strategies
 
 (You can manually connect to the Db2 Database and will see three tables :
 Documents_DOT, Documents_COSINE and Documents_EUCLIDEAN. )
-
-
 
 ```python
 # Create Db2 Vector Stores using different distance strategies
@@ -141,8 +134,6 @@ vector_store_euclidean = DB2VS.from_documents(
 ## Manage vector store
 
 ### Demonstrating add and delete operations for texts, along with basic similarity search
-
-
 
 ```python
 def manage_texts(vector_stores):
@@ -189,7 +180,6 @@ manage_texts(vector_store_list)
 ### Demonstrate advanced searches on vector stores, with and without attribute filtering
 
 With filtering, we only select the document id 101 and nothing else
-
 
 ```python
 # Conduct advanced searches

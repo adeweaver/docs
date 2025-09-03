@@ -8,7 +8,6 @@ This example goes over how to use LangChain to interact with xAI models.
 
 ## Installation
 
-
 ```python
 %pip install --upgrade langchain-xai
 ```
@@ -20,7 +19,6 @@ To use xAI, you'll need to [create an API key](https://console.x.ai/). The API k
 ## Example
 
 See [ChatXAI docs](/oss/integrations/chat/xai) for detail and supported features.
-
 
 ```python
 # Querying chat models with xAI

@@ -12,7 +12,6 @@ See [PromptLayer docs](https://docs.promptlayer.com/languages/langchain) for mor
 
 ## Installation and Setup
 
-
 ```python
 %pip install --upgrade --quiet  langchain-community promptlayer --upgrade
 ```
@@ -22,10 +21,10 @@ See [PromptLayer docs](https://docs.promptlayer.com/languages/langchain) for mor
 If you do not have a PromptLayer account, create one on [promptlayer.com](https://www.promptlayer.com). Then get an API key by clicking on the settings cog in the navbar and
 set it as an environment variable called `PROMPTLAYER_API_KEY`
 
-
 ## Usage
 
 Getting started with `PromptLayerCallbackHandler` is fairly simple, it takes two optional arguments:
+
 1. `pl_tags` - an optional list of strings that will be tracked as tags on PromptLayer.
 2. `pl_id_callback` - an optional function that will take `promptlayer_request_id` as an argument. This ID can be used with all of PromptLayer's tracking features to track, metadata, scores, and prompt usage.
 
@@ -33,14 +32,12 @@ Getting started with `PromptLayerCallbackHandler` is fairly simple, it takes two
 
 In this simple example we use `PromptLayerCallbackHandler` with `ChatOpenAI`. We add a PromptLayer tag named `chatopenai`
 
-
 ```python
 import promptlayer  # Don't forget this 🍰
 from langchain_community.callbacks.promptlayer_callback import (
     PromptLayerCallbackHandler,
 )
 ```
-
 
 ```python
 from langchain_core.messages import HumanMessage
@@ -61,7 +58,6 @@ print(llm_results)
 
 ## GPT4All Example
 
-
 ```python
 from langchain_community.llms import GPT4All
 
@@ -81,7 +77,6 @@ In this example, we unlock more of the power of `PromptLayer`.
 PromptLayer allows you to visually create, version, and track prompt templates. Using the [Prompt Registry](https://docs.promptlayer.com/features/prompt-registry), we can programmatically fetch the prompt template called `example`.
 
 We also define a `pl_id_callback` function which takes in the `promptlayer_request_id` and logs a score, metadata and links the prompt template used. Read more about tracking on [our docs](https://docs.promptlayer.com/features/prompt-history/request-id).
-
 
 ```python
 from langchain_openai import OpenAI

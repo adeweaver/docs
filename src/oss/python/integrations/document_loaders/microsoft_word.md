@@ -10,11 +10,9 @@ This covers how to load `Word` documents into a document format that we can use 
 
 Load .docx using `Docx2txt` into a document.
 
-
 ```python
 %pip install --upgrade --quiet  docx2txt
 ```
-
 
 ```python
 from langchain_community.document_loaders import Docx2txtLoader
@@ -26,17 +24,13 @@ data = loader.load()
 data
 ```
 
-
-
 ```output
 [Document(page_content='Lorem ipsum dolor sit amet.', metadata={'source': './example_data/fake.docx'})]
 ```
 
-
 ## Using Unstructured
 
 Please see [this guide](/oss/integrations/providers/unstructured/) for more instructions on setting up Unstructured locally, including setting up required system dependencies.
-
 
 ```python
 from langchain_community.document_loaders import UnstructuredWordDocumentLoader
@@ -48,17 +42,13 @@ data = loader.load()
 data
 ```
 
-
-
 ```output
 [Document(page_content='Lorem ipsum dolor sit amet.', metadata={'source': 'example_data/fake.docx'})]
 ```
 
-
 ### Retain Elements
 
 Under the hood, Unstructured creates different "elements" for different chunks of text. By default we combine those together, but you can easily keep that separation by specifying `mode="elements"`.
-
 
 ```python
 loader = UnstructuredWordDocumentLoader("./example_data/fake.docx", mode="elements")
@@ -68,12 +58,9 @@ data = loader.load()
 data[0]
 ```
 
-
-
 ```output
 Document(page_content='Lorem ipsum dolor sit amet.', metadata={'source': './example_data/fake.docx', 'category_depth': 0, 'file_directory': './example_data', 'filename': 'fake.docx', 'last_modified': '2023-12-19T13:42:18', 'languages': ['por', 'cat'], 'filetype': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'category': 'Title'})
 ```
-
 
 ## Using Azure AI Document Intelligence
 
@@ -85,13 +72,11 @@ Document(page_content='Lorem ipsum dolor sit amet.', metadata={'source': './exam
 
 This current implementation of a loader using `Document Intelligence` can incorporate content page-wise and turn it into LangChain documents. The default output format is markdown, which can be easily chained with `MarkdownHeaderTextSplitter` for semantic document chunking. You can also use `mode="single"` or `mode="page"` to return pure texts in a single page or document split by page.
 
-
 ## Prerequisite
 
 An Azure AI Document Intelligence resource in one of the 3 preview regions: **East US**, **West US2**, **West Europe** - follow [this document](https://learn.microsoft.com/azure/ai-services/document-intelligence/create-document-intelligence-resource?view=doc-intel-4.0.0) to create one if you don't have. You will be passing `<endpoint>` and `<key>` as parameters to the loader.
 
 %pip install --upgrade --quiet  langchain langchain-community azure-ai-documentintelligence
-
 
 ```python
 from langchain_community.document_loaders import AzureAIDocumentIntelligenceLoader

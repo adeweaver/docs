@@ -8,11 +8,9 @@ title: Amazon Kendra
 
 ## Using the Amazon Kendra Index Retriever
 
-
 ```python
 %pip install --upgrade --quiet  boto3
 ```
-
 
 ```python
 from langchain_community.retrievers import AmazonKendraRetriever
@@ -20,13 +18,11 @@ from langchain_community.retrievers import AmazonKendraRetriever
 
 Create New Retriever
 
-
 ```python
 retriever = AmazonKendraRetriever(index_id="c0806df7-e76b-4bce-9b5c-d5582f6b1a03")
 ```
 
 Now you can use retrieved documents from Kendra index
-
 
 ```python
 retriever.invoke("what is langchain")

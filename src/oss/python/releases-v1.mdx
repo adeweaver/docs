@@ -1,7 +1,6 @@
 ---
 title: LangChain Python v1.0
 sidebarTitle: v1.0
-description: LangChain Python v1 release information
 ---
 
 import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
@@ -23,39 +22,22 @@ import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
 
 LangChain 1.0 introduces new features:
 
-- A new `.content_blocks` property on message objects. This property provides a
-fully typed view of message content and standardizes modern LLM features across
-providers, including reasoning, citations, server-side tool calls, and more.
-There are no breaking changes associated with the new message content. Refer to
-the [message content](/oss/langchain-messages#content) docs for more info.
+- A new `.content_blocks` property on message objects. This property provides a fully typed view of message content and standardizes modern LLM features across providers, including reasoning, citations, server-side tool calls, and more. There are no breaking changes associated with the new message content. Refer to the [message content](/oss/langchain-messages#content) docs for more info.
 
-- New prebuilt `langgraph` chains and agents in `langchain`. The surface area of
-the `langchain` package has been reduced to focus on popular and essential
-abstractions. A new `langchain-legacy` package is available for backward
-compatibility. Refer to the new [agents docs](/oss/langchain-agents) and to the
-[release notes](https://github.com/langchain-ai/langchain/releases/tag/langchain%3D%3D1.0.0a1)
-for more detail.
+- New prebuilt `langgraph` chains and agents in `langchain`. The surface area of the `langchain` package has been reduced to focus on popular and essential abstractions. A new `langchain-legacy` package is available for backward compatibility. Refer to the new [agents docs](/oss/langchain-agents) and to the [release notes](https://github.com/langchain-ai/langchain/releases/tag/langchain%3D%3D1.0.0a1) for more detail.
 
 ## <Icon icon="ban" /> Breaking changes
 
 <Accordion title="Dropped Python 3.9 support" icon="python">
-    Python 3.9 is [end of life](https://devguide.python.org/versions/) in
-    October 2025. Consequently, all LangChain packages now require Python 3.10
-    or higher.
+    Python 3.9 is [end of life](https://devguide.python.org/versions/) in October 2025. Consequently, all LangChain packages now require Python 3.10 or higher.
 </Accordion>
 
 <Accordion title="Some legacy code moved to `langchain-legacy`">
-    The new `langchain` package features a reduced surface area that focuses on
-    standard interfaces for LangChain components (e.g., `init_chat_model` and
-    `init_embeddings`) as well as pre-built chains and agents backed by the
-    `langgraph` runtime.
+    The new `langchain` package features a reduced surface area that focuses on standard interfaces for LangChain components (e.g., `init_chat_model` and `init_embeddings`) as well as pre-built chains and agents backed by the `langgraph` runtime.
 
-    Existing functionality outside this focus, such as the indexing API and
-    exports of `langchain-community` features, have been moved to the
-    `langchain-legacy` package.
+    Existing functionality outside this focus, such as the indexing API and exports of `langchain-community` features, have been moved to the `langchain-legacy` package.
 
-    To restore the previous behavior, update package installs of `langchain` to
-    `langchain-legacy`, and replace imports:
+    To restore the previous behavior, update package installs of `langchain` to `langchain-legacy`, and replace imports:
 
     Before:
     ```python
@@ -69,9 +51,7 @@ for more detail.
 </Accordion>
 
 <Accordion title="Updated return type for chat models">
-    The return type signature for chat model invocation has been fixed from
-    `BaseMessage` to `AIMessage`. Custom chat models implementing `bind_tools`
-    should update their return signature to avoid type checker errors:
+    The return type signature for chat model invocation has been fixed from `BaseMessage` to `AIMessage`. Custom chat models implementing `bind_tools` should update their return signature to avoid type checker errors:
 
     Before:
     ```python
@@ -85,15 +65,9 @@ for more detail.
 </Accordion>
 
 <Accordion title="Default message format for OpenAI Responses API">
-    When interacting with the Responses API, `langchain-openai` now defaults to
-    storing response items in message `content`. This behavior was previously
-    opt-in by specifying `output_version="responses/v1"` when instantiating
-    `ChatOpenAI`. This was done to resolve `BadRequestError` that can arise in
-    some multi-turn contexts.
+    When interacting with the Responses API, `langchain-openai` now defaults to storing response items in message `content`. This behavior was previously opt-in by specifying `output_version="responses/v1"` when instantiating `ChatOpenAI`. This was done to resolve `BadRequestError` that can arise in some multi-turn contexts.
 
-    **To restore previous behavior**, set the `LC_OUTPUT_VERSION` environment
-    variable to `v0`, or specify `output_version="v0"` when instantiating
-    `ChatOpenAI`:
+    **To restore previous behavior**, set the `LC_OUTPUT_VERSION` environment variable to `v0`, or specify `output_version="v0"` when instantiating `ChatOpenAI`:
 
     ```python
     os.environ["LC_OUTPUT_VERSION"] = "v0"
@@ -107,15 +81,12 @@ for more detail.
 </Accordion>
 
 <Accordion title="Default `max_tokens` in `langchain-anthropic`">
-    The `max_tokens` parameter in `ChatAnthropic` will now default to new values
-    that are higher than the previous default of `1024`. The new default will
-    vary based on the model chosen.
+    The `max_tokens` parameter in `ChatAnthropic` will now default to new values that are higher than the previous default of `1024`. The new default will vary based on the model chosen.
 </Accordion>
 
 <Accordion title="Removal of deprecated objects">
 
-Methods, functions, and other objects that were already deprecated and slated
-for removal in 1.0 have been deleted.
+Methods, functions, and other objects that were already deprecated and slated for removal in 1.0 have been deleted.
 
 {/* TODO full list? */}
 
@@ -124,8 +95,7 @@ for removal in 1.0 have been deleted.
 ## <Icon icon="box-archive" /> Deprecations
 
 <Accordion title="`.text()` is now a property">
-    Use of the `.text()` method on message objects should be updated to drop the
-    parentheses:
+    Use of the `.text()` method on message objects should be updated to drop the parentheses:
 
     ```python
     # Before
@@ -135,20 +105,17 @@ for removal in 1.0 have been deleted.
     text = response.text    # Property access
     ```
 
-    Existing usage patterns (i.e., `.text()`) will continue to function but now
-    emit a warning.
+    Existing usage patterns (i.e., `.text()`) will continue to function but now emit a warning.
 </Accordion>
 
 
 ## <Icon icon="robot" /> Prebuilt agents
 
-The **`langchain`** release focuses on reducing LangChain's surface area and
-narrowing in on popular and essential abstractions.
+The **`langchain`** release focuses on reducing LangChain's surface area and narrowing in on popular and essential abstractions.
 
 ### ReAct agent migration
 
-**`create_react_agent` has moved from `langgraph` to `langchain`** with
-significant enhancements:
+**`create_react_agent` has moved from `langgraph` to `langchain`** with significant enhancements:
 
 **Enhanced structured output**
 
@@ -179,10 +146,8 @@ print(repr(result["structured_response"]))
 
 **Structural improvements**
 
-- **Main loop integration**: Structured output is now generated in the main loop
-instead of requiring an additional LLM call
-- **Tool/output choice**: Models can choose between calling tools, generating
-structured output, or both
+- **Main loop integration**: Structured output is now generated in the main loop instead of requiring an additional LLM call
+- **Tool/output choice**: Models can choose between calling tools, generating structured output, or both
 - **Cost reduction**: Eliminates extra expense from additional LLM calls
 
 **Advanced configuration**
@@ -198,8 +163,7 @@ Two strategies for structured output generation:
     - Configure with `ProviderStrategy` hint
 
 <Warning>
-    **Prompted output** is no longer supported via the `response_format`
-    argument.
+    **Prompted output** is no longer supported via the `response_format` argument.
 </Warning>
 
 ### Error handling
@@ -209,17 +173,14 @@ Two strategies for structured output generation:
 Control error handling via the `handle_errors` arg to `ToolStrategy`:
 
 - **Parsing errors**: Model generates data that doesn't match desired structure
-- **Multiple tool calls**: Model generates 2+ tool calls for structured output
-schemas
+- **Multiple tool calls**: Model generates 2+ tool calls for structured output schemas
 
 **Tool calling errors**
 
 Updated error handling for tool failures:
 
-- **Invocation failure**: Agent returns artificial `ToolMessage` asking model to
-retry (unchanged)
-- **Execution failure**: Agent now raises `ToolException` by default instead of
-retrying (prevents infinite loops)
+- **Invocation failure**: Agent returns artificial `ToolMessage` asking model to retry (unchanged)
+- **Execution failure**: Agent now raises `ToolException` by default instead of retrying (prevents infinite loops)
 
 Configure behavior via `handle_tool_errors` arg to `ToolNode`.
 
@@ -227,8 +188,7 @@ Configure behavior via `handle_tool_errors` arg to `ToolNode`.
 
 **Pre-bound models**
 
-To better support structured output, `create_react_agent` no longer supports
-pre-bound models with tools or configuration:
+To better support structured output, `create_react_agent` no longer supports pre-bound models with tools or configuration:
 
 ```python
 # No longer supported
@@ -240,8 +200,7 @@ agent = create_react_agent("openai:gpt-4o-mini", tools=[some_tool])
 ```
 
 <Note>
-    Dynamic model functions can return pre-bound models if structured output is
-    *not* used.
+    Dynamic model functions can return pre-bound models if structured output is *not* used.
 </Note>
 
 **Import changes**
@@ -256,9 +215,7 @@ from langchain.agents import create_react_agent, ToolNode, AgentState
 
 ## <Icon icon="bullhorn" /> Reporting issues
 
-Please report any issues discovered with 1.0 on
-[GitHub](https://github.com/langchain-ai/langchain/issues) using the
-[`'v1'` label](https://github.com/langchain-ai/langchain/issues?q=state%3Aopen%20label%3Av1).
+Please report any issues discovered with 1.0 on [GitHub](https://github.com/langchain-ai/langchain/issues) using the [`'v1'` label](https://github.com/langchain-ai/langchain/issues?q=state%3Aopen%20label%3Av1).
 
 ## See also
 

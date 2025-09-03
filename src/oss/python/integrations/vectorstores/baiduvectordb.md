@@ -12,11 +12,9 @@ This notebook shows how to use functionality related to the Baidu VectorDB.
 
 To run, you should have a [Database instance.](https://cloud.baidu.com/doc/VDB/s/hlrsoazuf).
 
-
 ```python
 !pip3 install pymochow
 ```
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -26,7 +24,6 @@ from langchain_community.vectorstores.baiduvectordb import ConnectionParams
 from langchain_text_splitters import CharacterTextSplitter
 ```
 
-
 ```python
 loader = TextLoader("../../how_to/state_of_the_union.txt")
 documents = loader.load()
@@ -34,7 +31,6 @@ text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
 docs = text_splitter.split_documents(documents)
 embeddings = FakeEmbeddings(size=128)
 ```
-
 
 ```python
 conn_params = ConnectionParams(
@@ -46,13 +42,11 @@ vector_db = BaiduVectorDB.from_documents(
 )
 ```
 
-
 ```python
 query = "What did the president say about Ketanji Brown Jackson"
 docs = vector_db.similarity_search(query)
 docs[0].page_content
 ```
-
 
 ```python
 vector_db = BaiduVectorDB(embeddings, conn_params)

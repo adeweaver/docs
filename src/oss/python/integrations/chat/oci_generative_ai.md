@@ -7,8 +7,8 @@ This guide provides a quick overview for getting started with OCIGenAI [chat mod
 Oracle Cloud Infrastructure (OCI) Generative AI is a fully managed service that provides a set of state-of-the-art, customizable large language models (LLMs) that cover a wide range of use cases, and which is available through a single API.
 Using the OCI Generative AI service you can access ready-to-use pretrained models, or create and host your own fine-tuned custom models based on your own data on dedicated AI clusters. Detailed documentation of the service and API is available __[here](https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm)__ and __[here](https://docs.oracle.com/en-us/iaas/api/#/en/generative-ai/20231130/)__.
 
-
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [JS support](https://js.langchain.com/docs/integrations/chat/oci_generative_ai) |
@@ -16,6 +16,7 @@ Using the OCI Generative AI service you can access ready-to-use pretrained model
 | [ChatOCIGenAI](https://python.langchain.com/api_reference/community/chat_models/langchain_community.chat_models.oci_generative_ai.ChatOCIGenAI.html) | [langchain-community](https://python.langchain.com/api_reference/community/index.html) | ❌ | ❌ | ❌ |
 
 ### Model features
+
 | [Tool calling](/oss/how-to/tool_calling/) | [Structured output](/oss/how-to/structured_output/) | [JSON mode](/oss/how-to/structured_output/#advanced-specifying-the-method-for-structuring-outputs) | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | Native async | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
 | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ |
@@ -34,7 +35,6 @@ API key is the default authentication method used in the examples above. The fol
 
 The LangChain OCIGenAI integration lives in the `langchain-community` package and you will also need to install the `oci` package:
 
-
 ```python
 %pip install -qU langchain-community oci
 ```
@@ -42,8 +42,6 @@ The LangChain OCIGenAI integration lives in the `langchain-community` package an
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
-
 
 ```python
 from langchain_community.chat_models.oci_generative_ai import ChatOCIGenAI
@@ -59,7 +57,6 @@ chat = ChatOCIGenAI(
 
 ## Invocation
 
-
 ```python
 messages = [
     SystemMessage(content="your are an AI assistant."),
@@ -69,7 +66,6 @@ messages = [
 response = chat.invoke(messages)
 ```
 
-
 ```python
 print(response.content)
 ```
@@ -77,8 +73,6 @@ print(response.content)
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
-
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate
@@ -92,4 +86,4 @@ print(response.content)
 
 ## API reference
 
-For detailed documentation of all ChatOCIGenAI features and configurations head to the API reference: https://python.langchain.com/api_reference/community/chat_models/langchain_community.chat_models.oci_generative_ai.ChatOCIGenAI.html
+For detailed documentation of all ChatOCIGenAI features and configurations head to the API reference: [python.langchain.com/api_reference/community/chat_models/langchain_community.chat_models.oci_generative_ai.ChatOCIGenAI.html](https://python.langchain.com/api_reference/community/chat_models/langchain_community.chat_models.oci_generative_ai.ChatOCIGenAI.html)

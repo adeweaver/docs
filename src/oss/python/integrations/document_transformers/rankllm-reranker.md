@@ -6,21 +6,17 @@ title: RankLLM Reranker
 
 > **Note:** If using the built-in retriever, RankLLM requires **Pyserini, JDK 21, PyTorch, and Faiss** for retrieval functionality.
 
-
 ```python
 %pip install --upgrade --quiet rank_llm
 ```
-
 
 ```python
 %pip install --upgrade --quiet langchain_openai
 ```
 
-
 ```python
 %pip install --upgrade --quiet faiss-cpu
 ```
-
 
 ```python
 import getpass
@@ -29,7 +25,6 @@ import os
 if "OPENAI_API_KEY" not in os.environ:
     os.environ["OPENAI_API_KEY"] = getpass.getpass("OpenAI API Key:")
 ```
-
 
 ```python
 # Helper function for printing docs
@@ -42,8 +37,8 @@ def pretty_print_docs(docs):
 ```
 
 ## Set up the base vector store retriever
-Let's start by initializing a simple vector store retriever and storing the 2023 State of the Union speech (in chunks). We can set up the retriever to retrieve a high number (20) of docs.
 
+Let's start by initializing a simple vector store retriever and storing the 2023 State of the Union speech (in chunks). We can set up the retriever to retrieve a high number (20) of docs.
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -60,19 +55,21 @@ for idx, text in enumerate(texts):
 embedding = OpenAIEmbeddings(model="text-embedding-3-large")
 retriever = FAISS.from_documents(texts, embedding).as_retriever(search_kwargs={"k": 20})
 ```
+
 ```output
 2025-02-22 15:28:58,344 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
 ```
+
 # Retrieval + RankLLM Reranking (RankZephyr)
 
 Retrieval without reranking
-
 
 ```python
 query = "What was done to Russia?"
 docs = retriever.invoke(query)
 pretty_print_docs(docs)
 ```
+
 ```output
 2025-02-22 15:29:00,892 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
 ``````output
@@ -267,8 +264,8 @@ And it worked. It created jobs. Lots of jobs.
 In fact—our economy created over 6.5 Million new jobs just last year, more jobs created in one year
 than ever before in the history of America.
 ```
-RankZephyr performs listwise reranking for improved retrieval quality but requires at least 24GB of VRAM to run efficiently.
 
+RankZephyr performs listwise reranking for improved retrieval quality but requires at least 24GB of VRAM to run efficiently.
 
 ```python
 import torch
@@ -284,6 +281,7 @@ compression_retriever = ContextualCompressionRetriever(
 
 del compressor
 ```
+
 ```output
 Downloading shards: 100%|██████████| 3/3 [00:00<00:00, 2674.37it/s]
 Loading checkpoint shards: 100%|██████████| 3/3 [01:49<00:00, 36.39s/it]
@@ -293,6 +291,7 @@ Loading checkpoint shards: 100%|██████████| 3/3 [01:49<00:00
 compressed_docs = compression_retriever.invoke(query)
 pretty_print_docs(compressed_docs)
 ```
+
 ```output
 Document 1:
 
@@ -320,8 +319,8 @@ We are inflicting pain on Russia and supporting the people of Ukraine. Putin is 
 
 Together with our allies –we are right now enforcing powerful economic sanctions.
 ```
-Can be used within a QA pipeline
 
+Can be used within a QA pipeline
 
 ```python
 from langchain.chains import RetrievalQA
@@ -336,24 +335,21 @@ chain = RetrievalQA.from_chain_type(
 chain.invoke({"query": query})
 ```
 
-
-
 ```output
 {'query': 'What was done to Russia?',
  'result': 'Russia has been subjected to powerful economic sanctions, including cutting off its largest banks from the international financial system, preventing its central bank from defending the Russian Ruble, and choking off its access to technology. Additionally, American airspace has been closed to all Russian flights, further isolating Russia and adding pressure on its economy. These actions have led to a significant devaluation of the Ruble, a sharp decline in the Russian stock market, and overall economic turmoil in Russia.'}
 ```
 
-
 # Retrieval + RankLLM Reranking (RankGPT)
 
 Retrieval without reranking
-
 
 ```python
 query = "What did the president say about Ketanji Brown Jackson"
 docs = retriever.invoke(query)
 pretty_print_docs(docs)
 ```
+
 ```output
 2025-02-22 15:01:29,469 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
 ``````output
@@ -565,8 +561,8 @@ And we will, as one people.
 
 One America.
 ```
-Retrieval + Reranking with RankGPT
 
+Retrieval + Reranking with RankGPT
 
 ```python
 from langchain.retrievers.contextual_compression import ContextualCompressionRetriever
@@ -578,11 +574,11 @@ compression_retriever = ContextualCompressionRetriever(
 )
 ```
 
-
 ```python
 compressed_docs = compression_retriever.invoke(query)
 pretty_print_docs(compressed_docs)
 ```
+
 ```output
 2025-02-22 15:01:38,554 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
   0%|          | 0/1 [00:00<?, ?it/s]2025-02-22 15:01:43,704 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
@@ -608,8 +604,8 @@ Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Le
 
 Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service.
 ```
-You can use this retriever within a QA pipeline
 
+You can use this retriever within a QA pipeline
 
 ```python
 from langchain.chains import RetrievalQA
@@ -623,6 +619,7 @@ chain = RetrievalQA.from_chain_type(
 
 chain.invoke({"query": query})
 ```
+
 ```output
   chain.invoke({"query": query})
 2025-02-17 04:30:00,016 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
@@ -630,7 +627,6 @@ chain.invoke({"query": query})
 100%|██████████| 1/1 [00:01<00:00,  1.63s/it]
 2025-02-17 04:30:02,415 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
 ```
-
 
 ```output
 {'query': 'What did the president say about Ketanji Brown Jackson',

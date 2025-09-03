@@ -10,9 +10,7 @@ It is broken into two parts: installation and setup, and then examples of DeepSp
 - Install the Python package with `pip install deepsparse`
 - Choose a [SparseZoo model](https://sparsezoo.neuralmagic.com/?useCase=text_generation) or export a support model to ONNX [using Optimum](https://github.com/neuralmagic/notebooks/blob/main/notebooks/opt-text-generation-deepsparse-quickstart/OPT_Text_Generation_DeepSparse_Quickstart.ipynb)
 
-
 There exists a DeepSparse LLM wrapper, that provides a unified interface for all models:
-
 
 ```python
 from langchain_community.llms import DeepSparse
@@ -25,7 +23,6 @@ print(llm.invoke("def fib():"))
 ```
 
 Additional parameters can be passed using the `config` parameter:
-
 
 ```python
 config = {"max_generated_tokens": 256}

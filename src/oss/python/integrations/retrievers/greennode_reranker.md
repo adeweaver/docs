@@ -22,7 +22,6 @@ To access GreenNode models you'll need to create a GreenNode account, get an API
 
 Head to [this page](https://aiplatform.console.greennode.ai/api-keys) to sign up to GreenNode AI Platform and generate an API key. Once you've done this, set the GREENNODE_API_KEY environment variable:
 
-
 ```python
 import getpass
 import os
@@ -33,7 +32,6 @@ if not os.getenv("GREENNODE_API_KEY"):
 
 If you want to get automated tracing from individual queries, you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
-
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
 # os.environ["LANGSMITH_TRACING"] = "true"
@@ -43,17 +41,17 @@ If you want to get automated tracing from individual queries, you can also set y
 
 This retriever lives in the `langchain-greennode` package:
 
-
 ```python
 %pip install -qU langchain-greennode
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
+
 ## Instantiation
 
 The `GreenNodeRerank` class can be instantiated with optional parameters for the API key and model name:
-
 
 ```python
 from langchain_greennode import GreenNodeRerank
@@ -71,7 +69,6 @@ reranker = GreenNodeRerank(
 ### Reranking Search Results
 
 Reranking models enhance retrieval-augmented generation (RAG) workflows by refining and reordering initial search results based on semantic relevance. The example below demonstrates how to integrate GreenNodeRerank with a base retriever to improve the quality of retrieved documents.
-
 
 ```python
 from langchain.retrievers.contextual_compression import ContextualCompressionRetriever
@@ -116,11 +113,11 @@ results = rerank_retriever.get_relevant_documents(query)
 
 results
 ```
+
 ```output
 /var/folders/bs/g52lln652z11zjp98qf9wcy40000gn/T/ipykernel_96362/2544494776.py:41: LangChainDeprecationWarning: The method `BaseRetriever.get_relevant_documents` was deprecated in langchain-core 0.1.46 and will be removed in 1.0. Use :meth:`~invoke` instead.
   results = rerank_retriever.get_relevant_documents(query)
 ```
-
 
 ```output
 [Document(metadata={'relevance_score': 0.125}, page_content='Central banks use interest rates to control inflation and stabilize the economy'),
@@ -128,11 +125,9 @@ results
  Document(metadata={'relevance_score': 1.6689300537109375e-05}, page_content='Cryptocurrencies like Bitcoin operate on decentralized blockchain networks')]
 ```
 
-
 ### Direct Usage
 
 The `GreenNodeRerank` class can be used independently to perform reranking of retrieved documents based on relevance scores. This functionality is particularly useful in scenarios where a primary retrieval step (e.g., keyword or vector search) returns a broad set of candidates, and a secondary model is needed to refine the results using more sophisticated semantic understanding. The class accepts a query and a list of candidate documents and returns a reordered list based on predicted relevance.
-
 
 ```python
 test_documents = [
@@ -155,19 +150,15 @@ results = reranker.rerank(test_documents, test_query)
 results
 ```
 
-
-
 ```output
 [{'index': 1, 'relevance_score': 1.0},
  {'index': 0, 'relevance_score': 0.01165771484375},
  {'index': 3, 'relevance_score': 0.0012054443359375}]
 ```
 
-
 ## Use within a chain
 
 GreenNodeRerank works seamlessly in LangChain RAG pipelines. Here's an example of creating a simple RAG chain with the GreenNodeRerank:
-
 
 ```python
 from langchain_core.output_parsers import StrOutputParser
@@ -209,12 +200,9 @@ answer = rag_chain.invoke("How do central banks fight rising prices?")
 answer
 ```
 
-
-
 ```output
 '\n\nCentral banks combat rising prices, or inflation, by adjusting interest rates. By raising interest rates, they increase the cost of borrowing, which discourages spending and investment. This reduction in demand helps slow down the rate of price increases, thereby controlling inflation and contributing to economic stability.'
 ```
-
 
 ## API reference
 

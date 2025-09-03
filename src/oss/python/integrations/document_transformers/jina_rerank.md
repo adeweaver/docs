@@ -4,7 +4,6 @@ title: Jina Reranker
 
 This notebook shows how to use Jina Reranker for document compression and retrieval.
 
-
 ```python
 %pip install -qU langchain langchain-openai langchain-community langchain-text-splitters langchainhub
 
@@ -14,7 +13,6 @@ This notebook shows how to use Jina Reranker for document compression and retrie
 
 %pip install --upgrade --quiet  faiss_cpu
 ```
-
 
 ```python
 # Helper function for printing docs
@@ -34,7 +32,6 @@ Let's start by initializing a simple vector store retriever and storing the 2023
 
 ##### Set the Jina and OpenAI API keys
 
-
 ```python
 import getpass
 import os
@@ -42,7 +39,6 @@ import os
 os.environ["OPENAI_API_KEY"] = getpass.getpass()
 os.environ["JINA_API_KEY"] = getpass.getpass()
 ```
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -68,7 +64,6 @@ pretty_print_docs(docs)
 
 Now let's wrap our base retriever with a ContextualCompressionRetriever, using Jina Reranker as a compressor.
 
-
 ```python
 from langchain.retrievers import ContextualCompressionRetriever
 from langchain_community.document_compressors import JinaRerank
@@ -83,13 +78,11 @@ compressed_docs = compression_retriever.get_relevant_documents(
 )
 ```
 
-
 ```python
 pretty_print_docs(compressed_docs)
 ```
 
 ## QA reranking with Jina Reranker
-
 
 ```python
 from langchain import hub
@@ -99,6 +92,7 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 retrieval_qa_chat_prompt = hub.pull("langchain-ai/retrieval-qa-chat")
 retrieval_qa_chat_prompt.pretty_print()
 ```
+
 ```output
 ================================ System Message ================================
 
@@ -124,7 +118,6 @@ llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
 combine_docs_chain = create_stuff_documents_chain(llm, retrieval_qa_chat_prompt)
 chain = create_retrieval_chain(compression_retriever, combine_docs_chain)
 ```
-
 
 ```python
 chain.invoke({"input": query})

@@ -15,7 +15,6 @@ LangChain implemented the synchronous and asynchronous vector store functions.
 
 See `synchronous` version [here](/oss/integrations/vectorstores/faiss).
 
-
 ```python
 %pip install --upgrade --quiet  faiss-gpu # For CUDA 7.5+ Supported GPU's.
 # OR
@@ -23,7 +22,6 @@ See `synchronous` version [here](/oss/integrations/vectorstores/faiss).
 ```
 
 We want to use OpenAIEmbeddings so we have to get the OpenAI API Key.
-
 
 ```python
 import getpass
@@ -56,8 +54,8 @@ print(docs[0].page_content)
 ```
 
 ## Similarity Search with score
-There are some FAISS specific methods. One of them is `similarity_search_with_score`, which allows you to return not only the documents but also the distance score of the query to them. The returned distance score is L2 distance. Therefore, a lower score is better.
 
+There are some FAISS specific methods. One of them is `similarity_search_with_score`, which allows you to return not only the documents but also the distance score of the query to them. The returned distance score is L2 distance. Therefore, a lower score is better.
 
 ```python
 docs_and_scores = await db.asimilarity_search_with_score(query)
@@ -67,15 +65,14 @@ docs_and_scores[0]
 
 It is also possible to do a search for documents similar to a given embedding vector using `similarity_search_by_vector` which accepts an embedding vector as a parameter instead of a string.
 
-
 ```python
 embedding_vector = await embeddings.aembed_query(query)
 docs_and_scores = await db.asimilarity_search_by_vector(embedding_vector)
 ```
 
 ## Saving and loading
-You can also save and load a FAISS index. This is useful so you don't have to recreate it everytime you use it.
 
+You can also save and load a FAISS index. This is useful so you don't have to recreate it everytime you use it.
 
 ```python
 db.save_local("faiss_index")
@@ -91,7 +88,6 @@ docs[0]
 
 you can pickle the FAISS Index by these functions. If you use embeddings model which is of 90 mb (sentence-transformers/all-MiniLM-L6-v2 or any other model), the resultant pickle size would be more than 90 mb. the size of the model is also included in the overall size. To overcome this, use the below functions. These functions only serializes FAISS index and size would be much lesser. this can be helpful if you wish to store the index in database like sql.
 
-
 ```python
 from langchain_huggingface import HuggingFaceEmbeddings
 
@@ -103,59 +99,46 @@ db = FAISS.deserialize_from_bytes(
 ```
 
 ## Merging
-You can also merge two FAISS vectorstores
 
+You can also merge two FAISS vectorstores
 
 ```python
 db1 = await FAISS.afrom_texts(["foo"], embeddings)
 db2 = await FAISS.afrom_texts(["bar"], embeddings)
 ```
 
-
 ```python
 db1.docstore._dict
 ```
-
-
 
 ```output
 {'8164a453-9643-4959-87f7-9ba79f9e8fb0': Document(page_content='foo')}
 ```
 
-
-
 ```python
 db2.docstore._dict
 ```
-
-
 
 ```output
 {'4fbcf8a2-e80f-4f65-9308-2f4cb27cb6e7': Document(page_content='bar')}
 ```
 
-
-
 ```python
 db1.merge_from(db2)
 ```
 
-
 ```python
 db1.docstore._dict
 ```
-
-
 
 ```output
 {'8164a453-9643-4959-87f7-9ba79f9e8fb0': Document(page_content='foo'),
  '4fbcf8a2-e80f-4f65-9308-2f4cb27cb6e7': Document(page_content='bar')}
 ```
 
-
 ## Similarity Search with filtering
-FAISS vectorstore can also support filtering, since the FAISS does not natively support filtering we have to do it manually. This is done by first fetching more results than `k` and then filtering them. You can filter the documents based on metadata. You can also set the `fetch_k` parameter when calling any search method to set how many documents you want to fetch before filtering. Here is a small example:
 
+FAISS vectorstore can also support filtering, since the FAISS does not natively support filtering we have to do it manually. This is done by first fetching more results than `k` and then filtering them. You can filter the documents based on metadata. You can also set the `fetch_k` parameter when calling any search method to set how many documents you want to fetch before filtering. Here is a small example:
 
 ```python
 from langchain_core.documents import Document
@@ -175,48 +158,54 @@ results_with_scores = db.similarity_search_with_score("foo")
 for doc, score in results_with_scores:
     print(f"Content: {doc.page_content}, Metadata: {doc.metadata}, Score: {score}")
 ```
+
 ```output
 Content: foo, Metadata: {'page': 1}, Score: 5.159960813797904e-15
 Content: foo, Metadata: {'page': 2}, Score: 5.159960813797904e-15
 Content: foo, Metadata: {'page': 3}, Score: 5.159960813797904e-15
 Content: foo, Metadata: {'page': 4}, Score: 5.159960813797904e-15
 ```
-Now we make the same query call but we filter for only `page = 1`
 
+Now we make the same query call but we filter for only `page = 1`
 
 ```python
 results_with_scores = await db.asimilarity_search_with_score("foo", filter=dict(page=1))
 for doc, score in results_with_scores:
     print(f"Content: {doc.page_content}, Metadata: {doc.metadata}, Score: {score}")
 ```
+
 ```output
 Content: foo, Metadata: {'page': 1}, Score: 5.159960813797904e-15
 Content: bar, Metadata: {'page': 1}, Score: 0.3131446838378906
 ```
-Same thing can be done with the `max_marginal_relevance_search` as well.
 
+Same thing can be done with the `max_marginal_relevance_search` as well.
 
 ```python
 results = await db.amax_marginal_relevance_search("foo", filter=dict(page=1))
 for doc in results:
     print(f"Content: {doc.page_content}, Metadata: {doc.metadata}")
 ```
+
 ```output
 Content: foo, Metadata: {'page': 1}
 Content: bar, Metadata: {'page': 1}
 ```
-Here is an example of how to set `fetch_k` parameter when calling `similarity_search`. Usually you would want the `fetch_k` parameter >> `k` parameter. This is because the `fetch_k` parameter is the number of documents that will be fetched before filtering. If you set `fetch_k` to a low number, you might not get enough documents to filter from.
 
+Here is an example of how to set `fetch_k` parameter when calling `similarity_search`. Usually you would want the `fetch_k` parameter >> `k` parameter. This is because the `fetch_k` parameter is the number of documents that will be fetched before filtering. If you set `fetch_k` to a low number, you might not get enough documents to filter from.
 
 ```python
 results = await db.asimilarity_search("foo", filter=dict(page=1), k=1, fetch_k=4)
 for doc in results:
     print(f"Content: {doc.page_content}, Metadata: {doc.metadata}")
 ```
+
 ```output
 Content: foo, Metadata: {'page': 1}
 ```
+
 Some [MongoDB query and projection operators](https://www.mongodb.com/docs/manual/reference/operator/query/) are supported for more advanced metadata filtering. The current list of supported operators are as follows:
+
 - `$eq` (equals)
 - `$neq` (not equals)
 - `$gt` (greater than)
@@ -231,7 +220,6 @@ Some [MongoDB query and projection operators](https://www.mongodb.com/docs/manua
 
 Performing the same above similarity search with advanced metadata filtering can be done as follows:
 
-
 ```python
 results = await db.asimilarity_search(
     "foo", filter={"page": {"$eq": 1}}, k=1, fetch_k=4
@@ -239,38 +227,31 @@ results = await db.asimilarity_search(
 for doc in results:
     print(f"Content: {doc.page_content}, Metadata: {doc.metadata}")
 ```
+
 ```output
 Content: foo, Metadata: {'page': 1}
 ```
+
 ## Delete
 
 You can also delete ids. Note that the ids to delete should be the ids in the docstore.
-
 
 ```python
 db.delete([db.index_to_docstore_id[0]])
 ```
 
-
-
 ```output
 True
 ```
-
-
 
 ```python
 # Is now missing
 0 in db.index_to_docstore_id
 ```
 
-
-
 ```output
 False
 ```
-
-
 
 ```python
 

@@ -14,8 +14,6 @@ Both a Cloudflare Account ID and Workers AI API token are required. Find how to 
 
 You can pass these parameters explicitly or define as environmental variables.
 
-
-
 ```python
 import os
 
@@ -30,13 +28,11 @@ cf_ai_token = os.getenv("CF_AI_API_TOKEN")
 
 ## Example
 
-
 ```python
 from langchain_cloudflare.embeddings import (
     CloudflareWorkersAIEmbeddings,
 )
 ```
-
 
 ```python
 embeddings = CloudflareWorkersAIEmbeddings(
@@ -49,21 +45,15 @@ query_result = embeddings.embed_query("test")
 len(query_result), query_result[:3]
 ```
 
-
-
 ```output
 (384, [-0.033660888671875, 0.039764404296875, 0.03558349609375])
 ```
-
-
 
 ```python
 # string embeddings in batches
 batch_query_result = embeddings.embed_documents(["test1", "test2", "test3"])
 len(batch_query_result), len(batch_query_result[0])
 ```
-
-
 
 ```output
 (3, 384)

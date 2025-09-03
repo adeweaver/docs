@@ -6,6 +6,7 @@ title: Cassandra Database Toolkit
 
 >The `Cassandra Database` toolkit enables AI engineers to integrate agents with Cassandra data efficiently, offering
 >the following features:
+>
 > - Fast data access through optimized queries. Most queries should run in single-digit ms or less.
 > - Schema introspection to enhance LLM reasoning capabilities
 > - Compatibility with various Cassandra deployments, including Apache Cassandra®, DataStax Enterprise™, and DataStax Astra™
@@ -14,11 +15,12 @@ title: Cassandra Database Toolkit
 For more information on creating a Cassandra DB agent see the [CQL agent cookbook](https://github.com/langchain-ai/langchain/blob/master/cookbook/cql_agent.ipynb)
 
 ## Quick Start
- - Install the `cassio` library
- - Set environment variables for the Cassandra database you are connecting to
- - Initialize `CassandraDatabase`
- - Pass the tools to your agent with `toolkit.get_tools()`
- - Sit back and watch it do all your work for you
+
+- Install the `cassio` library
+- Set environment variables for the Cassandra database you are connecting to
+- Initialize `CassandraDatabase`
+- Pass the tools to your agent with `toolkit.get_tools()`
+- Sit back and watch it do all your work for you
 
 ## Theory of Operation
 
@@ -26,15 +28,16 @@ For more information on creating a Cassandra DB agent see the [CQL agent cookboo
 
 You are an Apache Cassandra expert query analysis bot with the following features
 and rules:
- - You will take a question from the end user about finding specific
+
+- You will take a question from the end user about finding specific
    data in the database.
- - You will examine the schema of the database and create a query path.
- - You will provide the user with the correct query to find the data they are looking
+- You will examine the schema of the database and create a query path.
+- You will provide the user with the correct query to find the data they are looking
    for, showing the steps provided by the query path.
- - You will use best practices for querying Apache Cassandra using partition keys
+- You will use best practices for querying Apache Cassandra using partition keys
    and clustering columns.
- - Avoid using ALLOW FILTERING in the query.
- - The goal is to find a query path, so it may take querying other tables to get
+- Avoid using ALLOW FILTERING in the query.
+- The goal is to find a query path, so it may take querying other tables to get
    to the final answer.
 
 The following is an example of a query path in JSON format:
@@ -63,12 +66,15 @@ The following is an example of a query path in JSON format:
 ## Tools Provided
 
 ### `cassandra_db_schema`
+
 Gathers all schema information for the connected database or a specific schema. Critical for the agent when determining actions.
 
 ### `cassandra_db_select_table_data`
+
 Selects data from a specific keyspace and table. The agent can pass parameters for a predicate and limits on the number of returned records.
 
 ### `cassandra_db_query`
+
 Expiriemental alternative to `cassandra_db_select_table_data` which takes a query string completely formed by the agent instead of parameters. *Warning*: This can lead to unusual queries that may not be as performant(or even work). This may be removed in future releases. If it does something cool, we want to know about that too. You never know!
 
 ## Environment Setup
@@ -80,9 +86,11 @@ pip install ipykernel python-dotenv cassio langchain-openai langchain langchain-
 ```
 
 ### .env file
+
 Connection is via `cassio` using `auto=True` parameter, and the notebook uses OpenAI. You should create a `.env` file accordingly.
 
 For Casssandra, set:
+
 ```bash
 CASSANDRA_CONTACT_POINTS
 CASSANDRA_USERNAME
@@ -91,6 +99,7 @@ CASSANDRA_KEYSPACE
 ```
 
 For Astra, set:
+
 ```bash
 ASTRA_DB_APPLICATION_TOKEN
 ASTRA_DB_DATABASE_ID
@@ -111,13 +120,11 @@ OPENAI_API_KEY=sk-....
 
 (You may also modify the below code to directly connect with `cassio`.)
 
-
 ```python
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
 ```
-
 
 ```python
 # Import necessary libraries
@@ -136,7 +143,6 @@ from langchain_openai import ChatOpenAI
 
 ## Connect to a Cassandra Database
 
-
 ```python
 cassio.init(auto=True)
 session = cassio.config.resolve_session()
@@ -145,7 +151,6 @@ if not session:
         "Check environment configuration or manually configure cassio connection parameters"
     )
 ```
-
 
 ```python
 # Test data pep
@@ -219,13 +224,11 @@ session.execute(
 session.set_keyspace("langchain_agent_test")
 ```
 
-
 ```python
 # Create a CassandraDatabase instance
 # Uses the cassio session to connect to the database
 db = CassandraDatabase()
 ```
-
 
 ```python
 # Choose the LLM that will drive the agent
@@ -239,21 +242,22 @@ print("Available tools:")
 for tool in tools:
     print(tool.name + "\t- " + tool.description)
 ```
+
 ```output
 Available tools:
-cassandra_db_schema	-
+cassandra_db_schema -
     Input to this tool is a keyspace name, output is a table description
     of Apache Cassandra tables.
     If the query is not correct, an error message will be returned.
     If an error is returned, report back to the user that the keyspace
     doesn't exist and stop.
 
-cassandra_db_query	-
+cassandra_db_query -
     Execute a CQL query against the database and get back the result.
     If the query is not correct, an error message will be returned.
     If an error is returned, rewrite the query, check the query, and try again.
 
-cassandra_db_select_table_data	-
+cassandra_db_select_table_data -
     Tool for getting data from a table in an Apache Cassandra database.
     Use the WHERE clause to specify the predicate for the query that uses the
     primary key. A blank predicate will return all rows. Avoid this if possible.
@@ -268,7 +272,6 @@ prompt = hub.pull("hwchase17/openai-tools-agent")
 agent = create_openai_tools_agent(llm, tools, prompt)
 ```
 
-
 ```python
 input = (
     QUERY_PATH_PROMPT
@@ -281,6 +284,7 @@ response = agent_executor.invoke({"input": input})
 
 print(response["output"])
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 

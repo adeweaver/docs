@@ -9,13 +9,16 @@ This document loader utilizes unique capabilities from PowerScale that can deter
 This loader requires PowerScale's MetadataIQ feature enabled. Additional information can be found on our GitHub Repo: [https://github.com/dell/powerscale-rag-connector](https://github.com/dell/powerscale-rag-connector)
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [JS support](https://js.langchain.com/docs/integrations/document_loaders/web_loaders/__module_name___loader)|
 | :--- | :--- | :---: | :---: |  :---: |
 | [PowerScaleDocumentLoader](https://github.com/dell/powerscale-rag-connector/blob/main/src/powerscale_rag_connector/PowerScaleDocumentLoader.py) | [powerscale-rag-connector](https://github.com/dell/powerscale-rag-connector) | ✅ | ❌ | ❌ |
 | [PowerScaleUnstructuredLoader](https://github.com/dell/powerscale-rag-connector/blob/main/src/powerscale_rag_connector/PowerScaleUnstructuredLoader.py) | [powerscale-rag-connector](https://github.com/dell/powerscale-rag-connector) | ✅ | ❌ | ❌ |
+
 ### Loader features
+
 | Source | Document Lazy Loading | Native Async Support
 | :---: | :---: | :---: |
 | PowerScaleDocumentLoader | ✅ | ✅ |
@@ -25,12 +28,9 @@ This loader requires PowerScale's MetadataIQ feature enabled. Additional informa
 
 This document loader requires the use of a Dell PowerScale system with MetadataIQ enabled. Additional information can be found on our github page: [https://github.com/dell/powerscale-rag-connector](https://github.com/dell/powerscale-rag-connector)
 
-
-
 ### Installation
 
 The document loader lives in an external pip package and can be installed using standard tooling
-
 
 ```python
 %pip install --upgrade --quiet  powerscale-rag-connector
@@ -43,7 +43,6 @@ Now we can instantiate document loader:
 ### Generic Document Loader
 
 Our generic document loader can be used to incrementally load all files from PowerScale in the following manner:
-
 
 ```python
 from powerscale_rag_connector import PowerScaleDocumentLoader
@@ -59,7 +58,6 @@ loader = PowerScaleDocumentLoader(
 ### UnstructuredLoader Loader
 
 Optionally, the `PowerScaleUnstructuredLoader` can be used to locate the changed files _and_ automatically process the files producing elements of the source file. This is done using LangChain's `UnstructuredLoader` class.
-
 
 ```python
 from powerscale_rag_connector import PowerScaleUnstructuredLoader
@@ -77,15 +75,15 @@ loader = PowerScaleUnstructuredLoader(
 ```
 
 The fields:
- - `es_host_url` is the endpoint to MetadataIQ Elasticsearch database
- - `es_index_index` is the name of the index where PowerScale writes it file system metadata
- - `es_api_key` is the **encoded** version of your elasticsearch API key
- - `folder_path` is the path on PowerScale to be queried for changes
+
+- `es_host_url` is the endpoint to MetadataIQ Elasticsearch database
+- `es_index_index` is the name of the index where PowerScale writes it file system metadata
+- `es_api_key` is the **encoded** version of your elasticsearch API key
+- `folder_path` is the path on PowerScale to be queried for changes
 
 ## Load
 
 Internally, all code is asynchronous with PowerScale and MetadataIQ and the load and lazy load methods will return a python generator. We recommend using the lazy load function.
-
 
 ```python
 for doc in loader.load():
@@ -102,9 +100,9 @@ Document(page_content='' metadata={'source': '/ifs/pdfs/FAST-Fast.Architecture.S
 
 Both document loaders will keep track of what files were previously returned to your application. When called again, the document loader will only return new or modified files since your previous run.
 
- - The `metadata` fields in the returned `Document` will return the path on PowerScale that contains the modified file. You will use this path to read the data via NFS (or S3) and process the data in your application (e.g.: create chunks and embedding).
- - The `source` field is the path on PowerScale and not necessarily on your local system (depending on your mount strategy); OneFS expresses the entire storage system as a single tree rooted at `/ifs`.
- - The `change_types` property will inform you on what change occurred since the last one - e.g.: new, modified or delete.
+- The `metadata` fields in the returned `Document` will return the path on PowerScale that contains the modified file. You will use this path to read the data via NFS (or S3) and process the data in your application (e.g.: create chunks and embedding).
+- The `source` field is the path on PowerScale and not necessarily on your local system (depending on your mount strategy); OneFS expresses the entire storage system as a single tree rooted at `/ifs`.
+- The `change_types` property will inform you on what change occurred since the last one - e.g.: new, modified or delete.
 
 Your RAG application can use the information from `change_types` to add, update or delete entries your chunk and vector store.
 
@@ -113,7 +111,6 @@ When using `PowerScaleUnstructuredLoader` the `page_content` field will be fille
 ## Lazy Load
 
 Internally, all code is asynchronous with PowerScale and MetadataIQ and the load and lazy load methods will return a python generator. We recommend using the lazy load function.
-
 
 ```python
 for doc in loader.lazy_load():
@@ -126,9 +123,9 @@ The same `Document` is returned as the load function with all the same propertie
 
 Additional examples and code can be found on our public github webpage: [https://github.com/dell/powerscale-rag-connector/tree/main/examples](https://github.com/dell/powerscale-rag-connector/tree/main/examples) that provide full working examples.
 
- - [PowerScale LangChain Document Loader](https://github.com/dell/powerscale-rag-connector/blob/main/examples/powerscale_langchain_doc_loader.py) - Working example of our standard document loader
- - [PowerScale LangChain Unstructured Loader](https://github.com/dell/powerscale-rag-connector/blob/main/examples/powerscale_langchain_unstructured_loader.py) - Working example of our standard document loader using unstructured loader for chunking and embedding
- - [PowerScale NVIDIA Retriever Microservice Loader](https://github.com/dell/powerscale-rag-connector/blob/main/examples/powerscale_nvingest_example.py) - Working example of our document loader with NVIDIA NeMo Retriever microservices for chunking and embedding
+- [PowerScale LangChain Document Loader](https://github.com/dell/powerscale-rag-connector/blob/main/examples/powerscale_langchain_doc_loader.py) - Working example of our standard document loader
+- [PowerScale LangChain Unstructured Loader](https://github.com/dell/powerscale-rag-connector/blob/main/examples/powerscale_langchain_unstructured_loader.py) - Working example of our standard document loader using unstructured loader for chunking and embedding
+- [PowerScale NVIDIA Retriever Microservice Loader](https://github.com/dell/powerscale-rag-connector/blob/main/examples/powerscale_nvingest_example.py) - Working example of our document loader with NVIDIA NeMo Retriever microservices for chunking and embedding
 
 ## API reference
 

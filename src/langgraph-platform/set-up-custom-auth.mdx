@@ -47,9 +47,9 @@ The server will start and open the studio in your browser:
 > For production use, please use LangGraph Platform.
 ```
 
-If you were to self-host this on the public internet, anyone could access it!
+If you were to self-host this on the public internet, anyone could access it.
 
-![No auth](/langgraph-platform/images/no-auth.png)
+![No authentication: the dev server is publicly reachable, anyone can access the bot if exposed to the internet.](/langgraph-platform/images/no-auth.png)
 
 ## 2. Add authentication
 
@@ -138,7 +138,7 @@ If you didn't add the `--no-browser`, the studio UI will open in the browser. Yo
 
 You should now only be able to access the bot if you provide a valid token in the request header. Users will still, however, be able to access each other's resources until you add [resource authorization handlers](/langgraph-platform/auth#resource-specific-handlers) in the next section of the tutorial.
 
-![Authentication, no authorization handlers](/langgraph-platform/images/authentication.png)
+![Auth gate passes requests with a valid token, but no per-resource filters are applied yet—so users share visibility until authorization handlers are added in the next step.](/langgraph-platform/images/authentication.png)
 
 Run the following code in a file or notebook:
 

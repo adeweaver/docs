@@ -6,7 +6,6 @@ title: MosaicML
 
 This example goes over how to use LangChain to interact with `MosaicML` Inference for text embedding.
 
-
 ```python
 # sign up for an account: https://forms.mosaicml.com/demo?utm_source=langchain
 
@@ -15,18 +14,15 @@ from getpass import getpass
 MOSAICML_API_TOKEN = getpass()
 ```
 
-
 ```python
 import os
 
 os.environ["MOSAICML_API_TOKEN"] = MOSAICML_API_TOKEN
 ```
 
-
 ```python
 from langchain_community.embeddings import MosaicMLInstructorEmbeddings
 ```
-
 
 ```python
 embeddings = MosaicMLInstructorEmbeddings(
@@ -34,18 +30,15 @@ embeddings = MosaicMLInstructorEmbeddings(
 )
 ```
 
-
 ```python
 query_text = "This is a test query."
 query_result = embeddings.embed_query(query_text)
 ```
 
-
 ```python
 document_text = "This is a test document."
 document_result = embeddings.embed_documents([document_text])
 ```
-
 
 ```python
 import numpy as np

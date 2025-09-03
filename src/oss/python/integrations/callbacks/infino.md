@@ -14,7 +14,6 @@ This example shows how one can track the following while calling OpenAI and Chat
 
 ## Initializing
 
-
 ```python
 # Install necessary dependencies.
 %pip install --upgrade --quiet  infinopy
@@ -24,11 +23,9 @@ This example shows how one can track the following while calling OpenAI and Chat
 %pip install --upgrade --quiet  beautifulsoup4
 ```
 
-
 ```python
 from langchain_community.callbacks.infino_callback import InfinoCallbackHandler
 ```
-
 
 ```python
 import datetime as dt
@@ -43,7 +40,6 @@ from langchain_openai import OpenAI
 
 ## Start Infino server, initialize the Infino client
 
-
 ```python
 # Start server using the Infino docker image.
 !docker run --rm --detach --name infino-example -p 3000:3000 infinohq/infino:latest
@@ -51,11 +47,12 @@ from langchain_openai import OpenAI
 # Create Infino client.
 client = InfinoClient()
 ```
+
 ```output
 a1159e99c6bdb3101139157acee6aba7ae9319375e77ab6fbc79beff75abeca3
 ```
-## Read the questions dataset
 
+## Read the questions dataset
 
 ```python
 # These are a subset of questions from Stanford's QA dataset -
@@ -86,7 +83,6 @@ questions = data.split("\n")
 
 ## Example 1: LangChain OpenAI Q&A; Publish metrics and logs to Infino
 
-
 ```python
 # Set your key here.
 # os.environ["OPENAI_API_KEY"] = "YOUR_API_KEY"
@@ -110,6 +106,7 @@ for question in questions:
     llm_result = llm.generate([question], callbacks=[handler])
     print(llm_result)
 ```
+
 ```output
 In what country is Normandy located?
 generations=[[Generation(text='\n\nNormandy is located in France.', generation_info={'finish_reason': 'stop', 'logprobs': None})]] llm_output={'token_usage': {'total_tokens': 16, 'prompt_tokens': 7, 'completion_tokens': 9}, 'model_name': 'text-davinci-003'} run=[RunInfo(run_id=UUID('67a516e3-d48a-4e83-92ba-a139079bd3b1'))]
@@ -132,10 +129,10 @@ generations=[[Generation(text='\n\nThe Frankish identity began to emerge in the 
 Who was the duke in the battle of Hastings?
 generations=[[Generation(text='\n\nThe Duke of Normandy, William the Conqueror, was the leader of the Norman forces at the Battle of Hastings in 1066.', generation_info={'finish_reason': 'stop', 'logprobs': None})]] llm_output={'token_usage': {'total_tokens': 39, 'prompt_tokens': 11, 'completion_tokens': 28}, 'model_name': 'text-davinci-003'} run=[RunInfo(run_id=UUID('b8f84619-ea5f-4c18-b411-b62194f36fe0'))]
 ```
+
 ## Create Metric Charts
 
 We now use matplotlib to create graphs of latency, errors and tokens consumed.
-
 
 ```python
 # Helper function to create a graph using matplotlib.
@@ -165,7 +162,6 @@ def plot(data, title):
     plt.show()
 ```
 
-
 ```python
 response = client.search_ts("__name__", "latency", 0, int(time.time()))
 plot(response.text, "Latency")
@@ -183,8 +179,7 @@ response = client.search_ts("__name__", "total_tokens", 0, int(time.time()))
 plot(response.text, "Total Tokens")
 ```
 
-## Full text query on prompt or prompt outputs.
-
+## Full text query on prompt or prompt outputs
 
 ```python
 # Search for a particular prompt text.
@@ -198,13 +193,14 @@ query = "king charles III"
 response = client.search_log("king charles III", 0, int(time.time()))
 print("Results for", query, ":", response.text)
 ```
+
 ```output
 Results for normandy : [{"time":1696947743,"fields":{"prompt_response":"\n\nThe Normans, a people from northern France, gave their name to Normandy in the 1000s and 1100s. The Normans were descendants of Vikings who had settled in the region in the late 800s."},"text":"\n\nThe Normans, a people from northern France, gave their name to Normandy in the 1000s and 1100s. The Normans were descendants of Vikings who had settled in the region in the late 800s."},{"time":1696947740,"fields":{"prompt":"Who gave their name to Normandy in the 1000's and 1100's"},"text":"Who gave their name to Normandy in the 1000's and 1100's"},{"time":1696947733,"fields":{"prompt_response":"\n\nThe Normans first settled in Normandy in the late 9th century."},"text":"\n\nThe Normans first settled in Normandy in the late 9th century."},{"time":1696947732,"fields":{"prompt_response":"\n\nNormandy is located in France."},"text":"\n\nNormandy is located in France."},{"time":1696947731,"fields":{"prompt":"In what country is Normandy located?"},"text":"In what country is Normandy located?"}]
 ===
 Results for king charles III : [{"time":1696947745,"fields":{"prompt_response":"\n\nKing Charles III swore fealty to King Philip II of Spain."},"text":"\n\nKing Charles III swore fealty to King Philip II of Spain."},{"time":1696947744,"fields":{"prompt":"Who did King Charles III swear fealty to?"},"text":"Who did King Charles III swear fealty to?"}]
 ```
-# Example 2: Summarize a piece of text using ChatOpenAI
 
+# Example 2: Summarize a piece of text using ChatOpenAI
 
 ```python
 # Set your key here.
@@ -237,7 +233,6 @@ for url in urls:
 
 ## Create Metric Charts
 
-
 ```python
 response = client.search_ts("__name__", "latency", 0, int(time.time()))
 plot(response.text, "Latency")
@@ -252,11 +247,9 @@ response = client.search_ts("__name__", "completion_tokens", 0, int(time.time())
 plot(response.text, "Completion Tokens")
 ```
 
-
 ```python
 ## Full text query on prompt or prompt outputs
 ```
-
 
 ```python
 # Search for a particular prompt text.
@@ -268,6 +261,7 @@ response = client.search_log(query, 0, int(time.time()))
 
 print("===")
 ```
+
 ```output
 ===
 ```
@@ -276,10 +270,10 @@ print("===")
 ## Stop Infino server
 ```
 
-
 ```python
 !docker rm -f infino-example
 ```
+
 ```output
 infino-example
 ```

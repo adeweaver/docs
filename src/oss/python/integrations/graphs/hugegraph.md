@@ -30,7 +30,6 @@ pip3 install hugegraph-python
 
 If you are using the docker container, you need to wait a couple of second for the database to start, and then we need create schema and write graph data for the database.
 
-
 ```python
 from hugegraph.connection import PyHugeGraph
 
@@ -38,7 +37,6 @@ client = PyHugeGraph("localhost", "8080", user="admin", pwd="admin", graph="huge
 ```
 
 First, we create the schema for a simple movie database:
-
 
 ```python
 """schema"""
@@ -56,15 +54,11 @@ schema.edgeLabel("ActedIn").sourceLabel("Person").targetLabel(
 ).ifNotExist().create()
 ```
 
-
-
 ```output
 'create EdgeLabel success, Detail: "b\'{"id":1,"name":"ActedIn","source_label":"Person","target_label":"Movie","frequency":"SINGLE","sort_keys":[],"nullable_keys":[],"index_labels":[],"properties":[],"status":"CREATED","ttl":0,"enable_label_index":true,"user_data":{"~create_time":"2023-07-04 10:48:47.908"}}\'"'
 ```
 
-
 Then we can insert some data.
-
 
 ```python
 """graph"""
@@ -83,24 +77,19 @@ g.addEdge(
 g.addEdge("ActedIn", "1:Robert De Niro", "2:The Godfather Part II", {})
 ```
 
-
-
 ```output
 1:Robert De Niro--ActedIn-->2:The Godfather Part II
 ```
 
-
 ## Creating `HugeGraphQAChain`
 
 We can now create the `HugeGraph` and `HugeGraphQAChain`. To create the `HugeGraph` we simply need to pass the database object to the `HugeGraph` constructor.
-
 
 ```python
 from langchain.chains import HugeGraphQAChain
 from langchain_community.graphs import HugeGraph
 from langchain_openai import ChatOpenAI
 ```
-
 
 ```python
 graph = HugeGraph(
@@ -116,33 +105,32 @@ graph = HugeGraph(
 
 If the schema of database changes, you can refresh the schema information needed to generate Gremlin statements.
 
-
 ```python
 # graph.refresh_schema()
 ```
 
-
 ```python
 print(graph.get_schema)
 ```
+
 ```output
 Node properties: [name: Person, primary_keys: ['name'], properties: ['name', 'birthDate'], name: Movie, primary_keys: ['name'], properties: ['name']]
 Edge properties: [name: ActedIn, properties: []]
 Relationships: ['Person--ActedIn-->Movie']
 ```
+
 ## Querying the graph
 
 We can now use the graph Gremlin QA chain to ask question of the graph
-
 
 ```python
 chain = HugeGraphQAChain.from_llm(ChatOpenAI(temperature=0), graph=graph, verbose=True)
 ```
 
-
 ```python
 chain.run("Who played in The Godfather?")
 ```
+
 ```output
 > Entering new  chain...
 Generated gremlin:
@@ -153,12 +141,9 @@ Full Context:
 > Finished chain.
 ```
 
-
 ```output
 'Al Pacino played in The Godfather.'
 ```
-
-
 
 ```python
 

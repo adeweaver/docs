@@ -13,8 +13,6 @@ Basically, those model are split into the following type:
 In this notebook, we will introduce how to use langchain with [Qianfan](https://cloud.baidu.com/doc/WENXINWORKSHOP/index.html) mainly in `Completion` corresponding
  to the package `langchain/llms` in langchain:
 
-
-
 ## API Initialization
 
 To use the LLM services based on Baidu Qianfan, you have to initialize these parameters:
@@ -26,7 +24,7 @@ export QIANFAN_AK=XXX
 export QIANFAN_SK=XXX
 ```
 
-## Current supported models:
+## Current supported models
 
 - ERNIE-Bot-turbo (default models)
 - ERNIE-Bot
@@ -39,12 +37,10 @@ export QIANFAN_SK=XXX
 - ChatGLM2-6B-32K
 - AquilaChat-7B
 
-
 ```python
 ##Installing the langchain packages needed to use the integration
 %pip install -qU langchain-community
 ```
-
 
 ```python
 """For basic init and call"""
@@ -59,6 +55,7 @@ llm = QianfanLLMEndpoint(streaming=True)
 res = llm.invoke("hi")
 print(res)
 ```
+
 ```output
 [INFO] [09-15 20:23:22] logging.py:55 [t:140708023539520]: trying to refresh access_token
 [INFO] [09-15 20:23:22] logging.py:55 [t:140708023539520]: successfully refresh access_token
@@ -97,6 +94,7 @@ async def run_aio_stream():
 
 await run_aio_stream()
 ```
+
 ```output
 [INFO] [09-15 20:23:26] logging.py:55 [t:140708023539520]: requesting llm api endpoint: /chat/eb-instant
 [INFO] [09-15 20:23:27] logging.py:55 [t:140708023539520]: async requesting llm api endpoint: /chat/eb-instant
@@ -113,13 +111,13 @@ Mountains are the symbols
  but also exercise our body and spirit. When we are not satisfied with the rote, we can go climbing, refresh our energy, and reset our focus. However, climbing mountains should be carried out in an organized and safe manner. If you don
 't know how to climb, you should learn first, or seek help from professionals. Enjoy the beautiful scenery of mountains, but also pay attention to safety.
 ```
+
 ## Use different models in Qianfan
 
 In the case you want to deploy your own model based on EB or serval open sources model, you could follow these steps:
 
 - 1. （Optional, if the model are included in the default models, skip it）Deploy your model in Qianfan Console, get your own customized deploy endpoint.
 - 2. Set up the field called `endpoint` in the initialization:
-
 
 ```python
 llm = QianfanLLMEndpoint(
@@ -129,18 +127,18 @@ llm = QianfanLLMEndpoint(
 )
 res = llm.invoke("hi")
 ```
+
 ```output
 [INFO] [09-15 20:23:36] logging.py:55 [t:140708023539520]: requesting llm api endpoint: /chat/eb-instant
 ```
-## Model Params:
+
+## Model Params
 
 For now, only `ERNIE-Bot` and `ERNIE-Bot-turbo` support model params below, we might support more models in the future.
 
 - temperature
 - top_p
 - penalty_score
-
-
 
 ```python
 res = llm.generate(
@@ -152,6 +150,7 @@ res = llm.generate(
 for r in res:
     print(r)
 ```
+
 ```output
 [INFO] [09-15 20:23:40] logging.py:55 [t:140708023539520]: requesting llm api endpoint: /chat/eb-instant
 ``````output

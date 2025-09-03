@@ -10,17 +10,17 @@ By default, the `SessionsPythonREPLTool` tool uses `DefaultAzureCredential` to a
 
 To use the code interpreter you'll also need to create a session pool, which you can do by following the instructions [here](https://learn.microsoft.com/en-us/azure/container-apps/sessions-code-interpreter?tabs=azure-cli#create-a-session-pool-with-azure-cli). Once that's done you should have a pool management session endpoint, which you'll need to set below:
 
-
 ```python
 import getpass
 
 POOL_MANAGEMENT_ENDPOINT = getpass.getpass()
 ```
+
 ```output
  ········
 ```
-You'll also need to install the `langchain-azure-dynamic-sessions` package:
 
+You'll also need to install the `langchain-azure-dynamic-sessions` package:
 
 ```python
 %pip install -qU langchain-azure-dynamic-sessions langchain-openai langchainhub langchain langchain-community
@@ -30,7 +30,6 @@ You'll also need to install the `langchain-azure-dynamic-sessions` package:
 
 Instantiate and use tool:
 
-
 ```python
 from langchain_azure_dynamic_sessions import SessionsPythonREPLTool
 
@@ -38,21 +37,15 @@ tool = SessionsPythonREPLTool(pool_management_endpoint=POOL_MANAGEMENT_ENDPOINT)
 tool.invoke("6 * 7")
 ```
 
-
-
 ```output
 '{\n  "result": 42,\n  "stdout": "",\n  "stderr": ""\n}'
 ```
 
-
 Invoking the tool will return a json string with the result of the code, along with any stdout and stderr outputs. To get the raw dictionary results, use the `execute()` method:
-
 
 ```python
 tool.execute("6 * 7")
 ```
-
-
 
 ```output
 {'$id': '2',
@@ -63,11 +56,9 @@ tool.execute("6 * 7")
  'executionTimeInMilliseconds': 8}
 ```
 
-
 ## Upload data
 
 If we want to perform computation over specific data, we can use the `upload_file()` functionality to upload data to our session. You can upload data either via the `data: BinaryIO` arg or via the `local_file_path: str` arg (which points to a local file on your system). The data is automatically uploaded to the "/mnt/data/" directory in the sessions container. You can get the full file path via the upload metadata returned by `upload_file()`.
-
 
 ```python
 import io
@@ -91,8 +82,6 @@ sum(data['important_data'])
 tool.execute(code)
 ```
 
-
-
 ```output
 {'$id': '2',
  'status': 'Success',
@@ -102,11 +91,9 @@ tool.execute(code)
  'executionTimeInMilliseconds': 12}
 ```
 
-
 ## Handling image results
 
 Dynamic sessions results can include image outputs as base64 encoded strings. In these cases the value of 'result' will be a dictionary with keys "type" (which will be "image"), "format (the format of the image), and "base64_data".
-
 
 ```python
 code = """
@@ -136,27 +123,19 @@ result = tool.execute(code)
 result["result"].keys()
 ```
 
-
-
 ```output
 dict_keys(['type', 'format', 'base64_data'])
 ```
-
-
 
 ```python
 result["result"]["type"], result["result"]["format"]
 ```
 
-
-
 ```output
 ('image', 'png')
 ```
 
-
 We can decode the image data and display it:
-
 
 ```python
 import base64
@@ -175,7 +154,6 @@ display(img)
 </p>
 
 ## Simple agent example
-
 
 ```python
 from langchain import hub
@@ -197,6 +175,7 @@ response = agent_executor.invoke(
     }
 )
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 
@@ -223,10 +202,10 @@ else:
 
 > Finished chain.
 ```
+
 ## LangGraph data analyst agent
 
-For a more complex agent example check out the LangGraph data analyst example https://github.com/langchain-ai/langchain/blob/master/cookbook/azure_container_apps_dynamic_sessions_data_analyst.ipynb
-
+For a more complex agent example check out the LangGraph data analyst example [github.com/langchain-ai/langchain/blob/master/cookbook/azure_container_apps_dynamic_sessions_data_analyst.ipynb](https://github.com/langchain-ai/langchain/blob/master/cookbook/azure_container_apps_dynamic_sessions_data_analyst.ipynb)
 
 ```python
 

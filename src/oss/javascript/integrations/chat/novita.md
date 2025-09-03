@@ -11,6 +11,7 @@ Try the [Novita AI DeepSeek R1 API Demo](https://novita.ai/models/llm/deepseek-d
 ## Overview
 
 ### Model features
+
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | Native async | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
 | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
@@ -39,10 +40,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/community @langchain/core
 </Npm2Yarn>
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions. Try the [Novita AI DeepSeek R1 API Demo](https://novita.ai/models/llm/deepseek-deepseek-r1?utm_source=github_langchain&utm_medium=github_readme&utm_campaign=link) today!
-
 
 ```python
 import { ChatNovitaAI } from "@langchain/community/chat_models/novita";
@@ -53,8 +54,8 @@ const llm = new ChatNovitaAI({
   // other params...
 })
 ```
-## Invocation
 
+## Invocation
 
 ```python
 const aiMsg = await llm.invoke([
@@ -68,6 +69,7 @@ const aiMsg = await llm.invoke([
   },
 ]);
 ```
+
 ```python
 console.log(aiMsg.content)
 ```
@@ -75,7 +77,6 @@ console.log(aiMsg.content)
 ## Chaining
 
 We can [chain](/oss/how-to/sequence) our model with a prompt template like so:
-
 
 ```python
 import { ChatPromptTemplate } from "@langchain/core/prompts"

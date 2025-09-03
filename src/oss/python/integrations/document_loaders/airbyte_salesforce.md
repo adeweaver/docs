@@ -8,12 +8,9 @@ Note: This connector-specific loader is deprecated. Please use [`AirbyteLoader`]
 
 This loader exposes the Salesforce connector as a document loader, allowing you to load various Salesforce objects as documents.
 
-
-
 ## Installation
 
 First, you need to install the `airbyte-source-salesforce` python package.
-
 
 ```python
 %pip install --upgrade --quiet  airbyte-source-salesforce
@@ -25,6 +22,7 @@ Check out the [Airbyte documentation page](https://docs.airbyte.com/integrations
 The JSON schema the config object should adhere to can be found on Github: [https://github.com/airbytehq/airbyte/blob/master/airbyte-integrations/connectors/source-salesforce/source_salesforce/spec.yaml](https://github.com/airbytehq/airbyte/blob/master/airbyte-integrations/connectors/source-salesforce/source_salesforce/spec.yaml).
 
 The general shape looks like this:
+
 ```python
 {
   "client_id": "<oauth client id>",
@@ -42,7 +40,6 @@ The general shape looks like this:
 
 By default all fields are stored as metadata in the documents and the text is set to an empty string. Construct the text of the document by transforming the documents returned by the reader.
 
-
 ```python
 from langchain_community.document_loaders.airbyte import AirbyteSalesforceLoader
 
@@ -57,20 +54,17 @@ loader = AirbyteSalesforceLoader(
 
 Now you can load documents the usual way
 
-
 ```python
 docs = loader.load()
 ```
 
 As `load` returns a list, it will block until all documents are loaded. To have better control over this process, you can also use the `lazy_load` method which returns an iterator instead:
 
-
 ```python
 docs_iterator = loader.lazy_load()
 ```
 
 Keep in mind that by default the page content is empty and the metadata object contains all the information from the record. To create documents in a different way, pass in a record_handler function when creating the loader:
-
 
 ```python
 from langchain_core.documents import Document
@@ -91,7 +85,6 @@ docs = loader.load()
 Some streams allow incremental loading, this means the source keeps track of synced records and won't load them again. This is useful for sources that have a high volume of data and are updated frequently.
 
 To take advantage of this, store the `last_state` property of the loader and pass it in when creating the loader again. This will ensure that only new records are loaded.
-
 
 ```python
 last_state = loader.last_state  # store safely

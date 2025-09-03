@@ -8,13 +8,11 @@ This example goes over how to use LangChain to interact with `C Transformers` [m
 
 **Install**
 
-
 ```python
 %pip install --upgrade --quiet  ctransformers
 ```
 
 **Load Model**
-
 
 ```python
 from langchain_community.llms import CTransformers
@@ -24,13 +22,11 @@ llm = CTransformers(model="marella/gpt-2-ggml")
 
 **Generate Text**
 
-
 ```python
 print(llm.invoke("AI is going to"))
 ```
 
 **Streaming**
-
 
 ```python
 from langchain_core.callbacks import StreamingStdOutCallbackHandler
@@ -43,7 +39,6 @@ response = llm.invoke("AI is going to")
 ```
 
 **LLMChain**
-
 
 ```python
 from langchain.chains import LLMChain

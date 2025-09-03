@@ -12,14 +12,12 @@ _Note: in addition to access to the database, an OpenAI API Key is required to r
 
 Use of the integration requires the following Python package.
 
-
 ```python
 %pip install --upgrade --quiet langchain-community "cassio>=0.1.4"
 ```
 
 _Note: depending on your LangChain setup, you may need to install/upgrade other dependencies needed for this demo_
 _(specifically, recent versions of `datasets`, `openai`, `pypdf` and `tiktoken` are required, along with `langchain-community`)._
-
 
 ```python
 import os
@@ -37,19 +35,16 @@ from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 ```
 
-
 ```python
 if "OPENAI_API_KEY" not in os.environ:
     os.environ["OPENAI_API_KEY"] = getpass("OPENAI_API_KEY = ")
 ```
-
 
 ```python
 embe = OpenAIEmbeddings()
 ```
 
 ## Import the Vector Store
-
 
 ```python
 from langchain_community.vectorstores import Cassandra
@@ -67,7 +62,6 @@ Depending on whether you connect to a Cassandra cluster or to Astra DB through C
 
 You first need to create a `cassandra.cluster.Session` object, as described in the [Cassandra driver documentation](https://docs.datastax.com/en/developer/python-driver/latest/api/cassandra/cluster/#module-cassandra.cluster). The details vary (e.g. with network settings and authentication), but this might be something like:
 
-
 ```python
 from cassandra.cluster import Cluster
 
@@ -76,7 +70,6 @@ session = cluster.connect()
 ```
 
 You can now set the session, along with your desired keyspace name, as a global CassIO parameter:
-
 
 ```python
 import cassio
@@ -87,7 +80,6 @@ cassio.init(session=session, keyspace=CASSANDRA_KEYSPACE)
 ```
 
 Now you can create the vector store:
-
 
 ```python
 vstore = Cassandra(
@@ -107,7 +99,6 @@ In this case you initialize CassIO with the following connection parameters:
 - the Token, e.g. `AstraCS:6gBhNmsk135....` (it must be a "Database Administrator" token)
 - Optionally a Keyspace name (if omitted, the default one for the database will be used)
 
-
 ```python
 ASTRA_DB_ID = input("ASTRA_DB_ID = ")
 ASTRA_DB_APPLICATION_TOKEN = getpass("ASTRA_DB_APPLICATION_TOKEN = ")
@@ -118,7 +109,6 @@ if desired_keyspace:
 else:
     ASTRA_DB_KEYSPACE = None
 ```
-
 
 ```python
 import cassio
@@ -132,7 +122,6 @@ cassio.init(
 
 Now you can create the vector store:
 
-
 ```python
 vstore = Cassandra(
     embedding=embe,
@@ -144,7 +133,6 @@ vstore = Cassandra(
 ## Load a dataset
 
 Convert each entry in the source dataset into a `Document`, then write them into the vector store:
-
 
 ```python
 philo_dataset = load_dataset("datastax/philosopher-quotes")["train"]
@@ -163,7 +151,6 @@ In the above, `metadata` dictionaries are created from the source data and are p
 
 Add some more entries, this time with `add_texts`:
 
-
 ```python
 texts = ["I think, therefore I am.", "To the things themselves!"]
 metadatas = [{"author": "descartes"}, {"author": "husserl"}]
@@ -181,13 +168,11 @@ _for more details. Depending on the network and the client machine specification
 
 This section demonstrates metadata filtering and getting the similarity scores back:
 
-
 ```python
 results = vstore.similarity_search("Our life is what we make of it", k=3)
 for res in results:
     print(f"* {res.page_content} [{res.metadata}]")
 ```
-
 
 ```python
 results_filtered = vstore.similarity_search(
@@ -199,7 +184,6 @@ for res in results_filtered:
     print(f"* {res.page_content} [{res.metadata}]")
 ```
 
-
 ```python
 results = vstore.similarity_search_with_score("Our life is what we make of it", k=3)
 for res, score in results:
@@ -207,7 +191,6 @@ for res, score in results:
 ```
 
 ### MMR (Maximal-marginal-relevance) search
-
 
 ```python
 results = vstore.max_marginal_relevance_search(
@@ -221,12 +204,10 @@ for res in results:
 
 ## Deleting stored documents
 
-
 ```python
 delete_1 = vstore.delete(inserted_ids[:3])
 print(f"all_succeed={delete_1}")  # True, all documents deleted
 ```
-
 
 ```python
 delete_2 = vstore.delete(inserted_ids[2:5])
@@ -236,17 +217,16 @@ print(f"some_succeeds={delete_2}")  # True, though some IDs were gone already
 ## A minimal RAG chain
 
 The next cells will implement a simple RAG pipeline:
+
 - download a sample PDF file and load it onto the store;
 - create a RAG chain with LCEL (LangChain Expression Language), with the vector store at its heart;
 - run the question-answering chain.
-
 
 ```python
 !curl -L \
     "https://github.com/awesome-astra/datasets/blob/main/demo-resources/what-is-philosophy/what-is-philosophy.pdf?raw=true" \
     -o "what-is-philosophy.pdf"
 ```
-
 
 ```python
 pdf_loader = PyPDFLoader("what-is-philosophy.pdf")
@@ -257,7 +237,6 @@ print(f"Documents from PDF: {len(docs_from_pdf)}.")
 inserted_ids_from_pdf = vstore.add_documents(docs_from_pdf)
 print(f"Inserted {len(inserted_ids_from_pdf)} documents.")
 ```
-
 
 ```python
 retriever = vstore.as_retriever(search_kwargs={"k": 3})
@@ -287,7 +266,6 @@ chain = (
 )
 ```
 
-
 ```python
 chain.invoke("How does Russel elaborate on Peirce's idea of the security blanket?")
 ```
@@ -299,7 +277,6 @@ For more, check out a complete RAG template using Astra DB through CQL [here](ht
 the following essentially retrieves the `Session` object from CassIO and runs a CQL `DROP TABLE` statement with it:
 
 _(You will lose the data you stored in it.)_
-
 
 ```python
 cassio.config.resolve_session().execute(

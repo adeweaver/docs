@@ -4,27 +4,21 @@ title: Polars DataFrame
 
 This notebook goes over how to load data from a [polars](https://pola-rs.github.io/polars-book/user-guide/) DataFrame.
 
-
 ```python
 %pip install --upgrade --quiet  polars
 ```
-
 
 ```python
 import polars as pl
 ```
 
-
 ```python
 df = pl.read_csv("example_data/mlb_teams_2012.csv")
 ```
 
-
 ```python
 df.head()
 ```
-
-
 
 ```html
 <div><style>
@@ -36,23 +30,17 @@ df.head()
 <small>shape: (5, 3)</small><table border="1" class="dataframe"><thead><tr><th>Team</th><th> &quot;Payroll (millions)&quot;</th><th> &quot;Wins&quot;</th></tr><tr><td>str</td><td>f64</td><td>i64</td></tr></thead><tbody><tr><td>&quot;Nationals&quot;</td><td>81.34</td><td>98</td></tr><tr><td>&quot;Reds&quot;</td><td>82.2</td><td>97</td></tr><tr><td>&quot;Yankees&quot;</td><td>197.96</td><td>95</td></tr><tr><td>&quot;Giants&quot;</td><td>117.62</td><td>94</td></tr><tr><td>&quot;Braves&quot;</td><td>83.31</td><td>94</td></tr></tbody></table></div>
 ```
 
-
-
 ```python
 from langchain_community.document_loaders import PolarsDataFrameLoader
 ```
-
 
 ```python
 loader = PolarsDataFrameLoader(df, page_content_column="Team")
 ```
 
-
 ```python
 loader.load()
 ```
-
-
 
 ```output
 [Document(page_content='Nationals', metadata={' "Payroll (millions)"': 81.34, ' "Wins"': 98}),
@@ -87,13 +75,12 @@ loader.load()
  Document(page_content='Astros', metadata={' "Payroll (millions)"': 60.65, ' "Wins"': 55})]
 ```
 
-
-
 ```python
 # Use lazy load for larger table, which won't read the full table into memory
 for i in loader.lazy_load():
     print(i)
 ```
+
 ```output
 page_content='Nationals' metadata={' "Payroll (millions)"': 81.34, ' "Wins"': 98}
 page_content='Reds' metadata={' "Payroll (millions)"': 82.2, ' "Wins"': 97}

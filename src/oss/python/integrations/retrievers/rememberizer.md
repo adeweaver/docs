@@ -11,6 +11,7 @@ This notebook shows how to retrieve documents from `Rememberizer` into the Docum
 You will need an API key: you can get one after creating a common knowledge at [https://rememberizer.ai](https://rememberizer.ai/). Once you have an API key, you must set it as an environment variable `REMEMBERIZER_API_KEY` or pass it as `rememberizer_api_key` when initializing `RememberizerRetriever`.
 
 `RememberizerRetriever` has these arguments:
+
 - optional `top_k_results`: default=10. Use it to limit number of returned documents.
 - optional `rememberizer_api_key`: required if you don't set the environment variable `REMEMBERIZER_API_KEY`.
 
@@ -20,14 +21,12 @@ You will need an API key: you can get one after creating a common knowledge at [
 
 ## Basic usage
 
-
 ```python
 # Setup API key
 from getpass import getpass
 
 REMEMBERIZER_API_KEY = getpass()
 ```
-
 
 ```python
 import os
@@ -38,17 +37,13 @@ os.environ["REMEMBERIZER_API_KEY"] = REMEMBERIZER_API_KEY
 retriever = RememberizerRetriever(top_k_results=5)
 ```
 
-
 ```python
 docs = retriever.get_relevant_documents(query="How does Large Language Models works?")
 ```
 
-
 ```python
 docs[0].metadata  # meta-information of the Document
 ```
-
-
 
 ```output
 {'id': 13646493,
@@ -64,26 +59,23 @@ docs[0].metadata  # meta-information of the Document
  'integration': {'id': 347, 'integration_type': 'google_drive'}}
 ```
 
-
-
 ```python
 print(docs[0].page_content[:400])  # a content of the Document
 ```
+
 ```output
 before, or contextualized in new ways. on some level they " understand " semantics in that they can associate words and concepts by their meaning, having seen them grouped together in that way millions or billions of times. how developers can quickly start building their own llms to build llm applications, developers need easy access to multiple data sets, and they need places for those data sets
 ```
-# Usage in a chain
 
+# Usage in a chain
 
 ```python
 OPENAI_API_KEY = getpass()
 ```
 
-
 ```python
 os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 ```
-
 
 ```python
 from langchain.chains import ConversationalRetrievalChain
@@ -92,7 +84,6 @@ from langchain_openai import ChatOpenAI
 model = ChatOpenAI(model_name="gpt-3.5-turbo")
 qa = ConversationalRetrievalChain.from_llm(model, retriever=retriever)
 ```
-
 
 ```python
 questions = [
@@ -107,6 +98,7 @@ for question in questions:
     print(f"-> **Question**: {question} \n")
     print(f"**Answer**: {result['answer']} \n")
 ```
+
 ```output
 -> **Question**: What is RAG?
 

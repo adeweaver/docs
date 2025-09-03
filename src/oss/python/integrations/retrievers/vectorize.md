@@ -11,11 +11,9 @@ This notebook shows how to use the LangChain Vectorize retriever.
 > so you maintain full control of your data.
 > Vectorize handles the heavy lifting, freeing you to focus on building robust AI solutions without getting bogged down by data management.
 
-
 ## Setup
 
 In the following steps, we'll setup the Vectorize environment and create a RAG pipeline.
-
 
 ### Create a Vectorize Account & Get Your Access Token
 
@@ -24,9 +22,6 @@ Generate an access token in the [Access Token](https://docs.vectorize.io/rag-pip
 Gather your organization ID. From the browser url, extract the UUID from the URL after /organization/
 
 ### Configure token and organization ID
-
-
-
 
 ```python
 import getpass
@@ -39,20 +34,17 @@ VECTORIZE_API_TOKEN = getpass.getpass("Enter Vectorize API Token: ")
 
 This retriever lives in the `langchain-vectorize` package:
 
-
 ```python
 !pip install -qU langchain-vectorize
 ```
 
 ### Download a PDF file
 
-
 ```python
 !wget "https://raw.githubusercontent.com/vectorize-io/vectorize-clients/refs/tags/python-0.1.3/tests/python/tests/research.pdf"
 ```
 
 ### Initialize the vectorize client
-
 
 ```python
 import vectorize_client as v
@@ -61,7 +53,6 @@ api = v.ApiClient(v.Configuration(access_token=VECTORIZE_API_TOKEN))
 ```
 
 ### Create a File Upload Source Connector
-
 
 ```python
 import json
@@ -77,7 +68,6 @@ source_connector_id = response.connectors[0].id
 ```
 
 ### Upload the PDF file
-
 
 ```python
 file_path = "research.pdf"
@@ -116,7 +106,6 @@ else:
 
 ### Connect to the AI Platform and Vector Database
 
-
 ```python
 ai_platforms = connectors_api.get_ai_platform_connectors(VECTORIZE_ORG_ID)
 builtin_ai_platform = [
@@ -130,7 +119,6 @@ builtin_vector_db = [
 ```
 
 ### Configure and Deploy the Pipeline
-
 
 ```python
 pipelines = v.PipelinesApi(api)
@@ -159,14 +147,12 @@ pipeline_id = response.data.id
 
 If you want to get automated tracing from individual queries, you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
-
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
 # os.environ["LANGSMITH_TRACING"] = "true"
 ```
 
 ## Instantiation
-
 
 ```python
 from langchain_vectorize.retrievers import VectorizeRetriever
@@ -179,9 +165,6 @@ retriever = VectorizeRetriever(
 ```
 
 ## Usage
-
-
-
 
 ```python
 query = "Apple Shareholders equity"
@@ -196,7 +179,6 @@ We will need a LLM or chat model:
 
 <ChatModelTabs customVarName="llm" />
 
-
 ```python
 # | output: false
 # | echo: false
@@ -205,7 +187,6 @@ from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(model="gpt-3.5-turbo-0125", temperature=0)
 ```
-
 
 ```python
 from langchain_core.output_parsers import StrOutputParser
@@ -232,7 +213,6 @@ chain = (
     | StrOutputParser()
 )
 ```
-
 
 ```python
 chain.invoke("...")

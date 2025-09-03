@@ -13,14 +13,11 @@ The Langchain GlueCatalogLoader will get the schema of all tables inside the giv
 - Follow [instructions to set up an AWS account](https://docs.aws.amazon.com/athena/latest/ug/setting-up.html).
 - Install the boto3 library: `pip install boto3`
 
-
 ## Example
-
 
 ```python
 from langchain_community.document_loaders.glue_catalog import GlueCatalogLoader
 ```
-
 
 ```python
 database_name = "my_database"
@@ -39,11 +36,9 @@ print(schemas)
 
 Table filtering allows you to selectively retrieve schema information for a specific subset of tables within a Glue database. Instead of loading the schemas for all tables, you can use the `table_filter` argument to specify exactly which tables you're interested in.
 
-
 ```python
 from langchain_community.document_loaders.glue_catalog import GlueCatalogLoader
 ```
-
 
 ```python
 database_name = "my_database"

@@ -9,6 +9,7 @@ Writer's [PDF Parser](https://dev.writer.com/api-guides/api-reference/tool-api/p
 ## Overview
 
 ### Integration details
+
 | Class                                                                                                                              | Package          | Local | Serializable | JS support |                                        Package downloads                                         |                                        Package latest                                         |
 |:-----------------------------------------------------------------------------------------------------------------------------------|:-----------------| :---: | :---: |:----------:|:------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------:|
 | [PDFParser](https://github.com/writer/langchain-writer/blob/main/langchain_writer/pdf_parser.py#L55) | [langchain-writer](https://pypi.org/project/langchain-writer/) |      ❌       |                                       ❌                                       | ❌ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-writer?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-writer?style=flat-square&label=%20) |
@@ -17,7 +18,6 @@ Writer's [PDF Parser](https://dev.writer.com/api-guides/api-reference/tool-api/p
 
 The `PDFParser` is available in the `langchain-writer` package:
 
-
 ```python
 %pip install --quiet -U langchain-writer
 ```
@@ -25,7 +25,6 @@ The `PDFParser` is available in the `langchain-writer` package:
 ### Credentials
 
 Sign up for [Writer AI Studio](https://app.writer.com/aistudio/signup?utm_campaign=devrel) to generate an API key (you can follow this [Quickstart](https://dev.writer.com/api-guides/quickstart)). Then, set the WRITER_API_KEY environment variable:
-
 
 ```python
 import getpass
@@ -37,7 +36,6 @@ if not os.getenv("WRITER_API_KEY"):
 
 It's also helpful (but not needed) to set up [LangSmith](https://smith.langchain.com/) for best-in-class observability. If you wish to do so, you can set the `LANGSMITH_TRACING` and `LANGSMITH_API_KEY` environment variables:
 
-
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass()
@@ -46,7 +44,6 @@ It's also helpful (but not needed) to set up [LangSmith](https://smith.langchain
 ### Instantiation
 
 Next, instantiate an instance of the Writer PDF Parser with the desired output format:
-
 
 ```python
 from langchain_writer.pdf_parser import PDFParser
@@ -62,7 +59,6 @@ There are two ways to use the PDF Parser, either synchronously or asynchronously
 
 To invoke the PDF Parser synchronously, pass a `Blob` object to the `parse` method referencing the PDF file you want to parse:
 
-
 ```python
 from langchain_core.documents.base import Blob
 
@@ -76,7 +72,6 @@ parsed_pages
 
 To invoke the PDF Parser asynchronously, pass a `Blob` object to the `aparse` method referencing the PDF file you want to parse:
 
-
 ```python
 parsed_pages_async = await parser.aparse(blob=file)
 parsed_pages_async
@@ -87,4 +82,5 @@ parsed_pages_async
 For detailed documentation of all `PDFParser` features and configurations, head to the [API reference](https://python.langchain.com/api_reference/writer/pdf_parser/langchain_writer.pdf_parser.PDFParser.html#langchain_writer.pdf_parser.PDFParser).
 
 ## Additional resources
+
 You can find information about Writer's models (including costs, context windows, and supported input types) and tools in the [Writer docs](https://dev.writer.com/home).

@@ -20,14 +20,12 @@ Let's move forward and see how to enable and configure Aim callback.
 
 In this notebook we will explore three usage scenarios. To start off, we will install the necessary packages and import certain modules. Subsequently, we will configure two environment variables that can be established either within the Python script or through the terminal.
 
-
 ```python
 %pip install --upgrade --quiet  aim
 %pip install --upgrade --quiet  langchain
 %pip install --upgrade --quiet  langchain-openai
 %pip install --upgrade --quiet  google-search-results
 ```
-
 
 ```python
 import os
@@ -38,10 +36,9 @@ from langchain_core.callbacks import StdOutCallbackHandler
 from langchain_openai import OpenAI
 ```
 
-Our examples use a GPT model as the LLM, and OpenAI offers an API for this purpose. You can obtain the key from the following link: https://platform.openai.com/account/api-keys .
+Our examples use a GPT model as the LLM, and OpenAI offers an API for this purpose. You can obtain the key from the following link: [platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys) .
 
-We will use the SerpApi to retrieve search results from Google. To acquire the SerpApi key, please go to https://serpapi.com/manage-api-key .
-
+We will use the SerpApi to retrieve search results from Google. To acquire the SerpApi key, please go to [serpapi.com/manage-api-key](https://serpapi.com/manage-api-key) .
 
 ```python
 os.environ["OPENAI_API_KEY"] = "..."
@@ -49,7 +46,6 @@ os.environ["SERPAPI_API_KEY"] = "..."
 ```
 
 The event methods of `AimCallbackHandler` accept the LangChain module or agent as input and log at least the prompts and generated results, as well as the serialized version of the LangChain module, to the designated Aim run.
-
 
 ```python
 session_group = datetime.now().strftime("%m.%d.%Y_%H.%M.%S")
@@ -66,7 +62,6 @@ The `flush_tracker` function is used to record LangChain assets on Aim. By defau
 
 <h3>Scenario 1</h3> In the first scenario, we will use OpenAI LLM.
 
-
 ```python
 # scenario 1 - LLM
 llm_result = llm.generate(["Tell me a joke", "Tell me a poem"] * 3)
@@ -78,12 +73,10 @@ aim_callback.flush_tracker(
 
 <h3>Scenario 2</h3> Scenario two involves chaining with multiple SubChains across multiple generations.
 
-
 ```python
 from langchain.chains import LLMChain
 from langchain_core.prompts import PromptTemplate
 ```
-
 
 ```python
 # scenario 2 - Chain
@@ -108,11 +101,9 @@ aim_callback.flush_tracker(
 
 <h3>Scenario 3</h3> The third scenario involves an agent with tools.
 
-
 ```python
 from langchain.agents import AgentType, initialize_agent, load_tools
 ```
-
 
 ```python
 # scenario 3 - Agent with Tools
@@ -128,6 +119,7 @@ agent.run(
 )
 aim_callback.flush_tracker(langchain_asset=agent, reset=False, finish=True)
 ```
+
 ```output
 > Entering new AgentExecutor chain...
  I need to find out who Leo DiCaprio's girlfriend is and then calculate her age raised to the 0.43 power.

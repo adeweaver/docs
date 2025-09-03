@@ -42,10 +42,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/aws @langchain/core
 </Npm2Yarn>
 ```
+
 ## Instantiation
 
 Now we can instantiate our retriever:
-
 
 ```typescript
 import { AmazonKendraRetriever } from "@langchain/aws";
@@ -62,14 +62,15 @@ const retriever = new AmazonKendraRetriever({
   },
 });
 ```
-## Usage
 
+## Usage
 
 ```typescript
 const query = "..."
 
 await retriever.invoke(query);
 ```
+
 ## Use within a chain
 
 Like other retrievers, the `AWSKendraRetriever` can be incorporated into LLM applications via [chains](/oss/how-to/sequence/).
@@ -79,6 +80,7 @@ We will need a LLM or chat model:
 ```{=mdx}
 <ChatModelTabs customVarName="llm" />
 ```
+
 ```typescript
 // @lc-docs-hide-cell
 
@@ -89,7 +91,6 @@ const llm = new ChatOpenAI({
   temperature: 0,
 });
 ```
-
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts";
@@ -120,7 +121,6 @@ const ragChain = RunnableSequence.from([
   new StringOutputParser(),
 ]);
 ```
-
 
 ```typescript
 await ragChain.invoke(query);

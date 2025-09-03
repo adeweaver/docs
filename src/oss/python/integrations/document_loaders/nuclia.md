@@ -6,17 +6,14 @@ title: Nuclia
 
 >The `Nuclia Understanding API` supports the processing of unstructured data, including text, web pages, documents, and audio/video contents. It extracts all texts wherever they are (using speech-to-text or OCR when needed), it also extracts metadata, embedded files (like images in a PDF), and web links. If machine learning is enabled, it identifies entities, provides a summary of the content and generates embeddings for all the sentences.
 
-
 ## Setup
 
 To use the `Nuclia Understanding API`, you need to have a Nuclia account. You can create one for free at [https://nuclia.cloud](https://nuclia.cloud), and then [create a NUA key](https://docs.nuclia.dev/docs/docs/using/understanding/intro).
-
 
 ```python
 %pip install --upgrade --quiet  protobuf
 %pip install --upgrade --quiet  nucliadb-protos
 ```
-
 
 ```python
 import os
@@ -29,13 +26,11 @@ os.environ["NUCLIA_NUA_KEY"] = "<YOUR_API_KEY>"
 
 To use the Nuclia document loader, you need to instantiate a `NucliaUnderstandingAPI` tool:
 
-
 ```python
 from langchain_community.tools.nuclia import NucliaUnderstandingAPI
 
 nua = NucliaUnderstandingAPI(enable_ml=False)
 ```
-
 
 ```python
 from langchain_community.document_loaders.nuclia import NucliaLoader
@@ -44,7 +39,6 @@ loader = NucliaLoader("./interview.mp4", nua)
 ```
 
 You can now call the `load` the document in a loop until you get the document.
-
 
 ```python
 import time

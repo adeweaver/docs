@@ -8,16 +8,13 @@ The [embeddings](https://docs.nlpcloud.com/#embeddings) endpoint offers the foll
 
 * `paraphrase-multilingual-mpnet-base-v2`: Paraphrase Multilingual MPNet Base V2 is a very fast model based on Sentence Transformers that is perfectly suited for embeddings extraction in more than 50 languages (see the full list here).
 
-
 ```python
 %pip install --upgrade --quiet  nlpcloud
 ```
 
-
 ```python
 from langchain_community.embeddings import NLPCloudEmbeddings
 ```
-
 
 ```python
 import os
@@ -26,16 +23,13 @@ os.environ["NLPCLOUD_API_KEY"] = "xxx"
 nlpcloud_embd = NLPCloudEmbeddings()
 ```
 
-
 ```python
 text = "This is a test document."
 ```
 
-
 ```python
 query_result = nlpcloud_embd.embed_query(text)
 ```
-
 
 ```python
 doc_result = nlpcloud_embd.embed_documents([text])

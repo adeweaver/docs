@@ -28,6 +28,7 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/weaviate @langchain/core weaviate-client uuid @langchain/openai
 </Npm2Yarn>
 ```
+
 You'll need to run Weaviate either locally or on a server. See [the Weaviate documentation](https://weaviate.io/developers/weaviate/installation) for more information.
 
 ### Credentials
@@ -40,17 +41,20 @@ process.env.WEAVIATE_URL = "YOUR_WEAVIATE_URL";
 // Optional, for cloud deployments
 process.env.WEAVIATE_API_KEY = "YOUR_API_KEY";
 ```
+
 If you are using OpenAI embeddings for this guide, you'll need to set your OpenAI key as well:
 
 ```typescript
 process.env.OPENAI_API_KEY = "YOUR_API_KEY";
 ```
+
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
 ```typescript
 // process.env.LANGSMITH_TRACING="true"
 // process.env.LANGSMITH_API_KEY="your-api-key"
 ```
+
 ## Instantiation
 
 ### Connect a weaviate client
@@ -60,7 +64,6 @@ In most cases, you should use one of the connection helper functions to connect 
 - connectToWeaviateCloud
 - connectToLocal
 - connectToCustom
-
 
 ```typescript
 import { WeaviateStore } from "@langchain/weaviate";
@@ -73,7 +76,7 @@ const embeddings = new OpenAIEmbeddings({
 
 const weaviateClient = weaviate.connectToWeaviateCloud({
    clusterURL: process.env.WEAVIATE_URL!,
-	 options : {
+  options : {
       authCredentials: new weaviate.ApiKey(process.env.WEAVIATE_API_KEY || ""),
       headers: {
         "X-OpenAI-Api-Key": process.env.OPENAI_API_KEY || "",
@@ -82,9 +85,10 @@ const weaviateClient = weaviate.connectToWeaviateCloud({
     },
 });
 ```
-### Initiate the vectorStore
-To create a collection, specify at least the collection name. If you don't specify any properties, `auto-schema` creates them.
 
+### Initiate the vectorStore
+
+To create a collection, specify at least the collection name. If you don't specify any properties, `auto-schema` creates them.
 
 ```typescript
 const vectorStore = new WeaviateStore(embeddings, {
@@ -93,8 +97,8 @@ const vectorStore = new WeaviateStore(embeddings, {
   indexName: "Langchainjs_test",
 });
 ```
-To use Weaviate's named vectors, vectorizers, reranker, generative-models etc., use the `schema` property when enabling the vector store. The collection name and other properties in `schema` will take precedence when creating the vector store.
 
+To use Weaviate's named vectors, vectorizers, reranker, generative-models etc., use the `schema` property when enabling the vector store. The collection name and other properties in `schema` will take precedence when creating the vector store.
 
 ```typescript
 const vectorStore = new WeaviateStore(embeddings, {
@@ -124,12 +128,12 @@ const vectorStore = new WeaviateStore(embeddings, {
   },
 });
 ```
+
 ## Manage vector store
 
 ### Add items to vector store
 
 **Note:** If you want to associate ids with your indexed documents, they must be UUIDs.
-
 
 ```typescript
 import type { Document } from "@langchain/core/documents";
@@ -160,6 +164,7 @@ const uuids = [uuidv4(), uuidv4(), uuidv4(), uuidv4()];
 
 await vectorStore.addDocuments(documents, { ids: uuids });
 ```
+
 ```output
 [
   '610f9b92-9bee-473f-a4db-8f2ca6e3442d',
@@ -168,10 +173,10 @@ await vectorStore.addDocuments(documents, { ids: uuids });
   '18a8211c-0649-467b-a7c5-50ebb4b9ca9d'
 ]
 ```
+
 ### Delete items from vector store
 
 You can delete by id as by passing a `filter` param:
-
 
 ```typescript
 await vectorStore.delete({ ids: [uuids[3]] });
@@ -181,12 +186,12 @@ await vectorStore.delete({ ids: [uuids[3]] });
 
 Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 In weaviate's v3, the client interacts with `collections` as the primary way to work with objects in the database. The `collection` object can be re-used throughout the codebase
+
 ### Query directly
 
 Performing a simple similarity search can be done as follows. The `Filter` helper class makes it easier to use filters with conditions. The v3 client streamlines how you use `Filter` so your code is cleaner and more concise.
 
 See [this page](https://weaviate.io/developers/weaviate/api/graphql/filters) for more on Weaviate filter syntax.
-
 
 ```typescript
 import { Filters } from "weaviate-client";
@@ -201,12 +206,13 @@ for (const doc of similaritySearchResults) {
   console.log(`* ${doc.pageContent} [${JSON.stringify(doc.metadata, null)}]`);
 }
 ```
+
 ```output
 * The powerhouse of the cell is the mitochondria [{"source":"https://example.com"}]
 * Mitochondria are made out of lipids [{"source":"https://example.com"}]
 ```
-If you want to execute a similarity search and receive the corresponding scores you can run:
 
+If you want to execute a similarity search and receive the corresponding scores you can run:
 
 ```typescript
 const similaritySearchWithScoreResults = await vectorStore.similaritySearchWithScore("biology", 2, filter)
@@ -215,15 +221,17 @@ for (const [doc, score] of similaritySearchWithScoreResults) {
   console.log(`* [SIM=${score.toFixed(3)}] ${doc.pageContent} [${JSON.stringify(doc.metadata)}]`);
 }
 ```
+
 ```output
 * [SIM=0.835] The powerhouse of the cell is the mitochondria [{"source":"https://example.com"}]
 * [SIM=0.852] Mitochondria are made out of lipids [{"source":"https://example.com"}]
 ```
+
 ### Hybrid Search
+
 In Weaviate, `Hybrid search` combines the results of a vector search and a keyword (BM25F) search by fusing the two result sets. To change the relative weights of the keyword and vector components, set the `alpha` value in your query.
 
-Check __[docs](https://weaviate.io/developers/weaviate/search/hybrid)__ for the full list of hybrid search options.
-
+Check **[docs](https://weaviate.io/developers/weaviate/search/hybrid)** for the full list of hybrid search options.
 
 ```typescript
 const results = await vectorStore.hybridSearch("biology",
@@ -239,13 +247,14 @@ const results = await vectorStore.hybridSearch("biology",
 ```
 
 ### Retrieval Augmented Generation (RAG)
+
 Retrieval Augmented Generation (RAG) combines information retrieval with generative AI models.
 
 In Weaviate, a RAG query consists of two parts: a search query, and a prompt for the model. Weaviate first performs the search, then passes both the search results and your prompt to a generative AI model before returning the generated response.
-   * @param query The query to search for.
-   * @param options available options for performing the hybrid search
-   * @param generate available options for the generation. Check docs for complete list
 
+- @param query The query to search for.
+- @param options available options for performing the hybrid search
+- @param generate available options for the generation. Check docs for complete list
 
 ```typescript
 const results = await vectorStore.generate("hello world",
@@ -268,7 +277,6 @@ const results = await vectorStore.generate("hello world",
 
 You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains.
 
-
 ```typescript
 const retriever = vectorStore.asRetriever({
   // Optional filter
@@ -277,6 +285,7 @@ const retriever = vectorStore.asRetriever({
 });
 await retriever.invoke("biology");
 ```
+
 ```output
 [
   Document {
@@ -291,6 +300,7 @@ await retriever.invoke("biology");
   }
 ]
 ```
+
 ### Usage for retrieval-augmented generation
 
 For guides on how to use this vector store for retrieval-augmented generation (RAG), see the following sections:

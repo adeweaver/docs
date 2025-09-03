@@ -11,13 +11,11 @@ You'll need to install `langchain-community` with `pip install -qU langchain-com
 
 To run, you should have a `Tair` instance up and running.
 
-
 ```python
 from langchain_community.embeddings.fake import FakeEmbeddings
 from langchain_community.vectorstores import Tair
 from langchain_text_splitters import CharacterTextSplitter
 ```
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -31,6 +29,7 @@ embeddings = FakeEmbeddings(size=128)
 ```
 
 Connect to Tair using the `TAIR_URL` environment variable
+
 ```
 export TAIR_URL="redis://{username}:{password}@{tair_address}:{tair_port}"
 ```
@@ -38,7 +37,6 @@ export TAIR_URL="redis://{username}:{password}@{tair_address}:{tair_port}"
 or the keyword argument `tair_url`.
 
 Then store documents and embeddings into Tair.
-
 
 ```python
 tair_url = "redis://localhost:6379"
@@ -51,7 +49,6 @@ vector_store = Tair.from_documents(docs, embeddings, tair_url=tair_url)
 
 Query similar documents.
 
-
 ```python
 query = "What did the president say about Ketanji Brown Jackson"
 docs = vector_store.similarity_search(query)
@@ -59,7 +56,6 @@ docs[0]
 ```
 
 Tair Hybrid Search Index build
-
 
 ```python
 # drop first if index already exists
@@ -71,7 +67,6 @@ vector_store = Tair.from_documents(
 ```
 
 Tair Hybrid Search
-
 
 ```python
 query = "What did the president say about Ketanji Brown Jackson"

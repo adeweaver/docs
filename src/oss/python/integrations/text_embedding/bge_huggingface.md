@@ -7,11 +7,9 @@ title: BGE on Hugging Face
 
 This notebook shows how to use `BGE Embeddings` through `Hugging Face`
 
-
 ```python
 %pip install --upgrade --quiet  sentence_transformers
 ```
-
 
 ```python
 from langchain_community.embeddings import HuggingFaceBgeEmbeddings
@@ -26,19 +24,14 @@ hf = HuggingFaceBgeEmbeddings(
 
 Note that you need to pass `query_instruction=""` for `model_name="BAAI/bge-m3"` see [FAQ BGE M3](https://huggingface.co/BAAI/bge-m3#faq).
 
-
 ```python
 embedding = hf.embed_query("hi this is harrison")
 len(embedding)
 ```
 
-
-
 ```output
 384
 ```
-
-
 
 ```python
 

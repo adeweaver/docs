@@ -6,7 +6,6 @@ title: Stripe
 
 This notebook covers how to load data from the `Stripe REST API` into a format that can be ingested into LangChain, along with example usage for vectorization.
 
-
 ```python
 from langchain.indexes import VectorstoreIndexCreator
 from langchain_community.document_loaders import StripeLoader
@@ -30,11 +29,9 @@ Following resources are available:
 
 `disputes` [Documentation](https://stripe.com/docs/api/disputes/list)
 
-
 ```python
 stripe_loader = StripeLoader("charges")
 ```
-
 
 ```python
 # Create a vectorstore retriever from the loader

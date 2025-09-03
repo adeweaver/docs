@@ -21,7 +21,6 @@ For example, we can scrape text content within `<p>, <li>, <div>, and <a>` tags 
 
 * `<a>`: The anchor tag. It is used to define hyperlinks.
 
-
 ```python
 from langchain_community.document_loaders import AsyncChromiumLoader
 from langchain_community.document_transformers import BeautifulSoupTransformer
@@ -31,7 +30,6 @@ loader = AsyncChromiumLoader(["https://www.wsj.com"])
 html = loader.load()
 ```
 
-
 ```python
 # Transform
 bs_transformer = BeautifulSoupTransformer()
@@ -40,12 +38,9 @@ docs_transformed = bs_transformer.transform_documents(
 )
 ```
 
-
 ```python
 docs_transformed[0].page_content[0:500]
 ```
-
-
 
 ```output
 'Conservative legal activists are challenging Amazon, Comcast and others using many of the same tools that helped kill affirmative-action programs in colleges.1,2099 min read U.S. stock indexes fell and government-bond prices climbed, after Moody’s lowered credit ratings for 10 smaller U.S. banks and said it was reviewing ratings for six larger ones. The Dow industrials dropped more than 150 points.3 min read Penn Entertainment’s Barstool Sportsbook app will be rebranded as ESPN Bet this fall as '

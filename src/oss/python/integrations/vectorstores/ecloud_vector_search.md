@@ -13,13 +13,11 @@ Read the [help document](https://ecloud.10086.cn/op-help-center/doc/category/109
 
 After the instance is up and running, follow these steps to split documents, get embeddings, connect to the baidu cloud elasticsearch instance, index documents, and perform vector retrieval.
 
-
 ```python
 #!pip install elasticsearch == 7.10.1
 ```
 
 First, we want to use `OpenAIEmbeddings` so we have to get the OpenAI API Key.
-
 
 ```python
 import getpass
@@ -31,14 +29,12 @@ if "OPENAI_API_KEY" not in os.environ:
 
 Secondly, split documents and get embeddings.
 
-
 ```python
 from langchain_community.document_loaders import TextLoader
 from langchain_community.vectorstores import EcloudESVectorStore
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import CharacterTextSplitter
 ```
-
 
 ```python
 loader = TextLoader("../../../state_of_the_union.txt")
@@ -56,7 +52,6 @@ indexname = "your index name"
 
 then, index documents
 
-
 ```python
 docsearch = EcloudESVectorStore.from_documents(
     docs,
@@ -71,7 +66,6 @@ docsearch = EcloudESVectorStore.from_documents(
 
 Finally, Query and retrieve data
 
-
 ```python
 query = "What did the president say about Ketanji Brown Jackson"
 docs = docsearch.similarity_search(query, k=10)
@@ -79,7 +73,6 @@ print(docs[0].page_content)
 ```
 
 A commonly used case
-
 
 ```python
 def test_dense_float_vectore_lsh_cosine() -> None:
@@ -152,7 +145,6 @@ def test_dense_float_vectore_lsh_cosine() -> None:
 ```
 
 With filter case
-
 
 ```python
 def test_dense_float_vectore_exact_with_filter() -> None:

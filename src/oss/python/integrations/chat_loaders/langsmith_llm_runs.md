@@ -17,11 +17,9 @@ Before diving in, let's install our prerequisites.
 
 Ensure you've installed langchain >= 0.0.311 and have configured your environment with your LangSmith API key.
 
-
 ```python
 %pip install --upgrade --quiet  langchain langchain-openai
 ```
-
 
 ```python
 import os
@@ -35,12 +33,12 @@ os.environ["LANGSMITH_PROJECT"] = project_name
 ```
 
 ## 1. Select Runs
+
 The first step is selecting which runs to fine-tune on. A common case would be to select LLM runs within
 traces that have received positive user feedback. You can find examples of this in the[LangSmith Cookbook](https://github.com/langchain-ai/langsmith-cookbook/blob/main/exploratory-data-analysis/exporting-llm-runs-and-feedback/llm_run_etl.ipynb) and in the [docs](https://docs.smith.langchain.com/tracing/use-cases/export-runs/local).
 
 For the sake of this tutorial, we will generate some runs for you to use here. Let's try fine-tuning a
 simple function-calling chain.
-
 
 ```python
 from enum import Enum
@@ -76,7 +74,6 @@ class Calculator(BaseModel):
                 return "Cannot divide by zero"
 ```
 
-
 ```python
 from pprint import pprint
 
@@ -86,6 +83,7 @@ from pydantic import BaseModel
 openai_function_def = convert_pydantic_to_openai_function(Calculator)
 pprint(openai_function_def)
 ```
+
 ```output
 {'description': 'A calculator function',
  'name': 'Calculator',
@@ -124,7 +122,6 @@ chain = (
 )
 ```
 
-
 ```python
 math_questions = [
     "What's 45/9?",
@@ -155,13 +152,11 @@ results = chain.batch([{"input": q} for q in math_questions], return_exceptions=
 
 Now we can select the successful runs to fine-tune on.
 
-
 ```python
 from langsmith.client import Client
 
 client = Client()
 ```
-
 
 ```python
 successful_traces = {
@@ -184,8 +179,8 @@ llm_runs = [
 ```
 
 ## 2. Prepare data
-Now we can create an instance of LangSmithRunChatLoader and load the chat sessions using its lazy_load() method.
 
+Now we can create an instance of LangSmithRunChatLoader and load the chat sessions using its lazy_load() method.
 
 ```python
 from langchain_community.chat_loaders.langsmith import LangSmithRunChatLoader
@@ -195,8 +190,7 @@ loader = LangSmithRunChatLoader(runs=llm_runs)
 chat_sessions = loader.lazy_load()
 ```
 
-#### With the chat sessions loaded, convert them into a format suitable for fine-tuning.
-
+#### With the chat sessions loaded, convert them into a format suitable for fine-tuning
 
 ```python
 from langchain_community.adapters.openai import convert_messages_for_finetuning
@@ -205,8 +199,8 @@ training_data = convert_messages_for_finetuning(chat_sessions)
 ```
 
 ## 3. Fine-tune the model
-Now, initiate the fine-tuning process using the OpenAI library.
 
+Now, initiate the fine-tuning process using the OpenAI library.
 
 ```python
 import json
@@ -237,13 +231,14 @@ while status != "succeeded":
 
 # Now your model is fine-tuned!
 ```
+
 ```output
 Status=[running]... 349.84s. 17.72s
 ```
+
 ## 4. Use in LangChain
 
 After fine-tuning, use the resulting model ID with the ChatOpenAI model class in your LangChain app.
-
 
 ```python
 # Get the fine-tuned model ID
@@ -259,16 +254,12 @@ model = ChatOpenAI(
 )
 ```
 
-
 ```python
 (prompt | model).invoke({"input": "What's 56/7?"})
 ```
 
-
-
 ```output
 AIMessage(content='Let me calculate that for you.')
 ```
-
 
 Now you have successfully fine-tuned a model using data from LangSmith LLM runs!

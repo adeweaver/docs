@@ -18,7 +18,6 @@ To access Fireworks embedding models you'll need to create a Fireworks account, 
 
 Head to [fireworks.ai](https://fireworks.ai/) to sign up to Fireworks and generate an API key. Once you’ve done this set the FIREWORKS_API_KEY environment variable:
 
-
 ```python
 import getpass
 import os
@@ -29,7 +28,6 @@ if not os.getenv("FIREWORKS_API_KEY"):
 
 To enable automated tracing of your model calls, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
-
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -39,7 +37,6 @@ To enable automated tracing of your model calls, set your [LangSmith](https://do
 
 The LangChain Fireworks integration lives in the `langchain-fireworks` package:
 
-
 ```python
 %pip install -qU langchain-fireworks
 ```
@@ -47,7 +44,6 @@ The LangChain Fireworks integration lives in the `langchain-fireworks` package:
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```python
 from langchain_fireworks import FireworksEmbeddings
@@ -62,7 +58,6 @@ embeddings = FireworksEmbeddings(
 Embedding models are often used in retrieval-augmented generation (RAG) flows, both as part of indexing data as well as later retrieving it. For more detailed instructions, please see our [RAG tutorials](/oss/tutorials/rag).
 
 Below, see how to index and retrieve data using the `embeddings` object we initialized above. In this example, we will index and retrieve a sample document in the `InMemoryVectorStore`.
-
 
 ```python
 # Create a vector store with a sample text
@@ -85,12 +80,9 @@ retrieved_documents = retriever.invoke("What is LangChain?")
 retrieved_documents[0].page_content
 ```
 
-
-
 ```output
 'LangChain is the framework for building context-aware reasoning applications'
 ```
-
 
 ## Direct Usage
 
@@ -102,18 +94,18 @@ You can directly call these methods to get embeddings for your own use cases.
 
 You can embed single texts or documents with `embed_query`:
 
-
 ```python
 single_vector = embeddings.embed_query(text)
 print(str(single_vector)[:100])  # Show the first 100 characters of the vector
 ```
+
 ```output
 [0.01666259765625, 0.011688232421875, -0.1181640625, -0.10205078125, 0.05438232421875, -0.0890502929
 ```
+
 ### Embed multiple texts
 
 You can embed multiple texts with `embed_documents`:
-
 
 ```python
 text2 = (
@@ -123,10 +115,12 @@ two_vectors = embeddings.embed_documents([text, text2])
 for vector in two_vectors:
     print(str(vector)[:100])  # Show the first 100 characters of the vector
 ```
+
 ```output
 [0.016632080078125, 0.01165008544921875, -0.1181640625, -0.10186767578125, 0.05438232421875, -0.0890
 [-0.02667236328125, 0.036651611328125, -0.1630859375, -0.0904541015625, -0.022430419921875, -0.09545
 ```
+
 ## API Reference
 
 For detailed documentation of all `FireworksEmbeddings` features and configurations head to the [API reference](https://python.langchain.com/api_reference/fireworks/embeddings/langchain_fireworks.embeddings.FireworksEmbeddings.html).

@@ -38,11 +38,13 @@ pip install --quiet -U langchain-community
 ```
 
 2. **Install** the PaymanAI SDK:
+
 ```bash
 pip install paymanai
 ```
 
 3. **Set** environment variables:
+
 ```bash
 export PAYMAN_API_SECRET="YOUR_SECRET_KEY"
 export PAYMAN_ENVIRONMENT="sandbox"
@@ -104,14 +106,18 @@ You can bind a PaymanAI tool to a LangChain agent or chain that supports tool-ca
 
 1. **Sign up** at app.paymanai.com to get your **API Key**.
 2. **Install** dependencies:
+
    ```bash
    pip install paymanai langchain-community
    ```
+
 3. **Export** environment variables:
+
    ```bash
    export PAYMAN_API_SECRET="YOUR_SECRET_KEY"
    export PAYMAN_ENVIRONMENT="sandbox"
    ```
+
 4. **Instantiate** a PaymanAI tool, passing your desired name/description.
 5. **Call** the tool with `.invoke(...)` or integrate it into a chain or agent.
 

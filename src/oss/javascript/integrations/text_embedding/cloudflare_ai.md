@@ -5,6 +5,7 @@ title: CloudflareWorkersAIEmbeddings
 This will help you get started with Cloudflare Workers AI [embedding models](/oss/concepts/embedding_models) using LangChain. For detailed documentation on `CloudflareWorkersAIEmbeddings` features and configuration options, please refer to the [API reference](https://api.js.langchain.com/classes/langchain_cloudflare.CloudflareWorkersAIEmbeddings.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Py support | Package downloads | Package latest |
@@ -53,10 +54,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/cloudflare @langchain/core
 </Npm2Yarn>
 ```
+
 ## Usage
 
 Below is an example worker that uses Workers AI embeddings with a [Cloudflare Vectorize vectorstore](/oss/integrations/vectorstores/cloudflare_vectorize/).
-
 
 ```typescript
 // @ts-nocheck
@@ -123,4 +124,4 @@ export default {
 
 ## API reference
 
-For detailed documentation of all `CloudflareWorkersAIEmbeddings` features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_cloudflare.CloudflareWorkersAIEmbeddings.html
+For detailed documentation of all `CloudflareWorkersAIEmbeddings` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_cloudflare.CloudflareWorkersAIEmbeddings.html).

@@ -5,6 +5,7 @@ title: ChatHuggingFace
 This will help you get started with `langchain_huggingface` [chat models](/oss/concepts/chat_models). For detailed documentation of all `ChatHuggingFace` features and configurations head to the [API reference](https://python.langchain.com/api_reference/huggingface/chat_models/langchain_huggingface.chat_models.huggingface.ChatHuggingFace.html). For a list of models supported by Hugging Face check out [this page](https://huggingface.co/models).
 
 ## Overview
+
 ### Integration details
 
 ### Integration details
@@ -14,6 +15,7 @@ This will help you get started with `langchain_huggingface` [chat models](/oss/c
 | [ChatHuggingFace](https://python.langchain.com/api_reference/huggingface/chat_models/langchain_huggingface.chat_models.huggingface.ChatHuggingFace.html) | [langchain-huggingface](https://python.langchain.com/api_reference/huggingface/index.html) | ✅ | beta | ❌ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain_huggingface?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain_huggingface?style=flat-square&label=%20) |
 
 ### Model features
+
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | Native async | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
 | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ |
@@ -25,7 +27,6 @@ To access Hugging Face models you'll need to create a Hugging Face account, get 
 ### Credentials
 
 Generate a [Hugging Face Access Token](https://huggingface.co/docs/hub/security-tokens) and store it as an environment variable: `HUGGINGFACEHUB_API_TOKEN`.
-
 
 ```python
 import getpass
@@ -42,6 +43,7 @@ if not os.getenv("HUGGINGFACEHUB_API_TOKEN"):
 | [ChatHuggingFace](https://python.langchain.com/api_reference/huggingface/chat_models/langchain_huggingface.chat_models.huggingface.ChatHuggingFace.html) | [langchain-huggingface](https://python.langchain.com/api_reference/huggingface/index.html) | ✅ | ❌ | ❌ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain_huggingface?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain_huggingface?style=flat-square&label=%20) |
 
 ### Model features
+
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | Native async | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
 | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
@@ -54,7 +56,6 @@ To access `langchain_huggingface` models you'll need to create a `Hugging Face` 
 
 You'll need to have a [Hugging Face Access Token](https://huggingface.co/docs/hub/security-tokens) saved as an environment variable: `HUGGINGFACEHUB_API_TOKEN`.
 
-
 ```python
 import getpass
 import os
@@ -64,21 +65,21 @@ os.environ["HUGGINGFACEHUB_API_TOKEN"] = getpass.getpass(
 )
 ```
 
-
 ```python
 %pip install --upgrade --quiet  langchain-huggingface text-generation transformers google-search-results numexpr langchainhub sentencepiece jinja2 bitsandbytes accelerate
 ```
+
 ```output
 [notice] A new release of pip is available: 24.0 -> 24.1.2
 [notice] To update, run: pip install --upgrade pip
 Note: you may need to restart the kernel to use updated packages.
 ```
+
 ## Instantiation
 
 You can instantiate a `ChatHuggingFace` model in two different ways, either from a `HuggingFaceEndpoint` or from a `HuggingFacePipeline`.
 
 ### `HuggingFaceEndpoint`
-
 
 ```python
 from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
@@ -94,14 +95,15 @@ llm = HuggingFaceEndpoint(
 
 chat_model = ChatHuggingFace(llm=llm)
 ```
+
 ```output
 The token has not been saved to the git credentials helper. Pass `add_to_git_credential=True` in this function directly or `--add-to-git-credential` if using via `huggingface-cli` if you want to set the git credential as well.
 Token is valid (permission: fineGrained).
 Your token has been saved to /Users/isaachershenson/.cache/huggingface/token
 Login successful
 ```
-Now let's take advantage of [Inference Providers](https://huggingface.co/docs/inference-providers) to run the model on specific third-party providers
 
+Now let's take advantage of [Inference Providers](https://huggingface.co/docs/inference-providers) to run the model on specific third-party providers
 
 ```python
 llm = HuggingFaceEndpoint(
@@ -116,7 +118,6 @@ chat_model = ChatHuggingFace(llm=llm)
 ```
 
 ### `HuggingFacePipeline`
-
 
 ```python
 from langchain_huggingface import ChatHuggingFace, HuggingFacePipeline
@@ -190,7 +191,6 @@ generation_config.json:   0%|          | 0.00/111 [00:00<?, ?B/s]
 
 To run a quantized version of your model, you can specify a `bitsandbytes` quantization config as follows:
 
-
 ```python
 from transformers import BitsAndBytesConfig
 
@@ -203,7 +203,6 @@ quantization_config = BitsAndBytesConfig(
 ```
 
 and pass it to the `HuggingFacePipeline` as a part of its `model_kwargs`:
-
 
 ```python
 llm = HuggingFacePipeline.from_model_id(
@@ -223,7 +222,6 @@ chat_model = ChatHuggingFace(llm=llm)
 
 ## Invocation
 
-
 ```python
 from langchain_core.messages import (
     HumanMessage,
@@ -240,19 +238,17 @@ messages = [
 ai_msg = chat_model.invoke(messages)
 ```
 
-
 ```python
 print(ai_msg.content)
 ```
+
 ```output
 According to the popular phrase and hypothetical scenario, when an unstoppable force meets an immovable object, a paradoxical situation arises as both forces are seemingly contradictory. On one hand, an unstoppable force is an entity that cannot be stopped or prevented from moving forward, while on the other hand, an immovable object is something that cannot be moved or displaced from its position.
 
 In this scenario, it is un
 ```
-## API reference
-
-For detailed documentation of all `ChatHuggingFace` features and configurations head to the API reference: https://python.langchain.com/api_reference/huggingface/chat_models/langchain_huggingface.chat_models.huggingface.ChatHuggingFace.html
 
 ## API reference
 
-For detailed documentation of all ChatHuggingFace features and configurations head to the API reference: https://python.langchain.com/api_reference/huggingface/chat_models/langchain_huggingface.chat_models.huggingface.ChatHuggingFace.html
+For detailed documentation of all `ChatHuggingFace` features and configurations head to the API reference: [python.langchain.com/api_reference/huggingface/chat_models/langchain_huggingface.chat_models.huggingface.ChatHuggingFace.html](https://python.langchain.com/api_reference/huggingface/chat_models/langchain_huggingface.chat_models.huggingface.ChatHuggingFace.html)
+

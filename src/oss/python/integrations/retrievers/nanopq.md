@@ -6,11 +6,9 @@ title: NanoPQ (Product Quantization)
 
 This notebook goes over how to use a retriever that under the hood uses a Product Quantization which has been implemented by the [nanopq](https://github.com/matsui528/nanopq) package.
 
-
 ```python
 %pip install -qU langchain-community langchain-openai nanopq
 ```
-
 
 ```python
 from langchain_community.embeddings.spacy_embeddings import SpacyEmbeddings
@@ -18,7 +16,6 @@ from langchain_community.retrievers import NanoPQRetriever
 ```
 
 ## Create New Retriever with Texts
-
 
 ```python
 retriever = NanoPQRetriever.from_texts(
@@ -33,10 +30,10 @@ retriever = NanoPQRetriever.from_texts(
 
 We can now use the retriever!
 
-
 ```python
 retriever.invoke("earth")
 ```
+
 ```output
 M: 2, Ks: 2, metric : <class 'numpy.uint8'>, code_dtype: l2
 iter: 20, seed: 123
@@ -46,15 +43,12 @@ Encoding the subspace: 0 / 2
 Encoding the subspace: 1 / 2
 ```
 
-
 ```output
 [Document(page_content='world'),
  Document(page_content='Great world'),
  Document(page_content='great words'),
  Document(page_content='planets of the world')]
 ```
-
-
 
 ```python
 

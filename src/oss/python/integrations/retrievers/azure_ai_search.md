@@ -14,7 +14,6 @@ This guide will help you get started with the Azure AI Search [retriever](/oss/c
 
 <ItemTable category="document_retrievers" item="AzureAISearchRetriever" />
 
-
 ## Setup
 
 To use this module, you need:
@@ -24,13 +23,12 @@ To use this module, you need:
 + An existing index with vector fields. There are several ways to create one, including using the [vector store module](../vectorstores/azuresearch.ipynb). Or, [try the Azure AI Search REST APIs](https://learn.microsoft.com/azure/search/search-get-started-vector).
 
 + An API key or Azure AD Token.
-    + API keys are generated when you create the search service. If you're just querying an index, you can use the query API key, otherwise use an admin API key. See [Find your API keys](https://learn.microsoft.com/azure/search/search-security-api-keys?tabs=rest-use%2Cportal-find%2Cportal-query#find-existing-keys) for details.
-    + Azure AD Token can be used with Azure Managed Identity. See [Connect your app to Azure AI Search using identities](https://learn.microsoft.com/en-us/azure/search/keyless-connections?tabs=python%2Cazure-cli) for details.
+  + API keys are generated when you create the search service. If you're just querying an index, you can use the query API key, otherwise use an admin API key. See [Find your API keys](https://learn.microsoft.com/azure/search/search-security-api-keys?tabs=rest-use%2Cportal-find%2Cportal-query#find-existing-keys) for details.
+  + Azure AD Token can be used with Azure Managed Identity. See [Connect your app to Azure AI Search using identities](https://learn.microsoft.com/en-us/azure/search/keyless-connections?tabs=python%2Cazure-cli) for details.
 
 We can then set the search service name, index name, and API key as environment variables (alternatively, you can pass them as arguments to `AzureAISearchRetriever`). The search index provides the searchable content.
 
 With an API Key
-
 
 ```python
 import os
@@ -42,7 +40,6 @@ os.environ["AZURE_AI_SEARCH_API_KEY"] = "<YOUR_API_KEY>"
 
 With an Azure AD Token
 
-
 ```python
 import os
 
@@ -53,7 +50,6 @@ os.environ["AZURE_AI_SEARCH_AD_TOKEN"] = "<YOUR_AZURE_AD_TOKEN>"
 
 If you want to get automated tracing from individual queries, you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
-
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
 # os.environ["LANGSMITH_TRACING"] = "true"
@@ -62,7 +58,6 @@ If you want to get automated tracing from individual queries, you can also set y
 ### Installation
 
 This retriever lives in the `langchain-community` package. We will need some additional dependencies as well:
-
 
 ```python
 %pip install --upgrade --quiet langchain-community
@@ -74,7 +69,6 @@ This retriever lives in the `langchain-community` package. We will need some add
 ## Instantiation
 
 For `AzureAISearchRetriever`, provide an `index_name`, `content_key`, and `top_k` set to the number of number of results you'd like to retrieve. Setting `top_k` to zero (the default) returns all results.
-
 
 ```python
 from langchain_community.retrievers import AzureAISearchRetriever
@@ -89,7 +83,6 @@ retriever = AzureAISearchRetriever(
 Now you can use it to retrieve documents from Azure AI Search.
 This is the method you would call to do so. It will return all documents relevant to the query.
 
-
 ```python
 retriever.invoke("here is my unstructured query string")
 ```
@@ -99,7 +92,6 @@ retriever.invoke("here is my unstructured query string")
 This section demonstrates using the retriever over built-in sample data. You can skip this step if you already have a vector index on your search service.
 
 Start by providing the endpoints and keys. Since we're creating a vector index in this step, specify a text embedding model to get a vector representation of the text. This example assumes Azure OpenAI with a deployment of text-embedding-ada-002. Because this step creates an index, be sure to use an admin API key for your search service.
-
 
 ```python
 import os
@@ -121,7 +113,6 @@ azure_deployment: str = "text-embedding-ada-002"
 
 We'll use an embedding model from Azure OpenAI to turn our documents into embeddings stored in the Azure AI Search vector store. We'll also set the index name to `langchain-vector-demo`. This will create a new vector store associated with that index name.
 
-
 ```python
 embeddings = AzureOpenAIEmbeddings(
     model=azure_deployment,
@@ -139,7 +130,6 @@ vector_store: AzureSearch = AzureSearch(
 
 Next, we'll load data into our newly created vector store. For this example, we load the `state_of_the_union.txt` file. We'll split the text in 400 token chunks with no overlap. Finally, the documents are added to our vector store as emeddings.
 
-
 ```python
 from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import CharacterTextSplitter
@@ -155,7 +145,6 @@ vector_store.add_documents(documents=docs)
 
 Next, we'll create a retriever. The current `index_name` variable is `langchain-vector-demo` from the last step. If you skipped vector store creation, provide your index name in the parameter. In this query, the top result is returned.
 
-
 ```python
 retriever = AzureAISearchRetriever(
     content_key="content", top_k=1, index_name="langchain-vector-demo"
@@ -164,13 +153,11 @@ retriever = AzureAISearchRetriever(
 
 Now we can retrieve the data that is relevant to our query from the documents we uploaded.
 
-
 ```python
 retriever.invoke("does the president have a plan for covid-19?")
 ```
 
 ## Use within a chain
-
 
 ```python
 from langchain_core.output_parsers import StrOutputParser
@@ -200,7 +187,6 @@ chain = (
     | StrOutputParser()
 )
 ```
-
 
 ```python
 chain.invoke("does the president have a plan for covid-19?")

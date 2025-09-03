@@ -4,17 +4,13 @@ title: Qdrant Sparse Vector
 
 >[Qdrant](https://qdrant.tech/) is an open-source, high-performance vector search engine/database.
 
-
 >`QdrantSparseVectorRetriever` uses [sparse vectors](https://qdrant.tech/articles/sparse-vectors/) introduced in `Qdrant` [v1.7.0](https://qdrant.tech/articles/qdrant-1.7.x/) for document retrieval.
 
-
 Install the 'qdrant_client' package:
-
 
 ```python
 %pip install --upgrade --quiet  qdrant_client
 ```
-
 
 ```python
 from qdrant_client import QdrantClient, models
@@ -36,13 +32,9 @@ client.create_collection(
 )
 ```
 
-
-
 ```output
 True
 ```
-
-
 
 ```python
 from langchain_community.retrievers import (
@@ -52,7 +44,6 @@ from langchain_core.documents import Document
 ```
 
 Create a demo encoder function:
-
 
 ```python
 import random
@@ -75,7 +66,6 @@ retriever = QdrantSparseVectorRetriever(
 ```
 
 Add some documents:
-
 
 ```python
 docs = [
@@ -119,12 +109,9 @@ docs = [
 
 Perform a retrieval:
 
-
 ```python
 retriever.add_documents(docs)
 ```
-
-
 
 ```output
 ['1a3e0d292e6444d39451d0588ce746dc',
@@ -134,15 +121,11 @@ retriever.add_documents(docs)
  'c1a6249d005d4abd9192b1d0b829cebe']
 ```
 
-
-
 ```python
 retriever.invoke(
     "Life and ethical dilemmas of AI",
 )
 ```
-
-
 
 ```output
 [Document(page_content="In 'Sentient Threads,' Professor Bennett unravels the enigma of AI consciousness, presenting a tapestry of arguments that scrutinize the very essence of machine sentience. The book ignites contemplation on the ethical and philosophical dimensions surrounding the quest for true AI awareness.", metadata={'title': 'Sentient Threads: Weaving AI Consciousness', 'author': 'Prof. Alexander J. Bennett'}),

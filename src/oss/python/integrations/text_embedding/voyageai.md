@@ -6,7 +6,6 @@ title: Voyage AI
 
 Let's load the Voyage AI Embedding class. (Install the LangChain partner package with `pip install langchain-voyageai`)
 
-
 ```python
 from langchain_voyageai import VoyageAIEmbeddings
 ```
@@ -24,7 +23,6 @@ Voyage AI utilizes API keys to monitor usage and manage permissions. To obtain y
 - `voyage-finance-2`
 - `voyage-multilingual-2`
 
-
 ```python
 embeddings = VoyageAIEmbeddings(
     voyage_api_key="[ Your Voyage API key ]", model="voyage-law-2"
@@ -32,7 +30,6 @@ embeddings = VoyageAIEmbeddings(
 ```
 
 Prepare the documents and use `embed_documents` to get their embeddings.
-
 
 ```python
 documents = [
@@ -42,17 +39,13 @@ documents = [
 ]
 ```
 
-
 ```python
 documents_embds = embeddings.embed_documents(documents)
 ```
 
-
 ```python
 documents_embds[0][:5]
 ```
-
-
 
 ```output
 [0.0562174916267395,
@@ -62,25 +55,19 @@ documents_embds[0][:5]
  0.04108370840549469]
 ```
 
-
 Similarly, use `embed_query` to embed the query.
-
 
 ```python
 query = "What's an LLMChain?"
 ```
 
-
 ```python
 query_embd = embeddings.embed_query(query)
 ```
 
-
 ```python
 query_embd[:5]
 ```
-
-
 
 ```output
 [-0.0052348352037370205,
@@ -90,13 +77,11 @@ query_embd[:5]
  -0.019235141575336456]
 ```
 
-
 ## A minimalist retrieval system
 
 The main feature of the embeddings is that the cosine similarity between two embeddings captures the semantic relatedness of the corresponding original passages. This allows us to use the embeddings to do semantic retrieval / search.
 
  We can find a few closest embeddings in the documents embeddings based on the cosine similarity, and retrieve the corresponding document using the `KNNRetriever` class from LangChain.
-
 
 ```python
 from langchain_community.retrievers import KNNRetriever
@@ -109,6 +94,7 @@ top1_retrieved_doc = result[0].page_content  # return the top1 retrieved result
 
 print(top1_retrieved_doc)
 ```
+
 ```output
 An LLMChain is a chain that composes basic LLM functionality. It consists of a PromptTemplate and a language model (either an LLM or chat model). It formats the prompt template using the input key values provided (and also memory key values, if available), passes the formatted string to LLM and returns the LLM output.
 ```

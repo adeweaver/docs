@@ -4,16 +4,13 @@ title: SpaCy
 
 >[spaCy](https://spacy.io/) is an open-source software library for advanced natural language processing, written in the programming languages Python and Cython.
 
-
 ## Installation and Setup
-
 
 ```python
 %pip install --upgrade --quiet  spacy
 ```
 
 Import the necessary classes
-
 
 ```python
 from langchain_community.embeddings.spacy_embeddings import SpacyEmbeddings
@@ -23,13 +20,11 @@ from langchain_community.embeddings.spacy_embeddings import SpacyEmbeddings
 
 Initialize SpacyEmbeddings.This will load the Spacy model into memory.
 
-
 ```python
 embedder = SpacyEmbeddings(model_name="en_core_web_sm")
 ```
 
 Define some example texts . These could be any documents that you want to analyze - for example, news articles, social media posts, or product reviews.
-
 
 ```python
 texts = [
@@ -42,7 +37,6 @@ texts = [
 
 Generate and print embeddings for the texts . The SpacyEmbeddings class generates an embedding for each document, which is a numerical representation of the document's content. These embeddings can be used for various natural language processing tasks, such as document similarity comparison or text classification.
 
-
 ```python
 embeddings = embedder.embed_documents(texts)
 for i, embedding in enumerate(embeddings):
@@ -50,7 +44,6 @@ for i, embedding in enumerate(embeddings):
 ```
 
 Generate and print an embedding for a single piece of text. You can also generate an embedding for a single piece of text, such as a search query. This can be useful for tasks like information retrieval, where you want to find documents that are similar to a given query.
-
 
 ```python
 query = "Quick foxes and lazy dogs."

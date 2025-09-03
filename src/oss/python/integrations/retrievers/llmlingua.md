@@ -6,10 +6,10 @@ title: LLMLingua Document Compressor
 
 This notebook shows how to use LLMLingua as a document compressor.
 
-
 ```python
 %pip install --upgrade --quiet  llmlingua accelerate
 ```
+
 ```output
 [notice] A new release of pip is available: 23.3.2 -> 24.0
 [notice] To update, run: python -m pip install --upgrade pip
@@ -29,8 +29,8 @@ def pretty_print_docs(docs):
 ```
 
 ## Set up the base vector store retriever
-Let's start by initializing a simple vector store retriever and storing the 2023 State of the Union speech (in chunks). We can set up the retriever to retrieve a high number (20) of docs.
 
+Let's start by initializing a simple vector store retriever and storing the 2023 State of the Union speech (in chunks). We can set up the retriever to retrieve a high number (20) of docs.
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -52,6 +52,7 @@ query = "What did the president say about Ketanji Brown Jackson"
 docs = retriever.invoke(query)
 pretty_print_docs(docs)
 ```
+
 ```output
 Document 1:
 
@@ -254,9 +255,10 @@ The United States of America.
 
 May God bless you all. May God protect our troops.
 ```
-## Doing compression with LLMLingua
-Now let’s wrap our base retriever with a `ContextualCompressionRetriever`, using `LLMLinguaCompressor` as a compressor.
 
+## Doing compression with LLMLingua
+
+Now let’s wrap our base retriever with a `ContextualCompressionRetriever`, using `LLMLinguaCompressor` as a compressor.
 
 ```python
 from langchain.retrievers import ContextualCompressionRetriever
@@ -275,6 +277,7 @@ compressed_docs = compression_retriever.invoke(
 )
 pretty_print_docs(compressed_docs)
 ```
+
 ```output
 Document 1:
 
@@ -293,10 +296,10 @@ Document 4:
 <# The Sergeant Class Combat froms widow us toBut burn pits ravaged Heath’s lungs and body.
 Danielle says Heath was a fighter to the very end.
 ```
+
 ## QA generation with LLMLingua
 
 We can see what it looks like to use this in the generation step now
-
 
 ```python
 from langchain.chains import RetrievalQA
@@ -304,19 +307,14 @@ from langchain.chains import RetrievalQA
 chain = RetrievalQA.from_chain_type(llm=llm, retriever=compression_retriever)
 ```
 
-
 ```python
 chain.invoke({"query": query})
 ```
-
-
 
 ```output
 {'query': 'What did the president say about Ketanji Brown Jackson',
  'result': "The President mentioned that Ketanji Brown Jackson is one of the nation's top legal minds and will continue Justice Breyer's legacy of excellence."}
 ```
-
-
 
 ```python
 
