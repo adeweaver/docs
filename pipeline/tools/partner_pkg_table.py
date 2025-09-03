@@ -151,7 +151,7 @@ These providers have standalone `langchain-{{provider}}` packages for improved v
 
 {table()}
 
-## All Providers
+## All providers
 
 Click [here](/oss/integrations/providers/all_providers) to see all providers or search
 for a provider using the search field.
