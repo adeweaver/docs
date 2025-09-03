@@ -726,6 +726,7 @@ message.content_blocks
 :::
 
 :::js
+```typescript
 import { AIMessage } from "@langchain/core/messages";
 
 const message = new AIMessage({
@@ -736,6 +737,7 @@ const message = new AIMessage({
     response_metadata: { model_provider: "anthropic" }
 })
 console.log(message.contentBlocks);
+```
 :::
 
 #### Serializing standard content
@@ -755,9 +757,11 @@ model = init_chat_model("openai:gpt-5-nano", output_version="v1")
 :::
 
 :::js
+```typescript
 import { initChatModel } from "langchain";
 
 const model = initChatModel("openai:gpt-5-nano", {outputVersion: "v1"});
+```
 :::
 
 ### Multimodal
