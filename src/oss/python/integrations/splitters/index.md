@@ -52,3 +52,24 @@ texts = text_splitter.split_text(document)
 **Available text splitters**:
 - [Split by tokens](/oss/integrations/splitters/split_by_token)
 - [Split by characters](/oss/integrations/splitters/character_text_splitter)
+
+## Document structure-based
+
+Some documents have an inherent structure, such as HTML, Markdown, or JSON files. In these cases, it's beneficial to split the document based on its structure, as it often naturally groups semantically related text. Key benefits of structure-based splitting:
+
+- Preserves the logical organization of the document
+- Maintains context within each chunk
+- Can be more effective for downstream tasks like retrieval or summarization
+
+Examples of structure-based splitting:
+
+- Markdown: Split based on headers (e.g., #, ##, ###)
+- HTML: Split using tags
+- JSON: Split by object or array elements
+- Code: Split by functions, classes, or logical blocks
+
+**Available text splitters**:
+- [Split Markdown](/oss/integrations/splitters/markdown_header_metadata_splitter)
+- [Split JSON](/oss/integrations/splitters/recursive_json_splitter)
+- [Split code](/oss/integrations/splitters/code_splitter)
+- [Split HTML](/oss/integrations/splitters/split_html)
