@@ -6,11 +6,9 @@ title: HTML to text
 
 The ASCII also happens to be a valid `Markdown` (a text-to-HTML format).
 
-
 ```python
 %pip install --upgrade --quiet html2text
 ```
-
 
 ```python
 from langchain_community.document_loaders import AsyncHtmlLoader
@@ -19,6 +17,7 @@ urls = ["https://www.espn.com", "https://lilianweng.github.io/posts/2023-06-23-a
 loader = AsyncHtmlLoader(urls)
 docs = loader.load()
 ```
+
 ```output
 USER_AGENT environment variable not set, consider setting it to identify your requests.
 Fetching pages: 100%|##########| 2/2 [00:00<00:00, 14.74it/s]
@@ -35,6 +34,7 @@ print(docs_transformed[0].page_content[1000:2000])
 
 print(docs_transformed[1].page_content[1000:2000])
 ```
+
 ```output
 ## Fantasy
 

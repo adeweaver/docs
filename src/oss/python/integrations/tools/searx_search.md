@@ -6,13 +6,11 @@ This notebook goes over how to use a self hosted `SearxNG` search API to search 
 
 You can [check this link](https://docs.searxng.org/dev/search_api.html) for more informations about `Searx API` parameters.
 
-
 ```python
 import pprint
 
 from langchain_community.utilities import SearxSearchWrapper
 ```
-
 
 ```python
 search = SearxSearchWrapper(searx_host="http://127.0.0.1:8888")
@@ -20,17 +18,13 @@ search = SearxSearchWrapper(searx_host="http://127.0.0.1:8888")
 
 For some engines, if a direct `answer` is available the warpper will print the answer instead of the full list of search results. You can use the `results` method of the wrapper if you want to obtain all the results.
 
-
 ```python
 search.run("What is the capital of France")
 ```
 
-
-
 ```output
 'Paris is the capital of France, the largest country of Europe with 550 000 km2 (65 millions inhabitants). Paris has 2.234 million inhabitants end 2011. She is the core of Ile de France region (12 million people).'
 ```
-
 
 ## Custom Parameters
 
@@ -38,39 +32,30 @@ SearxNG supports [135 search engines](https://docs.searxng.org/user/configured_e
 
 In this example we will be using the `engines` parameters to query wikipedia
 
-
 ```python
 search = SearxSearchWrapper(
     searx_host="http://127.0.0.1:8888", k=5
 )  # k is for max number of items
 ```
 
-
 ```python
 search.run("large language model ", engines=["wiki"])
 ```
-
-
 
 ```output
 'Large language models (LLMs) represent a major advancement in AI, with the promise of transforming domains through learned knowledge. LLM sizes have been increasing 10X every year for the last few years, and as these models grow in complexity and size, so do their capabilities.\n\nGPT-3 can translate language, write essays, generate computer code, and more — all with limited to no supervision. In July 2020, OpenAI unveiled GPT-3, a language model that was easily the largest known at the time. Put simply, GPT-3 is trained to predict the next word in a sentence, much like how a text message autocomplete feature works.\n\nA large language model, or LLM, is a deep learning algorithm that can recognize, summarize, translate, predict and generate text and other content based on knowledge gained from massive datasets. Large language models are among the most successful applications of transformer models.\n\nAll of today’s well-known language models—e.g., GPT-3 from OpenAI, PaLM or LaMDA from Google, Galactica or OPT from Meta, Megatron-Turing from Nvidia/Microsoft, Jurassic-1 from AI21 Labs—are...\n\nLarge language models (LLMs) such as GPT-3are increasingly being used to generate text. These tools should be used with care, since they can generate content that is biased, non-verifiable, constitutes original research, or violates copyrights.'
 ```
 
-
 Passing other Searx parameters for searx like `language`
-
 
 ```python
 search = SearxSearchWrapper(searx_host="http://127.0.0.1:8888", k=1)
 search.run("deep learning", language="es", engines=["wiki"])
 ```
 
-
-
 ```output
 'Aprendizaje profundo (en inglés, deep learning) es un conjunto de algoritmos de aprendizaje automático (en inglés, machine learning) que intenta modelar abstracciones de alto nivel en datos usando arquitecturas computacionales que admiten transformaciones no lineales múltiples e iterativas de datos expresados en forma matricial o tensorial. 1'
 ```
-
 
 ## Obtaining results with metadata
 
@@ -78,11 +63,9 @@ In this example we will be looking for scientific paper using the `categories` p
 
 We also would like to obtain the results in a structured way including metadata. For this we will be using the `results` method of the wrapper.
 
-
 ```python
 search = SearxSearchWrapper(searx_host="http://127.0.0.1:8888")
 ```
-
 
 ```python
 results = search.results(
@@ -93,6 +76,7 @@ results = search.results(
 )
 pprint.pp(results)
 ```
+
 ```output
 [{'snippet': '… on natural language instructions, large language models (… the '
              'prompt used to steer the model, and most effective prompts … to '
@@ -135,8 +119,8 @@ pprint.pp(results)
   'engines': ['google scholar'],
   'category': 'science'}]
 ```
-Get papers from arxiv
 
+Get papers from arxiv
 
 ```python
 results = search.results(
@@ -144,6 +128,7 @@ results = search.results(
 )
 pprint.pp(results)
 ```
+
 ```output
 [{'snippet': 'Thanks to the advanced improvement of large pre-trained language '
              'models, prompt-based fine-tuning is shown to be effective on a '
@@ -257,13 +242,14 @@ pprint.pp(results)
   'engines': ['arxiv'],
   'category': 'science'}]
 ```
-In this example we query for `large language models` under the `it` category. We then filter the results that come from github.
 
+In this example we query for `large language models` under the `it` category. We then filter the results that come from github.
 
 ```python
 results = search.results("large language model", num_results=20, categories="it")
 pprint.pp(list(filter(lambda r: r["engines"][0] == "github", results)))
 ```
+
 ```output
 [{'snippet': 'Guide to using pre-trained large language models of source code',
   'title': 'Code-LMs',
@@ -277,8 +263,8 @@ pprint.pp(list(filter(lambda r: r["engines"][0] == "github", results)))
   'engines': ['github'],
   'category': 'it'}]
 ```
-We could also directly query for results from `github` and other source forges.
 
+We could also directly query for results from `github` and other source forges.
 
 ```python
 results = search.results(
@@ -286,6 +272,7 @@ results = search.results(
 )
 pprint.pp(results)
 ```
+
 ```output
 [{'snippet': "Implementation of 'A Watermark for Large Language Models' paper "
              'by Kirchenbauer & Geiping et. al.',

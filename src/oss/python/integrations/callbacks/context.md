@@ -6,11 +6,9 @@ title: Context
 
 With `Context`, you can start understanding your users and improving their experiences in less than 30 minutes.
 
-
 In this guide we will show you how to integrate with Context.
 
 ## Installation and Setup
-
 
 ```python
 %pip install --upgrade --quiet  langchain langchain-openai langchain-community context-python
@@ -20,7 +18,7 @@ In this guide we will show you how to integrate with Context.
 
 To get your Context API token:
 
-1. Go to the settings page within your Context account (https://with.context.ai/settings).
+1. Go to the settings page within your Context account ([with.context.ai/settings](https://with.context.ai/settings)).
 2. Generate a new API Token.
 3. Store this token somewhere secure.
 
@@ -30,11 +28,9 @@ To use the `ContextCallbackHandler`, import the handler from Langchain and insta
 
 Ensure you have installed the `context-python` package before using the handler.
 
-
 ```python
 from langchain_community.callbacks.context_callback import ContextCallbackHandler
 ```
-
 
 ```python
 import os
@@ -45,10 +41,10 @@ context_callback = ContextCallbackHandler(token)
 ```
 
 ## Usage
+
 ### Context callback within a chat model
 
 The Context callback handler can be used to directly record transcripts between users and AI assistants.
-
 
 ```python
 import os
@@ -79,19 +75,19 @@ The Context callback handler can also be used to record the inputs and outputs o
 __Note:__ Ensure that you pass the same context object to the chat model and the chain.
 
 Wrong:
+>
 > ```python
 > chat = ChatOpenAI(temperature=0.9, callbacks=[ContextCallbackHandler(token)])
 > chain = LLMChain(llm=chat, prompt=chat_prompt_template, callbacks=[ContextCallbackHandler(token)])
 > ```
 
 Correct:
+>
 >```python
 >handler = ContextCallbackHandler(token)
 >chat = ChatOpenAI(temperature=0.9, callbacks=[callback])
 >chain = LLMChain(llm=chat, prompt=chat_prompt_template, callbacks=[callback])
 >```
-
-
 
 ```python
 import os

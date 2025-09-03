@@ -11,13 +11,11 @@ Here are the [installation instructions](https://help.aliyun.com/document_detail
 
 ## Install
 
-
 ```python
 %pip install --upgrade --quiet  langchain-community dashvector dashscope
 ```
 
 We want to use `DashScopeEmbeddings` so we also have to get the Dashscope API Key.
-
 
 ```python
 import getpass
@@ -31,13 +29,11 @@ if "DASHSCOPE_API_KEY" not in os.environ:
 
 ## Example
 
-
 ```python
 from langchain_community.embeddings.dashscope import DashScopeEmbeddings
 from langchain_community.vectorstores import DashVector
 from langchain_text_splitters import CharacterTextSplitter
 ```
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -52,7 +48,6 @@ embeddings = DashScopeEmbeddings()
 
 We can create DashVector from documents.
 
-
 ```python
 dashvector = DashVector.from_documents(docs, embeddings)
 
@@ -62,7 +57,6 @@ print(docs)
 ```
 
 We can add texts with meta datas and ids, and search with meta filter.
-
 
 ```python
 texts = ["foo", "bar", "baz"]
@@ -74,13 +68,14 @@ dashvector.add_texts(texts, metadatas=metadatas, ids=ids)
 docs = dashvector.similarity_search("foo", filter="key = 2")
 print(docs)
 ```
+
 ```output
 [Document(page_content='baz', metadata={'key': 2})]
 ```
+
 ### Operating band `partition` parameters
 
 The `partition` parameter defaults to default, and if a non-existent `partition` parameter is passed in, the `partition` will be created automatically.
-
 
 ```python
 texts = ["foo", "bar", "baz"]

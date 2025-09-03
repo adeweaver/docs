@@ -8,7 +8,6 @@ title: RST
 
 You can load data from RST files with `UnstructuredRSTLoader` using the following workflow.
 
-
 ```python
 from langchain_community.document_loaders import UnstructuredRSTLoader
 
@@ -17,6 +16,7 @@ docs = loader.load()
 
 print(docs[0])
 ```
+
 ```output
 page_content='Example Docs' metadata={'source': './example_data/README.rst', 'category_depth': 0, 'last_modified': '2023-12-19T13:42:18', 'languages': ['eng'], 'filetype': 'text/x-rst', 'file_directory': './example_data', 'filename': 'README.rst', 'category': 'Title'}
 ```

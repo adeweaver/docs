@@ -8,7 +8,6 @@ The embedders are based on optimized models, created by using [optimum-intel](ht
 
 Example text is based on [SBERT](https://www.sbert.net/docs/pretrained_cross-encoders.html).
 
-
 ```python
 from langchain_community.embeddings import QuantizedBiEncoderEmbeddings
 
@@ -21,6 +20,7 @@ model = QuantizedBiEncoderEmbeddings(
     query_instruction="Represent this sentence for searching relevant passages: ",
 )
 ```
+
 ```output
 loading configuration file inc_config.json from cache at
 INCConfig {
@@ -39,15 +39,14 @@ INCConfig {
 
 Using `INCModel` to load a TorchScript model will be deprecated in v1.15.0, to load your model please use `IPEXModel` instead.
 ```
+
 Let's ask a question, and compare to 2 documents. The first contains the answer to the question, and the second one does not.
 
 We can check better suits our query.
 
-
 ```python
 question = "How many people live in Berlin?"
 ```
-
 
 ```python
 documents = [
@@ -56,10 +55,10 @@ documents = [
 ]
 ```
 
-
 ```python
 doc_vecs = model.embed_documents(documents)
 ```
+
 ```output
 Batches: 100%|██████████| 1/1 [00:00<00:00,  4.18it/s]
 ```
@@ -68,31 +67,24 @@ Batches: 100%|██████████| 1/1 [00:00<00:00,  4.18it/s]
 query_vec = model.embed_query(question)
 ```
 
-
 ```python
 import torch
 ```
-
 
 ```python
 doc_vecs_torch = torch.tensor(doc_vecs)
 ```
 
-
 ```python
 query_vec_torch = torch.tensor(query_vec)
 ```
-
 
 ```python
 query_vec_torch @ doc_vecs_torch.T
 ```
 
-
-
 ```output
 tensor([0.7980, 0.6529])
 ```
-
 
 We can see that indeed the first one ranks higher.

@@ -23,17 +23,18 @@ This guide provides a quick overview for getting started with Seekr [chat models
 | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ |
 
 ### Supported Methods
+
 `ChatSeekrFlow` supports all methods of `ChatModel`, **except async APIs**.
 
 ### Endpoint Requirements
 
 The serving endpoint `ChatSeekrFlow` wraps **must** have OpenAI-compatible chat input/output format. It can be used for:
+
 1. **Fine-tuned Seekr models**
 2. **Custom SeekrFlow models**
 3. **RAG-enabled models using Seekr's retrieval system**
 
 For async usage, please refer to `AsyncChatSeekrFlow` (coming soon).
-
 
 # Getting Started with ChatSeekrFlow in LangChain
 
@@ -48,8 +49,6 @@ pip install seekrai langchain langchain-community
 ```
 
 You must also have an API key from Seekr to authenticate requests.
-
-
 
 ```python
 # Standard library
@@ -78,14 +77,11 @@ Or manually assign it before running queries:
 SEEKR_API_KEY = "your-api-key-here"
 ```
 
-
-
 ```python
 os.environ["SEEKR_API_KEY"] = getpass.getpass("Enter your Seekr API key:")
 ```
 
 ## Instantiation
-
 
 ```python
 os.environ["SEEKR_API_KEY"]
@@ -98,16 +94,16 @@ llm = ChatSeekrFlow(
 
 ## Invocation
 
-
 ```python
 response = llm.invoke([HumanMessage(content="Hello, Seekr!")])
 print(response.content)
 ```
+
 ```output
 Hello there! I'm Seekr, nice to meet you! What brings you here today? Do you have a question, or are you looking for some help with something? I'm all ears (or rather, all text)!
 ```
-## Chaining
 
+## Chaining
 
 ```python
 prompt = ChatPromptTemplate.from_template("Translate to French: {text}")
@@ -116,6 +112,7 @@ chain: RunnableSequence = prompt | llm
 result = chain.invoke({"text": "Good morning"})
 print(result)
 ```
+
 ```output
 content='The translation of "Good morning" in French is:\n\n"Bonne journée"' additional_kwargs={} response_metadata={}
 ```
@@ -139,6 +136,7 @@ llm = ChatSeekrFlow(
 # ✅ Run sync streaming test
 test_stream()
 ```
+
 ```output
 🔹 Testing Sync `stream()` (Streaming)...
 Here is a haiku:
@@ -147,8 +145,8 @@ Golden sunset fades
 Ripples on the quiet lake
 Peaceful evening sky
 ```
-## Error Handling & Debugging
 
+## Error Handling & Debugging
 
 ```python
 # Define a minimal mock SeekrFlow client
@@ -203,12 +201,14 @@ def test_initialization_errors():
 # Run test
 test_initialization_errors()
 ```
+
 ```output
 Running test: Missing Client
 ✅ Expected Error: SeekrFlow client cannot be None.
 Running test: Missing Model Name
 ✅ Expected Error: A valid model name must be provided.
 ```
+
 ## API reference
 
 - `ChatSeekrFlow` class: [`langchain_seekrflow.ChatSeekrFlow`](https://github.com/benfaircloth/langchain-seekrflow/blob/main/langchain_seekrflow/seekrflow.py)

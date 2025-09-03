@@ -21,7 +21,6 @@ This guide provides a quick overview for getting started with Discord tooling in
 
 The integration is provided by the `langchain-discord-shikenso` package. Install it as follows:
 
-
 ```python
 %pip install --quiet -U langchain-discord-shikenso
 ```
@@ -34,7 +33,6 @@ This integration requires you to set `DISCORD_BOT_TOKEN` as an environment varia
 export DISCORD_BOT_TOKEN="your-bot-token"
 ```
 
-
 ```python
 import getpass
 import os
@@ -46,7 +44,6 @@ import os
 
 You can optionally set up [LangSmith](https://smith.langchain.com/) for tracing or observability:
 
-
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass()
@@ -55,7 +52,6 @@ You can optionally set up [LangSmith](https://smith.langchain.com/) for tracing 
 ## Instantiation
 
 Below is an example showing how to instantiate the Discord tools in `langchain_discord`. Adjust as needed for your specific usage.
-
 
 ```python
 from langchain_discord.tools.discord_read_messages import DiscordReadMessages
@@ -78,7 +74,6 @@ send_tool = DiscordSendMessage()
 
 Below is a simple example of calling the tool with keyword arguments in a dictionary.
 
-
 ```python
 invocation_args = {"channel_id": "1234567890", "limit": 3}
 response = read_tool(invocation_args)
@@ -88,7 +83,6 @@ response
 ### Invocation with ToolCall
 
 If you have a model-generated `ToolCall`, pass it to `tool.invoke()` in the format shown below.
-
 
 ```python
 tool_call = {
@@ -140,6 +134,7 @@ for event in events:
 ## API reference
 
 See the docstrings in:
+
 - [discord_read_messages.py](https://github.com/Shikenso-Analytics/langchain-discord/blob/main/langchain_discord/tools/discord_read_messages.py)
 - [discord_send_messages.py](https://github.com/Shikenso-Analytics/langchain-discord/blob/main/langchain_discord/tools/discord_send_messages.py)
 - [toolkits.py](https://github.com/Shikenso-Analytics/langchain-discord/blob/main/langchain_discord/toolkits.py)

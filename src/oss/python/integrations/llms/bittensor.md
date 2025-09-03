@@ -12,9 +12,7 @@ Users can view their logs, requests, and API keys on the [Validator Endpoint Fro
 
 If you encounter any difficulties or have any questions, please feel free to reach out to our developer on [GitHub](https://github.com/Kunj-2206), [Discord](https://discordapp.com/users/683542109248159777) or join our discord server for latest update and queries [Neural Internet](https://discord.gg/neuralinternet).
 
-
 ## Different Parameter and response handling for NIBittensorLLM
-
 
 ```python
 import json
@@ -54,8 +52,7 @@ json_multi_resp = json.loads(multi_resp)
 pprint(json_multi_resp)
 ```
 
-##  Using NIBittensorLLM with LLMChain and PromptTemplate
-
+## Using NIBittensorLLM with LLMChain and PromptTemplate
 
 ```python
 from langchain.chains import LLMChain
@@ -83,8 +80,7 @@ question = "What is bittensor?"
 llm_chain.run(question)
 ```
 
-##  Using NIBittensorLLM with Conversational Agent and Google Search Tool
-
+## Using NIBittensorLLM with Conversational Agent and Google Search Tool
 
 ```python
 from langchain_community.utilities import GoogleSearchAPIWrapper
@@ -98,7 +94,6 @@ tool = Tool(
     func=search.run,
 )
 ```
-
 
 ```python
 from langchain import hub

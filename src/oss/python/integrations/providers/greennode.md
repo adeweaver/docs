@@ -4,6 +4,7 @@ title: GreenNode
 
 >**GreenNode** is a global AI solutions provider and a **NVIDIA Preferred Partner**, delivering full-stack AI capabilities—from infrastructure to application—for enterprises across the US, MENA, and APAC regions.
 >Operating on **world-class infrastructure** (LEED Gold, TIA‑942, Uptime Tier III), **GreenNode** empowers enterprises, startups, and researchers with a comprehensive suite of AI services:
+>
 >- [Powerful AI Infrastructure:](https://greennode.ai/) As one of the first hyperscale AI clusters in APAC, powered by NVIDIA H100 GPUs, GreenNode's infrastructure is optimized for high-throughput machine learning and deep learning workloads.
 >- [GreenNode AI Platform:](https://greennode.ai/product/ai-platform) Designed for technical teams, GreenNode’s self-service AI platform enables fast deployment of Jupyter notebook environments, preconfigured with optimized compute instances. From this portal, developers can launch ML training, fine-tuning, hyperparameter optimization, and inference workflows with minimal setup time. The platform includes access to 100+ curated open-source models and supports integrations with common MLOps tools and storage frameworks.
 >- [GreenNode Serverless AI:](https://greennode.ai/product/model-as-a-service) GreenNode Serverless AI features a library of pre-trained production-ready models across domains such as text gen, code gen, text to speech, speech to text, embedding and reranking models. This service is ideal for teams looking to prototype or deploy AI solutions without managing model infrastructure.
@@ -14,17 +15,17 @@ title: GreenNode
 
 The GreenNode integration can be installed via pip:
 
-
 ```python
 %pip install -qU langchain-greennode
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
+
 ### API Key
 
 To use GreenNode Serverless AI, you'll need an API key which you can obtain from [GreenNode Serverless AI](https://aiplatform.console.greennode.ai/api-keys). The API key can be passed as an initialization parameter `api_key` or set as the environment variable `GREENNODE_API_KEY`.
-
 
 ```python
 import getpass
@@ -35,7 +36,6 @@ if not os.getenv("GREENNODE_API_KEY"):
 ```
 
 ## Chat models
-
 
 ```python
 from langchain_greennode import ChatGreenNode
@@ -49,10 +49,7 @@ chat = ChatGreenNode(
 
 Usage of the GreenNode [Chat Model](https://python.langchain.com/docs/integrations/chat/greennode/)
 
-
-
 ## Embedding models
-
 
 ```python
 from langchain_greennode import GreenNodeEmbeddings
@@ -66,7 +63,6 @@ embeddings = GreenNodeEmbeddings(
 Usage of the GreenNode [Embedding Model](https://python.langchain.com/docs/integrations/text_embedding/greennode)
 
 ## Rerank
-
 
 ```python
 from langchain_greennode import GreenNodeRerank

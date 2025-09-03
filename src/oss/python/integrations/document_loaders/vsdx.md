@@ -8,11 +8,9 @@ A Visio file can contain multiple pages. Some of them may serve as the backgroun
 
 **WARNING** : Only Visio files with the **.vsdx** extension are compatible with this loader. Files with extensions such as .vsd, ... are not compatible because they cannot be converted to compressed XML.
 
-
 ```python
 from langchain_community.document_loaders import VsdxLoader
 ```
-
 
 ```python
 loader = VsdxLoader(file_path="./example_data/fake.vsdx")
@@ -20,7 +18,6 @@ documents = loader.load()
 ```
 
 **Display loaded documents**
-
 
 ```python
 for i, doc in enumerate(documents):
@@ -30,6 +27,7 @@ for i, doc in enumerate(documents):
     print("\n==> CONTENT <== ")
     print(doc.page_content)
 ```
+
 ```output
 ------ Page 0 ------
 Title page : Summary

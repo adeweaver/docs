@@ -41,10 +41,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/community langchain @langchain/openai @langchain/core
 </Npm2Yarn>
 ```
+
 ## Instantiation
 
 First, initialize your in-memory vector store with some documents that contain metadata:
-
 
 ```typescript
 import { OpenAIEmbeddings } from "@langchain/openai";
@@ -133,11 +133,13 @@ const attributeInfo: AttributeInfo[] = [
 const embeddings = new OpenAIEmbeddings();
 const vectorStore = await MemoryVectorStore.fromDocuments(docs, embeddings);
 ```
+
 Now we can instantiate our retriever:
 
 ```{=mdx}
 <ChatModelTabs customVarName="llm" />
 ```
+
 ```typescript
 // @lc-docs-hide-cell
 
@@ -148,7 +150,6 @@ const llm = new ChatOpenAI({
   temperature: 0,
 });
 ```
-
 
 ```typescript
 import { SelfQueryRetriever } from "langchain/retrievers/self_query";
@@ -175,12 +176,12 @@ const selfQueryRetriever = SelfQueryRetriever.fromLLM({
 
 Now, ask a question that requires some knowledge of the document's metadata to answer. You can see that the retriever will generate the correct result:
 
-
 ```typescript
 await selfQueryRetriever.invoke(
   "Which movies are rated higher than 8.5?"
 );
 ```
+
 ```output
 [
   Document {
@@ -200,12 +201,12 @@ await selfQueryRetriever.invoke(
   }
 ]
 ```
+
 ## Use within a chain
 
 Like other retrievers, in-memory self-query retrievers can be incorporated into LLM applications via [chains](/oss/how-to/sequence/).
 
 Note that because their returned answers can heavily depend on document metadata, we format the retrieved documents differently to include that information.
-
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts";
@@ -237,20 +238,20 @@ const ragChain = RunnableSequence.from([
 ]);
 ```
 
-
 ```typescript
 await ragChain.invoke("Which movies are rated higher than 8.5?")
 ```
+
 ```output
 The movies rated higher than 8.5 are:
 
 1. The movie directed by Satoshi Kon in 2006, which has a rating of 8.6.
 2. The movie directed by Andrei Tarkovsky in 1979, which has a rating of 9.9.
 ```
+
 ## Default search params
 
 You can also pass a `searchParams` field into the above method that provides default filters applied in addition to any generated query. The filter syntax is a predicate function:
-
 
 ```typescript
 const selfQueryRetrieverWithDefaultParams = SelfQueryRetriever.fromLLM({

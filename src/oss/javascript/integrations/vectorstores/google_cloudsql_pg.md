@@ -6,7 +6,6 @@ title: Google Cloud SQL for PostgreSQL
 
 This guide provides a quick overview of how to use Cloud SQL for PostgreSQL to store vector embeddings with the `PostgresVectorStore` class.
 
-
 ## Overview
 
 ### Integration details
@@ -15,19 +14,17 @@ This guide provides a quick overview of how to use Cloud SQL for PostgreSQL to s
 | :------------------ | :----------------------------------------- | :--------------------------------------------------------------------------------------------: | :------------: |
 | PostgresVectorStore | [`@langchain/google-cloud-sql-pg`](https://www.npmjs.com/package/@langchain/google-cloud-sql-pg) |                                               ✅                                               |     0.0.1      |
 
-
 ### Before you begin
 
 In order to use this package, you first need to go throught the following steps:
 
-1.  [Select or create a Cloud Platform project.](https://developers.google.com/workspace/guides/create-project)
-2.  [Enable billing for your project.](https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_project)
-3.  [Enable the Cloud SQL Admin API.](https://console.cloud.google.com/flows/enableapi?apiid=sqladmin.googleapis.com)
-4.  [Setup Authentication.](https://cloud.google.com/docs/authentication)
-5.  [Create a CloudSQL instance](https://cloud.google.com/sql/docs/postgres/connect-instance-auth-proxy#create-instance)
-6.  [Create a CloudSQL database](https://cloud.google.com/sql/docs/postgres/create-manage-databases)
-7.  [Add a user to the database](https://cloud.google.com/sql/docs/postgres/create-manage-users)
-
+1. [Select or create a Cloud Platform project.](https://developers.google.com/workspace/guides/create-project)
+2. [Enable billing for your project.](https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_project)
+3. [Enable the Cloud SQL Admin API.](https://console.cloud.google.com/flows/enableapi?apiid=sqladmin.googleapis.com)
+4. [Setup Authentication.](https://cloud.google.com/docs/authentication)
+5. [Create a CloudSQL instance](https://cloud.google.com/sql/docs/postgres/connect-instance-auth-proxy#create-instance)
+6. [Create a CloudSQL database](https://cloud.google.com/sql/docs/postgres/create-manage-databases)
+7. [Add a user to the database](https://cloud.google.com/sql/docs/postgres/create-manage-users)
 
 ### Authentication
 
@@ -37,23 +34,21 @@ Authenticate locally to your Google Cloud account using the ```gcloud auth login
 
 Set your Google Cloud project ID to leverage Google Cloud resources locally:
 
-
 ```python
 gcloud config set project YOUR-PROJECT-ID
 ```
 
 If you don't know your project ID, try the following:
-*   Run `gcloud config list`.
-*   Run `gcloud projects list`.
-*   See the support page: [Locate the project ID](https://support.google.com/googleapi/answer/7014113).
+
+* Run `gcloud config list`.
+* Run `gcloud projects list`.
+* See the support page: [Locate the project ID](https://support.google.com/googleapi/answer/7014113).
 
 ## Setting up a PostgresVectorStore instance
 
 To use the PostgresVectorStore library, you'll need to install the `@langchain/google-cloud-sql-pg` package and then follow the steps bellow.
 
 First, you'll need to log in to your Google Cloud account and set the following environment variables based on your Google Cloud project; these will be defined based on how you want to configure (fromInstance, fromEngine, fromEngineArgs) your PostgresEngine instance :
-
-
 
 ```python
 PROJECT_ID="your-project-id"
@@ -67,8 +62,6 @@ PASSWORD="your-database-password"
 ### Setting up an instance
 
 To instantiate a PostgresVectorStore, you'll first need to create a database connection through the PostgresEngine, then initialize the vector store table and finally call the `.initialize()` method to instantiate the vector store.
-
-
 
 ```python
 import {
@@ -126,8 +119,6 @@ const vectorStore = await PostgresVectorStore.initialize(
 
 To add Documents to the vector store, you would be able to it by passing or not the ids
 
-
-
 ```python
 import { v4 as uuidv4 } from "uuid";
 import type { Document } from "@langchain/core/documents";
@@ -164,8 +155,6 @@ await vectorStore.addDocuments(documents, { ids: ids });
 
 You can delete one or more Documents from the vector store by passing the arrays of ids to be deleted:
 
-
-
 ```python
 // deleting a document
 const id1 = ids[0];
@@ -184,8 +173,6 @@ Once your vector store has been created and the relevant documents have been add
 
 Performing a simple similarity search can be done as follows:
 
-
-
 ```python
 const filter = `"source" = "https://example.com"`;
 
@@ -198,8 +185,6 @@ for (const doc of results) {
 ```
 
 If you want to execute a similarity search and receive the corresponding scores you can run:
-
-
 
 ```python
 const filter = `"source" = "https://example.com"`;
@@ -220,8 +205,6 @@ for (const [doc, score] of resultsWithScores) {
 ### Query by using the max marginal relevance search
 
 The Maximal marginal relevance optimizes for similarity to the query and diversity among selected documents.
-
-
 
 ```python
 const options = {

@@ -6,11 +6,9 @@ This notebook shows how to use DashScope Reranker for document compression and r
 
 DashScope's [Text ReRank Model](https://help.aliyun.com/document_detail/2780058.html?spm=a2c4g.2780059.0.0.6d995024FlrJ12) supports reranking documents with a maximum of 4000 tokens. Moreover, it supports Chinese, English, Japanese, Korean, Thai, Spanish, French, Portuguese, Indonesian, Arabic, and over 50 other languages. For more details, please visit [here](https://help.aliyun.com/document_detail/2780059.html?spm=a2c4g.2780058.0.0.3a9e5b1dWeOQjI).
 
-
 ```python
 %pip install --upgrade --quiet  dashscope
 ```
-
 
 ```python
 %pip install --upgrade --quiet  faiss
@@ -19,7 +17,6 @@ DashScope's [Text ReRank Model](https://help.aliyun.com/document_detail/2780058.
 
 %pip install --upgrade --quiet  faiss-cpu
 ```
-
 
 ```python
 # To create api key: https://bailian.console.aliyun.com/?apiKey=1#/api-key
@@ -30,7 +27,6 @@ import os
 if "DASHSCOPE_API_KEY" not in os.environ:
     os.environ["DASHSCOPE_API_KEY"] = getpass.getpass("DashScope API Key:")
 ```
-
 
 ```python
 # Helper function for printing docs
@@ -43,8 +39,8 @@ def pretty_print_docs(docs):
 ```
 
 ## Set up the base vector store retriever
-Let's start by initializing a simple vector store retriever and storing the 2023 State of the Union speech (in chunks). We can set up the retriever to retrieve a high number (20) of docs.
 
+Let's start by initializing a simple vector store retriever and storing the 2023 State of the Union speech (in chunks). We can set up the retriever to retrieve a high number (20) of docs.
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -63,6 +59,7 @@ query = "What did the president say about Ketanji Brown Jackson"
 docs = retriever.invoke(query)
 pretty_print_docs(docs)
 ```
+
 ```output
 Document 1:
 
@@ -260,9 +257,10 @@ With a duty to one another to the American people to the Constitution.
 
 And with an unwavering resolve that freedom will always triumph over tyranny.
 ```
-## Reranking with DashScopeRerank
-Now let's wrap our base retriever with a `ContextualCompressionRetriever`. We'll use the `DashScopeRerank` to rerank the returned results.
 
+## Reranking with DashScopeRerank
+
+Now let's wrap our base retriever with a `ContextualCompressionRetriever`. We'll use the `DashScopeRerank` to rerank the returned results.
 
 ```python
 from langchain.retrievers import ContextualCompressionRetriever
@@ -278,6 +276,7 @@ compressed_docs = compression_retriever.invoke(
 )
 pretty_print_docs(compressed_docs)
 ```
+
 ```output
 Document 1:
 

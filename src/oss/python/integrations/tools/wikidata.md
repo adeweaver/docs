@@ -6,11 +6,9 @@ title: Wikidata
 
 First, you need to install `wikibase-rest-api-client` and `mediawikiapi` python packages.
 
-
 ```python
 %pip install --upgrade --quiet wikibase-rest-api-client mediawikiapi
 ```
-
 
 ```python
 from langchain_community.tools.wikidata.tool import WikidataAPIWrapper, WikidataQueryRun
@@ -19,6 +17,7 @@ wikidata = WikidataQueryRun(api_wrapper=WikidataAPIWrapper())
 
 print(wikidata.run("Alan Turing"))
 ```
+
 ```output
 Result Q7251:
 Label: Alan Turing

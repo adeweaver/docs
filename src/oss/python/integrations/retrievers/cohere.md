@@ -6,7 +6,6 @@ title: Cohere RAG
 
 This notebook covers how to get started with the `Cohere RAG` retriever. This allows you to leverage the ability to search documents over various connectors or by supplying your own.
 
-
 ```python
 import getpass
 import os
@@ -14,17 +13,14 @@ import os
 os.environ["COHERE_API_KEY"] = getpass.getpass()
 ```
 
-
 ```python
 from langchain_cohere import ChatCohere, CohereRagRetriever
 from langchain_core.documents import Document
 ```
 
-
 ```python
 rag = CohereRagRetriever(llm=ChatCohere())
 ```
-
 
 ```python
 def _pretty_print(docs):
@@ -34,10 +30,10 @@ def _pretty_print(docs):
         print("\n\n" + "-" * 30 + "\n\n")
 ```
 
-
 ```python
 _pretty_print(rag.invoke("What is cohere ai?"))
 ```
+
 ```output
 {'id': 'web-search_4:0', 'snippet': 'AI startup Cohere, now valued at over $2.1B, raises $270M\n\nKyle Wiggers 4 months\n\nIn a sign that there’s plenty of cash to go around for generative AI startups, Cohere, which is developing an AI model ecosystem for the enterprise, today announced that it raised $270 million as part of its Series C round.\n\nReuters reported earlier in the year that Cohere was in talks to raise “hundreds of millions” of dollars at a valuation of upward of just over $6 billion. If there’s credence to that reporting, Cohere appears to have missed the valuation mark substantially; a source familiar with the matter tells TechCrunch that this tranche values the company at between $2.1 billion and $2.2 billion.', 'title': 'AI startup Cohere, now valued at over $2.1B, raises $270M | TechCrunch', 'url': 'https://techcrunch.com/2023/06/08/ai-startup-cohere-now-valued-at-over-2-1b-raises-270m/'}
 
@@ -79,6 +75,7 @@ In 2017, a team of researchers at Google Brain, which included Aidan Gomez, publ
 ```python
 _pretty_print(await rag.ainvoke("What is cohere ai?"))  # async version
 ```
+
 ```output
 {'id': 'web-search_9:0', 'snippet': 'Cohere is a Canadian multinational technology company focused on artificial intelligence for the enterprise, specializing in large language models. Cohere was founded in 2019 by Aidan Gomez, Ivan Zhang, and Nick Frosst, and is headquartered in Toronto and San Francisco, with offices in Palo Alto and London.\n\nIn 2017, a team of researchers at Google Brain, which included Aidan Gomez, published a paper called "Attention is All You Need," which introduced the transformer machine learning architecture, setting state-of-the-art performance on a variety of natural language processing tasks. In 2019, Gomez and Nick Frosst, another researcher at Google Brain, founded Cohere along with Ivan Zhang, with whom Gomez had done research at FOR.ai. All of the co-founders attended University of Toronto.', 'title': 'Cohere - Wikipedia', 'url': 'https://en.wikipedia.org/wiki/Cohere'}
 
@@ -127,6 +124,7 @@ docs = rag.invoke(
 )
 _pretty_print(docs)
 ```
+
 ```output
 {'id': 'doc-0', 'snippet': 'Langchain supports cohere RAG!'}
 
@@ -136,8 +134,8 @@ Langchain supports cohere RAG!
 
 ------------------------------
 ```
-Please note that connectors and documents cannot be used simultaneously. If you choose to provide documents in the `invoke` method, they will take precedence, and connectors will not be utilized for that particular request, as shown in the snippet above!
 
+Please note that connectors and documents cannot be used simultaneously. If you choose to provide documents in the `invoke` method, they will take precedence, and connectors will not be utilized for that particular request, as shown in the snippet above!
 
 ```python
 

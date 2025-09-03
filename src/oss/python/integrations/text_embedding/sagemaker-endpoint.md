@@ -16,11 +16,9 @@ to:
 
 `return {"vectors": sentence_embeddings.tolist()}`.
 
-
 ```python
 !pip3 install langchain boto3
 ```
-
 
 ```python
 import json
@@ -86,21 +84,17 @@ embeddings = SagemakerEndpointEmbeddings(
 # )
 ```
 
-
 ```python
 query_result = embeddings.embed_query("foo")
 ```
-
 
 ```python
 doc_results = embeddings.embed_documents(["foo"])
 ```
 
-
 ```python
 doc_results
 ```
-
 
 ```python
 

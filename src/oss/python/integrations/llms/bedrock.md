@@ -5,7 +5,6 @@ title: Bedrock
 <Warning>
 **You are currently on a page documenting the use of Amazon Bedrock models as [text completion models](/oss/concepts/text_llms). Many popular models available on Bedrock are [chat completion models](/oss/concepts/chat_models).**
 
-
 You may be looking for [this page instead](/oss/integrations/chat/bedrock/).
 </Warning>
 
@@ -19,12 +18,9 @@ You may be looking for [this page instead](/oss/integrations/chat/bedrock/).
 > serverless, you don't have to manage any infrastructure, and you can securely integrate and deploy
 > generative AI capabilities into your applications using the AWS services you are already familiar with.
 
-
-
 ```python
 %pip install --upgrade --quiet langchain-aws
 ```
-
 
 ```python
 from langchain_aws import BedrockLLM
@@ -35,7 +31,6 @@ llm = BedrockLLM(
 ```
 
 ### Custom models
-
 
 ```python
 custom_llm = BedrockLLM(
@@ -54,7 +49,6 @@ custom_llm.invoke(input="What is the recipe of mayonnaise?")
 [Guardrails for Amazon Bedrock](https://aws.amazon.com/bedrock/guardrails/) evaluates user inputs and model responses based on use case specific policies, and provides an additional layer of safeguards regardless of the underlying model. Guardrails can be applied across models, including Anthropic Claude, Meta Llama 2, Cohere Command, AI21 Labs Jurassic, and Amazon Titan Text, as well as fine-tuned models.
 **Note**: Guardrails for Amazon Bedrock is currently in preview and not generally available. Reach out through your usual AWS Support contacts if you’d like access to this feature.
 In this section, we are going to set up a Bedrock language model with specific guardrails that include tracing capabilities.
-
 
 ```python
 from typing import Any

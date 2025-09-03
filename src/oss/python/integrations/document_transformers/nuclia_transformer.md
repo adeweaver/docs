@@ -10,12 +10,10 @@ To use the Nuclia Understanding API, you need to have a Nuclia account. You can 
 
 from langchain_community.document_transformers.nuclia_text_transform import NucliaTextTransformer
 
-
 ```python
 %pip install --upgrade --quiet  protobuf
 %pip install --upgrade --quiet  nucliadb-protos
 ```
-
 
 ```python
 import os
@@ -26,7 +24,6 @@ os.environ["NUCLIA_NUA_KEY"] = "<YOUR_API_KEY>"
 
 To use the Nuclia document transformer, you need to instantiate a `NucliaUnderstandingAPI` tool with `enable_ml` set to `True`:
 
-
 ```python
 from langchain_community.tools.nuclia import NucliaUnderstandingAPI
 
@@ -34,7 +31,6 @@ nua = NucliaUnderstandingAPI(enable_ml=True)
 ```
 
 The Nuclia document transformer must be called in async mode, so you need to use the `atransform_documents` method:
-
 
 ```python
 import asyncio

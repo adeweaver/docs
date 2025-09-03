@@ -10,7 +10,6 @@ title: Neo4j
 
 >[Cypher](https://en.wikipedia.org/wiki/Cypher_(query_language)) is a declarative graph query language that allows for expressive and efficient data querying in a property graph.
 
-
 ## Setting up
 
 You will need to have a running `Neo4j` instance. One option is to create a [free Neo4j database instance in their Aura cloud service](https://neo4j.com/cloud/platform/aura-graph-database/). You can also run the database locally using the [Neo4j Desktop application](https://neo4j.com/download/), or running a docker container.
@@ -28,19 +27,16 @@ docker run \
 
 If you are using the docker container, you need to wait a couple of second for the database to start.
 
-
 ```python
 from langchain_neo4j import GraphCypherQAChain, Neo4jGraph
 from langchain_openai import ChatOpenAI
 ```
-
 
 ```python
 graph = Neo4jGraph(url="bolt://localhost:7687", username="neo4j", password="password")
 ```
 
 We default to OpenAI models in this guide.
-
 
 ```python
 import getpass
@@ -54,7 +50,6 @@ if "OPENAI_API_KEY" not in os.environ:
 
 Assuming your database is empty, you can populate it using Cypher query language. The following Cypher statement is idempotent, which means the database information will be the same if you run it one or multiple times.
 
-
 ```python
 graph.query(
     """
@@ -67,25 +62,22 @@ MERGE (a)-[:ACTED_IN]->(m)
 )
 ```
 
-
-
 ```output
 []
 ```
 
-
 ## Refresh graph schema information
-If the schema of database changes, you can refresh the schema information needed to generate Cypher statements.
 
+If the schema of database changes, you can refresh the schema information needed to generate Cypher statements.
 
 ```python
 graph.refresh_schema()
 ```
 
-
 ```python
 print(graph.schema)
 ```
+
 ```output
 Node properties:
 Movie {runtime: INTEGER, name: STRING}
@@ -95,9 +87,10 @@ Relationship properties:
 The relationships:
 (:Actor)-[:ACTED_IN]->(:Movie)
 ```
-## Enhanced schema information
-Choosing the enhanced schema version enables the system to automatically scan for example values within the databases and calculate some distribution metrics. For example, if a node property has less than 10 distinct values, we return all possible values in the schema. Otherwise, return only a single example value per node and relationship property.
 
+## Enhanced schema information
+
+Choosing the enhanced schema version enables the system to automatically scan for example values within the databases and calculate some distribution metrics. For example, if a node property has less than 10 distinct values, we return all possible values in the schema. Otherwise, return only a single example value per node and relationship property.
 
 ```python
 enhanced_graph = Neo4jGraph(
@@ -108,6 +101,7 @@ enhanced_graph = Neo4jGraph(
 )
 print(enhanced_graph.schema)
 ```
+
 ```output
 Node properties:
 - **Movie**
@@ -120,10 +114,10 @@ Relationship properties:
 The relationships:
 (:Actor)-[:ACTED_IN]->(:Movie)
 ```
+
 ## Querying the graph
 
 We can now use the graph cypher QA chain to ask question of the graph
-
 
 ```python
 chain = GraphCypherQAChain.from_llm(
@@ -131,10 +125,10 @@ chain = GraphCypherQAChain.from_llm(
 )
 ```
 
-
 ```python
 chain.invoke({"query": "Who played in Top Gun?"})
 ```
+
 ```output
 > Entering new GraphCypherQAChain chain...
 Generated Cypher:
@@ -147,17 +141,15 @@ Full Context:
 > Finished chain.
 ```
 
-
 ```output
 {'query': 'Who played in Top Gun?',
  'result': 'Tom Cruise, Val Kilmer, Anthony Edwards, and Meg Ryan played in Top Gun.'}
 ```
 
-
 ## Limit the number of results
+
 You can limit the number of results from the Cypher QA Chain using the `top_k` parameter.
 The default is 10.
-
 
 ```python
 chain = GraphCypherQAChain.from_llm(
@@ -169,10 +161,10 @@ chain = GraphCypherQAChain.from_llm(
 )
 ```
 
-
 ```python
 chain.invoke({"query": "Who played in Top Gun?"})
 ```
+
 ```output
 > Entering new GraphCypherQAChain chain...
 Generated Cypher:
@@ -185,16 +177,14 @@ Full Context:
 > Finished chain.
 ```
 
-
 ```output
 {'query': 'Who played in Top Gun?',
  'result': 'Tom Cruise, Val Kilmer played in Top Gun.'}
 ```
 
-
 ## Return intermediate results
-You can return intermediate steps from the Cypher QA Chain using the `return_intermediate_steps` parameter
 
+You can return intermediate steps from the Cypher QA Chain using the `return_intermediate_steps` parameter
 
 ```python
 chain = GraphCypherQAChain.from_llm(
@@ -206,12 +196,12 @@ chain = GraphCypherQAChain.from_llm(
 )
 ```
 
-
 ```python
 result = chain.invoke({"query": "Who played in Top Gun?"})
 print(f"Intermediate steps: {result['intermediate_steps']}")
 print(f"Final answer: {result['result']}")
 ```
+
 ```output
 > Entering new GraphCypherQAChain chain...
 Generated Cypher:
@@ -225,9 +215,10 @@ Full Context:
 Intermediate steps: [{'query': "MATCH (a:Actor)-[:ACTED_IN]->(m:Movie)\nWHERE m.name = 'Top Gun'\nRETURN a.name"}, {'context': [{'a.name': 'Tom Cruise'}, {'a.name': 'Val Kilmer'}, {'a.name': 'Anthony Edwards'}, {'a.name': 'Meg Ryan'}]}]
 Final answer: Tom Cruise, Val Kilmer, Anthony Edwards, and Meg Ryan played in Top Gun.
 ```
-## Return direct results
-You can return direct results from the Cypher QA Chain using the `return_direct` parameter
 
+## Return direct results
+
+You can return direct results from the Cypher QA Chain using the `return_direct` parameter
 
 ```python
 chain = GraphCypherQAChain.from_llm(
@@ -239,10 +230,10 @@ chain = GraphCypherQAChain.from_llm(
 )
 ```
 
-
 ```python
 chain.invoke({"query": "Who played in Top Gun?"})
 ```
+
 ```output
 > Entering new GraphCypherQAChain chain...
 Generated Cypher:
@@ -253,7 +244,6 @@ RETURN a.name
 > Finished chain.
 ```
 
-
 ```output
 {'query': 'Who played in Top Gun?',
  'result': [{'a.name': 'Tom Cruise'},
@@ -262,10 +252,9 @@ RETURN a.name
   {'a.name': 'Meg Ryan'}]}
 ```
 
-
 ## Add examples in the Cypher generation prompt
-You can define the Cypher statement you want the LLM to generate for particular questions
 
+You can define the Cypher statement you want the LLM to generate for particular questions
 
 ```python
 from langchain_core.prompts.prompt import PromptTemplate
@@ -300,10 +289,10 @@ chain = GraphCypherQAChain.from_llm(
 )
 ```
 
-
 ```python
 chain.invoke({"query": "How many people played in Top Gun?"})
 ```
+
 ```output
 > Entering new GraphCypherQAChain chain...
 Generated Cypher:
@@ -315,16 +304,14 @@ Full Context:
 > Finished chain.
 ```
 
-
 ```output
 {'query': 'How many people played in Top Gun?',
  'result': 'There were 4 actors in Top Gun.'}
 ```
 
-
 ## Use separate LLMs for Cypher and answer generation
-You can use the `cypher_llm` and `qa_llm` parameters to define different llms
 
+You can use the `cypher_llm` and `qa_llm` parameters to define different llms
 
 ```python
 chain = GraphCypherQAChain.from_llm(
@@ -336,10 +323,10 @@ chain = GraphCypherQAChain.from_llm(
 )
 ```
 
-
 ```python
 chain.invoke({"query": "Who played in Top Gun?"})
 ```
+
 ```output
 > Entering new GraphCypherQAChain chain...
 Generated Cypher:
@@ -352,17 +339,14 @@ Full Context:
 > Finished chain.
 ```
 
-
 ```output
 {'query': 'Who played in Top Gun?',
  'result': 'Tom Cruise, Val Kilmer, Anthony Edwards, and Meg Ryan played in Top Gun.'}
 ```
 
-
 ## Ignore specified node and relationship types
 
 You can use `include_types` or `exclude_types` to ignore parts of the graph schema when generating Cypher statements.
-
 
 ```python
 chain = GraphCypherQAChain.from_llm(
@@ -375,11 +359,11 @@ chain = GraphCypherQAChain.from_llm(
 )
 ```
 
-
 ```python
 # Inspect graph schema
 print(chain.graph_schema)
 ```
+
 ```output
 Node properties are the following:
 Actor {name: STRING}
@@ -387,9 +371,10 @@ Relationship properties are the following:
 
 The relationships are the following:
 ```
-## Validate generated Cypher statements
-You can use the `validate_cypher` parameter to validate and correct relationship directions in generated Cypher statements
 
+## Validate generated Cypher statements
+
+You can use the `validate_cypher` parameter to validate and correct relationship directions in generated Cypher statements
 
 ```python
 chain = GraphCypherQAChain.from_llm(
@@ -401,10 +386,10 @@ chain = GraphCypherQAChain.from_llm(
 )
 ```
 
-
 ```python
 chain.invoke({"query": "Who played in Top Gun?"})
 ```
+
 ```output
 > Entering new GraphCypherQAChain chain...
 Generated Cypher:
@@ -417,18 +402,15 @@ Full Context:
 > Finished chain.
 ```
 
-
 ```output
 {'query': 'Who played in Top Gun?',
  'result': 'Tom Cruise, Val Kilmer, Anthony Edwards, and Meg Ryan played in Top Gun.'}
 ```
 
-
 ## Provide context from database results as tool/function output
 
 You can use the `use_function_response` parameter to pass context from database results to an LLM as a tool/function output. This method improves the response accuracy and relevance of an answer as the LLM follows the provided context more closely.
 _You will need to use an LLM with native function calling support to use this feature_.
-
 
 ```python
 chain = GraphCypherQAChain.from_llm(
@@ -440,6 +422,7 @@ chain = GraphCypherQAChain.from_llm(
 )
 chain.invoke({"query": "Who played in Top Gun?"})
 ```
+
 ```output
 > Entering new GraphCypherQAChain chain...
 Generated Cypher:
@@ -452,17 +435,14 @@ Full Context:
 > Finished chain.
 ```
 
-
 ```output
 {'query': 'Who played in Top Gun?',
  'result': 'The main actors in Top Gun are Tom Cruise, Val Kilmer, Anthony Edwards, and Meg Ryan.'}
 ```
 
-
 You can provide custom system message when using the function response feature by providing `function_response_system` to instruct the model on how to generate answers.
 
 _Note that `qa_prompt` will have no effect when using `use_function_response`_
-
 
 ```python
 chain = GraphCypherQAChain.from_llm(
@@ -475,6 +455,7 @@ chain = GraphCypherQAChain.from_llm(
 )
 chain.invoke({"query": "Who played in Top Gun?"})
 ```
+
 ```output
 > Entering new GraphCypherQAChain chain...
 Generated Cypher:
@@ -486,7 +467,6 @@ Full Context:
 
 > Finished chain.
 ```
-
 
 ```output
 {'query': 'Who played in Top Gun?',

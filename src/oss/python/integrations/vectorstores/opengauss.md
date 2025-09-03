@@ -18,10 +18,13 @@ docker run --name opengauss \
 ```
 
 ### Install langchain-opengauss
+
 ```bash
 pip install langchain-opengauss
 ```
+
 **System Requirements**:
+
 - openGauss ≥ 7.0.0
 - Python ≥ 3.8
 - psycopg2-binary
@@ -33,7 +36,6 @@ Using your openGauss Credentials
 ## Initialization
 
 <EmbeddingTabs/>
-
 
 ```python
 from langchain_opengauss import OpenGauss, OpenGaussSettings
@@ -52,8 +54,6 @@ vector_store = OpenGauss(embedding=embeddings, config=config)
 
 ### Add items to vector store
 
-
-
 ```python
 from langchain_core.documents import Document
 
@@ -70,8 +70,6 @@ vector_store.add_documents(documents=documents, ids=["1", "2", "3"])
 
 ### Update items in vector store
 
-
-
 ```python
 updated_document = Document(
     page_content="qux", metadata={"source": "https://another-example.com"}
@@ -82,8 +80,6 @@ vector_store.add_documents(document_id="1", document=updated_document)
 ```
 
 ### Delete items from vector store
-
-
 
 ```python
 vector_store.delete(ids=["3"])
@@ -99,7 +95,6 @@ Performing a simple similarity search can be done as follows:
 
 - TODO: Edit and then run code cell to generate output
 
-
 ```python
 results = vector_store.similarity_search(
     query="thud", k=1, filter={"source": "https://another-example.com"}
@@ -109,8 +104,6 @@ for doc in results:
 ```
 
 If you want to execute a similarity search and receive the corresponding scores you can run:
-
-
 
 ```python
 results = vector_store.similarity_search_with_score(
@@ -125,7 +118,6 @@ for doc, score in results:
 You can also transform the vector store into a retriever for easier usage in your chains.
 
 - TODO: Edit and then run code cell to generate output
-
 
 ```python
 retriever = vector_store.as_retriever(search_type="mmr", search_kwargs={"k": 1})
@@ -143,6 +135,7 @@ For guides on how to use this vector store for retrieval-augmented generation (R
 ## Configuration
 
 ### Connection Settings
+
 | Parameter           | Default                 | Description                                            |
 |---------------------|-------------------------|--------------------------------------------------------|
 | `host`              | localhost               | Database server address                                |
@@ -164,16 +157,17 @@ For guides on how to use this vector store for retrieval-augmented generation (R
 |-------------|------------|--------------|---------------------------------------|
 | vector      | ≤2000      | HNSW/IVFFLAT | COSINE/EUCLIDEAN/MANHATTAN/INNER_PROD |
 
-
-
 ## Performance Optimization
 
 ### Index Tuning Guidelines
+
 **HNSW Parameters**:
+
 - `m`: 16-100 (balance between recall and memory)
 - `ef_construction`: 64-1000 (must be > 2*m)
 
 **IVFFLAT Recommendations**:
+
 ```python
 import math
 
@@ -184,15 +178,16 @@ lists = min(
 ```
 
 ### Connection Pooling
+
 ```python
 OpenGaussSettings(min_connections=3, max_connections=20)
 ```
 
-
 ## Limitations
+
 - `bit` and `sparsevec` vector types currently in development
 - Maximum vector dimensions: 2000 for `vector` type
 
 ## API reference
 
-For detailed documentation of all __ModuleName__VectorStore features and configurations head to the API reference: https://python.langchain.com/api_reference/en/latest/vectorstores/opengauss.OpenGuass.html
+For detailed documentation of all __ModuleName__VectorStore features and configurations head to the API reference: [python.langchain.com/api_reference/en/latest/vectorstores/opengauss.OpenGuass.html](https://python.langchain.com/api_reference/en/latest/vectorstores/opengauss.OpenGuass.html)

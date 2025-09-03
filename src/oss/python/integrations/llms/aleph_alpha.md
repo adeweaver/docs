@@ -6,18 +6,15 @@ title: Aleph Alpha
 
 This example goes over how to use LangChain to interact with Aleph Alpha models
 
-
 ```python
 # Installing the langchain package needed to use the integration
 %pip install -qU langchain-community
 ```
 
-
 ```python
 # Install the package
 %pip install --upgrade --quiet  aleph-alpha-client
 ```
-
 
 ```python
 # create a new token: https://docs.aleph-alpha.com/docs/account/#create-a-new-token
@@ -26,6 +23,7 @@ from getpass import getpass
 
 ALEPH_ALPHA_API_KEY = getpass()
 ```
+
 ```output
 ········
 ```
@@ -35,7 +33,6 @@ from langchain_community.llms import AlephAlpha
 from langchain_core.prompts import PromptTemplate
 ```
 
-
 ```python
 template = """Q: {question}
 
@@ -43,7 +40,6 @@ A:"""
 
 prompt = PromptTemplate.from_template(template)
 ```
-
 
 ```python
 llm = AlephAlpha(
@@ -54,11 +50,9 @@ llm = AlephAlpha(
 )
 ```
 
-
 ```python
 llm_chain = prompt | llm
 ```
-
 
 ```python
 question = "What is AI?"
@@ -66,13 +60,9 @@ question = "What is AI?"
 llm_chain.invoke({"question": question})
 ```
 
-
-
 ```output
 ' Artificial Intelligence is the simulation of human intelligence processes by machines.\n\n'
 ```
-
-
 
 ```python
 

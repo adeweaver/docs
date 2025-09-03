@@ -10,13 +10,14 @@ This guide covers how to use the LangChain `ChatRunPod` class to interact with c
 
 ## Setup
 
-1.  **Install the package:**
+1. **Install the package:**
+
     ```bash
     pip install -qU langchain-runpod
     ```
-2.  **Deploy a Chat Model Endpoint:** Follow the setup steps in the [RunPod Provider Guide](/oss/integrations/providers/runpod#setup) to deploy a compatible chat model endpoint on RunPod Serverless and get its Endpoint ID.
-3.  **Set Environment Variables:** Make sure `RUNPOD_API_KEY` and `RUNPOD_ENDPOINT_ID` (or a specific `RUNPOD_CHAT_ENDPOINT_ID`) are set.
 
+2. **Deploy a Chat Model Endpoint:** Follow the setup steps in the [RunPod Provider Guide](/oss/integrations/providers/runpod#setup) to deploy a compatible chat model endpoint on RunPod Serverless and get its Endpoint ID.
+3. **Set Environment Variables:** Make sure `RUNPOD_API_KEY` and `RUNPOD_ENDPOINT_ID` (or a specific `RUNPOD_CHAT_ENDPOINT_ID`) are set.
 
 ```python
 import getpass
@@ -43,10 +44,10 @@ if not chat_endpoint_id:
         "No RunPod Endpoint ID found. Please set RUNPOD_ENDPOINT_ID or RUNPOD_CHAT_ENDPOINT_ID."
     )
 ```
+
 ## Instantiation
 
 Initialize the `ChatRunPod` class. You can pass model-specific parameters via `model_kwargs` and configure polling behavior.
-
 
 ```python
 from langchain_runpod import ChatRunPod
@@ -64,10 +65,10 @@ chat = ChatRunPod(
     # max_polling_attempts=150
 )
 ```
+
 ## Invocation
 
 Use the standard LangChain `.invoke()` and `.ainvoke()` methods to call the model. Streaming is also supported via `.stream()` and `.astream()` (simulated by polling the RunPod `/stream` endpoint).
-
 
 ```python
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -119,10 +120,10 @@ except Exception as e:
         f"\nError streaming Chat Model asynchronously: {e}. Ensure endpoint handler supports streaming output format.\n"
     )
 ```
+
 ## Chaining
 
 The chat model integrates seamlessly with LangChain Expression Language (LCEL) chains.
-
 
 ```python
 from langchain_core.output_parsers import StrOutputParser
@@ -176,7 +177,6 @@ The availability of advanced features depends **heavily** on the specific implem
 | Native async                                               | ✅                  | ✅                  | Core `ainvoke`/`astream` implemented. Relies on endpoint handler performance.                                                                                              |
 | [Token usage](/oss/how-to/chat_token_usage_tracking)    | ❌                  | ✅                  | Requires handler to return `prompt_tokens`, `completion_tokens` in the final response. Integration currently does not parse this.                                           |
 | [Logprobs](/oss/how-to/logprobs)                          | ❌                  | ✅                  | Requires handler to return log probabilities. Integration currently does not parse this.                                                                                  |
-
 
 **Key Takeaway:** Standard chat invocation and simulated streaming work if the endpoint follows basic RunPod API conventions. Advanced features require specific handler implementations and potentially extending or customizing this integration package.
 

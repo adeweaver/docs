@@ -30,6 +30,7 @@ The Document Loader takes the following optional parameters:
 * `filter_criteria`: dictionary to construct the `WHERE` clause for filtering results from table.
 
 The output `Document` takes the following shape:
+
 ```
 Document(
     page_content=<json encoded string containing the result document>,
@@ -47,11 +48,9 @@ Document(
 
 Uncomment the below cells to install surrealdb and langchain.
 
-
 ```python
 # %pip install --upgrade --quiet  surrealdb langchain langchain-community
 ```
-
 
 ```python
 # add this import for running in jupyter notebook
@@ -60,13 +59,11 @@ import nest_asyncio
 nest_asyncio.apply()
 ```
 
-
 ```python
 import json
 
 from langchain_community.document_loaders.surrealdb import SurrealDBLoader
 ```
-
 
 ```python
 loader = SurrealDBLoader(
@@ -82,20 +79,14 @@ docs = loader.load()
 len(docs)
 ```
 
-
-
 ```output
 42
 ```
-
-
 
 ```python
 doc = docs[-1]
 doc.metadata
 ```
-
-
 
 ```output
 {'id': 'documents:zzz434sa584xl3b4ohvk',
@@ -105,30 +96,21 @@ doc.metadata
  'table': 'documents'}
 ```
 
-
-
 ```python
 len(doc.page_content)
 ```
-
-
 
 ```output
 18078
 ```
 
-
-
 ```python
 page_content = json.loads(doc.page_content)
 ```
 
-
 ```python
 page_content["text"]
 ```
-
-
 
 ```output
 'When we use taxpayer dollars to rebuild America – we are going to Buy American: buy American products to support American jobs. \n\nThe federal government spends about $600 Billion a year to keep the country safe and secure. \n\nThere’s been a law on the books for almost a century \nto make sure taxpayers’ dollars support American jobs and businesses. \n\nEvery Administration says they’ll do it, but we are actually doing it. \n\nWe will buy American to make sure everything from the deck of an aircraft carrier to the steel on highway guardrails are made in America. \n\nBut to compete for the best jobs of the future, we also need to level the playing field with China and other competitors. \n\nThat’s why it is so important to pass the Bipartisan Innovation Act sitting in Congress that will make record investments in emerging technologies and American manufacturing. \n\nLet me give you one example of why it’s so important to pass it.'

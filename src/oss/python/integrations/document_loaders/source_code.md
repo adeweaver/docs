@@ -35,11 +35,9 @@ lines required to activate the splitting based on syntax.
 If a language is not explicitly specified, `LanguageParser` will infer one from
 filename extensions, if present.
 
-
 ```python
 %pip install -qU esprima esprima tree_sitter tree_sitter_languages
 ```
-
 
 ```python
 import warnings
@@ -52,7 +50,6 @@ from langchain_community.document_loaders.parsers import LanguageParser
 from langchain_text_splitters import Language
 ```
 
-
 ```python
 loader = GenericLoader.from_filesystem(
     "./example_data/source_code",
@@ -63,23 +60,19 @@ loader = GenericLoader.from_filesystem(
 docs = loader.load()
 ```
 
-
 ```python
 len(docs)
 ```
-
-
 
 ```output
 6
 ```
 
-
-
 ```python
 for document in docs:
     pprint(document.metadata)
 ```
+
 ```output
 {'content_type': 'functions_classes',
  'language': <Language.PYTHON: 'python'>,
@@ -104,6 +97,7 @@ for document in docs:
 ```python
 print("\n\n--8<--\n\n".join([document.page_content for document in docs]))
 ```
+
 ```output
 class MyClass:
     def __init__(self, name):
@@ -158,10 +152,10 @@ function main() {
 
 main();
 ```
+
 The parser can be disabled for small files.
 
 The parameter `parser_threshold` indicates the minimum number of lines that the source code file must have to be segmented using the parser.
-
 
 ```python
 loader = GenericLoader.from_filesystem(
@@ -173,22 +167,18 @@ loader = GenericLoader.from_filesystem(
 docs = loader.load()
 ```
 
-
 ```python
 len(docs)
 ```
-
-
 
 ```output
 1
 ```
 
-
-
 ```python
 print(docs[0].page_content)
 ```
+
 ```output
 class MyClass:
     def __init__(self, name):
@@ -207,10 +197,10 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+
 ## Splitting
 
 Additional splitting could be needed for those functions, classes, or scripts that are too big.
-
 
 ```python
 loader = GenericLoader.from_filesystem(
@@ -222,7 +212,6 @@ loader = GenericLoader.from_filesystem(
 docs = loader.load()
 ```
 
-
 ```python
 from langchain_text_splitters import (
     Language,
@@ -230,34 +219,28 @@ from langchain_text_splitters import (
 )
 ```
 
-
 ```python
 js_splitter = RecursiveCharacterTextSplitter.from_language(
     language=Language.JS, chunk_size=60, chunk_overlap=0
 )
 ```
 
-
 ```python
 result = js_splitter.split_documents(docs)
 ```
-
 
 ```python
 len(result)
 ```
 
-
-
 ```output
 7
 ```
 
-
-
 ```python
 print("\n\n--8<--\n\n".join([document.page_content for document in result]))
 ```
+
 ```output
 class MyClass {
   constructor(name) {
@@ -295,6 +278,7 @@ const obj = new MyClass(name);
 
 main();
 ```
+
 ## Adding Languages using Tree-sitter Template
 
 Expanding language support using the Tree-Sitter template involves a few essential steps:

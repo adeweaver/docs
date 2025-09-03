@@ -18,6 +18,7 @@ Create agents that can:
 - Get financial insights
 
 ### How it works
+
 GOAT leverages blockchains, cryptocurrencies (such as stablecoins), and wallets as the infrastructure to enable agents to become economic actors:
 
 1. Give your agent a [wallet](https://github.com/goat-sdk/goat/tree/main#chains-and-wallets)
@@ -51,7 +52,6 @@ The best way to get started is by using the quickstarts below. See how you can c
 - **By wallet**
   - [Crossmint](https://github.com/goat-sdk/goat/tree/main/python/examples/by-wallet/crossmint)
 - **See all python quickstarts [here](https://github.com/goat-sdk/goat/tree/main/python/examples).**
-
 
 ## Setup
 
@@ -103,6 +103,7 @@ tools = get_on_chain_tools(
 ```
 
 ## Invocation
+
 ```python
 tools["get_balance"].invoke({ "address": "0x1234567890123456789012345678901234567890" })
 ```

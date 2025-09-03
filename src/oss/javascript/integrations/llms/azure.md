@@ -20,11 +20,13 @@ If you are using Azure OpenAI with the deprecated SDK, see the [migration guide]
 </Info>
 
 ```
+
 [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/) is a Microsoft Azure service that provides powerful language models from OpenAI.
 
 This will help you get started with AzureOpenAI completion models (LLMs) using LangChain. For detailed documentation on `AzureOpenAI` features and configuration options, please refer to the [API reference](https://api.js.langchain.com/classes/langchain_openai.AzureOpenAI.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [PY support](https://python.langchain.com/docs/integrations/llms/azure_openai) | Package downloads | Package latest |
@@ -51,6 +53,7 @@ AZURE_OPENAI_API_DEPLOYMENT_NAME=<YOUR_DEPLOYMENT_NAME>
 AZURE_OPENAI_API_KEY=<YOUR_KEY>
 AZURE_OPENAI_API_VERSION="2024-02-01"
 ```
+
 Alternatively, you can pass the values directly to the `AzureOpenAI` constructor.
 
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
@@ -59,6 +62,7 @@ If you want to get automated tracing of your model calls you can also set your [
 # export LANGSMITH_TRACING="true"
 # export LANGSMITH_API_KEY="your-api-key"
 ```
+
 ### Installation
 
 The LangChain AzureOpenAI integration lives in the `@langchain/openai` package:
@@ -72,10 +76,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```typescript
 import { AzureOpenAI } from "@langchain/openai"
@@ -93,8 +97,8 @@ const llm = new AzureOpenAI({
   // other params...
 })
 ```
-## Invocation
 
+## Invocation
 
 ```typescript
 const inputText = "AzureOpenAI is an AI company that "
@@ -102,13 +106,14 @@ const inputText = "AzureOpenAI is an AI company that "
 const completion = await llm.invoke(inputText)
 completion
 ```
+
 ```output
 provides AI solutions to businesses. They offer a range of services including natural language processing, computer vision, and machine learning. Their solutions are designed to help businesses automate processes, gain insights from data, and improve decision-making. AzureOpenAI also offers consulting services to help businesses identify and implement the best AI solutions for their specific needs. They work with a variety of industries, including healthcare, finance, and retail. With their expertise in AI and their partnership with Microsoft Azure, AzureOpenAI is a trusted provider of AI solutions for businesses looking to stay ahead in the rapidly evolving world of technology.
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our completion model with a prompt template like so:
-
 
 ```typescript
 import { PromptTemplate } from "@langchain/core/prompts"
@@ -126,13 +131,14 @@ await chain.invoke(
   }
 )
 ```
+
 ```output
 Ich liebe Programmieren.
 ```
+
 ## Using Azure Managed Identity
 
 If you're using Azure Managed Identity, you can configure the credentials like this:
-
 
 ```typescript
 import {
@@ -161,7 +167,6 @@ const managedIdentityLLM = new AzureOpenAI({
 If your instance is hosted under a domain other than the default `openai.azure.com`, you'll need to use the alternate `AZURE_OPENAI_BASE_PATH` environment variable.
 For example, here's how you would connect to the domain `https://westeurope.api.microsoft.com/openai/deployments/{DEPLOYMENT_NAME}`:
 
-
 ```typescript
 import { AzureOpenAI } from "@langchain/openai";
 
@@ -180,14 +185,18 @@ const differentDomainLLM = new AzureOpenAI({
 If you are using the deprecated Azure OpenAI SDK with the `@langchain/azure-openai` package, you can update your code to use the new Azure integration following these steps:
 
 1. Install the new `@langchain/openai` package and remove the previous `@langchain/azure-openai` package:
+
    ```bash
    npm install @langchain/openai
    npm uninstall @langchain/azure-openai
    ```
+
 2. Update your imports to use the new `AzureOpenAI` and `AzureChatOpenAI` classes from the `@langchain/openai` package:
+
    ```typescript
    import { AzureOpenAI } from "@langchain/openai";
    ```
+
 3. Update your code to use the new `AzureOpenAI` and `AzureChatOpenAI` classes and pass the required parameters:
 
    ```typescript
@@ -205,7 +214,6 @@ If you are using the deprecated Azure OpenAI SDK with the `@langchain/azure-open
 
    - If you were using environment variables, you now have to set the `AZURE_OPENAI_API_INSTANCE_NAME` environment variable instead of `AZURE_OPENAI_API_ENDPOINT`, and add the `AZURE_OPENAI_API_VERSION` environment variable to specify the API version.
 
-
 ## API reference
 
-For detailed documentation of all AzureOpenAI features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_openai.AzureOpenAI.html
+For detailed documentation of all AzureOpenAI features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_openai.AzureOpenAI.html).

@@ -7,6 +7,7 @@ title: ChatCohere
 This will help you getting started with Cohere [chat models](/oss/concepts/chat_models). For detailed documentation of all `ChatCohere` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_cohere.ChatCohere.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [PY support](https://python.langchain.com/docs/integrations/chat/cohere) | Package downloads | Package latest |
@@ -57,10 +58,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```typescript
 import { ChatCohere } from "@langchain/cohere"
@@ -72,12 +73,12 @@ const llm = new ChatCohere({
     // other params...
 })
 ```
-### Custom client for Cohere on Azure, Cohere on AWS Bedrock, and Standalone Cohere Instance.
+
+### Custom client for Cohere on Azure, Cohere on AWS Bedrock, and Standalone Cohere Instance
 
 We can instantiate a custom `CohereClient` and pass it to the ChatCohere constructor.
 
 **Note:** If a custom client is provided both `COHERE_API_KEY` environment variable and `apiKey` parameter in the constructor will be ignored.
-
 
 ```typescript
 import { ChatCohere } from "@langchain/cohere";
@@ -94,8 +95,8 @@ const llmWithCustomClient = new ChatCohere({
   // other params...
 });
 ```
-## Invocation
 
+## Invocation
 
 ```typescript
 const aiMsg = await llm.invoke([
@@ -107,6 +108,7 @@ const aiMsg = await llm.invoke([
 ])
 aiMsg
 ```
+
 ```output
 AIMessage {
   "content": "J'adore programmer.",
@@ -192,13 +194,14 @@ AIMessage {
 ```typescript
 console.log(aiMsg.content)
 ```
+
 ```output
 J'adore programmer.
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts"
@@ -222,6 +225,7 @@ await chain.invoke(
     }
 )
 ```
+
 ```output
 AIMessage {
   "content": "Ich liebe Programmieren.",
@@ -303,11 +307,11 @@ AIMessage {
   }
 }
 ```
+
 ## RAG
 
 Cohere also comes out of the box with RAG support.
 You can pass in documents as context to the API request and Cohere's models will use them when generating responses.
-
 
 ```typescript
 import { ChatCohere } from "@langchain/cohere";
@@ -341,15 +345,16 @@ const ragResponse = await llmForRag.invoke(
 );
 console.log(ragResponse.content);
 ```
+
 ```output
 Harrison worked at Kensho as an engineer for 3 years.
 ```
+
 ## Connectors
 
 The API also allows for other connections which are not static documents.
 An example of this is their `web-search` connector which allows you to pass in a query and the API will search the web for relevant documents.
 The example below demonstrates how to use this feature.
-
 
 ```typescript
 import { ChatCohere } from "@langchain/cohere";
@@ -367,6 +372,7 @@ const connectorsRes = await llmWithConnectors.invoke(
 );
 console.dir(connectorsRes, { depth: null });
 ```
+
 ```output
 AIMessage {
   lc_serializable: true,
@@ -1494,6 +1500,7 @@ AIMessage {
   usage_metadata: { input_tokens: 11198, output_tokens: 286, total_tokens: 11484 }
 }
 ```
+
 We can see in the `additional_kwargs` object that the API request did a few things:
 
 - Performed a search query, storing the result data in the `searchQueries` and `searchResults` fields. In the `searchQueries` field we see they rephrased our query for better results.
@@ -1503,4 +1510,4 @@ We can see in the `additional_kwargs` object that the API request did a few thin
 
 ## API reference
 
-For detailed documentation of all ChatCohere features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_cohere.ChatCohere.html
+For detailed documentation of all ChatCohere features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_cohere.ChatCohere.html).

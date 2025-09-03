@@ -2,7 +2,7 @@
 title: TiDB
 ---
 
-> [TiDB Cloud](https://www.pingcap.com/tidb-serverless/), is a comprehensive Database-as-a-Service (DBaaS) solution, that provides dedicated and serverless options. TiDB Serverless is now integrating a built-in vector search into the MySQL landscape. With this enhancement, you can seamlessly develop AI applications using TiDB Serverless without the need for a new database or additional technical stacks. Create a free TiDB Serverless cluster and start using the vector search feature at https://pingcap.com/ai.
+> [TiDB Cloud](https://www.pingcap.com/tidb-serverless/), is a comprehensive Database-as-a-Service (DBaaS) solution, that provides dedicated and serverless options. TiDB Serverless is now integrating a built-in vector search into the MySQL landscape. With this enhancement, you can seamlessly develop AI applications using TiDB Serverless without the need for a new database or additional technical stacks. Create a free TiDB Serverless cluster and start using the vector search feature at [pingcap.com/ai](https://pingcap.com/ai).
 
 This notebook introduces how to use TiDB to store chat message history.
 
@@ -10,13 +10,11 @@ This notebook introduces how to use TiDB to store chat message history.
 
 Firstly, we will install the following dependencies:
 
-
 ```python
 %pip install --upgrade --quiet langchain langchain_openai langchain-community
 ```
 
 Configuring your OpenAI Key
-
 
 ```python
 import getpass
@@ -27,7 +25,6 @@ if "OPENAI_API_KEY" not in os.environ:
 ```
 
 Finally, we will configure the connection to a TiDB. In this notebook, we will follow the standard connection method provided by TiDB Cloud to establish a secure and efficient database connection.
-
 
 ```python
 # copy from tidb cloud console
@@ -41,7 +38,6 @@ tidb_connection_string = tidb_connection_string_template.replace(
 ## Generating historical data
 
 Creating a set of historical data, which will serve as the foundation for our upcoming demonstrations.
-
 
 ```python
 from datetime import datetime
@@ -60,25 +56,20 @@ history.add_ai_message(
 )
 ```
 
-
 ```python
 history.messages
 ```
-
-
 
 ```output
 [HumanMessage(content="How's our feature going?"),
  AIMessage(content="It's going well. We are working on testing now. It will be released in Feb.")]
 ```
 
-
 ## Chatting with historical data
 
 Let’s build upon the historical data generated earlier to create a dynamic chat interaction.
 
 Firstly, Creating a Chat Chain with LangChain:
-
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
@@ -99,7 +90,6 @@ chain = prompt | ChatOpenAI()
 
 Building a Runnable on History:
 
-
 ```python
 from langchain_core.runnables.history import RunnableWithMessageHistory
 
@@ -115,7 +105,6 @@ chain_with_history = RunnableWithMessageHistory(
 
 Initiating the Chat:
 
-
 ```python
 response = chain_with_history.invoke(
     {"question": "Today is Jan 1st. How many days until our feature is released?"},
@@ -124,22 +113,16 @@ response = chain_with_history.invoke(
 response
 ```
 
-
-
 ```output
 AIMessage(content='There are 31 days in January, so there are 30 days until our feature is released in February.')
 ```
 
-
 ## Checking the history data
-
 
 ```python
 history.reload_cache()
 history.messages
 ```
-
-
 
 ```output
 [HumanMessage(content="How's our feature going?"),

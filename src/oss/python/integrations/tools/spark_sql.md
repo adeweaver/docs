@@ -8,13 +8,11 @@ This notebook shows how to use agents to interact with `Spark SQL`. Similar to [
 
 ## Initialization
 
-
 ```python
 from langchain_community.agent_toolkits import SparkSQLToolkit, create_spark_sql_agent
 from langchain_community.utilities.spark_sql import SparkSQL
 from langchain_openai import ChatOpenAI
 ```
-
 
 ```python
 from pyspark.sql import SparkSession
@@ -28,6 +26,7 @@ table = "titanic"
 spark.read.csv(csv_file_path, header=True, inferSchema=True).write.saveAsTable(table)
 spark.table(table).show()
 ```
+
 ```output
 Setting default log level to "WARN".
 To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
@@ -71,10 +70,10 @@ agent_executor = create_spark_sql_agent(llm=llm, toolkit=toolkit, verbose=True)
 
 ## Example: describing a table
 
-
 ```python
 agent_executor.run("Describe the titanic table")
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 Action: list_tables_sql_db
@@ -100,10 +99,10 @@ Observation: CREATE TABLE langchain_example.titanic (
 
 /*
 3 rows from titanic table:
-PassengerId	Survived	Pclass	Name	Sex	Age	SibSp	Parch	Ticket	Fare	Cabin	Embarked
-1	0	3	Braund, Mr. Owen Harris	male	22.0	1	0	A/5 21171	7.25	None	S
-2	1	1	Cumings, Mrs. John Bradley (Florence Briggs Thayer)	female	38.0	1	0	PC 17599	71.2833	C85	C
-3	1	3	Heikkinen, Miss. Laina	female	26.0	0	0	STON/O2. 3101282	7.925	None	S
+PassengerId Survived Pclass Name Sex Age SibSp Parch Ticket Fare Cabin Embarked
+1 0 3 Braund, Mr. Owen Harris male 22.0 1 0 A/5 21171 7.25 None S
+2 1 1 Cumings, Mrs. John Bradley (Florence Briggs Thayer) female 38.0 1 0 PC 17599 71.2833 C85 C
+3 1 3 Heikkinen, Miss. Laina female 26.0 0 0 STON/O2. 3101282 7.925 None S
 */
 Thought:I now know the schema and sample rows for the titanic table.
 Final Answer: The titanic table has the following columns: PassengerId (INT), Survived (INT), Pclass (INT), Name (STRING), Sex (STRING), Age (DOUBLE), SibSp (INT), Parch (INT), Ticket (STRING), Fare (DOUBLE), Cabin (STRING), and Embarked (STRING). Here are some sample rows from the table:
@@ -115,18 +114,16 @@ Final Answer: The titanic table has the following columns: PassengerId (INT), Su
 > Finished chain.
 ```
 
-
 ```output
 'The titanic table has the following columns: PassengerId (INT), Survived (INT), Pclass (INT), Name (STRING), Sex (STRING), Age (DOUBLE), SibSp (INT), Parch (INT), Ticket (STRING), Fare (DOUBLE), Cabin (STRING), and Embarked (STRING). Here are some sample rows from the table: \n\n1. PassengerId: 1, Survived: 0, Pclass: 3, Name: Braund, Mr. Owen Harris, Sex: male, Age: 22.0, SibSp: 1, Parch: 0, Ticket: A/5 21171, Fare: 7.25, Cabin: None, Embarked: S\n2. PassengerId: 2, Survived: 1, Pclass: 1, Name: Cumings, Mrs. John Bradley (Florence Briggs Thayer), Sex: female, Age: 38.0, SibSp: 1, Parch: 0, Ticket: PC 17599, Fare: 71.2833, Cabin: C85, Embarked: C\n3. PassengerId: 3, Survived: 1, Pclass: 3, Name: Heikkinen, Miss. Laina, Sex: female, Age: 26.0, SibSp: 0, Parch: 0, Ticket: STON/O2. 3101282, Fare: 7.925, Cabin: None, Embarked: S'
 ```
 
-
 ## Example: running queries
-
 
 ```python
 agent_executor.run("whats the square root of the average age?")
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 Action: list_tables_sql_db
@@ -152,10 +149,10 @@ Observation: CREATE TABLE langchain_example.titanic (
 
 /*
 3 rows from titanic table:
-PassengerId	Survived	Pclass	Name	Sex	Age	SibSp	Parch	Ticket	Fare	Cabin	Embarked
-1	0	3	Braund, Mr. Owen Harris	male	22.0	1	0	A/5 21171	7.25	None	S
-2	1	1	Cumings, Mrs. John Bradley (Florence Briggs Thayer)	female	38.0	1	0	PC 17599	71.2833	C85	C
-3	1	3	Heikkinen, Miss. Laina	female	26.0	0	0	STON/O2. 3101282	7.925	None	S
+PassengerId Survived Pclass Name Sex Age SibSp Parch Ticket Fare Cabin Embarked
+1 0 3 Braund, Mr. Owen Harris male 22.0 1 0 A/5 21171 7.25 None S
+2 1 1 Cumings, Mrs. John Bradley (Florence Briggs Thayer) female 38.0 1 0 PC 17599 71.2833 C85 C
+3 1 3 Heikkinen, Miss. Laina female 26.0 0 0 STON/O2. 3101282 7.925 None S
 */
 Thought:There is an Age column in the titanic table. I should write a query to calculate the average age and then find the square root of the result.
 Action: query_checker_sql_db
@@ -173,16 +170,14 @@ Final Answer: The square root of the average age is approximately 5.45.
 > Finished chain.
 ```
 
-
 ```output
 'The square root of the average age is approximately 5.45.'
 ```
 
-
-
 ```python
 agent_executor.run("What's the name of the oldest survived passenger?")
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 Action: list_tables_sql_db
@@ -208,10 +203,10 @@ Observation: CREATE TABLE langchain_example.titanic (
 
 /*
 3 rows from titanic table:
-PassengerId	Survived	Pclass	Name	Sex	Age	SibSp	Parch	Ticket	Fare	Cabin	Embarked
-1	0	3	Braund, Mr. Owen Harris	male	22.0	1	0	A/5 21171	7.25	None	S
-2	1	1	Cumings, Mrs. John Bradley (Florence Briggs Thayer)	female	38.0	1	0	PC 17599	71.2833	C85	C
-3	1	3	Heikkinen, Miss. Laina	female	26.0	0	0	STON/O2. 3101282	7.925	None	S
+PassengerId Survived Pclass Name Sex Age SibSp Parch Ticket Fare Cabin Embarked
+1 0 3 Braund, Mr. Owen Harris male 22.0 1 0 A/5 21171 7.25 None S
+2 1 1 Cumings, Mrs. John Bradley (Florence Briggs Thayer) female 38.0 1 0 PC 17599 71.2833 C85 C
+3 1 3 Heikkinen, Miss. Laina female 26.0 0 0 STON/O2. 3101282 7.925 None S
 */
 Thought:I can use the titanic table to find the oldest survived passenger. I will query the Name and Age columns, filtering by Survived and ordering by Age in descending order.
 Action: query_checker_sql_db
@@ -226,7 +221,6 @@ Final Answer: The oldest survived passenger is Barkworth, Mr. Algernon Henry Wil
 
 > Finished chain.
 ```
-
 
 ```output
 'The oldest survived passenger is Barkworth, Mr. Algernon Henry Wilson, who was 80 years old.'

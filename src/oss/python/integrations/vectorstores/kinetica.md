@@ -5,13 +5,13 @@ title: Kinetica Vectorstore API
 >[Kinetica](https://www.kinetica.com/) is a database with integrated support for vector similarity search
 
 It supports:
+
 - exact and approximate nearest neighbor search
 - L2 distance, inner product, and cosine distance
 
 This notebook shows how to use the Kinetica vector store (`Kinetica`).
 
 This needs an instance of Kinetica which can easily be setup using the instructions given here - [installation instruction](https://www.kinetica.com/developer-edition/).
-
 
 ```python
 # Pip install necessary package
@@ -22,7 +22,6 @@ This needs an instance of Kinetica which can easily be setup using the instructi
 
 We want to use `OpenAIEmbeddings` so we have to get the OpenAI API Key.
 
-
 ```python
 import getpass
 import os
@@ -31,7 +30,6 @@ if "OPENAI_API_KEY" not in os.environ:
     os.environ["OPENAI_API_KEY"] = getpass.getpass("OpenAI API Key:")
 ```
 
-
 ```python
 ## Loading Environment Variables
 from dotenv import load_dotenv
@@ -39,13 +37,9 @@ from dotenv import load_dotenv
 load_dotenv()
 ```
 
-
-
 ```output
 False
 ```
-
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -56,11 +50,9 @@ from langchain_community.vectorstores import (
 from langchain_openai import OpenAIEmbeddings
 ```
 
-
 ```python
 embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
 ```
-
 
 ```python
 # Kinetica needs the connection to the database.
@@ -74,7 +66,6 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 def create_config() -> KineticaSettings:
     return KineticaSettings(host=HOST, username=USERNAME, password=PASSWORD)
 ```
-
 
 ```python
 from uuid import uuid4
@@ -148,7 +139,6 @@ uuids = [str(uuid4()) for _ in range(len(documents))]
 
 ## Similarity Search with Euclidean Distance (Default)
 
-
 ```python
 # The Kinetica Module will try to create a table with the name of the collection.
 # So, make sure that the collection name is unique and the user has the permission to create a table.
@@ -165,8 +155,6 @@ db = Kinetica(
 db.add_documents(documents=documents, ids=uuids)
 ```
 
-
-
 ```output
 ['05e5a484-0273-49d1-90eb-1276baca31de',
  'd98b808f-dc0b-4328-bdbf-88f6b2ab6040',
@@ -180,13 +168,10 @@ db.add_documents(documents=documents, ids=uuids)
  '66fdb79d-49ce-4b06-901a-fda6271baf2a']
 ```
 
-
-
 ```python
 # query = "What did the president say about Ketanji Brown Jackson"
 # docs_with_score = db.similarity_search_with_score(query)
 ```
-
 
 ```python
 print()
@@ -207,6 +192,7 @@ results = db.similarity_search_with_score(
 for res, score in results:
     print(f"* [SIM={score:3f}] {res.page_content} [{res.metadata}]")
 ```
+
 ```output
 Similarity Search
 * Building an exciting new project with LangChain - come check it out! [{'source': 'tweet'}]
@@ -215,11 +201,11 @@ Similarity Search
 Similarity search with score
 * [SIM=0.945397] The weather forecast for tomorrow is cloudy and overcast, with a high of 62 degrees. [{'source': 'news'}]
 ```
+
 ## Working with vectorstore
 
 Above, we created a vectorstore from scratch. However, often times we want to work with an existing vectorstore.
 In order to do that, we can initialize it directly.
-
 
 ```python
 store = Kinetica(
@@ -230,54 +216,41 @@ store = Kinetica(
 ```
 
 ### Add documents
-We can add documents to the existing vectorstore.
 
+We can add documents to the existing vectorstore.
 
 ```python
 store.add_documents([Document(page_content="foo")])
 ```
 
-
-
 ```output
 ['68c4c679-c4d9-4f2d-bf01-f6c4f2181503']
 ```
-
-
 
 ```python
 docs_with_score = db.similarity_search_with_score("foo")
 ```
 
-
 ```python
 docs_with_score[0]
 ```
-
-
 
 ```output
 (Document(metadata={}, page_content='foo'), 0.0015394920483231544)
 ```
 
-
-
 ```python
 docs_with_score[1]
 ```
-
-
 
 ```output
 (Document(metadata={'source': 'tweet'}, page_content='Building an exciting new project with LangChain - come check it out!'),
  1.2609431743621826)
 ```
 
-
 ### Overriding a vectorstore
 
 If you have an existing collection, you override it by doing `from_documents` and setting `pre_delete_collection` = True
-
 
 ```python
 db = Kinetica.from_documents(
@@ -289,35 +262,29 @@ db = Kinetica.from_documents(
 )
 ```
 
-
 ```python
 docs_with_score = db.similarity_search_with_score("foo")
 ```
 
-
 ```python
 docs_with_score[0]
 ```
-
-
 
 ```output
 (Document(metadata={'source': 'tweet'}, page_content='Building an exciting new project with LangChain - come check it out!'),
  1.260920763015747)
 ```
 
-
 ### Using a VectorStore as a Retriever
-
 
 ```python
 retriever = store.as_retriever()
 ```
 
-
 ```python
 print(retriever)
 ```
+
 ```output
 tags=['Kinetica', 'OpenAIEmbeddings'] vectorstore=<langchain_community.vectorstores.kinetica.Kinetica object at 0x7a48142b2230> search_kwargs={}
 ```

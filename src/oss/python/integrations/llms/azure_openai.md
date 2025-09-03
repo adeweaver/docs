@@ -5,7 +5,6 @@ title: Azure OpenAI
 <Warning>
 **You are currently on a page documenting the use of Azure OpenAI [text completion models](/oss/concepts/text_llms). The latest and most popular Azure OpenAI models are [chat completion models](/oss/concepts/chat_models).**
 
-
 Unless you are specifically using `gpt-3.5-turbo-instruct`, you are probably looking for [this page instead](/oss/integrations/chat/azure_chat_openai/).
 </Warning>
 
@@ -14,6 +13,7 @@ This page goes over how to use LangChain with [Azure OpenAI](https://aka.ms/azur
 The Azure OpenAI API is compatible with OpenAI's API.  The `openai` Python package makes it easy to use both OpenAI and Azure OpenAI.  You can call Azure OpenAI the same way you call OpenAI with the exceptions noted below.
 
 ## API configuration
+
 You can configure the `openai` package to use Azure OpenAI using environment variables.  The following is for `bash`:
 
 ```bash
@@ -33,7 +33,9 @@ os.environ["OPENAI_API_VERSION"] = "2023-12-01-preview"
 ```
 
 ## Azure Active Directory Authentication
+
 There are two ways you can authenticate to Azure OpenAI:
+
 - API Key
 - Azure Active Directory (AAD)
 
@@ -72,6 +74,7 @@ credential = ChainedTokenCredential(
 ```
 
 ## Deployments
+
 With Azure OpenAI, you set up your own deployments of the common GPT-3 and Codex models.  When calling the API, you need to specify the deployment you want to use.
 
 _**Note**: These docs are for the Azure text completion models. Models like GPT-4 are chat models. They have a slightly different interface, and can be accessed via the `AzureChatOpenAI` class. For docs on Azure chat see [Azure Chat OpenAI documentation](/oss/integrations/chat/azure_chat_openai)._
@@ -91,12 +94,9 @@ response = client.completions.create(
 )
 ```
 
-
-
 ```python
 %pip install --upgrade --quiet  langchain-openai
 ```
-
 
 ```python
 import os
@@ -106,12 +106,10 @@ os.environ["AZURE_OPENAI_ENDPOINT"] = "..."
 os.environ["AZURE_OPENAI_API_KEY"] = "..."
 ```
 
-
 ```python
 # Import Azure OpenAI
 from langchain_openai import AzureOpenAI
 ```
-
 
 ```python
 # Create an instance of Azure OpenAI
@@ -121,25 +119,21 @@ llm = AzureOpenAI(
 )
 ```
 
-
 ```python
 # Run the LLM
 llm.invoke("Tell me a joke")
 ```
 
-
-
 ```output
 " Why couldn't the bicycle stand up by itself?\n\nBecause it was two-tired!"
 ```
 
-
 We can also print the LLM and see its custom print.
-
 
 ```python
 print(llm)
 ```
+
 ```output
 AzureOpenAI
 Params: {'deployment_name': 'gpt-35-turbo-instruct-0914', 'model_name': 'gpt-3.5-turbo-instruct', 'temperature': 0.7, 'top_p': 1, 'frequency_penalty': 0, 'presence_penalty': 0, 'n': 1, 'logit_bias': {}, 'max_tokens': 256}

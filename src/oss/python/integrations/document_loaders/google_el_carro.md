@@ -31,7 +31,6 @@ the README to set up your El Carro Oracle database.
 The integration lives in its own `langchain-google-el-carro` package, so
 we need to install it.
 
-
 ```python
 %pip install --upgrade --quiet langchain-google-el-carro
 ```
@@ -39,8 +38,8 @@ we need to install it.
 ## Basic Usage
 
 ### Set Up Oracle Database Connection
-Fill out the following variable with your Oracle database connections details.
 
+Fill out the following variable with your Oracle database connections details.
 
 ```python
 # @title Set Your Values Here { display-mode: "form" }
@@ -52,13 +51,11 @@ USER = "my-user"  # @param {type: "string"}
 PASSWORD = input("Please provide a password to be used for the database user: ")
 ```
 
-
 If you are using El Carro, you can find the hostname and port values in the
 status of the El Carro Kubernetes instance.
 Use the user password you created for your PDB.
 
 Example Ouput:
-
 
 ```
 kubectl get -w instances.oracle.db.anthosapis.com -n db
@@ -70,7 +67,6 @@ mydb   Oracle      18c       Express      mydb-svc.db   34.71.69.25:6021   ['pdb
 ### ElCarroEngine Connection Pool
 
 `ElCarroEngine` configures a connection pool to your Oracle database, enabling successful connections from your application and following industry best practices.
-
 
 ```python
 from langchain_google_el_carro import ElCarroEngine
@@ -92,7 +88,6 @@ via `elcarro_engine.init_document_table(<table_name>)`. Table Columns:
 - page_content (type: text)
 - langchain_metadata (type: JSON)
 
-
 ```python
 elcarro_engine.drop_document_table(TABLE_NAME)
 elcarro_engine.init_document_table(
@@ -108,7 +103,6 @@ To initialize `ElCarroDocumentSaver` class you need to provide 2 things:
 1. `elcarro_engine` - An instance of a `ElCarroEngine` engine.
 2. `table_name` - The name of the table within the Oracle database to store
    langchain documents.
-
 
 ```python
 from langchain_core.documents import Document
@@ -137,8 +131,6 @@ To initialize `ElCarroLoader` class you need to provide:
 2. `table_name` - The name of the table within the Oracle database to store
    langchain documents.
 
-
-
 ```python
 from langchain_google_el_carro import ElCarroLoader
 
@@ -152,7 +144,6 @@ for doc in docs:
 
 Other than loading documents from a table, we can also choose to load documents
 from a view generated from a SQL query. For example:
-
 
 ```python
 from langchain_google_el_carro import ElCarroLoader
@@ -183,7 +174,6 @@ A `row` should be deleted if there exists a `document` in the list, such that
 - `document.page_content` equals `row[page_content]`
 - `document.metadata` equals `row[langchain_metadata]`
 
-
 ```python
 docs = loader.load()
 print("Documents before delete:", docs)
@@ -197,7 +187,6 @@ print("Documents after delete:", loader.load())
 
 First we prepare an example table with non-default schema, and populate it with
 some arbitrary data.
-
 
 ```python
 import sqlalchemy
@@ -247,7 +236,6 @@ from this example table, the `page_content` of loaded documents will be the
 first column of the table, and `metadata` will be consisting of key-value pairs
 of all the other columns.
 
-
 ```python
 loader = ElCarroLoader(
     elcarro_engine=elcarro_engine,
@@ -269,7 +257,6 @@ For example here, the values of columns in `content_columns` will be joined
 together into a space-separated string, as `page_content` of loaded documents,
 and `metadata` of loaded documents will only contain key-value pairs of columns
 specified in `metadata_columns`.
-
 
 ```python
 loader = ElCarroLoader(
@@ -313,8 +300,6 @@ with `elcarro_engine.init_document_table()` to create the table:
    JSON `metadata` of langchain document.
    Default: `"langchain_metadata", "VARCHAR2(4000)"`.
 
-
-
 ```python
 elcarro_engine.drop_document_table(TABLE_NAME)
 elcarro_engine.init_document_table(
@@ -336,8 +321,6 @@ can see in this example,
 - `document.metadata.weight` will be saved into `weight` column.
 - `document.metadata.organic` will be saved into `extra_json_metadata` column in
   JSON format.
-
-
 
 ```python
 doc = Document(
@@ -379,11 +362,10 @@ A `row` should be deleted if there exists a `document` in the list, such that
 
 - `document.page_content` equals `row[page_content]`
 - For every metadata field `k` in `document.metadata`
-    - `document.metadata[k]` equals `row[k]` or `document.metadata[k]`
+  - `document.metadata[k]` equals `row[k]` or `document.metadata[k]`
       equals `row[langchain_metadata][k]`
 - There is no extra metadata field present in `row` but not
   in `document.metadata`.
-
 
 ```python
 loader = ElCarroLoader(elcarro_engine=elcarro_engine, table_name=TABLE_NAME)

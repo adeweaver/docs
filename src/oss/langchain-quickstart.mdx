@@ -6,14 +6,11 @@ import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
 
 <AlphaCallout />
 
-Welcome to LangChain! This quickstart will take you from zero to a fully
-functional AI agent in just a few minutes. We'll start simple and gradually
-build up to something more sophisticated.
+Welcome to LangChain! This quickstart will take you from zero to a fully functional AI agent in just a few minutes. We'll start simple and gradually build up to something more sophisticated.
 
 ## Super quick start
 
-Let's begin with the absolute basics - creating a simple agent that can answer
-questions and use tools:
+Let's begin with the absolute basics - creating a simple agent that can answer questions and use tools:
 
 :::python
 ```python
@@ -41,19 +38,19 @@ agent.invoke(
 import { createAgent, tool } from "langchain";
 
 const getWeather = tool((city: string) => `It's always sunny in ${city}!`, {
-  name: "get_weather",
-  description: "Get the weather for a given city",
+    name: "get_weather",
+    description: "Get the weather for a given city",
 });
 
 const agent = createAgent({
-  model: "anthropic:claude-3-7-sonnet-latest",
-  tools: [getWeather],
+    model: "anthropic:claude-3-7-sonnet-latest",
+    tools: [getWeather],
 });
 
 console.log(
-  await agent.invoke({
-    messages: [{ role: "user", content: "What's the weather in Tokyo?" }],
-  })
+    await agent.invoke({
+        messages: [{ role: "user", content: "What's the weather in Tokyo?" }],
+    })
 );
 ```
 :::
@@ -66,8 +63,7 @@ console.log(
 
 ## Building a real-world agent
 
-Now let's create something more practical. We'll build a weather forecasting
-agent that demonstrates the key concepts you'll use in production:
+Now let's create something more practical. We'll build a weather forecasting agent that demonstrates the key concepts you'll use in production:
 
 1. **Detailed system prompts** for better agent behavior
 2. **Real-world tools** that integrate with external data
@@ -110,10 +106,7 @@ Let's walk through each step:
     </Step>
     <Step title="Create tools">
         :::python
-        [Tools](/oss/langchain-tools) are functions your agent can call. They
-        should be well-documented. Oftentimes, tools will want to connect to
-        external systems, and will rely on runtime configuration to do so.
-        Notice here how the `get_user_info` tool does exactly that:
+        [Tools](/oss/langchain-tools) are functions your agent can call. They should be well-documented. Oftentimes, tools will want to connect to external systems, and will rely on runtime configuration to do so. Notice here how the `get_user_info` tool does exactly that:
 
         ```python
         from langchain_core.tools import tool
@@ -138,73 +131,64 @@ Let's walk through each step:
         :::
 
         :::js
-        [Tools](/oss/langchain-tools) are functions your agent can call. They
-        should be well-documented. Oftentimes tools will want to connect to
-        external systems, and will rely on runtime configuration to do so.
-        Notice here how the `getUserInfo` tool does exactly that:
+        [Tools](/oss/langchain-tools) are functions your agent can call. They should be well-documented. Oftentimes tools will want to connect to external systems, and will rely on runtime configuration to do so. Notice here how the `getUserInfo` tool does exactly that:
 
         ```ts
         import { tool } from "langchain";
         import { z } from "zod";
 
         const getWeather = tool(({ city }) => `It's always sunny in ${city}!`, {
-          name: "get_weather",
-          description: "Get the weather for a given city",
-          schema: z.object({
-            city: z.string(),
-          }),
+            name: "get_weather",
+            description: "Get the weather for a given city",
+            schema: z.object({
+                city: z.string(),
+            }),
         });
 
         const USER_LOCATION = {
-          "1": "Florida",
-          "2": "SF",
+            "1": "Florida",
+            "2": "SF",
         } as const;
 
         const getUserInfo = tool(
-          (_, config) => {
-            const { user_id } = config.context as {
-              user_id: keyof typeof USER_LOCATION;
-            };
-            console.log("user_id", config.context);
-            return USER_LOCATION[user_id];
-          },
-          {
-            name: "get_user_info",
-            description: "Retrieve user information based on user ID",
-            schema: z.object({}),
-          }
+            (_, config) => {
+                const { user_id } = config.context as {
+                    user_id: keyof typeof USER_LOCATION;
+                };
+                console.log("user_id", config.context);
+                return USER_LOCATION[user_id];
+            },
+            {
+                name: "get_user_info",
+                description: "Retrieve user information based on user ID",
+                schema: z.object({}),
+            }
         );
         ```
 
         <Note>
-            [Zod](https://zod.dev/) is a library for validating and parsing
-            pre-defined schemas. You can use it to define the input schema for
-            your tools to make sure the agent only calls the tool with the
-            correct arguments.
+            [Zod](https://zod.dev/) is a library for validating and parsing pre-defined schemas. You can use it to define the input schema for your tools to make sure the agent only calls the tool with the correct arguments.
 
-            Alternatively, you can define the `schema` property as a JSON schema
-            object. Keep in mind that JSON schemas *won't* be validated at
-            runtime.
+            Alternatively, you can define the `schema` property as a JSON schema object. Keep in mind that JSON schemas *won't* be validated at runtime.
 
             <Accordion title="Example: Using JSON schema for tool input">
                 ```ts
                 const getWeather = tool(
-                ({ city }) => `It's always sunny in ${city}!`,
+                    ({ city }) => `It's always sunny in ${city}!`,
                 {
-                name: "get_weather",
-                description: "Get the weather for a given city",
-                schema: {
-                type: "object",
-                properties: {
-                city: {
-                type: "string",
-                description: "The city to get the weather for"
-                }
-                },
-                required: ["city"]
-                },
-                }
-                );
+                    name: "get_weather",
+                    description: "Get the weather for a given city",
+                    schema: {
+                    type: "object",
+                    properties: {
+                        city: {
+                            type: "string",
+                            description: "The city to get the weather for"
+                        }
+                    },
+                    required: ["city"]
+                    },
+                });
             ```
             </Accordion>
         </Note>
@@ -229,8 +213,8 @@ Let's walk through each step:
         import { initChatModel } from "langchain/chat_models";
 
         const model = await initChatModel(
-        "anthropic:claude-3-7-sonnet-latest",
-        temperature: 0
+            "anthropic:claude-3-7-sonnet-latest",
+            temperature: 0
         );
         ```
         :::
@@ -256,8 +240,8 @@ Let's walk through each step:
 
         ```ts
         const responseFormat = z.object({
-          conditions: z.string(),
-          punny_response: z.string(),
+            conditions: z.string(),
+            punny_response: z.string(),
         });
         ```
         :::
@@ -319,26 +303,26 @@ Let's walk through each step:
         import { createAgent } from "langchain";
 
         const agent = createAgent({
-          model: "anthropic:claude-3-7-sonnet-latest",
-          prompt: systemPrompt,
-          tools: [getUserInfo, getWeather],
-          responseFormat,
-          checkpointer,
+            model: "anthropic:claude-3-7-sonnet-latest",
+            prompt: systemPrompt,
+            tools: [getUserInfo, getWeather],
+            responseFormat,
+            checkpointer,
         });
 
         const config = {
-          configurable: { thread_id: "1" },
-          context: { user_id: "1" },
+            configurable: { thread_id: "1" },
+            context: { user_id: "1" },
         };
         const response = await agent.invoke(
-          { messages: [{ role: "user", content: "what is the weather outside?" }] },
-          config
+            { messages: [{ role: "user", content: "what is the weather outside?" }] },
+            config
         );
         console.log(response.structuredResponse);
 
         const thankYouResponse = await agent.invoke(
-          { messages: [{ role: "user", content: "thank you!" }] },
-          config
+            { messages: [{ role: "user", content: "thank you!" }] },
+            config
         );
         console.log(thankYouResponse.structuredResponse);
         ```

@@ -11,31 +11,32 @@ Tableau's VizQL Data Service (aka VDS) provides developers with programmatic acc
 Follow the [tableau-langchain](https://github.com/Tab-SE/tableau_langchain) project for more tools coming soon!
 
 #### Setup
+
 Make sure you are running and have access to:
+
 1. python version 3.12.2 or higher
 2. A Tableau Cloud or Server environment with at least 1 published data source
 
 Get started by installing and/or importing the required packages
 
-
 ```python
 # %pip install langchain-openai
 ```
-
 
 ```python
 # %pip install langgraph
 ```
 
-
 ```python
 # %pip install langchain-tableau --upgrade
 ```
+
 ```output
 Requirement already satisfied: regex>=2022.1.18 in /Users/joe.constantino/.pyenv/versions/3.12.2/lib/python3.12/site-packages (from tiktoken<1,>=0.7->langchain-openai->langchain-tableau) (2024.11.6)
 Requirement already satisfied: httpcore==1.* in /Users/joe.constantino/.pyenv/versions/3.12.2/lib/python3.12/site-packages (from httpx>=0.25.2->langgraph-sdk<0.2.0,>=0.1.42->langgraph->langchain-tableau) (1.0.7)
 Requirement already satisfied: h11<0.15,>=0.13 in /Users/joe.constantino/.pyenv/versions/3.12.2/lib/python3.12/site-packages (from httpcore==1.*->httpx>=0.25.2->langgraph-sdk<0.2.0,>=0.1.42->langgraph->langchain-tableau) (0.14.0)
 ```
+
 Note you may need to restart your kernal to use updated packages
 
 ### Credentials
@@ -44,7 +45,6 @@ You can declare your environment variables explicitly, as shown in several cases
 
 For the Data Source that you choose to query, make sure you've updated the VizqlDataApiAccess permission in Tableau to allow the VDS API to access that Data Source via REST. More info [here](https://help.tableau.com/current/server/en-us/permissions_capabilities.htm#data-sources
 ).
-
 
 ```python
 # langchain package imports
@@ -56,11 +56,11 @@ from langchain.agents import create_agent
 ```
 
 ## Authentication Variables
+
 You can declare your environment variables explicitly, as shown in several cases in this cookbook. However, if these parameters are not provided, the simple_datasource_qa tool will attempt to automatically read them from environment variables.
 
 For the Data Source that you choose, make sure you've updated the VizqlDataApiAccess permission in Tableau to allow the VDS API to access that Data Source via REST. More info [here](https://help.tableau.com/current/server/en-us/permissions_capabilities.htm#data-sources
 ).
-
 
 ```python
 import os
@@ -94,15 +94,16 @@ tooling_llm_model = "gpt-4o-mini"
 ```
 
 ## Instantiation
+
 The initialize_simple_datasource_qa initializes the Langgraph tool called [simple_datasource_qa](https://github.com/Tab-SE/tableau_langchain/blob/3ff9047414479cd55d797c18a78f834d57860761/pip_package/langchain_tableau/tools/simple_datasource_qa.py#L101), which can be used for analytical questions and answers on a Tableau Data Source.
 
 This initializer function:
+
 1. Authenticates to Tableau using Tableau's connected-app framework for JWT-based authentication. All the required variables must be defined at runtime or as environment variables.
 2. Asynchronously queries for the field metadata of the target datasource specified in the datasource_luid variable.
 3. Grounds on the metadata of the target datasource to transform natural language questions into the json-formatted query payload required to make VDS query-datasource requests.
 4. Executes a POST request to VDS.
 5. Formats and returns the results in a structured response.
-
 
 ```python
 # Initialize simple_datasource_qa for querying Tableau Datasources through VDS
@@ -124,8 +125,8 @@ tools = [analyze_datasource]
 ```
 
 ## Invocation - Langgraph Example
-First, we'll initlialize the LLM of our choice. Then, we define an agent using a langgraph agent constructor class and invoke it with a query related to the target data source.
 
+First, we'll initlialize the LLM of our choice. Then, we define an agent using a langgraph agent constructor class and invoke it with a query related to the target data source.
 
 ```python
 from IPython.display import Markdown, display

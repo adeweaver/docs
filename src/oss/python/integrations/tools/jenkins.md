@@ -4,7 +4,6 @@ title: Jenkins
 
 Tools for interacting with [Jenkins](https://www.jenkins.io/).
 
-
 ## Overview
 
 The `langchain-jenkins` package allows you to execute and control CI/CD pipelines with
@@ -14,7 +13,6 @@ Jenkins.
 
 Install `langchain-jenkins`:
 
-
 ```python
 %pip install --upgrade --quiet langchain-jenkins
 ```
@@ -22,7 +20,6 @@ Install `langchain-jenkins`:
 ### Credentials
 
 You'll need to setup or obtain authorization to access Jenkins server.
-
 
 ```python
 import getpass
@@ -38,8 +35,8 @@ _set_env("PASSWORD")
 ```
 
 ## Instantiation
-To disable the SSL Verify, set `os.environ["PYTHONHTTPSVERIFY"] = "0"`
 
+To disable the SSL Verify, set `os.environ["PYTHONHTTPSVERIFY"] = "0"`
 
 ```python
 from langchain_jenkins import JenkinsAPIWrapper, JenkinsJobRun
@@ -56,10 +53,10 @@ tools = [
 ```
 
 ## Invocation
+
 You can now call invoke and pass arguments.
 
 1. Create the Jenkins job
-
 
 ```python
 jenkins_job_content = ""
@@ -71,13 +68,11 @@ tools[0].invoke({"job": "job01", "config_xml": jenkins_job_content, "action": "c
 
 2. Run the Jenkins Job
 
-
 ```python
 tools[0].invoke({"job": "job01", "parameters": {}, "action": "run"})
 ```
 
 3. Get job info
-
 
 ```python
 resp = tools[0].invoke({"job": "job01", "number": 1, "action": "status"})
@@ -87,7 +82,6 @@ if not resp["inProgress"]:
 
 4. Delete the jenkins job
 
-
 ```python
 tools[0].invoke({"job": "job01", "action": "delete"})
 ```
@@ -95,7 +89,6 @@ tools[0].invoke({"job": "job01", "action": "delete"})
 ## Chaining
 
 TODO.
-
 
 ## API reference
 

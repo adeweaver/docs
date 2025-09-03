@@ -6,7 +6,6 @@ This example goes over how to use AI21SemanticTextSplitter in LangChain.
 
 ## Installation
 
-
 ```python
 pip install langchain-ai21
 ```
@@ -14,7 +13,6 @@ pip install langchain-ai21
 ## Environment Setup
 
 We'll need to get a AI21 API key and set the AI21_API_KEY environment variable:
-
 
 ```python
 import os
@@ -29,7 +27,6 @@ if "AI21_API_KEY" not in os.environ:
 ### Splitting text by semantic meaning
 
 This example shows how to use AI21SemanticTextSplitter to split a text into chunks based on semantic meaning.
-
 
 ```python
 from langchain_ai21 import AI21SemanticTextSplitter
@@ -66,7 +63,6 @@ for chunk in chunks:
 
 This example shows how to use AI21SemanticTextSplitter to split a text into chunks based on semantic meaning, then merging the chunks based on `chunk_size`.
 
-
 ```python
 from langchain_ai21 import AI21SemanticTextSplitter
 
@@ -101,7 +97,6 @@ for chunk in chunks:
 ### Splitting text to documents
 
 This example shows how to use AI21SemanticTextSplitter to split a text into Documents based on semantic meaning. The metadata will contain a type for each document.
-
 
 ```python
 from langchain_ai21 import AI21SemanticTextSplitter
@@ -138,7 +133,6 @@ for doc in documents:
 ### Creating Documents with Metadata
 
 This example shows how to use AI21SemanticTextSplitter to create Documents from texts, and adding custom Metadata to each Document.
-
 
 ```python
 from langchain_ai21 import AI21SemanticTextSplitter
@@ -180,7 +174,6 @@ for doc in documents:
 This example shows how to use AI21SemanticTextSplitter to split a text into Documents based on semantic meaning. The metadata will contain a start index for each document.
 **Note** that the start index provides an indication of the order of the chunks rather than the actual start index for each chunk.
 
-
 ```python
 from langchain_ai21 import AI21SemanticTextSplitter
 
@@ -215,7 +208,6 @@ for doc in documents:
 ### Splitting documents
 
 This example shows how to use AI21SemanticTextSplitter to split a list of Documents into chunks based on semantic meaning.
-
 
 ```python
 from langchain_ai21 import AI21SemanticTextSplitter

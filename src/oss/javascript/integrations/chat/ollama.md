@@ -9,6 +9,7 @@ Ollama bundles model weights, configuration, and data into a single package, def
 This guide will help you getting started with `ChatOllama` [chat models](/oss/concepts/chat_models). For detailed documentation of all `ChatOllama` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_ollama.ChatOllama.html).
 
 ## Overview
+
 ### Integration details
 
 Ollama allows you to use a wide range of models with different capabilities. Some of the fields in the details table below only apply to a subset of models that Ollama offers.
@@ -53,10 +54,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```typescript
 import { ChatOllama } from "@langchain/ollama"
@@ -68,8 +69,8 @@ const llm = new ChatOllama({
     // other params...
 })
 ```
-## Invocation
 
+## Invocation
 
 ```typescript
 const aiMsg = await llm.invoke([
@@ -81,6 +82,7 @@ const aiMsg = await llm.invoke([
 ])
 aiMsg
 ```
+
 ```output
 AIMessage {
   "content": "Je adore le programmation.\n\n(Note: \"programmation\" is the feminine form of the noun in French, but if you want to use the masculine form, it would be \"le programme\" instead.)",
@@ -110,15 +112,16 @@ AIMessage {
 ```typescript
 console.log(aiMsg.content)
 ```
+
 ```output
 Je adore le programmation.
 
 (Note: "programmation" is the feminine form of the noun in French, but if you want to use the masculine form, it would be "le programme" instead.)
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts"
@@ -142,6 +145,7 @@ await chain.invoke(
     }
 )
 ```
+
 ```output
 AIMessage {
   "content": "Ich liebe Programmieren!\n\n(Note: \"Ich liebe\" means \"I love\", \"Programmieren\" is the verb for \"programming\")",
@@ -167,10 +171,10 @@ AIMessage {
   }
 }
 ```
+
 ## Tools
 
 Ollama now offers support for native tool calling [for a subset of their available models](https://ollama.com/search?c=tools). The example below demonstrates how you can invoke a tool from an Ollama model.
-
 
 ```typescript
 import { tool } from "@langchain/core/tools";
@@ -199,6 +203,7 @@ const resultFromTool = await llmWithTools.invoke(
 
 console.log(resultFromTool);
 ```
+
 ```output
 AIMessage {
   "content": "",
@@ -233,10 +238,10 @@ AIMessage {
   }
 }
 ```
+
 ### `.withStructuredOutput`
 
 For [models that support tool calling](https://ollama.com/search?c=tools), you can also call `.withStructuredOutput()` to get a structured output from the tool.
-
 
 ```typescript
 import { ChatOllama } from "@langchain/ollama";
@@ -262,13 +267,14 @@ const resultFromWSO = await llmWithStructuredOutput.invoke(
 );
 console.log(resultFromWSO);
 ```
+
 ```output
 { location: 'San Francisco, CA' }
 ```
+
 ### JSON mode
 
 Ollama also supports a JSON mode for all chat models that coerces model outputs to only return JSON. Here's an example of how this can be useful for extraction:
-
 
 ```typescript
 import { ChatOllama } from "@langchain/ollama";
@@ -297,6 +303,7 @@ const resultFromJsonMode = await chainForJsonMode.invoke({
 
 console.log(resultFromJsonMode);
 ```
+
 ```output
 AIMessage {
   "content": "{\n\"original\": \"I love programming\",\n\"translated\": \"Ich liebe Programmierung\"\n}",
@@ -322,11 +329,11 @@ AIMessage {
   }
 }
 ```
+
 ## Multimodal models
 
 Ollama supports open source multimodal models like [LLaVA](https://ollama.ai/library/llava) in versions 0.1.15 and up.
 You can pass images as part of a message's `content` field to [multimodal-capable](/oss/how-to/multimodal_inputs/) models like this:
-
 
 ```typescript
 import { ChatOllama } from "@langchain/ollama";
@@ -354,6 +361,7 @@ const multiModalRes = await llmForMultiModal.invoke([
 ]);
 console.log(multiModalRes);
 ```
+
 ```output
 AIMessage {
   "content": " The image shows a hot dog in a bun, which appears to be a footlong. It has been cooked or grilled to the point where it's browned and possibly has some blackened edges, indicating it might be slightly overcooked. Accompanying the hot dog is a bun that looks toasted as well. There are visible char marks on both the hot dog and the bun, suggesting they have been cooked directly over a source of heat, such as a grill or broiler. The background is white, which puts the focus entirely on the hot dog and its bun. ",
@@ -379,6 +387,7 @@ AIMessage {
   }
 }
 ```
+
 ## API reference
 
-For detailed documentation of all ChatOllama features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_ollama.ChatOllama.html
+For detailed documentation of all ChatOllama features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_ollama.ChatOllama.html).

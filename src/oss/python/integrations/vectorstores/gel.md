@@ -12,7 +12,6 @@ The code lives in an integration package called [langchain-gel](https://github.c
 
 First install relevant packages:
 
-
 ```python
 ! pip install -qU gel langchain-gel
 ```
@@ -23,7 +22,6 @@ In order to use Gel as a backend for your `VectorStore`, you're going to need a 
 Fortunately, it doesn't have to involve Docker containers or anything complicated, unless you want to!
 
 To set up a local instance, run:
-
 
 ```python
 ! gel project init --non-interactive
@@ -43,7 +41,6 @@ For a comprehensive list of ways to run Gel, take a look at [Running Gel](https:
 Aside from enabling you to define exactly how your data is going to be laid out, it drives Gel's many powerful features such as links, access policies, functions, triggers, constraints, indexes, and more.
 
 The LangChain's `VectorStore` expects the following layout for the schema:
-
 
 ```python
 schema_content = """
@@ -73,7 +70,6 @@ with open("dbschema/default.gel", "w") as f:
 
 In order to apply schema changes to the database, run a migration using Gel's [migration mechanism](https://docs.geldata.com/reference/datamodel/migrations):
 
-
 ```python
 ! gel migration create --non-interactive
 ! gel migrate
@@ -85,8 +81,6 @@ From this point onward, `GelVectorStore` can be used as a drop-in replacement fo
 
 <EmbeddingTabs/>
 
-
-
 ```python
 # | output: false
 # | echo: false
@@ -94,7 +88,6 @@ from langchain_openai import OpenAIEmbeddings
 
 embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 ```
-
 
 ```python
 from langchain_gel import GelVectorStore
@@ -109,7 +102,6 @@ vector_store = GelVectorStore(
 ### Add items to vector store
 
 Note that adding documents by ID will over-write any existing documents that match that ID.
-
 
 ```python
 from langchain_core.documents import Document
@@ -162,7 +154,6 @@ vector_store.add_documents(docs, ids=[doc.metadata["id"] for doc in docs])
 
 ### Delete items from vector store
 
-
 ```python
 vector_store.delete(ids=["3"])
 ```
@@ -195,7 +186,6 @@ The vectorstore supports a set of filters that can be applied against the metada
 
 Performing a simple similarity search can be done as follows:
 
-
 ```python
 results = vector_store.similarity_search(
     "kitty", k=10, filter={"id": {"$in": ["1", "5", "2", "9"]}}
@@ -205,7 +195,6 @@ for doc in results:
 ```
 
 If you provide a dict with multiple fields, but no operators, the top level will be interpreted as a logical **AND** filter
-
 
 ```python
 vector_store.similarity_search(
@@ -217,7 +206,6 @@ vector_store.similarity_search(
     },
 )
 ```
-
 
 ```python
 vector_store.similarity_search(
@@ -234,7 +222,6 @@ vector_store.similarity_search(
 
 If you want to execute a similarity search and receive the corresponding scores you can run:
 
-
 ```python
 results = vector_store.similarity_search_with_score(query="cats", k=1)
 for doc, score in results:
@@ -244,7 +231,6 @@ for doc, score in results:
 ### Query by turning into retriever
 
 You can also transform the vector store into a retriever for easier usage in your chains.
-
 
 ```python
 retriever = vector_store.as_retriever(search_kwargs={"k": 1})
@@ -261,4 +247,4 @@ For guides on how to use this vector store for retrieval-augmented generation (R
 
 ## API reference
 
-For detailed documentation of all GelVectorStore features and configurations head to the API reference: https://python.langchain.com/api_reference/
+For detailed documentation of all GelVectorStore features and configurations head to the API reference: [python.langchain.com/api_reference/](https://python.langchain.com/api_reference/)

@@ -13,9 +13,11 @@ Only available on Node.js.
 </Tip>
 
 ```
+
 This notebook provides a quick overview for getting started with `TextLoader` [document loaders](/oss/concepts/document_loaders). For detailed documentation of all `TextLoader` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain.document_loaders_fs_text.TextLoader.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Compatibility | Local | PY support |
@@ -39,23 +41,24 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and load documents:
-
 
 ```typescript
 import { TextLoader } from "langchain/document_loaders/fs/text"
 
 const loader = new TextLoader("../../../../../../examples/src/document_loaders/example_data/example.txt")
 ```
-## Load
 
+## Load
 
 ```typescript
 const docs = await loader.load()
 docs[0]
 ```
+
 ```output
 Document {
   pageContent: 'Foo\nBar\nBaz\n\n',
@@ -69,11 +72,13 @@ Document {
 ```typescript
 console.log(docs[0].metadata)
 ```
+
 ```output
 {
   source: '../../../../../../examples/src/document_loaders/example_data/example.txt'
 }
 ```
+
 ## API reference
 
-For detailed documentation of all TextLoader features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain.document_loaders_fs_text.TextLoader.html
+For detailed documentation of all TextLoader features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain.document_loaders_fs_text.TextLoader.html).
