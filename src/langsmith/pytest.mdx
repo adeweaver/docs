@@ -24,9 +24,15 @@ This functionality requires Python SDK version `langsmith>=0.3.4`.
 
 For extra features like [rich terminal outputs](#rich-outputs) and [test caching](#caching) install:
 
-```bash
+<CodeGroup>
+```bash pip
 pip install -U "langsmith[pytest]"
 ```
+
+```bash uv
+uv add langsmith[pytest]
+```
+</CodeGroup>
 
 ## Define and run tests
 
@@ -279,10 +285,17 @@ pytest -n auto tests
 
 Use watch mode to quickly iterate on your tests. We *highly* recommend ony using this with test caching (see below) enabled to avoid unnecessary LLM calls:
 
-```bash
+<CodeGroup>
+```bash pip
 pip install pytest-watch
 LANGSMITH_TEST_CACHE=tests/cassettes ptw tests/my_llm_tests
 ```
+
+```bash uv
+uv add pytest-watch
+LANGSMITH_TEST_CACHE=tests/cassettes ptw tests/my_llm_tests
+```
+</CodeGroup>
 
 ## Rich outputs
 

@@ -6,15 +6,27 @@ The `LangChain` integrations related to [Amazon AWS](https://aws.amazon.com/) pl
 
 First-party AWS integrations are available in the `langchain_aws` package.
 
-```bash
+<CodeGroup>
+```bash pip
 pip install langchain-aws
 ```
 
+```bash uv
+uv add langchain-aws
+```
+</CodeGroup>
+
 And there are also some community integrations available in the `langchain_community` package with the `boto3` optional dependency.
 
-```bash
+<CodeGroup>
+```bash pip
 pip install langchain-community boto3
 ```
+
+```bash uv
+uv add langchain-community boto3
+```
+</CodeGroup>
 
 ## Chat models
 
@@ -309,9 +321,15 @@ We have to configure the [AWS CLI](https://docs.aws.amazon.com/cli/latest/usergu
 
 We need to install the `boto3` library.
 
-```bash
+<CodeGroup>
+```bash pip
 pip install boto3
 ```
+
+```bash uv
+uv add boto3
+```
+</CodeGroup>
 
 See a [usage example](/oss/integrations/memory/aws_dynamodb).
 

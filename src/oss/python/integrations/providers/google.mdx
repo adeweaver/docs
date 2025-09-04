@@ -19,9 +19,15 @@ Github organization and the `langchain-google-community` package.
 
 Access Google Gemini models directly using the Gemini API, best suited for rapid development and experimentation. Gemini models are available in [Google AI Studio](https://aistudio.google.com/).
 
-```bash
+<CodeGroup>
+```bash pip
 pip install -U langchain-google-genai
 ```
+
+```bash uv
+uv add langchain-google-genai
+```
+</CodeGroup>
 
 Start for free and get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
 
@@ -783,30 +789,42 @@ See [usage example and authorization instructions](/oss/integrations/tools/googl
 ```python
 from langchain_googledrive.utilities.google_drive import GoogleDriveAPIWrapper
 from langchain_googledrive.tools.google_drive.tool import GoogleDriveSearchTool
-```
-
+<CodeGroup>
+```bash pip
 #### Google Finance
-
 Query financial data. Requires `google-search-results` package and SerpApi key.
-
 ```bash
 pip install google-search-results langchain-community # Requires langchain-community
 ```
+
+```bash uv
+#### Google Finance
+Query financial data. Requires `google-search-results` package and SerpApi key.
+```bash
+uv add google-search-results langchain-community # Requires langchain-community
+```
+</CodeGroup>
 
 See [usage example and authorization instructions](/oss/integrations/tools/google_finance).
 
 ```python
 from langchain_community.tools.google_finance import GoogleFinanceQueryRun
 from langchain_community.utilities.google_finance import GoogleFinanceAPIWrapper
-```
-
+<CodeGroup>
+```bash pip
 #### Google Jobs
-
 Query job listings. Requires `google-search-results` package and SerpApi key.
-
 ```bash
 pip install google-search-results langchain-community # Requires langchain-community
 ```
+
+```bash uv
+#### Google Jobs
+Query job listings. Requires `google-search-results` package and SerpApi key.
+```bash
+uv add google-search-results langchain-community # Requires langchain-community
+```
+</CodeGroup>
 
 See [usage example and authorization instructions](/oss/integrations/tools/google_jobs).
 
@@ -814,45 +832,63 @@ See [usage example and authorization instructions](/oss/integrations/tools/googl
 from langchain_community.tools.google_jobs import GoogleJobsQueryRun
 # Note: Utilities might be shared, e.g., GoogleFinanceAPIWrapper was listed, verify correct utility
 # from langchain_community.utilities.google_jobs import GoogleJobsAPIWrapper # If exists
-```
-
+<CodeGroup>
+```bash pip
 #### Google Lens
-
 Perform visual searches. Requires `google-search-results` package and SerpApi key.
-
 ```bash
 pip install google-search-results langchain-community # Requires langchain-community
 ```
+
+```bash uv
+#### Google Lens
+Perform visual searches. Requires `google-search-results` package and SerpApi key.
+```bash
+uv add google-search-results langchain-community # Requires langchain-community
+```
+</CodeGroup>
 
 See [usage example and authorization instructions](/oss/integrations/tools/google_lens).
 
 ```python
 from langchain_community.tools.google_lens import GoogleLensQueryRun
 from langchain_community.utilities.google_lens import GoogleLensAPIWrapper
-```
-
+<CodeGroup>
+```bash pip
 #### Google Places
-
 Search for places information. Requires `googlemaps` package and a Google Maps API key.
-
 ```bash
 pip install googlemaps langchain # Requires base langchain
 ```
+
+```bash uv
+#### Google Places
+Search for places information. Requires `googlemaps` package and a Google Maps API key.
+```bash
+uv add googlemaps langchain # Requires base langchain
+```
+</CodeGroup>
 
 See [usage example and authorization instructions](/oss/integrations/tools/google_places).
 
 ```python
 # Note: GooglePlacesTool might be in langchain or langchain_community depending on version
 from langchain.tools import GooglePlacesTool # Or langchain_community.tools
-```
-
+<CodeGroup>
+```bash pip
 #### Google Scholar
-
 Search academic papers. Requires `google-search-results` package and SerpApi key.
-
 ```bash
 pip install google-search-results langchain-community # Requires langchain-community
 ```
+
+```bash uv
+#### Google Scholar
+Search academic papers. Requires `google-search-results` package and SerpApi key.
+```bash
+uv add google-search-results langchain-community # Requires langchain-community
+```
+</CodeGroup>
 
 See [usage example and authorization instructions](/oss/integrations/tools/google_scholar).
 
@@ -1251,30 +1287,42 @@ See [usage example and authorization instructions](/oss/integrations/tools/googl
 ```python
 from langchain_googledrive.utilities.google_drive import GoogleDriveAPIWrapper
 from langchain_googledrive.tools.google_drive.tool import GoogleDriveSearchTool
-```
-
+<CodeGroup>
+```bash pip
 #### Google Finance
-
 Query financial data. Requires `google-search-results` package and SerpApi key.
-
 ```bash
 pip install google-search-results langchain-community # Requires langchain-community
 ```
+
+```bash uv
+#### Google Finance
+Query financial data. Requires `google-search-results` package and SerpApi key.
+```bash
+uv add google-search-results langchain-community # Requires langchain-community
+```
+</CodeGroup>
 
 See [usage example and authorization instructions](/oss/integrations/tools/google_finance).
 
 ```python
 from langchain_community.tools.google_finance import GoogleFinanceQueryRun
 from langchain_community.utilities.google_finance import GoogleFinanceAPIWrapper
-```
-
+<CodeGroup>
+```bash pip
 #### Google Jobs
-
 Query job listings. Requires `google-search-results` package and SerpApi key.
-
 ```bash
 pip install google-search-results langchain-community # Requires langchain-community
 ```
+
+```bash uv
+#### Google Jobs
+Query job listings. Requires `google-search-results` package and SerpApi key.
+```bash
+uv add google-search-results langchain-community # Requires langchain-community
+```
+</CodeGroup>
 
 See [usage example and authorization instructions](/oss/integrations/tools/google_jobs).
 
@@ -1282,45 +1330,63 @@ See [usage example and authorization instructions](/oss/integrations/tools/googl
 from langchain_community.tools.google_jobs import GoogleJobsQueryRun
 # Note: Utilities might be shared, e.g., GoogleFinanceAPIWrapper was listed, verify correct utility
 # from langchain_community.utilities.google_jobs import GoogleJobsAPIWrapper # If exists
-```
-
+<CodeGroup>
+```bash pip
 #### Google Lens
-
 Perform visual searches. Requires `google-search-results` package and SerpApi key.
-
 ```bash
 pip install google-search-results langchain-community # Requires langchain-community
 ```
+
+```bash uv
+#### Google Lens
+Perform visual searches. Requires `google-search-results` package and SerpApi key.
+```bash
+uv add google-search-results langchain-community # Requires langchain-community
+```
+</CodeGroup>
 
 See [usage example and authorization instructions](/oss/integrations/tools/google_lens).
 
 ```python
 from langchain_community.tools.google_lens import GoogleLensQueryRun
 from langchain_community.utilities.google_lens import GoogleLensAPIWrapper
-```
-
+<CodeGroup>
+```bash pip
 #### Google Places
-
 Search for places information. Requires `googlemaps` package and a Google Maps API key.
-
 ```bash
 pip install googlemaps langchain # Requires base langchain
 ```
+
+```bash uv
+#### Google Places
+Search for places information. Requires `googlemaps` package and a Google Maps API key.
+```bash
+uv add googlemaps langchain # Requires base langchain
+```
+</CodeGroup>
 
 See [usage example and authorization instructions](/oss/integrations/tools/google_places).
 
 ```python
 # Note: GooglePlacesTool might be in langchain or langchain_community depending on version
 from langchain.tools import GooglePlacesTool # Or langchain_community.tools
-```
-
+<CodeGroup>
+```bash pip
 #### Google Scholar
-
 Search academic papers. Requires `google-search-results` package and SerpApi key.
-
 ```bash
 pip install google-search-results langchain-community # Requires langchain-community
 ```
+
+```bash uv
+#### Google Scholar
+Search academic papers. Requires `google-search-results` package and SerpApi key.
+```bash
+uv add google-search-results langchain-community # Requires langchain-community
+```
+</CodeGroup>
 
 See [usage example and authorization instructions](/oss/integrations/tools/google_scholar).
 
@@ -1464,15 +1530,21 @@ See a [usage example](/oss/integrations/tools/youtube).
 ```python
 # Note: YouTubeSearchTool might be in langchain or langchain_community
 from langchain.tools import YouTubeSearchTool # Or langchain_community.tools
-```
-
+<CodeGroup>
+```bash pip
 #### YouTube Audio Loader
-
 >Download audio from YouTube videos. Requires `yt_dlp`, `pydub`, `librosa`.
-
 ```bash
 pip install yt_dlp pydub librosa langchain-community # Requires langchain-community
 ```
+
+```bash uv
+#### YouTube Audio Loader
+>Download audio from YouTube videos. Requires `yt_dlp`, `pydub`, `librosa`.
+```bash
+uv add yt_dlp pydub librosa langchain-community # Requires langchain-community
+```
+</CodeGroup>
 
 See [usage example and authorization instructions](/oss/integrations/document_loaders/youtube_audio).
 
@@ -1480,15 +1552,21 @@ See [usage example and authorization instructions](/oss/integrations/document_lo
 from langchain_community.document_loaders.blob_loaders.youtube_audio import YoutubeAudioLoader
 # Often used with whisper parsers:
 # from langchain_community.document_loaders.parsers import OpenAIWhisperParser, OpenAIWhisperParserLocal
-```
-
+<CodeGroup>
+```bash pip
 #### YouTube Transcripts Loader
-
 >Load video transcripts. Requires `youtube-transcript-api`.
-
 ```bash
 pip install youtube-transcript-api langchain-community # Requires langchain-community
 ```
+
+```bash uv
+#### YouTube Transcripts Loader
+>Load video transcripts. Requires `youtube-transcript-api`.
+```bash
+uv add youtube-transcript-api langchain-community # Requires langchain-community
+```
+</CodeGroup>
 
 See a [usage example](/oss/integrations/document_loaders/youtube_transcript).
 

@@ -16,10 +16,17 @@ All functionality related to the [optimum-intel](https://github.com/huggingface/
 
 Install using optimum-intel and ipex using:
 
-```bash
+<CodeGroup>
+```bash pip
 pip install optimum[neural-compressor]
 pip install intel_extension_for_pytorch
 ```
+
+```bash uv
+uv add optimum[neural-compressor]
+uv add intel_extension_for_pytorch
+```
+</CodeGroup>
 
 Please follow the installation instructions as specified below:
 
@@ -55,9 +62,15 @@ pip install intel-extension-for-transformers
 ```
 Install other required packages.
 
-```bash
+<CodeGroup>
+```bash pip
 pip install -U torch onnx accelerate datasets
 ```
+
+```bash uv
+uv add torch onnx accelerate datasets
+```
+</CodeGroup>
 
 ### Embedding Models
 
