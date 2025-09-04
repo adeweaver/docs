@@ -18,9 +18,9 @@ See the <a href="https://docs.falkordb.com/" target="_blank">installation instru
 
 ```python
 # Pip install necessary package
-%pip install --upgrade  falkordb
-%pip install --upgrade  tiktoken
-%pip install --upgrade  langchain langchain_huggingface
+%pip install -U  falkordb
+%pip install -U  tiktoken
+%pip install -U  langchain langchain_huggingface
 ```
 
 ```output

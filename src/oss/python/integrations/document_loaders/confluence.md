@@ -54,7 +54,7 @@ You may include attachments in the loaded `Document` objects by setting the bool
 Before using ConfluenceLoader make sure you have the latest version of the atlassian-python-api package installed:
 
 ```python
-%pip install --upgrade --quiet  atlassian-python-api
+%pip install -qU  atlassian-python-api
 ```
 
 ## Examples

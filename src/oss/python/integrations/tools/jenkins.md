@@ -14,7 +14,7 @@ Jenkins.
 Install `langchain-jenkins`:
 
 ```python
-%pip install --upgrade --quiet langchain-jenkins
+%pip install -qU langchain-jenkins
 ```
 
 ### Credentials

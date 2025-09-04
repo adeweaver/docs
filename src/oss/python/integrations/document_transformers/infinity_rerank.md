@@ -15,15 +15,15 @@ infinity_emb v2 --model-id mixedbread-ai/mxbai-rerank-xsmall-v1
 ```
 
 ```python
-%pip install --upgrade --quiet  infinity_client
+%pip install -qU  infinity_client
 ```
 
 ```python
-%pip install --upgrade --quiet  faiss
+%pip install -qU  faiss
 
 # OR  (depending on Python version)
 
-%pip install --upgrade --quiet  faiss-cpu
+%pip install -qU  faiss-cpu
 ```
 
 ```python

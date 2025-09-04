@@ -77,12 +77,12 @@ a546aec22291
 Installing ManticoreSearch python client
 
 ```python
-%pip install --upgrade --quiet manticoresearch-dev
+%pip install -qU manticoresearch-dev
 ```
 
 ```output
 [notice] A new release of pip is available: 23.2.1 -> 24.0
-[notice] To update, run: pip install --upgrade pip
+[notice] To update, run: pip install -U pip
 Note: you may need to restart the kernel to use updated packages.
 ```
 

@@ -13,7 +13,7 @@ First we'll want to create a Redis vector store and seed it with some data. We'v
 **Note:** The self-query retriever requires you to have `lark` installed (`pip install lark`) along with integration-specific requirements.
 
 ```python
-%pip install --upgrade --quiet  redis redisvl langchain-openai tiktoken lark
+%pip install -qU  redis redisvl langchain-openai tiktoken lark
 ```
 
 We want to use `OpenAIEmbeddings` so we have to get the OpenAI API Key.

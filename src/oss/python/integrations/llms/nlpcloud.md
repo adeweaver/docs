@@ -7,7 +7,7 @@ The [NLP Cloud](https://nlpcloud.io) serves high performance pre-trained or cust
 This example goes over how to use LangChain to interact with `NLP Cloud` [models](https://docs.nlpcloud.com/#models).
 
 ```python
-%pip install --upgrade --quiet  nlpcloud
+%pip install -qU  nlpcloud
 ```
 
 ```python

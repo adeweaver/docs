@@ -13,8 +13,8 @@ The only prerequisite here is an API key from the OpenAI website. Make sure you 
 Initially, we require the installation of certain dependencies, such as OpenAI, Langchain, and Hippo-API. Please note, that you should install the appropriate versions tailored to your environment.
 
 ```python
-%pip install --upgrade --quiet  langchain langchain_community tiktoken langchain-openai
-%pip install --upgrade --quiet  hippo-api==1.1.0.rc3
+%pip install -qU  langchain langchain_community tiktoken langchain-openai
+%pip install -qU  hippo-api==1.1.0.rc3
 ```
 
 ```output

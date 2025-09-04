@@ -13,7 +13,7 @@ First we'll want to create a Qdrant vector store and seed it with some data. We'
 **Note:** The self-query retriever requires you to have `lark` installed (`pip install lark`). We also need the `qdrant-client` package.
 
 ```python
-%pip install --upgrade --quiet  lark qdrant-client
+%pip install -qU  lark qdrant-client
 ```
 
 We want to use `OpenAIEmbeddings` so we have to get the OpenAI API Key.

@@ -17,10 +17,10 @@ First, you need to set up an Azure account and create an AI Services resource. Y
 Then, you need to get the endpoint, key and region of your resource, and set them as environment variables. You can find them in the "Keys and Endpoint" page of your resource.
 
 ```python
-%pip install --upgrade --quiet  azure-ai-formrecognizer > /dev/null
-%pip install --upgrade --quiet  azure-cognitiveservices-speech > /dev/null
-%pip install --upgrade --quiet  azure-ai-textanalytics > /dev/null
-%pip install --upgrade --quiet  azure-ai-vision-imageanalysis > /dev/null
+%pip install -qU  azure-ai-formrecognizer > /dev/null
+%pip install -qU  azure-cognitiveservices-speech > /dev/null
+%pip install -qU  azure-ai-textanalytics > /dev/null
+%pip install -qU  azure-ai-vision-imageanalysis > /dev/null
 %pip install -qU langchain-community
 ```
 

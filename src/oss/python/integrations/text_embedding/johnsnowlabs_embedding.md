@@ -10,7 +10,7 @@ title: John Snow Labs
 ## Setting up
 
 ```python
-%pip install --upgrade --quiet  johnsnowlabs
+%pip install -qU  johnsnowlabs
 ```
 
 ```python

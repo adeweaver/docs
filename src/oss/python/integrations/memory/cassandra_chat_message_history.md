@@ -13,7 +13,7 @@ This notebook goes over how to use Cassandra to store chat message history.
 To run this notebook you need either a running `Cassandra` cluster or a `DataStax Astra DB` instance running in the cloud (you can get one for free at [datastax.com](https://astra.datastax.com)). Check [cassio.org](https://cassio.org/start_here/) for more information.
 
 ```python
-%pip install --upgrade --quiet  "cassio>=0.1.0 langchain-community"
+%pip install -qU  "cassio>=0.1.0 langchain-community"
 ```
 
 ### Set up the database connection parameters and secrets

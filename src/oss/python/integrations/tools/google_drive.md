@@ -9,7 +9,7 @@ This notebook walks through connecting a LangChain to the `Google Drive API`.
 1. Create a Google Cloud project or use an existing project
 1. Enable the [Google Drive API](https://console.cloud.google.com/flows/enableapi?apiid=drive.googleapis.com)
 1. [Authorize credentials for desktop app](https://developers.google.com/drive/api/quickstart/python#authorize_credentials_for_a_desktop_application)
-1. `pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib`
+1. `pip install -U google-api-python-client google-auth-httplib2 google-auth-oauthlib`
 
 ## Instructions for retrieving your Google Docs data
 
@@ -21,7 +21,7 @@ The location of `token.json` use the same directory (or use the parameter `token
 By default, If you use a `folder_id`, all the files inside this folder can be retrieved to `Document`, if the name match the query.
 
 ```python
-%pip install --upgrade --quiet  google-api-python-client google-auth-httplib2 google-auth-oauthlib langchain-community
+%pip install -qU  google-api-python-client google-auth-httplib2 google-auth-oauthlib langchain-community
 ```
 
 You can obtain your folder and document id from the URL:
@@ -59,7 +59,7 @@ It's possible to update or customize this. See the documentation of `GoogleDrive
 But, the corresponding packages must installed.
 
 ```python
-%pip install --upgrade --quiet  unstructured langchain-googledrive
+%pip install -qU  unstructured langchain-googledrive
 ```
 
 ```python
@@ -103,7 +103,7 @@ tool.description
 In order to create an agent that uses the Google Jobs tool install Langgraph
 
 ```python
-%pip install --upgrade --quiet langgraph langchain-openai
+%pip install -qU langgraph langchain-openai
 ```
 
 and use the `create_agent` functionality to initialize a ReAct agent. You will also need to set up your OPEN_API_KEY (visit [platform.openai.com](https://platform.openai.com)) in order to access OpenAI's chat models.

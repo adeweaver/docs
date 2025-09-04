@@ -9,7 +9,7 @@ This notebook covers how to retrieve documents from `Google Drive`.
 1. Create a Google Cloud project or use an existing project
 1. Enable the [Google Drive API](https://console.cloud.google.com/flows/enableapi?apiid=drive.googleapis.com)
 1. [Authorize credentials for desktop app](https://developers.google.com/drive/api/quickstart/python#authorize_credentials_for_a_desktop_application)
-1. `pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib`
+1. `pip install -U google-api-python-client google-auth-httplib2 google-auth-oauthlib`
 
 ## Retrieve the Google Docs
 
@@ -62,7 +62,7 @@ It's possible to update or customize this. See the documentation of `GoogleDrive
 But, the corresponding packages must be installed.
 
 ```python
-%pip install --upgrade --quiet  unstructured
+%pip install -qU  unstructured
 ```
 
 ```python

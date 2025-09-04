@@ -13,8 +13,8 @@ To use this toolkit, you need to set up your credentials explained in the [Micro
 You can also use the [authentication instructions from here](https://o365.github.io/python-o365/latest/getting_started.html#oauth-setup-pre-requisite).
 
 ```python
-%pip install --upgrade --quiet  O365
-%pip install --upgrade --quiet  beautifulsoup4  # This is optional but is useful for parsing HTML messages
+%pip install -qU  O365
+%pip install -qU  beautifulsoup4  # This is optional but is useful for parsing HTML messages
 %pip install -qU langchain-community
 ```
 

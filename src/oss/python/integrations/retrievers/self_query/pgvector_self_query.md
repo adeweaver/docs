@@ -13,7 +13,7 @@ First we'll want to create a PGVector vector store and seed it with some data. W
 **Note:** The self-query retriever requires you to have `lark` installed (`pip install lark`). We also need the `` package.
 
 ```python
-%pip install --upgrade --quiet  lark pgvector psycopg2-binary
+%pip install -qU  lark pgvector psycopg2-binary
 ```
 
 We want to use `OpenAIEmbeddings` so we have to get the OpenAI API Key.

@@ -28,12 +28,12 @@ AVS_PORT = 5000
 The `sentence-transformers` dependency is large. This step could take several minutes to complete.
 
 ```python
-!pip install --upgrade --quiet aerospike-vector-search==4.2.0 langchain-aerospike langchain-community sentence-transformers langchain
+!pip install -qU aerospike-vector-search==4.2.0 langchain-aerospike langchain-community sentence-transformers langchain
 ```
 
 ```output
 [notice] A new release of pip is available: 25.0.1 -> 25.1.1
-[notice] To update, run: pip install --upgrade pip
+[notice] To update, run: pip install -U pip
 ```
 
 ## Download Quotes Dataset

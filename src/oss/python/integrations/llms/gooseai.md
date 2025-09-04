@@ -11,7 +11,7 @@ This notebook goes over how to use Langchain with [GooseAI](https://goose.ai/).
 The `openai` package is required to use the GooseAI API. Install `openai` using `pip install openai`.
 
 ```python
-%pip install --upgrade --quiet  langchain-openai
+%pip install -qU  langchain-openai
 ```
 
 ## Imports

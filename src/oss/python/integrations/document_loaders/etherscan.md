@@ -45,7 +45,7 @@ All functions related to transactions histories are restricted 1000 histories ma
 ## Setup
 
 ```python
-%pip install --upgrade --quiet  langchain -q
+%pip install -qU  langchain -q
 ```
 
 ```python

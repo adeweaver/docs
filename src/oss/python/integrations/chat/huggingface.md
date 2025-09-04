@@ -66,12 +66,12 @@ os.environ["HUGGINGFACEHUB_API_TOKEN"] = getpass.getpass(
 ```
 
 ```python
-%pip install --upgrade --quiet  langchain-huggingface text-generation transformers google-search-results numexpr langchainhub sentencepiece jinja2 bitsandbytes accelerate
+%pip install -qU  langchain-huggingface text-generation transformers google-search-results numexpr langchainhub sentencepiece jinja2 bitsandbytes accelerate
 ```
 
 ```output
 [notice] A new release of pip is available: 24.0 -> 24.1.2
-[notice] To update, run: pip install --upgrade pip
+[notice] To update, run: pip install -U pip
 Note: you may need to restart the kernel to use updated packages.
 ```
 
