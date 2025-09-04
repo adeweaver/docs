@@ -2,7 +2,105 @@
 title: "Vector stores"
 ---
 
-A [vector store](/oss/concepts/vectorstores) stores [embedded](/oss/concepts/embedding_models) data and performs similarity search.
+## Overview
+
+A vector store stores [embedded](/oss/integrations/embedding_models) data and performs similarity search.
+
+```mermaid
+flowchart LR
+
+    subgraph "📥 Indexing phase (store)"
+        A[📄 Documents] --> B[🔢 Embedding model]
+        B --> C[🔘 Embedding vectors]
+        C --> D[(Vector store)]
+    end
+
+    subgraph "📤 Query phase (retrieval)"
+        E[❓ Query text] --> F[🔢 Embedding model]
+        F --> G[🔘 Query vector]
+        G --> H[🔍 Similarity search]
+        H --> D
+        D --> I[📄 Top-k results]
+    end
+```
+
+### Interface
+
+LangChain provides a unified interface for vector stores, allowing you to:
+
+- `add_documents` - Add documents to the store.
+- `delete` - Remove stored documents by ID.
+- `similarity_search` - Query for semantically similar documents.
+
+This abstraction lets you switch between different implementations without altering your application logic.
+
+### Initialization
+
+To initialize a vector store, provide it with an embedding model:
+
+```python
+from langchain_core.vectorstores import InMemoryVectorStore
+vector_store = InMemoryVectorStore(embedding=SomeEmbeddingModel())
+```
+
+### Adding documents
+
+Add `Document` objects (holding `page_content` and optional metadata) like so:
+
+```python
+vector_store.add_documents(documents=[doc1, doc2], ids=["id1", "id2"])
+```
+
+### Deleting documents
+
+Delete by specifying IDs:
+
+```python
+vector_store.delete(ids=["id1"])
+```
+
+### Similarity search
+
+Issue a semantic query using `similarity_search`, which returns the closest embedded documents:
+
+```python
+similar_docs = vector_store.similarity_search("your query here")
+```
+
+Many vector stores support parameters like:
+
+* `k` — number of results to return
+* `filter` — conditional filtering based on metadata
+
+### Similarity metrics & indexing
+
+Embedding similarity may be computed using:
+
+* **Cosine similarity**
+* **Euclidean distance**
+* **Dot product**
+
+Efficient search often employs indexing methods such as HNSW (Hierarchical Navigable Small World), though specifics depend on the vector store.
+
+### Metadata filtering
+
+Filtering by metadata (e.g., source, date) can refine search results:
+
+```python
+vector_store.similarity_search(
+  "query",
+  k=3,
+  filter={"source": "tweets"}
+)
+```
+
+<important>
+Support for metadata-based filtering varies between implementations.
+Check the documentation of your chosen vector store for details.
+</important>
+
+
+## Top integrations
 
 **Select embedding model:**
 
