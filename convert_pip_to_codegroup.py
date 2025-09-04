@@ -48,28 +48,46 @@ def pip_to_uv(pip_cmd: str) -> str:
     # Remove 'pip install' and clean up
     cmd = pip_cmd.replace("pip install", "").strip()
 
-    # Handle common pip flags and convert to uv equivalents
-    conversions = {
-        "-U ": "",  # uv add is upgrade by default
-        "--upgrade ": "",
-        "-e ": "",  # uv add handles editable installs differently, remove for now
-        "--editable ": "",
-        "-r ": "",  # requirements files handled differently in uv
-        "--requirement ": "",
-        "--pre ": "@pre",  # pre-release flag converts to @pre suffix
-        "-q": "",  # quiet flag, not commonly needed for docs
-        "--quiet": "",
-    }
+    # Handle pip flags - need to handle combined flags like -qU carefully
+    import re
 
-    # Apply conversions
-    for old, new in conversions.items():
-        cmd = cmd.replace(old, new)
+    # Remove upgrade flags (uv add upgrades by default)
+    cmd = re.sub(r'-U\b', '', cmd)
+    cmd = re.sub(r'--upgrade\b', '', cmd)
 
-    # Handle quotes around package names
-    cmd = cmd.replace('"', "").replace("'", "")
+    # Remove quiet flags
+    cmd = re.sub(r'-q\b', '', cmd)
+    cmd = re.sub(r'--quiet\b', '', cmd)
 
-    # Clean up extra spaces
+    # Remove editable flags (uv add handles local paths as editable by default)
+    cmd = re.sub(r'-e\b', '', cmd)
+    cmd = re.sub(r'--editable\b', '', cmd)
+
+    # Remove requirements file flags (different handling in uv)
+    cmd = re.sub(r'-r\b', '', cmd)
+    cmd = re.sub(r'--requirement\b', '', cmd)
+
+    # Handle pre-release flag
+    cmd = re.sub(r'--pre\b', '@pre', cmd)
+
+    # Clean up extra spaces first
     cmd = " ".join(cmd.split())
+
+    # Handle quotes around package names with version specifiers
+    # If package has version specifiers (>=, <=, ==, !=, ~=, >, <), keep quotes
+    packages = []
+    for part in cmd.split():
+        if any(op in part for op in ['>=', '<=', '==', '!=', '~=', '>', '<']):
+            # Add quotes if not already quoted and contains version specifiers
+            if not (part.startswith('"') and part.endswith('"')) and not (part.startswith("'") and part.endswith("'")):
+                packages.append(f'"{part}"')
+            else:
+                packages.append(part)
+        else:
+            # Remove quotes from packages without version specifiers
+            packages.append(part.replace('"', "").replace("'", ""))
+
+    cmd = " ".join(packages)
 
     # Handle special cases
     if "[" in cmd and "]" in cmd:
@@ -111,7 +129,7 @@ def convert_pip_block_to_codegroup(content: str, file_path: str = "") -> str:
             text_before = content[max(0, start_pos-200):start_pos]
             if '<CodeGroup>' in text_before and '</CodeGroup>' not in text_before:
                 return match.group(0)  # Already in CodeGroup
-        
+
         lines = block_content.split("\n")
 
         # Check if this is a simple pip install command (not part of a larger script)
