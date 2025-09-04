@@ -407,19 +407,6 @@
                     ]
                   }
                 ]
-              },
-              {
-                "tab": "Contributing",
-                "groups": [
-                  {
-                    "group": "Contribute",
-                    "pages": [
-                      "oss/python/contributing",
-                      "oss/python/contributing/documentation",
-                      "oss/python/contributing/code"
-                    ]
-                  }
-                ]
               }
             ]
           },
@@ -1401,19 +1388,6 @@
                       "oss/javascript/langgraph/INVALID_CONCURRENT_GRAPH_UPDATE",
                       "oss/javascript/langgraph/INVALID_GRAPH_NODE_RETURN_VALUE",
                       "oss/javascript/langgraph/MULTIPLE_SUBGRAPHS"
-                    ]
-                  }
-                ]
-              },
-              {
-                "tab": "Contributing",
-                "groups": [
-                  {
-                    "group": "Contribute",
-                    "pages": [
-                      "oss/javascript/contributing",
-                      "oss/javascript/contributing/documentation",
-                      "oss/javascript/contributing/code"
                     ]
                   }
                 ]
