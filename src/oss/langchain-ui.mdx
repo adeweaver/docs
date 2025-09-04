@@ -1,27 +1,328 @@
 ---
-title: UI
+title: Prebuilt UI
 ---
 
-import AlphaCallout from '/snippets/alpha-lg-callout.mdx';
+import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
 
 <AlphaCallout />
 
-You can use a prebuilt chat UI for interacting with any LangChain agent through the [Agent Chat UI](https://github.com/langchain-ai/agent-chat-ui). Using the [deployed version](https://agentchat.vercel.app) is the quickest way to get started, and allows you to interact with both local and deployed graphs.
+LangChain provides powerful prebuilt user interfaces that work seamlessly with agents created using `create_agent`. These UIs are designed to provide rich, interactive experiences for your agents with minimal setup, whether you're running locally or deployed on LangGraph Platform.
 
-## Run agent in UI
+## Overview
 
-First, set up LangGraph API server [locally](/oss/langgraph/local-server) or deploy your agent on [LangGraph Platform](/langgraph-platform/quick-start-studio).
+Our prebuilt UIs offer two complementary interfaces for different use cases:
 
-Then, navigate to [Agent Chat UI](https://agentchat.vercel.app), or clone the repository and [run the dev server locally](https://github.com/langchain-ai/agent-chat-ui?tab=readme-ov-file#setup).
+- **[Agent Chat UI](#agent-chat-ui)**: A conversational interface for real-time chat interactions with your agents, featuring tool visualization and generative UI capabilities
+- **[Agent Inbox](#agent-inbox)**: A task management interface specifically designed for human-in-the-loop workflows, allowing users to review, approve, and respond to agent requests
+
+Both UIs are open source and can be adapated to your application needs.
+
+## Agent Chat UI
+
+Agent Chat UI is a Next.js application that provides a conversational interface for interacting with any LangGraph agent. It supports real-time chat, tool visualization, and advanced LangGraph features like time-travel debugging and state forking.
+
+<Frame>
+<iframe
+  className="w-full aspect-video rounded-xl"
+  src="https://www.youtube.com/embed/lInrwVnZ83o?si=Uw66mPtCERJm0EjU"
+  title="Agent Chat UI"
+  frameBorder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowFullScreen
+></iframe>
+</Frame>
+
+### Features
+
+- **Easy setup**: Works out-of-the-box with `create_agent()`
+- **Tool visualization**: Automatically renders tool calls and results in an intuitive interface
+- **Time-travel debugging**: Navigate through conversation history and fork from any point
+- **State inspection**: View and modify agent state at any point during execution
+- **Human-in-the-Loop**: Built-in support for reviewing and responding to agent requests
+
+### Quick start
+
+The fastest way to get started is using the hosted version:
+
+1. **Visit [Agent Chat UI](https://agentchat.vercel.app)**
+2. **Connect your agent** by entering your deployment URL or local server address
+3. **Start chatting** - the UI will automatically detect and render tool calls and interrupts
+
+### Local development
+
+For customization or local development, you can run Agent Chat UI locally:
+
+<CodeGroup>
+```bash Using npx
+# Create a new Agent Chat UI project
+npx create-agent-chat-app my-chat-ui
+cd my-chat-ui
+
+# Install dependencies and start
+pnpm install
+pnpm dev
+```
+```bash Clone repository
+```bash
+# Clone the repository
+git clone https://github.com/langchain-ai/agent-chat-ui.git
+cd agent-chat-ui
+
+# Install dependencies and start
+pnpm install
+pnpm dev
+```
+</CodeGroup>
+
+### Connect to your agent
+
+Agent Chat UI can connect to both [local](./langchain-studio#setup-local-langgraph-server) and [deployed agents](./langchain-deploy). 
+
+After starting Agent Chat UI, you'll need to configure it to connect to your agent:
+
+1. **Graph ID**: Enter your graph name (find this under `graphs` in your `langgraph.json` file)
+2. **Deployment URL**: Your LangGraph server's endpoint (e.g., `http://localhost:2024` for local development, or your deployed agent's URL)
+3. **LangSmith API key (optional)**: Add your LangSmith API key (not required if you're using a local LangGraph server)
+
+Once configured, Agent Chat UI will automatically fetch and display any interrupted threads from your agent.
 
 <Tip>
-  UI has out-of-box support for rendering tool calls, and tool result messages. To customize what messages are shown, see the [Hiding Messages in the Chat](https://github.com/langchain-ai/agent-chat-ui?tab=readme-ov-file#hiding-messages-in-the-chat) section in the Agent Chat UI documentation.
+  Agent Chat UI has out-of-the-box support for rendering tool calls and tool result messages. To customize what messages are shown, see the [Hiding Messages in the Chat](https://github.com/langchain-ai/agent-chat-ui?tab=readme-ov-file#hiding-messages-in-the-chat) section in the Agent Chat UI documentation.
+</Tip>
+
+### Generative UI
+
+<Frame>
+![Agent view in LangGraph studio UI](../images/gen_ui.gif)
+</Frame>
+
+Agent Chat UI supports generative UI capabilities, allowing your agents to dynamically create rich, interactive components based on the conversation context. This enables more engaging user experiences beyond simple text responses.
+
+Some examples of what you can build with generative UI:
+- Create interactive forms and input components
+- Generate charts, graphs, and creative data visualizations
+- Render rich media content dynamically, for example, videos
+
+We've built a series of generative UI-capable agents intended to be used with the Agent Chat UI that you can find [here](https://github.com/langchain-ai/langgraphjs-gen-ui-examples).
+
+<Frame>
+<iframe
+  className="w-full aspect-video rounded-xl"
+  src="https://www.youtube.com/embed/sCqN01R8nIQ?si=h-qZ69jIr-id77M4"
+  title="Build a Generative UI App in LangGraph "
+  frameBorder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowFullScreen
+></iframe>
+</Frame>
+
+<Tip>
+Follow along with our tutorial on building generative UI with LangGraph [here](/langgraph-platform/generative-ui-react).
+</Tip>
+
+## Agent Inbox
+
+Agent Inbox is a Next.js application designed for managing human-in-the-loop workflows with LangGraph agents. It provides a task management interface where users can review, approve, edit, and respond to agent requests that require human intervention.
+
+<Frame>
+<iframe
+  className="w-full aspect-video rounded-xl"
+  src="https://www.youtube.com/embed/gF341XMN8cY?si=7WhY9LksJyakyjuG"
+  title="Agent Inbox"
+  frameBorder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowFullScreen
+></iframe>
+</Frame>
+
+### Features
+
+- **Task management**: Centralized interface for managing all human-in-the-loop requests
+- **Multiple action types**: Support for edit, accept, respond, and ignore actions
+- **State inspection**: View complete agent state and thread history
+- **LangGraph Studio integration**: Direct links to open threads in LangGraph Studio
+
+### Quick start
+
+The fastest way to get started is using the hosted version:
+
+1. **Visit [Agent Inbox](https://dev.agentinbox.ai)**
+2. **Add your graph** by entering your graph ID and deployment URL
+3. **Manage tasks** - review and respond to agent interrupts as they appear
+
+### Local development
+
+To run Agent Inbox locally for customization:
+
+```bash
+# Clone the repository
+git clone https://github.com/langchain-ai/agent-inbox.git
+cd agent-inbox
+
+# Install dependencies
+yarn install
+
+# Start the development server
+yarn dev
+```
+
+### Connect to your agent
+
+Agent Inbox can connect to both [local](./langchain-studio#setup-local-langgraph-server) and [deployed agents](./langchain-deploy).
+
+After starting Agent Inbox, you'll need to configure it to connect to your agent:
+
+1. **Graph ID**: Enter your graph name (find this under `graphs` in your `langgraph.json` file)
+2. **Deployment URL**: Your LangGraph server's endpoint (e.g., `http://localhost:2024` for local development, or your deployed agent's URL)
+
+Add your LangSmith API key in the Settings menu (located in the bottom left corner).
+
+Once configured, Agent Inbox will automatically fetch and display any interrupted threads from your agent.
+
+<Tip>
+You'll need either a [local LangGraph server](/oss/langgraph/local-server) running or an agent deployed on [LangGraph Platform](/langgraph-platform/quick-start-studio) to use Agent Inbox.
 </Tip>
 
 ## Add human-in-the-loop
 
-TODO
+Both Agent Chat UI and Agent Inbox work seamlessly with LangGraph's standardized human interrupt schema. When you implement human-in-the-loop functionality correctly in your agent, it will automatically appear in both UIs without any additional configuration.
 
-## Generative UI
+### Interrupts
 
-TODO
+LangChain defines a standardized human interrupt schema, which is used by both Agent Chat UI and Agent Inbox:
+
+:::python
+```python
+class HumanInterruptConfig(TypedDict):
+    allow_ignore: bool
+    allow_respond: bool
+    allow_edit: bool
+    allow_accept: bool
+
+class ActionRequest(TypedDict):
+    action: str
+    args: dict
+
+class HumanInterrupt(TypedDict):
+    action_request: ActionRequest
+    config: HumanInterruptConfig
+    description: Optional[str]
+
+class HumanResponse(TypedDict):
+    type: Literal['accept', 'ignore', 'response', 'edit']
+    args: Union[None, str, ActionRequest]
+```
+:::
+:::js
+```ts
+export interface HumanInterruptConfig {
+  allow_ignore: boolean;
+  allow_respond: boolean;
+  allow_edit: boolean;
+  allow_accept: boolean;
+}
+
+export interface ActionRequest {
+  action: string;
+  args: Record<string, any>;
+}
+
+export interface HumanInterrupt {
+  action_request: ActionRequest;
+  config: HumanInterruptConfig;
+  description?: string;
+}
+
+export type HumanResponse = {
+  type: "accept" | "ignore" | "response" | "edit";
+  args: null | string | ActionRequest;
+};
+```
+:::
+
+- `action_request`: The action and arguments for the interrupt
+  - `action`: The name, or title of the action. This is rendered in the Agent Inbox as the main header for the interrupt event.
+  - `args`: The arguments for the action. E.g. tool call arguments.
+- `config`: The configuration for the interrupt
+  - `allow_ignore`: Whether the user can ignore the interrupt
+  - `allow_respond`: Whether the user can respond to the interrupt
+  - `allow_edit`: Whether the user can edit the interrupt
+  - `allow_accept`: Whether the user can accept the interrupt
+- `description`: A description of the interrupt
+  - Should be detailed, and may be markdown. This will be rendered in the Agent Inbox as the description, and is commonly used to include additional context about the interrupt, and/or instructions on how to respond to the interrupt.
+
+### Schema usage
+
+The human interrupt schema is used to define the types of interrupts, and what actions can be taken in response to each interrupt. There are four action types:
+
+- `accept`: Accept the interrupt's arguments, or action. Will send an `ActionRequest` in the `args` field on `HumanResponse`. This `ActionRequest` will be the exact same as the `action_request` field on `HumanInterrupt`, but with all keys of the `args` field on `ActionRequest` converted to strings.
+- `edit`: Edit the interrupt's arguments. Sends an instance of `ActionRequest` in the `args` field on `HumanResponse`. The `args` field on `ActionRequest` will have the same structure as the `args` field on `HumanInterrupt`, but the values of the keys will be strings, and will contain any edits the user has made.
+- `response`: Send a response to the interrupt. Does not require any arguments. Will always send back a single string in the `args` field on `HumanResponse`.
+- `ignore`: Ignore the interrupt's arguments, or action. Returns `null` for the `args` field on `HumanResponse`.
+
+You can set any combination of these actions in the `config` field on `HumanInterrupt`.
+
+<Info>
+When the Agent Inbox sends a response, it will always send back a list with a single `HumanResponse` object in it. I.e., access the `HumanResponse` object like this: `response = interrupt(request)[0]`.
+</Info>
+
+### Implementation
+
+LangGraph provides a standardized way to pause agent execution and request human input through the `interrupt` function. When calling the `interrupt` function, you should pass an instance of `HumanInterrupt` and expect a response of type `HumanResponse`:
+
+```python
+from langchain.agents import create_agent
+from langchain.agents.interrupt import HumanInterrupt, HumanInterruptConfig, ActionRequest
+from langgraph.types import interrupt
+
+def create_email_agent():
+    def send_email(to: str, subject: str, body: str):
+        """Send an email after human approval."""
+        # Create interrupt request for human review
+        request = HumanInterrupt(
+            action_request=ActionRequest(
+                action="send_email",
+                args={
+                    "to": to,
+                    "subject": subject, 
+                    "body": body
+                }
+            ),
+            config=HumanInterruptConfig(
+                allow_ignore=True,  # Allow skipping this email
+                allow_respond=True, # Allow text feedback
+                allow_edit=True,    # Allow editing email fields
+                allow_accept=True   # Allow direct approval
+            ),
+            description="Please review this email before sending"
+        )
+        
+        response = interrupt(request)[0]
+
+        print('RESPONSE', response)
+        
+        if response["type"] == "accept":
+            action_request = response["args"]  # dict
+            # ... send email
+        elif response["type"] == "edit":
+            edited_action_request = response["args"]  # dict
+            # ... send email using edited values
+        elif response["type"] == "respond":
+            feedback = response["args"]  # str
+            # process the human feedback
+        elif response["type"] == "ignore":
+            # ... ignore the interrupt
+    
+    return create_agent(
+        model="openai:gpt-4o",
+        tools=[send_email],
+        prompt="You are an email assistant. Always use the send_email tool.",
+    )
+
+agent = create_email_agent()
+```
+
+<Tip>
+For more detailed information on implementing human-in-the-loop workflows, see the [LangGraph Human-in-the-Loop documentation](/oss/langgraph/add-human-in-the-loop).
+</Tip>
+
