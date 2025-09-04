@@ -2,31 +2,85 @@
 title: Observability
 ---
 
-import AlphaCallout from '/snippets/alpha-lg-callout.mdx';
+import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
 
 <AlphaCallout />
 
-Traces are a series of steps that your application takes to go from input to output. Each of these individual steps is represented by a run. You can use [LangSmith](https://smith.langchain.com/) to visualize these execution steps. To use it, [enable tracing for your application](/oss/langgraph/trace-agent). This enables you to do the following:
+Observability is crucial for understanding how your agents behave in production. With LangChain's `create_agent()`, you get built-in observability through [LangSmith](https://smith.langchain.com/) - a powerful platform for tracing, debugging, evaluating, and monitoring your LLM applications.
 
-* [Debug a locally running application](/langgraph-platform/clone-traces-studio).
-* [Evaluate the application performance](/oss/langgraph/evals).
-* [Monitor the application](https://docs.smith.langchain.com/observability/how_to_guides/dashboards).
+Traces capture every step your agent takes, from the initial user input to the final response, including all tool calls, model interactions, and decision points. This enables you to deconstruct your agennt's decision making process, pinpoint error sources, and measure your agent's performance.
 
-To get started, sign up for a free account at [LangSmith](https://smith.langchain.com/).
+## Prerequisites
+
+Before you begin, ensure you have the following:
+* A [LangSmith account](https://smith.langchain.com/) (free to sign up)
 
 ## Enable tracing
 
-To enable tracing for your application, set the following environment variables:
+LangChain agents created with `create_agent()` automatically support LangSmith tracing. To enable, set the following environment variables:
 
-```python
-export LANGSMITH_TRACING=true
-export LANGSMITH_API_KEY=<your-api-key>
+```bash .env
+LANGSMITH_PROJECT="my-agent-project"
+LANGSMITH_TRACING=true
+LANGSMITH_API_KEY=lsv2...
 ```
 
-For more information, see [Trace with LangGraph](https://docs.smith.langchain.com/observability/how_to_guides/trace_with_langgraph).
+`LANGSMITH_PROJECT` is optional. If not set, it will default to `default`.
 
-## Learn more
+You can get your API key from your [LangSmith settings](https://smith.langchain.com/settings).
 
-* [LangSmith Observability quickstart](https://docs.smith.langchain.com/observability)
-* [Trace with LangGraph](https://docs.smith.langchain.com/observability/how_to_guides/trace_with_langgraph)
-* [Tracing conceptual guide](https://docs.smith.langchain.com/observability/concepts#traces)
+## View traces in LangSmith
+
+Your traces will appear automatically in your [LangSmith dashboard](https://smith.langchain.com/). Each trace shows a detailed execution graph covering message history (human messages, AI messages, and tool messages), timing metrics, state metadata, and full error context.
+
+## Advanced tracing options
+
+### Programmatic tracing
+
+For more control, you can enable tracing programmatically:
+
+```python
+from langchain_core.tracers.context import tracing_v2_enabled
+from langchain.agents import create_agent
+
+def create_email_agent():
+    agent = create_agent(
+        model="openai:gpt-4o", 
+        tools=[send_email],
+        prompt="You are an email assistant."
+    )
+    return agent
+
+with tracing_v2_enabled(project_name="email-agent-test") as tracer:
+    agent = create_email_agent()
+    response = agent.invoke({
+        "messages": [{"role": "user", "content": "Send a test email"}]
+    })
+```
+
+### Adding metadata and tags
+
+Enhance your traces with custom metadata and tags:
+
+```python
+from langchain_core.tracers.context import tracing_v2_enabled
+
+with tracing_v2_enabled(
+    project_name="production-agent",
+    tags=["production", "email-assistant", "v1.0"]
+) as tracer:
+    response = agent.invoke(
+        {"messages": [{"role": "user", "content": "Send a welcome email"}]},
+        config={
+            "metadata": {
+                "user_id": "user_123",
+                "session_id": "session_456",
+                "environment": "production"
+            }
+        }
+    )
+```
+
+<Tip>
+To learn more about how to use traces to debug, evaluate, and monitor your agents, see the [LangSmith documentation](/langsmith).
+</Tip>
