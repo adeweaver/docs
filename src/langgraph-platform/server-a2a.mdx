@@ -31,7 +31,9 @@ To enable A2A:
 
 ## Creating an A2A-compatible agent
 
-Your agent needs to handle message-based conversations. Here's a simple example:
+This example creates an A2A-compatible agent that processes incoming messages using OpenAI's API and maintains conversational state. The agent defines a message-based state structure and handles the A2A protocol's message format.
+
+To be compatible with the [A2A "text" parts](https://a2a-protocol.org/dev/specification/#651-textpart-object), the agent must have a `messages` key in state. Here's an example:
 
 ```python
 """LangGraph A2A conversational agent.
