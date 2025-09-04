@@ -4,7 +4,6 @@ title: Solar
 
 *This community integration is deprecated. You should use [`ChatUpstage`](../../chat/upstage) instead to access Solar LLM via the chat model connector.*
 
-
 ```python
 import os
 
@@ -14,7 +13,6 @@ os.environ["SOLAR_API_KEY"] = "SOLAR_API_KEY"
 llm = Solar()
 llm.invoke("tell me a story?")
 ```
-
 
 ```python
 from langchain.chains import LLMChain

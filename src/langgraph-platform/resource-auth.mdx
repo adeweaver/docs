@@ -4,7 +4,7 @@ sidebarTitle: Make conversations private
 ---
 In this tutorial, you will extend [the chatbot created in the last tutorial](/langgraph-platform/set-up-custom-auth) to give each user their own private conversations. You'll add [resource-level access control](/langgraph-platform/auth#single-owner-resources) so users can only see their own threads.
 
-![Authorization handlers](/langgraph-platform/images/authorization.png)
+![Authorization flow: after authentication, an authorization handler tags each resource with owner=user id and returns a filter so users only see their own threads.](/langgraph-platform/images/authorization.png)
 
 ## Prerequisites
 
@@ -63,7 +63,7 @@ async def add_owner(
     #     resource='threads',
     #     action='create_run'
     # )
-    # value: 
+    # value:
     # {
     #     'thread_id': UUID('1e1b2733-303f-4dcd-9620-02d370287d72'),
     #     'assistant_id': UUID('fe096781-5601-53d2-b2f6-0d3403f7e9ca'),
@@ -206,7 +206,7 @@ async def on_thread_create(
     value: Auth.types.on.threads.create.value,
 ):
     """Add owner when creating threads.
-    
+
     This handler runs when creating new threads and does two things:
     1. Sets metadata on the thread being created to track ownership
     2. Returns a filter that ensures only the creator can access it
@@ -218,8 +218,8 @@ async def on_thread_create(
     # This metadata is stored with the thread and persists
     metadata = value.setdefault("metadata", {})
     metadata["owner"] = ctx.user.identity
-    
-    
+
+
     # Return filter to restrict access to just the creator
     return {"owner": ctx.user.identity}
 
@@ -229,7 +229,7 @@ async def on_thread_read(
     value: Auth.types.on.threads.read.value,
 ):
     """Only let users read their own threads.
-    
+
     This handler runs on read operations. We don't need to set
     metadata since the thread already exists - we just need to
     return a filter to ensure users can only see their own threads.

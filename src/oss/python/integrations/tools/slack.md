@@ -8,7 +8,6 @@ This will help you get started with the Slack [toolkit](/oss/concepts/tools/#too
 
 To use this toolkit, you will need to get a token as explained in the [Slack API docs](https://api.slack.com/tutorials/tracks/getting-a-token). Once you've received a SLACK_USER_TOKEN, you can input it as an environment variable below.
 
-
 ```python
 import getpass
 import os
@@ -19,7 +18,6 @@ if not os.getenv("SLACK_USER_TOKEN"):
 
 To enable automated tracing of individual tools, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
-
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
 # os.environ["LANGSMITH_TRACING"] = "true"
@@ -29,13 +27,11 @@ To enable automated tracing of individual tools, set your [LangSmith](https://do
 
 This toolkit lives in the `langchain-community` package. We will also need the Slack SDK:
 
-
 ```python
 %pip install -qU langchain-community slack_sdk
 ```
 
 Optionally, we can install beautifulsoup4 to assist in parsing HTML messages:
-
 
 ```python
 %pip install -qU beautifulsoup4 # This is optional but is useful for parsing HTML messages
@@ -44,7 +40,6 @@ Optionally, we can install beautifulsoup4 to assist in parsing HTML messages:
 ## Instantiation
 
 Now we can instantiate our toolkit:
-
 
 ```python
 from langchain_community.agent_toolkits import SlackToolkit
@@ -56,14 +51,11 @@ toolkit = SlackToolkit()
 
 View available tools:
 
-
 ```python
 tools = toolkit.get_tools()
 
 tools
 ```
-
-
 
 ```output
 [SlackGetChannel(client=<slack_sdk.web.client.WebClient object at 0x113caa8c0>),
@@ -71,7 +63,6 @@ tools
  SlackScheduleMessage(client=<slack_sdk.web.client.WebClient object at 0x113caa440>),
  SlackSendMessage(client=<slack_sdk.web.client.WebClient object at 0x113caa410>)]
 ```
-
 
 This toolkit loads:
 
@@ -84,16 +75,14 @@ This toolkit loads:
 
 Let's equip an agent with the Slack toolkit and query for information about a channel.
 
-
 ```python
 from langchain_openai import ChatOpenAI
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 llm = ChatOpenAI(model="gpt-4o-mini")
 
-agent_executor = create_react_agent(llm, tools)
+agent_executor = create_agent(llm, tools)
 ```
-
 
 ```python
 example_query = "When was the #general channel created?"
@@ -107,6 +96,7 @@ for event in events:
     if message.type != "tool":  # mask sensitive information
         event["messages"][-1].pretty_print()
 ```
+
 ```output
 ================================ Human Message =================================
 
@@ -133,6 +123,7 @@ for event in events:
     if message.type != "tool":  # mask sensitive information
         event["messages"][-1].pretty_print()
 ```
+
 ```output
 ================================ Human Message =================================
 
@@ -148,6 +139,7 @@ Tool Calls:
 
 I have sent a friendly greeting to the channel C072Q1LP4QM.
 ```
+
 ## API reference
 
 For detailed documentation of all `SlackToolkit` features and configurations head to the [API reference](https://python.langchain.com/api_reference/community/agent_toolkits/langchain_community.agent_toolkits.slack.toolkit.SlackToolkit.html).

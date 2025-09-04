@@ -46,7 +46,6 @@ Get started with a free trial today and experience the most grounded language mo
 
 ### Grounded Language Model
 
-
 ```python
 # Integrating the Grounded Language Model
 import getpass
@@ -87,14 +86,15 @@ ai_msg = llm.invoke(
 
 print(ai_msg.content)
 ```
+
 ```output
 According to the information available, there are two types of cats in the world:
 
 1. Good cats
 2. Best cats
 ```
-### Instruction-Following Reranker
 
+### Instruction-Following Reranker
 
 ```python
 import getpass

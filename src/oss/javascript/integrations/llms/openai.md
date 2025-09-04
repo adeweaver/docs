@@ -12,11 +12,13 @@ Unless you are specifically using `gpt-3.5-turbo-instruct`, you are probably loo
 </Warning>
 
 ```
+
 [OpenAI](https://en.wikipedia.org/wiki/OpenAI) is an artificial intelligence (AI) research laboratory.
 
 This will help you get started with OpenAI completion models (LLMs) using LangChain. For detailed documentation on `OpenAI` features and configuration options, please refer to the [API reference](https://api.js.langchain.com/classes/langchain_openai.OpenAI.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [PY support](https://python.langchain.com/docs/integrations/llms/openai) | Package downloads | Package latest |
@@ -34,12 +36,14 @@ Head to [platform.openai.com](https://platform.openai.com/) to sign up to OpenAI
 ```bash
 export OPENAI_API_KEY="your-api-key"
 ```
+
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
 ```bash
 # export LANGSMITH_TRACING="true"
 # export LANGSMITH_API_KEY="your-api-key"
 ```
+
 ### Installation
 
 The LangChain OpenAI integration lives in the `@langchain/openai` package:
@@ -53,10 +57,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```typescript
 import { OpenAI } from "@langchain/openai"
@@ -71,8 +75,8 @@ const llm = new OpenAI({
   // other params...
 })
 ```
-## Invocation
 
+## Invocation
 
 ```typescript
 const inputText = "OpenAI is an AI company that "
@@ -80,6 +84,7 @@ const inputText = "OpenAI is an AI company that "
 const completion = await llm.invoke(inputText)
 completion
 ```
+
 ```output
 develops and promotes friendly AI for the benefit of humanity. It was founded in 2015 by Elon Musk, Sam Altman, Greg Brockman, Ilya Sutskever, Wojciech Zaremba, John Schulman, and Chris Olah. The company's mission is to create and promote artificial general intelligence (AGI) that is safe and beneficial to humanity.
 
@@ -91,10 +96,10 @@ OpenAI has received funding from various sources, including tech giants like Mic
 
 In addition to its research and development
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our completion model with a prompt template like so:
-
 
 ```typescript
 import { PromptTemplate } from "@langchain/core/prompts"
@@ -112,16 +117,17 @@ await chain.invoke(
   }
 )
 ```
+
 ```output
 Ich liebe Programmieren.
 ```
+
 If you're part of an organization, you can set `process.env.OPENAI_ORGANIZATION` to your OpenAI organization id, or pass it in as `organization` when
 initializing the model.
 
 ## Custom URLs
 
 You can customize the base URL the SDK sends requests to by passing a `configuration` parameter like this:
-
 
 ```typescript
 const llmCustomURL = new OpenAI({
@@ -136,7 +142,6 @@ You can also pass other `ClientOptions` parameters accepted by the official SDK.
 
 If you are hosting on Azure OpenAI, see the [dedicated page instead](/oss/integrations/llms/azure).
 
-
 ## API reference
 
-For detailed documentation of all OpenAI features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_openai.OpenAI.html
+For detailed documentation of all OpenAI features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_openai.OpenAI.html).

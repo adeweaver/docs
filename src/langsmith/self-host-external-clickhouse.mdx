@@ -13,16 +13,16 @@ However, you can configure LangSmith to use an external ClickHouse database for 
 
 * Provision a [ClickHouse Cloud](https://clickhouse.cloud/) either directly or through a cloud provider marketplace:
 
-  * [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/clickhouse.clickhouse_cloud?tab=Overview)
+    * [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/clickhouse.clickhouse_cloud?tab=Overview)
   * [Google Cloud Marketplace](https://console.cloud.google.com/marketplace/product/clickhouse-public/clickhouse-cloud)
   * [AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-jettukeanwrfc)
 
 * On a VM in your cloud provider
 
 <Note>
-  Using the first two options (LangSmith-managed ClickHouse or ClickHouse Cloud) will provision a Clickhouse service OUTSIDE of your VPC. However, both options support private endpoints, meaning that you can direct traffic to the ClickHouse service without exposing it to the public internet (eg via AWS PrivateLink, or GCP Private Service Connect).
+Using the first two options (LangSmith-managed ClickHouse or ClickHouse Cloud) will provision a Clickhouse service OUTSIDE of your VPC. However, both options support private endpoints, meaning that you can direct traffic to the ClickHouse service without exposing it to the public internet (eg via AWS PrivateLink, or GCP Private Service Connect).
 
-  Additionally, sensitive information can be configured to be not stored in Clickhouse. Please reach out to [support@langchain.dev](mailto:support@langchain.dev) for more information.
+Additionally, sensitive information can be configured to be not stored in Clickhouse. Please reach out to [support@langchain.dev](mailto:support@langchain.dev) for more information.
 </Note>
 
 ## Requirements
@@ -48,13 +48,13 @@ However, you can configure LangSmith to use an external ClickHouse database for 
 ```
 
 <Warning>
-  Our system has been tuned to work with the above configuration parameters. Changing these parameters may result in unexpected behavior.
+Our system has been tuned to work with the above configuration parameters. Changing these parameters may result in unexpected behavior.
 </Warning>
 
 ## HA Replicated Clickhouse Cluster
 
 <Warning>
-  By default, the setup process above will only work with a single node Clickhouse cluster.
+By default, the setup process above will only work with a single node Clickhouse cluster.
 </Warning>
 
 If you would like to use a multi-node Clickhouse cluster for HA, we support this with additional required configuration. This setup can use a Clickhouse cluster with multiple nodes where data replicated via Zookeeper or Clickhouse Keeper. For more information on Clickhouse replication, see [Clickhouse Data Replication Docs](https://clickhouse.com/docs/architecture/replication).
@@ -78,7 +78,7 @@ For an example setup of a replicated ClickHouse cluster, refer to the [replicate
 * You will also need to set up Blob Storage. You can read more about Blob Storage in the [Blob Storage documentation](/langsmith/self-host-blob-storage).
 
 <Note>
-  ClickHouse installations managed by LangSmith use a SharedMerge engine, which automatically clusters them and separates compute from storage.
+ClickHouse installations managed by LangSmith use a SharedMerge engine, which automatically clusters them and separates compute from storage.
 </Note>
 
 For more information, refer to the [managed ClickHouse](/langsmith/langsmith-managed-clickhouse) page.
@@ -96,18 +96,18 @@ You will need to provide several parameters to your LangSmith installation to co
 * Cluster (Optional): The name of the ClickHouse cluster if using an external Clickhouse cluster. When set, LangSmith will run migrations on the cluster and replicate data across instances.
 
 <Warning>
-  Important considerations for clustered deployments:
+Important considerations for clustered deployments:
 
-  * Clustered setups must be configured on a fresh schema - existing standalone ClickHouse instances cannot be converted to clustered mode.
+* Clustered setups must be configured on a fresh schema - existing standalone ClickHouse instances cannot be converted to clustered mode.
 
-  * Clustering is only supported with externally managed ClickHouse deployments. It is not compatible with bundled ClickHouse installations as these do not include required ZooKeeper configurations.
+* Clustering is only supported with externally managed ClickHouse deployments. It is not compatible with bundled ClickHouse installations as these do not include required ZooKeeper configurations.
 
-  * When using a clustered deployment, LangSmith will automatically:
+* When using a clustered deployment, LangSmith will automatically:
 
-    * Run database migrations across all nodes in the cluster
-    * Configure tables for data replication across the cluster
+* Run database migrations across all nodes in the cluster
+* Configure tables for data replication across the cluster
 
-  Note that while data is replicated across nodes, LangSmith does not configure distributed tables or handle query routing - queries will be directed to the specified host. You will need to handle any load balancing or query distribution at the infrastructure level if desired.
+Note that while data is replicated across nodes, LangSmith does not configure distributed tables or handle query routing - queries will be directed to the specified host. You will need to handle any load balancing or query distribution at the infrastructure level if desired.
 </Warning>
 
 ## Configuration

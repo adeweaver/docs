@@ -27,23 +27,19 @@ You can deploy foundation models like Mistral and Llama 2 with one click from th
 
 In this example, we'll work with Mistral 7B. [Deploy Mistral 7B here](https://app.baseten.co/explore/mistral_7b_instruct) and follow along with the deployed model's ID, found in the model dashboard.
 
-
 ```python
 ##Installing the langchain packages needed to use the integration
 %pip install -qU langchain-community
 ```
 
-
 ```python
 from langchain_community.llms import Baseten
 ```
-
 
 ```python
 # Load the model
 mistral = Baseten(model="MODEL_ID", deployment="production")
 ```
-
 
 ```python
 # Prompt the model
@@ -55,7 +51,6 @@ mistral("What is the Mistral wind?")
 We can chain together multiple calls to one or multiple models, which is the whole point of Langchain!
 
 For example, we can replace GPT with Mistral in this demo of terminal emulation.
-
 
 ```python
 from langchain.chains import LLMChain
@@ -91,18 +86,15 @@ output = chatgpt_chain.predict(
 print(output)
 ```
 
-
 ```python
 output = chatgpt_chain.predict(human_input="ls ~")
 print(output)
 ```
 
-
 ```python
 output = chatgpt_chain.predict(human_input="cd ~")
 print(output)
 ```
-
 
 ```python
 output = chatgpt_chain.predict(

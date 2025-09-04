@@ -14,7 +14,6 @@ This code has been ported over from `langchain-community` into a dedicated packa
 * The schema of the embedding store and collection have been changed to make add_documents work correctly with user specified ids.
 * One has to pass an explicit connection object now.
 
-
 Currently, there is **no mechanism** that supports easy data migration on schema changes. So any schema changes in the vectorstore will require the user to recreate the tables and re-add the documents.
 If this is a concern, please use a different vectorstore. If not, this implementation should be fine for your use case.
 
@@ -22,13 +21,11 @@ If this is a concern, please use a different vectorstore. If not, this implement
 
 First donwload the partner package:
 
-
 ```python
 pip install -qU langchain-postgres
 ```
 
 You can run the following command to spin up a postgres container with the `pgvector` extension:
-
 
 ```python
 %docker run --name pgvector-container -e POSTGRES_USER=langchain -e POSTGRES_PASSWORD=langchain -e POSTGRES_DB=langchain -p 6024:5432 -d pgvector/pgvector:pg16
@@ -40,7 +37,6 @@ There are no credentials needed to run this notebook, just make sure you downloa
 
 If you want to get best in-class automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
-
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
 # os.environ["LANGSMITH_TRACING"] = "true"
@@ -50,8 +46,6 @@ If you want to get best in-class automated tracing of your model calls you can a
 
 <EmbeddingTabs/>
 
-
-
 ```python
 # | output: false
 # | echo: false
@@ -59,7 +53,6 @@ from langchain_openai import OpenAIEmbeddings
 
 embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
 ```
-
 
 ```python
 from langchain_postgres import PGVector
@@ -81,7 +74,6 @@ vector_store = PGVector(
 ### Add items to vector store
 
 Note that adding documents by ID will over-write any existing documents that match that ID.
-
 
 ```python
 from langchain_core.documents import Document
@@ -132,15 +124,11 @@ docs = [
 vector_store.add_documents(docs, ids=[doc.metadata["id"] for doc in docs])
 ```
 
-
-
 ```output
 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 ```
 
-
 ### Delete items from vector store
-
 
 ```python
 vector_store.delete(ids=["3"])
@@ -148,7 +136,7 @@ vector_store.delete(ids=["3"])
 
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 
 ### Filtering Support
 
@@ -174,7 +162,6 @@ The vectorstore supports a set of filters that can be applied against the metada
 
 Performing a simple similarity search can be done as follows:
 
-
 ```python
 results = vector_store.similarity_search(
     "kitty", k=10, filter={"id": {"$in": [1, 5, 2, 9]}}
@@ -182,14 +169,15 @@ results = vector_store.similarity_search(
 for doc in results:
     print(f"* {doc.page_content} [{doc.metadata}]")
 ```
+
 ```output
 * there are cats in the pond [{'id': 1, 'topic': 'animals', 'location': 'pond'}]
 * the library hosts a weekly story time for kids [{'id': 9, 'topic': 'reading', 'location': 'library'}]
 * ducks are also found in the pond [{'id': 2, 'topic': 'animals', 'location': 'pond'}]
 * the new art exhibit is fascinating [{'id': 5, 'topic': 'art', 'location': 'museum'}]
 ```
-If you provide a dict with multiple fields, but no operators, the top level will be interpreted as a logical **AND** filter
 
+If you provide a dict with multiple fields, but no operators, the top level will be interpreted as a logical **AND** filter
 
 ```python
 vector_store.similarity_search(
@@ -199,14 +187,10 @@ vector_store.similarity_search(
 )
 ```
 
-
-
 ```output
 [Document(metadata={'id': 1, 'topic': 'animals', 'location': 'pond'}, page_content='there are cats in the pond'),
  Document(metadata={'id': 2, 'topic': 'animals', 'location': 'pond'}, page_content='ducks are also found in the pond')]
 ```
-
-
 
 ```python
 vector_store.similarity_search(
@@ -221,52 +205,46 @@ vector_store.similarity_search(
 )
 ```
 
-
-
 ```output
 [Document(metadata={'id': 1, 'topic': 'animals', 'location': 'pond'}, page_content='there are cats in the pond'),
  Document(metadata={'id': 2, 'topic': 'animals', 'location': 'pond'}, page_content='ducks are also found in the pond')]
 ```
 
-
 If you want to execute a similarity search and receive the corresponding scores you can run:
-
 
 ```python
 results = vector_store.similarity_search_with_score(query="cats", k=1)
 for doc, score in results:
     print(f"* [SIM={score:3f}] {doc.page_content} [{doc.metadata}]")
 ```
+
 ```output
 * [SIM=0.763449] there are cats in the pond [{'id': 1, 'topic': 'animals', 'location': 'pond'}]
 ```
+
 For a full list of the different searches you can execute on a `PGVector` vector store, please refer to the [API reference](https://python.langchain.com/api_reference/postgres/vectorstores/langchain_postgres.vectorstores.PGVector.html).
 
 ### Query by turning into retriever
 
-You can also transform the vector store into a retriever for easier usage in your chains. 
-
+You can also transform the vector store into a retriever for easier usage in your chains.
 
 ```python
 retriever = vector_store.as_retriever(search_type="mmr", search_kwargs={"k": 1})
 retriever.invoke("kitty")
 ```
 
-
-
 ```output
 [Document(metadata={'id': 1, 'topic': 'animals', 'location': 'pond'}, page_content='there are cats in the pond')]
 ```
-
 
 ## Usage for retrieval-augmented generation
 
 For guides on how to use this vector store for retrieval-augmented generation (RAG), see the following sections:
 
-- [Tutorials](/oss/tutorials/rag)
-- [How-to: Question and answer with RAG](https://python.langchain.com/docs/how_to/#qa-with-rag)
-- [Retrieval conceptual docs](https://python.langchain.com/docs/concepts/retrieval)
+* [Tutorials](/oss/tutorials/rag)
+* [How-to: Question and answer with RAG](https://python.langchain.com/docs/how_to/#qa-with-rag)
+* [Retrieval conceptual docs](https://python.langchain.com/docs/concepts/retrieval)
 
 ## API reference
 
-For detailed documentation of all __ModuleName__VectorStore features and configurations head to the API reference: https://python.langchain.com/api_reference/postgres/vectorstores/langchain_postgres.vectorstores.PGVector.html
+For detailed documentation of all __ModuleName__VectorStore features and configurations head to the API reference: [python.langchain.com/api_reference/postgres/vectorstores/langchain_postgres.vectorstores.PGVector.html](https://python.langchain.com/api_reference/postgres/vectorstores/langchain_postgres.vectorstores.PGVector.html)

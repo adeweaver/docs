@@ -6,16 +6,13 @@ Browserless is a service that allows you to run headless Chrome instances in the
 
 To use Browserless as a document loader, initialize a `BrowserlessLoader` instance as shown in this notebook. Note that by default, `BrowserlessLoader` returns the `innerText` of the page's `body` element. To disable this and get the raw HTML, set `text_content` to `False`.
 
-
 ```python
 from langchain_community.document_loaders import BrowserlessLoader
 ```
 
-
 ```python
 BROWSERLESS_API_TOKEN = "YOUR_BROWSERLESS_API_TOKEN"
 ```
-
 
 ```python
 loader = BrowserlessLoader(
@@ -30,6 +27,7 @@ documents = loader.load()
 
 print(documents[0].page_content[:1000])
 ```
+
 ```output
 Jump to content
 Main menu

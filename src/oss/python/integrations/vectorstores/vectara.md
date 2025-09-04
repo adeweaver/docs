@@ -4,26 +4,25 @@ title: Vectara
 
 [Vectara](https://vectara.com/) is the trusted AI Assistant and Agent platform which focuses on enterprise readiness for mission-critical applications.
 Vectara serverless RAG-as-a-service provides all the components of RAG behind an easy-to-use API, including:
+
 1. A way to extract text from files (PDF, PPT, DOCX, etc)
 2. ML-based chunking that provides state of the art performance.
 3. The [Boomerang](https://vectara.com/how-boomerang-takes-retrieval-augmented-generation-to-the-next-level-via-grounded-generation/) embeddings model.
 4. Its own internal vector database where text chunks and embedding vectors are stored.
-5. A query service that automatically encodes the query into embedding, and retrieves the most relevant text segments, including support for [Hybrid Search](https://docs.vectara.com/docs/api-reference/search-apis/lexical-matching) as well as multiple reranking options such as the [multi-lingual relevance reranker](https://www.vectara.com/blog/deep-dive-into-vectara-multilingual-reranker-v1-state-of-the-art-reranker-across-100-languages), [MMR](https://vectara.com/get-diverse-results-and-comprehensive-summaries-with-vectaras-mmr-reranker/), [UDF reranker](https://www.vectara.com/blog/rag-with-user-defined-functions-based-reranking). 
+5. A query service that automatically encodes the query into embedding, and retrieves the most relevant text segments, including support for [Hybrid Search](https://docs.vectara.com/docs/api-reference/search-apis/lexical-matching) as well as multiple reranking options such as the [multi-lingual relevance reranker](https://www.vectara.com/blog/deep-dive-into-vectara-multilingual-reranker-v1-state-of-the-art-reranker-across-100-languages), [MMR](https://vectara.com/get-diverse-results-and-comprehensive-summaries-with-vectaras-mmr-reranker/), [UDF reranker](https://www.vectara.com/blog/rag-with-user-defined-functions-based-reranking).
 6. An LLM to for creating a [generative summary](https://docs.vectara.com/docs/learn/grounded-generation/grounded-generation-overview), based on the retrieved documents (context), including citations.
 
 For more information:
+
 - [Documentation](https://docs.vectara.com/docs/)
 - [API Playground](https://docs.vectara.com/docs/rest-api/)
 - [Quickstart](https://docs.vectara.com/docs/quickstart)
 
 This notebook shows how to use the basic retrieval functionality, when utilizing Vectara just as a Vector Store (without summarization), incuding: `similarity_search` and `similarity_search_with_score` as well as using the LangChain `as_retriever` functionality.
 
-
 ## Setup
 
 To use the `VectaraVectorStore` you first need to install the partner package.
-
-
 
 ```python
 !uv pip install -U pip && uv pip install -qU langchain-vectara
@@ -32,9 +31,10 @@ To use the `VectaraVectorStore` you first need to install the partner package.
 # Getting Started
 
 To get started, use the following steps:
+
 1. If you don't already have one, [Sign up](https://www.vectara.com/integrations/langchain) for your free Vectara trial.
 2. Within your account you can create one or more corpora. Each corpus represents an area that stores text data upon ingest from input documents. To create a corpus, use the **"Create Corpus"** button. You then provide a name to your corpus as well as a description. Optionally you can define filtering attributes and apply some advanced options. If you click on your created corpus, you can see its name and corpus ID right on the top.
-3. Next you'll need to create API keys to access the corpus. Click on the **"Access Control"** tab in the corpus view and then the **"Create API Key"** button. Give your key a name, and choose whether you want query-only or query+index for your key. Click "Create" and you now have an active API key. Keep this key confidential. 
+3. Next you'll need to create API keys to access the corpus. Click on the **"Access Control"** tab in the corpus view and then the **"Create API Key"** button. Give your key a name, and choose whether you want query-only or query+index for your key. Click "Create" and you now have an active API key. Keep this key confidential.
 
 To use LangChain with Vectara, you'll need to have these two values: `corpus_key` and `api_key`.
 You can provide `VECTARA_API_KEY` to LangChain in two ways:
@@ -59,7 +59,6 @@ vectara = Vectara(
 ```
 
 In this notebook we assume they are provided in the environment.
-
 
 ```python
 import os
@@ -88,7 +87,6 @@ Note that we use the add_files interface which does not require any local proces
 
 In this case it uses a .txt file but the same works for many other [file types](https://docs.vectara.com/docs/api-reference/indexing-apis/file-upload/file-upload-filetypes).
 
-
 ```python
 corpus_key = os.getenv("VECTARA_CORPUS_KEY")
 file_obj = File(
@@ -98,20 +96,16 @@ file_obj = File(
 vectara.add_files([file_obj], corpus_key)
 ```
 
-
-
 ```output
 ['state_of_the_union.txt']
 ```
 
-
 ## Vectara RAG (retrieval augmented generation)
 
 We now create a `VectaraQueryConfig` object to control the retrieval and summarization options:
-* We enable summarization, specifying we would like the LLM to pick the top 7 matching chunks and respond in English
+- We enable summarization, specifying we would like the LLM to pick the top 7 matching chunks and respond in English
 
 Using this configuration, let's create a LangChain `Runnable` object that encpasulates the full Vectara RAG pipeline, using the `as_rag` method:
-
 
 ```python
 generation_config = GenerationConfig(
@@ -142,15 +136,11 @@ rag = vectara.as_rag(config)
 rag.invoke(query_str)["answer"]
 ```
 
-
-
 ```output
 "President Biden discussed several key issues in his recent statements. He emphasized the importance of keeping schools open and noted that with a high vaccination rate and reduced hospitalizations, most Americans can safely return to normal activities without masks [1]. He addressed the need to hold social media platforms accountable for their impact on children and called for stronger privacy protections and mental health services [2]. Biden also announced measures against Russian oligarchs, including closing American airspace to Russian flights and targeting their assets, as part of efforts to weaken Russia's economy [3], [7]. Additionally, he reaffirmed the need to protect women's rights, particularly the right to choose as affirmed in Roe v. Wade [5]."
 ```
 
-
 We can also use the streaming interface like this:
-
 
 ```python
 output = {}
@@ -165,31 +155,33 @@ for chunk in rag.stream(query_str):
             print(chunk[key], end="", flush=True)
         curr_key = key
 ```
+
 ```output
 President Biden discussed several key issues in his recent statements. He emphasized the importance of keeping schools open and noted that with a high vaccination rate and reduced hospitalizations, most Americans can safely return to normal activities without masks [1]. He addressed the need to hold social media platforms accountable for their impact on children and called for stronger privacy protections and mental health services [2]. Biden also announced measures against Russia, including preventing its central bank from defending the Ruble and targeting Russian oligarchs' assets, as part of efforts to weaken Russia's economy and military [3]. Additionally, he reaffirmed the commitment to protect women's rights, particularly the right to choose as affirmed in Roe v. Wade [5]. Lastly, he advocated for funding the police with necessary resources and training to ensure community safety [6].
 ```
+
 ## Hallucination detection and Factual Consistency Score
 
-Vectara created [HHEM](https://huggingface.co/vectara/hallucination_evaluation_model) - an open source model that can be used to evaluate RAG responses for factual consistency. 
+Vectara created [HHEM](https://huggingface.co/vectara/hallucination_evaluation_model) - an open source model that can be used to evaluate RAG responses for factual consistency.
 
 As part of the Vectara RAG, the "Factual Consistency Score" (or FCS), which is an improved version of the open source HHEM is made available via the API. This is automatically included in the output of the RAG pipeline
-
 
 ```python
 resp = rag.invoke(query_str)
 print(resp["answer"])
 print(f"Vectara FCS = {resp['fcs']}")
 ```
+
 ```output
 President Biden discussed several key topics in his recent statements. He emphasized the importance of keeping schools open and noted that with a high vaccination rate and reduced hospitalizations, most Americans can safely return to normal activities without masks [1]. He addressed the need to hold social media platforms accountable for their impact on children and called for stronger privacy protections and mental health services [2]. Biden also announced measures against Russian oligarchs, including closing American airspace to Russian flights and targeting their assets, as part of efforts to weaken Russia's economy [3], [7]. Additionally, he reaffirmed the need to protect women's rights, particularly the right to choose as affirmed in Roe v. Wade [5].
 Vectara FCS = 0.61621094
 ```
+
 ## Vectara as a langchain retriever
 
-The Vectara component can also be used just as a retriever. 
+The Vectara component can also be used just as a retriever.
 
 In this case, it behaves just like any other LangChain retriever. The main use of this mode is for semantic search, and in this case we disable summarization:
-
 
 ```python
 config.generation = None
@@ -197,8 +189,6 @@ config.search.limit = 5
 retriever = vectara.as_retriever(config=config)
 retriever.invoke(query_str)
 ```
-
-
 
 ```output
 [Document(metadata={'X-TIKA:Parsed-By': 'org.apache.tika.parser.csv.TextAndCSVParser', 'Content-Encoding': 'UTF-8', 'X-TIKA:detectedEncoding': 'UTF-8', 'X-TIKA:encodingDetector': 'UniversalEncodingDetector', 'Content-Type': 'text/plain; charset=UTF-8', 'source': 'text_file', 'framework': 'langchain'}, page_content='The U.S. Department of Justice is assembling a dedicated task force to go after the crimes of Russian oligarchs. We are joining with our European allies to find and seize your yachts your luxury apartments your private jets. We are coming for your ill-begotten gains. And tonight I am announcing that we will join our allies in closing off American air space to all Russian flights – further isolating Russia – and adding an additional squeeze –on their economy. The Ruble has lost 30% of its value.'),
@@ -208,9 +198,7 @@ retriever.invoke(query_str)
  Document(metadata={'X-TIKA:Parsed-By': 'org.apache.tika.parser.csv.TextAndCSVParser', 'Content-Encoding': 'UTF-8', 'X-TIKA:detectedEncoding': 'UTF-8', 'X-TIKA:encodingDetector': 'UniversalEncodingDetector', 'Content-Type': 'text/plain; charset=UTF-8', 'source': 'text_file', 'framework': 'langchain'}, page_content='Putin’s latest attack on Ukraine was premeditated and unprovoked. He rejected repeated efforts at diplomacy. He thought the West and NATO wouldn’t respond. And he thought he could divide us at home. We were ready.  Here is what we did.')]
 ```
 
-
 For backwards compatibility, you can also enable summarization with a retriever, in which case the summary is added as an additional Document object:
-
 
 ```python
 config.generation = GenerationConfig()
@@ -218,8 +206,6 @@ config.search.limit = 10
 retriever = vectara.as_retriever(config=config)
 retriever.invoke(query_str)
 ```
-
-
 
 ```output
 [Document(metadata={'X-TIKA:Parsed-By': 'org.apache.tika.parser.csv.TextAndCSVParser', 'Content-Encoding': 'UTF-8', 'X-TIKA:detectedEncoding': 'UTF-8', 'X-TIKA:encodingDetector': 'UniversalEncodingDetector', 'Content-Type': 'text/plain; charset=UTF-8', 'source': 'text_file', 'framework': 'langchain'}, page_content='We won’t be able to compete for the jobs of the 21st Century if we don’t fix that. That’s why it was so important to pass the Bipartisan Infrastructure Law—the most sweeping investment to rebuild America in history. This was a bipartisan effort, and I want to thank the members of both parties who worked to make it happen. We’re done talking about infrastructure weeks. We’re going to have an infrastructure decade.'),
@@ -235,13 +221,11 @@ retriever.invoke(query_str)
  Document(metadata={'summary': True, 'fcs': (0.54785156,)}, page_content='President Biden spoke about several key issues. He emphasized the importance of the Bipartisan Infrastructure Law, calling it the most significant investment to rebuild America and highlighting it as a bipartisan effort [1]. He also announced measures against Russian oligarchs, including assembling a task force to seize their assets and closing American airspace to Russian flights, further isolating Russia economically [2]. Additionally, he expressed a commitment to investigating the health impacts of burn pits on military personnel, referencing his son, Major Beau Biden, who suffered from brain cancer [3].')]
 ```
 
-
 ## Advanced LangChain query pre-processing with Vectara
 
 Vectara's "RAG as a service" does a lot of the heavy lifting in creating question answering or chatbot chains. The integration with LangChain provides the option to use additional capabilities such as query pre-processing  like `SelfQueryRetriever` or `MultiQueryRetriever`. Let's look at an example of using the [MultiQueryRetriever](https://python.langchain.com/docs/modules/data_connection/retrievers/MultiQueryRetriever).
 
 Since MQR uses an LLM we have to set that up - here we choose `ChatOpenAI`:
-
 
 ```python
 from langchain.retrievers.multi_query import MultiQueryRetriever
@@ -258,13 +242,9 @@ def get_summary(documents):
 (mqr | get_summary).invoke(query_str)
 ```
 
-
-
 ```output
 'The remarks made by Biden include his emphasis on the importance of the Bipartisan Infrastructure Law, which he describes as the most significant investment to rebuild America in history. He highlights the bipartisan effort involved in passing this law and expresses gratitude to members of both parties for their collaboration. Biden also mentions the transition from "infrastructure weeks" to an "infrastructure decade" [1]. Additionally, he shares a personal story about his father having to leave their home in Scranton, Pennsylvania, to find work, which influenced his decision to fight for the American Rescue Plan to help those in need [2].'
 ```
-
-
 
 ```python
 

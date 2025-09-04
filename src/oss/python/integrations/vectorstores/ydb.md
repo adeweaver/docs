@@ -10,13 +10,11 @@ This notebook shows how to use functionality related to the `YDB` vector store.
 
 First, set up a local YDB with Docker:
 
-
 ```python
 ! docker run -d -p 2136:2136 --name ydb-langchain -e YDB_USE_IN_MEMORY_PDISKS=true -h localhost ydbplatform/local-ydb:trunk
 ```
 
 You'll need to install `langchain-ydb` to use this integration
-
 
 ```python
 ! pip install -qU langchain-ydb
@@ -28,7 +26,6 @@ There are no credentials for this notebook, just make sure you have installed th
 
 If you want to get best in-class automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
-
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
 # os.environ["LANGSMITH_TRACING"] = "true"
@@ -38,8 +35,6 @@ If you want to get best in-class automated tracing of your model calls you can a
 
 <EmbeddingTabs/>
 
-
-
 ```python
 # | output: false
 # | echo: false
@@ -47,6 +42,7 @@ from langchain_openai import OpenAIEmbeddings
 
 embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
 ```
+
 ```output
 /Users/ovcharuk/opensource/langchain/.venv/lib/python3.13/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
   from .autonotebook import tqdm as notebook_tqdm
@@ -69,7 +65,6 @@ Once you have created your vector store, you can interact with it by adding and 
 ### Add items to vector store
 
 Prepare documents to work with:
-
 
 ```python
 from uuid import uuid4
@@ -143,14 +138,13 @@ uuids = [str(uuid4()) for _ in range(len(documents))]
 
 You can add items to your vector store by using the `add_documents` function.
 
-
 ```python
 vector_store.add_documents(documents=documents, ids=uuids)
 ```
+
 ```output
 Inserting data...: 100%|██████████| 10/10 [00:00<00:00, 14.67it/s]
 ```
-
 
 ```output
 ['947be6aa-d489-44c5-910e-62e4d58d2ffb',
@@ -165,22 +159,17 @@ Inserting data...: 100%|██████████| 10/10 [00:00<00:00, 14.6
  '46c37ba9-7cf2-4ac8-9bd1-d84e2cb1155c']
 ```
 
-
 ### Delete items from vector store
 
 You can delete items from your vector store by ID using the `delete` function.
-
 
 ```python
 vector_store.delete(ids=[uuids[-1]])
 ```
 
-
-
 ```output
 True
 ```
-
 
 ## Query vector store
 
@@ -192,7 +181,6 @@ Once your vector store has been created and relevant documents have been added, 
 
 A simple similarity search can be performed as follows:
 
-
 ```python
 results = vector_store.similarity_search(
     "LangChain provides abstractions to make working with LLMs easy", k=2
@@ -200,29 +188,31 @@ results = vector_store.similarity_search(
 for res in results:
     print(f"* {res.page_content} [{res.metadata}]")
 ```
+
 ```output
 * Building an exciting new project with LangChain - come check it out! [{'source': 'tweet'}]
 * LangGraph is the best framework for building stateful, agentic applications! [{'source': 'tweet'}]
 ```
+
 #### Similarity search with score
 
 You can also perform a search with a score:
-
 
 ```python
 results = vector_store.similarity_search_with_score("Will it be hot tomorrow?", k=3)
 for res, score in results:
     print(f"* [SIM={score:.3f}] {res.page_content} [{res.metadata}]")
 ```
+
 ```output
 * [SIM=0.595] The weather forecast for tomorrow is cloudy and overcast, with a high of 62 degrees. [{'source': 'news'}]
 * [SIM=0.212] I had chocolate chip pancakes and scrambled eggs for breakfast this morning. [{'source': 'tweet'}]
 * [SIM=0.118] Wow! That was an amazing movie. I can't wait to see it again. [{'source': 'tweet'}]
 ```
+
 ### Filtering
 
 You can search with filters as described below:
-
 
 ```python
 results = vector_store.similarity_search_with_score(
@@ -233,18 +223,19 @@ results = vector_store.similarity_search_with_score(
 for res, _ in results:
     print(f"* {res.page_content} [{res.metadata}]")
 ```
+
 ```output
 * I had chocolate chip pancakes and scrambled eggs for breakfast this morning. [{'source': 'tweet'}]
 * Wow! That was an amazing movie. I can't wait to see it again. [{'source': 'tweet'}]
 * Building an exciting new project with LangChain - come check it out! [{'source': 'tweet'}]
 * LangGraph is the best framework for building stateful, agentic applications! [{'source': 'tweet'}]
 ```
+
 ### Query by turning into retriever
 
 You can also transform the vector store into a retriever for easier usage in your chains.
 
 Here's how to transform your vector store into a retriever and then invoke the retriever with a simple query and filter.
-
 
 ```python
 retriever = vector_store.as_retriever(
@@ -256,10 +247,12 @@ results = retriever.invoke(
 for res in results:
     print(f"* {res.page_content} [{res.metadata}]")
 ```
+
 ```output
 * Robbers broke into the city bank and stole $1 million in cash. [{'source': 'news'}]
 * The stock market is down 500 points today due to fears of a recession. [{'source': 'news'}]
 ```
+
 ## Usage for retrieval-augmented generation
 
 For guides on how to use this vector store for retrieval-augmented generation (RAG), see the following sections:
@@ -270,4 +263,4 @@ For guides on how to use this vector store for retrieval-augmented generation (R
 
 ## API reference
 
-For detailed documentation of all `YDB` features and configurations head to the API reference:https://python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.ydb.YDB.html
+For detailed documentation of all `YDB` features and configurations head to the API reference:[python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.ydb.YDB.html](https://python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.ydb.YDB.html)

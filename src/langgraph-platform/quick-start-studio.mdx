@@ -27,9 +27,15 @@ For local development, if you don't want data traced to LangSmith, set `LANGSMIT
 
 Next, install the [LangGraph CLI](/langgraph-platform/langgraph-cli):
 
-```bash
+<CodeGroup>
+```bash pip
 pip install -U "langgraph-cli[inmem]"
 ```
+
+```bash uv
+uv add langgraph-cli[inmem]
+```
+</CodeGroup>
 
 Run:
 
@@ -48,11 +54,11 @@ You will see the following logs:
 
 ```
 > Ready!
-> 
+>
 > - API: [http://localhost:2024](http://localhost:2024/)
-> 
+>
 > - Docs: http://localhost:2024/docs
-> 
+>
 > - LangGraph Studio Web UI: https://smith.langchain.com/studio/?baseUrl=http://127.0.0.1:2024
 ```
 
@@ -69,20 +75,28 @@ If running your server at a different host or port, simply update the `baseUrl` 
 
 For step-by-step debugging with breakpoints and variable inspection:
 
-```bash
+<CodeGroup>
+```bash pip
 # Install debugpy package
 pip install debugpy
-
 # Start server with debugging enabled
 langgraph dev --debug-port 5678
 ```
 
+```bash uv
+# Install debugpy package
+uv add debugpy
+# Start server with debugging enabled
+langgraph dev --debug-port 5678
+```
+</CodeGroup>
+
 Then attach your preferred debugger:
 
 <Tabs>
-  <Tab title="VS Code">
+    <Tab title="VS Code">
     Add this configuration to `launch.json`:
-    
+
     ```json
     {
         "name": "Attach to LangGraph",
@@ -94,14 +108,14 @@ Then attach your preferred debugger:
         }
     }
     ```
-  </Tab>
-  <Tab title="PyCharm">
-    1. Go to Run → Edit Configurations 
-    2. Click + and select "Python Debug Server" 
-    3. Set IDE host name: `localhost` 
-    4. Set port: `5678` (or the port number you chose in the previous step) 
+    </Tab>
+    <Tab title="PyCharm">
+    1. Go to Run → Edit Configurations
+    2. Click + and select "Python Debug Server"
+    3. Set IDE host name: `localhost`
+    4. Set port: `5678` (or the port number you chose in the previous step)
     5. Click "OK" and start debugging
-  </Tab>
+    </Tab>
 </Tabs>
 
 ## Troubleshooting

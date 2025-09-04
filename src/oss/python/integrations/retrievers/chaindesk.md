@@ -9,7 +9,6 @@ This notebook shows how to use [Chaindesk's](https://www.chaindesk.ai/) retrieve
 
 First, you will need to sign up for Chaindesk, create a datastore, add some data and get your datastore api endpoint url. You need the [API Key](https://docs.chaindesk.ai/api-reference/authentication).
 
-
 ```python
 ```
 
@@ -17,10 +16,10 @@ First, you will need to sign up for Chaindesk, create a datastore, add some data
 
 Now that our index is set up, we can set up a retriever and start querying it.
 
-
 ```python
 from langchain_community.retrievers import ChaindeskRetriever
 ```
+
 ```python
 retriever = ChaindeskRetriever(
     datastore_url="https://clg1xg2h80000l708dymr0fxc.chaindesk.ai/query",
@@ -29,12 +28,9 @@ retriever = ChaindeskRetriever(
 )
 ```
 
-
 ```python
 retriever.invoke("What is Daftpage?")
 ```
-
-
 
 ```output
 [Document(page_content='✨ Made with DaftpageOpen main menuPricingTemplatesLoginSearchHelpGetting StartedFeaturesAffiliate ProgramGetting StartedDaftpage is a new type of website builder that works like a doc.It makes website building easy, fun and offers tons of powerful features for free. Just type / in your page to get started!DaftpageCopyright © 2022 Daftpage, Inc.All rights reserved.ProductPricingTemplatesHelp & SupportHelp CenterGetting startedBlogCompanyAboutRoadmapTwitterAffiliate Program👾 Discord', metadata={'source': 'https:/daftpage.com/help/getting-started', 'score': 0.8697265}),

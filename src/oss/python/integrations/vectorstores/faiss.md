@@ -16,13 +16,11 @@ The integration lives in the `langchain-community` package. We also need to inst
 
 Note that you can also install `faiss-gpu` if you want to use the GPU enabled version
 
-
 ```python
 pip install -qU langchain-community faiss-cpu
 ```
 
 If you want to get best in-class automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
-
 
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
@@ -33,8 +31,6 @@ If you want to get best in-class automated tracing of your model calls you can a
 
 <EmbeddingTabs/>
 
-
-
 ```python
 # | output: false
 # | echo: false
@@ -42,7 +38,6 @@ from langchain_openai import OpenAIEmbeddings
 
 embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
 ```
-
 
 ```python
 import faiss
@@ -62,7 +57,6 @@ vector_store = FAISS(
 ## Manage vector store
 
 ### Add items to vector store
-
 
 ```python
 from uuid import uuid4
@@ -136,8 +130,6 @@ uuids = [str(uuid4()) for _ in range(len(documents))]
 vector_store.add_documents(documents=documents, ids=uuids)
 ```
 
-
-
 ```output
 ['22f5ce99-cd6f-4e0c-8dab-664128307c72',
  'dc3f061b-5f88-4fa1-a966-413550c51891',
@@ -151,31 +143,25 @@ vector_store.add_documents(documents=documents, ids=uuids)
  '44e4be03-0a8d-4316-b3c4-f35f4bb2b532']
 ```
 
-
 ### Delete items from vector store
-
 
 ```python
 vector_store.delete(ids=[uuids[-1]])
 ```
 
-
-
 ```output
 True
 ```
 
-
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 
 ### Query directly
 
 #### Similarity search
 
 Performing a simple similarity search with filtering on metadata can be done as follows:
-
 
 ```python
 results = vector_store.similarity_search(
@@ -186,11 +172,14 @@ results = vector_store.similarity_search(
 for res in results:
     print(f"* {res.page_content} [{res.metadata}]")
 ```
+
 ```output
 * Building an exciting new project with LangChain - come check it out! [{'source': 'tweet'}]
 * LangGraph is the best framework for building stateful, agentic applications! [{'source': 'tweet'}]
 ```
+
 Some [MongoDB query and projection operators](https://www.mongodb.com/docs/manual/reference/operator/query/) are supported for more advanced metadata filtering. The current list of supported operators are as follows:
+
 - `$eq` (equals)
 - `$neq` (not equals)
 - `$gt` (greater than)
@@ -205,7 +194,6 @@ Some [MongoDB query and projection operators](https://www.mongodb.com/docs/manua
 
 Performing the same above similarity search with advanced metadata filtering can be done as follows:
 
-
 ```python
 results = vector_store.similarity_search(
     "LangChain provides abstractions to make working with LLMs easy",
@@ -215,14 +203,15 @@ results = vector_store.similarity_search(
 for res in results:
     print(f"* {res.page_content} [{res.metadata}]")
 ```
+
 ```output
 * Building an exciting new project with LangChain - come check it out! [{'source': 'tweet'}]
 * LangGraph is the best framework for building stateful, agentic applications! [{'source': 'tweet'}]
 ```
+
 #### Similarity search with score
 
 You can also search with score:
-
 
 ```python
 results = vector_store.similarity_search_with_score(
@@ -231,30 +220,27 @@ results = vector_store.similarity_search_with_score(
 for res, score in results:
     print(f"* [SIM={score:3f}] {res.page_content} [{res.metadata}]")
 ```
+
 ```output
 * [SIM=0.893688] The weather forecast for tomorrow is cloudy and overcast, with a high of 62 degrees. [{'source': 'news'}]
 ```
-#### Other search methods
 
+#### Other search methods
 
 There are a variety of other ways to search a FAISS vector store. For a complete list of those methods, please refer to the [API Reference](https://python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.faiss.FAISS.html)
 
 ### Query by turning into retriever
 
-You can also transform the vector store into a retriever for easier usage in your chains. 
-
+You can also transform the vector store into a retriever for easier usage in your chains.
 
 ```python
 retriever = vector_store.as_retriever(search_type="mmr", search_kwargs={"k": 1})
 retriever.invoke("Stealing from the bank is a crime", filter={"source": "news"})
 ```
 
-
-
 ```output
 [Document(metadata={'source': 'news'}, page_content='Robbers broke into the city bank and stole $1 million in cash.')]
 ```
-
 
 ## Usage for retrieval-augmented generation
 
@@ -265,8 +251,8 @@ For guides on how to use this vector store for retrieval-augmented generation (R
 - [Retrieval conceptual docs](https://python.langchain.com/docs/concepts/retrieval)
 
 ## Saving and loading
-You can also save and load a FAISS index. This is useful so you don't have to recreate it everytime you use it.
 
+You can also save and load a FAISS index. This is useful so you don't have to recreate it everytime you use it.
 
 ```python
 vector_store.save_local("faiss_index")
@@ -278,21 +264,17 @@ new_vector_store = FAISS.load_local(
 docs = new_vector_store.similarity_search("qux")
 ```
 
-
 ```python
 docs[0]
 ```
-
-
 
 ```output
 Document(metadata={'source': 'tweet'}, page_content='Building an exciting new project with LangChain - come check it out!')
 ```
 
-
 ## Merging
-You can also merge two FAISS vectorstores
 
+You can also merge two FAISS vectorstores
 
 ```python
 db1 = FAISS.from_texts(["foo"], embeddings)
@@ -301,43 +283,31 @@ db2 = FAISS.from_texts(["bar"], embeddings)
 db1.docstore._dict
 ```
 
-
-
 ```output
 {'b752e805-350e-4cf5-ba54-0883d46a3a44': Document(page_content='foo')}
 ```
-
-
 
 ```python
 db2.docstore._dict
 ```
 
-
-
 ```output
 {'08192d92-746d-4cd1-b681-bdfba411f459': Document(page_content='bar')}
 ```
-
-
 
 ```python
 db1.merge_from(db2)
 ```
 
-
 ```python
 db1.docstore._dict
 ```
-
-
 
 ```output
 {'b752e805-350e-4cf5-ba54-0883d46a3a44': Document(page_content='foo'),
  '08192d92-746d-4cd1-b681-bdfba411f459': Document(page_content='bar')}
 ```
 
-
 ## API reference
 
-For detailed documentation of all `FAISS` vector store features and configurations head to the API reference: https://python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.faiss.FAISS.html
+For detailed documentation of all `FAISS` vector store features and configurations head to the API reference: [python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.faiss.FAISS.html](https://python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.faiss.FAISS.html)

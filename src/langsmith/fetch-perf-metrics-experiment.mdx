@@ -4,11 +4,11 @@ sidebarTitle: Fetch performance metrics for an experiment
 ---
 
 <Check>
-  Tracing projects and experiments use the same underlying data structure in our backend, which is called a "session."
+Tracing projects and experiments use the same underlying data structure in our backend, which is called a "session."
 
-  You might see these terms interchangeably in our documentation, but they all refer to the same underlying data structure.
+You might see these terms interchangeably in our documentation, but they all refer to the same underlying data structure.
 
-  We are working on unifying the terminology across our documentation and APIs.
+We are working on unifying the terminology across our documentation and APIs.
 </Check>
 
 When you run an experiment using `evaluate` with the Python or TypeScript SDK, you can fetch the performance metrics for the experiment using the `read_project`/`readProject` methods.
@@ -165,9 +165,9 @@ const results = await evaluate(
     }
 );
 
-const resp = await client.readProject({ 
-    projectName: results.experimentName, 
-    includeStats: true 
+const resp = await client.readProject({
+    projectName: results.experimentName,
+    includeStats: true
 })
 console.log(JSON.stringify(resp, null, 2))
 ```

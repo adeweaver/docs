@@ -6,15 +6,18 @@ title: FireCrawlLoader
 This notebook provides a quick overview for getting started with [FireCrawlLoader](/oss/integrations/document_loaders/). For detailed documentation of all FireCrawlLoader features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_firecrawl.FireCrawlLoader.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [PY support](https://python.langchain.com/docs/integrations/document_loaders/firecrawl)|
 | :--- | :--- | :---: | :---: |  :---: |
-| [FireCrawlLoader](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_firecrawl.FireCrawlLoader.html) | [@langchain/community](https://api.js.langchain.com/modules/langchain_community_document_loaders_web_firecrawl.html) | 🟠 (see details below) | beta | ✅ | 
+| [FireCrawlLoader](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_firecrawl.FireCrawlLoader.html) | [@langchain/community](https://api.js.langchain.com/modules/langchain_community_document_loaders_web_firecrawl.html) | 🟠 (see details below) | beta | ✅ |
+
 ### Loader features
+
 | Source | Web Loader | Node Envs Only
-| :---: | :---: | :---: | 
-| FireCrawlLoader | ✅ | ❌ | 
+| :---: | :---: | :---: |
+| FireCrawlLoader | ✅ | ❌ |
 
 [FireCrawl](https://firecrawl.dev) crawls and convert any website into LLM-ready data. It crawls all accessible sub-pages and give you clean markdown and metadata for each. No sitemap required.
 
@@ -56,6 +59,7 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Here's an example of how to use the `FireCrawlLoader` to load web search results:
@@ -65,7 +69,6 @@ Firecrawl offers 3 modes: `scrape`, `crawl`, and `map`. In `scrape` mode, Firecr
 The `formats` (`scrapeOptions.formats` for `crawl` mode) parameter allows selection from `"markdown"`, `"html"`, or `"rawHtml"`. However, the Loaded Document will return content in only one format, prioritizing as follows: `markdown`, then `html`, and finally `rawHtml`.
 
 Now we can instantiate our model object and load documents:
-
 
 ```typescript
 import "@mendable/firecrawl-js";
@@ -81,13 +84,14 @@ const loader = new FireCrawlLoader({
   },
 })
 ```
-## Load
 
+## Load
 
 ```typescript
 const docs = await loader.load()
 docs[0]
 ```
+
 ```output
 Document {
   pageContent: "Introducing [Smart Crawl!](https://www.firecrawl.dev/smart-crawl)\n" +
@@ -110,11 +114,10 @@ Document {
 }
 ```
 
-
-
 ```typescript
 console.log(docs[0].metadata)
 ```
+
 ```output
 {
   title: "Home - Firecrawl",
@@ -131,10 +134,11 @@ console.log(docs[0].metadata)
   pageStatusCode: 500
 }
 ```
+
 ## Additional Parameters
 
 For `params` you can pass any of the params according to the [Firecrawl documentation](https://docs.firecrawl.dev).
 
 ## API reference
 
-For detailed documentation of all FireCrawlLoader features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_community_document_loaders_web_firecrawl.FireCrawlLoader.html
+For detailed documentation of all FireCrawlLoader features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_firecrawl.FireCrawlLoader.html).

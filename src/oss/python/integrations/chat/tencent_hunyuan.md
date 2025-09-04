@@ -2,21 +2,19 @@
 title: Tencent Hunyuan
 ---
 
->[Tencent's hybrid model API](https://cloud.tencent.com/document/product/1729) (`Hunyuan API`) 
-> implements dialogue communication, content generation, 
-> analysis and understanding, and can be widely used in various scenarios such as intelligent 
+>[Tencent's hybrid model API](https://cloud.tencent.com/document/product/1729) (`Hunyuan API`)
+> implements dialogue communication, content generation,
+> analysis and understanding, and can be widely used in various scenarios such as intelligent
 > customer service, intelligent marketing, role playing, advertising copywriting, product description,
 > script creation, resume generation, article writing, code generation, data analysis, and content
 > analysis.
 
 See [more information](https://cloud.tencent.com/document/product/1729) for more details.
 
-
 ```python
 from langchain_community.chat_models import ChatHunyuan
 from langchain_core.messages import HumanMessage
 ```
-
 
 ```python
 chat = ChatHunyuan(
@@ -25,7 +23,6 @@ chat = ChatHunyuan(
     hunyuan_secret_key="YOUR_SECRET_KEY",
 )
 ```
-
 
 ```python
 chat(
@@ -37,15 +34,11 @@ chat(
 )
 ```
 
-
-
 ```output
 AIMessage(content="J'aime programmer.")
 ```
 
-
 ## Using ChatHunyuan with Streaming
-
 
 ```python
 chat = ChatHunyuan(
@@ -56,7 +49,6 @@ chat = ChatHunyuan(
 )
 ```
 
-
 ```python
 chat(
     [
@@ -67,13 +59,9 @@ chat(
 )
 ```
 
-
-
 ```output
 AIMessageChunk(content="J'aime programmer.")
 ```
-
-
 
 ```python
 

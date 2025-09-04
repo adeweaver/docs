@@ -4,42 +4,33 @@ title: SearchApi
 
 This notebook shows examples of how to use SearchApi to search the web. Go to [https://www.searchapi.io/](https://www.searchapi.io/) to sign up for a free account and get API key.
 
-
 ```python
 import os
 
 os.environ["SEARCHAPI_API_KEY"] = ""
 ```
 
-
 ```python
 from langchain_community.utilities import SearchApiAPIWrapper
 ```
-
 
 ```python
 search = SearchApiAPIWrapper()
 ```
 
-
 ```python
 search.run("Obama's first name?")
 ```
-
-
 
 ```output
 'Barack Obama Full name: Barack Hussein Obama II'
 ```
 
-
 ## Using as part of a Self Ask With Search Chain
-
 
 ```python
 os.environ["OPENAI_API_KEY"] = ""
 ```
-
 
 ```python
 from langchain_community.utilities import SearchApiAPIWrapper
@@ -57,13 +48,11 @@ tools = [
 ]
 ```
 
-
 ```python
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
-agent = create_react_agent("openai:gpt-4.1-mini", tools)
+agent = create_agent("openai:gpt-4.1-mini", tools)
 ```
-
 
 ```python
 input_message = {
@@ -77,6 +66,7 @@ for step in agent.stream(
 ):
     step["messages"][-1].pretty_print()
 ```
+
 ```output
 ================================ Human Message =================================
 
@@ -118,40 +108,35 @@ Based on the information:
 
 Therefore, Plato lived longer than both Socrates and Aristotle.
 ```
+
 ## Custom parameters
 
-SearchApi wrapper can be customized to use different engines like [Google News](https://www.searchapi.io/docs/google-news), [Google Jobs](https://www.searchapi.io/docs/google-jobs), [Google Scholar](https://www.searchapi.io/docs/google-scholar), or others which can be found in [SearchApi](https://www.searchapi.io/docs/google) documentation. All parameters supported by SearchApi can be passed when executing the query. 
-
+SearchApi wrapper can be customized to use different engines like [Google News](https://www.searchapi.io/docs/google-news), [Google Jobs](https://www.searchapi.io/docs/google-jobs), [Google Scholar](https://www.searchapi.io/docs/google-scholar), or others which can be found in [SearchApi](https://www.searchapi.io/docs/google) documentation. All parameters supported by SearchApi can be passed when executing the query.
 
 ```python
 search = SearchApiAPIWrapper(engine="google_jobs")
 ```
 
-
 ```python
 search.run("AI Engineer", location="Portugal", gl="pt")[0:500]
 ```
-
-
 
 ```output
 'No good search result found'
 ```
 
-
 ## Getting results with metadata
-
 
 ```python
 import pprint
 ```
-
 
 ```python
 search = SearchApiAPIWrapper(engine="google_scholar")
 results = search.results("Large Language Models")
 pprint.pp(results)
 ```
+
 ```output
 {'search_metadata': {'id': 'search_6Lpb2Z8vDqdsPRbrGkVgQzRy',
                      'status': 'Success',

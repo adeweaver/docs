@@ -8,13 +8,11 @@ This example goes over how to use LangChain to conduct embedding tasks with `ipe
 
 ## Setup
 
-
 ```python
 %pip install -qU langchain langchain-community
 ```
 
 Install IPEX-LLM for optimizations on Intel CPU, as well as `sentence-transformers`.
-
 
 ```python
 %pip install --pre --upgrade ipex-llm[all] --extra-index-url https://download.pytorch.org/whl/cpu
@@ -27,7 +25,6 @@ Install IPEX-LLM for optimizations on Intel CPU, as well as `sentence-transforme
 
 ## Basic Usage
 
-
 ```python
 from langchain_community.embeddings import IpexLLMBgeEmbeddings
 
@@ -39,8 +36,8 @@ embedding_model = IpexLLMBgeEmbeddings(
 ```
 
 API Reference
-- [IpexLLMBgeEmbeddings](https://python.langchain.com/api_reference/community/embeddings/langchain_community.embeddings.ipex_llm.IpexLLMBgeEmbeddings.html)
 
+- [IpexLLMBgeEmbeddings](https://python.langchain.com/api_reference/community/embeddings/langchain_community.embeddings.ipex_llm.IpexLLMBgeEmbeddings.html)
 
 ```python
 sentence = "IPEX-LLM is a PyTorch library for running LLM on Intel CPU and GPU (e.g., local PC with iGPU, discrete GPU such as Arc, Flex and Max) with very low latency."

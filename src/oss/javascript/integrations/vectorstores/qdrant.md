@@ -9,6 +9,7 @@ title: QdrantVectorStore
 Only available on Node.js.
 </Tip>
 ```
+
 [Qdrant](https://qdrant.tech/) is a vector similarity search engine. It provides a production-ready service with a convenient API to store, search, and manage points - vectors with an additional payload.
 
 This guide provides a quick overview for getting started with Qdrant [vector stores](/oss/concepts/#vectorstores). For detailed documentation of all `QdrantVectorStore` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_qdrant.QdrantVectorStore.html).
@@ -35,6 +36,7 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/qdrant @langchain/core @langchain/openai
 </Npm2Yarn>
 ```
+
 After installing the required dependencies, run a Qdrant instance with Docker on your computer by following the [Qdrant setup instructions](https://qdrant.tech/documentation/quickstart/). Note the URL your container runs on.
 
 ### Credentials
@@ -45,19 +47,21 @@ Once you've done this set a `QDRANT_URL` environment variable:
 // e.g. http://localhost:6333
 process.env.QDRANT_URL = "your-qdrant-url"
 ```
+
 If you are using OpenAI embeddings for this guide, you'll need to set your OpenAI key as well:
 
 ```typescript
 process.env.OPENAI_API_KEY = "YOUR_API_KEY";
 ```
+
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
 ```typescript
 // process.env.LANGSMITH_TRACING="true"
 // process.env.LANGSMITH_API_KEY="your-api-key"
 ```
-## Instantiation
 
+## Instantiation
 
 ```typescript
 import { QdrantVectorStore } from "@langchain/qdrant";
@@ -72,10 +76,10 @@ const vectorStore = await QdrantVectorStore.fromExistingCollection(embeddings, {
   collectionName: "langchainjs-testing",
 });
 ```
+
 ## Manage vector store
 
 ### Add items to vector store
-
 
 ```typescript
 import type { Document } from "@langchain/core/documents";
@@ -104,16 +108,16 @@ const documents = [document1, document2, document3, document4];
 
 await vectorStore.addDocuments(documents);
 ```
+
 Top-level document ids and deletion are currently not supported.
 
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 
 ### Query directly
 
 Performing a simple similarity search can be done as follows:
-
 
 ```typescript
 const filter = {
@@ -128,14 +132,15 @@ for (const doc of similaritySearchResults) {
   console.log(`* ${doc.pageContent} [${JSON.stringify(doc.metadata, null)}]`);
 }
 ```
+
 ```output
 * The powerhouse of the cell is the mitochondria [{"source":"https://example.com"}]
 * Mitochondria are made out of lipids [{"source":"https://example.com"}]
 ```
+
 See [this page](https://qdrant.tech/documentation/concepts/filtering/) for more on Qdrant filter syntax. Note that all values must be prefixed with `metadata.`
 
 If you want to execute a similarity search and receive the corresponding scores you can run:
-
 
 ```typescript
 const similaritySearchWithScoreResults = await vectorStore.similaritySearchWithScore("biology", 2, filter)
@@ -144,14 +149,15 @@ for (const [doc, score] of similaritySearchWithScoreResults) {
   console.log(`* [SIM=${score.toFixed(3)}] ${doc.pageContent} [${JSON.stringify(doc.metadata)}]`);
 }
 ```
+
 ```output
 * [SIM=0.165] The powerhouse of the cell is the mitochondria [{"source":"https://example.com"}]
 * [SIM=0.148] Mitochondria are made out of lipids [{"source":"https://example.com"}]
 ```
+
 ### Query by turning into retriever
 
-You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains. 
-
+You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains.
 
 ```typescript
 const retriever = vectorStore.asRetriever({
@@ -161,6 +167,7 @@ const retriever = vectorStore.asRetriever({
 });
 await retriever.invoke("biology");
 ```
+
 ```output
 [
   Document {
@@ -175,6 +182,7 @@ await retriever.invoke("biology");
   }
 ]
 ```
+
 ### Usage for retrieval-augmented generation
 
 For guides on how to use this vector store for retrieval-augmented generation (RAG), see the following sections:

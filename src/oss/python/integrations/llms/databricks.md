@@ -4,7 +4,6 @@ title: Databricks
 
 > [Databricks](https://www.databricks.com/) Lakehouse Platform unifies data, analytics, and AI on one platform.
 
-
 This guide provides a quick overview for getting started with Databricks [LLM models](https://python.langchain.com/docs/concepts/text_llms). For detailed documentation of all features and configurations head to the [API reference](https://python.langchain.com/api_reference/community/llms/langchain_community.llms.databricks.Databricks.html).
 
 ## Overview
@@ -25,7 +24,6 @@ The `Databricks` LLM class is *legacy* implementation and has several limitation
 
 To use those features, please use the new [ChatDatabricks](https://python.langchain.com/docs/integrations/chat/databricks) class instead. `ChatDatabricks` supports all APIs of `ChatModel` including streaming, async, batch, etc.
 
-
 ## Setup
 
 To access Databricks models you'll need to create a Databricks account, set up credentials (only if you are outside Databricks workspace), and install required packages.
@@ -35,7 +33,6 @@ To access Databricks models you'll need to create a Databricks account, set up c
 If you are running LangChain app inside Databricks, you can skip this step.
 
 Otherwise, you need manually set the Databricks workspace hostname and personal access token to `DATABRICKS_HOST` and `DATABRICKS_TOKEN` environment variables, respectively. See [Authentication Documentation](https://docs.databricks.com/en/dev-tools/auth/index.html#databricks-personal-access-tokens) for how to get an access token.
-
 
 ```python
 import getpass
@@ -50,7 +47,6 @@ if "DATABRICKS_TOKEN" not in os.environ:
 
 Alternatively, you can pass those parameters when initializing the `Databricks` class.
 
-
 ```python
 from langchain_community.llms import Databricks
 
@@ -59,14 +55,13 @@ databricks = Databricks(
     # We strongly recommend NOT to hardcode your access token in your code, instead use secret management tools
     # or environment variables to store your access token securely. The following example uses Databricks Secrets
     # to retrieve the access token that is available within the Databricks notebook.
-    token=dbutils.secrets.get(scope="YOUR_SECRET_SCOPE", key="databricks-token"),  
+    token=dbutils.secrets.get(scope="YOUR_SECRET_SCOPE", key="databricks-token"),
 )
 ```
 
 ### Installation
 
-The LangChain Databricks integration lives in the `langchain-community` package. Also, `mlflow >= 2.9 ` is required to run the code in this notebook.
-
+The LangChain Databricks integration lives in the `langchain-community` package. Also, `mlflow >= 2.9` is required to run the code in this notebook.
 
 ```python
 %pip install -qU langchain-community mlflow>=2.9.0
@@ -74,19 +69,17 @@ The LangChain Databricks integration lives in the `langchain-community` package.
 
 ## Wrapping Model Serving Endpoint
 
-### Prerequisites:
+### Prerequisites
 
 * An LLM was registered and deployed to [a Databricks serving endpoint](https://docs.databricks.com/machine-learning/model-serving/index.html).
 * You have ["Can Query" permission](https://docs.databricks.com/security/auth-authz/access-control/serving-endpoint-acl.html) to the endpoint.
 
 The expected MLflow model signature is:
 
-  * inputs: `[{"name": "prompt", "type": "string"}, {"name": "stop", "type": "list[string]"}]`
-  * outputs: `[{"type": "string"}]`
-
+* inputs: `[{"name": "prompt", "type": "string"}, {"name": "stop", "type": "list[string]"}]`
+* outputs: `[{"type": "string"}]`
 
 ### Invocation
-
 
 ```python
 from langchain_community.llms import Databricks
@@ -95,29 +88,21 @@ llm = Databricks(endpoint_name="YOUR_ENDPOINT_NAME")
 llm.invoke("How are you?")
 ```
 
-
-
 ```output
 'I am happy to hear that you are in good health and as always, you are appreciated.'
 ```
-
-
 
 ```python
 llm.invoke("How are you?", stop=["."])
 ```
 
-
-
 ```output
 'Good'
 ```
 
-
 ### Transform Input and Output
 
 Sometimes you may want to wrap a serving endpoint that has imcompatible model signature or you want to insert extra configs. You can use the `transform_input_fn` and `transform_output_fn` arguments to define additional pre/post process.
-
 
 ```python
 # Use `transform_input_fn` and `transform_output_fn` if the serving endpoint
@@ -145,8 +130,6 @@ llm = Databricks(
 
 llm.invoke("How are you?")
 ```
-
-
 
 ```output
 'I AM DOING GREAT THANK YOU.'

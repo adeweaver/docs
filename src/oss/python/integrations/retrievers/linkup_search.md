@@ -16,7 +16,6 @@ This will help you get started with the LinkupSearchRetriever [retriever](/oss/c
 
 To use the Linkup provider, you need a valid API key, which you can find by signing-up [here](https://app.linkup.so/sign-up). You can then set it up as the `LINKUP_API_KEY` environment variable. For the chain example below, you also need to set an OpenAI API key as `OPENAI_API_KEY` environment variable, which you can also do here:
 
-
 ```python
 # import os
 # os.environ["LINKUP_API_KEY"] = ""  # Fill with your API key
@@ -24,7 +23,6 @@ To use the Linkup provider, you need a valid API key, which you can find by sign
 ```
 
 If you want to get automated tracing from individual queries, you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
-
 
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -35,7 +33,6 @@ If you want to get automated tracing from individual queries, you can also set y
 
 This retriever lives in the `langchain-linkup` package:
 
-
 ```python
 %pip install -qU langchain-linkup
 ```
@@ -43,7 +40,6 @@ This retriever lives in the `langchain-linkup` package:
 ## Instantiation
 
 Now we can instantiate our retriever:
-
 
 ```python
 from langchain_linkup import LinkupSearchRetriever
@@ -56,14 +52,11 @@ retriever = LinkupSearchRetriever(
 
 ## Usage
 
-
 ```python
 query = "Who won the latest US presidential elections?"
 
 retriever.invoke(query)
 ```
-
-
 
 ```output
 [Document(metadata={'name': 'US presidential election results 2024: Harris vs. Trump | Live maps ...', 'url': 'https://www.reuters.com/graphics/USA-ELECTION/RESULTS/zjpqnemxwvx/'}, page_content='Updated results from the 2024 election for the US president. Reuters live coverage of the 2024 US President, Senate, House and state governors races.'),
@@ -79,7 +72,6 @@ retriever.invoke(query)
  Document(metadata={'name': 'Presidential Election 2024 Live Results: Donald Trump winsNBC News LogoSearchSearchNBC News LogoMSNBC LogoToday Logo', 'url': 'https://www.nbcnews.com/politics/2024-elections/president-results'}, page_content="Profile\n\nSections\n\nLocal\n\ntv\n\nFeatured\n\nMore From NBC\n\nFollow NBC News\n\nnews Alerts\n\nThere are no new alerts at this time\n\n2024 President Results: Trump wins\n==================================\n\nDonald Trump has secured more than the 270 Electoral College votes needed to secure the presidency, NBC News projects.\n\nRaces to watch\n--------------\n\nAll Presidential races\n----------------------\n\nElection Night Coverage\n-----------------------\n\n### China competition should be top priority for Trump, Sullivan says, as Biden and Xi prepare for final meeting\n\n### Jim Himes says 'truth and analysis are not what drive’ Gabbard and Gaetz\n\n### Trump praises RFK Jr. in Mar-a-Lago remarks\n\n### Trump announces North Dakota Gov. Doug Burgum as his pick for interior secretary\n\n### House Ethics Committee cancels meeting at which Gaetz probe was on the agenda\n\n### Trump picks former Rep. Doug Collins for veterans affairs secretary\n\n### Trump to nominate his criminal defense lawyer for deputy attorney general\n\n### From ‘brilliant’ to ‘dangerous’: Mixed reactions roll in after Trump picks RFK Jr. for top health post\n\n### Donald Trump Jr. says he played key role in RFK Jr., Tulsi Gabbard picks\n\n### Jared Polis offers surprising words of support for RFK Jr. pick for HHS secretary\n\nNational early voting\n---------------------\n\n### 88,233,886 mail-in and early in-person votes cast nationally\n\n### 65,676,748 mail-in and early in-person votes requested nationally\n\nPast Presidential Elections\n---------------------------\n\n### Vote Margin by State in the 2020 Presidential Election\n\nCircle size represents the number electoral votes in that state.\n\nThe expected vote is the total number of votes that are expected in a given race once all votes are counted. This number is an estimate and is based on several different factors, including information on the number of votes cast early as well as information provided to our vote reporters on Election Day from county election officials. The figure can change as NBC News gathers new information.\n\n**Source**: [National Election Pool (NEP)](https://www.nbcnews.com/politics/2024-elections/how-election-data-is-collected )\n\n2024 election results\n---------------------\n\nElection Night Coverage\n-----------------------\n\n### China competition should be top priority for Trump, Sullivan says, as Biden and Xi prepare for final meeting\n\n### Jim Himes says 'truth and analysis are not what drive’ Gabbard and Gaetz\n\n### Trump praises RFK Jr. in Mar-a-Lago remarks\n\n©\xa02024 NBCUniversal Media, LLC")]
 ```
 
-
 ## Use within a chain
 
 Like other retrievers, LinkupSearchRetriever can be incorporated into LLM applications via [chains](/oss/how-to/sequence/).
@@ -89,6 +81,7 @@ We will need a LLM or chat model:
 ```{=mdx}
 <ChatModelTabs customVarName="llm" />
 ```
+
 ```python
 # | output: false
 # | echo: false
@@ -97,7 +90,6 @@ from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(model="gpt-3.5-turbo-0125", temperature=0)
 ```
-
 
 ```python
 from langchain_core.output_parsers import StrOutputParser
@@ -125,17 +117,13 @@ chain = (
 )
 ```
 
-
 ```python
 chain.invoke("Who won the 3 latest US presidential elections?")
 ```
 
-
-
 ```output
 'The 3 latest US presidential elections were won by Joe Biden in 2020, Donald Trump in 2016, and Barack Obama in 2012.'
 ```
-
 
 ## API reference
 

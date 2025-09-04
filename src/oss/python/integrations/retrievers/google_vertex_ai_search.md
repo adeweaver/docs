@@ -16,13 +16,11 @@ For detailed documentation of all `VertexAISearchRetriever` features and configu
 
 <ItemTable category="document_retrievers" item="VertexAISearchRetriever" />
 
-
 ## Setup
 
 ### Installation
 
 You need to install the `langchain-google-community` and `google-cloud-discoveryengine` packages to use the Vertex AI Search retriever.
-
 
 ```python
 %pip install -qU langchain-google-community google-cloud-discoveryengine
@@ -34,14 +32,12 @@ Vertex AI Search is generally available without allowlist as of August 2023.
 
 Before you can use the retriever, you need to complete the following steps:
 
-
 #### Create a search engine and populate an unstructured data store
 
 - Follow the instructions in the [Vertex AI Search Getting Started guide](https://cloud.google.com/generative-ai-app-builder/docs/try-enterprise-search) to set up a Google Cloud project and Vertex AI Search.
 - [Use the Google Cloud Console to create an unstructured data store](https://cloud.google.com/generative-ai-app-builder/docs/create-engine-es#unstructured-data)
   - Populate it with the example PDF documents from the `gs://cloud-samples-data/gen-app-builder/search/alphabet-investor-pdfs` Cloud Storage folder.
   - Make sure to use the `Cloud Storage (without metadata)` option.
-
 
 #### Set credentials to access Vertex AI Search API
 
@@ -50,8 +46,6 @@ Client libraries support [Application Default Credentials (ADC)](https://cloud.g
 With ADC, you can make credentials available to your application in a variety of environments, such as local development or production, without needing to modify your application code.
 
 If running in [Google Colab](https://colab.google) authenticate with `google.colab.google.auth` otherwise follow one of the [supported methods](https://cloud.google.com/docs/authentication/application-default-credentials) to make sure that you Application Default Credentials are properly set.
-
-
 
 ```python
 import sys
@@ -83,7 +77,7 @@ NOTE: Extractive segments require the [Enterprise edition](https://cloud.google.
 
 When creating an instance of the retriever you can specify a number of parameters that control which data store to access and how a natural language query is processed, including configurations for extractive answers and segments.
 
-#### The mandatory parameters are:
+#### The mandatory parameters are
 
 - `project_id` - Your Google Cloud Project ID.
 - `location_id` - The location of the data store.
@@ -92,6 +86,7 @@ When creating an instance of the retriever you can specify a number of parameter
   - `eu`
 
 One of:
+
 - `search_engine_id` - The ID of the search app you want to use. (Required for Blended Search)
 - `data_store_id` - The ID of the data store you want to use.
 
@@ -126,9 +121,7 @@ To update to the new retriever, make the following changes:
 - Change the import from: `from langchain.retrievers import GoogleCloudEnterpriseSearchRetriever` -> `from langchain_google_community import VertexAISearchRetriever`.
 - Change all class references from `GoogleCloudEnterpriseSearchRetriever` -> `VertexAISearchRetriever`.
 
-
 Note: When using the retriever, if you want to get automated tracing from individual queries, you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
-
 
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -138,7 +131,6 @@ Note: When using the retriever, if you want to get automated tracing from indivi
 ## Instantiation
 
 ### Configure and use the retriever for **unstructured** data with extractive segments
-
 
 ```python
 from langchain_google_community import (
@@ -152,7 +144,6 @@ SEARCH_ENGINE_ID = "<YOUR SEARCH APP ID>"  # Set to your search app ID
 DATA_STORE_ID = "<YOUR DATA STORE ID>"  # Set to your data store ID
 ```
 
-
 ```python
 retriever = VertexAISearchRetriever(
     project_id=PROJECT_ID,
@@ -161,7 +152,6 @@ retriever = VertexAISearchRetriever(
     max_documents=3,
 )
 ```
-
 
 ```python
 query = "What are Alphabet's Other Bets?"
@@ -172,8 +162,6 @@ for doc in result:
 ```
 
 ### Configure and use the retriever for **unstructured** data with extractive answers
-
-
 
 ```python
 retriever = VertexAISearchRetriever(
@@ -192,8 +180,6 @@ for doc in result:
 
 ### Configure and use the retriever for **structured** data
 
-
-
 ```python
 retriever = VertexAISearchRetriever(
     project_id=PROJECT_ID,
@@ -209,8 +195,6 @@ for doc in result:
 ```
 
 ### Configure and use the retriever for **website** data with Advanced Website Indexing
-
-
 
 ```python
 retriever = VertexAISearchRetriever(
@@ -230,8 +214,6 @@ for doc in result:
 
 ### Configure and use the retriever for **blended** data
 
-
-
 ```python
 retriever = VertexAISearchRetriever(
     project_id=PROJECT_ID,
@@ -249,8 +231,6 @@ for doc in result:
 ### Configure and use the retriever for multi-turn search
 
 [Search with follow-ups](https://cloud.google.com/generative-ai-app-builder/docs/multi-turn-search) is based on generative AI models and it is different from the regular unstructured data search.
-
-
 
 ```python
 retriever = VertexAIMultiTurnSearchRetriever(
@@ -270,11 +250,9 @@ Following the above examples, we use `.invoke` to issue a single query. Because 
 
 We can also incorporate retrievers into [chains](/oss/how-to/sequence/) to build larger applications, such as a simple [RAG](/oss/tutorials/rag/) application. For demonstration purposes, we instantiate a VertexAI chat model as well. See the corresponding Vertex [integration docs](/oss/integrations/chat/google_vertex_ai_palm/) for setup instructions.
 
-
 ```python
 %pip install -qU langchain-google-vertexai
 ```
-
 
 ```python
 from langchain_core.output_parsers import StrOutputParser
@@ -304,7 +282,6 @@ chain = (
     | StrOutputParser()
 )
 ```
-
 
 ```python
 chain.invoke(query)

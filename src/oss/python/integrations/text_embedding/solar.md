@@ -6,35 +6,28 @@ title: Solar
 
 This example goes over how to use LangChain to interact with Solar Inference for text embedding.
 
-
 ```python
 import os
 
 os.environ["SOLAR_API_KEY"] = ""
 ```
 
-
 ```python
 from langchain_community.embeddings import SolarEmbeddings
 ```
 
-
 ```python
 embeddings = SolarEmbeddings()
 ```
-
 
 ```python
 query_text = "This is a test query."
 query_result = embeddings.embed_query(query_text)
 ```
 
-
 ```python
 query_result
 ```
-
-
 
 ```output
 [-0.009612835943698883,
@@ -1040,19 +1033,14 @@ query_result
  ...]
 ```
 
-
-
 ```python
 document_text = "This is a test document."
 document_result = embeddings.embed_documents([document_text])
 ```
 
-
 ```python
 document_result
 ```
-
-
 
 ```output
 [[-0.019484492018818855,
@@ -2058,8 +2046,6 @@ document_result
   ...]]
 ```
 
-
-
 ```python
 import numpy as np
 
@@ -2070,6 +2056,7 @@ similarity = np.dot(query_numpy, document_numpy) / (
 )
 print(f"Cosine similarity between document and query: {similarity}")
 ```
+
 ```output
 Cosine similarity between document and query: 0.8685132879722154
 ```

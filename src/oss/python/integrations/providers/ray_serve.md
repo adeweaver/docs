@@ -2,19 +2,19 @@
 title: Ray Serve
 ---
 
-[Ray Serve](https://docs.ray.io/en/latest/serve/index.html) is a scalable model serving library for building online inference APIs. Serve is particularly well suited for system composition, enabling you to build a complex inference service consisting of multiple chains and business logic all in Python code. 
+[Ray Serve](https://docs.ray.io/en/latest/serve/index.html) is a scalable model serving library for building online inference APIs. Serve is particularly well suited for system composition, enabling you to build a complex inference service consisting of multiple chains and business logic all in Python code.
 
 ## Goal of this notebook
+
 This notebook shows a simple example of how to deploy an OpenAI chain into production. You can extend it to deploy your own self-hosted models where you can easily define amount of hardware resources (GPUs and CPUs) needed to run your model in production efficiently. Read more about available options including autoscaling in the Ray Serve [documentation](https://docs.ray.io/en/latest/serve/getting_started.html).
 
-
 ## Setup Ray Serve
-Install ray with `pip install ray[serve]`. 
+
+Install ray with `pip install ray[serve]`.
 
 ## General Skeleton
 
 The general skeleton for deploying a service is the following:
-
 
 ```python
 # 0: Import ray serve and request from starlette
@@ -42,7 +42,6 @@ deployment = LLMServe.bind()
 serve.api.run(deployment)
 ```
 
-
 ```python
 # Shutdown the deployment
 serve.api.shutdown()
@@ -52,20 +51,17 @@ serve.api.shutdown()
 
 Get an OpenAI API key from [here](https://platform.openai.com/account/api-keys). By running the following code, you will be asked to provide your API key.
 
-
 ```python
 from langchain.chains import LLMChain
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import OpenAI
 ```
 
-
 ```python
 from getpass import getpass
 
 OPENAI_API_KEY = getpass()
 ```
-
 
 ```python
 @serve.deployment
@@ -91,14 +87,12 @@ class DeployLLM:
 
 Now we can bind the deployment.
 
-
 ```python
 # Bind the model to deployment
 deployment = DeployLLM.bind()
 ```
 
-We can assign the port number and host when we want to run the deployment. 
-
+We can assign the port number and host when we want to run the deployment.
 
 ```python
 # Example port number
@@ -108,7 +102,6 @@ serve.api.run(deployment, port=PORT_NUMBER)
 ```
 
 Now that service is deployed on port `localhost:8282` we can send a post request to get the results back.
-
 
 ```python
 import requests

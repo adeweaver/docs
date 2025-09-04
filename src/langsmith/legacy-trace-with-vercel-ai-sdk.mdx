@@ -4,7 +4,7 @@ sidebarTitle: Trace with the Vercel AI SDK (Legacy)
 ---
 
 <Warning>
-  This page documents an older method of tracing AI SDK runs. For a simpler and more general method that does not require OTEL setup, see [the new guide](/langsmith/trace-with-vercel-ai-sdk).
+This page documents an older method of tracing AI SDK runs. For a simpler and more general method that does not require OTEL setup, see [the new guide](/langsmith/trace-with-vercel-ai-sdk).
 </Warning>
 
 You can use LangSmith to trace runs from the Vercel AI SDK using OpenTelemetry (OTEL). This guide will walk through an example.
@@ -77,7 +77,7 @@ const { DEFAULT_LANGSMITH_SPAN_PROCESSOR } = initializeOTEL();
 Afterwards, add the `experimental_telemetry` argument to your AI SDK calls that you want to trace.
 
 <Info>
-  Do not forget to call `await DEFAULT_LANGSMITH_SPAN_PROCESSOR.shutdown();` before your application shuts down in order to flush any remaining traces to LangSmith.
+Do not forget to call `await DEFAULT_LANGSMITH_SPAN_PROCESSOR.shutdown();` before your application shuts down in order to flush any remaining traces to LangSmith.
 </Info>
 
 ```typescript
@@ -264,23 +264,23 @@ You can also wrap parts of your code in `traceables` for more granularity.
 If you're using Sentry, you can attach the LangSmith trace exporter to Sentry's default OpenTelemetry instrumentation as show in the example below.
 
 <Warning>
-  At time of writing, Sentry only supports OTEL v1 packages. LangSmith supports both v1 and v2, but you **must** make sure you install OTEL v1 packages in order to make instrumentation work.
+At time of writing, Sentry only supports OTEL v1 packages. LangSmith supports both v1 and v2, but you **must** make sure you install OTEL v1 packages in order to make instrumentation work.
 
-  <CodeGroup>
+<CodeGroup>
 
-  ```bash npm
-  npm install @opentelemetry/sdk-trace-base@1.30.1 @opentelemetry/exporter-trace-otlp-proto@0.57.2 @opentelemetry/context-async-hooks@1.30.1
-  ```
+```bash npm
+npm install @opentelemetry/sdk-trace-base@1.30.1 @opentelemetry/exporter-trace-otlp-proto@0.57.2 @opentelemetry/context-async-hooks@1.30.1
+```
 
-  ```bash yarn
-  yarn add @opentelemetry/sdk-trace-base@1.30.1 @opentelemetry/exporter-trace-otlp-proto@0.57.2 @opentelemetry/context-async-hooks@1.30.1
-  ```
+```bash yarn
+yarn add @opentelemetry/sdk-trace-base@1.30.1 @opentelemetry/exporter-trace-otlp-proto@0.57.2 @opentelemetry/context-async-hooks@1.30.1
+```
 
-  ```bash pnpm
-  pnpm add @opentelemetry/sdk-trace-base@1.30.1 @opentelemetry/exporter-trace-otlp-proto@0.57.2 @opentelemetry/context-async-hooks@1.30.1
-  ```
+```bash pnpm
+pnpm add @opentelemetry/sdk-trace-base@1.30.1 @opentelemetry/exporter-trace-otlp-proto@0.57.2 @opentelemetry/context-async-hooks@1.30.1
+```
 
-  </CodeGroup>
+</CodeGroup>
 </Warning>
 
 ```typescript

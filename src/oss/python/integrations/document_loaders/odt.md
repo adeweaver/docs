@@ -8,7 +8,6 @@ title: Open Document Format (ODT)
 
 The `UnstructuredODTLoader` is used to load `Open Office ODT` files.
 
-
 ```python
 from langchain_community.document_loaders import UnstructuredODTLoader
 
@@ -17,13 +16,9 @@ docs = loader.load()
 docs[0]
 ```
 
-
-
 ```output
 Document(page_content='Lorem ipsum dolor sit amet.', metadata={'source': 'example_data/fake.odt', 'category_depth': 0, 'file_directory': 'example_data', 'filename': 'fake.odt', 'last_modified': '2023-12-19T13:42:18', 'languages': ['por', 'cat'], 'filetype': 'application/vnd.oasis.opendocument.text', 'category': 'Title'})
 ```
-
-
 
 ```python
 

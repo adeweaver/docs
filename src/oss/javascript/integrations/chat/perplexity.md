@@ -5,6 +5,7 @@ title: ChatPerplexity
 This guide will help you getting started with Perplexity [chat models](/oss/concepts/#chat-models). For detailed documentation of all `ChatPerplexity` features and configurations head to the [API reference](https://api.js.langchain.com/classes/_langchain_community.chat_models_perplexity.ChatPerplexity.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [PY support](https://python.langchain.com/docs/integrations/chat/perplexity/) | Package downloads | Package latest |
@@ -17,7 +18,7 @@ See the links in the table headers below for guides on how to use specific featu
 
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: |
-| ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | 
+| ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ |
 
 Note that at the time of writing, Perplexity only supports structured outputs on certain usage tiers.
 
@@ -27,7 +28,7 @@ To access Perplexity models you'll need to create a Perplexity account, get an A
 
 ### Credentials
 
-Head to https://perplexity.ai to sign up for Perplexity and generate an API key. Once you've done this set the `PERPLEXITY_API_KEY` environment variable:
+Head to [https://perplexity.ai](https://perplexity.ai) to sign up for Perplexity and generate an API key. Once you've done this set the `PERPLEXITY_API_KEY` environment variable:
 
 ```bash
 export PERPLEXITY_API_KEY="your-api-key"
@@ -53,10 +54,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```typescript
 import { ChatPerplexity } from "@langchain/community/chat_models/perplexity"
@@ -70,8 +71,8 @@ const llm = new ChatPerplexity({
   // other params...
 })
 ```
-## Invocation
 
+## Invocation
 
 ```typescript
 const aiMsg = await llm.invoke([
@@ -86,6 +87,7 @@ const aiMsg = await llm.invoke([
 ])
 aiMsg
 ```
+
 ```output
 AIMessage {
   "id": "run-71853938-aa30-4861-9019-f12323c09f9a",
@@ -114,13 +116,14 @@ AIMessage {
 ```typescript
 console.log(aiMsg.content)
 ```
+
 ```output
 J'adore la programmation.
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts"
@@ -144,6 +147,7 @@ await chain.invoke(
   }
 )
 ```
+
 ```output
 AIMessage {
   "id": "run-a44dc452-4a71-423d-a4ee-50a2d7c90abd",
@@ -168,6 +172,7 @@ AIMessage {
   "invalid_tool_calls": []
 }
 ```
+
 ## API reference
 
-For detailed documentation of all ChatPerplexity features and configurations head to the API reference: https://api.js.langchain.com/classes/_langchain_community.chat_models_perplexity.ChatPerplexity.html
+For detailed documentation of all ChatPerplexity features and configurations head to the [API reference](https://api.js.langchain.com/classes/_langchain_community.chat_models_perplexity.ChatPerplexity.html).

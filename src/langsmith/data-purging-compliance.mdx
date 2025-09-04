@@ -21,7 +21,7 @@ You can use the API to complete trace deletes. The API supports two methods for 
 For more details, refer to the [API spec](https://api.smith.langchain.com/redoc#tag/run/operation/delete_runs_api_v1_runs_delete_post).
 
 <Warning>
-  All trace deletions will delete related entities like feedbacks, aggregations, and stats across all data storages.
+All trace deletions will delete related entities like feedbacks, aggregations, and stats across all data storages.
 </Warning>
 
 ### Deletion timeline
@@ -66,7 +66,7 @@ curl -X POST "https://api.smith.langchain.com/api/v1/runs/delete" \
 This will delete traces that have either `user_id: "user123"` **or** `environment: "staging"` in their metadata.
 
 <Warning>
-  Remember that you can only schedule up to 1000 traces per session per request. For larger deletions, you'll need to make multiple requests.
+Remember that you can only schedule up to 1000 traces per session per request. For larger deletions, you'll need to make multiple requests.
 </Warning>
 
 ## Example deletes
@@ -74,7 +74,7 @@ This will delete traces that have either `user_id: "user123"` **or** `environmen
 You can delete dataset examples self-serve via our API, which supports both soft and hard deletion methods depending on your data retention needs.
 
 <Warning>
-  Hard deletes will permanently remove inputs, outputs, and metadata from ALL versions of the specified examples across the entire dataset history.
+Hard deletes will permanently remove inputs, outputs, and metadata from ALL versions of the specified examples across the entire dataset history.
 </Warning>
 
 ### Deleting examples is a two-step process

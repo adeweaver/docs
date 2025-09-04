@@ -5,8 +5,8 @@ title: IBM watsonx.ai
 This will help you get started with IBM [text completion models (LLMs)](/oss/concepts/text_llms) using LangChain. For detailed documentation on `IBM watsonx.ai` features and configuration options, please refer to the [IBM watsonx.ai](https://api.js.langchain.com/modules/_langchain_community.llms_ibm.html).
 
 ## Overview
-### Integration details
 
+### Integration details
 
 | Class | Package | Local | Serializable | [PY support](https://python.langchain.com/docs/integrations/llms/ibm_watsonx/) | Package downloads | Package latest |
 | :--- | :--- | :---: | :---: |  :---: | :---: | :---: |
@@ -14,11 +14,9 @@ This will help you get started with IBM [text completion models (LLMs)](/oss/con
 
 ## Setup
 
-
 To access IBM WatsonxAI models you'll need to create an IBM watsonx.ai account, get an API key or any other type of credentials, and install the `@langchain/community` integration package.
 
 ### Credentials
-
 
 Head to [IBM Cloud](https://cloud.ibm.com/login) to sign up to IBM watsonx.ai and generate an API key or provide any other authentication form as presented below.
 
@@ -116,11 +114,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
-
 
 ```javascript
 import { WatsonxLLM } from "@langchain/community/llms/ibm";
@@ -143,6 +140,7 @@ const instance = new WatsonxLLM({
   ...props,
 });
 ```
+
 Note:
 
 - You must provide `spaceId`, `projectId` or `idOrName`(deployment id) unless you use lighweight engine which works without specifying either (refer to [watsonx.ai docs](https://www.ibm.com/docs/en/cloud-paks/cp-data/5.0.x?topic=install-choosing-installation-mode))
@@ -150,8 +148,6 @@ Note:
 - You need to specify the model you want to use for inferencing through model_id.
 
 ## Invocation and generation
-
-
 
 ```javascript
 const result = await instance.invoke("Print hello world.");
@@ -163,6 +159,7 @@ const results = await instance.generate([
 ]);
 console.log(results);
 ```
+
 ```output
 
 print('Hello world.')<|endoftext|>
@@ -171,10 +168,10 @@ print('Hello world.')<|endoftext|>
   llmOutput: { tokenUsage: { generated_token_count: 28, input_token_count: 10 } }
 }
 ```
+
 ## Chaining
 
 We can chain our completion model with a prompt template like so:
-
 
 ```javascript
 import { PromptTemplate } from "@langchain/core/prompts"
@@ -189,16 +186,16 @@ await chain.invoke(
   }
 )
 ```
+
 ```output
 Ich liebe Programmieren.
 
 To express that you are passionate about programming in German,
 ```
+
 ## Props overwriting
 
 Passed props at initialization will last for the whole life cycle of the object, however you may overwrite them for a single method's call by passing second argument as below
-
-
 
 ```javascript
 const result2 = await instance.invoke("Print hello world.", {
@@ -208,21 +205,24 @@ const result2 = await instance.invoke("Print hello world.", {
 });
 console.log(result2);
 ```
+
 ```output
 print('Hello world.')<|endoftext|>
 ```
+
 ## Tokenization
+
 This package has it's custom getNumTokens implementation which returns exact amount of tokens that would be used.
-
-
 
 ```javascript
 const tokens = await instance.getNumTokens("Print hello world.");
 console.log(tokens);
 ```
+
 ```output
 4
 ```
+
 ## API reference
 
 For detailed documentation of all `IBM watsonx.ai` features and configurations head to the API reference: [API docs](https://api.js.langchain.com/modules/_langchain_community.embeddings_ibm.html)

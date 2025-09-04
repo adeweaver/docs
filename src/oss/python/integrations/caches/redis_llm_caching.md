@@ -8,7 +8,6 @@ This notebook demonstrates how to use the `RedisCache` and `RedisSemanticCache` 
 
 First, let's install the required dependencies and ensure we have a Redis instance running.
 
-
 ```python
 %pip install -U langchain-core langchain-redis langchain-openai redis
 ```
@@ -21,7 +20,6 @@ docker run -d -p 6379:6379 redis:latest
 
 Or install and run Redis locally according to your operating system's instructions.
 
-
 ```python
 import os
 
@@ -29,11 +27,12 @@ import os
 REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379")
 print(f"Connecting to Redis at: {REDIS_URL}")
 ```
+
 ```output
 Connecting to Redis at: redis://redis:6379
 ```
-## Importing Required Libraries
 
+## Importing Required Libraries
 
 ```python
 import time
@@ -44,7 +43,6 @@ from langchain_openai import OpenAI, OpenAIEmbeddings
 from langchain_redis import RedisCache, RedisSemanticCache
 ```
 
-
 ```python
 import langchain_core
 import langchain_openai
@@ -53,7 +51,6 @@ import redis
 ```
 
 ### Set OpenAI API key
-
 
 ```python
 from getpass import getpass
@@ -71,6 +68,7 @@ if not openai_api_key:
 else:
     print("OpenAI API key found in environment variables.")
 ```
+
 ```output
 OpenAI API key not found in environment variables.
 ``````output
@@ -78,8 +76,8 @@ Please enter your OpenAI API key:  ········
 ``````output
 OpenAI API key has been set for this session.
 ```
-## Using RedisCache
 
+## Using RedisCache
 
 ```python
 # Initialize RedisCache
@@ -115,15 +113,16 @@ print(f"Speed improvement: {time1 / time2:.2f}x faster")
 redis_cache.clear()
 print("Cache cleared")
 ```
+
 ```output
 First call (not cached):
-Result: 
+Result:
 
 Caching is the process of storing frequently accessed data in a temporary storage location for faster retrieval. This helps to reduce the time and resources needed to access the data from its original source. Caching is commonly used in computer systems, web browsers, and databases to improve performance and efficiency.
 Time: 1.16 seconds
 
 Second call (cached):
-Result: 
+Result:
 
 Caching is the process of storing frequently accessed data in a temporary storage location for faster retrieval. This helps to reduce the time and resources needed to access the data from its original source. Caching is commonly used in computer systems, web browsers, and databases to improve performance and efficiency.
 Time: 0.05 seconds
@@ -131,8 +130,8 @@ Time: 0.05 seconds
 Speed improvement: 25.40x faster
 Cache cleared
 ```
-## Using RedisSemanticCache
 
+## Using RedisSemanticCache
 
 ```python
 # Initialize RedisSemanticCache
@@ -173,17 +172,18 @@ print(f"Speed improvement: {time1 / time2:.2f}x faster")
 semantic_cache.clear()
 print("Semantic cache cleared")
 ```
+
 ```output
 Original query:
 Prompt: What is the capital of France?
-Result: 
+Result:
 
 The capital of France is Paris.
 Time: 1.52 seconds
 
 Similar query:
 Prompt: Can you tell me the capital city of France?
-Result: 
+Result:
 
 The capital of France is Paris.
 Time: 0.29 seconds
@@ -191,10 +191,10 @@ Time: 0.29 seconds
 Speed improvement: 5.22x faster
 Semantic cache cleared
 ```
+
 ## Advanced Usage
 
 ### Custom TTL (Time-To-Live)
-
 
 ```python
 # Initialize RedisCache with custom TTL
@@ -217,13 +217,14 @@ print(
     f"Result after TTL: {expired_result[0].text if expired_result else 'Not found (expired)'}"
 )
 ```
+
 ```output
 Cached result: Cached response
 Waiting for TTL to expire...
 Result after TTL: Not found (expired)
 ```
-### Customizing RedisSemanticCache
 
+### Customizing RedisSemanticCache
 
 ```python
 # Initialize RedisSemanticCache with custom settings
@@ -250,14 +251,16 @@ print(f"Similar query result: {similar_result}")
 # Clean up
 custom_semantic_cache.clear()
 ```
+
 ```output
-Original result: 
+Original result:
 
 The largest planet in our solar system is Jupiter.
-Similar query result: 
+Similar query result:
 
 The largest planet in our solar system is Jupiter.
 ```
+
 ## Conclusion
 
 This notebook demonstrated the usage of `RedisCache` and `RedisSemanticCache` from the langchain-redis package. These caching mechanisms can significantly improve the performance of LLM-based applications by reducing redundant API calls and leveraging semantic similarity for intelligent caching. The Redis-based implementation provides a fast, scalable, and flexible solution for caching in distributed systems.
