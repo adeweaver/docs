@@ -192,9 +192,15 @@ from langchain_community.document_loaders.glue_catalog import GlueCatalogLoader
 
 We need to install several python libraries.
 
-```bash
+<CodeGroup>
+```bash pip
 pip install boto3 requests requests-aws4auth
 ```
+
+```bash uv
+uv add boto3 requests requests-aws4auth
+```
+</CodeGroup>
 
 See a [usage example](/oss/integrations/vectorstores/opensearch#using-aos-amazon-opensearch-service).
 
@@ -214,9 +220,15 @@ See [detail configuration instructions](/oss/integrations/vectorstores/documentd
 
 We need to install the `pymongo` python package.
 
-```bash
+<CodeGroup>
+```bash pip
 pip install pymongo
 ```
+
+```bash uv
+uv add pymongo
+```
+</CodeGroup>
 
 #### Deploy DocumentDB on AWS
 
@@ -264,9 +276,15 @@ See a [usage example](/oss/integrations/vectorstores/memorydb).
 
 We need to install the `langchain-aws` library.
 
-```bash
+<CodeGroup>
+```bash pip
 pip install langchain-aws
 ```
+
+```bash uv
+uv add langchain-aws
+```
+</CodeGroup>
 
 See a [usage example](/oss/integrations/retrievers/amazon_kendra_retriever).
 
@@ -282,9 +300,15 @@ from langchain_aws import AmazonKendraRetriever
 
 We need to install the `langchain-aws` library.
 
-```bash
+<CodeGroup>
+```bash pip
 pip install langchain-aws
 ```
+
+```bash uv
+uv add langchain-aws
+```
+</CodeGroup>
 
 See a [usage example](/oss/integrations/retrievers/bedrock).
 
@@ -304,9 +328,15 @@ from langchain_aws import AmazonKnowledgeBasesRetriever
 
 We need to install `boto3` python library.
 
-```bash
+<CodeGroup>
+```bash pip
 pip install boto3
 ```
+
+```bash uv
+uv add boto3
+```
+</CodeGroup>
 
 See a [usage example](/oss/integrations/tools/awslambda).
 
@@ -346,9 +376,15 @@ from langchain_community.chat_message_histories import DynamoDBChatMessageHistor
 
 For the Cypher and SPARQL integrations below, we need to install the `langchain-aws` library.
 
-```bash
+<CodeGroup>
+```bash pip
 pip install langchain-aws
 ```
+
+```bash uv
+uv add langchain-aws
+```
+</CodeGroup>
 
 ### Amazon Neptune with Cypher
 
@@ -390,9 +426,15 @@ from langchain_community.callbacks.bedrock_anthropic_callback import BedrockAnth
 
 We need to install several python libraries.
 
-```bash
+<CodeGroup>
+```bash pip
 pip install google-search-results sagemaker
 ```
+
+```bash uv
+uv add google-search-results sagemaker
+```
+</CodeGroup>
 
 See a [usage example](/oss/integrations/callbacks/sagemaker_tracking).
 
@@ -410,9 +452,15 @@ from langchain_community.callbacks import SageMakerCallbackHandler
 
 We need to install the `boto3` and `nltk` libraries.
 
-```bash
+<CodeGroup>
+```bash pip
 pip install boto3 nltk
 ```
+
+```bash uv
+uv add boto3 nltk
+```
+</CodeGroup>
 
 See a [usage example](https://python.langchain.com/v0.1/docs/guides/productionization/safety/amazon_comprehend_chain/).
 

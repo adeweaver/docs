@@ -422,11 +422,19 @@ Microsoft Presidio is a data protection and de-identification SDK. The implement
 
 To use Presidio and its spaCy model, install the following:
 
-```bash
+<CodeGroup>
+```bash pip
 pip install presidio-analyzer
 pip install presidio-anonymizer
 python -m spacy download en_core_web_lg
 ```
+
+```bash uv
+uv add presidio-analyzer
+uv add presidio-anonymizer
+python -m spacy download en_core_web_lg
+```
+</CodeGroup>
 
 Also, install OpenAI:
 
@@ -524,9 +532,15 @@ Comprehend is a natural language processing service that can detect personally i
 
 To use Comprehend, install [boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html):
 
-```bash
+<CodeGroup>
+```bash pip
 pip install boto3
 ```
+
+```bash uv
+uv add boto3
+```
+</CodeGroup>
 
 Also, install OpenAI:
 

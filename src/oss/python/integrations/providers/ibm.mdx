@@ -103,9 +103,15 @@ See detailed usage examples in the guide [here](/oss/integrations/vectorstores/d
 
 Installation: This is a separate package for vector store feature only and can be run
 without the `langchain-ibm` package.
-```bash
+<CodeGroup>
+```bash pip
 pip install -U langchain-db2
 ```
+
+```bash uv
+uv add langchain-db2
+```
+</CodeGroup>
 Usage:
 ```python
 from langchain_db2 import db2vs
