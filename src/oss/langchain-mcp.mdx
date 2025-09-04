@@ -46,6 +46,14 @@ bun add langchain-mcp-adapters
 </CodeGroup>
 :::
 
+## Transport types
+
+MCP supports different transport mechanisms for client-server communication:
+
+- stdio: Client launches server as a subprocess and communicates via standard input/output. Best for local tools and simple setups.
+- Streamable HTTP: Server runs as an independent process handling HTTP requests. Supports remote connections and multiple clients. Uses Server-Sent Events (SSE) for streaming.
+- SSEServer-Sent Events transport, a variant of streamable HTTP optimized for real-time streaming communication.
+
 ## Use MCP tools
 
 :::python
@@ -61,12 +69,12 @@ client = MultiServerMCPClient(
             "command": "python",
             # Replace with absolute path to your math_server.py file
             "args": ["/path/to/math_server.py"],
-            "transport": "stdio",
+            "transport": "stdio",  # Local subprocess communication
         },
         "weather": {
             # Ensure you start your weather server on port 8000
             "url": "http://localhost:8000/mcp",
-            "transport": "streamable_http",
+            "transport": "streamable_http",  # HTTP-based remote server
         }
     }
 )
@@ -98,12 +106,12 @@ const client = new MultiServerMCPClient({
         command: "node",
         // Replace with absolute path to your math_server.js file
         args: ["/path/to/math_server.js"],
-        transport: "stdio",
+        transport: "stdio",  // Local subprocess communication
     },
     weather: {
         // Ensure you start your weather server on port 8000
         url: "http://localhost:8000/mcp",
-        transport: "sse",
+        transport: "sse",  // Server-Sent Events for streaming
     },
 });
 
@@ -183,7 +191,7 @@ if __name__ == "__main__":
     mcp.run(transport="stdio")
 ```
 
-```python title="Weather server (HTTP transport)" icon="wifi"
+```python title="Weather server (streamable HTTP transport)" icon="wifi"
 from mcp.server.fastmcp import FastMCP
 
 mcp = FastMCP("Weather")
@@ -300,7 +308,7 @@ async function main() {
 main();
 ```
 
-```typescript title="Weather server (HTTP transport)" icon="wifi"
+```typescript title="Weather server (SSE transport)" icon="wifi"
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import {
