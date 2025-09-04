@@ -270,6 +270,7 @@ When the Agent Inbox sends a response, it will always send back a list with a si
 
 LangGraph provides a standardized way to pause agent execution and request human input through the `interrupt` function. When calling the `interrupt` function, you should pass an instance of `HumanInterrupt` and expect a response of type `HumanResponse`:
 
+:::python
 ```python
 from langchain.agents import create_agent
 from langchain.agents.interrupt import HumanInterrupt, HumanInterruptConfig, ActionRequest
@@ -278,7 +279,6 @@ from langgraph.types import interrupt
 def create_email_agent():
     def send_email(to: str, subject: str, body: str):
         """Send an email after human approval."""
-        # Create interrupt request for human review
         request = HumanInterrupt(
             action_request=ActionRequest(
                 action="send_email",
@@ -321,6 +321,106 @@ def create_email_agent():
 
 agent = create_email_agent()
 ```
+:::
+:::js
+```ts
+import { createAgent } from "@langchain";
+import { interrupt } from "@langchain/langgraph";
+import { tool } from "@langchain/core/tools";
+import { z } from "zod";
+
+type ActionRequest = {
+  action: "send_email";
+  args: {
+    to: string;
+    subject: string;
+    body: string;
+  };
+};
+
+type HumanInterruptConfig = {
+  allow_ignore: boolean;  // Allow skipping this email
+  allow_respond: boolean; // Allow text feedback
+  allow_edit: boolean;    // Allow editing email fields
+  allow_accept: boolean;  // Allow direct approval
+};
+
+type HumanInterrupt = {
+  action_request: ActionRequest;
+  config: HumanInterruptConfig;
+  description: string;
+};
+
+type InterruptResponse =
+  | { type: "accept"; args: ActionRequest["args"] }
+  | { type: "edit"; args: ActionRequest["args"] }
+  | { type: "respond"; args: string }
+  | { type: "ignore" };
+
+function create_email_agent() {
+  async function send_email(to: string, subject: string, body: string) {
+    /** Send an email after human approval. */
+    const request: HumanInterrupt = {
+      action_request: {
+        action: "send_email",
+        args: {
+          to,
+          subject,
+          body,
+        },
+      },
+      config: {
+        allow_ignore: true,  // Allow skipping this email
+        allow_respond: true, // Allow text feedback
+        allow_edit: true,    // Allow editing email fields
+        allow_accept: true,  // Allow direct approval
+      },
+      description: "Please review this email before sending",
+    };
+
+    const response = (await interrupt<InterruptResponse[]>(request))[0];
+
+    console.log("RESPONSE", response);
+
+    if (response?.type === "accept") {
+      const action_request = response.args; // dict
+      // ... send email
+    } else if (response?.type === "edit") {
+      const edited_action_request = response.args; // dict
+      // ... send email using edited values
+    } else if (response?.type === "respond") {
+      const feedback = response.args; // str
+      // process the human feedback
+    } else if (response?.type === "ignore") {
+      // ... ignore the interrupt
+    }
+  }
+
+  const send_email_tool = tool({
+    name: "send_email",
+    description: "Send an email after human approval.",
+    schema: z.object({
+      to: z.string(),
+      subject: z.string(),
+      body: z.string(),
+    }),
+    func: async ({ to, subject, body }) => {
+      await send_email(to, subject, body);
+      return "Email handled (pending human interrupt).";
+    },
+  });
+
+  return createAgent({
+    model: "openai:gpt-4o",
+    tools: [send_email_tool],
+    prompt: "You are an email assistant. Always use the send_email tool.",
+  });
+}
+
+const agent = create_email_agent();
+```
+:::
+
 
 <Tip>
 For more detailed information on implementing human-in-the-loop workflows, see the [LangGraph Human-in-the-Loop documentation](/oss/langgraph/add-human-in-the-loop).
