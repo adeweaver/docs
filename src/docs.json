@@ -502,6 +502,7 @@
                       "langgraph-platform/add-human-in-the-loop",
                       "langgraph-platform/human-in-the-loop-time-travel",
                       "langgraph-platform/server-mcp",
+                      "langgraph-platform/server-a2a",
                       "langgraph-platform/use-webhooks",
                       {
                         "group": "Double-texting",
@@ -1498,6 +1499,7 @@
                       "langgraph-platform/add-human-in-the-loop",
                       "langgraph-platform/human-in-the-loop-time-travel",
                       "langgraph-platform/server-mcp",
+                      "langgraph-platform/server-a2a",
                       "langgraph-platform/use-webhooks",
                       {
                         "group": "Double-texting",
