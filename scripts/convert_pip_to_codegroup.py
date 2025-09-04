@@ -38,9 +38,9 @@ Example conversion:
 """
 
 import argparse
-import glob
-import os
 import re
+from pathlib import Path
+from re import Match
 
 
 def pip_to_uv(pip_cmd: str) -> str:
@@ -49,8 +49,6 @@ def pip_to_uv(pip_cmd: str) -> str:
     cmd = pip_cmd.replace("pip install", "").strip()
 
     # Handle pip flags - need to handle combined flags like -qU carefully
-    import re
-
     # Remove upgrade flags (uv add upgrades by default)
     cmd = re.sub(r"-U\b", "", cmd)
     cmd = re.sub(r"--upgrade\b", "", cmd)
@@ -108,16 +106,16 @@ def pip_to_uv(pip_cmd: str) -> str:
     return f"uv add {cmd}" if cmd else "uv add"
 
 
-def convert_pip_block_to_codegroup(content: str, file_path: str = "") -> str:
+def convert_pip_block_to_codegroup(content: str) -> str:
     """Convert standalone pip install code blocks to CodeGroup format."""
     # Match only bash blocks where pip install appears within the first few lines
     # This prevents matching across unrelated code blocks
     pip_pattern = re.compile(
-        r"```(?:bash|shell|sh)?\s*\n((?:[^\n]*\n){0,3}[^\n]*pip install[^\n]*(?:\n(?!```)[^\n]*)*)\n```",
+        r"```(?:bash|shell|sh)?\s*\n((?:[^\n]*\n){0,3}[^\n]*pip install[^\n]*(?:\n(?!```)[^\n]*)*)\n```",  # noqa: E501
         re.MULTILINE,
     )
 
-    def replace_pip_block(match):
+    def replace_pip_block(match: Match[str]) -> str:
         # Check if we're already inside a CodeGroup by examining the full context
         start_pos = match.start()
 
@@ -138,15 +136,15 @@ def convert_pip_block_to_codegroup(content: str, file_path: str = "") -> str:
         pip_lines = []
         other_lines = []
 
-        for line in lines:
-            line = line.strip()
+        for current_line in lines:
+            line = current_line.strip()
             if line.startswith("pip install") and not line.startswith("#"):
                 pip_lines.append(line)
             elif line and not line.startswith("#"):
                 other_lines.append(line)
 
         # Only convert if we have pip install commands and minimal other content
-        if pip_lines and len(other_lines) <= 2:  # Allow for cd commands or similar
+        if pip_lines and len(other_lines) <= 2:  # noqa: PLR2004
             # Create the CodeGroup replacement
             pip_block_lines = []
             uv_block_lines = []
@@ -183,27 +181,29 @@ def convert_pip_block_to_codegroup(content: str, file_path: str = "") -> str:
     return pip_pattern.sub(replace_pip_block, content)
 
 
-def convert_file(file_path: str, dry_run: bool = False) -> bool:
+def convert_file(file_path: str, *, dry_run: bool = False) -> bool:
     """Convert a single MDX file. Returns True if changes were made."""
     try:
-        with open(file_path, encoding="utf-8") as f:
-            original_content = f.read()
+        file_obj = Path(file_path)
+        original_content = file_obj.read_text(encoding="utf-8")
 
-        converted_content = convert_pip_block_to_codegroup(original_content, file_path)
+        converted_content = convert_pip_block_to_codegroup(original_content)
 
         if original_content != converted_content:
             if not dry_run:
-                with open(file_path, "w", encoding="utf-8") as f:
-                    f.write(converted_content)
+                file_obj.write_text(converted_content, encoding="utf-8")
             return True
-        return False
-    except Exception:
-        return False
+    except Exception:  # noqa: BLE001, S110
+        pass
+    return False
 
 
 def main() -> None:
+    """Convert pip install commands to CodeGroup format in MDX files."""
     parser = argparse.ArgumentParser(
-        description="Convert pip install code blocks to CodeGroup format with uv alternatives"
+        description=(
+            "Convert pip install code blocks to CodeGroup format with uv alternatives"
+        )
     )
     parser.add_argument(
         "path",
@@ -224,8 +224,8 @@ def main() -> None:
         files = [args.file]
     else:
         # Find all MDX files
-        search_pattern = os.path.join(args.path, "**/*.mdx")
-        files = glob.glob(search_pattern, recursive=True)
+        search_path = Path(args.path)
+        files = [str(f) for f in search_path.rglob("*.mdx")]
 
     if not files:
         return
