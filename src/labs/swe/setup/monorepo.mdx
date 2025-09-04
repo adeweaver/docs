@@ -40,9 +40,9 @@ The monorepo is organized into two main directories:
 - Contains crypto utilities, GraphState types, and Open SWE specific modules
 
 <Note>
-The shared package must be built before other packages can import from it. Any
-code used by both the agent and web app should be placed here to avoid
-duplication.
+  The shared package must be built before other packages can import from it. Any
+  code used by both the agent and web app should be placed here to avoid
+  duplication.
 </Note>
 
 ## Turbo Orchestration
@@ -76,22 +76,22 @@ Run these commands from the repository root:
 ## Dependency Management Best Practices
 
 <Steps>
-    <Step title="Install dependencies in specific packages">
+  <Step title="Install dependencies in specific packages">
     Always install dependencies in the specific package where they're used, never in the root `package.json` unless adding a resolution.
-
+    
     ```bash
     # Correct - install in specific package
     cd apps/web
     yarn add some-package
-
+    
     # Incorrect - don't install in root
     yarn add some-package
     ```
-    </Step>
-
-    <Step title="Use resolutions for shared dependencies">
+  </Step>
+  
+  <Step title="Use resolutions for shared dependencies">
     When multiple packages need the same dependency, add a resolution to the root `package.json` to ensure version consistency.
-
+    
     ```json
     {
       "resolutions": {
@@ -100,16 +100,16 @@ Run these commands from the repository root:
       }
     }
     ```
-    </Step>
-
-    <Step title="Build shared packages after changes">
+  </Step>
+  
+  <Step title="Build shared packages after changes">
     Run `yarn build` from the root when making changes to `packages/shared` to make them available to other packages.
-
+    
     ```bash
     # After modifying packages/shared
     yarn build
     ```
-    </Step>
+  </Step>
 </Steps>
 
 ## Postinstall Hook Requirements
@@ -125,10 +125,10 @@ The `apps/open-swe` package includes a critical `postinstall` hook:
 ```
 
 <Note>
-This postinstall hook is **required** for LangGraph Platform deployment. Since
-Open SWE is a monorepo and the agent requires access to built files from the
-shared package, we must run the build process before starting the LangGraph
-server.
+  This postinstall hook is **required** for LangGraph Platform deployment. Since
+  Open SWE is a monorepo and the agent requires access to built files from the
+  shared package, we must run the build process before starting the LangGraph
+  server.
 </Note>
 
 ### Why This Matters
@@ -138,9 +138,9 @@ server.
 3. **Build Order**: Ensures the shared package is built before the agent attempts to use it
 
 <Tip>
-If you encounter import errors related to the shared package during
-development, run `yarn build` from the root to ensure all packages are
-properly built and linked.
+  If you encounter import errors related to the shared package during
+  development, run `yarn build` from the root to ensure all packages are
+  properly built and linked.
 </Tip>
 
 ## Workspace Configuration

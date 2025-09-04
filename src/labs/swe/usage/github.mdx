@@ -4,7 +4,7 @@ description: "How to use Open SWE from Github"
 ---
 
 <Warning>
-GitHub webhooks are _not_ available via the demo application. To use GitHub webhooks, you must set up your own instance of Open SWE following the [development setup guide](/labs/swe/setup/development).
+  GitHub webhooks are _not_ available via the demo application. To use GitHub webhooks, you must set up your own instance of Open SWE following the [development setup guide](/labs/swe/setup/development).
 </Warning>
 
 # GitHub Webhook Integration
@@ -40,10 +40,10 @@ Open SWE supports three types of labels that control how the agent operates:
 - Ideal for challenging tasks that benefit from the most advanced AI reasoning
 
 <Note>
-In development environments, the labels are `open-swe-dev`,
-`open-swe-auto-dev`, `open-swe-max-dev`, and `open-swe-max-auto-dev`
-respectively. The system automatically uses the appropriate labels based on
-the `NODE_ENV` environment variable.
+  In development environments, the labels are `open-swe-dev`,
+  `open-swe-auto-dev`, `open-swe-max-dev`, and `open-swe-max-auto-dev`
+  respectively. The system automatically uses the appropriate labels based on
+  the `NODE_ENV` environment variable.
 </Note>
 
 ## Automatic Run Creation
@@ -68,9 +68,9 @@ Once a run is created, Open SWE automatically posts a comment on the triggering 
 - **Development metadata** - Run ID and thread ID for debugging (in a collapsible section)
 
 <Tip>
-The run link allows you to monitor progress in real-time, view the generated
-plan, and interact with the agent if needed. You can switch between manual and
-auto mode even after the run has started.
+  The run link allows you to monitor progress in real-time, view the generated
+  plan, and interact with the agent if needed. You can switch between manual and
+  auto mode even after the run has started.
 </Tip>
 
 ## User Access Restrictions
@@ -90,9 +90,9 @@ Open SWE implements strict access controls to ensure security and privacy:
 - The GitHub App installation determines which repositories can use Open SWE
 
 <Note>
-If you need to share access to a run with team members, you can do so through
-the Open SWE web interface after the run is created, or by having team members
-with repository access create their own issues.
+  If you need to share access to a run with team members, you can do so through
+  the Open SWE web interface after the run is created, or by having team members
+  with repository access create their own issues.
 </Note>
 
 ## Pull Request Integration
@@ -112,9 +112,9 @@ When Open SWE successfully completes code changes, it automatically creates pull
 - **Status updates** - Issue comments track the progress from request to completion
 
 <Tip>
-You can review the generated PR before merging, even in auto mode. The
-auto-accept setting only applies to plan approval, not PR merging, giving you
-final control over what code enters your repository.
+  You can review the generated PR before merging, even in auto mode. The
+  auto-accept setting only applies to plan approval, not PR merging, giving you
+  final control over what code enters your repository.
 </Tip>
 
 ## Getting Started
