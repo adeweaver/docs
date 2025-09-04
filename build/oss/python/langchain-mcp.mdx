@@ -1,0 +1,214 @@
+---
+title: MCP
+---
+
+import AlphaCallout from '/snippets/alpha-lg-callout.mdx';
+
+<AlphaCallout />
+
+[Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction) is an open protocol that standardizes how applications provide tools and context to LLMs. LangChain agents can use tools defined on MCP servers through the [`langchain-mcp-adapters`](https://github.com/langchain-ai/langchain-mcp-adapters) library.
+
+![MCP](/oss/images/mcp.png)
+
+Install the `langchain-mcp-adapters` library to use MCP tools in LangGraph:
+
+<CodeGroup>
+```bash pip
+pip install langchain-mcp-adapters
+```
+
+```bash uv
+uv add langchain-mcp-adapters
+```
+</CodeGroup>
+
+
+
+
+## Transport types
+
+MCP supports different transport mechanisms for client-server communication:
+
+- stdio: Client launches server as a subprocess and communicates via standard input/output. Best for local tools and simple setups.
+- Streamable HTTP: Server runs as an independent process handling HTTP requests. Supports remote connections and multiple clients. Uses Server-Sent Events (SSE) for streaming.
+- SSEServer-Sent Events transport, a variant of streamable HTTP optimized for real-time streaming communication.
+
+## Use MCP tools
+
+The `langchain-mcp-adapters` package enables agents to use tools defined across one or more MCP servers.
+
+```python Accessing multiple servers {highlight={1,4,19,22}} icon="server"
+from langchain_mcp_adapters.client import MultiServerMCPClient
+from langchain.agents import create_agent
+
+client = MultiServerMCPClient(
+    {
+        "math": {
+            "command": "python",
+            # Replace with absolute path to your math_server.py file
+            "args": ["/path/to/math_server.py"],
+            "transport": "stdio",  # Local subprocess communication
+        },
+        "weather": {
+            # Ensure you start your weather server on port 8000
+            "url": "http://localhost:8000/mcp",
+            "transport": "streamable_http",  # HTTP-based remote server
+        }
+    }
+)
+tools = await client.get_tools()
+agent = create_agent(
+    "anthropic:claude-3-7-sonnet-latest",
+    tools
+)
+math_response = await agent.ainvoke(
+    {"messages": [{"role": "user", "content": "what's (3 + 5) x 12?"}]}
+)
+weather_response = await agent.ainvoke(
+    {"messages": [{"role": "user", "content": "what is the weather in nyc?"}]}
+)
+```
+
+
+
+
+
+## Custom MCP servers
+
+To create your own MCP servers, you can use the `mcp` library. This library provides a simple way to define tools and run them as servers.
+
+<CodeGroup>
+```bash pip
+pip install mcp
+```
+
+```bash uv
+uv add mcp
+```
+</CodeGroup>
+
+
+
+
+Use the following reference implementations to test your agent with MCP tool servers.
+
+```python title="Math server (stdio transport)" icon="floppy-disk"
+from mcp.server.fastmcp import FastMCP
+
+mcp = FastMCP("Math")
+
+@mcp.tool()
+def add(a: int, b: int) -> int:
+    """Add two numbers"""
+    return a + b
+
+@mcp.tool()
+def multiply(a: int, b: int) -> int:
+    """Multiply two numbers"""
+    return a * b
+
+if __name__ == "__main__":
+    mcp.run(transport="stdio")
+```
+
+```python title="Weather server (streamable HTTP transport)" icon="wifi"
+from mcp.server.fastmcp import FastMCP
+
+mcp = FastMCP("Weather")
+
+@mcp.tool()
+async def get_weather(location: str) -> str:
+    """Get weather for location."""
+    return "It's always sunny in New York"
+
+if __name__ == "__main__":
+    mcp.run(transport="streamable-http")
+```
+
+
+
+
+## Expose LangChain tools via MCP
+
+You can also expose existing LangChain tools through an MCP server using the `to_fastmcp` function. This allows you to make your LangChain tools available to any MCP client.
+
+```python
+from langchain_core.tools import tool
+from langchain_mcp_adapters.tools import to_fastmcp
+from mcp.server.fastmcp import FastMCP
+
+
+@tool
+def add(a: int, b: int) -> int:
+    """Add two numbers"""
+    return a + b
+
+@tool
+def get_user_info(user_id: str) -> str:
+    """Get information about a user"""
+    return f"User {user_id} is active"
+
+
+# Convert LangChain tools to FastMCP
+fastmcp_tools = [to_fastmcp(add), to_fastmcp(get_user_info)]
+
+# Create MCP server with the converted tools
+mcp = FastMCP("LangChain Tools", tools=fastmcp_tools)
+mcp.run(transport="stdio")
+```
+
+## Stateless architecture
+
+The MCP client is **stateless by default**, which provides several important benefits:
+
+- **Scalability**: Web servers can handle requests without maintaining session state, making horizontal scaling simpler
+- **Reliability**: No risk of losing state when servers restart or crash
+- **Simplicity**: Eliminates the complexity of state synchronization across multiple server instances
+- **Resource efficiency**: No memory overhead from storing session data
+
+Each tool invocation creates a fresh MCP `ClientSession`, executes the tool, and then cleans up. This ensures that:
+- Tools don't interfere with each other
+- Memory usage remains constant
+- There are no state-related bugs between tool calls
+
+### Using session objects for state
+
+If you need to maintain state across tool calls (such as for conversation context or user sessions), use session objects in your application layer:
+
+```python
+from langchain_mcp_adapters.client import MultiServerMCPClient
+from langgraph.prebuilt import create_react_agent
+
+class StatefulAgent:
+    def __init__(self, mcp_config: dict):
+        self.client = MultiServerMCPClient(mcp_config)
+        self.session_data = {}  # Store session state here
+
+    async def chat(self, session_id: str, message: str):
+        # Get tools (fresh connection each time)
+        tools = await self.client.get_tools()
+        agent = create_react_agent("openai:gpt-4.1", tools)
+
+        # Retrieve session context
+        session_context = self.session_data.get(session_id, [])
+
+        # Add new message with context
+        messages = session_context + [{"role": "user", "content": message}]
+
+        # Get response
+        response = await agent.ainvoke({"messages": messages})
+
+        # Store updated session context
+        self.session_data[session_id] = messages + [response["messages"][-1]]
+
+        return response
+```
+
+This pattern keeps the MCP connections stateless while maintaining conversational context at the application level.
+
+
+## Additional resources
+
+* [MCP documentation](https://modelcontextprotocol.io/introduction)
+* [MCP Transport documentation](https://modelcontextprotocol.io/docs/concepts/transports)
+* [`langchain_mcp_adapters`](https://github.com/langchain-ai/langchain-mcp-adapters)
