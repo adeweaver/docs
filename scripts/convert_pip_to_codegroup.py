@@ -52,23 +52,23 @@ def pip_to_uv(pip_cmd: str) -> str:
     import re
 
     # Remove upgrade flags (uv add upgrades by default)
-    cmd = re.sub(r'-U\b', '', cmd)
-    cmd = re.sub(r'--upgrade\b', '', cmd)
+    cmd = re.sub(r"-U\b", "", cmd)
+    cmd = re.sub(r"--upgrade\b", "", cmd)
 
     # Remove quiet flags
-    cmd = re.sub(r'-q\b', '', cmd)
-    cmd = re.sub(r'--quiet\b', '', cmd)
+    cmd = re.sub(r"-q\b", "", cmd)
+    cmd = re.sub(r"--quiet\b", "", cmd)
 
     # Remove editable flags (uv add handles local paths as editable by default)
-    cmd = re.sub(r'-e\b', '', cmd)
-    cmd = re.sub(r'--editable\b', '', cmd)
+    cmd = re.sub(r"-e\b", "", cmd)
+    cmd = re.sub(r"--editable\b", "", cmd)
 
     # Remove requirements file flags (different handling in uv)
-    cmd = re.sub(r'-r\b', '', cmd)
-    cmd = re.sub(r'--requirement\b', '', cmd)
+    cmd = re.sub(r"-r\b", "", cmd)
+    cmd = re.sub(r"--requirement\b", "", cmd)
 
     # Handle pre-release flag
-    cmd = re.sub(r'--pre\b', '@pre', cmd)
+    cmd = re.sub(r"--pre\b", "@pre", cmd)
 
     # Clean up extra spaces first
     cmd = " ".join(cmd.split())
@@ -77,9 +77,11 @@ def pip_to_uv(pip_cmd: str) -> str:
     # If package has version specifiers (>=, <=, ==, !=, ~=, >, <), keep quotes
     packages = []
     for part in cmd.split():
-        if any(op in part for op in ['>=', '<=', '==', '!=', '~=', '>', '<']):
+        if any(op in part for op in [">=", "<=", "==", "!=", "~=", ">", "<"]):
             # Add quotes if not already quoted and contains version specifiers
-            if not (part.startswith('"') and part.endswith('"')) and not (part.startswith("'") and part.endswith("'")):
+            if not (part.startswith('"') and part.endswith('"')) and not (
+                part.startswith("'") and part.endswith("'")
+            ):
                 packages.append(f'"{part}"')
             else:
                 packages.append(part)
@@ -99,12 +101,9 @@ def pip_to_uv(pip_cmd: str) -> str:
         parts = cmd.split()
         if len(parts) == 1:
             return f"uv add {parts[0]}"
-        else:
-            # Multiple packages with @pre - apply to all
-            packages = [
-                p + "@pre" if "@pre" not in p else p for p in parts if p != "@pre"
-            ]
-            return f"uv add {' '.join(packages)}"
+        # Multiple packages with @pre - apply to all
+        packages = [p + "@pre" if "@pre" not in p else p for p in parts if p != "@pre"]
+        return f"uv add {' '.join(packages)}"
 
     return f"uv add {cmd}" if cmd else "uv add"
 
@@ -124,8 +123,8 @@ def convert_pip_block_to_codegroup(content: str, file_path: str = "") -> str:
 
         # Look backwards for the nearest <CodeGroup> or </CodeGroup>
         text_before = content[:start_pos]
-        last_codegroup_start = text_before.rfind('<CodeGroup>')
-        last_codegroup_end = text_before.rfind('</CodeGroup>')
+        last_codegroup_start = text_before.rfind("<CodeGroup>")
+        last_codegroup_end = text_before.rfind("</CodeGroup>")
 
         # If the most recent CodeGroup tag before this match is an opening tag,
         # then we're inside a CodeGroup
@@ -178,9 +177,8 @@ def convert_pip_block_to_codegroup(content: str, file_path: str = "") -> str:
 {uv_content}
 ```
 </CodeGroup>"""
-        else:
-            # Return original if it's a complex script
-            return match.group(0)
+        # Return original if it's a complex script
+        return match.group(0)
 
     return pip_pattern.sub(replace_pip_block, content)
 
@@ -188,7 +186,7 @@ def convert_pip_block_to_codegroup(content: str, file_path: str = "") -> str:
 def convert_file(file_path: str, dry_run: bool = False) -> bool:
     """Convert a single MDX file. Returns True if changes were made."""
     try:
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             original_content = f.read()
 
         converted_content = convert_pip_block_to_codegroup(original_content, file_path)
@@ -197,16 +195,13 @@ def convert_file(file_path: str, dry_run: bool = False) -> bool:
             if not dry_run:
                 with open(file_path, "w", encoding="utf-8") as f:
                     f.write(converted_content)
-            print(f"{'[DRY RUN] ' if dry_run else ''}Converted: {file_path}")
             return True
-        else:
-            return False
-    except Exception as e:
-        print(f"Error processing {file_path}: {e}")
+        return False
+    except Exception:
         return False
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(
         description="Convert pip install code blocks to CodeGroup format with uv alternatives"
     )
@@ -233,19 +228,15 @@ def main():
         files = glob.glob(search_pattern, recursive=True)
 
     if not files:
-        print(f"No MDX files found in {args.path}")
         return
 
-    print(f"Found {len(files)} MDX files")
     if args.dry_run:
-        print("DRY RUN MODE - No files will be modified")
+        pass
 
     converted_count = 0
     for file_path in files:
         if convert_file(file_path, dry_run=args.dry_run):
             converted_count += 1
-
-    print(f"\n{'[DRY RUN] ' if args.dry_run else ''}Converted {converted_count} files")
 
 
 if __name__ == "__main__":
