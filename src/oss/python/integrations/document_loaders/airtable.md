@@ -3,7 +3,7 @@ title: Airtable
 ---
 
 ```python
-%pip install --upgrade --quiet  pyairtable
+%pip install -qU  pyairtable
 ```
 
 ```python

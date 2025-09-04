@@ -11,7 +11,7 @@ This notebook introduces how to use TiDB to store chat message history.
 Firstly, we will install the following dependencies:
 
 ```python
-%pip install --upgrade --quiet langchain langchain_openai langchain-community
+%pip install -qU langchain langchain_openai langchain-community
 ```
 
 Configuring your OpenAI Key

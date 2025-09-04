@@ -8,7 +8,7 @@ This notebook shows how you can generate images from a prompt synthesized using 
 
 ```python
 # Needed if you would like to display images in the notebook
-%pip install --upgrade --quiet  opencv-python scikit-image langchain-community
+%pip install -qU  opencv-python scikit-image langchain-community
 ```
 
 ```python

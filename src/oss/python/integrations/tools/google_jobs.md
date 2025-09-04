@@ -18,7 +18,7 @@ conda env confiv vars SERPAPI_API_KEY='[your serp api key]'
 ## Use the Tool
 
 ```python
-%pip install --upgrade --quiet google-search-results langchain-community
+%pip install -qU google-search-results langchain-community
 ```
 
 ```output
@@ -51,7 +51,7 @@ tool.run("Can I get an entry level job posting related to physics")
 In order to create an agent that uses the Google Jobs tool install Langgraph
 
 ```python
-%pip install --upgrade --quiet langgraph langchain-openai
+%pip install -qU langgraph langchain-openai
 ```
 
 ```output

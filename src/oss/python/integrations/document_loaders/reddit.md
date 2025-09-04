@@ -13,7 +13,7 @@ from langchain_community.document_loaders import RedditPostsLoader
 ```
 
 ```python
-%pip install --upgrade --quiet  praw
+%pip install -qU  praw
 ```
 
 ```python

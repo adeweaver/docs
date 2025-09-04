@@ -13,7 +13,7 @@ This notebook goes over how to use the `MongoDBChatMessageHistory` class to stor
 The integration lives in the `langchain-mongodb` package, so we need to install that.
 
 ```bash
-pip install -U --quiet langchain-mongodb
+pip install -qU langchain-mongodb
 ```
 
 It's also helpful (but not needed) to set up [LangSmith](https://smith.langchain.com/) for best-in-class observability

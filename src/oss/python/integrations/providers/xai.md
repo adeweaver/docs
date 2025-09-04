@@ -9,7 +9,7 @@ This example goes over how to use LangChain to interact with xAI models.
 ## Installation
 
 ```python
-%pip install --upgrade langchain-xai
+%pip install -U langchain-xai
 ```
 
 ## Environment

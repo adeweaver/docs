@@ -21,7 +21,7 @@ To run this notebook, you will need to do the following:
 The integration lives in its own `langchain-google-el-carro` package, so we need to install it.
 
 ```python
-%pip install --upgrade --quiet langchain-google-el-carro langchain-google-vertexai langchain
+%pip install -qU langchain-google-el-carro langchain-google-vertexai langchain
 ```
 
 **Colab only:** Uncomment the following cell to restart the kernel or use the button to restart the kernel. For Vertex AI Workbench you can restart the terminal using the button on top.

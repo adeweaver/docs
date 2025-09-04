@@ -30,7 +30,7 @@ To enable automated tracing of individual tools, set your [LangSmith](https://do
 This integration is implemented in `langchain-community`. We will also need the `pygithub` dependency:
 
 ```python
-%pip install --upgrade --quiet  pygithub langchain-community
+%pip install -qU  pygithub langchain-community
 ```
 
 #### 2. Create a Github App

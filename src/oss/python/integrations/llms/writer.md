@@ -32,7 +32,7 @@ The LangChain Writer integration lives in the `langchain-community` package:
 
 ```output
 [notice] A new release of pip is available: 24.2 -> 24.3.1
-[notice] To update, run: pip install --upgrade pip
+[notice] To update, run: pip install -U pip
 Note: you may need to restart the kernel to use updated packages.
 ```
 

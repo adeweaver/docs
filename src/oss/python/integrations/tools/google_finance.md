@@ -9,7 +9,7 @@ To get an SerpApi key key, sign up at: [serpapi.com/users/sign_up](https://serpa
 To use the tool with Langchain install following packages
 
 ```python
-%pip install --upgrade --quiet google-search-results langchain-community
+%pip install -qU google-search-results langchain-community
 ```
 
 ```output
@@ -42,7 +42,7 @@ tool.run("Google")
 In order to create an agent that uses the Google Finance tool install Langgraph
 
 ```python
-%pip install --upgrade --quiet langgraph langchain-openai
+%pip install -qU langgraph langchain-openai
 ```
 
 ```output

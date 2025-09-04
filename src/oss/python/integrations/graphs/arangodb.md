@@ -21,10 +21,10 @@ docker run -p 8529:8529 -e ARANGO_ROOT_PASSWORD= arangodb/arangodb
 An alternative is to use the [ArangoDB Cloud Connector package](https://github.com/arangodb/adb-cloud-connector#readme) to get a temporary cloud instance running:
 
 ```shell
-pip install --upgrade --quiet  python-arango # The ArangoDB Python Driver
-pip install --upgrade --quiet  adb-cloud-connector # The ArangoDB Cloud Instance provisioner
-pip install --upgrade --quiet  langchain-openai
-pip install --upgrade --quiet  langchain
+pip install -qU  python-arango # The ArangoDB Python Driver
+pip install -qU  adb-cloud-connector # The ArangoDB Cloud Instance provisioner
+pip install -qU  langchain-openai
+pip install -qU  langchain
 ```
 
 ```python

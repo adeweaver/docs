@@ -74,7 +74,7 @@ Installing collected packages: tika
 Successfully installed tika-2.6.0
 
 [notice] A new release of pip is available: 23.3.1 -> 23.3.2
-[notice] To update, run: pip install --upgrade pip
+[notice] To update, run: pip install -U pip
 Note: you may need to restart the kernel to use updated packages.
 ```
 

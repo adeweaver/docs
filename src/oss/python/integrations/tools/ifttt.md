@@ -43,7 +43,7 @@ service, and you're ready to start receiving data and triggering actions 🎉
 [maker.ifttt.com/use/YOUR_IFTTT_KEY](https://maker.ifttt.com/use/YOUR_IFTTT_KEY). Grab the YOUR_IFTTT_KEY value.
 
 ```python
-%pip install --upgrade --quiet  langchain-community
+%pip install -qU  langchain-community
 ```
 
 ```python

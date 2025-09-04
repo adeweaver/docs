@@ -16,7 +16,7 @@ title: OpenLLM
 Install `openllm` through [PyPI](https://pypi.org/project/openllm/)
 
 ```python
-%pip install --upgrade --quiet  openllm
+%pip install -qU  openllm
 ```
 
 ## Launch OpenLLM server locally

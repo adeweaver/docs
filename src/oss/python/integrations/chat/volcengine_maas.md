@@ -6,7 +6,7 @@ This guide provides you with a guide on how to get started with volc engine maas
 
 ```python
 # Install the package
-%pip install --upgrade --quiet  volcengine
+%pip install -qU  volcengine
 ```
 
 ```python

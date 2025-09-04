@@ -43,7 +43,7 @@ The LangChain Together integration lives in the `langchain-together` package:
 
 ```output
 [notice] A new release of pip is available: 24.0 -> 24.2
-[notice] To update, run: python -m pip install --upgrade pip
+[notice] To update, run: python -m pip install -U pip
 Note: you may need to restart the kernel to use updated packages.
 ```
 

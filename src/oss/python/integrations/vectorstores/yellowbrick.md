@@ -15,10 +15,10 @@ The tutorial is divided into five parts. First we'll use langchain to create a b
 
 ```python
 # Install all needed libraries
-%pip install --upgrade --quiet  langchain
-%pip install --upgrade --quiet  langchain-openai langchain-community
-%pip install --upgrade --quiet  psycopg2-binary
-%pip install --upgrade --quiet  tiktoken
+%pip install -qU  langchain
+%pip install -qU  langchain-openai langchain-community
+%pip install -qU  psycopg2-binary
+%pip install -qU  tiktoken
 ```
 
 ## Setup: Enter the information used to connect to Yellowbrick and OpenAI API

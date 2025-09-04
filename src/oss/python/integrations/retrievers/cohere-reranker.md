@@ -7,15 +7,15 @@ title: Cohere reranker
 This notebook shows how to use [Cohere's rerank endpoint](https://docs.cohere.com/docs/reranking) in a retriever. This builds on top of ideas in the [ContextualCompressionRetriever](/oss/how-to/contextual_compression).
 
 ```python
-%pip install --upgrade --quiet  cohere
+%pip install -qU  cohere
 ```
 
 ```python
-%pip install --upgrade --quiet  faiss
+%pip install -qU  faiss
 
 # OR  (depending on Python version)
 
-%pip install --upgrade --quiet  faiss-cpu
+%pip install -qU  faiss-cpu
 ```
 
 ```python

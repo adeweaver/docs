@@ -18,7 +18,7 @@ In the [Xata UI](https://app.xata.io) create a new database. You can name it wha
 Let's first install our dependencies:
 
 ```python
-%pip install --upgrade --quiet  xata langchain-openai langchain langchain-community
+%pip install -qU  xata langchain-openai langchain langchain-community
 ```
 
 Next, we need to get the environment variables for Xata. You can create a new API key by visiting your [account settings](https://app.xata.io/settings). To find the database URL, go to the Settings page of the database that you have created. The database URL should look something like this: `https://demo-uni3q8.eu-west-1.xata.sh/db/langchain`.

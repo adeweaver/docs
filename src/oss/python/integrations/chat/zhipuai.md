@@ -13,7 +13,7 @@ This notebook shows how to use [ZHIPU AI API](https://open.bigmodel.cn/dev/api) 
 First, ensure the zhipuai package is installed in your Python environment. Run the following command:
 
 ```python
-#!pip install --upgrade httpx httpx-sse PyJWT
+#!pip install -U httpx httpx-sse PyJWT
 ```
 
 ### Importing the Required Modules

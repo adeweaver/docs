@@ -17,7 +17,7 @@ You can work with both [Couchbase Capella](https://www.couchbase.com/products/ca
 `CouchbaseChatMessageHistory` lives inside the `langchain-couchbase` package.
 
 ```python
-%pip install --upgrade --quiet langchain-couchbase
+%pip install -qU langchain-couchbase
 ```
 
 ```output

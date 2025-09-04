@@ -96,7 +96,7 @@ page_content='2.3 <RegularWorkingHours>All work will be executed during regular 
 You can use the Docugami Loader like a standard loader for Document QA over multiple docs, albeit with much better chunks that follow the natural contours of the document. There are many great tutorials on how to do this, e.g. [this one](https://www.youtube.com/watch?v=3yPBVii7Ct0). We can just use the same code, but use the `DocugamiLoader` for better chunking, instead of loading text or PDF files directly with basic splitting techniques.
 
 ```python
-!poetry run pip install --upgrade langchain-openai tiktoken langchain-chroma hnswlib
+!poetry run pip install -U langchain-openai tiktoken langchain-chroma hnswlib
 ```
 
 ```python
@@ -199,7 +199,7 @@ print(chunks[0].metadata)
 We can use a [self-querying retriever](/oss/how-to/self_query) to improve our query accuracy, using this additional metadata:
 
 ```python
-!poetry run pip install --upgrade lark --quiet
+!poetry run pip install -U lark --quiet
 ```
 
 ```python

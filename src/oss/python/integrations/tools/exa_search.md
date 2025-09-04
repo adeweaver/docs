@@ -15,10 +15,10 @@ This notebook goes over how to use Exa Search with LangChain.
 Install the LangChain Exa integration package:
 
 ```python
-%pip install --upgrade --quiet langchain-exa
+%pip install -qU langchain-exa
 
 # and some deps for this notebook
-%pip install --upgrade --quiet langchain langchain-openai langchain-community
+%pip install -qU langchain langchain-openai langchain-community
 ```
 
 ### Credentials

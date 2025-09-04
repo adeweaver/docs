@@ -5,7 +5,7 @@ title: Google Places
 This notebook goes through how to use Google Places API
 
 ```python
-%pip install --upgrade --quiet  googlemaps langchain-community
+%pip install -qU  googlemaps langchain-community
 ```
 
 ```python

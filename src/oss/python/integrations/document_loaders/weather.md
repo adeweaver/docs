@@ -11,7 +11,7 @@ from langchain_community.document_loaders import WeatherDataLoader
 ```
 
 ```python
-%pip install --upgrade --quiet  pyowm
+%pip install -qU  pyowm
 ```
 
 ```python
