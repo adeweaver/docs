@@ -11,7 +11,7 @@ You'll need to install `langchain-community` with `pip install -qU langchain-com
 To run, you should have a [viking DB instance up and running](https://www.volcengine.com/docs/6459/1165058).
 
 ```python
-!pip install --upgrade volcengine
+!pip install -U volcengine
 ```
 
 We want to use VikingDBEmbeddings so we have to get the VikingDB API Key.

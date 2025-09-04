@@ -95,7 +95,7 @@ response = client.completions.create(
 ```
 
 ```python
-%pip install --upgrade --quiet  langchain-openai
+%pip install -qU  langchain-openai
 ```
 
 ```python

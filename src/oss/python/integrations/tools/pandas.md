@@ -8,8 +8,8 @@ This notebook shows how to use agents to interact with a `Pandas DataFrame`. It 
 
 **NOTE: Since langchain migrated to v0.3 you should upgrade langchain_openai and langchain.   This would avoid import errors.**
 
-pip install --upgrade langchain_openai
-pip install --upgrade langchain
+pip install -U langchain_openai
+pip install -U langchain
 
 ```python
 from langchain.agents.agent_types import AgentType

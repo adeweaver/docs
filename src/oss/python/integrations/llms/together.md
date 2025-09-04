@@ -15,7 +15,7 @@ This example goes over how to use LangChain to interact with Together AI models.
 ## Installation
 
 ```python
-%pip install --upgrade langchain-together
+%pip install -U langchain-together
 ```
 
 ## Environment

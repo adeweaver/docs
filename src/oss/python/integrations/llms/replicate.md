@@ -139,7 +139,7 @@ The model spits out a URL. Let's render it.
 Requirement already satisfied: Pillow in /Users/bagatur/langchain/.venv/lib/python3.9/site-packages (9.5.0)
 
 [notice] A new release of pip is available: 23.2 -> 23.2.1
-[notice] To update, run: pip install --upgrade pip
+[notice] To update, run: pip install -U pip
 ```
 
 ```python

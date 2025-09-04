@@ -79,7 +79,7 @@ Static models are configured once when creating the agent and remain unchanged t
 from langchain.agents import create_agent
 
 agent = create_agent(
-    "openai:gpt-5", 
+    "openai:gpt-5",
     tools=tools
 )
 ```
@@ -89,8 +89,8 @@ agent = create_agent(
 import { createAgent } from "langchain";
 
 const agent = createAgent({
-  model: "openai:gpt-5",
-  tools: []
+    model: "openai:gpt-5",
+    tools: []
 });
 ```
 :::
@@ -121,15 +121,15 @@ import { createAgent } from "langchain";
 import { ChatOpenAI } from "@langchain/openai";
 
 const model = new ChatOpenAI({
-  model: "gpt-4o",
-  temperature: 0.1,
-  maxTokens: 1000,
-  timeout: 30
+    model: "gpt-4o",
+    temperature: 0.1,
+    maxTokens: 1000,
+    timeout: 30
 });
 
 const agent = createAgent({
-  model,
-  tools: []
+    model,
+    tools: []
 });
 ```
 
@@ -183,17 +183,17 @@ import { createAgent, AgentState } from "langchain";
 import { ChatOpenAI } from "@langchain/openai";
 
 const selectModel = (state: AgentState) => {
-  const messageCount = state.messages.length;
+    const messageCount = state.messages.length;
 
-  if (messageCount > 10) {
-    return new ChatOpenAI({ model: "gpt-4.1" }).bindTools(tools);
-  }
-  return new ChatOpenAI({ model: "gpt-4o" }).bindTools(tools);
+    if (messageCount > 10) {
+        return new ChatOpenAI({ model: "gpt-4.1" }).bindTools(tools);
+    }
+    return new ChatOpenAI({ model: "gpt-4o" }).bindTools(tools);
 };
 
 const agent = createAgent({
-  llm: selectModel,
-  tools,
+    llm: selectModel,
+    tools,
 });
 ```
 :::
@@ -250,44 +250,44 @@ import { z } from "zod";
 import { createAgent, tool } from "langchain";
 
 const search = tool(
-  async ({ query }) => {
-    return `Results for: ${query}`;
-  },
-  {
-    name: "search",
-    description: "Search for information",
-    schema: z.object({
-      query: z.string().describe("The query to search for"),
-    }),
-  }
+    async ({ query }) => {
+        return `Results for: ${query}`;
+    },
+    {
+        name: "search",
+        description: "Search for information",
+        schema: z.object({
+        query: z.string().describe("The query to search for"),
+        }),
+    }
 );
 
 const calculate = tool(
-  async ({ expression }) => {
-    return String(eval(expression));
-  },
-  {
-    name: "calculate",
-    description: "Perform calculations",
-    schema: z.object({
-      expression: z.string().describe("The expression to calculate"),
-    }),
-  }
+    async ({ expression }) => {
+        return String(eval(expression));
+    },
+    {
+        name: "calculate",
+        description: "Perform calculations",
+        schema: z.object({
+        expression: z.string().describe("The expression to calculate"),
+        }),
+    }
 );
 
 const agent = createAgent({
-  model: "openai:gpt-4o",
-  tools: [search, calculate],
+    model: "openai:gpt-4o",
+    tools: [search, calculate],
 });
 
 const result = await agent.invoke({
-  messages: [
-    {
-      role: "user",
-      content:
-        "Find wireless headphones, check if they're in stock, and calculate shipping to New York",
-    },
-  ],
+    messages: [
+        {
+        role: "user",
+        content:
+            "Find wireless headphones, check if they're in stock, and calculate shipping to New York",
+        },
+    ],
 });
 
 console.log(result);
@@ -327,13 +327,13 @@ If an error occurs within `ToolNode`, the agent will return a `ToolMessage` to t
 import { ToolNode, ToolMessage } from "langchain";
 
 const toolNode = new ToolNode({
-  tools: [search, calculate],
-  handleToolErrors: (error, toolCall) => {
-    return new ToolMessage(
-      content="Please check your input and try again.",
-      tool_call_id=toolCall.id
-    );
-  }
+    tools: [search, calculate],
+    handleToolErrors: (error, toolCall) => {
+        return new ToolMessage(
+        content="Please check your input and try again.",
+        tool_call_id=toolCall.id
+        );
+    }
 });
 ```
 :::
@@ -425,9 +425,9 @@ agent = create_agent(
 :::js
 ```ts wrap
 const agent = createAgent({
-  model,
-  tools,
-  prompt: "You are a helpful assistant. Be concise and accurate."
+    model,
+    tools,
+    prompt: "You are a helpful assistant. Be concise and accurate."
 });
 ```
 :::
@@ -448,9 +448,9 @@ agent = create_agent(
 import { SystemMessage } from "langchain";
 
 const agent = createAgent({
-  model,
-  tools,
-  prompt: new SystemMessage("You are a research assistant. Cite your sources.")
+    model,
+    tools,
+    prompt: new SystemMessage("You are a research assistant. Cite your sources.")
 });
 ```
 :::
@@ -475,19 +475,19 @@ agent = create_agent(model, tools, prompt=dynamic_prompt)
 import { createAgent } from "langchain";
 
 const agent = createAgent({
-  model,
-  tools,
-  prompt: (state) => {
-    const userType = state.userType || "standard";
-    return [
-      new SystemMessage(
-        userType === "expert"
-            ? "Provide detailed technical responses."
-            : "Provide simple, clear explanations."
-      ),
-      ...state.messages
-    ];
-  }
+    model,
+    tools,
+    prompt: (state) => {
+        const userType = state.userType || "standard";
+        return [
+        new SystemMessage(
+            userType === "expert"
+                ? "Provide detailed technical responses."
+                : "Provide simple, clear explanations."
+        ),
+        ...state.messages
+        ];
+    }
 });
 ```
 :::
@@ -536,25 +536,25 @@ import { z } from "zod";
 import { createAgent } from "langchain";
 
 const ContactInfo = z.object({
-  name: z.string(),
-  email: z.string(),
-  phone: z.string(),
+    name: z.string(),
+    email: z.string(),
+    phone: z.string(),
 });
 
 const agent = createAgent({
-  model: "openai:gpt-4o",
-  tools: [],
-  responseFormat: ContactInfo,
+    model: "openai:gpt-4o",
+    tools: [],
+    responseFormat: ContactInfo,
 });
 
 const result = await agent.invoke({
-  messages: [
-    {
-      role: "user",
-      content:
-        "Extract contact info from: John Doe, john@example.com, (555) 123-4567",
-    },
-  ],
+    messages: [
+        {
+        role: "user",
+        content:
+            "Extract contact info from: John Doe, john@example.com, (555) 123-4567",
+        },
+    ],
 });
 
 console.log(result.structuredResponse);
@@ -609,14 +609,14 @@ import { MessagesZodState } from "@langchain/langgraph";
 import { createAgent, type BaseMessage } from "langchain";
 
 const customAgentState = z.object({
-  messages: MessagesZodState.shape.messages,
-  userPreferences: z.record(z.string(), z.string()),
+    messages: MessagesZodState.shape.messages,
+    userPreferences: z.record(z.string(), z.string()),
 });
 
 const CustomAgentState = createAgent({
-  model: "openai:gpt-4o",
-  tools: [],
-  stateSchema: customAgentState,
+    model: "openai:gpt-4o",
+    tools: [],
+    stateSchema: customAgentState,
 });
 ```
 :::
@@ -631,13 +631,13 @@ Pre-model hook is an optional node that can process state before the model is ca
 
 ```mermaid
 %%{
-  init: {
-    "fontFamily": "monospace",
-    "flowchart": {
-      "curve": "curve"
-    },
-    "themeVariables": {"edgeLabelBackground": "transparent"}
-  }
+    init: {
+        "fontFamily": "monospace",
+        "flowchart": {
+        "curve": "curve"
+        },
+        "themeVariables": {"edgeLabelBackground": "transparent"}
+    }
 }%%
 graph TD
     S(["\_\_start\_\_"])
@@ -678,12 +678,12 @@ It must be a callable or a runnable that takes in current graph state and return
 :::js
 ```ts wrap
 const agent = createAgent({
-  model: "openai:gpt-4o",
-  preModelHook: (state) => {
-    return {
-      messages: [RemoveMessage({ id: REMOVE_ALL_MESSAGES }), ...state.messages],
-    };
-  },
+    model: "openai:gpt-4o",
+    preModelHook: (state) => {
+        return {
+        messages: [RemoveMessage({ id: REMOVE_ALL_MESSAGES }), ...state.messages],
+        };
+    },
 });
 ```
 :::
@@ -725,25 +725,25 @@ agent = create_agent(
 import { createAgent, type AgentState } from "langchain";
 
 const trimMessages = (state: AgentState) => {
-  const messages = state.messages;
+    const messages = state.messages;
 
-  if (messages.length <= 3) {
-    return { messages };
-  }
+    if (messages.length <= 3) {
+        return { messages };
+    }
 
-  const firstMsg = messages[0];
-  const recentMessages = messages.length % 2 === 0
-    ? messages.slice(-3)
-    : messages.slice(-4);
+    const firstMsg = messages[0];
+    const recentMessages = messages.length % 2 === 0
+        ? messages.slice(-3)
+        : messages.slice(-4);
 
-  const newMessages = [firstMsg, ...recentMessages];
-  return { messages: newMessages };
+    const newMessages = [firstMsg, ...recentMessages];
+    return { messages: newMessages };
 };
 
 const agent = createAgent({
-  model: "openai:gpt-4o",
-  tools,
-  preModelHook: trimMessages,
+    model: "openai:gpt-4o",
+    tools,
+    preModelHook: trimMessages,
 });
 ```
 :::
@@ -769,16 +769,16 @@ import { RemoveMessage } from "@langchain/core/messages";
 import { REMOVE_ALL_MESSAGES } from "@langchain/langgraph";
 
 const agent = createAgent({
-  // ...
-  preModelHook: (state) => {
     // ...
-    return {
-      messages: [
-        RemoveMessage({ id: REMOVE_ALL_MESSAGES }),
-        ...state.messages
-      ],
+    preModelHook: (state) => {
+        // ...
+        return {
+        messages: [
+            RemoveMessage({ id: REMOVE_ALL_MESSAGES }),
+            ...state.messages
+        ],
+        };
     };
-  };
 });
 ```
 :::
@@ -790,13 +790,13 @@ Post-model hook is an optional node that can process the model's response before
 
 ```mermaid
 %%{
-  init: {
-    "fontFamily": "monospace",
-    "flowchart": {
-      "curve": "curve"
-    },
-    "themeVariables": {"edgeLabelBackground": "transparent"}
-  }
+    init: {
+        "fontFamily": "monospace",
+        "flowchart": {
+        "curve": "curve"
+        },
+        "themeVariables": {"edgeLabelBackground": "transparent"}
+    }
 }%%
 graph TD
     S(["\_\_start\_\_"])
@@ -860,23 +860,23 @@ import { createAgent, type AgentState, AIMessage, RemoveMessage } from "langchai
 import { REMOVE_ALL_MESSAGES } from "@langchain/langgraph";
 
 const validateResponse = (state: AgentState) => {
-  const lastMessage = state.messages.at(-1)?.content as string;
-  if (lastMessage.toLowerCase().includes("confidential")) {
-    return {
-      messages: [
-        new RemoveMessage({ id: REMOVE_ALL_MESSAGES }),
-        ...state.messages.slice(0, -1),
-        new AIMessage("I cannot share confidential information."),
-      ],
-    };
-  }
-  return {};
+    const lastMessage = state.messages.at(-1)?.content as string;
+    if (lastMessage.toLowerCase().includes("confidential")) {
+        return {
+        messages: [
+            new RemoveMessage({ id: REMOVE_ALL_MESSAGES }),
+            ...state.messages.slice(0, -1),
+            new AIMessage("I cannot share confidential information."),
+        ],
+        };
+    }
+    return {};
 };
 
 const agent = createAgent({
-  model: "openai:gpt-4o",
-  tools,
-  postModelHook: validateResponse,
+    model: "openai:gpt-4o",
+    tools,
+    postModelHook: validateResponse,
 });
 ```
 :::
@@ -901,20 +901,20 @@ for chunk in agent.stream({
 :::js
 ```ts wrap
 const stream = await agent.stream(
-  {
-    messages: [new HumanMessage("What's the weather in NYC?")],
-  },
-  { streamMode: "values" }
+    {
+        messages: [new HumanMessage("What's the weather in NYC?")],
+    },
+    { streamMode: "values" }
 );
 
 for await (const chunk of stream) {
-  // Each chunk contains the full state at that point
-  const latestMessage = chunk.messages.at(-1);
-  if (latestMessage?.content) {
-    console.log(`Agent: ${latestMessage.content}`);
-  } else if (latestMessage?.tool_calls) {
-    console.log(`Calling tools: ${latestMessage.tool_calls.map((tc: ToolCall) => tc.name).join(", ")}`);
-  }
+    // Each chunk contains the full state at that point
+    const latestMessage = chunk.messages.at(-1);
+    if (latestMessage?.content) {
+        console.log(`Agent: ${latestMessage.content}`);
+    } else if (latestMessage?.tool_calls) {
+        console.log(`Calling tools: ${latestMessage.tool_calls.map((tc: ToolCall) => tc.name).join(", ")}`);
+    }
 }
 ```
 :::

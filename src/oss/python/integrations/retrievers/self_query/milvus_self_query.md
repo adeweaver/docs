@@ -15,7 +15,7 @@ I have used the cloud version of Milvus, thus I need `uri` and `token` as well.
 NOTE: The self-query retriever requires you to have `lark` installed (`pip install lark`). We also need the `langchain_milvus` package.
 
 ```python
-%pip install --upgrade --quiet lark langchain_milvus
+%pip install -qU lark langchain_milvus
 ```
 
 We want to use `OpenAIEmbeddings` so we have to get the OpenAI API Key.

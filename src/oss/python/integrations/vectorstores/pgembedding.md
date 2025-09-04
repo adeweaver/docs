@@ -19,9 +19,9 @@ CREATE EXTENSION embedding;
 
 ```python
 # Pip install necessary package
-%pip install --upgrade --quiet  langchain-openai langchain-community
-%pip install --upgrade --quiet  psycopg2-binary
-%pip install --upgrade --quiet  tiktoken
+%pip install -qU  langchain-openai langchain-community
+%pip install -qU  psycopg2-binary
+%pip install -qU  tiktoken
 ```
 
 Add the OpenAI API Key to the environment variables to use `OpenAIEmbeddings`.

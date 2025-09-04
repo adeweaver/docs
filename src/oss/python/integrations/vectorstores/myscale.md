@@ -9,7 +9,7 @@ This notebook shows how to use functionality related to the `MyScale` vector dat
 ## Setting up environments
 
 ```python
-%pip install --upgrade --quiet  clickhouse-connect langchain-community
+%pip install -qU  clickhouse-connect langchain-community
 ```
 
 We want to use OpenAIEmbeddings so we have to get the OpenAI API Key.

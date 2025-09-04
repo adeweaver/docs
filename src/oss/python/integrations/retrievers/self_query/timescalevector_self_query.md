@@ -43,11 +43,11 @@ First we'll want to create a Timescale Vector vectorstore and seed it with some 
 NOTE: The self-query retriever requires you to have `lark` installed (`pip install lark`). We also need the `timescale-vector` package.
 
 ```python
-%pip install --upgrade --quiet  lark
+%pip install -qU  lark
 ```
 
 ```python
-%pip install --upgrade --quiet  timescale-vector
+%pip install -qU  timescale-vector
 ```
 
 In this example, we'll use `OpenAIEmbeddings`, so let's load your OpenAI API key.

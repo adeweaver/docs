@@ -58,11 +58,11 @@ The LangChain IBM integration lives in the `langchain-ibm` package:
 For experiment purpose please also install `faiss` or `faiss-cpu` package:
 
 ```python
-!pip install --upgrade --quiet  faiss
+!pip install -qU  faiss
 
 # OR  (depending on Python version)
 
-!pip install --upgrade --quiet  faiss-cpu
+!pip install -qU  faiss-cpu
 ```
 
 Helper function for printing docs

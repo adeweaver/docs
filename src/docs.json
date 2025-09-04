@@ -124,7 +124,7 @@
         "dropdowns": [
           {
             "dropdown": "OSS (v1-alpha)",
-            "icon": "/images/brand/langgraph-pill.svg",
+            "icon": "link",
             "description": "LangChain and LangGraph",
             "tabs": [
               {
@@ -408,12 +408,25 @@
                     ]
                   }
                 ]
+              },
+              {
+                "tab": "Contributing",
+                "groups": [
+                  {
+                    "group": "Contribute",
+                    "pages": [
+                      "oss/python/contributing",
+                      "oss/python/contributing/documentation",
+                      "oss/python/contributing/code"
+                    ]
+                  }
+                ]
               }
             ]
           },
           {
             "dropdown": "LangGraph Platform",
-            "icon": "/images/brand/langgraph-platform-pill.svg",
+            "icon": "rocket-launch",
             "description": "Platform for building and deploying AI agents",
             "tabs": [
               {
@@ -490,6 +503,7 @@
                       "langgraph-platform/add-human-in-the-loop",
                       "langgraph-platform/human-in-the-loop-time-travel",
                       "langgraph-platform/server-mcp",
+                      "langgraph-platform/server-a2a",
                       "langgraph-platform/use-webhooks",
                       {
                         "group": "Double-texting",
@@ -622,7 +636,7 @@
           },
           {
             "dropdown": "LangSmith",
-            "icon": "/images/brand/langsmith-pill.svg",
+            "icon": "screwdriver-wrench",
             "description": "Platform for LLM observability and evaluation",
             "tabs": [
               {
@@ -1007,7 +1021,7 @@
           },
           {
             "dropdown": "LangChain Labs",
-            "icon": "/images/brand/langchain-labs-pill.svg",
+            "icon": "flask",
             "description": "Experimental AI products from LangChain",
             "tabs": [
               {
@@ -1112,7 +1126,7 @@
         "dropdowns": [
           {
             "dropdown": "OSS (v1-alpha)",
-            "icon": "/images/brand/langgraph-pill.svg",
+            "icon": "link",
             "description": "LangChain and LangGraph",
             "tabs": [
               {
@@ -1392,12 +1406,25 @@
                     ]
                   }
                 ]
+              },
+              {
+                "tab": "Contributing",
+                "groups": [
+                  {
+                    "group": "Contribute",
+                    "pages": [
+                      "oss/javascript/contributing",
+                      "oss/javascript/contributing/documentation",
+                      "oss/javascript/contributing/code"
+                    ]
+                  }
+                ]
               }
             ]
           },
           {
             "dropdown": "LangGraph Platform",
-            "icon": "/images/brand/langgraph-platform-pill.svg",
+            "icon": "rocket-launch",
             "description": "Platform for building and deploying AI agents",
             "tabs": [
               {
@@ -1474,6 +1501,7 @@
                       "langgraph-platform/add-human-in-the-loop",
                       "langgraph-platform/human-in-the-loop-time-travel",
                       "langgraph-platform/server-mcp",
+                      "langgraph-platform/server-a2a",
                       "langgraph-platform/use-webhooks",
                       {
                         "group": "Double-texting",
@@ -1606,7 +1634,7 @@
           },
           {
             "dropdown": "LangSmith",
-            "icon": "/images/brand/langsmith-pill.svg",
+            "icon": "screwdriver-wrench",
             "description": "Platform for LLM observability and evaluation",
             "tabs": [
               {
@@ -2006,7 +2034,7 @@
           },
           {
             "dropdown": "LangChain Labs",
-            "icon": "/images/brand/langchain-labs-pill.svg",
+            "icon": "flask",
             "description": "Experimental AI products from LangChain",
             "tabs": [
               {

@@ -12,7 +12,7 @@ To prevent this, Open SWE supports adding an environment variable which will app
 Below are instructions showing how to use this to skip creating Vercel CI preview deployments on every commit:
 
 <Steps>
-    <Step title="Set the environment variable">
+  <Step title="Set the environment variable">
     Set the environment variable `SKIP_CI_UNTIL_LAST_COMMIT` to `true` in Open SWE's environment variables:
 
     `apps/open-swe/.env`
@@ -20,9 +20,9 @@ Below are instructions showing how to use this to skip creating Vercel CI previe
     SKIP_CI_UNTIL_LAST_COMMIT="true"
     ```
 
-    </Step>
+  </Step>
 
-    <Step title="Add custom 'Ignored Build Step' in Vercel">
+  <Step title="Add custom 'Ignored Build Step' in Vercel">
     Add a custom 'Ignored Build Step' in Vercel to skip CI when commit messages contain the string `[skip ci]`.
 
     1. Navigate to your Vercel project dashboard
@@ -36,13 +36,13 @@ Below are instructions showing how to use this to skip creating Vercel CI previe
     git log -1 --pretty=oneline --abbrev-commit | grep -w "\[skip ci\]" && exit 0 || exit 1
     ```
 
-        <Callout type="warning">
+    <Callout type="warning">
       **Do not test this command locally** as it will close your terminal. Use the testing method below instead.
-        </Callout>
+    </Callout>
 
-    </Step>
+  </Step>
 
-    <Step title="Test the configuration (optional)">
+  <Step title="Test the configuration (optional)">
     To verify your setup works without closing your terminal, use this safe testing command:
 
     ```bash
@@ -58,7 +58,7 @@ Below are instructions showing how to use this to skip creating Vercel CI previe
     - Commits with `[skip ci]` should show "Vercel would skip this build"
     - Commits without `[skip ci]` should show "Vercel would proceed with build"
 
-    </Step>
+  </Step>
 </Steps>
 
 ### How it works

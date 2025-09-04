@@ -10,8 +10,8 @@ A document will be created for each note in the export.
 
 ```python
 # lxml and html2text are required to parse EverNote notes
-%pip install --upgrade --quiet  lxml
-%pip install --upgrade --quiet  html2text
+%pip install -qU  lxml
+%pip install -qU  html2text
 ```
 
 ```python

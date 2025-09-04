@@ -13,7 +13,7 @@ To use Clarifai, you must have an account and a Personal Access Token (PAT) key.
 
 ```python
 # Install required dependencies
-%pip install --upgrade --quiet  clarifai
+%pip install -qU  clarifai
 ```
 
 ```python

@@ -7,11 +7,11 @@ title: OpenClip
 These multi-modal embeddings can be used to embed images or text.
 
 ```python
-%pip install --upgrade --quiet  langchain-experimental
+%pip install -qU  langchain-experimental
 ```
 
 ```python
-%pip install --upgrade --quiet  pillow open_clip_torch torch matplotlib
+%pip install -qU  pillow open_clip_torch torch matplotlib
 ```
 
 We can the list of available CLIP embedding models and checkpoints:

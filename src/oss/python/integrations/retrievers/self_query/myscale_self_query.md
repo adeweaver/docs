@@ -21,7 +21,7 @@ MyScale has already been integrated to LangChain for a while. So you can follow 
 **Note:** All self-query retrievers requires you to have `lark` installed (`pip install lark`). We use `lark` for grammar definition. Before you proceed to the next step, we also want to remind you that `clickhouse-connect` is also needed to interact with your MyScale backend.
 
 ```python
-%pip install --upgrade --quiet  lark clickhouse-connect
+%pip install -qU  lark clickhouse-connect
 ```
 
 In this tutorial we follow other example's setting and use `OpenAIEmbeddings`. Remember to get an OpenAI API Key for valid access to LLMs.

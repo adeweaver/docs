@@ -11,9 +11,9 @@ This notebook shows how to use functionality related to the DingoDB vector datab
 To run, you should have a [DingoDB instance up and running](https://github.com/dingodb/dingo-deploy/blob/main/README.md).
 
 ```python
-%pip install --upgrade --quiet  dingodb
+%pip install -qU  dingodb
 # or install latest:
-%pip install --upgrade --quiet  git+https://git@github.com/dingodb/pydingo.git
+%pip install -qU  git+https://git@github.com/dingodb/pydingo.git
 ```
 
 We want to use OpenAIEmbeddings so we have to get the OpenAI API Key.

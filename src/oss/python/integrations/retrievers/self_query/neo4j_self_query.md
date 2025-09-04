@@ -13,7 +13,7 @@ First we'll want to create a Neo4j vector store and seed it with some data. We'v
 We want to use `OpenAIEmbeddings` so we have to get the OpenAI API Key.
 
 ```python
-%pip install --upgrade neo4j
+%pip install -U neo4j
 ```
 
 ```output

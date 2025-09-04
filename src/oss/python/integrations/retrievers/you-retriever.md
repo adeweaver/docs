@@ -11,7 +11,7 @@ The retriever lives in the `langchain-community` package.
 You also need to set your you.com API key.
 
 ```python
-%pip install --upgrade --quiet langchain-community
+%pip install -qU langchain-community
 ```
 
 ```python
@@ -126,7 +126,7 @@ print(response)
 
 ```python
 # you need a model to use in the chain
-!pip install --upgrade --quiet langchain-openai
+!pip install -qU langchain-openai
 ```
 
 ```python
