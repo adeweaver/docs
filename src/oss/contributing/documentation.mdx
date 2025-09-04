@@ -44,7 +44,7 @@ For simple changes like fixing typos, you can edit directly on GitHub without se
     </Step>
 
     <Step title="Fork the repository">
-        GitHub will prompt you to fork the repository to your account. Make sure to fork into your personal account, **not an organization**
+        GitHub will prompt you to fork the repository to your account. Make sure to fork into your <Tooltip tip="If you clone to an organization, maintainers are unable to make edits.">personal account</Tooltip>!
     </Step>
 
     <Step title="Make your changes">
@@ -125,7 +125,7 @@ Our documentation uses a build pipeline that converts source files to Mintlify f
 
 <Steps>
     <Step title="Install dependencies">
-        You will need to install [`uv`](https://docs.astral.sh/uv/getting-started/installation/) and [`mint`](https://mintlify.com/docs/installation) if you haven't already.
+        You will need to install [`uv`](https://docs.astral.sh/uv/getting-started/installation/) and [`mint`](https://mintlify.com/docs/installation) if you haven't already. Also, be sure to [clone the docs](#full-development-setup) repo.
 
         ```bash
         cd docs
@@ -178,6 +178,11 @@ Conceptual guides fall under the "Explanation" quadrant of Diataxis. They cover 
     </Accordion>
 </AccordionGroup>
 
+**Examples**
+- [Models](/oss/langchain-models)
+- [Messages](/oss/langchain-messages)
+- [Agents](/oss/langchain-agents)
+
 ### References
 
 References contain detailed, low-level information describing exactly what functionality exists and how to use it.
@@ -198,6 +203,10 @@ References contain detailed, low-level information describing exactly what funct
         - Use proper type annotations
     </Accordion>
 </AccordionGroup>
+
+**Examples**
+- [LangChain Python API reference](https://python.langchain.com/api_reference/)
+- [LangChain JavaScript/TypeScript API reference](https://v03.api.js.langchain.com/index.html)
 
 ## Writing standard
 
