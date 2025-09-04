@@ -210,8 +210,8 @@ const toolNode = new ToolNode([searchDatabase, calculate], {
 :::python
 <ParamField path="tools" required>
     A list of tools that this node can execute. Can include:
-    
-    - LangChain `@tool` decorated functions 
+
+    - LangChain `@tool` decorated functions
     - Callable objects (e.g. functions) with proper type hints and a docstring
 </ParamField>
 :::
@@ -439,11 +439,11 @@ const result = await agent.invoke({
 
 When you pass a `ToolNode` to `createAgent()`, the agent uses your exact configuration including error handling, custom names, and tags. This is useful when you need fine-grained control over tool execution behavior.
 :::
-:::python
 
 ### State, context, and memory
 
 <AccordionGroup>
+:::python
     <Accordion title="Accessing agent state inside a tool">
         <Info>
             **`state`**: The agent maintains state throughout its execution - this includes messages, custom fields, and any data your tools need to track. State flows through the graph and can be accessed and modified by tools.
@@ -522,8 +522,8 @@ When you pass a `ToolNode` to `createAgent()`, the agent uses your exact configu
             """Update the user's name."""
             return Command(update={"user_name": new_name})
         ```
-        :::
     </Accordion>
+:::
 
     <Accordion title="Accessing runtime context inside a tool">
         <Info>
