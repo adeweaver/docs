@@ -111,25 +111,28 @@ def pip_to_uv(pip_cmd: str) -> str:
 
 def convert_pip_block_to_codegroup(content: str, file_path: str = "") -> str:
     """Convert standalone pip install code blocks to CodeGroup format."""
-    # Pattern to match standalone pip install code blocks
-    # This will match code blocks that contain pip install commands
+    # Match only bash blocks where pip install appears within the first few lines
+    # This prevents matching across unrelated code blocks
     pip_pattern = re.compile(
-        r"```(?:bash|shell|sh)?\s*\n(.*?pip install[^\n]*(?:\n(?!```)[^\n]*)*)\n```",
-        re.MULTILINE | re.DOTALL,
+        r"```(?:bash|shell|sh)?\s*\n((?:[^\n]*\n){0,3}[^\n]*pip install[^\n]*(?:\n(?!```)[^\n]*)*)\n```",
+        re.MULTILINE,
     )
 
-
     def replace_pip_block(match):
-        # Simple check: if the code block starts with "pip", it's likely already converted
-        block_content = match.group(1).strip()
-        first_line = block_content.split('\n')[0].strip()
-        if first_line.startswith('pip install'):
-            # Check a few lines before to see if we're in a CodeGroup
-            start_pos = match.start()
-            text_before = content[max(0, start_pos-200):start_pos]
-            if '<CodeGroup>' in text_before and '</CodeGroup>' not in text_before:
-                return match.group(0)  # Already in CodeGroup
+        # Check if we're already inside a CodeGroup by examining the full context
+        start_pos = match.start()
 
+        # Look backwards for the nearest <CodeGroup> or </CodeGroup>
+        text_before = content[:start_pos]
+        last_codegroup_start = text_before.rfind('<CodeGroup>')
+        last_codegroup_end = text_before.rfind('</CodeGroup>')
+
+        # If the most recent CodeGroup tag before this match is an opening tag,
+        # then we're inside a CodeGroup
+        if last_codegroup_start > last_codegroup_end:
+            return match.group(0)  # Already in CodeGroup
+
+        block_content = match.group(1).strip()
         lines = block_content.split("\n")
 
         # Check if this is a simple pip install command (not part of a larger script)
