@@ -1,0 +1,111 @@
+---
+title: Observability
+---
+
+import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
+
+<AlphaCallout />
+
+Observability is crucial for understanding how your agents behave in production. With LangChain's `create_agent()`, you get built-in observability through [LangSmith](https://smith.langchain.com/) - a powerful platform for tracing, debugging, evaluating, and monitoring your LLM applications.
+
+Traces capture every step your agent takes, from the initial user input to the final response, including all tool calls, model interactions, and decision points. This enables you to debug your agents, evaluate performance, and monitor usage.
+
+## Prerequisites
+
+Before you begin, ensure you have the following:
+* A [LangSmith account](https://smith.langchain.com/) (free to sign up)
+
+## Enable tracing
+
+LangChain agents created with `create_agent()` automatically support LangSmith tracing. To enable it, set the following environment variables:
+
+```bash
+export LANGSMITH_TRACING=true
+export LANGSMITH_API_KEY=<your-api-key>
+```
+
+You can get your API key from your [LangSmith settings](https://smith.langchain.com/settings).
+
+## Quick start
+
+No extra code is needed to log a trace to LangSmith. Just run your agent code as you normally would:
+
+
+
+```ts
+import { createAgent } from "@langchain/agents";
+
+function sendEmail(to: string, subject: string, body: string): string {
+    // ... email sending logic
+    return `Email sent to ${to}`;
+}
+
+function searchWeb(query: string): string {
+    // ... web search logic
+    return `Search results for: ${query}`;
+}
+
+const agent = createAgent({
+    model: "openai:gpt-4o",
+    tools: [sendEmail, searchWeb],
+    prompt: "You are a helpful assistant that can send emails and search the web."
+});
+
+// Run the agent - all steps will be automatically traced
+const response = await agent.invoke({
+    messages: [{ role: "user", content: "Search for the latest AI news and email a summary to john@example.com" }]
+});
+```
+
+
+By default, the trace will be logged to the project with the name `default`. To configure a custom project name, see [Log to a specific project](#log-to-a-specific-project).
+
+## Trace selectively
+
+You can trace only specific invocations or parts of your application using LangSmith's `tracing_context` context manager:
+
+
+
+```ts
+// TODO
+```
+
+
+## Log to a specific project
+
+### Statically
+
+You can set a custom project name for your entire application by setting the `LANGSMITH_PROJECT` environment variable:
+
+```bash
+export LANGSMITH_PROJECT=my-agent-project
+```
+
+### Dynamically
+
+You can also set the project name programmatically for specific operations:
+
+
+
+```ts
+// TODO
+```
+
+
+## Add metadata and tags to traces
+
+You can annotate your traces with custom metadata and tags by providing them in the config:
+
+
+
+```ts
+// TODO
+```
+
+
+This custom metadata and tags will be attached to the trace in LangSmith.
+
+
+<Tip>
+To learn more about how to use traces to debug, evaluate, and monitor your agents, see the [LangSmith documentation](/langsmith/home).
+</Tip>
