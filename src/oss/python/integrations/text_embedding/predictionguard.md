@@ -27,7 +27,7 @@ os.environ["PREDICTIONGUARD_API_KEY"] = "<Prediction Guard API Key"
 ### Installation
 
 ```python
-%pip install --upgrade --quiet langchain-predictionguard
+%pip install -qU langchain-predictionguard
 ```
 
 ## Instantiation

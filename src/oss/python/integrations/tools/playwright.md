@@ -17,8 +17,8 @@ Some tools bundled within the `PlayWright Browser` toolkit include:
 - `CurrentPageTool` (current_page) - get the current page URL
 
 ```python
-%pip install --upgrade --quiet  playwright > /dev/null
-%pip install --upgrade --quiet  lxml
+%pip install -qU  playwright > /dev/null
+%pip install -qU  lxml
 
 # If this is your first time using playwright, you'll have to install a browser executable.
 # Running `playwright install` by default installs a chromium browser executable.
@@ -27,11 +27,11 @@ Some tools bundled within the `PlayWright Browser` toolkit include:
 
 ```output
 [notice] A new release of pip is available: 24.0 -> 24.2
-[notice] To update, run: pip install --upgrade pip
+[notice] To update, run: pip install -U pip
 Note: you may need to restart the kernel to use updated packages.
 
 [notice] A new release of pip is available: 24.0 -> 24.2
-[notice] To update, run: pip install --upgrade pip
+[notice] To update, run: pip install -U pip
 Note: you may need to restart the kernel to use updated packages.
 ```
 

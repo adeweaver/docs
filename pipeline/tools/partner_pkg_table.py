@@ -1,4 +1,4 @@
-"""This script populates the Python integrations landing page at
+"""This script populates the Python integrations landing page at.
 
 oss/python/integrations/providers
 

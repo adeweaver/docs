@@ -23,7 +23,7 @@ check [llmsherpa](https://llmsherpa.readthedocs.io/en/latest/) documentation.
 
 ```python
 # Install package
-# !pip install --upgrade --quiet llmsherpa
+# !pip install -qU llmsherpa
 ```
 
 ## LLMSherpaFileLoader

@@ -25,7 +25,7 @@ After confirmed access to database in the runtime environment of this notebook, 
 The integration lives in its own `langchain-google-firestore` package, so we need to install it.
 
 ```python
-%pip install --upgrade --quiet langchain-google-firestore
+%pip install -qU langchain-google-firestore
 ```
 
 **Colab only**: Uncomment the following cell to restart the kernel or use the button to restart the kernel. For Vertex AI Workbench you can restart the terminal using the button on top.

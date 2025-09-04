@@ -26,13 +26,13 @@ To enable automated tracing of individual tools, set your [LangSmith](https://do
 This toolkit lives in the `langchain-community` package:
 
 ```python
-%pip install --upgrade --quiet  langchain-community
+%pip install -qU  langchain-community
 ```
 
 For demonstration purposes, we will access a prompt in the LangChain [Hub](https://smith.langchain.com/hub). We will also require `langgraph` to demonstrate the use of the toolkit with an agent. This is not required to use the toolkit.
 
 ```python
-%pip install --upgrade --quiet langchainhub langgraph
+%pip install -qU langchainhub langgraph
 ```
 
 ## Instantiation

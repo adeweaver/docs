@@ -15,9 +15,9 @@ To use DingoDB, you should have a [DingoDB instance up and running](https://gith
 **Note:** The self-query retriever requires you to have `lark` package installed.
 
 ```python
-%pip install --upgrade --quiet  dingodb
+%pip install -qU  dingodb
 # or install latest:
-%pip install --upgrade --quiet  git+https://git@github.com/dingodb/pydingo.git
+%pip install -qU  git+https://git@github.com/dingodb/pydingo.git
 ```
 
 We want to use `OpenAIEmbeddings` so we have to get the OpenAI API Key.

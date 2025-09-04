@@ -13,7 +13,7 @@ See [PromptLayer docs](https://docs.promptlayer.com/languages/langchain) for mor
 ## Installation and Setup
 
 ```python
-%pip install --upgrade --quiet  langchain-community promptlayer --upgrade
+%pip install -qU  langchain-community promptlayer --upgrade
 ```
 
 ### Getting API Credentials

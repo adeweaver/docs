@@ -16,12 +16,12 @@ First we'll want to create a Deep Lake vector store and seed it with some data. 
 **Note:** The self-query retriever requires you to have `lark` installed (`pip install lark`). We also need the `deeplake` package.
 
 ```python
-%pip install --upgrade --quiet  lark
+%pip install -qU  lark
 ```
 
 ```python
 # in case if some queries fail consider installing libdeeplake manually
-%pip install --upgrade --quiet  libdeeplake
+%pip install -qU  libdeeplake
 ```
 
 We want to use `OpenAIEmbeddings` so we have to get the OpenAI API Key.

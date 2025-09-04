@@ -15,7 +15,7 @@ from langchain_community.document_loaders import MastodonTootsLoader
 ```
 
 ```python
-%pip install --upgrade --quiet  Mastodon.py
+%pip install -qU  Mastodon.py
 ```
 
 ```python

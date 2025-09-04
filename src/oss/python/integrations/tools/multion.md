@@ -14,7 +14,7 @@ To use this toolkit, you will need to add `MultiOn Extension` to your browser:
 * Add  [MultiOn extension for Chrome](https://multion.notion.site/Download-MultiOn-ddddcfe719f94ab182107ca2612c07a5).
 
 ```python
-%pip install --upgrade --quiet  multion langchain -q
+%pip install -qU  multion langchain -q
 ```
 
 ```python

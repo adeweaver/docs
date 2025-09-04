@@ -16,7 +16,7 @@ Then we will need to set some environment variables:
 
 ```python
 pip install dataherald
-%pip install --upgrade --quiet langchain-community
+%pip install -qU langchain-community
 ```
 
 ```python

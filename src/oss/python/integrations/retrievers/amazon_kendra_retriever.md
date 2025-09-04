@@ -9,7 +9,7 @@ title: Amazon Kendra
 ## Using the Amazon Kendra Index Retriever
 
 ```python
-%pip install --upgrade --quiet  boto3
+%pip install -qU  boto3
 ```
 
 ```python

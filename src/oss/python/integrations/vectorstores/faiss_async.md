@@ -16,9 +16,9 @@ LangChain implemented the synchronous and asynchronous vector store functions.
 See `synchronous` version [here](/oss/integrations/vectorstores/faiss).
 
 ```python
-%pip install --upgrade --quiet  faiss-gpu # For CUDA 7.5+ Supported GPU's.
+%pip install -qU  faiss-gpu # For CUDA 7.5+ Supported GPU's.
 # OR
-%pip install --upgrade --quiet  faiss-cpu # For CPU Installation
+%pip install -qU  faiss-cpu # For CPU Installation
 ```
 
 We want to use OpenAIEmbeddings so we have to get the OpenAI API Key.

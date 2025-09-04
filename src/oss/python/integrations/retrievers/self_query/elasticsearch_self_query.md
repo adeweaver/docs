@@ -15,12 +15,12 @@ First, we'll want to create an `Elasticsearch` vector store and seed it with som
 **Note:** The self-query retriever requires you to have `lark` installed (`pip install lark`). We also need the `elasticsearch` package.
 
 ```python
-%pip install --upgrade --quiet  U lark langchain langchain-elasticsearch
+%pip install -qU  U lark langchain langchain-elasticsearch
 ```
 
 ```output
 WARNING: You are using pip version 22.0.4; however, version 23.3 is available.
-You should consider upgrading via the '/Users/joe/projects/elastic/langchain/libs/langchain/.venv/bin/python3 -m pip install --upgrade pip' command.
+You should consider upgrading via the '/Users/joe/projects/elastic/langchain/libs/langchain/.venv/bin/python3 -m pip install -U pip' command.
 
 ```
 

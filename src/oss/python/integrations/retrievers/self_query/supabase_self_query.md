@@ -73,19 +73,19 @@ Next we'll want to create a Supabase vector store and seed it with some data. We
 Be sure to install the latest version of `langchain` with `openai` support:
 
 ```python
-%pip install --upgrade --quiet  langchain langchain-openai tiktoken
+%pip install -qU  langchain langchain-openai tiktoken
 ```
 
 The self-query retriever requires you to have `lark` installed:
 
 ```python
-%pip install --upgrade --quiet  lark
+%pip install -qU  lark
 ```
 
 We also need the `supabase` package:
 
 ```python
-%pip install --upgrade --quiet  supabase
+%pip install -qU  supabase
 ```
 
 Since we are using `SupabaseVectorStore` and `OpenAIEmbeddings`, we have to load their API keys.
@@ -111,7 +111,7 @@ if "OPENAI_API_KEY" not in os.environ:
 _Optional:_ If you're storing your Supabase and OpenAI API keys in a `.env` file, you can load them with [`dotenv`](https://github.com/theskumar/python-dotenv).
 
 ```python
-%pip install --upgrade --quiet  python-dotenv
+%pip install -qU  python-dotenv
 ```
 
 ```python

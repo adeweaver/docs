@@ -11,7 +11,7 @@ from langchain_community.document_loaders import YoutubeLoader
 ```
 
 ```python
-%pip install --upgrade --quiet  youtube-transcript-api
+%pip install -qU  youtube-transcript-api
 ```
 
 ```python
@@ -27,7 +27,7 @@ loader.load()
 ### Add video info
 
 ```python
-%pip install --upgrade --quiet  pytube
+%pip install -qU  pytube
 ```
 
 ```python
@@ -80,7 +80,7 @@ print("\n\n".join(map(repr, loader.load())))
 1. Create a Google Cloud project or use an existing project
 1. Enable the [Youtube Api](https://console.cloud.google.com/apis/enableflow?apiid=youtube.googleapis.com&project=sixth-grammar-344520)
 1. [Authorize credentials for desktop app](https://developers.google.com/drive/api/quickstart/python#authorize_credentials_for_a_desktop_application)
-1. `pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib youtube-transcript-api`
+1. `pip install -U google-api-python-client google-auth-httplib2 google-auth-oauthlib youtube-transcript-api`
 
 ### 🧑 Instructions for ingesting your Google Docs data
 

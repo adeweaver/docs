@@ -16,7 +16,7 @@ The `pipeline-ai` library is required to use the `PipelineAI` API, AKA `Pipeline
 
 ```python
 # Install the package
-%pip install --upgrade --quiet  pipeline-ai
+%pip install -qU  pipeline-ai
 ```
 
 ## Example

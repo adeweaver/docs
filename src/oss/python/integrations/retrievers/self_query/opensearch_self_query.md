@@ -13,7 +13,7 @@ First, we'll want to create an `OpenSearch` vector store and seed it with some d
 **Note:** The self-query retriever requires you to have `lark` installed (`pip install lark`). We also need the `opensearch-py` package.
 
 ```python
-%pip install --upgrade --quiet  lark opensearch-py
+%pip install -qU  lark opensearch-py
 ```
 
 ```python

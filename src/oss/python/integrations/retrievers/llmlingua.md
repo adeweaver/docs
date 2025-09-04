@@ -7,12 +7,12 @@ title: LLMLingua Document Compressor
 This notebook shows how to use LLMLingua as a document compressor.
 
 ```python
-%pip install --upgrade --quiet  llmlingua accelerate
+%pip install -qU  llmlingua accelerate
 ```
 
 ```output
 [notice] A new release of pip is available: 23.3.2 -> 24.0
-[notice] To update, run: python -m pip install --upgrade pip
+[notice] To update, run: python -m pip install -U pip
 Note: you may need to restart the kernel to use updated packages.
 ```
 
