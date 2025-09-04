@@ -15,7 +15,7 @@
     import { OpenAIEmbeddings } from "@langchain/openai";
 
     const embeddings = new OpenAIEmbeddings({
-    model: "text-embedding-3-large"
+      model: "text-embedding-3-large"
     });
     ```
     </Tab>
@@ -41,7 +41,7 @@
     import { AzureOpenAIEmbeddings } from "@langchain/openai";
 
     const embeddings = new AzureOpenAIEmbeddings({
-    azureOpenAIApiEmbeddingsDeploymentName: "text-embedding-ada-002"
+      azureOpenAIApiEmbeddingsDeploymentName: "text-embedding-ada-002"
     });
     ```
     </Tab>
@@ -65,7 +65,7 @@
     import { BedrockEmbeddings } from "@langchain/aws";
 
     const embeddings = new BedrockEmbeddings({
-    model: "amazon.titan-embed-text-v1"
+      model: "amazon.titan-embed-text-v1"
     });
     ```
     </Tab>
@@ -89,7 +89,7 @@
     import { VertexAIEmbeddings } from "@langchain/google-vertexai";
 
     const embeddings = new VertexAIEmbeddings({
-    model: "text-embedding-004"
+      model: "text-embedding-004"
     });
     ```
     </Tab>
@@ -113,7 +113,7 @@
     import { MistralAIEmbeddings } from "@langchain/mistralai";
 
     const embeddings = new MistralAIEmbeddings({
-    model: "mistral-embed"
+      model: "mistral-embed"
     });
     ```
     </Tab>
@@ -137,7 +137,7 @@
     import { CohereEmbeddings } from "@langchain/cohere";
 
     const embeddings = new CohereEmbeddings({
-    model: "embed-english-v3.0"
+      model: "embed-english-v3.0"
     });
     ```
     </Tab>
