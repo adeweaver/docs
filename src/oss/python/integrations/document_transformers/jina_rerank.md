@@ -7,11 +7,11 @@ This notebook shows how to use Jina Reranker for document compression and retrie
 ```python
 %pip install -qU langchain langchain-openai langchain-community langchain-text-splitters langchainhub
 
-%pip install --upgrade --quiet  faiss
+%pip install -qU  faiss
 
 # OR  (depending on Python version)
 
-%pip install --upgrade --quiet  faiss_cpu
+%pip install -qU  faiss_cpu
 ```
 
 ```python

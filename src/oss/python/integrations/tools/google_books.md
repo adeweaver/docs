@@ -16,7 +16,7 @@ Currently the tool has the following capabilities:
 Make sure `langchain-community` is installed.
 
 ```python
-%pip install --upgrade --quiet  langchain-community
+%pip install -qU  langchain-community
 ```
 
 ### Credentials

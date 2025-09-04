@@ -14,7 +14,7 @@ title: FastEmbed by Qdrant
 To use FastEmbed with LangChain, install the `fastembed` Python package.
 
 ```python
-%pip install --upgrade --quiet  fastembed
+%pip install -qU  fastembed
 ```
 
 ## Imports

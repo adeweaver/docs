@@ -128,7 +128,7 @@ We show here how to use it as part of an [agent](/oss/tutorials/agents). We use 
 
 ```python
 # you need a model to use in the chain
-%pip install --upgrade --quiet langchain langchain-openai langchainhub langchain-community
+%pip install -qU langchain langchain-openai langchainhub langchain-community
 ```
 
 ```python

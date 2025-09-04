@@ -7,7 +7,7 @@ title: Couchbase
 ## Installation
 
 ```python
-%pip install --upgrade --quiet  couchbase
+%pip install -qU  couchbase
 ```
 
 ## Querying for Documents from Couchbase

@@ -23,7 +23,7 @@ The `NebiusEmbeddings` class provides access to Nebius AI Studio's embedding mod
 The Nebius integration can be installed via pip:
 
 ```python
-%pip install --upgrade langchain-nebius
+%pip install -U langchain-nebius
 ```
 
 ### Credentials

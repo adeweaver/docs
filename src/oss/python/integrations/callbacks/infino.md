@@ -16,11 +16,11 @@ This example shows how one can track the following while calling OpenAI and Chat
 
 ```python
 # Install necessary dependencies.
-%pip install --upgrade --quiet  infinopy
-%pip install --upgrade --quiet  matplotlib
-%pip install --upgrade --quiet  tiktoken
-%pip install --upgrade --quiet  langchain langchain-openai langchain-community
-%pip install --upgrade --quiet  beautifulsoup4
+%pip install -qU  infinopy
+%pip install -qU  matplotlib
+%pip install -qU  tiktoken
+%pip install -qU  langchain langchain-openai langchain-community
+%pip install -qU  beautifulsoup4
 ```
 
 ```python

@@ -10,7 +10,7 @@ This notebook shows how to use the `SQLiteVSS` vector database.
 
 ```python
 # You need to install sqlite-vss as a dependency.
-%pip install --upgrade --quiet  sqlite-vss
+%pip install -qU  sqlite-vss
 ```
 
 ## Quickstart

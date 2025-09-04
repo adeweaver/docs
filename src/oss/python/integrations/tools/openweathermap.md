@@ -16,7 +16,7 @@ Then we will need to set some environment variables:
 ## Use the wrapper
 
 ```python
-%pip install --upgrade --quiet pyowm
+%pip install -qU pyowm
 ```
 
 ```output

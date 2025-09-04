@@ -15,7 +15,7 @@ This notebook guides you how to use Tigris as your VectorStore
 Let's first install our dependencies:
 
 ```python
-%pip install --upgrade --quiet  tigrisdb openapi-schema-pydantic langchain-openai langchain-community tiktoken
+%pip install -qU  tigrisdb openapi-schema-pydantic langchain-openai langchain-community tiktoken
 ```
 
 We will load the `OpenAI` api key and `Tigris` credentials in our environment

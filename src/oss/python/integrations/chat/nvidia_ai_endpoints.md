@@ -70,7 +70,7 @@ To enable automated tracing of your model calls, set your [LangSmith](https://do
 The LangChain NVIDIA AI Endpoints integration lives in the `langchain-nvidia-ai-endpoints` package:
 
 ```python
-%pip install --upgrade --quiet langchain-nvidia-ai-endpoints
+%pip install -qU langchain-nvidia-ai-endpoints
 ```
 
 ## Instantiation
@@ -274,7 +274,7 @@ llm.invoke(f'What\'s in this image?\n<img src="{base64_with_mime_type}" />')
 Like any other integration, ChatNVIDIA is fine to support chat utilities like RunnableWithMessageHistory which is analogous to using `ConversationChain`. Below, we show the [LangChain RunnableWithMessageHistory](https://python.langchain.com/api_reference/core/runnables/langchain_core.runnables.history.RunnableWithMessageHistory.html) example applied to the `mistralai/mixtral-8x22b-instruct-v0.1` model.
 
 ```python
-%pip install --upgrade --quiet langchain
+%pip install -qU langchain
 ```
 
 ```python

@@ -14,7 +14,7 @@ First we'll want to create a MongoDB Atlas VectorStore and seed it with some dat
 NOTE: The self-query retriever requires you to have `lark` installed (`pip install lark`). We also need the `pymongo` package.
 
 ```python
-%pip install --upgrade --quiet  lark pymongo
+%pip install -qU  lark pymongo
 ```
 
 We want to use `OpenAIEmbeddings` so we have to get the OpenAI API Key.

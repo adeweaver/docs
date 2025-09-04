@@ -9,7 +9,7 @@ This notebook goes over how to use [Rockset](https://rockset.com/docs) to store 
 ## Setting up
 
 ```python
-%pip install --upgrade --quiet  rockset langchain-community
+%pip install -qU  rockset langchain-community
 ```
 
 To begin, with get your API key from the [Rockset console](https://console.rockset.com/apikeys). Find your API region for the Rockset [API reference](https://rockset.com/docs/rest-api#introduction).

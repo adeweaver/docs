@@ -13,7 +13,7 @@ In order to create the vector store, we use
 connection a `Vespa` service.
 
 ```python
-%pip install --upgrade --quiet  pyvespa
+%pip install -qU  pyvespa
 ```
 
 Using the `pyvespa` package, you can either connect to a

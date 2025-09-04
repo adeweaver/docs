@@ -9,7 +9,7 @@ This notebook shows how to load text files from `Git` repository.
 ## Load existing repository from disk
 
 ```python
-%pip install --upgrade --quiet  GitPython
+%pip install -qU  GitPython
 ```
 
 ```python

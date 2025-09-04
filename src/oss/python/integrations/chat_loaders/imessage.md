@@ -120,7 +120,7 @@ It's time to fine-tune the model. Make sure you have `openai` installed
 and have set your `OPENAI_API_KEY` appropriately
 
 ```python
-%pip install --upgrade --quiet  langchain-openai
+%pip install -qU  langchain-openai
 ```
 
 ```python

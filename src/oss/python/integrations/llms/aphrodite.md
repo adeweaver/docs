@@ -18,7 +18,7 @@ To use, you should have the `aphrodite-engine` python package installed.
 ```
 
 ```python
-%pip install --upgrade --quiet  aphrodite-engine==0.4.2
+%pip install -qU  aphrodite-engine==0.4.2
 # %pip list | grep aphrodite
 ```
 

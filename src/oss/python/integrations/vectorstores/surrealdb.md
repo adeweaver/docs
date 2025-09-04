@@ -38,7 +38,7 @@ Install `langchain-surrealdb` and `surrealdb` python packages.
 
 ```shell
 # -- Using pip
-pip install --upgrade langchain-surrealdb surrealdb
+pip install -U langchain-surrealdb surrealdb
 # -- Using poetry
 poetry add langchain-surrealdb surrealdb
 # -- Using uv

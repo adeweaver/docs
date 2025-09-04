@@ -9,7 +9,7 @@ This example goes over how to use LangChain and [Runhouse](https://github.com/ru
 **Note**: Code uses `SelfHosted` name instead of the `Runhouse`.
 
 ```python
-%pip install --upgrade --quiet  runhouse
+%pip install -qU  runhouse
 ```
 
 ```python

@@ -15,11 +15,11 @@ To use Pinecone, you have to have `pinecone` package installed and you must have
 **Note:** The self-query retriever requires you to have `lark` package installed.
 
 ```python
-%pip install --upgrade --quiet  lark
+%pip install -qU  lark
 ```
 
 ```python
-%pip install --upgrade --quiet pinecone-notebooks pinecone-client==3.2.2
+%pip install -qU pinecone-notebooks pinecone-client==3.2.2
 ```
 
 ```python

@@ -21,7 +21,7 @@ Use the `PsychicLoader` class to load in documents from a connection. Each conne
 
 ```output
 [notice] A new release of pip is available: 23.0.1 -> 23.1.2
-[notice] To update, run: pip install --upgrade pip
+[notice] To update, run: pip install -U pip
 ```
 
 ```python

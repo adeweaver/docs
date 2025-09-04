@@ -13,7 +13,7 @@ First we'll want to create a databricks vector store index and seed it with some
 **Note:** The self-query retriever requires you to have `lark` installed (`pip install lark`) along with integration-specific requirements.
 
 ```python
-%pip install --upgrade --quiet  langchain-core databricks-vectorsearch langchain-openai tiktoken
+%pip install -qU  langchain-core databricks-vectorsearch langchain-openai tiktoken
 ```
 
 ```output

@@ -11,7 +11,7 @@ This notebook covers how to load documents from `Google Drive`. Currently, only 
 1. Create a Google Cloud project or use an existing project
 1. Enable the [Google Drive API](https://console.cloud.google.com/flows/enableapi?apiid=drive.googleapis.com)
 1. [Authorize credentials for desktop app](https://developers.google.com/drive/api/quickstart/python#authorize_credentials_for_a_desktop_application)
-1. `pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib`
+1. `pip install -U google-api-python-client google-auth-httplib2 google-auth-oauthlib`
 
 ## 🧑 Instructions for ingesting your Google Docs data
 
@@ -27,7 +27,7 @@ The first time you use GoogleDriveLoader, you will be displayed with the consent
 * Document: [docs.google.com/document/d/1bfaMQ18_i56204VaQDVeAFpqEijJTgvurupdEDiaUQw/edit](https://docs.google.com/document/d/1bfaMQ18_i56204VaQDVeAFpqEijJTgvurupdEDiaUQw/edit) -> document id is `"1bfaMQ18_i56204VaQDVeAFpqEijJTgvurupdEDiaUQw"`
 
 ```python
-%pip install --upgrade --quiet langchain-google-community[drive]
+%pip install -qU langchain-google-community[drive]
 ```
 
 ```python
@@ -114,7 +114,7 @@ in its place.
 To be compatible with containers, the authentication uses an environment variable `̀GOOGLE_ACCOUNT_FILE` to credential file (for user or service).
 
 ```python
-%pip install --upgrade --quiet  langchain-googledrive
+%pip install -qU  langchain-googledrive
 ```
 
 ```python
@@ -158,7 +158,7 @@ It's possible to update or customize this. See the documentation of `GDriveLoade
 But, the corresponding packages must be installed.
 
 ```python
-%pip install --upgrade --quiet  unstructured
+%pip install -qU  unstructured
 ```
 
 ```python

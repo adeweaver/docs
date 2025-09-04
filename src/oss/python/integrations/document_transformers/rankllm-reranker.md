@@ -7,15 +7,15 @@ title: RankLLM Reranker
 > **Note:** If using the built-in retriever, RankLLM requires **Pyserini, JDK 21, PyTorch, and Faiss** for retrieval functionality.
 
 ```python
-%pip install --upgrade --quiet rank_llm
+%pip install -qU rank_llm
 ```
 
 ```python
-%pip install --upgrade --quiet langchain_openai
+%pip install -qU langchain_openai
 ```
 
 ```python
-%pip install --upgrade --quiet faiss-cpu
+%pip install -qU faiss-cpu
 ```
 
 ```python

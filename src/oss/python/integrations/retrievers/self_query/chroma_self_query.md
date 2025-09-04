@@ -13,11 +13,11 @@ First we'll want to create a Chroma vector store and seed it with some data. We'
 **Note:** The self-query retriever requires you to have `lark` installed (`pip install lark`). We also need the `langchain-chroma` package.
 
 ```python
-%pip install --upgrade --quiet  lark
+%pip install -qU  lark
 ```
 
 ```python
-%pip install --upgrade --quiet  langchain-chroma
+%pip install -qU  langchain-chroma
 ```
 
 We want to use `OpenAIEmbeddings` so we have to get the OpenAI API Key.

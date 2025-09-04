@@ -11,8 +11,8 @@ You'll need to install `langchain-community` with `pip install -qU langchain-com
 Use azure-search-documents package version 11.4.0 or later.
 
 ```python
-%pip install --upgrade --quiet  azure-search-documents
-%pip install --upgrade --quiet  azure-identity
+%pip install -qU  azure-search-documents
+%pip install -qU  azure-identity
 ```
 
 ## Import required libraries

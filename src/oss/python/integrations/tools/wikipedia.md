@@ -7,7 +7,7 @@ title: Wikipedia
 First, you need to install `wikipedia` python package.
 
 ```python
-%pip install --upgrade --quiet  wikipedia
+%pip install -qU  wikipedia
 ```
 
 ```python

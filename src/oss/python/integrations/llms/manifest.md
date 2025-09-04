@@ -9,7 +9,7 @@ For more detailed information on `manifest`, and how to use it with local huggin
 Another example of [using Manifest with Langchain](https://github.com/HazyResearch/manifest/blob/main/examples/langchain_chatgpt.html).
 
 ```python
-%pip install --upgrade --quiet  manifest-ml
+%pip install -qU  manifest-ml
 ```
 
 ```python

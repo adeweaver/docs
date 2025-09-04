@@ -9,7 +9,7 @@ This example goes over how to use LangChain to interact with `C Transformers` [m
 **Install**
 
 ```python
-%pip install --upgrade --quiet  ctransformers
+%pip install -qU  ctransformers
 ```
 
 **Load Model**

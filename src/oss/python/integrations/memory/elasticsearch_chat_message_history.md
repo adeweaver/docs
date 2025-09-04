@@ -17,7 +17,7 @@ There are two main ways to set up an Elasticsearch instance:
 ## Install dependencies
 
 ```python
-%pip install --upgrade --quiet  elasticsearch langchain langchain-community
+%pip install -qU  elasticsearch langchain langchain-community
 ```
 
 ## Authentication

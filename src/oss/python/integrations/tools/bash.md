@@ -9,7 +9,7 @@ The LLM can use it to execute any shell commands. A common use case for this is 
 **Note:** Shell tool does not work with Windows OS.
 
 ```python
-%pip install --upgrade --quiet langchain-community
+%pip install -qU langchain-community
 ```
 
 ```python
