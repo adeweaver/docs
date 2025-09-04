@@ -1,0 +1,31 @@
+---
+title: AWS SageMakerEndpoint
+---
+
+LangChain.js supports integration with AWS SageMaker-hosted endpoints. Check [Amazon SageMaker JumpStart](https://aws.amazon.com/sagemaker/jumpstart/) for a list of available models, and how to deploy your own.
+
+## Setup
+
+You'll need to install the official SageMaker SDK as a peer dependency:
+
+```bash npm
+npm install @aws-sdk/client-sagemaker-runtime
+```
+import IntegrationInstallTooltip from '/snippets/javascript-integrations/integration-install-tooltip.mdx';
+
+<IntegrationInstallTooltip/>
+
+```bash npm
+npm install @langchain/community @langchain/core
+```
+
+## Usage
+
+import SagemakerEndpoint from "/snippets/javascript-integrations/examples/models/llm/sagemaker_endpoint.mdx";
+
+<SagemakerEndpoint />
+
+## Related
+
+- LLM [conceptual guide](/oss/javascript/concepts/text_llms)
+- LLM [how-to guides](/oss/javascript/how-to/#llms)
