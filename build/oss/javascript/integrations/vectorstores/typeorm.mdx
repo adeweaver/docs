@@ -1,0 +1,50 @@
+---
+title: TypeORM
+---
+
+To enable vector search in a generic PostgreSQL database, LangChain.js supports using [TypeORM](https://typeorm.io/) with the [`pgvector`](https://github.com/pgvector/pgvector) Postgres extension.
+
+## Setup
+
+To work with TypeORM, you need to install the `typeorm` and `pg` packages:
+
+```bash npm
+npm install typeorm
+```
+```bash npm
+npm install pg
+```
+
+import IntegrationInstallTooltip from '/snippets/javascript-integrations/integration-install-tooltip.mdx';
+
+<IntegrationInstallTooltip/>
+
+```bash npm
+npm install @langchain/openai @langchain/community @langchain/core
+```
+
+### Setup a `pgvector` self hosted instance with `docker-compose`
+
+`pgvector` provides a prebuilt Docker image that can be used to quickly setup a self-hosted Postgres instance.
+Create a file below named `docker-compose.yml`:
+
+import DockerComposeExample from "/snippets/javascript-integrations/examples/indexes/vector_stores/typeorm_vectorstore/docker_compose_example.mdx";
+
+<DockerComposeExample />
+
+And then in the same directory, run `docker compose up` to start the container.
+
+You can find more information on how to setup `pgvector` in the [official repository](https://github.com/pgvector/pgvector).
+
+## Usage
+
+import Typeorm from "/snippets/javascript-integrations/examples/indexes/vector_stores/typeorm_vectorstore/typeorm.mdx";
+
+One complete example of using `TypeORMVectorStore` is the following:
+
+<Typeorm />
+
+## Related
+
+- Vector store [conceptual guide](/oss/javascript/concepts/#vectorstores)
+- Vector store [how-to guides](/oss/javascript/how-to/#vectorstores)
