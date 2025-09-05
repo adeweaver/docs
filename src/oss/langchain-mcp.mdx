@@ -1,12 +1,12 @@
 ---
-title: MCP
+title: Model Context Protocol (MCP)
 ---
 
 import AlphaCallout from '/snippets/alpha-lg-callout.mdx';
 
 <AlphaCallout />
 
-[Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction) is an open protocol that standardizes how applications provide tools and context to LLMs. LangChain agents can use tools defined on MCP servers through the [`langchain-mcp-adapters`](https://github.com/langchain-ai/langchain-mcp-adapters) library.
+[Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction) is an open protocol that standardizes how applications provide tools and context to LLMs. LangChain agents can use tools defined on MCP servers using the [`langchain-mcp-adapters`](https://github.com/langchain-ai/langchain-mcp-adapters) library.
 
 ![MCP](/oss/images/mcp.png)
 
@@ -51,33 +51,34 @@ bun add @langchain/mcp-adapters
 MCP supports different transport mechanisms for client-server communication:
 
 - stdio: Client launches server as a subprocess and communicates via standard input/output. Best for local tools and simple setups.
-- Streamable HTTP: Server runs as an independent process handling HTTP requests. Supports remote connections and multiple clients. Uses Server-Sent Events (SSE) for streaming.
+- Streamable HTTP: Server runs as an independent process handling HTTP requests. Supports remote connections and multiple clients.
 - Server-Sent Events (SSE): a variant of streamable HTTP optimized for real-time streaming communication.
 
 ## Use MCP tools
 
 :::python
-The `langchain-mcp-adapters` package enables agents to use tools defined across one or more MCP servers.
+`langchain-mcp-adapters` enables agents to use tools defined across one or more MCP server.
 
-```python Accessing multiple servers {highlight={1,4,19,22}} icon="server"
+```python Accessing multiple MCP servers {highlight={1,4,19,22}} icon="server"
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langchain.agents import create_agent
 
 client = MultiServerMCPClient(
     {
         "math": {
-            "command": "python",
-            # Replace with absolute path to your math_server.py file
-            "args": ["/path/to/math_server.py"],
             "transport": "stdio",  # Local subprocess communication
+            "command": "python",
+            # Absolute path to your math_server.py file
+            "args": ["/path/to/math_server.py"],
         },
         "weather": {
+            "transport": "streamable_http",  # HTTP-based remote server
             # Ensure you start your weather server on port 8000
             "url": "http://localhost:8000/mcp",
-            "transport": "streamable_http",  # HTTP-based remote server
         }
     }
 )
+
 tools = await client.get_tools()
 agent = create_agent(
     "anthropic:claude-3-7-sonnet-latest",
@@ -94,24 +95,24 @@ weather_response = await agent.ainvoke(
 :::
 
 :::js
-The `@langchain/mcp-adapters` package enables agents to use tools defined across one or more MCP servers.
+`@langchain/mcp-adapters` enables agents to use tools defined across one or more MCP server.
 
-```ts MCP client accessing multiple servers {highlight={1,5,19,22}}
+```ts Accessing multiple MCP servers {highlight={1,5,19,22}} icon="server"
 import { MultiServerMCPClient } from "@langchain/mcp-adapters";
 import { ChatAnthropic } from "@langchain/anthropic";
 import { createAgent } from "langchain";
 
 const client = new MultiServerMCPClient({
     math: {
+        transport: "stdio",  // Local subprocess communication
         command: "node",
         // Replace with absolute path to your math_server.js file
         args: ["/path/to/math_server.js"],
-        transport: "stdio",  // Local subprocess communication
     },
     weather: {
+        transport: "sse",  // Server-Sent Events for streaming
         // Ensure you start your weather server on port 8000
         url: "http://localhost:8000/mcp",
-        transport: "sse",  // Server-Sent Events for streaming
     },
 });
 
@@ -131,10 +132,14 @@ const weatherResponse = await agent.invoke({
 ```
 :::
 
+<Note>
+    `MultiServerMCPClient` is **stateless by default**. Each tool invocation creates a fresh MCP `ClientSession`, executes the tool, and then cleans up.
+</Note>
+
 ## Custom MCP servers
 
 :::python
-To create your own MCP servers, you can use the `mcp` library. This library provides a simple way to define tools and run them as servers.
+To create your own MCP servers, you can use the `mcp` library. This library provides a simple way to define [tools](https://modelcontextprotocol.io/docs/learn/server-concepts#tools-ai-actions) and run them as servers.
 
 <CodeGroup>
 ```bash pip
@@ -148,7 +153,7 @@ uv add mcp
 :::
 
 :::js
-To create your own MCP servers, you can use the `@modelcontextprotocol/sdk` library. This library provides a simple way to define tools and run them as servers.
+To create your own MCP servers, you can use the `@modelcontextprotocol/sdk` library. This library provides a simple way to define [tools](https://modelcontextprotocol.io/docs/learn/server-concepts#tools-ai-actions) and run them as servers.
 
 <CodeGroup>
 ```bash npm
@@ -388,7 +393,7 @@ app.listen(PORT, () => {
 
 You can also expose existing LangChain tools through an MCP server using the `to_fastmcp` function. This allows you to make your LangChain tools available to any MCP client.
 
-```python
+```python Make LangChain tools available via MCP icon="tool"
 from langchain_core.tools import tool
 from langchain_mcp_adapters.tools import to_fastmcp
 from mcp.server.fastmcp import FastMCP
@@ -406,61 +411,36 @@ def get_user_info(user_id: str) -> str:
 
 
 # Convert LangChain tools to FastMCP
-fastmcp_tools = [to_fastmcp(add), to_fastmcp(get_user_info)]
+fastmcp_tools = to_fastmcp([add, get_user_info])
 
-# Create MCP server with the converted tools
+# Create server using converted tools
 mcp = FastMCP("LangChain Tools", tools=fastmcp_tools)
 mcp.run(transport="stdio")
 ```
+:::
 
-## Stateless architecture
+## Stateful tool usage
 
-The MCP client is **stateless by default**, which provides several important benefits:
+For stateful servers that maintain context between tool calls, use `client.session()` to create a persistent `ClientSession`.
 
-- **Scalability**: Web servers can handle requests without maintaining session state, making horizontal scaling simpler
-- **Reliability**: No risk of losing state when servers restart or crash
-- **Simplicity**: Eliminates the complexity of state synchronization across multiple server instances
-- **Resource efficiency**: No memory overhead from storing session data
+:::python
+```python Using MCP ClientSession for stateful tool usage
+from langchain_mcp_adapters.tools import load_mcp_tools
 
-Each tool invocation creates a fresh MCP `ClientSession`, executes the tool, and then cleans up. This ensures that:
-- Tools don't interfere with each other
-- Memory usage remains constant
-- There are no state-related bugs between tool calls
-
-### Using session objects for state
-
-If you need to maintain state across tool calls (such as for conversation context or user sessions), use session objects in your application layer:
-
-```python
-from langchain_mcp_adapters.client import MultiServerMCPClient
-from langgraph.prebuilt import create_react_agent
-
-class StatefulAgent:
-    def __init__(self, mcp_config: dict):
-        self.client = MultiServerMCPClient(mcp_config)
-        self.session_data = {}  # Store session state here
-
-    async def chat(self, session_id: str, message: str):
-        # Get tools (fresh connection each time)
-        tools = await self.client.get_tools()
-        agent = create_react_agent("openai:gpt-4.1", tools)
-
-        # Retrieve session context
-        session_context = self.session_data.get(session_id, [])
-
-        # Add new message with context
-        messages = session_context + [{"role": "user", "content": message}]
-
-        # Get response
-        response = await agent.ainvoke({"messages": messages})
-
-        # Store updated session context
-        self.session_data[session_id] = messages + [response["messages"][-1]]
-
-        return response
+client = MultiServerMCPClient({...})
+async with client.session("math") as session:
+    tools = await load_mcp_tools(session)
 ```
+:::
 
-This pattern keeps the MCP connections stateless while maintaining conversational context at the application level.
+:::js
+```typescript Using MCP ClientSession for stateful tool usage
+import { loadMCPTools } from "@langchain/mcp-adapters/tools.js";
+
+const client = new MultiServerMCPClient({...});
+const session = await client.session("math");
+const tools = await loadMCPTools(session);
+```
 :::
 
 ## Additional resources
