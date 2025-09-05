@@ -1,5 +1,5 @@
 ---
-title: Build a semantic search engine
+title: Semantic search
 ---
 
 import EmbeddingsTabsPy from '/snippets/embeddings-tabs-py.mdx';

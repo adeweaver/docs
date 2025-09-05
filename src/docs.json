@@ -166,7 +166,8 @@
                   {
                     "group": "Tutorials",
                     "pages": [
-                      "oss/python/langchain-knowledge-base"
+                      "oss/python/langchain-knowledge-base",
+                      "oss/python/langchain-rag"
                     ]
                   },
                   {
