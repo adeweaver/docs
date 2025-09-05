@@ -60,6 +60,52 @@ LangChain provides several built in middleware to use off-the-shelf
 
 ### Anthropic Prompt Caching
 
+`AnthropicPromptCachingMiddleware` is a middleware that enables you to enable Anthropic's native prompt caching.
+
+Prompt caching enables optimial API usage by allowing resuming from specific prefixes in your prompts.
+This is particularly useful for tasks with repetitive prompts or prompts with redundant information.
+
+<Info>
+Learn more about Anthropic Prompt Caching (strategies, limitations, etc.) [here](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching#cache-limitations).
+</Info>
+
+When using prompt caching, you'll likely want to use a checkpointer to store conversation
+history across invocations.
+
+:::python
+```python
+from langchain_anthropic import ChatAnthropic
+from langchain.agents.middleware.prompt_caching import AnthropicPromptCachingMiddleware
+from langchain.agents import create_agent
+from langgraph.checkpoint.memory import InMemorySaver
+
+LONG_PROMPT = """
+Please be a helpful assistant.
+
+<Lots more context ...>
+"""
+
+agent = create_agent(
+    model=ChatAnthropic(model="claude-sonnet-4-latest"),
+    prompt=LONG_PROMPT,
+    middleware=[AnthropicPromptCachingMiddleware(ttl="5m")],
+    checkpointer=InMemorySaver(),
+)
+
+common_config = {"configurable": {"thread_id": "1"}}
+
+# cache store
+agent.invoke({"messages": [HumanMessage("Hi, my name is Bob")]}, common_config)
+
+# cache hit
+agent.invoke({"messages": [HumanMessage("What's my name?")]}, common_config)
+```
+:::
+:::js
+```typescript
+```
+:::
+
 ## Custom Middleware
 
 Middleware for agents are subclasses of `AgentMiddleware`, which implement one or more of its hooks.
