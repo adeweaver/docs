@@ -6,7 +6,12 @@ import AlphaCallout from '/snippets/alpha-lg-callout.mdx';
 
 <AlphaCallout />
 
+:::python
 [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction) is an open protocol that standardizes how applications provide tools and context to LLMs. LangChain agents can use tools defined on MCP servers using the [`langchain-mcp-adapters`](https://github.com/langchain-ai/langchain-mcp-adapters) library.
+:::
+:::js
+[Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction) is an open protocol that standardizes how applications provide tools and context to LLMs. LangChain agents can use tools defined on MCP servers using the [`langchain-mcp-adapters`](https://github.com/langchain-ai/langchainjs/tree/main/libs/langchain-mcp-adapters/adapters) library.
+:::
 
 ![MCP](/oss/images/mcp.png)
 
@@ -411,7 +416,7 @@ def get_user_info(user_id: str) -> str:
 
 
 # Convert LangChain tools to FastMCP
-fastmcp_tools = to_fastmcp([add, get_user_info])
+fastmcp_tools = [to_fastmcp(tool) for tool in (add, get_user_info)]
 
 # Create server using converted tools
 mcp = FastMCP("LangChain Tools", tools=fastmcp_tools)
@@ -447,4 +452,9 @@ const tools = await loadMCPTools(session);
 
 * [MCP documentation](https://modelcontextprotocol.io/introduction)
 * [MCP Transport documentation](https://modelcontextprotocol.io/docs/concepts/transports)
-* [`langchain_mcp_adapters`](https://github.com/langchain-ai/langchain-mcp-adapters)
+:::python
+* [`langchain-mcp-adapters`](https://github.com/langchain-ai/langchain-mcp-adapters)
+:::
+:::js
+* [`langchain-mcp-adapters`](https://github.com/langchain-ai/langchainjs/tree/main/libs/langchain-mcp-adapters/)
+:::
