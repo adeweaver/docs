@@ -1,0 +1,177 @@
+---
+title: Middleware
+---
+
+## Overview
+
+Middleware is a new configuration option available for agents.
+It provides a way to more tightly control what happens inside the agent.
+
+The core agent loop involves calling a `model`, letting it choose `tools` to execute, and then finishing when it calls no more tools.
+Middleware provides control over what happens before and after those steps.
+
+## Using in an agent
+
+
+```typescript
+import { createAgent } from "langchain";
+import { SummarizationMiddleware, HumanInTheLoopMiddleware } from "langchain/middleware";
+
+const agent = createAgent({
+  middleware: [
+    middleware1,
+    middleware2,
+  ],
+});
+```
+
+
+Middleware is highly flexible and replaces some other functionality in the agent.
+As such, when middleware are used, there are some restrictions on the arguments used to create the agent:
+- `model` must be either a string or a BaseChatModel. Will error if a function is passed. If you want to dynamically control the model, use `AgentMiddleware.modify_model_request`
+- `prompt` must be either a string or None. Will error if a function is passed. If you want to dynamically control the prompt, use `AgentMiddleware.modify_model_request`
+- `pre_model_hook` must not be provided. Use `AgentMiddleware.before_model` instead.
+- `post_model_hook` must not be provided. Use `AgentMiddleware.after_model` instead.
+
+## Built-in Middleware
+
+LangChain provides several built in middleware to use off-the-shelf
+
+- Summarization
+- Human in the loop
+- Anthropic Prompt Caching
+
+### Summarization
+
+### Human in the loop
+
+### Anthropic Prompt Caching
+
+`AnthropicPromptCachingMiddleware` is a middleware that enables you to enable Anthropic's native prompt caching.
+
+Prompt caching enables optimial API usage by allowing resuming from specific prefixes in your prompts.
+This is particularly useful for tasks with repetitive prompts or prompts with redundant information.
+
+<Info>
+Learn more about Anthropic Prompt Caching (strategies, limitations, etc.) [here](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching#cache-limitations).
+</Info>
+
+When using prompt caching, you'll likely want to use a checkpointer to store conversation
+history across invocations.
+
+
+```typescript
+```
+
+
+## Custom Middleware
+
+Middleware for agents are subclasses of `AgentMiddleware`, which implement one or more of its hooks.
+
+`AgentMiddleware` currently provides three different ways to modify the core agent loop:
+
+- `before_model`: runs before the model is run. Can update state or exit early with `AgentJump`
+- `modify_model_request`: runs before the model is run. Cannot update state or exit early with `AgentJump`
+- `after_model`: runs after the model is run. Can update state or exit early with `AgentJump`
+
+### `before_model`
+
+Runs before the model is run. Can modify state by returning a new state object or state update.
+Can return `AgentJump` to exit early
+
+Signature:
+
+```typescript
+import type { AgentState, AgentUpdate, AgentJump } from "langchain";
+
+function beforeModel (state: AgentState): AgentUpdate | AgentJump | undefined {
+    // ...
+}
+```
+
+
+### `modify_model_request`
+
+Runs before the model has run, but after all the `before_model` calls.
+These functions **cannot** modify permanent state or exit early.
+Rather, they are intended to modify calls to the model in a **stateless* way.
+If you want to modify calls to the model in a **stateful** way, you will need to use `before_model`
+
+Modifies the model request. The model request has several key properties:
+- `model` (`BaseChatModel`): the model to use. Note: this needs to the base chat model, not a string.
+- `system_prompt` (`str`): the system prompt to use. Will get appended to `messages`
+- `messages` (list of messages): the message list. Should not include system prompt.
+- `tool_choice` (Any): the tool choice to use
+- `tools` (list of `BaseTool`): the tools to use for this model call
+- `response_format` (`ResponseFormat`): the response format to use for structured output
+
+Signature:
+
+```
+```typescript
+function modifyModelRequest (request: ModelRequest, state: AgentState): ModelRequest {
+    return request;
+}
+```
+
+### `after_model`
+
+Runs after the model is run. Can modify state by returning a new state object or state update.
+Can return `AgentJump` to exit early
+
+Signature:
+
+```typescript
+import type { AgentState, AgentUpdate, AgentJump } from "langchain";
+
+function afterModel (state: AgentState): AgentUpdate | AgentJump | undefined {
+    // ...
+}
+```
+
+
+## New state keys
+
+Middleware may require new state keys to exist.
+Middleware can declare new state keys by typing the input or output types.
+
+Example usage:
+
+
+## Middleware execution order
+
+You can provide multiple middlewares. They are executed in the following logic:
+
+**`before_model`**: Are run in the order they are passed in. If an earlier middleware exits early, then following middleware are not run
+**`modify_model_request`**: Are run in the order they are passed in.
+**`after_model`**: Are run in the *reverse* order that they are passed in. If an earlier middleware exits early, then following middleware are not run
+
+## AgentJump
+
+`before_model` and `after_model` can return `AgentJump`.
+`AgentJump` contains a `jump_to` value.
+
+This `jump_to` value can be one of:
+- `tools`
+- `model`
+- `__end__`
+
+This specifies the node to jump to.
+
+If this is specified, all subsequent middleware will not run.
+
+If you jump to `model` node, all `before_model` middleware will run. It's forbidden to jump to `model` from an existing `before_model` middleware.
+
+Example usage:
+
+```typescript
+import type { AgentState, AgentUpdate, AgentJump } from "langchain";
+
+afterModel (state: AgentState): AgentUpdate | AgentJump | undefined {
+    return {
+        messages: ...,
+        jump_to: "model"
+    }
+}
+```
+
