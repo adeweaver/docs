@@ -931,7 +931,8 @@
                       "langsmith/self-host-ttl",
                       "langsmith/self-host-ingress",
                       "langsmith/self-host-mirroring-images",
-                      "langsmith/self-host-playground-environment-settings"
+                      "langsmith/self-host-playground-environment-settings",
+                      "langsmith/troubleshooting"
                     ]
                   },
                   {
@@ -994,7 +995,6 @@
                     "group": "Additional resources",
                     "pages": [
                       "langsmith/faq",
-                      "langsmith/troubleshooting",
                       "langsmith/cloud-architecture-and-scalability",
                       "langsmith/regions-faq",
                       "langsmith/authentication-methods",
@@ -1931,7 +1931,8 @@
                       "langsmith/self-host-ttl",
                       "langsmith/self-host-ingress",
                       "langsmith/self-host-mirroring-images",
-                      "langsmith/self-host-playground-environment-settings"
+                      "langsmith/self-host-playground-environment-settings",
+                      "langsmith/troubleshooting"
                     ]
                   },
                   {
@@ -1994,7 +1995,6 @@
                     "group": "Additional resources",
                     "pages": [
                       "langsmith/faq",
-                      "langsmith/troubleshooting",
                       "langsmith/cloud-architecture-and-scalability",
                       "langsmith/regions-faq",
                       "langsmith/authentication-methods",
