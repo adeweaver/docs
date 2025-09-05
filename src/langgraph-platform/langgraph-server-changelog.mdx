@@ -6,6 +6,13 @@ sidebarTitle: Server changelog
 [LangGraph Server](/langgraph-platform/langgraph-server) is an API platform for creating and managing agent-based applications. It provides built-in persistence, a task queue, and supports deploying, configuring, and running assistants (agentic workflows) at scale. This changelog documents all notable updates, features, and fixes to LangGraph Server releases.
 
 <a id="2025-09-04"></a>
+## v0.4.12
+- Ensured metrics are returned even when experiencing database connection issues.
+- Optimized update streams to prevent unnecessary data transmission.
+- Upgraded `hono` from version 4.9.2 to 4.9.6 in the `storage_postgres/langgraph-api-server` for improved URL path parsing security.
+- Added retries and an in-memory cache for LangSmith access calls to improve resilience against single failures.
+
+<a id="2025-09-04"></a>
 ## v0.4.11
 - Added support for TTL (time-to-live) in thread updates.
 
