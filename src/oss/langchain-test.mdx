@@ -185,7 +185,7 @@ async function testModelSwitching() {
 
 ## Integration testing
 
-Many agent behaviors only emerge when using a real LLM, such as which tool the agent decides to call, how it formats responses, or whether a prompt modification affects the entire execution trajectory. LangChain offers an `agentevals` package that provides evaluators specifically designed for testing agent trajectories with live models.
+Many agent behaviors only emerge when using a real LLM, such as which tool the agent decides to call, how it formats responses, or whether a prompt modification affects the entire execution trajectory. LangChain offers an [`agentevals`](https://github.com/langchain-ai/agentevals) package that provides evaluators specifically designed for testing agent trajectories with live models.
 
 AgentEvals lets you easily evaluate the trajectory of your agent (i.e. the agent's message history) by performing a **trajectory match** or by using an **LLM judge**:
 
