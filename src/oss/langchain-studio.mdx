@@ -8,7 +8,7 @@ import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
 
 This guide will walk you through how to use **LangGraph Studio** to visualize, interact, and debug your agent locally. 
 
-LangGraph Studio is our free-to-use, powerful agent IDE that integrates with [LangSmith](./langsmith/home) to enable tracing, evaluation, and prompt engineering. See exactly how your agent thinks, trace every decision, and ship smarter, more reliable agents.
+LangGraph Studio is our free-to-use, powerful agent IDE that integrates with [LangSmith](/langsmith/home) to enable tracing, evaluation, and prompt engineering. See exactly how your agent thinks, trace every decision, and ship smarter, more reliable agents.
 
 <Frame>
 <iframe
@@ -74,6 +74,10 @@ agent = create_agent(
 
 Create a `.env` file in the root of your project and fill in the necessary API keys. We'll need to set the `LANGSMITH_API_KEY` environment variable to the API key you get from [LangSmith](https://smith.langchain.com/settings).
 
+<Warning>
+    Be sure not to commit your `.env` to version control systems such as Git!
+</Warning>
+
 ```bash .env
 LANGSMITH_API_KEY=lsv2...
 ```
@@ -111,11 +115,16 @@ my-app/
 ### 5. Install dependencies
 
 :::python
-In the root of your new LangGraph app, install the dependencies in edit mode (`-e`) so your local changes are used by the server:
+In the root of your new LangGraph app, install the dependencies:
 
-```shell
+<CodeGroup>
+```shell pip
 pip install -e .
 ```
+```shell uv
+uv sync
+```
+</CodeGroup>
 :::
 
 :::js
@@ -124,7 +133,7 @@ yarn install
 ```
 :::
 
-## View your agent in Studio
+### 6. View your agent in Studio
 
 Start your LangGraph server: 
 
@@ -150,14 +159,12 @@ Your agent will be accessible via API (`http://127.0.0.1:2024`) and the Studio U
 ![Agent view in LangGraph studio UI](../images/studio_create-agent.png)
 </Frame>
 
-`create_agent()` returns a compiled LangGraph. Studio makes that graph observable: see each step execute, which tools were selected, and how state moves between nodes.
+Studio makes each step of your agent easily observable. Replay any input and inspect the exact prompt, tool arguments, return values, and token/latency metrics. If a tool throws an exception, Studio records it with surrounding state so you can spend less time debugging.
 
-Replay any input and inspect the exact prompt, tool arguments, return values, and token/latency metrics. If a tool throws, Studio records the exception with surrounding state so you can spend less time debugging.
-
-Keep your dev server running, edit prompts or tool signatures, and watch Studio hot-reload. Re-run the same input to verify behavior changes and enforce constraints like order of operations.
+Keep your dev server running, edit prompts or tool signatures, and watch Studio hot-reload. Re-run the conversation thread from any step to verify behavior changes. See [Manage threads](/langgraph-platform/threads-studio#edit-thread-history) for more details.
 
 As your agent grows, the same view scales from a single-tool demo to multi-node graphs, keeping decisions legible and reproducible.
 
 <Tip>
-For an in-depth look at LangGraph Studio, check out our [LangGraph Studio overview](/langgraph-platform/langgraph-studio).
+For an in-depth look at LangGraph Studio, check out our comprehensive [LangGraph Studio overview](/langgraph-platform/langgraph-studio).
 </Tip>
