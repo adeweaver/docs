@@ -14,7 +14,7 @@ Evaluations are made up of three components:
 This quick start guides you through running a simple evaluation to test the correctness of LLM responses with the LangSmith SDK or UI.
 
 <Tip>
-  This guide uses prebuilt LLM-as-judge evaluators from the open-source [`openevals`](https://github.com/langchain-ai/openevals) package. OpenEvals includes a set of commonly used evaluators and is a great starting point if you're new to evaluations. If you want greater flexibility in how you evaluate your apps, you can also [define completely custom evaluators using your own code](/langsmith/code-evaluator).
+This guide uses prebuilt LLM-as-judge evaluators from the open-source [`openevals`](https://github.com/langchain-ai/openevals) package. OpenEvals includes a set of commonly used evaluators and is a great starting point if you're new to evaluations. If you want greater flexibility in how you evaluate your apps, you can also [define completely custom evaluators using your own code](/langsmith/code-evaluator).
 </Tip>
 
 ## LangSmith SDK
@@ -34,7 +34,7 @@ npm install langsmith openevals openai
 </CodeGroup>
 
 <Info>
-  If you are using `yarn` as your package manager, you will also need to manually install `@langchain/core` as a peer dependency of `openevals`. This is not required for LangSmith evals in general - you may define evaluators [using arbitrary custom code](/langsmith/code-evaluator).
+If you are using `yarn` as your package manager, you will also need to manually install `@langchain/core` as a peer dependency of `openevals`. This is not required for LangSmith evals in general - you may define evaluators [using arbitrary custom code](/langsmith/code-evaluator).
 </Info>
 
 ### 2. Create a LangSmith API key
@@ -43,7 +43,7 @@ To create an API key, head to the [Settings page](https://smith.langchain.com/se
 
 ### 3. Set up environment variables
 
-This guide uses OpenAI, but you can adapt it to use any LLM provider. 
+This guide uses OpenAI, but you can adapt it to use any LLM provider.
 
 If you're using Anthropic, use the [Anthropic wrapper](/langsmith/annotate-code#wrap-the-anthropic-client-python-only) to trace your calls. For other providers, use [the traceable wrapper](/langsmith/annotate-code#use-%40traceable-%2F-traceable).
 
@@ -174,7 +174,7 @@ async function target(inputs: { question: string }): Promise<{ answer: string }>
 Import a prebuilt prompt from [`openevals`](https://github.com/langchain-ai/openevals) and create an evaluator. `outputs` are the result of your target function. `reference_outputs` / `referenceOutputs` are from the example pairs you defined in [step 4](#4-create-a-dataset) above.
 
 <Info>
-  `CORRECTNESS_PROMPT` is just an f-string with variables for `"inputs"`, `"outputs"`, and `"reference_outputs"`. See [here](https://github.com/langchain-ai/openevals#customizing-prompts) for more information on customizing OpenEvals prompts.
+`CORRECTNESS_PROMPT` is just an f-string with variables for `"inputs"`, `"outputs"`, and `"reference_outputs"`. See [here](https://github.com/langchain-ai/openevals#customizing-prompts) for more information on customizing OpenEvals prompts.
 </Info>
 
 <CodeGroup>
@@ -268,13 +268,13 @@ Click the link printed out by your evaluation run to access the LangSmith Experi
 ### Next steps
 
 <Check>
-  To learn more about running experiments in LangSmith, read the [evaluation conceptual guide](/langsmith/evaluation-concepts).
+To learn more about running experiments in LangSmith, read the [evaluation conceptual guide](/langsmith/evaluation-concepts).
 </Check>
 
 * For more details on evaluations, refer to the [Evaluation documentation](/langsmith/evaluation).
 * Check out the [OpenEvals README](https://github.com/langchain-ai/openevals) to see all available prebuilt evaluators and how to customize them.
 * Learn [how to define custom evaluators](/langsmith/code-evaluator) that contain arbitrary code.
-* For comprehensive descriptions of every class and function see the [Python](https://docs.smith.langchain.com/reference/python/reference) or [Typescript](https://docs.smith.langchain.com/reference/js) SDK references. 
+* For comprehensive descriptions of every class and function see the [Python](https://docs.smith.langchain.com/reference/python/reference) or [Typescript](https://docs.smith.langchain.com/reference/js) SDK references.
 
 Or, if you prefer video tutorials, check out the [Datasets, Evaluators, and Experiments videos](https://academy.langchain.com/pages/intro-to-langsmith-preview) from the Introduction to LangSmith Course.
 
@@ -318,7 +318,7 @@ Press **Start** on the top right to run your evaluation. Running this evaluation
 ### Next steps
 
 <Tip>
-  To learn more about running experiments in LangSmith, read the [evaluation conceptual guide](/langsmith/evaluation-concepts).
+To learn more about running experiments in LangSmith, read the [evaluation conceptual guide](/langsmith/evaluation-concepts).
 </Tip>
 
 * For more details on evaluations, refer to the [Evaluation documentation](/langsmith/evaluation).

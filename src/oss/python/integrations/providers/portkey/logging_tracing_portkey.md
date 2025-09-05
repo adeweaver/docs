@@ -8,7 +8,6 @@ This notebook serves as a step-by-step guide on how to log, trace, and monitor L
 
 First, let's import Portkey, OpenAI, and Agent tools
 
-
 ```python
 import os
 
@@ -19,32 +18,30 @@ from portkey_ai import PORTKEY_GATEWAY_URL, createHeaders
 
 Paste your OpenAI API key below. [(You can find it here)](https://platform.openai.com/account/api-keys)
 
-
 ```python
 os.environ["OPENAI_API_KEY"] = "..."
 ```
 
 ## Get Portkey API Key
+
 1. Sign up for [Portkey here](https://app.portkey.ai/signup)
 2. On your [dashboard](https://app.portkey.ai/), click on the profile icon on the bottom left, then click on "Copy API Key"
 3. Paste it below
-
 
 ```python
 PORTKEY_API_KEY = "..."  # Paste your Portkey API Key here
 ```
 
 ## Set Trace ID
+
 1. Set the trace id for your request below
 2. The Trace ID can be common for all API calls originating from a single request
-
 
 ```python
 TRACE_ID = "uuid-trace-id"  # Set trace id here
 ```
 
 ## Generate Portkey Headers
-
 
 ```python
 portkey_headers = createHeaders(
@@ -53,7 +50,6 @@ portkey_headers = createHeaders(
 ```
 
 Define the prompts and the tools to use
-
 
 ```python
 from langchain import hub
@@ -79,7 +75,6 @@ tools = [multiply, exponentiate]
 
 Run your agent as usual. The **only** change is that we will **include the above headers** in the request now.
 
-
 ```python
 model = ChatOpenAI(
     base_url=PORTKEY_GATEWAY_URL, default_headers=portkey_headers, temperature=0
@@ -97,6 +92,7 @@ agent_executor.invoke(
     }
 )
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 
@@ -116,20 +112,20 @@ Invoking: `exponentiate` with `{'base': 8748, 'exponent': 2}`
 > Finished chain.
 ```
 
-
 ```output
 {'input': 'Take 3 to the fifth power and multiply that by thirty six, then square the result',
  'output': 'The result of taking 3 to the fifth power, multiplying it by 36, and then squaring the result is 76,527,504.'}
 ```
 
-
 ## How Logging & Tracing Works on Portkey
 
 **Logging**
+
 - Sending your request through Portkey ensures that all of the requests are logged by default
 - Each request log contains `timestamp`, `model name`, `total cost`, `request time`, `request json`, `response json`, and additional Portkey features
 
 **[Tracing](https://portkey.ai/docs/product/observability-modern-monitoring-for-llms/traces)**
+
 - Trace id is passed along with each request and is visible on the logs on Portkey dashboard
 - You can also set a **distinct trace id** for each request if you want
 - You can append user feedback to a trace id as well. [More info on this here](https://portkey.ai/docs/product/observability-modern-monitoring-for-llms/feedback)

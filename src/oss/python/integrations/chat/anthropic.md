@@ -6,16 +6,15 @@ This guide provides a quick overview for getting started with Anthropic [chat mo
 
 Anthropic has several chat models. You can find information about their latest models and their costs, context windows, and supported input types in the [Anthropic docs](https://docs.anthropic.com/en/docs/models-overview).
 
-
 <Info>
 **AWS Bedrock and Google VertexAI**
-
 
 Note that certain Anthropic models can also be accessed via AWS Bedrock and Google VertexAI. See the [ChatBedrock](/oss/integrations/chat/bedrock/) and [ChatVertexAI](/oss/integrations/chat/google_vertex_ai_palm/) integrations to use Anthropic models via these services.
 
 </Info>
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [JS support](https://js.langchain.com/docs/integrations/chat/anthropic) | Package downloads | Package latest |
@@ -23,6 +22,7 @@ Note that certain Anthropic models can also be accessed via AWS Bedrock and Goog
 | [ChatAnthropic](https://python.langchain.com/api_reference/anthropic/chat_models/langchain_anthropic.chat_models.ChatAnthropic.html) | [langchain-anthropic](https://python.langchain.com/api_reference/anthropic/index.html) | ❌ | beta | ✅ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-anthropic?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-anthropic?style=flat-square&label=%20) |
 
 ### Model features
+
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | Native async | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
 | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ |
@@ -33,8 +33,7 @@ To access Anthropic models you'll need to create an Anthropic account, get an AP
 
 ### Credentials
 
-Head to https://console.anthropic.com/ to sign up for Anthropic and generate an API key. Once you've done this set the ANTHROPIC_API_KEY environment variable:
-
+Head to [console.anthropic.com/](https://console.anthropic.com/) to sign up for Anthropic and generate an API key. Once you've done this set the ANTHROPIC_API_KEY environment variable:
 
 ```python
 import getpass
@@ -46,7 +45,6 @@ if "ANTHROPIC_API_KEY" not in os.environ:
 
 To enable automated tracing of your model calls, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
-
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
 # os.environ["LANGSMITH_TRACING"] = "true"
@@ -56,7 +54,6 @@ To enable automated tracing of your model calls, set your [LangSmith](https://do
 
 The LangChain Anthropic integration lives in the `langchain-anthropic` package:
 
-
 ```python
 %pip install -qU langchain-anthropic
 ```
@@ -64,13 +61,11 @@ The LangChain Anthropic integration lives in the `langchain-anthropic` package:
 <Info>
 **This guide requires ``langchain-anthropic>=0.3.13``**
 
-
 </Info>
 
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```python
 from langchain_anthropic import ChatAnthropic
@@ -87,8 +82,6 @@ llm = ChatAnthropic(
 
 ## Invocation
 
-
-
 ```python
 messages = [
     (
@@ -101,24 +94,21 @@ ai_msg = llm.invoke(messages)
 ai_msg
 ```
 
-
-
 ```output
 AIMessage(content="J'adore la programmation.", response_metadata={'id': 'msg_018Nnu76krRPq8HvgKLW4F8T', 'model': 'claude-3-5-sonnet-20240620', 'stop_reason': 'end_turn', 'stop_sequence': None, 'usage': {'input_tokens': 29, 'output_tokens': 11}}, id='run-57e9295f-db8a-48dc-9619-babd2bedd891-0', usage_metadata={'input_tokens': 29, 'output_tokens': 11, 'total_tokens': 40})
 ```
 
-
-
 ```python
 print(ai_msg.text)
 ```
+
 ```output
 J'adore la programmation.
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate
@@ -143,17 +133,13 @@ chain.invoke(
 )
 ```
 
-
-
 ```output
 AIMessage(content="Here's the German translation:\n\nIch liebe Programmieren.", response_metadata={'id': 'msg_01GhkRtQZUkA5Ge9hqmD8HGY', 'model': 'claude-3-5-sonnet-20240620', 'stop_reason': 'end_turn', 'stop_sequence': None, 'usage': {'input_tokens': 23, 'output_tokens': 18}}, id='run-da5906b4-b200-4e08-b81a-64d4453643b6-0', usage_metadata={'input_tokens': 23, 'output_tokens': 18, 'total_tokens': 41})
 ```
 
-
 ## Content blocks
 
 When using tools, [extended thinking](#extended-thinking), and other features, content from a single Anthropic AI message can either be a single string or a list of content blocks. For example, when an Anthropic model invokes a tool, the tool invocation is part of the message content (as well as being exposed in the standardized `AIMessage.tool_calls`):
-
 
 ```python
 from langchain_anthropic import ChatAnthropic
@@ -222,7 +208,6 @@ ai_msg.tool_calls
   'args': {'location': 'New York, NY'},
   'id': 'toolu_012kz4qHZQqD4qg8sFPeKqpP'}]
 ```
-
 
 ## Multimodal
 
@@ -319,7 +304,6 @@ To use extended thinking, specify the `thinking` parameter when initializing `Ch
 
 You will need to specify a token budget to use this feature. See usage example below:
 
-
 ```python
 import json
 
@@ -334,6 +318,7 @@ llm = ChatAnthropic(
 response = llm.invoke("What is the cube root of 50.653?")
 print(json.dumps(response.content_blocks, indent=2))
 ```
+
 ```output
 [
   {
@@ -347,6 +332,7 @@ print(json.dumps(response.content_blocks, indent=2))
   }
 ]
 ```
+
 ## Prompt caching
 
 Anthropic supports [caching](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching) of [elements of your prompts](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching#what-can-be-cached), including messages, tool definitions, tool results, images and documents. This allows you to re-use large documents, instructions, [few-shot documents](/oss/concepts/few_shot_prompting/), and other data to reduce latency and costs.
@@ -354,7 +340,6 @@ Anthropic supports [caching](https://docs.anthropic.com/en/docs/build-with-claud
 To enable caching on an element of a prompt, mark its associated content block using the `cache_control` key. See examples below:
 
 ### Messages
-
 
 ```python highlight={23}
 import requests
@@ -398,6 +383,7 @@ usage_2 = response_2.usage_metadata["input_token_details"]
 print(f"First invocation:\n{usage_1}")
 print(f"\nSecond:\n{usage_2}")
 ```
+
 ```output
 First invocation:
 {'cache_read': 0, 'cache_creation': 1458}
@@ -405,9 +391,9 @@ First invocation:
 Second:
 {'cache_read': 1458, 'cache_creation': 0}
 ```
+
 <Tip>
 **Extended caching**
-
 
     The cache lifetime is 5 minutes by default. If this is too short, you can apply one hour caching by enabling the `"extended-cache-ttl-2025-04-11"` beta header:
 
@@ -443,7 +429,6 @@ Second:
 
 ### Tools
 
-
 ```python highlight={17,18}
 from langchain_anthropic import convert_to_anthropic_tool
 from langchain_core.tools import tool
@@ -477,6 +462,7 @@ usage_2 = response_2.usage_metadata["input_token_details"]
 print(f"First invocation:\n{usage_1}")
 print(f"\nSecond:\n{usage_2}")
 ```
+
 ```output
 First invocation:
 {'cache_read': 0, 'cache_creation': 1809}
@@ -484,6 +470,7 @@ First invocation:
 Second:
 {'cache_read': 1809, 'cache_creation': 0}
 ```
+
 ### Incremental caching in conversational applications
 
 Prompt caching can be used in [multi-turn conversations](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching#continuing-a-multi-turn-conversation) to maintain context from earlier messages without redundant processing.
@@ -491,7 +478,6 @@ Prompt caching can be used in [multi-turn conversations](https://docs.anthropic.
 We can enable incremental caching by marking the final message with `cache_control`. Claude will automatically use the longest previously-cached prefix for follow-up messages.
 
 Below, we implement a simple chatbot that incorporates this feature. We follow the LangChain [chatbot tutorial](/oss/tutorials/chatbot/), but add a custom [reducer](https://langchain-ai.github.io/langgraph/concepts/low_level/#reducers) that automatically marks the last content block in each user message with `cache_control`. See below:
-
 
 ```python
 import requests
@@ -541,7 +527,6 @@ memory = MemorySaver()
 app = workflow.compile(checkpointer=memory)
 ```
 
-
 ```python
 from langchain_core.messages import HumanMessage
 
@@ -554,6 +539,7 @@ output = app.invoke({"messages": [input_message]}, config)
 output["messages"][-1].pretty_print()
 print(f"\n{output['messages'][-1].usage_metadata['input_token_details']}")
 ```
+
 ```output
 ================================== Ai Message ==================================
 
@@ -570,6 +556,7 @@ output = app.invoke({"messages": [input_message]}, config)
 output["messages"][-1].pretty_print()
 print(f"\n{output['messages'][-1].usage_metadata['input_token_details']}")
 ```
+
 ```output
 ================================== Ai Message ==================================
 
@@ -605,6 +592,7 @@ output = app.invoke({"messages": [input_message]}, config)
 output["messages"][-1].pretty_print()
 print(f"\n{output['messages'][-1].usage_metadata['input_token_details']}")
 ```
+
 ```output
 ================================== Ai Message ==================================
 
@@ -612,12 +600,12 @@ Your name is Bob. You introduced yourself at the beginning of our conversation.
 
 {'cache_read': 1498, 'cache_creation': 269}
 ```
+
 In the [LangSmith trace](https://smith.langchain.com/public/4d0584d8-5f9e-4b91-8704-93ba2ccf416a/r), toggling "raw output" will show exactly what messages are sent to the chat model, including `cache_control` keys.
 
 ## Token-efficient tool use
 
 Anthropic supports a (beta) [token-efficient tool use](https://docs.anthropic.com/en/docs/build-with-claude/tool-use/token-efficient-tool-use) feature. To use it, specify the relevant beta-headers when instantiating the model.
-
 
 ```python highlight={6}
 from langchain_anthropic import ChatAnthropic
@@ -640,11 +628,13 @@ response = llm_with_tools.invoke("What's the weather in San Francisco?")
 print(response.tool_calls)
 print(f"\nTotal tokens: {response.usage_metadata['total_tokens']}")
 ```
+
 ```output
 [{'name': 'get_weather', 'args': {'location': 'San Francisco'}, 'id': 'toolu_01EoeE1qYaePcmNbUvMsWtmA', 'type': 'tool_call'}]
 
 Total tokens: 408
 ```
+
 ## Citations
 
 Anthropic supports a [citations](https://docs.anthropic.com/en/docs/build-with-claude/citations) feature that lets Claude attach context to its answers based on source documents supplied by the user. When [document](https://docs.anthropic.com/en/docs/build-with-claude/citations#document-types) or `search result` content blocks with `"citations": {"enabled": True}` are included in a query, Claude may generate citations in its response.
@@ -652,7 +642,6 @@ Anthropic supports a [citations](https://docs.anthropic.com/en/docs/build-with-c
 ### Simple example
 
 In this example we pass a [plain text document](https://docs.anthropic.com/en/docs/build-with-claude/citations#plain-text-documents). In the background, Claude [automatically chunks](https://docs.anthropic.com/en/docs/build-with-claude/citations#plain-text-documents) the input text into sentences, which are used when generating citations.
-
 
 ```python
 from langchain_anthropic import ChatAnthropic
@@ -682,8 +671,6 @@ response = llm.invoke(messages)
 response.content
 ```
 
-
-
 ```output
 [{'text': 'Based on the document, ', 'type': 'text'},
  {'text': 'the grass is green',
@@ -706,18 +693,17 @@ response.content
  {'text': '.', 'type': 'text'}]
 ```
 
-
 ### In tool results (agentic RAG)
 
 <Info>
 **Requires ``langchain-anthropic>=0.3.17``**
-
 
 </Info>
 
 Claude supports a [search_result](https://docs.anthropic.com/en/docs/build-with-claude/search-results) content block representing citable results from queries against a knowledge base or other custom source. These content blocks can be passed to claude both top-line (as in the above example) and within a tool result. This allows Claude to cite elements of its response using the result of a tool call.
 
 To pass search results in response to tool calls, define a tool that returns a list of `search_result` content blocks in Anthropic's native format. For example:
+
 ```python
 def retrieval_tool(query: str) -> list[dict]:
     """Access my knowledge base."""
@@ -741,7 +727,6 @@ def retrieval_tool(query: str) -> list[dict]:
 
 We also need to specify the `search-results-2025-06-09` beta when instantiating ChatAnthropic. You can see an end-to-end example below.
 
-
 <Accordion title="End to end example with LangGraph">
 
 Here we demonstrate an end-to-end example in which we populate a LangChain [vector store](/oss/concepts/vectorstores/) with sample documents and equip Claude with a tool that queries those documents.
@@ -755,7 +740,7 @@ from langchain.embeddings import init_embeddings
 from langchain_core.documents import Document
 from langchain_core.vectorstores import InMemoryVectorStore
 from langgraph.checkpoint.memory import InMemorySaver
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 
 # Set up vector store
@@ -833,7 +818,7 @@ llm = init_chat_model(
 )
 
 checkpointer = InMemorySaver()
-agent = create_react_agent(llm, [retrieval_tool], checkpointer=checkpointer)
+agent = create_agent(llm, [retrieval_tool], checkpointer=checkpointer)
 
 
 # Invoke on a query
@@ -856,7 +841,6 @@ async for step in agent.astream(
 ### Using with text splitters
 
 Anthropic also lets you specify your own splits using [custom document](https://docs.anthropic.com/en/docs/build-with-claude/citations#custom-content-documents) types. LangChain [text splitters](/oss/concepts/text_splitters/) can be used to generate meaningful splits for this purpose. See the below example, where we split the LangChain README (a markdown document) and pass it to Claude as context:
-
 
 ```python
 import requests
@@ -904,8 +888,6 @@ response = llm.invoke([message])
 response.content
 ```
 
-
-
 ```output
 [{'text': "You can find LangChain's tutorials at https://python.langchain.com/docs/tutorials/\n\nThe tutorials section is recommended for those looking to build something specific or who prefer a hands-on learning approach. It's considered the best place to get started with LangChain.",
   'type': 'text',
@@ -916,7 +898,6 @@ response.content
     'start_block_index': 243,
     'end_block_index': 248}]}]
 ```
-
 
 ## Built-in tools
 
@@ -929,9 +910,7 @@ Claude can use a [web search tool](https://docs.anthropic.com/en/docs/build-with
 <Info>
 **Web search tool is supported since ``langchain-anthropic>=0.3.13``**
 
-
 </Info>
-
 
 ```python
 from langchain_anthropic import ChatAnthropic
@@ -951,9 +930,7 @@ Claude can use a [code execution tool](https://docs.anthropic.com/en/docs/agents
 <Info>
 **Code execution is supported since ``langchain-anthropic>=0.3.14``**
 
-
 </Info>
-
 
 ```python
 from langchain_anthropic import ChatAnthropic
@@ -970,7 +947,6 @@ response = llm_with_tools.invoke(
     "Calculate the mean and standard deviation of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
 )
 ```
-
 
 <Accordion title="Use with Files API">
 
@@ -1016,6 +992,7 @@ llm_with_tools.invoke([input_message])
 ```
 
 Note that Claude may generate files as part of its code execution. You can access these files using the Files API:
+
 ```python
 # Take all file outputs for demonstration purposes
 file_ids = []
@@ -1041,9 +1018,7 @@ Claude can use a [MCP connector tool](https://docs.anthropic.com/en/docs/agents-
 <Info>
 **Remote MCP is supported since ``langchain-anthropic>=0.3.14``**
 
-
 </Info>
-
 
 ```python
 from langchain_anthropic import ChatAnthropic
@@ -1077,7 +1052,6 @@ response = llm.invoke(
 
 The text editor tool can be used to view and modify text files. See docs [here](https://docs.anthropic.com/en/docs/build-with-claude/tool-use/text-editor-tool) for details.
 
-
 ```python
 from langchain_anthropic import ChatAnthropic
 
@@ -1092,10 +1066,10 @@ response = llm_with_tools.invoke(
 print(response.text)
 response.tool_calls
 ```
+
 ```output
 I'd be happy to help you fix the syntax error in your primes.py file. First, let's look at the current content of the file to identify the error.
 ```
-
 
 ```output
 [{'name': 'str_replace_editor',
@@ -1104,7 +1078,6 @@ I'd be happy to help you fix the syntax error in your primes.py file. First, let
   'type': 'tool_call'}]
 ```
 
-
 ## API reference
 
-For detailed documentation of all ChatAnthropic features and configurations head to the API reference: https://python.langchain.com/api_reference/anthropic/chat_models/langchain_anthropic.chat_models.ChatAnthropic.html
+For detailed documentation of all ChatAnthropic features and configurations head to the API reference: [python.langchain.com/api_reference/anthropic/chat_models/langchain_anthropic.chat_models.ChatAnthropic.html](https://python.langchain.com/api_reference/anthropic/chat_models/langchain_anthropic.chat_models.ChatAnthropic.html)

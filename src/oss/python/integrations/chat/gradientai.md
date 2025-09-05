@@ -5,29 +5,28 @@ title: ChatGradient
 This will help you getting started with DigitalOcean Gradient Chat Models.
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Package downloads | Package latest |
 | :--- | :--- | :---: | :---: |
 | [DigitalOcean Gradient](https://python.langchain.com/docs/api_reference/llms/langchain_gradient.llms.LangchainGradient/) | [langchain-gradient](https://python.langchain.com/docs/api_reference/langchain-gradient_api_reference/) | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-gradient?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-gradient?style=flat-square&label=%20) |
 
-
 ## Setup
 
-langchain-gradient uses DigitalOcean Gradient Platform.  
+langchain-gradient uses DigitalOcean Gradient Platform.
 
 Create an account on DigitalOcean, acquire a `DIGITALOCEAN_INFERENCE_KEY` API key from the Gradient Platform, and install the `langchain-gradient` integration package.
 
 ### Credentials
 
-Head to [DigitalOcean Login](https://cloud.digitalocean.com/login) 
+Head to [DigitalOcean Login](https://cloud.digitalocean.com/login)
 
 1. Sign up/Login to DigitalOcean Cloud Console
 2. Go to the Gradient Platform and navigate to Serverless Inference.
 3. Click on Create model access key, enter a name, and create the key.
 
 Once you've done this set the `DIGITALOCEAN_INFERENCE_KEY` environment variable:
-
 
 ```python
 import getpass
@@ -41,7 +40,6 @@ if not os.getenv("DIGITALOCEAN_INFERENCE_KEY"):
 
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
-
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -51,19 +49,19 @@ If you want to get automated tracing of your model calls you can also set your [
 
 The DigitalOcean Gradient integration lives in the `langchain-gradient` package:
 
-
 ```python
 %pip install -qU langchain-gradient
 ```
+
 ```output
 [notice] A new release of pip is available: 24.0 -> 25.1.1
 [notice] To update, run: pip3.12 install --upgrade pip
 Note: you may need to restart the kernel to use updated packages.
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```python
 from langchain_gradient import ChatGradient
@@ -75,7 +73,6 @@ llm = ChatGradient(
 ```
 
 ## Invocation
-
 
 ```python
 messages = [
@@ -92,17 +89,14 @@ ai_msg = llm.invoke(messages)
 ai_msg
 ```
 
-
-
 ```output
 AIMessage(content="...that had been hidden away for centuries, nestled amongst the twisted roots of an ancient tree. As soon as Mira's fingers made contact with the stone, she felt an sudden surge of energy course through her veins, like a river bursting its banks. The stone, which had been dull and lifeless just moments before, now pulsed with a soft, ethereal light, as if it had been awakened by Mira's touch.\n\nIntrigued, Mira turned the stone over in her hand, studying it from every angle. The light emanating from it cast eerie shadows on the trees around her, making her feel as though she was standing at the threshold of a secret world. As she gazed deeper into the stone, she began to notice that the glow was not just a random color, but a deep, rich blue that seemed to be calling to her.\n\nWithout thinking, Mira felt an overwhelming urge to follow the stone's gentle glow, which seemed to be leading her deeper into the mysterious forest. The trees loomed above her, their branches creaking and swaying in the wind, as if they too were urging her onward. The air was filled with the sweet scent of wildflowers and the soft hooting of owls, creating a sense of enchantment that was both exhilarating and unsettling.\n\nAs Mira wandered deeper into the forest, the stone's light grew brighter, illuminating a winding path that was all but invisible in the fading light of day. The trees grew taller and closer together here, forming a tunnel of foliage that seemed to be guiding her towards a hidden destination. Mira's heart pounded with excitement and a hint of fear, as she realized that she was being drawn into a world that was both magical and unknown.\n\nSuddenly, the trees parted, and Mira found herself standing at the edge of a clearing, surrounded by a ring of towering mushrooms that glowed with a soft, luminescent light. The air was filled with a faint humming noise, like the buzzing of a thousand bees, and the stone in her hand pulsed with an otherworldly energy. In the center of the clearing stood an enormous tree, its trunk twisted and gnarled with age, its branches reaching up towards the stars like a Nature's own cathedral.\n\nMira felt a sense of awe wash over her, as she approached the tree, the stone still clutched in her hand. She could feel the magic of the forest pulsing through her, calling to her, drawing her closer to the heart of the mystery. And as she reached out to touch the trunk of the tree, the stone's glow surged to a brilliant intensity, illuminating a doorway that had been hidden in the trunk all along...", additional_kwargs={}, response_metadata={'finish_reason': 'stop'}, id='run--593a6940-4c76-413b-bed9-1fd94f91c6c1-0', usage_metadata={'input_tokens': 82, 'output_tokens': 555, 'total_tokens': 637})
 ```
 
-
-
 ```python
 print(ai_msg.content)
 ```
+
 ```output
 ...that had been hidden away for centuries, nestled amongst the twisted roots of an ancient tree. As soon as Mira's fingers made contact with the stone, she felt an sudden surge of energy course through her veins, like a river bursting its banks. The stone, which had been dull and lifeless just moments before, now pulsed with a soft, ethereal light, as if it had been awakened by Mira's touch.
 
@@ -116,11 +110,10 @@ Suddenly, the trees parted, and Mira found herself standing at the edge of a cle
 
 Mira felt a sense of awe wash over her, as she approached the tree, the stone still clutched in her hand. She could feel the magic of the forest pulsing through her, calling to her, drawing her closer to the heart of the mystery. And as she reached out to touch the trunk of the tree, the stone's glow surged to a brilliant intensity, illuminating a doorway that had been hidden in the trunk all along...
 ```
+
 ## Chaining
 
 We can chain our model with a prompt template like so:
-
-
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate
@@ -149,12 +142,9 @@ chain.invoke(
 )
 ```
 
-
-
 ```output
 AIMessage(content='The Eiffel Tower was designed by Gustave Eiffel\'s engineering company and was completed in 1889. (Sentence: "It was designed by Gustave Eiffel\'s engineering company. The tower is one of the most recognizable structures in the world. ...  The Eiffel Tower is located in Paris and was completed in 1889.")', additional_kwargs={}, response_metadata={'finish_reason': 'stop'}, id='run--c23ffab6-06ae-4130-87b1-d5b2e7744906-0', usage_metadata={'input_tokens': 153, 'output_tokens': 74, 'total_tokens': 227})
 ```
-
 
 ## API reference
 

@@ -8,7 +8,6 @@ This builds on top of ideas in the [ContextualCompressionRetriever](/oss/how-to/
 
 For more about why cross encoder can be used as reranking mechanism in conjunction with embeddings for better retrieval, refer to [Hugging Face Cross-Encoders documentation](https://www.sbert.net/examples/applications/cross-encoder/README.html).
 
-
 ```python
 #!pip install faiss sentence_transformers
 
@@ -16,7 +15,6 @@ For more about why cross encoder can be used as reranking mechanism in conjuncti
 
 #!pip install faiss-cpu sentence_transformers
 ```
-
 
 ```python
 # Helper function for printing docs
@@ -31,8 +29,8 @@ def pretty_print_docs(docs):
 ```
 
 ## Set up the base vector store retriever
-Let's start by initializing a simple vector store retriever and storing the 2023 State of the Union speech (in chunks). We can set up the retriever to retrieve a high number (20) of docs.
 
+Let's start by initializing a simple vector store retriever and storing the 2023 State of the Union speech (in chunks). We can set up the retriever to retrieve a high number (20) of docs.
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -56,8 +54,8 @@ pretty_print_docs(docs)
 ```
 
 ## Doing reranking with CrossEncoderReranker
-Now let's wrap our base retriever with a `ContextualCompressionRetriever`. `CrossEncoderReranker` uses `HuggingFaceCrossEncoder` to rerank the returned results.
 
+Now let's wrap our base retriever with a `ContextualCompressionRetriever`. `CrossEncoderReranker` uses `HuggingFaceCrossEncoder` to rerank the returned results.
 
 ```python
 from langchain.retrievers import ContextualCompressionRetriever
@@ -73,57 +71,58 @@ compression_retriever = ContextualCompressionRetriever(
 compressed_docs = compression_retriever.invoke("What is the plan for the economy?")
 pretty_print_docs(compressed_docs)
 ```
+
 ```output
 Document 1:
 
-More infrastructure and innovation in America. 
+More infrastructure and innovation in America.
 
-More goods moving faster and cheaper in America. 
+More goods moving faster and cheaper in America.
 
-More jobs where you can earn a good living in America. 
+More jobs where you can earn a good living in America.
 
-And instead of relying on foreign supply chains, let’s make it in America. 
+And instead of relying on foreign supply chains, let’s make it in America.
 
-Economists call it “increasing the productive capacity of our economy.” 
+Economists call it “increasing the productive capacity of our economy.”
 
-I call it building a better America. 
+I call it building a better America.
 
 My plan to fight inflation will lower your costs and lower the deficit.
 ----------------------------------------------------------------------------------------------------
 Document 2:
 
-Second – cut energy costs for families an average of $500 a year by combatting climate change.  
+Second – cut energy costs for families an average of $500 a year by combatting climate change.
 
 Let’s provide investments and tax credits to weatherize your homes and businesses to be energy efficient and you get a tax credit; double America’s clean energy production in solar, wind, and so much more;  lower the price of electric vehicles, saving you another $80 a month because you’ll never have to pay at the gas pump again.
 ----------------------------------------------------------------------------------------------------
 Document 3:
 
-Look at cars. 
+Look at cars.
 
-Last year, there weren’t enough semiconductors to make all the cars that people wanted to buy. 
+Last year, there weren’t enough semiconductors to make all the cars that people wanted to buy.
 
-And guess what, prices of automobiles went up. 
+And guess what, prices of automobiles went up.
 
-So—we have a choice. 
+So—we have a choice.
 
-One way to fight inflation is to drive down wages and make Americans poorer.  
+One way to fight inflation is to drive down wages and make Americans poorer.
 
-I have a better plan to fight inflation. 
+I have a better plan to fight inflation.
 
-Lower your costs, not your wages. 
+Lower your costs, not your wages.
 
-Make more cars and semiconductors in America. 
+Make more cars and semiconductors in America.
 
-More infrastructure and innovation in America. 
+More infrastructure and innovation in America.
 
 More goods moving faster and cheaper in America.
 ```
+
 ## Uploading Hugging Face model to SageMaker endpoint
 
-Here is a sample `inference.py` for creating an endpoint that works with `SagemakerEndpointCrossEncoder`. For more details with step-by-step guidance, refer to [this article](https://huggingface.co/blog/kchoe/deploy-any-huggingface-model-to-sagemaker). 
+Here is a sample `inference.py` for creating an endpoint that works with `SagemakerEndpointCrossEncoder`. For more details with step-by-step guidance, refer to [this article](https://huggingface.co/blog/kchoe/deploy-any-huggingface-model-to-sagemaker).
 
 It downloads Hugging Face model on the fly, so you do not need to keep the model artifacts such as `pytorch_model.bin` in your `model.tar.gz`.
-
 
 ```python
 import json

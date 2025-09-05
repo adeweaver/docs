@@ -6,7 +6,6 @@ title: SQLite
 
 In this walkthrough we'll create a simple conversation chain which uses `ConversationEntityMemory` backed by a `SqliteEntityStore`.
 
-
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass()
@@ -19,7 +18,6 @@ To use the storage you need to provide only 2 things:
 1. Session Id - a unique identifier of the session, like user name, email, chat id etc.
 2. Connection string - a string that specifies the database connection. For SQLite, that string is `slqlite:///` followed by the name of the database file.  If that file doesn't exist, it will be created.
 
-
 ```python
 from langchain_community.chat_message_histories import SQLChatMessageHistory
 
@@ -31,17 +29,13 @@ chat_message_history.add_user_message("Hello")
 chat_message_history.add_ai_message("Hi")
 ```
 
-
 ```python
 chat_message_history.messages
 ```
 
-
-
 ```output
 [HumanMessage(content='Hello'), AIMessage(content='Hi')]
 ```
-
 
 ## Chaining
 
@@ -55,13 +49,11 @@ pip install -U langchain-openai
 export OPENAI_API_KEY='sk-xxxxxxx'
 ```
 
-
 ```python
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_openai import ChatOpenAI
 ```
-
 
 ```python
 prompt = ChatPromptTemplate.from_messages(
@@ -75,7 +67,6 @@ prompt = ChatPromptTemplate.from_messages(
 chain = prompt | ChatOpenAI()
 ```
 
-
 ```python
 chain_with_history = RunnableWithMessageHistory(
     chain,
@@ -87,30 +78,22 @@ chain_with_history = RunnableWithMessageHistory(
 )
 ```
 
-
 ```python
 # This is where we configure the session id
 config = {"configurable": {"session_id": "<SQL_SESSION_ID>"}}
 ```
 
-
 ```python
 chain_with_history.invoke({"question": "Hi! I'm bob"}, config=config)
 ```
-
-
 
 ```output
 AIMessage(content='Hello Bob! How can I assist you today?')
 ```
 
-
-
 ```python
 chain_with_history.invoke({"question": "Whats my name"}, config=config)
 ```
-
-
 
 ```output
 AIMessage(content='Your name is Bob! Is there anything specific you would like assistance with, Bob?')

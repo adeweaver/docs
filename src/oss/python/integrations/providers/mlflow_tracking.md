@@ -19,14 +19,11 @@ This short guide focuses on MLflow's tracing capability for LangChain and LangGr
 
 To get started with MLflow tracing for LangChain, install the MLflow Python package. We will also use the `langchain-openai` package.
 
-
-
 ```python
 %pip install mlflow langchain-openai langgraph -qU
 ```
 
 Next, set the MLflow tracking URI and OpenAI API key.
-
 
 ```python
 import os
@@ -39,7 +36,6 @@ os.environ["OPENAI_API_KEY"] = ""
 ## MLflow Tracing
 
 MLflow's tracing capability helps you visualize the execution flow of your LangChain applications. Here's how to enable it.
-
 
 ```python
 import mlflow
@@ -54,7 +50,6 @@ mlflow.langchain.autolog()
 ## Example: Tracing a LangChain Application
 
 Here's a complete example showing MLflow tracing with LangChain:
-
 
 ```python
 import mlflow
@@ -96,11 +91,10 @@ To view the trace, run `mlflow ui` in your terminal and navigate to the Traces t
 
 MLflow also supports tracing LangGraph applications:
 
-
 ```python
 import mlflow
 from langchain_core.tools import tool
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 # Enable MLflow tracing
 mlflow.langchain.autolog()
@@ -117,7 +111,7 @@ def count_words(text: str) -> str:
 # Create a LangGraph agent
 llm = ChatOpenAI(model="gpt-4o")
 tools = [count_words]
-graph = create_react_agent(llm, tools)
+graph = create_agent(llm, tools)
 
 # Run the agent
 result = graph.invoke(

@@ -12,21 +12,22 @@ The integration offers interfaces for both standard Language Models (LLMs) and C
 
 Install the dedicated partner package:
 
-
 ```python
 %pip install -qU langchain-runpod
 ```
 
 ## Setup
+
 ### 1. Deploy an Endpoint on RunPod
+
 - Navigate to your [RunPod Serverless Console](https://www.runpod.io/console/serverless/user/endpoints).
 - Create a \"New Endpoint\", selecting an appropriate GPU and template (e.g., vLLM, TGI, text-generation-webui) compatible with your model and the expected input/output format (see component guides or the package [README](https://github.com/runpod/langchain-runpod)).
 - Configure settings and deploy.
 - **Crucially, copy the Endpoint ID** after deployment.
 
 ### 2. Set API Credentials
-The integration needs your RunPod API Key and the Endpoint ID. Set them as environment variables for secure access:
 
+The integration needs your RunPod API Key and the Endpoint ID. Set them as environment variables for secure access:
 
 ```python
 import getpass
@@ -39,6 +40,7 @@ os.environ["RUNPOD_ENDPOINT_ID"] = input("Enter your RunPod Endpoint ID: ")
 *(Optional)* If using different endpoints for LLM and Chat models, you might need to set `RUNPOD_CHAT_ENDPOINT_ID` or pass the ID directly during initialization.
 
 ## Components
+
 This package provides two main components:
 
 ### 1. LLM
@@ -46,7 +48,6 @@ This package provides two main components:
 For interacting with standard text completion models.
 
 See the [RunPod LLM Integration Guide](/oss/integrations/llms/runpod) for detailed usage
-
 
 ```python
 from langchain_runpod import RunPod
@@ -69,7 +70,6 @@ except Exception as e:
 For interacting with conversational models.
 
 See the [RunPod Chat Model Integration Guide](/oss/integrations/chat/runpod) for detailed usage and feature support.
-
 
 ```python
 from langchain_core.messages import HumanMessage

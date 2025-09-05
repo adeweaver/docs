@@ -13,7 +13,6 @@ To run, you should have an [AnalyticDB](https://www.alibabacloud.com/help/en/ana
 
 - Using [AnalyticDB Cloud Vector Database](https://www.alibabacloud.com/product/hybriddb-postgresql). Click here to fast deploy it.
 
-
 ```python
 from langchain_community.vectorstores import AnalyticDB
 from langchain_openai import OpenAIEmbeddings
@@ -21,7 +20,6 @@ from langchain_text_splitters import CharacterTextSplitter
 ```
 
 Split documents and get embeddings by call OpenAI API
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -35,6 +33,7 @@ embeddings = OpenAIEmbeddings()
 ```
 
 Connect to AnalyticDB by setting related ENVIRONMENTS.
+
 ```
 export PG_HOST={your_analyticdb_hostname}
 export PG_PORT={your_analyticdb_port} # Optional, default is 5432
@@ -44,7 +43,6 @@ export PG_PASSWORD={database_password}
 ```
 
 Then store your embeddings and documents into AnalyticDB
-
 
 ```python
 import os
@@ -67,22 +65,21 @@ vector_db = AnalyticDB.from_documents(
 
 Query and retrieve data
 
-
 ```python
 query = "What did the president say about Ketanji Brown Jackson"
 docs = vector_db.similarity_search(query)
 ```
 
-
 ```python
 print(docs[0].page_content)
 ```
+
 ```output
-Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections. 
+Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections.
 
-Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service. 
+Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service.
 
-One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. 
+One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
 
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.
 ```

@@ -9,6 +9,7 @@ title: PGVectorStore
 Only available on Node.js.
 </Tip>
 ```
+
 To enable vector search in generic PostgreSQL databases, LangChain.js supports using the [`pgvector`](https://github.com/pgvector/pgvector) Postgres extension.
 
 This guide provides a quick overview for getting started with PGVector [vector stores](/oss/concepts/#vectorstores). For detailed documentation of all `PGVectorStore` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_vectorstores_pgvector.PGVectorStore.html).
@@ -37,6 +38,7 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/community @langchain/openai @langchain/core pg uuid
 </Npm2Yarn>
 ```
+
 ### Setting up an instance
 
 There are many ways to connect to Postgres depending on how you've set up your instance. Here's one example of a local setup using a prebuilt Docker image provided by the `pgvector` team.
@@ -58,6 +60,7 @@ services:
       - POSTGRES_USER=myuser
       - POSTGRES_PASSWORD=ChangeMe
 ```
+
 And then in the same directory, run `docker compose up` to start the container.
 
 You can find more information on how to setup pgvector in the [official repository](https://github.com/pgvector/pgvector/).
@@ -71,12 +74,14 @@ If you are using OpenAI embeddings for this guide, you'll need to set your OpenA
 ```typescript
 process.env.OPENAI_API_KEY = "YOUR_API_KEY";
 ```
+
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
 ```typescript
 // process.env.LANGSMITH_TRACING="true"
 // process.env.LANGSMITH_API_KEY="your-api-key"
 ```
+
 ## Instantiation
 
 To instantiate the vector store, call the `.initialize()` static method. This will automatically check for the presence of a table, given by `tableName` in the passed `config`. If it is not there, it will create it with the required columns.
@@ -86,11 +91,12 @@ To instantiate the vector store, call the `.initialize()` static method. This wi
 :<Warning>
 **Security**
 
-User-generated data such as usernames should not be used as input for table and column names.  
+User-generated data such as usernames should not be used as input for table and column names.
 **This may lead to SQL Injection!**
 </Warning>:
 
 ```
+
 ```typescript
 import {
   PGVectorStore,
@@ -134,7 +140,6 @@ const vectorStore = await PGVectorStore.initialize(
 
 ### Add items to vector store
 
-
 ```typescript
 import { v4 as uuidv4 } from "uuid";
 import type { Document } from "@langchain/core/documents";
@@ -168,7 +173,6 @@ await vectorStore.addDocuments(documents, { ids: ids });
 
 ### Delete items from vector store
 
-
 ```typescript
 const id4 = ids[ids.length - 1];
 
@@ -177,12 +181,11 @@ await vectorStore.delete({ ids: [id4] });
 
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 
 ### Query directly
 
 Performing a simple similarity search can be done as follows:
-
 
 ```typescript
 const filter = { source: "https://example.com" };
@@ -193,10 +196,12 @@ for (const doc of similaritySearchResults) {
   console.log(`* ${doc.pageContent} [${JSON.stringify(doc.metadata, null)}]`);
 }
 ```
+
 ```output
 * The powerhouse of the cell is the mitochondria [{"source":"https://example.com"}]
 * Mitochondria are made out of lipids [{"source":"https://example.com"}]
 ```
+
 The above filter syntax supports exact match, but the following are also supported:
 
 #### Using the `in` operator
@@ -231,7 +236,6 @@ The above filter syntax supports exact match, but the following are also support
 
 If you want to execute a similarity search and receive the corresponding scores you can run:
 
-
 ```typescript
 const similaritySearchWithScoreResults = await vectorStore.similaritySearchWithScore("biology", 2, filter)
 
@@ -239,14 +243,15 @@ for (const [doc, score] of similaritySearchWithScoreResults) {
   console.log(`* [SIM=${score.toFixed(3)}] ${doc.pageContent} [${JSON.stringify(doc.metadata)}]`);
 }
 ```
+
 ```output
 * [SIM=0.835] The powerhouse of the cell is the mitochondria [{"source":"https://example.com"}]
 * [SIM=0.852] Mitochondria are made out of lipids [{"source":"https://example.com"}]
 ```
+
 ### Query by turning into retriever
 
-You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains. 
-
+You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains.
 
 ```typescript
 const retriever = vectorStore.asRetriever({
@@ -256,6 +261,7 @@ const retriever = vectorStore.asRetriever({
 });
 await retriever.invoke("biology");
 ```
+
 ```output
 [
   Document {
@@ -270,6 +276,7 @@ await retriever.invoke("biology");
   }
 ]
 ```
+
 ### Usage for retrieval-augmented generation
 
 For guides on how to use this vector store for retrieval-augmented generation (RAG), see the following sections:
@@ -283,7 +290,6 @@ For guides on how to use this vector store for retrieval-augmented generation (R
 You can reuse connections by creating a pool, then creating new `PGVectorStore` instances directly via the constructor.
 
 Note that you should call `.initialize()` to set up your database at least once to set up your tables properly before using the constructor.
-
 
 ```typescript
 import { OpenAIEmbeddings } from "@langchain/openai";
@@ -372,7 +378,6 @@ The method parameters include:
 
 For more info, see the [Pgvector GitHub repo](https://github.com/pgvector/pgvector?tab=readme-ov-file#hnsw) and the [HNSW paper from Malkov Yu A. and Yashunin D. A.. 2020. Efficient and robust approximate nearest neighbor search using hierarchical navigable small world graphs](https://arxiv.org/pdf/1603.09320)
 
-
 ```typescript
 import { OpenAIEmbeddings } from "@langchain/openai";
 import {
@@ -433,7 +438,6 @@ await pgvectorStore.end();
 ## Closing connections
 
 Make sure you close the connection when you are finished to avoid excessive resource consumption:
-
 
 ```typescript
 await vectorStore.end();

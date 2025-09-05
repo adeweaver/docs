@@ -5,6 +5,7 @@ title: ScrapeGraph
 This guide provides a quick overview for getting started with ScrapeGraph [tools](/oss/integrations/tools/). For detailed documentation of all ScrapeGraph features and configurations head to the [API reference](https://python.langchain.com/docs/integrations/tools/scrapegraph).
 
 For more information about ScrapeGraph AI:
+
 - [ScrapeGraph AI Website](https://scrapegraphai.com)
 - [Open Source Project](https://github.com/ScrapeGraphAI/Scrapegraph-ai)
 
@@ -28,22 +29,21 @@ For more information about ScrapeGraph AI:
 | MarkdownifyTool | Convert webpages to markdown | URL | Markdown text |
 | GetCreditsTool | Check API credits | None | Credit info |
 
-
 ## Setup
 
 The integration requires the following packages:
 
-
 ```python
 %pip install --quiet -U langchain-scrapegraph
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
+
 ### Credentials
 
 You'll need a ScrapeGraph AI API key to use these tools. Get one at [scrapegraphai.com](https://scrapegraphai.com).
-
 
 ```python
 import getpass
@@ -55,7 +55,6 @@ if not os.environ.get("SGAI_API_KEY"):
 
 It's also helpful (but not needed) to set up [LangSmith](https://smith.langchain.com/) for best-in-class observability:
 
-
 ```python
 os.environ["LANGSMITH_TRACING"] = "true"
 os.environ["LANGSMITH_API_KEY"] = getpass.getpass()
@@ -64,7 +63,6 @@ os.environ["LANGSMITH_API_KEY"] = getpass.getpass()
 ## Instantiation
 
 Here we show how to instantiate instances of the ScrapeGraph tools:
-
 
 ```python
 from scrapegraph_py.logger import sgai_logger
@@ -94,8 +92,6 @@ Let's try each tool individually:
 ### SmartCrawler Tool
 
 The SmartCrawlerTool allows you to crawl multiple pages from a website and extract structured data with advanced crawling options like depth control, page limits, and domain restrictions.
-
-
 
 ```python
 # SmartScraper
@@ -136,6 +132,7 @@ print(json.dumps(result_crawler, indent=2))
 credits_info = credits.invoke({})
 print("\nCredits Info:", credits_info)
 ```
+
 ```output
 SmartScraper Result: {'company_name': 'ScrapeGraphAI', 'description': "ScrapeGraphAI is a powerful AI web scraping tool that turns entire websites into clean, structured data through a simple API. It's designed to help developers and AI companies extract valuable data from websites efficiently and transform it into formats that are ready for use in LLM applications and data analysis."}
 
@@ -186,7 +183,6 @@ print(json.dumps(result, indent=2))
 
 We can also invoke the tool with a model-generated ToolCall:
 
-
 ```python
 model_generated_tool_call = {
     "args": {
@@ -200,19 +196,15 @@ model_generated_tool_call = {
 smartscraper.invoke(model_generated_tool_call)
 ```
 
-
-
 ```output
 ToolMessage(content='{"main_heading": "Get the data you need from any website", "description": "Easily extract and gather information with just a few lines of code with a simple api. Turn websites into clean and usable structured data."}', name='SmartScraper', tool_call_id='1')
 ```
-
 
 ## Chaining
 
 Let's use our tools with an LLM to analyze a website:
 
 <ChatModelTabs customVarName="llm" />
-
 
 ```python
 # | output: false
@@ -223,6 +215,7 @@ from langchain.chat_models import init_chat_model
 
 llm = init_chat_model(model="gpt-4o", model_provider="openai")
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
@@ -259,12 +252,9 @@ tool_chain.invoke(
 )
 ```
 
-
-
 ```output
 AIMessage(content='ScrapeGraph AI is an AI-powered web scraping tool that efficiently extracts and converts website data into structured formats via a simple API. It caters to developers, data scientists, and AI researchers, offering features like easy integration, support for dynamic content, and scalability for large projects. It supports various website types, including business, e-commerce, and educational sites. Contact: contact@scrapegraphai.com.', additional_kwargs={'tool_calls': [{'id': 'call_shkRPyjyAtfjH9ffG5rSy9xj', 'function': {'arguments': '{"user_prompt":"Extract details about the products, services, and key features offered by ScrapeGraph AI, as well as any unique selling points or innovations mentioned on the website.","website_url":"https://scrapegraphai.com"}', 'name': 'SmartScraper'}, 'type': 'function'}], 'refusal': None}, response_metadata={'token_usage': {'completion_tokens': 47, 'prompt_tokens': 480, 'total_tokens': 527, 'completion_tokens_details': {'accepted_prediction_tokens': 0, 'audio_tokens': 0, 'reasoning_tokens': 0, 'rejected_prediction_tokens': 0}, 'prompt_tokens_details': {'audio_tokens': 0, 'cached_tokens': 0}}, 'model_name': 'gpt-4o-2024-08-06', 'system_fingerprint': 'fp_c7ca0ebaca', 'finish_reason': 'stop', 'logprobs': None}, id='run-45a12c86-d499-4273-8c59-0db926799bc7-0', tool_calls=[{'name': 'SmartScraper', 'args': {'user_prompt': 'Extract details about the products, services, and key features offered by ScrapeGraph AI, as well as any unique selling points or innovations mentioned on the website.', 'website_url': 'https://scrapegraphai.com'}, 'id': 'call_shkRPyjyAtfjH9ffG5rSy9xj', 'type': 'tool_call'}], usage_metadata={'input_tokens': 480, 'output_tokens': 47, 'total_tokens': 527, 'input_token_details': {'audio': 0, 'cache_read': 0}, 'output_token_details': {'audio': 0, 'reasoning': 0}})
 ```
-
 
 ## API reference
 

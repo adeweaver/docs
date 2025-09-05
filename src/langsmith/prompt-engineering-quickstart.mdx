@@ -13,7 +13,7 @@ This guide will walk through how to create, test, and iterate on prompts using t
 
     First, install the required packages:
 
-    <CodeGroup>
+        <CodeGroup>
 
     ```bash Python
     pip install -qU langsmith openai langchain_core
@@ -23,7 +23,7 @@ This guide will walk through how to create, test, and iterate on prompts using t
     yarn add langsmith @langchain/core langchain openai
     ```
 
-    </CodeGroup>
+        </CodeGroup>
 
     Next, make sure you have signed up for a [LangSmith](https://langsmith.com) account, then [create](/langsmith/create-account-api-key#create-an-api-key) and set your API key. You will also want to sign up for an OpenAI API key to run the code in this tutorial.
 
@@ -36,7 +36,7 @@ This guide will walk through how to create, test, and iterate on prompts using t
 
     To create a prompt in LangSmith, define the list of messages you want in your prompt and then wrap them using the `ChatPromptTemplate` function ([Python](https://python.langchain.com/api_reference/core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html)) or [TypeScript](https://v03.api.js.langchain.com/classes/_langchain_core/prompts.ChatPromptTemplate.html) function. Then all you have to do is call [`push_prompt`](https://docs.smith.langchain.com/reference/python/client/langsmith.client.Client#langsmith.client.Client.push_prompt) (Python) or [`pushPrompt`](https://langsmith-docs-7jgx2bq8f-langchain.vercel.app/reference/js/classes/client.Client#pushprompt) (TypeScript) to send your prompt to LangSmith!
 
-    <CodeGroup>
+        <CodeGroup>
 
     ```python Python
     from langsmith import Client
@@ -74,13 +74,13 @@ This guide will walk through how to create, test, and iterate on prompts using t
     });
     ```
 
-    </CodeGroup>
+        </CodeGroup>
 
     ### 3. Test a prompt
 
     To test a prompt, you need to pull the prompt, invoke it with the input values you want to test and then call the model with those input values. your LLM or application expects.
 
-    <CodeGroup>
+        <CodeGroup>
 
     ```python Python
     from langsmith import Client
@@ -128,7 +128,7 @@ This guide will walk through how to create, test, and iterate on prompts using t
     });
     ```
 
-    </CodeGroup>
+        </CodeGroup>
 
     ### 4. Iterate on a prompt
 
@@ -142,7 +142,7 @@ This guide will walk through how to create, test, and iterate on prompts using t
 
     To add a new commit to a prompt, you can use the same [`push_prompt`](https://docs.smith.langchain.com/reference/python/client/langsmith.client.Client#langsmith.client.Client.push_prompt) (Python) or [`pushPrompt`](https://langsmith-docs-7jgx2bq8f-langchain.vercel.app/reference/js/classes/client.Client#pushprompt) (TypeScript) methods as when you first created the prompt.
 
-    <CodeGroup>
+        <CodeGroup>
 
     ```python Python
     from langsmith import Client
@@ -183,20 +183,20 @@ This guide will walk through how to create, test, and iterate on prompts using t
     });
     ```
 
-    </CodeGroup>
+        </CodeGroup>
 
     ### 5. Next steps
 
     * Learn more about how to store and manage prompts using the Prompt Hub in [these how-to guides](/langsmith/manage-prompts-programmatically)
     * Learn more about how to use the playground for prompt engineering in [these how-to guides](/langsmith/create-a-prompt)
 
-## UI 
+## UI
 
     This quick start will walk through how to create, test, and iterate on prompts in LangSmith.
 
-    <Info>
-      This tutorial uses the UI for prompt engineering, if you are interested in using the SDK instead, read [this guide](/langsmith/prompt-engineering-quickstart).
-    </Info>
+        <Info>
+        This tutorial uses the UI for prompt engineering, if you are interested in using the SDK instead, read [this guide](/langsmith/prompt-engineering-quickstart).
+        </Info>
 
     ### 1. Setup
 

@@ -4,7 +4,6 @@ title: OpenAPI Toolkit
 
 We can construct agents to consume arbitrary APIs, here APIs conformant to the `OpenAPI`/`Swagger` specification.
 
-
 ```python
 # NOTE: In this example. We must set `allow_dangerous_request=True` to enable the OpenAPI Agent to automatically use the Request Tool.
 # This can be dangerous for calling unwanted requests. Please make sure your custom OpenAPI spec (yaml) is safe.
@@ -21,8 +20,7 @@ In the initial implementation, the planner is an LLM chain that has the name and
 
 ---
 
-### To start, let's collect some OpenAPI specs.
-
+### To start, let's collect some OpenAPI specs
 
 ```python
 import os
@@ -32,12 +30,12 @@ import yaml
 
 You will be able to get OpenAPI specs from here: [APIs-guru/openapi-directory](https://github.com/APIs-guru/openapi-directory)
 
-
 ```python
 !wget https://raw.githubusercontent.com/openai/openai-openapi/master/openapi.yaml -O openai_openapi.yaml
 !wget https://www.klarna.com/us/shopping/public/openai/v0/api-docs -O klarna_openapi.yaml
 !wget https://raw.githubusercontent.com/APIs-guru/openapi-directory/main/APIs/spotify.com/1.0.0/openapi.yaml -O spotify_openapi.yaml
 ```
+
 ```output
 --2023-03-31 15:45:56--  https://raw.githubusercontent.com/openai/openai-openapi/master/openapi.yaml
 Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.110.133, 185.199.109.133, 185.199.111.133, ...
@@ -46,7 +44,7 @@ HTTP request sent, awaiting response... 200 OK
 Length: 122995 (120K) [text/plain]
 Saving to: ‘openapi.yaml’
 
-openapi.yaml        100%[===================>] 120.11K  --.-KB/s    in 0.01s   
+openapi.yaml        100%[===================>] 120.11K  --.-KB/s    in 0.01s
 
 2023-03-31 15:45:56 (10.4 MB/s) - ‘openapi.yaml’ saved [122995/122995]
 
@@ -57,7 +55,7 @@ HTTP request sent, awaiting response... 200 OK
 Length: unspecified [application/json]
 Saving to: ‘api-docs’
 
-api-docs                [ <=>                ]   1.87K  --.-KB/s    in 0s      
+api-docs                [ <=>                ]   1.87K  --.-KB/s    in 0s
 
 2023-03-31 15:45:57 (261 MB/s) - ‘api-docs’ saved [1916]
 
@@ -68,7 +66,7 @@ HTTP request sent, awaiting response... 200 OK
 Length: 286747 (280K) [text/plain]
 Saving to: ‘openapi.yaml’
 
-openapi.yaml        100%[===================>] 280.03K  --.-KB/s    in 0.02s   
+openapi.yaml        100%[===================>] 280.03K  --.-KB/s    in 0.02s
 
 2023-03-31 15:45:58 (13.3 MB/s) - ‘openapi.yaml’ saved [286747/286747]
 ```
@@ -76,7 +74,6 @@ openapi.yaml        100%[===================>] 280.03K  --.-KB/s    in 0.02s
 ```python
 from langchain_community.agent_toolkits.openapi.spec import reduce_openapi_spec
 ```
-
 
 ```python
 with open("openai_openapi.yaml") as f:
@@ -98,7 +95,6 @@ We'll work with the Spotify API as one of the examples of a somewhat complex API
 
 - You'll have to set up an application in the Spotify developer console, documented [here](https://developer.spotify.com/documentation/general/guides/authorization/), to get credentials: `CLIENT_ID`, `CLIENT_SECRET`, and `REDIRECT_URI`.
 - To get an access tokens (and keep them fresh), you can implement the oauth flows, or you can use `spotipy`. If you've set your Spotify creedentials as environment variables `SPOTIPY_CLIENT_ID`, `SPOTIPY_CLIENT_SECRET`, and `SPOTIPY_REDIRECT_URI`, you can use the helper functions below:
-
 
 ```python
 import spotipy.util as util
@@ -122,7 +118,6 @@ requests_wrapper = RequestsWrapper(headers=headers)
 
 ### How big is this spec?
 
-
 ```python
 endpoints = [
     (route, operation)
@@ -133,13 +128,9 @@ endpoints = [
 len(endpoints)
 ```
 
-
-
 ```output
 63
 ```
-
-
 
 ```python
 import tiktoken
@@ -154,17 +145,13 @@ def count_tokens(s):
 count_tokens(yaml.dump(raw_spotify_api_spec))
 ```
 
-
-
 ```output
 80326
 ```
 
-
-### Let's see some examples!
+### Let's see some examples
 
 Starting with GPT-4. (Some robustness iterations under way for GPT-3 family.)
-
 
 ```python
 from langchain_community.agent_toolkits.openapi import planner
@@ -172,6 +159,7 @@ from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(model_name="gpt-4", temperature=0.0)
 ```
+
 ```output
 /Users/jeremywelborn/src/langchain/langchain/llms/openai.py:169: UserWarning: You are trying to use a chat model. This way of initializing it is no longer supported. Instead, please use: `from langchain_openai import ChatOpenAI`
   warnings.warn(
@@ -192,6 +180,7 @@ user_query = (
 )
 spotify_agent.invoke(user_query)
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 Action: api_planner
@@ -238,17 +227,15 @@ Final Answer: I have created a playlist called "Machine Blues" with the first so
 > Finished chain.
 ```
 
-
 ```output
 'I have created a playlist called "Machine Blues" with the first song from the "Kind of Blue" album.'
 ```
-
-
 
 ```python
 user_query = "give me a song I'd like, make it blues-ey"
 spotify_agent.invoke(user_query)
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 Action: api_planner
@@ -293,21 +280,16 @@ Final Answer: The recommended blues song for you is "Get Away Jordan" with the t
 > Finished chain.
 ```
 
-
 ```output
 'The recommended blues song for you is "Get Away Jordan" with the track ID: 03lXHmokj9qsXspNsPoirR.'
 ```
 
-
-#### Try another API.
-
-
+#### Try another API
 
 ```python
 headers = {"Authorization": f"Bearer {os.getenv('OPENAI_API_KEY')}"}
 openai_requests_wrapper = RequestsWrapper(headers=headers)
 ```
-
 
 ```python
 # Meta!
@@ -318,6 +300,7 @@ openai_agent = planner.create_openapi_agent(
 user_query = "generate a short piece of advice"
 openai_agent.invoke(user_query)
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 Action: api_planner
@@ -401,11 +384,9 @@ Final Answer: A short piece of advice for improving communication skills is to m
 > Finished chain.
 ```
 
-
 ```output
 'A short piece of advice for improving communication skills is to make sure to listen.'
 ```
-
 
 Takes awhile to get there!
 
@@ -413,14 +394,11 @@ Takes awhile to get there!
 
 Here's an agent that's not particularly practical, but neat! The agent has access to 2 toolkits. One comprises tools to interact with json: one tool to list the keys of a json object and another tool to get the value for a given key. The other toolkit comprises `requests` wrappers to send GET and POST requests. This agent consumes a lot calls to the language model, but does a surprisingly decent job.
 
-
-
 ```python
 from langchain_community.agent_toolkits import OpenAPIToolkit, create_openapi_agent
 from langchain_community.tools.json.tool import JsonSpec
 from langchain_openai import OpenAI
 ```
-
 
 ```python
 with open("openai_openapi.yaml") as f:
@@ -439,12 +417,12 @@ openapi_agent_executor = create_openapi_agent(
 )
 ```
 
-
 ```python
 openapi_agent_executor.run(
     "Make a post request to openai /completions. The prompt should be 'tell me a joke.'"
 )
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 Action: json_explorer
@@ -554,7 +532,6 @@ Final Answer: The response of the POST request is {"id":"cmpl-70Ivzip3dazrIXU8DS
 
 > Finished chain.
 ```
-
 
 ```output
 'The response of the POST request is {"id":"cmpl-70Ivzip3dazrIXU8DSVJGzFJj2rdv","object":"text_completion","created":1680307139,"model":"davinci","choices":[{"text":" with mummy not there”\\n\\nYou dig deep and come up with,","index":0,"logprobs":null,"finish_reason":"length"}],"usage":{"prompt_tokens":4,"completion_tokens":16,"total_tokens":20}}'

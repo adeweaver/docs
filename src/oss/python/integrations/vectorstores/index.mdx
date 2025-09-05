@@ -2,16 +2,120 @@
 title: "Vector stores"
 ---
 
-A [vector store](/oss/concepts/vectorstores) stores [embedded](/oss/concepts/embedding_models) data and performs similarity search.
+## Overview
+
+A vector store stores [embedded](/oss/integrations/embedding_models) data and performs similarity search.
+
+```mermaid
+flowchart LR
+
+    subgraph "📥 Indexing phase (store)"
+        A[📄 Documents] --> B[🔢 Embedding model]
+        B --> C[🔘 Embedding vectors]
+        C --> D[(Vector store)]
+    end
+
+    subgraph "📤 Query phase (retrieval)"
+        E[❓ Query text] --> F[🔢 Embedding model]
+        F --> G[🔘 Query vector]
+        G --> H[🔍 Similarity search]
+        H --> D
+        D --> I[📄 Top-k results]
+    end
+```
+
+### Interface
+
+LangChain provides a unified interface for vector stores, allowing you to:
+
+- `add_documents` - Add documents to the store.
+- `delete` - Remove stored documents by ID.
+- `similarity_search` - Query for semantically similar documents.
+
+This abstraction lets you switch between different implementations without altering your application logic.
+
+### Initialization
+
+To initialize a vector store, provide it with an embedding model:
+
+```python
+from langchain_core.vectorstores import InMemoryVectorStore
+vector_store = InMemoryVectorStore(embedding=SomeEmbeddingModel())
+```
+
+### Adding documents
+
+Add `Document` objects (holding `page_content` and optional metadata) like so:
+
+```python
+vector_store.add_documents(documents=[doc1, doc2], ids=["id1", "id2"])
+```
+
+### Deleting documents
+
+Delete by specifying IDs:
+
+```python
+vector_store.delete(ids=["id1"])
+```
+
+### Similarity search
+
+Issue a semantic query using `similarity_search`, which returns the closest embedded documents:
+
+```python
+similar_docs = vector_store.similarity_search("your query here")
+```
+
+Many vector stores support parameters like:
+
+* `k` — number of results to return
+* `filter` — conditional filtering based on metadata
+
+### Similarity metrics & indexing
+
+Embedding similarity may be computed using:
+
+* **Cosine similarity**
+* **Euclidean distance**
+* **Dot product**
+
+Efficient search often employs indexing methods such as HNSW (Hierarchical Navigable Small World), though specifics depend on the vector store.
+
+### Metadata filtering
+
+Filtering by metadata (e.g., source, date) can refine search results:
+
+```python
+vector_store.similarity_search(
+  "query",
+  k=3,
+  filter={"source": "tweets"}
+)
+```
+
+<important>
+Support for metadata-based filtering varies between implementations.
+Check the documentation of your chosen vector store for details.
+</important>
+
+
+## Top integrations
 
 **Select embedding model:**
 
 <Tabs>
 <Tab title="OpenAI">
 
-```bash
+<CodeGroup>
+```bash pip
 pip install -qU langchain-openai
 ```
+
+```bash uv
+uv add langchain-openai
+```
+</CodeGroup>
 ```python
 import getpass
 import os
@@ -265,9 +369,15 @@ model = init_chat_model("deepseek-chat", model_provider="deepseek")
 <Tabs>
 <Tab title="In-memory">
 
-```bash
+<CodeGroup>
+```bash pip
 pip install -qU langchain-core
 ```
+
+```bash uv
+uv add langchain-core
+```
+</CodeGroup>
 ```python
 from langchain_core.vectorstores import InMemoryVectorStore
 
@@ -276,9 +386,15 @@ vector_store = InMemoryVectorStore(embeddings)
 </Tab>
 <Tab title="AstraDB">
 
-```bash
+<CodeGroup>
+```bash pip
 pip install -qU langchain-astradb
 ```
+
+```bash uv
+uv add langchain-astradb
+```
+</CodeGroup>
 ```python
 from langchain_astradb import AstraDBVectorStore
 
@@ -293,9 +409,15 @@ vector_store = AstraDBVectorStore(
 </Tab>
 <Tab title="Chroma">
 
-```bash
+<CodeGroup>
+```bash pip
 pip install -qU langchain-chroma
 ```
+
+```bash uv
+uv add langchain-chroma
+```
+</CodeGroup>
 ```python
 from langchain_chroma import Chroma
 
@@ -328,9 +450,15 @@ vector_store = FAISS(
 </Tab>
 <Tab title="Milvus">
 
-```bash
+<CodeGroup>
+```bash pip
 pip install -qU langchain-milvus
 ```
+
+```bash uv
+uv add langchain-milvus
+```
+</CodeGroup>
 ```python
 from langchain_milvus import Milvus
 
@@ -360,9 +488,15 @@ vector_store = MongoDBAtlasVectorSearch(
 </Tab>
 <Tab title="PGVector">
 
-```bash
+<CodeGroup>
+```bash pip
 pip install -qU langchain-postgres
 ```
+
+```bash uv
+uv add langchain-postgres
+```
+</CodeGroup>
 ```python
 from langchain_postgres import PGVector
 
@@ -375,9 +509,15 @@ vector_store = PGVector(
 </Tab>
 <Tab title="PGVectorStore">
 
-```bash
+<CodeGroup>
+```bash pip
 pip install -qU langchain-postgres
 ```
+
+```bash uv
+uv add langchain-postgres
+```
+</CodeGroup>
 ```python
 from langchain_postgres import PGEngine, PGVectorStore
 
@@ -394,9 +534,15 @@ vector_store = PGVectorStore.create_sync(
 </Tab>
 <Tab title="Pinecone">
 
-```bash
+<CodeGroup>
+```bash pip
 pip install -qU langchain-pinecone
 ```
+
+```bash uv
+uv add langchain-pinecone
+```
+</CodeGroup>
 ```python
 from langchain_pinecone import PineconeVectorStore
 from pinecone import Pinecone
@@ -409,9 +555,15 @@ vector_store = PineconeVectorStore(embedding=embeddings, index=index)
 </Tab>
 <Tab title="Qdrant">
 
-```bash
+<CodeGroup>
+```bash pip
 pip install -qU langchain-qdrant
 ```
+
+```bash uv
+uv add langchain-qdrant
+```
+</CodeGroup>
 ```python
 from qdrant_client.models import Distance, VectorParams
 from langchain_qdrant import QdrantVectorStore

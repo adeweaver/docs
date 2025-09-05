@@ -4,11 +4,9 @@ title: PGVecto.rs
 
 This notebook shows how to use functionality related to the Postgres vector database ([pgvecto.rs](https://github.com/tensorchord/pgvecto.rs)).
 
-
 ```python
 %pip install "pgvecto_rs[sdk]" langchain-community
 ```
-
 
 ```python
 from typing import List
@@ -19,7 +17,6 @@ from langchain_community.vectorstores.pgvecto_rs import PGVecto_rs
 from langchain_core.documents import Document
 from langchain_text_splitters import CharacterTextSplitter
 ```
-
 
 ```python
 loader = TextLoader("../../how_to/state_of_the_union.txt")
@@ -32,13 +29,11 @@ embeddings = FakeEmbeddings(size=3)
 
 Start the database with the [official demo docker image](https://github.com/tensorchord/pgvecto.rs#installation).
 
-
 ```python
 ! docker run --name pgvecto-rs-demo -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d tensorchord/pgvecto-rs:latest
 ```
 
 Then contruct the db URL
-
 
 ```python
 ## PGVecto.rs needs the connection string to the database.
@@ -63,7 +58,6 @@ URL = "postgresql+psycopg://{username}:{password}@{host}:{port}/{db_name}".forma
 
 Finally, create the VectorStore from the documents:
 
-
 ```python
 db1 = PGVecto_rs.from_documents(
     documents=docs,
@@ -75,7 +69,6 @@ db1 = PGVecto_rs.from_documents(
 ```
 
 You can connect to the table laterly with:
-
 
 ```python
 # Create new empty vectorstore with collection_name.
@@ -94,7 +87,6 @@ Make sure that the user is permitted to create a table.
 
 ### Similarity Search with Euclidean Distance (Default)
 
-
 ```python
 query = "What did the president say about Ketanji Brown Jackson"
 docs: List[Document] = db1.similarity_search(query, k=4)
@@ -104,7 +96,6 @@ for doc in docs:
 ```
 
 ### Similarity Search with Filter
-
 
 ```python
 from pgvecto_rs.sdk.filters import meta_contains
@@ -120,7 +111,6 @@ for doc in docs:
 ```
 
 Or:
-
 
 ```python
 query = "What did the president say about Ketanji Brown Jackson"

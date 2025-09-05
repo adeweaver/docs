@@ -21,37 +21,37 @@ To time travel using the LangGraph Server API (via the LangGraph SDK):
   from langgraph.graph import StateGraph, START, END
   from langchain.chat_models import init_chat_model
   from langgraph.checkpoint.memory import InMemorySaver
-  
+
   class State(TypedDict):
       topic: NotRequired[str]
       joke: NotRequired[str]
-  
+
   llm = init_chat_model(
       "anthropic:claude-3-7-sonnet-latest",
       temperature=0,
   )
-  
+
   def generate_topic(state: State):
       """LLM call to generate a topic for the joke"""
       msg = llm.invoke("Give me a funny topic for a joke")
       return {"topic": msg.content}
-  
+
   def write_joke(state: State):
       """LLM call to write a joke based on the topic"""
       msg = llm.invoke(f"Write a short joke about {state['topic']}")
       return {"joke": msg.content}
-  
+
   # Build workflow
   builder = StateGraph(State)
-  
+
   # Add nodes
   builder.add_node("generate_topic", generate_topic)
   builder.add_node("write_joke", write_joke)
-  
+
   # Add edges to connect nodes
   builder.add_edge(START, "generate_topic")
   builder.add_edge("generate_topic", "write_joke")
-  
+
   # Compile
   graph = builder.compile()
   ```
@@ -60,18 +60,18 @@ To time travel using the LangGraph Server API (via the LangGraph SDK):
 ### 1. Run the graph
 
 <Tabs>
-  <Tab title="Python">
+    <Tab title="Python">
     ```python
     from langgraph_sdk import get_client
     client = get_client(url=<DEPLOYMENT_URL>)
-    
+
     # Using the graph deployed with the name "agent"
     assistant_id = "agent"
-    
+
     # create a thread
     thread = await client.threads.create()
     thread_id = thread["thread_id"]
-    
+
     # Run the graph
     result = await client.runs.wait(
         thread_id,
@@ -79,19 +79,19 @@ To time travel using the LangGraph Server API (via the LangGraph SDK):
         input={}
     )
     ```
-  </Tab>
-  <Tab title="JavaScript">
+    </Tab>
+    <Tab title="JavaScript">
     ```js
     import { Client } from "@langchain/langgraph-sdk";
     const client = new Client({ apiUrl: <DEPLOYMENT_URL> });
-    
+
     // Using the graph deployed with the name "agent"
     const assistantID = "agent";
-    
+
     // create a thread
     const thread = await client.threads.create();
     const threadID = thread["thread_id"];
-    
+
     // Run the graph
     const result = await client.runs.wait(
       threadID,
@@ -99,19 +99,19 @@ To time travel using the LangGraph Server API (via the LangGraph SDK):
       { input: {}}
     );
     ```
-  </Tab>
-  <Tab title="cURL">
+    </Tab>
+    <Tab title="cURL">
     Create a thread:
-    
+
     ```bash
     curl --request POST \
     --url <DEPLOYMENT_URL>/threads \
     --header 'Content-Type: application/json' \
     --data '{}'
     ```
-    
+
     Run the graph:
-    
+
     ```bash
     curl --request POST \
     --url <DEPLOYMENT_URL>/threads/<THREAD_ID>/runs/wait \
@@ -121,35 +121,35 @@ To time travel using the LangGraph Server API (via the LangGraph SDK):
       \"input\": {}
     }"
     ```
-  </Tab>
+    </Tab>
 </Tabs>
 
 ### 2. Identify a checkpoint
 
 <Tabs>
-  <Tab title="Python">
+    <Tab title="Python">
     ```python
     # The states are returned in reverse chronological order.
     states = await client.threads.get_history(thread_id)
     selected_state = states[1]
     print(selected_state)
     ```
-  </Tab>
-  <Tab title="JavaScript">
+    </Tab>
+    <Tab title="JavaScript">
     ```js
     // The states are returned in reverse chronological order.
     const states = await client.threads.getHistory(threadID);
     const selectedState = states[1];
     console.log(selectedState);
     ```
-  </Tab>
-  <Tab title="cURL">
+    </Tab>
+    <Tab title="cURL">
     ```bash
     curl --request GET \
     --url <DEPLOYMENT_URL>/threads/<THREAD_ID>/history \
     --header 'Content-Type: application/json'
     ```
-  </Tab>
+    </Tab>
 </Tabs>
 
 <a id="optional"></a>
@@ -158,7 +158,7 @@ To time travel using the LangGraph Server API (via the LangGraph SDK):
 `update_state` will create a new checkpoint. The new checkpoint will be associated with the same thread, but a new checkpoint ID.
 
 <Tabs>
-  <Tab title="Python">
+    <Tab title="Python">
     ```python {highlight={4}}
     new_config = await client.threads.update_state(
         thread_id,
@@ -167,8 +167,8 @@ To time travel using the LangGraph Server API (via the LangGraph SDK):
     )
     print(new_config)
 ```
-  </Tab>
-  <Tab title="JavaScript">
+    </Tab>
+    <Tab title="JavaScript">
     ```js
     const newConfig = await client.threads.updateState(
       threadID,
@@ -179,8 +179,8 @@ To time travel using the LangGraph Server API (via the LangGraph SDK):
     );
     console.log(newConfig);
     ```
-  </Tab>
-  <Tab title="cURL">
+    </Tab>
+    <Tab title="cURL">
     ```bash
     curl --request POST \
     --url <DEPLOYMENT_URL>/threads/<THREAD_ID>/state \
@@ -191,13 +191,13 @@ To time travel using the LangGraph Server API (via the LangGraph SDK):
       \"values\": {\"topic\": \"chickens\"}
     }"
     ```
-  </Tab>
+    </Tab>
 </Tabs>
 
 ### 4. Resume execution from the checkpoint
 
 <Tabs>
-  <Tab title="Python">
+    <Tab title="Python">
     ```python {highlight={4,5}}
     await client.runs.wait(
         thread_id,
@@ -206,8 +206,8 @@ To time travel using the LangGraph Server API (via the LangGraph SDK):
         checkpoint_id=new_config["checkpoint_id"]
     )
 ```
-  </Tab>
-  <Tab title="JavaScript">
+    </Tab>
+    <Tab title="JavaScript">
     ```javascript {highlight={5,6}}
     await client.runs.wait(
       threadID,
@@ -218,8 +218,8 @@ To time travel using the LangGraph Server API (via the LangGraph SDK):
       }
     );
 ```
-  </Tab>
-  <Tab title="cURL">
+    </Tab>
+    <Tab title="cURL">
     ```bash
     curl --request POST \
     --url <DEPLOYMENT_URL>/threads/<THREAD_ID>/runs/wait \
@@ -229,7 +229,7 @@ To time travel using the LangGraph Server API (via the LangGraph SDK):
       \"checkpoint_id\": <CHECKPOINT_ID>
     }"
     ```
-  </Tab>
+    </Tab>
 </Tabs>
 
 ## Learn more

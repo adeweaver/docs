@@ -6,8 +6,8 @@ sidebarTitle: LangGraph SDK
 LangGraph Platform provides both a Python SDK for interacting with [LangGraph Server](/langgraph-platform/langgraph-server).
 
 <Tip>
-  **Python SDK reference**
-  For detailed information about the Python SDK, see [Python SDK reference docs](/langgraph-platform/python-sdk).
+**Python SDK reference**
+For detailed information about the Python SDK, see [Python SDK reference docs](/langgraph-platform/python-sdk).
 </Tip>
 
 ## Installation
@@ -15,16 +15,16 @@ LangGraph Platform provides both a Python SDK for interacting with [LangGraph Se
 You can install the packages using the appropriate package manager for your language:
 
 <Tabs>
-  <Tab title="Python">
+    <Tab title="Python">
     ```bash
     pip install langgraph-sdk
     ```
-  </Tab>
-  <Tab title="JS">
+    </Tab>
+    <Tab title="JS">
     ```bash
     yarn add @langchain/langgraph-sdk
     ```
-  </Tab>
+    </Tab>
 </Tabs>
 
 ## Python sync vs. async
@@ -32,22 +32,22 @@ You can install the packages using the appropriate package manager for your lang
 The Python SDK provides both synchronous (`get_sync_client`) and asynchronous (`get_client`) clients for interacting with LangGraph Server:
 
 <Tabs>
-  <Tab title="Sync">
+    <Tab title="Sync">
     ```python
     from langgraph_sdk import get_sync_client
-    
+
     client = get_sync_client(url=..., api_key=...)
     client.assistants.search()
     ```
-  </Tab>
-  <Tab title="Async">
+    </Tab>
+    <Tab title="Async">
     ```python
     from langgraph_sdk import get_client
-    
+
     client = get_client(url=..., api_key=...)
     await client.assistants.search()
     ```
-  </Tab>
+    </Tab>
 </Tabs>
 
 ## Learn more

@@ -2,10 +2,9 @@
 title: Llama2Chat
 ---
 
-This notebook shows how to augment Llama-2 `LLM`s with the `Llama2Chat` wrapper to support the [Llama-2 chat prompt format](https://huggingface.co/blog/llama2#how-to-prompt-llama-2). Several `LLM` implementations in LangChain can be used as interface to Llama-2 chat models. These include [ChatHuggingFace](/oss/integrations/chat/huggingface), [LlamaCpp](/oss/integrations/chat/llamacpp/), [GPT4All](/oss/integrations/llms/gpt4all), ..., to mention a few examples. 
+This notebook shows how to augment Llama-2 `LLM`s with the `Llama2Chat` wrapper to support the [Llama-2 chat prompt format](https://huggingface.co/blog/llama2#how-to-prompt-llama-2). Several `LLM` implementations in LangChain can be used as interface to Llama-2 chat models. These include [ChatHuggingFace](/oss/integrations/chat/huggingface), [LlamaCpp](/oss/integrations/chat/llamacpp/), [GPT4All](/oss/integrations/llms/gpt4all), ..., to mention a few examples.
 
 `Llama2Chat` is a generic wrapper that implements `BaseChatModel` and can therefore be used in applications as [chat model](/docs/how_to#chat-models). `Llama2Chat` converts a list of Messages into the [required chat prompt format](https://huggingface.co/blog/llama2#how-to-prompt-llama-2) and forwards the formatted prompt as `str` to the wrapped `LLM`.
-
 
 ```python
 from langchain.chains import LLMChain
@@ -14,7 +13,6 @@ from langchain_experimental.chat_models import Llama2Chat
 ```
 
 For the chat application examples below, we'll use the following chat `prompt_template`:
-
 
 ```python
 from langchain_core.messages import SystemMessage
@@ -53,13 +51,11 @@ docker run \
 
 This works on a machine with 4 x RTX 3080ti cards, for example. Adjust the `--num_shard` value to the number of GPUs available. The `HF_API_TOKEN` environment variable holds the Hugging Face API token.
 
-
 ```python
 # !pip3 install text-generation
 ```
 
 Create a `HuggingFaceTextGenInference` instance that connects to the local inference server and wrap it into `Llama2Chat`.
-
 
 ```python
 from langchain_community.llms import HuggingFaceTextGenInference
@@ -77,12 +73,10 @@ model = Llama2Chat(llm=llm)
 
 Then you are ready to use the chat `model` together with `prompt_template` and conversation `memory` in an `LLMChain`.
 
-
 ```python
 memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 chain = LLMChain(llm=model, prompt=prompt_template, memory=memory)
 ```
-
 
 ```python
 print(
@@ -91,6 +85,7 @@ print(
     )
 )
 ```
+
 ```output
  Sure, I'd be happy to help! Here are a few popular locations to consider visiting in Vienna:
 
@@ -109,17 +104,18 @@ print(
 ```python
 print(chain.run(text="Tell me more about #2."))
 ```
+
 ```output
  Certainly! St. Stephen's Cathedral (Stephansdom) is one of the most recognizable landmarks in Vienna and a must-see attraction for visitors. This stunning Gothic cathedral is located in the heart of the city and is known for its intricate stone carvings, colorful stained glass windows, and impressive dome.
 
 The cathedral was built in the 12th century and has been the site of many important events throughout history, including the coronation of Holy Roman emperors and the funeral of Mozart. Today, it is still an active place of worship and offers guided tours, concerts, and special events. Visitors can climb up the south tower for panoramic views of the city or attend a service to experience the beautiful music and chanting.
 ```
+
 ## Chat with Llama-2 via `LlamaCPP` LLM
 
-For using a Llama-2 chat model with a [LlamaCPP](/oss/integrations/llms/llamacpp) `LMM`, install the `llama-cpp-python` library using [these installation instructions](/oss/integrations/llms/llamacpp#installation). The following example uses a quantized [llama-2-7b-chat.Q4_0.gguf](https://huggingface.co/TheBloke/Llama-2-7b-Chat-GGUF/resolve/main/llama-2-7b-chat.Q4_0.gguf) model stored locally at `~/Models/llama-2-7b-chat.Q4_0.gguf`. 
+For using a Llama-2 chat model with a [LlamaCPP](/oss/integrations/llms/llamacpp) `LMM`, install the `llama-cpp-python` library using [these installation instructions](/oss/integrations/llms/llamacpp#installation). The following example uses a quantized [llama-2-7b-chat.Q4_0.gguf](https://huggingface.co/TheBloke/Llama-2-7b-Chat-GGUF/resolve/main/llama-2-7b-chat.Q4_0.gguf) model stored locally at `~/Models/llama-2-7b-chat.Q4_0.gguf`.
 
 After creating a `LlamaCpp` instance, the `llm` is again wrapped into `Llama2Chat`
-
 
 ```python
 from os.path import expanduser
@@ -137,12 +133,10 @@ model = Llama2Chat(llm=llm)
 
 and used in the same way as in the previous example.
 
-
 ```python
 memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 chain = LLMChain(llm=model, prompt=prompt_template, memory=memory)
 ```
-
 
 ```python
 print(
@@ -151,6 +145,7 @@ print(
     )
 )
 ```
+
 ```output
   Of course! Vienna is a beautiful city with a rich history and culture. Here are some of the top tourist attractions you might want to consider visiting:
 1. Schönbrunn Palace
@@ -176,6 +171,7 @@ llama_print_timings:       total time =   10645.94 ms
 ```python
 print(chain.run(text="Tell me more about #2."))
 ```
+
 ```output
 Llama.generate: prefix-match hit
 ``````output

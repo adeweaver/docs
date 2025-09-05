@@ -2,16 +2,15 @@
 title: Eden AI
 ---
 
-Eden AI is revolutionizing the AI landscape by uniting the best AI providers, empowering users to unlock limitless possibilities and tap into the true potential of artificial intelligence. With an all-in-one comprehensive and hassle-free platform, it allows users to deploy AI features to production lightning fast, enabling effortless access to the full breadth of AI capabilities via a single API. (website: https://edenai.co/)
+Eden AI is revolutionizing the AI landscape by uniting the best AI providers, empowering users to unlock limitless possibilities and tap into the true potential of artificial intelligence. With an all-in-one comprehensive and hassle-free platform, it allows users to deploy AI features to production lightning fast, enabling effortless access to the full breadth of AI capabilities via a single API. (website: [edenai.co/](https://edenai.co/))
 
 This example goes over how to use LangChain to interact with Eden AI models
 
 -----------------------------------------------------------------------------------
 
+Accessing the EDENAI's API requires an API key,
 
-Accessing the EDENAI's API requires an API key, 
-
-which you can get by creating an account https://app.edenai.run/user/register  and heading here https://app.edenai.run/admin/account/settings
+which you can get by creating an account [app.edenai.run/user/register](https://app.edenai.run/user/register)  and heading here [app.edenai.run/admin/account/settings](https://app.edenai.run/admin/account/settings)
 
 Once we have a key we'll want to set it as an environment variable by running:
 
@@ -23,13 +22,9 @@ If you'd prefer not to set an environment variable you can pass the key in direc
 
  when initiating the EdenAI LLM class:
 
-
-
-
 ```python
 from langchain_community.llms import EdenAI
 ```
-
 
 ```python
 llm = EdenAI(edenai_api_key="...", provider="openai", temperature=0.2, max_tokens=250)
@@ -37,15 +32,13 @@ llm = EdenAI(edenai_api_key="...", provider="openai", temperature=0.2, max_token
 
 ## Calling a model
 
-
 The EdenAI API brings together various providers, each offering multiple models.
 
 To access a specific model, you can simply add 'model' during instantiation.
 
-For instance, let's explore the models provided by OpenAI, such as GPT3.5 
+For instance, let's explore the models provided by OpenAI, such as GPT3.5
 
 ### text generation
-
 
 ```python
 from langchain.chains import LLMChain
@@ -69,7 +62,6 @@ llm(prompt)
 
 ### image generation
 
-
 ```python
 import base64
 from io import BytesIO
@@ -91,23 +83,19 @@ def print_base64_image(base64_string):
     image.show()
 ```
 
-
 ```python
 text2image = EdenAI(feature="image", provider="openai", resolution="512x512")
 ```
 
-
 ```python
 image_output = text2image("A cat riding a motorcycle by Picasso")
 ```
-
 
 ```python
 print_base64_image(image_output)
 ```
 
 ### text generation with callback
-
 
 ```python
 from langchain_community.llms import EdenAI
@@ -129,18 +117,15 @@ print(llm.invoke(prompt))
 
 ## Chaining Calls
 
-
 ```python
 from langchain.chains import LLMChain, SimpleSequentialChain
 from langchain_core.prompts import PromptTemplate
 ```
 
-
 ```python
 llm = EdenAI(feature="text", provider="openai", temperature=0.2, max_tokens=250)
 text2image = EdenAI(feature="image", provider="openai", resolution="512x512")
 ```
-
 
 ```python
 prompt = PromptTemplate(
@@ -151,7 +136,6 @@ prompt = PromptTemplate(
 chain = LLMChain(llm=llm, prompt=prompt)
 ```
 
-
 ```python
 second_prompt = PromptTemplate(
     input_variables=["company_name"],
@@ -159,7 +143,6 @@ second_prompt = PromptTemplate(
 )
 chain_two = LLMChain(llm=llm, prompt=second_prompt)
 ```
-
 
 ```python
 third_prompt = PromptTemplate(
@@ -169,7 +152,6 @@ third_prompt = PromptTemplate(
 chain_three = LLMChain(llm=text2image, prompt=third_prompt)
 ```
 
-
 ```python
 # Run the chain specifying only the input variable for the first chain.
 overall_chain = SimpleSequentialChain(
@@ -177,7 +159,6 @@ overall_chain = SimpleSequentialChain(
 )
 output = overall_chain.run("hats")
 ```
-
 
 ```python
 # print the image

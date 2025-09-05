@@ -24,13 +24,11 @@ After confirming access to the database in the runtime environment of this noteb
 
 The integration lives in its own `langchain-google-datastore` package, so we need to install it.
 
-
 ```python
 %pip install -upgrade --quiet langchain-google-datastore
 ```
 
 **Colab only**: Uncomment the following cell to restart the kernel or use the button to restart the kernel. For Vertex AI Workbench you can restart the terminal using the button on top.
-
 
 ```python
 # # Automatically restart kernel after installs so that your environment can access the new packages
@@ -41,6 +39,7 @@ The integration lives in its own `langchain-google-datastore` package, so we nee
 ```
 
 ### ☁ Set Your Google Cloud Project
+
 Set your Google Cloud project so that you can leverage Google Cloud resources within this notebook.
 
 If you don't know your project ID, try the following:
@@ -48,7 +47,6 @@ If you don't know your project ID, try the following:
 * Run `gcloud config list`.
 * Run `gcloud projects list`.
 * See the support page: [Locate the project ID](https://support.google.com/googleapi/answer/7014113).
-
 
 ```python
 # @markdown Please fill in the value below with your Google Cloud project ID and then run the cell.
@@ -63,9 +61,8 @@ PROJECT_ID = "my-project-id"  # @param {type:"string"}
 
 Authenticate to Google Cloud as the IAM user logged into this notebook in order to access your Google Cloud Project.
 
-- If you are using Colab to run this notebook, use the cell below and continue.
-- If you are using Vertex AI Workbench, check out the setup instructions [here](https://github.com/GoogleCloudPlatform/generative-ai/tree/main/setup-env).
-
+* If you are using Colab to run this notebook, use the cell below and continue.
+* If you are using Vertex AI Workbench, check out the setup instructions [here](https://github.com/GoogleCloudPlatform/generative-ai/tree/main/setup-env).
 
 ```python
 from google.colab import auth
@@ -74,8 +71,8 @@ auth.authenticate_user()
 ```
 
 ### API Enablement
-The `langchain-google-datastore` package requires that you [enable the Datastore API](https://console.cloud.google.com/flows/enableapi?apiid=datastore.googleapis.com) in your Google Cloud Project.
 
+The `langchain-google-datastore` package requires that you [enable the Datastore API](https://console.cloud.google.com/flows/enableapi?apiid=datastore.googleapis.com) in your Google Cloud Project.
 
 ```python
 # enable Datastore API
@@ -92,7 +89,6 @@ To initialize the `DatastoreChatMessageHistory` class you need to provide only 3
 1. `kind` - The name of the Datastore kind to write into. This is an optional value and by default, it will use `ChatHistory` as the kind.
 1. `collection` - The single `/`-delimited path to a Datastore collection.
 
-
 ```python
 from langchain_google_datastore import DatastoreChatMessageHistory
 
@@ -104,16 +100,15 @@ chat_history.add_user_message("Hi!")
 chat_history.add_ai_message("How can I help you?")
 ```
 
-
 ```python
 chat_history.messages
 ```
 
 #### Cleaning up
+
 When the history of a specific session is obsolete and can be deleted from the database and memory, it can be done the following way.
 
 **Note:** Once deleted, the data is no longer stored in Datastore and is gone forever.
-
 
 ```python
 chat_history.clear()
@@ -122,7 +117,6 @@ chat_history.clear()
 ### Custom Client
 
 The client is created by default using the available environment variables. A [custom client](https://cloud.google.com/python/docs/reference/datastore/latest/client) can be passed to the constructor.
-
 
 ```python
 from google.auth import compute_engine

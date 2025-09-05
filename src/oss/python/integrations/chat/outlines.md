@@ -7,6 +7,7 @@ This will help you get started with Outlines [chat models](/oss/concepts/chat_mo
 [Outlines](https://github.com/outlines-dev/outlines) is a library for constrained language generation. It allows you to use large language models (LLMs) with various backends while applying constraints to the generated output.
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | JS support | Package downloads | Package latest |
@@ -14,9 +15,10 @@ This will help you get started with Outlines [chat models](/oss/concepts/chat_mo
 | [ChatOutlines](https://python.langchain.com/api_reference/community/chat_models/langchain_community.chat_models.outlines.ChatOutlines.html) | [langchain-community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ❌ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-community?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-community?style=flat-square&label=%20) |
 
 ### Model features
+
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | Native async | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
-| ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | 
+| ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ |
 
 ## Setup
 
@@ -30,7 +32,6 @@ There is no built-in auth mechanism for Outlines.
 
 The LangChain Outlines integration lives in the `langchain-community` package and requires the `outlines` library:
 
-
 ```python
 %pip install -qU langchain-community outlines
 ```
@@ -38,7 +39,6 @@ The LangChain Outlines integration lives in the `langchain-community` package an
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```python
 from langchain_community.chat_models.outlines import ChatOutlines
@@ -58,7 +58,6 @@ model = ChatOutlines(model="microsoft/phi-2")  # defaults to transformers backen
 
 ## Invocation
 
-
 ```python
 from langchain_core.messages import HumanMessage
 
@@ -72,7 +71,6 @@ response.content
 
 ChatOutlines supports streaming of tokens:
 
-
 ```python
 messages = [HumanMessage(content="Count to 10 in French:")]
 
@@ -81,7 +79,6 @@ for chunk in model.stream(messages):
 ```
 
 ## Chaining
-
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate
@@ -112,7 +109,6 @@ ChatOutlines allows you to apply various constraints to the generated output:
 
 ### Regex Constraint
 
-
 ```python
 model.regex = r"((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)"
 
@@ -123,7 +119,6 @@ response.content
 
 ### Type Constraints
 
-
 ```python
 model.type_constraints = int
 response = model.invoke("What is the answer to life, the universe, and everything?")
@@ -132,7 +127,6 @@ response.content
 ```
 
 ### Pydantic and JSON Schemas
-
 
 ```python
 from pydantic import BaseModel
@@ -150,7 +144,6 @@ person
 ```
 
 ### Context Free Grammars
-
 
 ```python
 model.grammar = """
@@ -171,7 +164,6 @@ response.content
 
 You can also use LangChain's Structured Output with ChatOutlines:
 
-
 ```python
 from pydantic import BaseModel
 
@@ -189,8 +181,8 @@ result
 
 ## API reference
 
-For detailed documentation of all ChatOutlines features and configurations head to the API reference: https://python.langchain.com/api_reference/community/chat_models/langchain_community.chat_models.outlines.ChatOutlines.html
+For detailed documentation of all ChatOutlines features and configurations head to the API reference: [python.langchain.com/api_reference/community/chat_models/langchain_community.chat_models.outlines.ChatOutlines.html](https://python.langchain.com/api_reference/community/chat_models/langchain_community.chat_models.outlines.ChatOutlines.html)
 
-## Full Outlines Documentation: 
+## Full Outlines Documentation
 
-https://dottxt-ai.github.io/outlines/latest/
+[dottxt-ai.github.io/outlines/latest/](https://dottxt-ai.github.io/outlines/latest/)

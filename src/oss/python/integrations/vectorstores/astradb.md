@@ -4,8 +4,8 @@ title: Astra DB Vector Store
 
 This page provides a quickstart for using Astra DB as a Vector Store.
 
-> [DataStax Astra DB](https://docs.datastax.com/en/astra-db-serverless/index.html) is a serverless 
-> AI-ready database built on `Apache Cassandra®` and made conveniently available 
+> [DataStax Astra DB](https://docs.datastax.com/en/astra-db-serverless/index.html) is a serverless
+> AI-ready database built on `Apache Cassandra®` and made conveniently available
 > through an easy-to-use JSON API.
 
 ## Setup
@@ -13,7 +13,6 @@ This page provides a quickstart for using Astra DB as a Vector Store.
 ### Dependencies
 
 Use of the integration requires the `langchain-astradb` partner package:
-
 
 ```python
 !pip install \
@@ -24,14 +23,14 @@ Use of the integration requires the `langchain-astradb` partner package:
 
 ### Credentials
 
-In order to use the AstraDB vector store, you must first head to the [AstraDB website](https://astra.datastax.com), create an account, and then create a new database - the initialization might take a few minutes. 
+In order to use the AstraDB vector store, you must first head to the [AstraDB website](https://astra.datastax.com), create an account, and then create a new database - the initialization might take a few minutes.
 
 Once the database has been initialized, retrieve your [connection secrets](https://docs.datastax.com/en/astra-db-serverless/get-started/quickstart.html#create-a-database-and-store-your-credentials), which you'll need momentarily. These are:
+
 - an **`API Endpoint`**, such as `"https://01234567-89ab-cdef-0123-456789abcdef-us-east1.apps.astra.datastax.com/"`
 - and a **`Database Token`**, e.g. `"AstraCS:aBcD123......"`
 
 You may optionally provide a **`keyspace`** (called "namespace" in the LangChain components), which you can manage from the `Data Explorer` tab of your database dashboard. If you wish, you can leave it empty in the prompt below and fall back to a default keyspace.
-
 
 ```python
 import getpass
@@ -45,13 +44,14 @@ if desired_keyspace:
 else:
     ASTRA_DB_KEYSPACE = None
 ```
+
 ```output
 ASTRA_DB_API_ENDPOINT =  https://01234567-89ab-cdef-0123-456789abcdef-us-east1.apps.astra.datastax.com
 ASTRA_DB_APPLICATION_TOKEN =  ········
 (optional) ASTRA_DB_KEYSPACE =
 ```
-If you want to get best in-class automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
+If you want to get best in-class automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -88,7 +88,6 @@ Instantiate our vector store using an explicit embedding class:
 
 <EmbeddingTabs/>
 
-
 ```python
 # | output: false
 # | echo: false
@@ -96,7 +95,6 @@ from langchain_openai import OpenAIEmbeddings
 
 embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
 ```
-
 
 ```python
 from langchain_astradb import AstraDBVectorStore
@@ -118,7 +116,6 @@ In this example code, it is assumed that you have
 - Added an API Key named `"OPENAI_API_KEY"` to the integration, and scoped it to the database you are using.
 
 For more details, including instructions to switch provider/model, please consult the [documentation](https://docs.datastax.com/en/astra-db-serverless/databases/embedding-generation.html).
-
 
 ```python
 from astrapy.info import VectorServiceOptions
@@ -150,7 +147,6 @@ Auto-detect mode cannot coexist with _collection_ settings (such as the similari
 
 In the following example code, we will "auto-detect" the very same collection that was created by method 2 above ("vectorize"). Hence, no `Embeddings` object needs to be supplied.
 
-
 ```python
 vector_store_autodetected = AstraDBVectorStore(
     collection_name="astra_vectorize_langchain",
@@ -167,7 +163,6 @@ Once you have created your vector store, interact with it by adding and deleting
 
 All interactions with the vector store proceed regardless of the initialization method: please **adapt the following cell**, if you desire, to select a vector store you have created and want to put to test.
 
-
 ```python
 # If desired, uncomment a different line here:
 
@@ -181,7 +176,6 @@ vector_store = vector_store_integrated_embeddings
 Add documents to the vector store by using the `add_documents` method.
 
 _The "id" field can be supplied separately, in a matching `ids=[...]` parameter to `add_documents`, or even left out entirely to let the store generate IDs._
-
 
 ```python
 from langchain_core.documents import Document
@@ -254,8 +248,6 @@ documents_to_insert = [
 vector_store.add_documents(documents=documents_to_insert)
 ```
 
-
-
 ```output
 ['entry_00',
  'entry_01',
@@ -270,22 +262,17 @@ vector_store.add_documents(documents=documents_to_insert)
  'entry_10']
 ```
 
-
 ### Delete items from vector store
 
 Delete items by ID by using the `delete` function.
-
 
 ```python
 vector_store.delete(ids=["entry_10", "entry_02"])
 ```
 
-
-
 ```output
 True
 ```
-
 
 ## Query the vector store
 
@@ -297,7 +284,6 @@ Once the vector store is created and populated, you can query it (e.g. as part o
 
 Search for documents similar to a provided text, with additional metadata filters if desired:
 
-
 ```python
 results = vector_store.similarity_search(
     "LangChain provides abstractions to make working with LLMs easy",
@@ -307,15 +293,16 @@ results = vector_store.similarity_search(
 for res in results:
     print(f'* "{res.page_content}", metadata={res.metadata}')
 ```
+
 ```output
 * "Building an exciting new project with LangChain - come check it out!", metadata={'source': 'tweet'}
 * "LangGraph is the best framework for building stateful, agentic applications!", metadata={'source': 'tweet'}
 * "Thanks to her sophisticated language skills, the agent managed to extract strategic information all right.", metadata={'source': 'tweet'}
 ```
+
 #### Similarity search with score
 
 You can return the similarity score as well:
-
 
 ```python
 results = vector_store.similarity_search_with_score(
@@ -326,11 +313,13 @@ results = vector_store.similarity_search_with_score(
 for res, score in results:
     print(f'* [SIM={score:.2f}] "{res.page_content}", metadata={res.metadata}')
 ```
+
 ```output
 * [SIM=0.71] "Building an exciting new project with LangChain - come check it out!", metadata={'source': 'tweet'}
 * [SIM=0.70] "LangGraph is the best framework for building stateful, agentic applications!", metadata={'source': 'tweet'}
 * [SIM=0.61] "Thanks to her sophisticated language skills, the agent managed to extract strategic information all right.", metadata={'source': 'tweet'}
 ```
+
 #### Specify a different keyword query (requires hybrid search)
 
 > Note: this cell can be run only if the collection supports the [find-and-rerank](https://docs.datastax.com/en/astra-db-serverless/api-reference/document-methods/find-and-rerank.html) command and if the vector store is aware of this fact.
@@ -338,7 +327,6 @@ for res, score in results:
 If the vector store is using a hybrid-enabled collection and has detected this fact, by default it will use that capability when running searches.
 
 In that case, the same query text is used for both the vector-similarity and the lexical-based retrieval steps in the find-and-rerank process, _unless you explicitly provide a different query for the latter_:
-
 
 ```python
 results = vector_store_autodetected.similarity_search(
@@ -350,11 +338,13 @@ results = vector_store_autodetected.similarity_search(
 for res in results:
     print(f'* "{res.page_content}", metadata={res.metadata}')
 ```
+
 ```output
 * "Building an exciting new project with LangChain - come check it out!", metadata={'source': 'tweet'}
 * "LangGraph is the best framework for building stateful, agentic applications!", metadata={'source': 'tweet'}
 * "ZYX, just another tool in the world, is actually my agent-based superhero", metadata={'source': 'tweet'}
 ```
+
 _The above example hardcodes the "autodetected" vector store, which has surely inspected the collection and figured out if hybrid is available. Another option is to explicitly supply hybrid-search parameters to the constructor (refer to the API Reference for more details/examples)._
 
 #### Other search methods
@@ -365,10 +355,9 @@ For a full list of the search modes available in `AstraDBVectorStore` check out 
 
 ### Query by turning into retriever
 
-You can also make the vector store into a retriever, for easier usage in your chains. 
+You can also make the vector store into a retriever, for easier usage in your chains.
 
 Transform the vector store into a retriever and invoke it with a simple query + metadata filter:
-
 
 ```python
 retriever = vector_store.as_retriever(
@@ -378,12 +367,9 @@ retriever = vector_store.as_retriever(
 retriever.invoke("Stealing from the bank is a crime", filter={"source": "news"})
 ```
 
-
-
 ```output
 [Document(id='entry_04', metadata={'source': 'news'}, page_content='Robbers broke into the city bank and stole $1 million in cash.')]
 ```
-
 
 ## Usage for retrieval-augmented generation
 
@@ -400,7 +386,6 @@ For more, check out a complete RAG template using Astra DB [here](https://github
 If you want to completely delete the collection from your Astra DB instance, run this.
 
 _(You will lose the data you stored in it.)_
-
 
 ```python
 vector_store.delete_collection()

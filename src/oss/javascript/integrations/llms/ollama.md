@@ -12,9 +12,11 @@ You may be looking for [this page instead](/oss/integrations/chat/ollama/).
 </Warning>
 
 ```
+
 This will help you get started with Ollama [text completion models (LLMs)](/oss/concepts/text_llms) using LangChain. For detailed documentation on `Ollama` features and configuration options, please refer to the [API reference](https://api.js.langchain.com/classes/langchain_ollama.Ollama.html).
 
 ## Overview
+
 ### Integration details
 
 [Ollama](https://ollama.ai/) allows you to run open-source large language models, such as Llama 3, locally.
@@ -40,6 +42,7 @@ If you want to get automated tracing of your model calls you can also set your [
 # export LANGSMITH_TRACING="true"
 # export LANGSMITH_API_KEY="your-api-key"
 ```
+
 ### Installation
 
 The LangChain Ollama integration lives in the `@langchain/ollama` package:
@@ -53,10 +56,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```typescript
 import { Ollama } from "@langchain/ollama"
@@ -68,8 +71,8 @@ const llm = new Ollama({
   // other params...
 })
 ```
-## Invocation
 
+## Invocation
 
 ```typescript
 const inputText = "Ollama is an AI company that "
@@ -77,6 +80,7 @@ const inputText = "Ollama is an AI company that "
 const completion = await llm.invoke(inputText)
 completion
 ```
+
 ```output
 I think you meant to say "Olivia" instead of "Ollama". Olivia is not a well-known AI company, but there are several other AI companies with similar names. Here are a few examples:
 
@@ -86,10 +90,10 @@ I think you meant to say "Olivia" instead of "Ollama". Olivia is not a well-know
 
 If you meant something else by "Ollama", please let me know and I'll do my best to help!
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our completion model with a prompt template like so:
-
 
 ```typescript
 import { PromptTemplate } from "@langchain/core/prompts"
@@ -104,6 +108,7 @@ await chain.invoke(
   }
 )
 ```
+
 ```output
 A programmer's passion!
 
@@ -121,11 +126,11 @@ If you want to be more casual, you can use:
 
 Remember that German has different forms for formal and informal speech, so adjust the phrases according to your relationship with the person you're speaking to!
 ```
+
 ## Multimodal models
 
 Ollama supports open source multimodal models like [LLaVA](https://ollama.ai/library/llava) in versions 0.1.15 and up.
 You can bind base64 encoded image data to multimodal-capable models to use as context like this:
-
 
 ```typescript
 import { Ollama } from "@langchain/ollama";
@@ -142,9 +147,11 @@ const model = new Ollama({
 const res = await model.invoke("What's in this image?");
 console.log(res);
 ```
+
 ```output
  The image shows a hot dog placed inside what appears to be a bun that has been specially prepared to resemble a hot dog bun. This is an example of a creative or novelty food item, where the bread used for the bun looks similar to a cooked hot dog itself, playing on the name "hot dog." The image also shows the typical garnishes like ketchup and mustard on the side.
 ```
+
 ## Related
 
 - LLM [conceptual guide](/oss/concepts/text_llms)

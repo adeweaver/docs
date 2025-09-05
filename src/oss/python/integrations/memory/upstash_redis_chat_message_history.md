@@ -6,7 +6,6 @@ title: Upstash Redis
 
 This notebook goes over how to use `Upstash Redis` to store chat message history.
 
-
 ```python
 from langchain_community.chat_message_histories import (
     UpstashRedisChatMessageHistory,
@@ -22,7 +21,6 @@ history = UpstashRedisChatMessageHistory(
 history.add_user_message("hello llm!")
 history.add_ai_message("hello user!")
 ```
-
 
 ```python
 history.messages

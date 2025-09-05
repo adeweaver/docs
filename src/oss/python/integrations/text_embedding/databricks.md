@@ -6,9 +6,8 @@ title: DatabricksEmbeddings
 
 This guide provides a quick overview for getting started with Databricks [embedding models](/oss/concepts/embedding_models). For detailed documentation of all `DatabricksEmbeddings` features and configurations head to the [API reference](https://python.langchain.com/api_reference/community/embeddings/langchain_community.embeddings.databricks.DatabricksEmbeddings.html).
 
-
-
 ## Overview
+
 ### Integration details
 
 | Class | Package |
@@ -19,7 +18,6 @@ This guide provides a quick overview for getting started with Databricks [embedd
 
 `DatabricksEmbeddings` supports all methods of `Embeddings` class including async APIs.
 
-
 ### Endpoint Requirement
 
 The serving endpoint `DatabricksEmbeddings` wraps must have OpenAI-compatible embedding input/output format ([reference](https://mlflow.org/docs/latest/llms/deployments/index.html#embeddings)). As long as the input format is compatible, `DatabricksEmbeddings` can be used for any endpoint type hosted on [Databricks Model Serving](https://docs.databricks.com/en/machine-learning/model-serving/index.html):
@@ -28,7 +26,6 @@ The serving endpoint `DatabricksEmbeddings` wraps must have OpenAI-compatible em
 2. Custom Models - You can also deploy custom embedding models to a serving endpoint via MLflow with
 your choice of framework such as LangChain, Pytorch, Transformers, etc.
 3. External Models - Databricks endpoints can serve models that are hosted outside Databricks as a proxy, such as proprietary model service like OpenAI text-embedding-3.
-
 
 ## Setup
 
@@ -39,7 +36,6 @@ To access Databricks models you'll need to create a Databricks account, set up c
 If you are running LangChain app inside Databricks, you can skip this step.
 
 Otherwise, you need manually set the Databricks workspace hostname and personal access token to `DATABRICKS_HOST` and `DATABRICKS_TOKEN` environment variables, respectively. See [Authentication Documentation](https://docs.databricks.com/en/dev-tools/auth/index.html#databricks-personal-access-tokens) for how to get an access token.
-
 
 ```python
 import getpass
@@ -56,13 +52,11 @@ if "DATABRICKS_TOKEN" not in os.environ:
 
 The LangChain Databricks integration lives in the `databricks-langchain` package:
 
-
 ```python
 %pip install -qU databricks-langchain
 ```
 
 ## Instantiation
-
 
 ```python
 from databricks_langchain import DatabricksEmbeddings
@@ -80,7 +74,6 @@ embeddings = DatabricksEmbeddings(
 Embedding models are often used in retrieval-augmented generation (RAG) flows, both as part of indexing data as well as later retrieving it. For more detailed instructions, please see our [RAG tutorials](/oss/tutorials/rag).
 
 Below, see how to index and retrieve data using the `embeddings` object we initialized above. In this example, we will index and retrieve a sample document in the `InMemoryVectorStore`.
-
 
 ```python
 # Create a vector store with a sample text
@@ -113,7 +106,6 @@ You can directly call these methods to get embeddings for your own use cases.
 
 You can embed single texts or documents with `embed_query`:
 
-
 ```python
 single_vector = embeddings.embed_query(text)
 print(str(single_vector)[:100])  # Show the first 100 characters of the vector
@@ -122,7 +114,6 @@ print(str(single_vector)[:100])  # Show the first 100 characters of the vector
 ### Embed multiple texts
 
 You can embed multiple texts with `embed_documents`:
-
 
 ```python
 text2 = (
@@ -136,8 +127,6 @@ for vector in two_vectors:
 ### Async Usage
 
 You can also use `aembed_query` and `aembed_documents` for producing embeddings asynchronously:
-
-
 
 ```python
 import asyncio

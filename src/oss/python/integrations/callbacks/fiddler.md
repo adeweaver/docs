@@ -2,16 +2,15 @@
 title: Fiddler
 ---
 
->[Fiddler](https://www.fiddler.ai/) is the pioneer in enterprise Generative and Predictive system ops, offering a unified platform that enables Data Science, MLOps, Risk, Compliance, Analytics, and other LOB teams to monitor, explain, analyze, and improve ML deployments at enterprise scale. 
+>[Fiddler](https://www.fiddler.ai/) is the pioneer in enterprise Generative and Predictive system ops, offering a unified platform that enables Data Science, MLOps, Risk, Compliance, Analytics, and other LOB teams to monitor, explain, analyze, and improve ML deployments at enterprise scale.
 
 ## 1. Installation and Setup
-
 
 ```python
 #!pip install langchain langchain-community langchain-openai fiddler-client
 ```
 
-## 2. Fiddler connection details 
+## 2. Fiddler connection details
 
 *Before you can add information about your model with Fiddler*
 
@@ -20,7 +19,6 @@ title: Fiddler
 3. Your authorization token
 
 These can be found by navigating to the *Settings* page of your Fiddler environment.
-
 
 ```python
 URL = ""  # Your Fiddler instance URL, Make sure to include the full URL (including https://). For example: https://demo.fiddler.ai
@@ -33,7 +31,6 @@ MODEL_NAME = ""  # Model name in Fiddler
 ```
 
 ## 3. Create a fiddler callback handler instance
-
 
 ```python
 from langchain_community.callbacks.fiddler_callback import FiddlerCallbackHandler
@@ -49,7 +46,6 @@ fiddler_handler = FiddlerCallbackHandler(
 
 ## Example 1 : Basic Chain
 
-
 ```python
 from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import OpenAI
@@ -64,7 +60,6 @@ chain = llm | output_parser
 chain.invoke("How far is moon from earth?")
 ```
 
-
 ```python
 # Few more invocations
 chain.invoke("What is the temperature on Mars?")
@@ -76,7 +71,6 @@ chain.invoke("What is the meaning of life?")
 ```
 
 ## Example 2 : Chain with prompt templates
-
 
 ```python
 from langchain_core.prompts import (

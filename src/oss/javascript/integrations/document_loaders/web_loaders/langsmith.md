@@ -6,15 +6,18 @@ title: LangSmithLoader
 This notebook provides a quick overview for getting started with the [LangSmithLoader](/oss/integrations/document_loaders/). For detailed documentation of all `LangSmithLoader` features and configurations head to the [API reference](https://api.js.langchain.com/classes/_langchain_core.document_loaders_langsmith.LangSmithLoader.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [PY support](https://python.langchain.com/docs/integrations/document_loaders/langsmith)|
 | :--- | :--- | :---: | :---: |  :---: |
-| [LangSmithLoader](https://api.js.langchain.com/classes/_langchain_core.document_loaders_langsmith.LangSmithLoader.html) | [@langchain/community](https://api.js.langchain.com/classes/_langchain_core.html) | ✅ | beta | ✅ | 
+| [LangSmithLoader](https://api.js.langchain.com/classes/_langchain_core.document_loaders_langsmith.LangSmithLoader.html) | [@langchain/community](https://api.js.langchain.com/classes/_langchain_core.html) | ✅ | beta | ✅ |
+
 ### Loader features
+
 | Source | Web Loader | Node Envs Only
-| :---: | :---: | :---: | 
-| LangSmithLoader | ✅ | ❌ | 
+| :---: | :---: | :---: |
+| LangSmithLoader | ✅ | ❌ |
 
 ## Setup
 
@@ -22,7 +25,7 @@ To access the LangSmith document loader you'll need to install `@langchain/core`
 
 ### Credentials
 
-Sign up at https://langsmith.com and generate an API key. Once you've done this set the `LANGSMITH_API_KEY` environment variable:
+Sign up at [langsmith.com](https://langsmith.com) and generate an API key. Once you've done this set the `LANGSMITH_API_KEY` environment variable:
 
 ```bash
 export LANGSMITH_API_KEY="your-api-key"
@@ -41,10 +44,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Create example dataset
 
 For this example, we'll create a new dataset which we'll use in our document loader.
-
 
 ```typescript
 import { Client as LangSmithClient } from 'langsmith';
@@ -77,6 +80,7 @@ const examples = await lsClient.createExamples({
   datasetId: dataset.id,
 });
 ```
+
 ```typescript
 import { LangSmithLoader } from "@langchain/core/document_loaders/langsmith"
 
@@ -93,11 +97,11 @@ const loader = new LangSmithLoader({
 
 ## Load
 
-
 ```typescript
 const docs = await loader.load()
 docs[0]
 ```
+
 ```output
 {
   pageContent: 'Conventus supellex aegrotatio termes. Vapulus abscido ubi vita coadunatio modi crapula comparo caecus. Acervus voluptate tergeo pariatur conor argumentum inventore vomito stella.',
@@ -125,6 +129,7 @@ docs[0]
 ```typescript
 console.log(docs[0].metadata)
 ```
+
 ```output
 {
   id: 'f1a04800-6f7a-4232-9743-fb5d9029bf1f',
@@ -147,6 +152,7 @@ console.log(docs[0].metadata)
 ```typescript
 console.log(docs[0].metadata.inputs)
 ```
+
 ```output
 {
   input: 'Conventus supellex aegrotatio termes. Vapulus abscido ubi vita coadunatio modi crapula comparo caecus. Acervus voluptate tergeo pariatur conor argumentum inventore vomito stella.'
@@ -156,6 +162,7 @@ console.log(docs[0].metadata.inputs)
 ```typescript
 console.log(docs[0].metadata.outputs)
 ```
+
 ```output
 { output: 'Excepturi adeptio spectaculum bis volaticus accusamus.' }
 ```
@@ -163,6 +170,7 @@ console.log(docs[0].metadata.outputs)
 ```typescript
 console.log(Object.keys(docs[0].metadata))
 ```
+
 ```output
 [
   'id',
@@ -176,6 +184,7 @@ console.log(Object.keys(docs[0].metadata))
   'outputs'
 ]
 ```
+
 ## API reference
 
 For detailed documentation of all `LangSmithLoader` features and configurations head to the [API reference](https://api.js.langchain.com/classes/_langchain_core.document_loaders_langsmith.LangSmithLoader.html)

@@ -15,7 +15,7 @@ def internet_search(query):
     tavily_client = TavilyClient(api_key=os.environ["TAVILY_API_KEY"])
     return tavily_client.search(query)
 
-research_instructions = """You are an expert researcher. 
+research_instructions = """You are an expert researcher.
 Your job is to conduct thorough research, and then write a polished report.
 
 You have access to tools for internet search and file operations.

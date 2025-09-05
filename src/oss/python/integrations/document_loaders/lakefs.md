@@ -6,16 +6,13 @@ title: lakeFS
 
 This notebooks covers how to load document objects from a `lakeFS` path (whether it's an object or a prefix).
 
-
 ## Initializing the lakeFS loader
 
 Replace `ENDPOINT`, `LAKEFS_ACCESS_KEY`, and `LAKEFS_SECRET_KEY` values with your own.
 
-
 ```python
 from langchain_community.document_loaders import LakeFSLoader
 ```
-
 
 ```python
 ENDPOINT = ""
@@ -30,10 +27,10 @@ lakefs_loader = LakeFSLoader(
 ```
 
 ## Specifying a path
+
 You can specify a prefix or a complete object path to control which files to load.
 
 Specify the repository, reference (branch, commit id, or tag), and path in the corresponding `REPO`, `REF`, and `PATH` to load the documents from:
-
 
 ```python
 REPO = ""

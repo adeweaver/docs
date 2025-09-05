@@ -13,12 +13,14 @@ Only available on Node.js.
 </Tip>
 
 ```
+
 This notebook provides a quick overview for getting started with `PDFLoader` [document loaders](/oss/concepts/document_loaders). For detailed documentation of all `PDFLoader` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_document_loaders_fs_pdf.PDFLoader.html).
 
 ## Overview
+
 ### Integration details
 
-| Class | Package | Compatibility | Local | PY support | 
+| Class | Package | Compatibility | Local | PY support |
 | :--- | :--- | :---: | :---: |  :---: |
 | [PDFLoader](https://api.js.langchain.com/classes/langchain_community_document_loaders_fs_pdf.PDFLoader.html) | [@langchain/community](https://api.js.langchain.com/modules/langchain_community_document_loaders_fs_pdf.html) | Node-only | ✅ | 🟠 (See note below) |
 
@@ -41,10 +43,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and load documents:
-
 
 ```typescript
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf"
@@ -53,13 +55,14 @@ const nike10kPdfPath = "../../../../data/nke-10k-2023.pdf"
 
 const loader = new PDFLoader(nike10kPdfPath)
 ```
-## Load
 
+## Load
 
 ```typescript
 const docs = await loader.load()
 docs[0]
 ```
+
 ```output
 Document {
   pageContent: 'Table of Contents\n' +
@@ -136,6 +139,7 @@ Document {
 ```typescript
 console.log(docs[0].metadata)
 ```
+
 ```output
 {
   source: '../../../../data/nke-10k-2023.pdf',
@@ -160,8 +164,8 @@ console.log(docs[0].metadata)
   loc: { pageNumber: 1 }
 }
 ```
-## Usage, one document per file
 
+## Usage, one document per file
 
 ```typescript
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
@@ -173,6 +177,7 @@ const singleDocPerFileLoader = new PDFLoader(nike10kPdfPath, {
 const singleDoc = await singleDocPerFileLoader.load();
 console.log(singleDoc[0].pageContent.slice(0, 100))
 ```
+
 ```output
 Table of Contents
 UNITED STATES
@@ -180,6 +185,7 @@ SECURITIES AND EXCHANGE COMMISSION
 Washington, D.C. 20549
 FORM 10-K
 ```
+
 ## Usage, custom `pdfjs` build
 
 By default we use the `pdfjs` build bundled with `pdf-parse`, which is compatible with most environments, including Node.js and modern browsers. If you want to use a more recent version of `pdfjs-dist` or if you want to use a custom build of `pdfjs-dist`, you can do so by providing a custom `pdfjs` function that returns a promise that resolves to the `PDFJS` object.
@@ -192,6 +198,7 @@ In the following example we use the "legacy" (see [pdfjs docs](https://github.co
 </Npm2Yarn>
 
 ```
+
 ```typescript
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 
@@ -207,8 +214,6 @@ const customBuildLoader = new PDFLoader(nike10kPdfPath, {
 PDFs come in many varieties, which makes reading them a challenge. The loader parses individual text elements and joins them together with a space by default, but
 if you are seeing excessive spaces, this may not be the desired behavior. In that case, you can override the separator with an empty string like this:
 
-
-
 ```typescript
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 
@@ -219,6 +224,7 @@ const noExtraSpacesLoader = new PDFLoader(nike10kPdfPath, {
 const noExtraSpacesDocs = await noExtraSpacesLoader.load();
 console.log(noExtraSpacesDocs[0].pageContent.slice(100, 250))
 ```
+
 ```output
 (Mark One)
 ☑ ANNUAL REPORT PURSUANT TO SECTION 13 OR 15(D) OF THE SECURITIES EXCHANGE ACT OF 1934
@@ -226,8 +232,8 @@ FOR THE FISCAL YEAR ENDED MAY 31, 2023
 OR
 ☐ TRANSITI
 ```
-## Loading directories
 
+## Loading directories
 
 ```typescript
 import { DirectoryLoader } from "langchain/document_loaders/fs/directory";
@@ -258,6 +264,7 @@ const splitDocs = await textSplitter.splitDocuments(directoryDocs);
 console.log(splitDocs[0]);
 
 ```
+
 ```output
 Unknown file type: Star_Wars_The_Clone_Wars_S06E07_Crisis_at_the_Heart.srt
 Unknown file type: example.txt
@@ -350,6 +357,7 @@ Document {
   id: undefined
 }
 ```
+
 ## API reference
 
-For detailed documentation of all PDFLoader features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_community_document_loaders_fs_pdf.PDFLoader.html
+For detailed documentation of all PDFLoader features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_document_loaders_fs_pdf.PDFLoader.html).

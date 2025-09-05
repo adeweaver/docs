@@ -8,12 +8,10 @@ This example goes over how to use LangChain to interact with `Yuan2.0`(2B/51B/10
 
 Yuan2.0 set up an inference service so user just need request the inference api to get result, which is introduced in [Yuan2.0 Inference-Server](https://github.com/IEIT-Yuan/Yuan-2.0/blob/main/docs/inference_server.md).
 
-
 ```python
 from langchain.chains import LLMChain
 from langchain_community.llms.yuan2 import Yuan2
 ```
-
 
 ```python
 # default infer_api for a local deployed Yuan2.0 inference server
@@ -36,11 +34,9 @@ yuan_llm = Yuan2(
 # llm.use_history = True
 ```
 
-
 ```python
 question = "请介绍一下中国。"
 ```
-
 
 ```python
 print(yuan_llm.invoke(question))

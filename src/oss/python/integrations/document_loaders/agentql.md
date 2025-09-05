@@ -7,10 +7,12 @@ title: AgentQLLoader
 ## Overview
 
 `AgentQLLoader` requires the following two parameters:
+
 - `url`: The URL of the web page you want to extract data from.
 - `query`: The AgentQL query to execute. Learn more about [how to write an AgentQL query in the docs](https://docs.agentql.com/agentql-query) or test one out in the [AgentQL Playground](https://dev.agentql.com/playground).
 
 Setting the following parameters are optional:
+
 - `api_key`: Your AgentQL API key from [dev.agentql.com](https://dev.agentql.com). **`Optional`.**
 - `timeout`: The number of seconds to wait for a request before timing out. **Defaults to `900`.**
 - `is_stealth_mode_enabled`: Whether to enable experimental anti-bot evasion strategies. This feature may not work for all websites at all times. Data extraction may take longer to complete with this mode enabled. **Defaults to `False`.**
@@ -28,6 +30,7 @@ AgentQLLoader is implemented with AgentQL's [REST API](https://docs.agentql.com/
 | AgentQLLoader| langchain-agentql | ✅ | ❌ | ❌ |
 
 ### Loader features
+
 | Source | Document Lazy Loading | Native Async Support
 | :---: | :---: | :---: |
 | AgentQLLoader | ✅ | ❌ |
@@ -40,13 +43,11 @@ To use the AgentQL Document Loader, you will need to configure the `AGENTQL_API_
 
 Install **langchain-agentql**.
 
-
 ```python
 %pip install -qU langchain-agentql
 ```
 
 ### Set Credentials
-
 
 ```python
 import os
@@ -57,7 +58,6 @@ os.environ["AGENTQL_API_KEY"] = "YOUR_AGENTQL_API_KEY"
 ## Initialization
 
 Next instantiate your model object:
-
 
 ```python
 from langchain_agentql.document_loaders import AgentQLLoader
@@ -80,42 +80,35 @@ loader = AgentQLLoader(
 
 ## Load
 
-
 ```python
 docs = loader.load()
 docs[0]
 ```
 
-
-
 ```output
 Document(metadata={'request_id': 'bdb9dbe7-8a7f-427f-bc16-839ccc02cae6', 'generated_query': None, 'screenshot': None}, page_content="{'posts': [{'title': 'Launch Week Recap—make the web AI-ready', 'url': 'https://www.agentql.com/blog/2024-launch-week-recap', 'date': 'Nov 18, 2024', 'author': 'Rachel-Lee Nabors'}, {'title': 'Accurate data extraction from PDFs and images with AgentQL', 'url': 'https://www.agentql.com/blog/accurate-data-extraction-pdfs-images', 'date': 'Feb 1, 2025', 'author': 'Rachel-Lee Nabors'}, {'title': 'Introducing Scheduled Scraping Workflows', 'url': 'https://www.agentql.com/blog/scheduling', 'date': 'Dec 2, 2024', 'author': 'Rachel-Lee Nabors'}, {'title': 'Updates to Our Pricing Model', 'url': 'https://www.agentql.com/blog/2024-pricing-update', 'date': 'Nov 19, 2024', 'author': 'Rachel-Lee Nabors'}, {'title': 'Get data from any page: AgentQL’s REST API Endpoint—Launch week day 5', 'url': 'https://www.agentql.com/blog/data-rest-api', 'date': 'Nov 15, 2024', 'author': 'Rachel-Lee Nabors'}]}")
 ```
 
-
-
 ```python
 print(docs[0].metadata)
 ```
+
 ```output
 {'request_id': 'bdb9dbe7-8a7f-427f-bc16-839ccc02cae6', 'generated_query': None, 'screenshot': None}
 ```
+
 ## Lazy Load
 
 `AgentQLLoader` currently only loads one `Document` at a time. Therefore, `load()` and `lazy_load()` behave the same:
-
 
 ```python
 pages = [doc for doc in loader.lazy_load()]
 pages
 ```
 
-
-
 ```output
 [Document(metadata={'request_id': '06273abd-b2ef-4e15-b0ec-901cba7b4825', 'generated_query': None, 'screenshot': None}, page_content="{'posts': [{'title': 'Launch Week Recap—make the web AI-ready', 'url': 'https://www.agentql.com/blog/2024-launch-week-recap', 'date': 'Nov 18, 2024', 'author': 'Rachel-Lee Nabors'}, {'title': 'Accurate data extraction from PDFs and images with AgentQL', 'url': 'https://www.agentql.com/blog/accurate-data-extraction-pdfs-images', 'date': 'Feb 1, 2025', 'author': 'Rachel-Lee Nabors'}, {'title': 'Introducing Scheduled Scraping Workflows', 'url': 'https://www.agentql.com/blog/scheduling', 'date': 'Dec 2, 2024', 'author': 'Rachel-Lee Nabors'}, {'title': 'Updates to Our Pricing Model', 'url': 'https://www.agentql.com/blog/2024-pricing-update', 'date': 'Nov 19, 2024', 'author': 'Rachel-Lee Nabors'}, {'title': 'Get data from any page: AgentQL’s REST API Endpoint—Launch week day 5', 'url': 'https://www.agentql.com/blog/data-rest-api', 'date': 'Nov 15, 2024', 'author': 'Rachel-Lee Nabors'}]}")]
 ```
-
 
 ## API reference
 

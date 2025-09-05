@@ -4,13 +4,13 @@ sidebarTitle: Run an evaluation asynchronously
 ---
 
 <Info>
-  [Evaluations](/langsmith/evaluation-concepts#applying-evaluations) | [Evaluators](/langsmith/evaluation-concepts#evaluators) | [Datasets](/langsmith/evaluation-concepts#datasets) | [Experiments](/langsmith/evaluation-concepts#experiments)
+[Evaluations](/langsmith/evaluation-concepts#applying-evaluations) | [Evaluators](/langsmith/evaluation-concepts#evaluators) | [Datasets](/langsmith/evaluation-concepts#datasets) | [Experiments](/langsmith/evaluation-concepts#experiments)
 </Info>
 
 We can run evaluations asynchronously via the SDK using [aevaluate()](https://docs.smith.langchain.com/reference/python/evaluation/langsmith.evaluation._arunner.aevaluate), which accepts all of the same arguments as [evaluate()](https://docs.smith.langchain.com/reference/python/evaluation/langsmith.evaluation._runner.evaluate) but expects the application function to be asynchronous. You can learn more about how to use the `evaluate()` function [here](/langsmith/evaluate-llm-application).
 
 <Info>
-  This guide is only relevant when using the Python SDK. In JS/TS the `evaluate()` function is already async. You can see how to use it [here](/langsmith/evaluate-llm-application).
+This guide is only relevant when using the Python SDK. In JS/TS the `evaluate()` function is already async. You can see how to use it [here](/langsmith/evaluate-llm-application).
 </Info>
 
 ## Use `aevaluate()`
@@ -31,7 +31,7 @@ oai_client = wrappers.wrap_openai(AsyncOpenAI())
 async def researcher_app(inputs: dict) -> str:
     instructions = """You are an excellent researcher. Given a high-level research idea, \
 list 5 concrete questions that should be investigated to determine if the idea is worth pursuing."""
-    
+
     response = await oai_client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
@@ -47,9 +47,9 @@ def concise(inputs: dict, outputs: dict) -> bool:
 
 ls_client = Client()
 ideas = [
-    "universal basic income", 
-    "nuclear fusion", 
-    "hyperloop", 
+    "universal basic income",
+    "nuclear fusion",
+    "hyperloop",
     "nuclear powered rockets",
 ]
 dataset = ls_client.create_dataset("research ideas")
