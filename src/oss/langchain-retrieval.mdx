@@ -11,7 +11,7 @@ Large language models (LLMs) are powerful, but they have two key limitations:
 * **Finite context** — they can’t ingest entire corpora at once.
 * **Static knowledge** — their training data is frozen at a point in time.
 
-**Retrieval** addresses these problems by fetching relevant external knowledge at query time. This is the foundation of **Retrieval-Augmented Generation (RAG)**: enhancing an LLM’s answers with context-specific information.
+Retrieval addresses these problems by fetching relevant external knowledge at query time. This is the foundation of **Retrieval-Augmented Generation (RAG)**: enhancing an LLM’s answers with context-specific information.
 
 
 ## Building a knowledge base
@@ -23,7 +23,7 @@ If you need a custom knowledge base, you can use LangChain’s document loaders 
 <Note>
     If you already have a knowledge base (e.g., a SQL database, CRM, or internal documentation system), you do **not** need to rebuild it. You can:
     - Connect it as a **tool** for an agent in Agentic RAG.
-    - Query it and supply the retrieved content as context to the LLM (2-Step RAG).
+    - Query it and supply the retrieved content as context to the LLM [(2-Step RAG)](#2-step-rag).
 </Note>
 
 See the following tutorial to build a searchable knowledge base and minimal RAG workflow:
@@ -119,7 +119,7 @@ Each component is modular: you can swap loaders, splitters, embeddings, or vecto
 
 ## RAG Architectures
 
-RAG can be implemented in multiple ways, depending on your system's needs:
+RAG can be implemented in multiple ways, depending on your system's needs. We outline each type in the sections below.
 
 | Architecture            | Description                                                                | Control   | Flexibility | Latency        | Example Use Case                                   |
 |-------------------------|----------------------------------------------------------------------------|-----------|-------------|----------------|----------------------------------------------------|
