@@ -5,13 +5,15 @@ title: Microsoft OneNote
 This notebook covers how to load documents from `OneNote`.
 
 ## Prerequisites
+
 1. Register an application with the [Microsoft identity platform](https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) instructions.
 2. When registration finishes, the Azure portal displays the app registration's Overview pane. You see the Application (client) ID. Also called the `client ID`, this value uniquely identifies your application in the Microsoft identity platform.
 3. During the steps you will be following at **item 1**, you can set the redirect URI as `http://localhost:8000/callback`
 4. During the steps you will be following at **item 1**, generate a new password (`client_secret`) under Application Secrets section.
 5. Follow the instructions at this [document](https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-configure-app-expose-web-apis#add-a-scope) to add the following `SCOPES` (`Notes.Read`) to your application.
 6. You need to install the msal and bs4 packages using the commands `pip install msal` and `pip install beautifulsoup4`.
-7. At the end of the steps you must have the following values: 
+7. At the end of the steps you must have the following values:
+
 - `CLIENT_ID`
 - `CLIENT_SECRET`
 
@@ -27,7 +29,6 @@ os.environ['MS_GRAPH_CLIENT_SECRET'] = "YOUR CLIENT SECRET"
 ```
 
 This loader uses an authentication called [*on behalf of a user*](https://learn.microsoft.com/en-us/graph/auth-v2-user?context=graph%2Fapi%2F1.0&view=graph-rest-1.0). It is a 2 step authentication with user consent. When you instantiate the loader, it will call will print a url that the user must visit to give consent to the app on the required permissions. The user must then visit this url and give consent to the application. Then the user must copy the resulting page url and paste it back on the console. The method will then return True if the login attempt was successful.
-
 
 ```python
 from langchain_community.document_loaders.onenote import OneNoteLoader
@@ -57,7 +58,6 @@ loader = OneNoteLoader(notebook_name="NOTEBOOK NAME", section_name="SECTION NAME
 
 `OneNoteLoader` can load pages from OneNote notebooks stored in OneDrive. You can specify any combination of `notebook_name`, `section_name`, `page_title` to filter for pages under a specific notebook, under a specific section, or with a specific title respectively. For instance, you want to load all pages that are stored under a section called `Recipes` within any of your notebooks OneDrive.
 
-
 ```python
 from langchain_community.document_loaders.onenote import OneNoteLoader
 
@@ -71,15 +71,12 @@ Another possibility is to provide a list of `object_ids` for each page you want 
 
 For instance, to retrieve information about all pages that are stored in your notebooks, you need make a request to: `https://graph.microsoft.com/v1.0/me/onenote/pages`. Once you have the list of IDs that you are interested in, then you can instantiate the loader with the following parameters.
 
-
 ```python
 from langchain_community.document_loaders.onenote import OneNoteLoader
 
 loader = OneNoteLoader(object_ids=["ID_1", "ID_2"], auth_with_token=True)
 documents = loader.load()
 ```
-
-
 
 ```python
 

@@ -149,7 +149,7 @@ The webhook will send a JSON payload containing the new **prompt manifest**.
 </Accordion>
 
 <Note>
-  It's important to understand that LangSmith webhooks for prompt commits are generally triggered at the **workspace level**. This means if *any* prompt within your LangSmith workspace is modified and a "prompt commit" is saved, the webhook will fire and send the updated manifest of the prompt. The payloads are identifiable by prompt id. Your receiving server should be designed with this in mind.
+It's important to understand that LangSmith webhooks for prompt commits are generally triggered at the **workspace level**. This means if *any* prompt within your LangSmith workspace is modified and a "prompt commit" is saved, the webhook will fire and send the updated manifest of the prompt. The payloads are identifiable by prompt id. Your receiving server should be designed with this in mind.
 </Note>
 
 ## Implementing a FastAPI Server for Webhook Reception
@@ -283,7 +283,7 @@ The server's core functionality will include an endpoint for webhook reception, 
                       f"GitHub API conflict (PUT content): {e.response.text}. "
                       "This might be due to an outdated SHA or branch protection rules."
                   )
-              elif e.response.status_code == 422: # Unprocessable Entity 
+              elif e.response.status_code == 422: # Unprocessable Entity
                   error_detail = (
                       f"GitHub API Unprocessable Entity (PUT content): {e.response.text}. "
                       f"Ensure the branch '{settings.GITHUB_BRANCH}' exists and the payload is correctly formatted."

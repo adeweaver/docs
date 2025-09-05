@@ -6,7 +6,6 @@ For more information on how to setup the SAP HANA vetor store, take a look at th
 
 We use the same setup here:
 
-
 ```python
 import os
 
@@ -28,7 +27,6 @@ connection = dbapi.connect(
 To be able to self query with good performance we create additional metadata fields
 for our vectorstore table in HANA:
 
-
 ```python
 # Create custom table with attribute
 cur = connection.cursor()
@@ -37,8 +35,8 @@ cur.execute(
     (
         """CREATE TABLE "LANGCHAIN_DEMO_SELF_QUERY"  (
         "name" NVARCHAR(100), "is_active" BOOLEAN, "id" INTEGER, "height" DOUBLE,
-        "VEC_TEXT" NCLOB, 
-        "VEC_META" NCLOB, 
+        "VEC_TEXT" NCLOB,
+        "VEC_META" NCLOB,
         "VEC_VECTOR" REAL_VECTOR
         )"""
     )
@@ -46,7 +44,6 @@ cur.execute(
 ```
 
 Let's add some documents.
-
 
 ```python
 from langchain_community.vectorstores.hanavector import HanaDB
@@ -86,7 +83,6 @@ db.add_documents(docs)
 ## Self querying
 
 Now for the main act: here is how to construct a SelfQueryRetriever for HANA vectorstore:
-
 
 ```python
 from langchain.chains.query_constructor.schema import AttributeInfo
@@ -134,7 +130,6 @@ retriever = SelfQueryRetriever.from_llm(
 
 Let's use this retriever to prepare a (self) query for a person:
 
-
 ```python
 query_prompt = "Which person is not active?"
 
@@ -145,7 +140,6 @@ for doc in docs:
 ```
 
 We can also take a look at how the query is being constructed:
-
 
 ```python
 from langchain.chains.query_constructor.base import (

@@ -8,13 +8,12 @@ title: Relyt
 
 This notebook shows how to use functionality related to the `Relyt` vector database.
 To run, you should have an [Relyt](https://docs.relyt.cn/) instance up and running:
-- Using [Relyt Vector Database](https://docs.relyt.cn/docs/vector-engine/use/). Click here to fast deploy it.
 
+- Using [Relyt Vector Database](https://docs.relyt.cn/docs/vector-engine/use/). Click here to fast deploy it.
 
 ```python
 %pip install "pgvecto_rs[sdk]" langchain-community
 ```
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -24,7 +23,6 @@ from langchain_text_splitters import CharacterTextSplitter
 ```
 
 Split documents and get embeddings by call community API
-
 
 ```python
 loader = TextLoader("../../how_to/state_of_the_union.txt")
@@ -36,6 +34,7 @@ embeddings = FakeEmbeddings(size=1536)
 ```
 
 Connect to Relyt by setting related ENVIRONMENTS.
+
 ```
 export PG_HOST={your_relyt_hostname}
 export PG_PORT={your_relyt_port} # Optional, default is 5432
@@ -45,7 +44,6 @@ export PG_PASSWORD={database_password}
 ```
 
 Then store your embeddings and documents into Relyt
-
 
 ```python
 import os
@@ -68,22 +66,21 @@ vector_db = Relyt.from_documents(
 
 Query and retrieve data
 
-
 ```python
 query = "What did the president say about Ketanji Brown Jackson"
 docs = vector_db.similarity_search(query)
 ```
 
-
 ```python
 print(docs[0].page_content)
 ```
+
 ```output
-Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections. 
+Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections.
 
-Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service. 
+Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service.
 
-One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. 
+One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court.
 
 And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence.
 ```

@@ -8,13 +8,11 @@ title: Motörhead
 
 See instructions at [Motörhead](https://github.com/getmetal/motorhead) for running the server locally.
 
-
 ```python
 from langchain_community.memory.motorhead_memory import MotorheadMemory
 ```
 
 ## Example
-
 
 ```python
 from langchain.chains import LLMChain
@@ -45,10 +43,10 @@ llm_chain = LLMChain(
 )
 ```
 
-
 ```python
 llm_chain.run("hi im bob")
 ```
+
 ```output
 > Entering new LLMChain chain...
 Prompt after formatting:
@@ -61,16 +59,14 @@ AI:
 > Finished chain.
 ```
 
-
 ```output
 ' Hi Bob, nice to meet you! How are you doing today?'
 ```
 
-
-
 ```python
 llm_chain.run("whats my name?")
 ```
+
 ```output
 > Entering new LLMChain chain...
 Prompt after formatting:
@@ -84,16 +80,14 @@ AI:
 > Finished chain.
 ```
 
-
 ```output
 ' You said your name is Bob. Is that correct?'
 ```
 
-
-
 ```python
 llm_chain.run("whats for dinner?")
 ```
+
 ```output
 > Entering new LLMChain chain...
 Prompt after formatting:
@@ -109,12 +103,9 @@ AI:
 > Finished chain.
 ```
 
-
 ```output
 "  I'm sorry, I'm not sure what you're asking. Could you please rephrase your question?"
 ```
-
-
 
 ```python
 

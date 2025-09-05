@@ -12,13 +12,11 @@ To use this toolkit, you will need to set up your credentials explained in the [
 
 This toolkit lives in the `langchain-google-community` package. We'll need the `gmail` extra:
 
-
 ```python
 %pip install -qU langchain-google-community\[gmail\]
 ```
 
 To enable automated tracing of individual tools, set your [LangSmith](https://docs.smith.langchain.com/) API key:
-
 
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
@@ -29,7 +27,6 @@ To enable automated tracing of individual tools, set your [LangSmith](https://do
 
 By default the toolkit reads the local `credentials.json` file. You can also manually provide a `Credentials` object.
 
-
 ```python
 from langchain_google_community import GmailToolkit
 
@@ -38,9 +35,8 @@ toolkit = GmailToolkit()
 
 ### Customizing Authentication
 
-Behind the scenes, a `googleapi` resource is created using the following methods. 
-you can manually build a `googleapi` resource for more auth control. 
-
+Behind the scenes, a `googleapi` resource is created using the following methods.
+you can manually build a `googleapi` resource for more auth control.
 
 ```python
 from langchain_google_community.gmail.utils import (
@@ -63,13 +59,10 @@ toolkit = GmailToolkit(api_resource=api_resource)
 
 View available tools:
 
-
 ```python
 tools = toolkit.get_tools()
 tools
 ```
-
-
 
 ```output
 [GmailCreateDraft(api_resource=<googleapiclient.discovery.Resource object at 0x1094509d0>),
@@ -78,7 +71,6 @@ tools
  GmailGetMessage(api_resource=<googleapiclient.discovery.Resource object at 0x1094509d0>),
  GmailGetThread(api_resource=<googleapiclient.discovery.Resource object at 0x1094509d0>)]
 ```
-
 
 - [GmailCreateDraft](https://python.langchain.com/api_reference/google_community/gmail/langchain_google_community.gmail.create_draft.GmailCreateDraft.html)
 - [GmailSendMessage](https://python.langchain.com/api_reference/google_community/gmail/langchain_google_community.gmail.send_message.GmailSendMessage.html)
@@ -94,8 +86,6 @@ We will need a LLM or chat model:
 
 <ChatModelTabs customVarName="llm" />
 
-
-
 ```python
 # | output: false
 # | echo: false
@@ -105,13 +95,11 @@ from langchain_openai import ChatOpenAI
 llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
 ```
 
-
 ```python
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
-agent_executor = create_react_agent(llm, tools)
+agent_executor = create_agent(llm, tools)
 ```
-
 
 ```python
 example_query = "Draft an email to fake@fake.com thanking them for coffee."
@@ -123,6 +111,7 @@ events = agent_executor.stream(
 for event in events:
     event["messages"][-1].pretty_print()
 ```
+
 ```output
 ================================ Human Message =================================
 
@@ -148,6 +137,7 @@ Draft created. Draft Id: r-7233782721440261513
 
 I have drafted an email to fake@fake.com thanking them for the coffee. You can review and send it from your email draft with the subject "Thank You for the Coffee".
 ```
+
 ## API reference
 
 For detailed documentation of all `GmailToolkit` features and configurations head to the [API reference](https://python.langchain.com/api_reference/community/agent_toolkits/langchain_community.agent_toolkits.gmail.toolkit.GmailToolkit.html).

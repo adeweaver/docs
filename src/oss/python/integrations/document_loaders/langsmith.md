@@ -5,16 +5,18 @@ title: LangSmithLoader
 This guide provides a quick overview for getting started with the LangSmith [document loader](https://python.langchain.com/docs/concepts/document_loaders). For detailed documentation of all LangSmithLoader features and configurations head to the [API reference](https://python.langchain.com/api_reference/core/document_loaders/langchain_core.document_loaders.langsmith.LangSmithLoader.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | JS support|
 | :--- | :--- | :---: | :---: |  :---: |
-| [LangSmithLoader](https://python.langchain.com/api_reference/core/document_loaders/langchain_core.document_loaders.langsmith.LangSmithLoader.html) | [langchain-core](https://python.langchain.com/api_reference/core/index.html) | ❌ | ❌ | ❌ | 
+| [LangSmithLoader](https://python.langchain.com/api_reference/core/document_loaders/langchain_core.document_loaders.langsmith.LangSmithLoader.html) | [langchain-core](https://python.langchain.com/api_reference/core/index.html) | ❌ | ❌ | ❌ |
 
 ### Loader features
+
 | Source | Lazy loading | Native async
-| :---: | :---: | :---: | 
-| LangSmithLoader | ✅ | ❌ | 
+| :---: | :---: | :---: |
+| LangSmithLoader | ✅ | ❌ |
 
 ## Setup
 
@@ -22,8 +24,7 @@ To access the LangSmith document loader you'll need to install `langchain-core`,
 
 ### Credentials
 
-Sign up at https://langsmith.com and generate an API key. Once you've done this set the LANGSMITH_API_KEY environment variable:
-
+Sign up at [langsmith.com](https://langsmith.com) and generate an API key. Once you've done this set the LANGSMITH_API_KEY environment variable:
 
 ```python
 import getpass
@@ -35,7 +36,6 @@ if not os.environ.get("LANGSMITH_API_KEY"):
 
 If you want to get automated best-in-class tracing, you can also turn on LangSmith tracing:
 
-
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
 ```
@@ -44,7 +44,6 @@ If you want to get automated best-in-class tracing, you can also turn on LangSmi
 
 Install `langchain-core`:
 
-
 ```python
 %pip install -qU langchain-core
 ```
@@ -52,7 +51,6 @@ Install `langchain-core`:
 ### Clone example dataset
 
 For this example, we'll clone and load a public LangSmith dataset. Cloning creates a copy of this dataset on our personal LangSmith account. You can only load datasets that you have a personal copy of.
-
 
 ```python
 from langsmith import Client as LangSmithClient
@@ -71,7 +69,6 @@ ls_client.clone_public_dataset(dataset_public_url)
 
 Now we can instantiate our document loader and load documents:
 
-
 ```python
 from langchain_core.document_loaders import LangSmithLoader
 
@@ -86,11 +83,11 @@ loader = LangSmithLoader(
 
 ## Load
 
-
 ```python
 docs = loader.load()
 print(docs[0].page_content)
 ```
+
 ```output
 Show me an example using Weaviate, but customizing the vectorStoreRetriever to return the top 10 k nearest neighbors.
 ```
@@ -98,6 +95,7 @@ Show me an example using Weaviate, but customizing the vectorStoreRetriever to r
 ```python
 print(docs[0].metadata["inputs"])
 ```
+
 ```output
 {'question': 'Show me an example using Weaviate, but customizing the vectorStoreRetriever to return the top 10 k nearest neighbors. '}
 ```
@@ -105,6 +103,7 @@ print(docs[0].metadata["inputs"])
 ```python
 print(docs[0].metadata["outputs"])
 ```
+
 ```output
 {'answer': 'To customize the Weaviate client and return the top 10 k nearest neighbors, you can utilize the `as_retriever` method with the appropriate parameters. Here\'s how you can achieve this:\n\n\`\`\`python\n# Assuming you have imported the necessary modules and classes\n\n# Create the Weaviate client\nclient = weaviate.Client(url=os.environ["WEAVIATE_URL"], ...)\n\n# Initialize the Weaviate wrapper\nweaviate = Weaviate(client, index_name, text_key)\n\n# Customize the client to return top 10 k nearest neighbors using as_retriever\ncustom_retriever = weaviate.as_retriever(\n    search_type="similarity",\n    search_kwargs={\n        \'k\': 10  # Customize the value of k as needed\n    }\n)\n\n# Now you can use the custom_retriever to perform searches\nresults = custom_retriever.search(query, ...)\n\`\`\`'}
 ```
@@ -112,8 +111,6 @@ print(docs[0].metadata["outputs"])
 ```python
 list(docs[0].metadata.keys())
 ```
-
-
 
 ```output
 ['dataset_id',
@@ -127,9 +124,7 @@ list(docs[0].metadata.keys())
  'source_run_id']
 ```
 
-
 ## Lazy Load
-
 
 ```python
 page = []
@@ -143,13 +138,10 @@ for doc in loader.lazy_load():
 len(page)
 ```
 
-
-
 ```output
 10
 ```
 
-
 ## API reference
 
-For detailed documentation of all LangSmithLoader features and configurations head to the API reference: https://python.langchain.com/api_reference/core/document_loaders/langchain_core.document_loaders.langsmith.LangSmithLoader.html
+For detailed documentation of all LangSmithLoader features and configurations head to the API reference: [python.langchain.com/api_reference/core/document_loaders/langchain_core.document_loaders.langsmith.LangSmithLoader.html](https://python.langchain.com/api_reference/core/document_loaders/langchain_core.document_loaders.langsmith.LangSmithLoader.html)

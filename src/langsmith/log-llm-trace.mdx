@@ -4,13 +4,13 @@ sidebarTitle: Log custom LLM traces
 ---
 
 <Note>
-  Nothing will break if you don't log LLM traces in the correct format - data will still be logged. However, the data will not be processed or rendered in a way that is specific to LLMs.
+Nothing will break if you don't log LLM traces in the correct format - data will still be logged. However, the data will not be processed or rendered in a way that is specific to LLMs.
 </Note>
 
 LangSmith provides special rendering and processing for LLM traces, including token counting (assuming token counts are not available from the model provider) and token-based cost calculation. In order to make the most of this feature, you must log your LLM traces in a specific format.
 
 <Note>
-  The examples below uses the `traceable` decorator/wrapper to log the model run (which is the recommended approach for Python and JS/TS). However, the same idea applies if you are using the [RunTree](/langsmith/annotate-code#use-the-runtree-api) or [API](https://api.smith.langchain.com/redoc) directly.
+The examples below uses the `traceable` decorator/wrapper to log the model run (which is the recommended approach for Python and JS/TS). However, the same idea applies if you are using the [RunTree](/langsmith/annotate-code#use-the-runtree-api) or [API](https://api.smith.langchain.com/redoc) directly.
 </Note>
 
 ## Chat-style models
@@ -28,10 +28,10 @@ To make your custom LLM traces appear well-formatted in the LangSmith UI, your t
 * A list of messages in [OpenAI](https://platform.openai.com/docs/api-reference/messages) or [Anthropic](https://docs.anthropic.com/en/api/messages) format, represented as Python dictionaries or TypeScript objects.
 
   * Each message must contain the key `role` and `content`.
-  * Messages with the `"assistant"` role may optionally contain `tool_calls`. These `tool_calls` may be in [OpenAI](https://platform.openai.com/docs/guides/function-calling?api-mode=chat) format or [LangChain's format](https://python.langchain.com/api_reference/core/messages/langchain_core.messages.tool.ToolCall.html#langchain_core.messages.tool.ToolCall).
+    * Messages with the `"assistant"` role may optionally contain `tool_calls`. These `tool_calls` may be in [OpenAI](https://platform.openai.com/docs/guides/function-calling?api-mode=chat) format or [LangChain's format](https://python.langchain.com/api_reference/core/messages/langchain_core.messages.tool.ToolCall.html#langchain_core.messages.tool.ToolCall).
 
 * An dict/object containing `"messages"` key with a list of messages in the above format.
-  * LangSmith may use additional parameters in this input dict that match OpenAI's [chat completion endpoint](https://platform.openai.com/docs/guides/text?api-mode=chat) for rendering in the trace view, such as a list of available `tools` for the model to call.
+    * LangSmith may use additional parameters in this input dict that match OpenAI's [chat completion endpoint](https://platform.openai.com/docs/guides/text?api-mode=chat) for rendering in the trace view, such as a list of available `tools` for the model to call.
 
 Here are some examples:
 
@@ -225,12 +225,12 @@ output = {
 #         "content": "Sure, what time would you like to book the table for?"
 #     }
 # }
-# 
+#
 # output = {
 #     "role": "assistant",
 #     "content": "Sure, what time would you like to book the table for?"
 # }
-# 
+#
 # output = ["assistant", "Sure, what time would you like to book the table for?"]
 
 @traceable(
@@ -285,13 +285,13 @@ const chatModel = traceable(
     async ({ messages }: { messages: { role: string; content: string }[] }) => {
         return output;
     },
-    { 
-        run_type: "llm", 
-        name: "chat_model", 
-        metadata: { 
-            ls_provider: "my_provider", 
-            ls_model_name: "my_model" 
-        } 
+    {
+        run_type: "llm",
+        name: "chat_model",
+        metadata: {
+            ls_provider: "my_provider",
+            ls_model_name: "my_model"
+        }
     }
 );
 
@@ -340,11 +340,11 @@ list(
 ```
 
 <Check>
-  If `ls_model_name` is not present in `extra.metadata`, other fields might be used from the `extra.metadata` for estimating token counts. The following fields are used in the order of precedence:
+If `ls_model_name` is not present in `extra.metadata`, other fields might be used from the `extra.metadata` for estimating token counts. The following fields are used in the order of precedence:
 
-  1. `metadata.ls_model_name`
-  2. `inputs.model`
-  3. `inputs.model_name`
+1. `metadata.ls_model_name`
+2. `inputs.model`
+3. `inputs.model_name`
 </Check>
 
 ## Provide token and cost information
@@ -359,7 +359,7 @@ However, many models already include exact token counts as part of the response.
 In both cases, the usage metadata you send should contain a subset of the following LangSmith-recognized fields:
 
 <Warning>
-  You cannot set any fields other than the ones listed below. You do not need to include all fields.
+You cannot set any fields other than the ones listed below. You do not need to include all fields.
 </Warning>
 
 ```python
@@ -393,7 +393,7 @@ Note that the usage data can also include cost information, in case you do not w
 You can [modify the current run's metadata](/langsmith/add-metadata-tags) with usage information within your traced function. The advantage of this approach is that you do not need to change your traced function's runtime outputs. Here's an example:
 
 <Note>
-  Requires `langsmith>=0.3.43` (Python) and `langsmith>=0.3.30` (JS/TS).
+Requires `langsmith>=0.3.43` (Python) and `langsmith>=0.3.30` (JS/TS).
 </Note>
 
 <CodeGroup>
@@ -472,13 +472,13 @@ const chatModel = traceable(
         runTree.metadata.usage_metadata = llmOutput.usage_metadata;
         return llmOutput.choices[0].message;
     },
-    { 
-        run_type: "llm", 
-        name: "chat_model", 
-        metadata: { 
-            ls_provider: "my_provider", 
-            ls_model_name: "my_model" 
-        } 
+    {
+        run_type: "llm",
+        name: "chat_model",
+        metadata: {
+            ls_provider: "my_provider",
+            ls_model_name: "my_model"
+        }
     }
 );
 
@@ -563,13 +563,13 @@ const chatModel = traceable(
     }) => {
         return output;
     },
-    { 
-        run_type: "llm", 
-        name: "chat_model", 
-        metadata: { 
-            ls_provider: "my_provider", 
-            ls_model_name: "my_model" 
-        } 
+    {
+        run_type: "llm",
+        name: "chat_model",
+        metadata: {
+            ls_provider: "my_provider",
+            ls_model_name: "my_model"
+        }
     }
 );
 

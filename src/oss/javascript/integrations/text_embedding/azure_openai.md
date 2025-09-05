@@ -10,7 +10,6 @@ You can learn more about Azure OpenAI and its difference with the OpenAI API on 
 
 This will help you get started with AzureOpenAIEmbeddings [embedding models](/oss/concepts/embedding_models) using LangChain. For detailed documentation on `AzureOpenAIEmbeddings` features and configuration options, please refer to the [API reference](https://api.js.langchain.com/classes/langchain_openai.AzureOpenAIEmbeddings.html).
 
-
 ```{=mdx}
 
 <Info>
@@ -22,7 +21,9 @@ If you are using Azure OpenAI with the deprecated SDK, see the [migration guide]
 </Info>
 
 ```
+
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | [Py support](https://python.langchain.com/docs/integrations/text_embedding/azureopenai/) | Package downloads | Package latest |
@@ -47,12 +48,14 @@ AZURE_OPENAI_API_EMBEDDINGS_DEPLOYMENT_NAME=<YOUR_EMBEDDINGS_DEPLOYMENT_NAME>
 AZURE_OPENAI_API_KEY=<YOUR_KEY>
 AZURE_OPENAI_API_VERSION="2024-02-01"
 ```
+
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
 ```bash
 # export LANGSMITH_TRACING="true"
 # export LANGSMITH_API_KEY="your-api-key"
 ```
+
 ### Installation
 
 The LangChain AzureOpenAIEmbeddings integration lives in the `@langchain/openai` package:
@@ -78,10 +81,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Tip>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and embed text:
-
 
 ```typescript
 import { AzureOpenAIEmbeddings } from "@langchain/openai";
@@ -94,12 +97,12 @@ const embeddings = new AzureOpenAIEmbeddings({
   maxRetries: 1,
 });
 ```
+
 ## Indexing and Retrieval
 
 Embedding models are often used in retrieval-augmented generation (RAG) flows, both as part of indexing data as well as later retrieving it. For more detailed instructions, please see our RAG tutorials under the [working with external knowledge tutorials](/oss/tutorials/#working-with-external-knowledge).
 
 Below, see how to index and retrieve data using the `embeddings` object we initialized above. In this example, we will index and retrieve a sample document using the demo [`MemoryVectorStore`](/oss/integrations/vectorstores/memory).
-
 
 ```typescript
 // Create a vector store with a sample text
@@ -120,9 +123,11 @@ const retrievedDocuments = await retriever.invoke("What is LangChain?");
 
 retrievedDocuments[0].pageContent;
 ```
+
 ```output
 LangChain is the framework for building context-aware reasoning applications
 ```
+
 ## Direct Usage
 
 Under the hood, the vectorstore and retriever implementations are calling `embeddings.embedDocument(...)` and `embeddings.embedQuery(...)` to create embeddings for the text(s) used in `fromDocuments` and the retriever's `invoke` operations, respectively.
@@ -133,12 +138,12 @@ You can directly call these methods to get embeddings for your own use cases.
 
 You can embed queries for search with `embedQuery`. This generates a vector representation specific to the query:
 
-
 ```typescript
 const singleVector = await embeddings.embedQuery(text);
 
 console.log(singleVector.slice(0, 100));
 ```
+
 ```output
 [
    -0.024253517, -0.0054218727,   0.048715446,   0.020580322,    0.03180832,
@@ -163,10 +168,10 @@ console.log(singleVector.slice(0, 100));
     0.030219207,  -0.021257648,    0.01340326,   0.003692735,   0.012595678
 ]
 ```
+
 ### Embed multiple texts
 
 You can embed multiple texts for indexing with `embedDocuments`. The internals used for this method may (but do not have to) differ from embedding queries:
-
 
 ```typescript
 const text2 = "LangGraph is a library for building stateful, multi-actor applications with LLMs";
@@ -176,6 +181,7 @@ const vectors = await embeddings.embedDocuments([text, text2]);
 console.log(vectors[0].slice(0, 100));
 console.log(vectors[1].slice(0, 100));
 ```
+
 ```output
 [
    -0.024253517, -0.0054218727,   0.048715446,   0.020580322,    0.03180832,
@@ -222,10 +228,10 @@ console.log(vectors[1].slice(0, 100));
     0.029713862,    0.04337452, -0.0048461896,  -0.019976463,  0.011473924
 ]
 ```
+
 ## Using Azure Managed Identity
 
 If you're using Azure Managed Identity, you can configure the credentials like this:
-
 
 ```typescript
 import {
@@ -254,7 +260,6 @@ const modelWithManagedIdentity = new AzureOpenAIEmbeddings({
 If your instance is hosted under a domain other than the default `openai.azure.com`, you'll need to use the alternate `AZURE_OPENAI_BASE_PATH` environment variable.
 For example, here's how you would connect to the domain `https://westeurope.api.microsoft.com/openai/deployments/{DEPLOYMENT_NAME}`:
 
-
 ```typescript
 import { AzureOpenAIEmbeddings } from "@langchain/openai";
 
@@ -271,7 +276,6 @@ const embeddingsDifferentDomain = new AzureOpenAIEmbeddings({
 ## Custom headers
 
 You can specify custom headers by passing in a `configuration` field:
-
 
 ```typescript
 import { AzureOpenAIEmbeddings } from "@langchain/openai";
@@ -298,14 +302,18 @@ The `configuration` field also accepts other `ClientOptions` parameters accepted
 If you are using the deprecated Azure OpenAI SDK with the `@langchain/azure-openai` package, you can update your code to use the new Azure integration following these steps:
 
 1. Install the new `@langchain/openai` package and remove the previous `@langchain/azure-openai` package:
+
    ```bash npm
    npm install @langchain/openai
    npm uninstall @langchain/azure-openai
    ```
+
 2. Update your imports to use the new `AzureOpenAIEmbeddings` classe from the `@langchain/openai` package:
+
    ```typescript
    import { AzureOpenAIEmbeddings } from "@langchain/openai";
    ```
+
 3. Update your code to use the new `AzureOpenAIEmbeddings` class and pass the required parameters:
 
    ```typescript
@@ -324,7 +332,6 @@ If you are using the deprecated Azure OpenAI SDK with the `@langchain/azure-open
 
    - If you were using environment variables, you now have to set the `AZURE_OPENAI_API_INSTANCE_NAME` environment variable instead of `AZURE_OPENAI_API_ENDPOINT`, and add the `AZURE_OPENAI_API_VERSION` environment variable to specify the API version.
 
-
 ## API reference
 
-For detailed documentation of all AzureOpenAIEmbeddings features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_openai.AzureOpenAIEmbeddings.html
+For detailed documentation of all AzureOpenAIEmbeddings features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_openai.AzureOpenAIEmbeddings.html).

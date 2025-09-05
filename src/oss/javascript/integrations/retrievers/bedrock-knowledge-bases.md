@@ -30,7 +30,6 @@ process.env.AWS_SECRET_ACCESS_KEY=your-secret-access-key
 
 If you want to get automated tracing from individual queries, you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
-
 ```typescript
 // process.env.LANGSMITH_API_KEY = "<YOUR API KEY HERE>";
 // process.env.LANGSMITH_TRACING = "true";
@@ -48,10 +47,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/aws @langchain/core
 </Npm2Yarn>
 ```
+
 ## Instantiation
 
 Now we can instantiate our retriever:
-
 
 ```typescript
 import { AmazonKnowledgeBaseRetriever } from "@langchain/aws";
@@ -68,14 +67,15 @@ const retriever = new AmazonKnowledgeBaseRetriever({
   },
 });
 ```
-## Usage
 
+## Usage
 
 ```typescript
 const query = "..."
 
 await retriever.invoke(query);
 ```
+
 ## Use within a chain
 
 Like other retrievers, AmazonKnowledgeBaseRetriever can be incorporated into LLM applications via [chains](/oss/how-to/sequence/).
@@ -85,6 +85,7 @@ We will need a LLM or chat model:
 ```{=mdx}
 <ChatModelTabs customVarName="llm" />
 ```
+
 ```typescript
 // @lc-docs-hide-cell
 
@@ -95,7 +96,6 @@ const llm = new ChatOpenAI({
   temperature: 0,
 });
 ```
-
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts";
@@ -136,6 +136,7 @@ const ragChain = RunnableSequence.from([
 </Tip>
 
 ```
+
 ```typescript
 await ragChain.invoke("...")
 ```

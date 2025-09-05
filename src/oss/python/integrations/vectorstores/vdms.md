@@ -7,6 +7,7 @@ This notebook covers how to get started with VDMS as a vector store.
 >Intel's [Visual Data Management System (VDMS)](https://github.com/IntelLabs/vdms) is a storage solution for efficient access of big-”visual”-data that aims to achieve cloud scale by searching for relevant visual data via visual metadata stored as a graph and enabling machine friendly enhancements to visual data for faster access. VDMS is licensed under MIT. For more information on `VDMS`, visit [this page](https://github.com/IntelLabs/vdms/wiki), and find the LangChain API reference [here](https://python.langchain.com/api_reference/community/vectorstores/langchain_community.vectorstores.vdms.VDMS.html).
 
 VDMS supports:
+
 * K nearest neighbor search
 * Euclidean distance (L2) and inner product (IP)
 * Libraries for indexing and computing distances: FaissFlat (Default), FaissHNSWFlat, FaissIVFFlat, Flinng, TileDBDense, TileDBSparse
@@ -18,23 +19,22 @@ VDMS supports:
 To access VDMS vector stores you'll need to install the `langchain-vdms` integration package and deploy a VDMS server via the publicly available Docker image.
 For simplicity, this notebook will deploy a VDMS server on local host using port 55555.
 
-
 ```python
 %pip install -qU "langchain-vdms>=0.1.3"
 !docker run --no-healthcheck --rm -d -p 55555:55555 --name vdms_vs_test_nb intellabs/vdms:latest
 !sleep 5
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 c464076e292613df27241765184a673b00c775cecb7792ef058591c2cbf0bde8
 ```
-### Credentials
 
+### Credentials
 
 You can use `VDMS` without any credentials.
 
 To enable automated tracing of your model calls, set your [LangSmith](https://docs.smith.langchain.com/) API key:
-
 
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -42,10 +42,10 @@ To enable automated tracing of your model calls, set your [LangSmith](https://do
 ```
 
 ## Initialization
+
 Use the VDMS Client to connect to a VDMS vectorstore using FAISS IndexFlat indexing (default) and Euclidean distance (default) as the distance metric for similarity search.
 
 <EmbeddingTabs/>
-
 
 ```python
 # | output: false
@@ -56,7 +56,6 @@ from langchain_huggingface import HuggingFaceEmbeddings
 
 embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
 ```
-
 
 ```python
 from langchain_vdms.vectorstores import VDMS, VDMS_Client
@@ -77,7 +76,6 @@ vector_store = VDMS(
 ## Manage vector store
 
 ### Add items to vector store
-
 
 ```python
 import logging
@@ -164,31 +162,22 @@ doc_ids = [str(i) for i in range(1, 11)]
 vector_store.add_documents(documents=documents, ids=doc_ids)
 ```
 
-
-
 ```output
 ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 ```
 
-
 If an id is provided multiple times, `add_documents` does not check whether the ids are unique. For this reason, use `upsert` to delete existing id entries prior to adding.
-
 
 ```python
 vector_store.upsert(documents, ids=doc_ids)
 ```
-
-
 
 ```output
 {'succeeded': ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
  'failed': []}
 ```
 
-
 ### Update items in vector store
-
-
 
 ```python
 updated_document_1 = Document(
@@ -212,18 +201,13 @@ vector_store.update_documents(
 
 ### Delete items from vector store
 
-
-
 ```python
 vector_store.delete(ids=doc_ids[-1])
 ```
 
-
-
 ```output
 True
 ```
-
 
 ## Query vector store
 
@@ -232,7 +216,6 @@ Once your vector store has been created and the relevant documents have been add
 ### Query directly
 
 Performing a simple similarity search can be done as follows:
-
 
 ```python
 results = vector_store.similarity_search(
@@ -243,29 +226,31 @@ results = vector_store.similarity_search(
 for doc in results:
     print(f"* ID={doc.id}: {doc.page_content} [{doc.metadata}]")
 ```
+
 ```output
 INFO:langchain_vdms.vectorstores:VDMS similarity search took 0.0063 seconds
 ``````output
 * ID=3: Building an exciting new project with LangChain - come check it out! [{'source': 'tweet'}]
 * ID=8: LangGraph is the best framework for building stateful, agentic applications! [{'source': 'tweet'}]
 ```
-If you want to execute a similarity search and receive the corresponding scores you can run:
 
+If you want to execute a similarity search and receive the corresponding scores you can run:
 
 ```python
 results = vector_store.similarity_search_with_score(
-    "Will it be hot tomorrow?", k=1, filter={"source": ["==", "news"]}
+        "Will it be hot tomorrow?", k=1, filter={"source": ["==", "news"]}
 )
 for doc, score in results:
-    print(f"* [SIM={score:3f}] {doc.page_content} [{doc.metadata}]")
+        print(f"* [SIM={score:3f}] {doc.page_content} [{doc.metadata}]")
 ```
+
 ```output
 INFO:langchain_vdms.vectorstores:VDMS similarity search took 0.0460 seconds
 ``````output
 * [SIM=0.753577] The weather forecast for tomorrow is sunny and warm, with a high of 82 degrees. [{'source': 'news'}]
 ```
-If you want to execute a similarity search using an embedding you can run:
 
+If you want to execute a similarity search using an embedding you can run:
 
 ```python
 results = vector_store.similarity_search_by_vector(
@@ -274,25 +259,27 @@ results = vector_store.similarity_search_by_vector(
 for doc in results:
     print(f"* {doc.page_content} [{doc.metadata}]")
 ```
+
 ```output
 INFO:langchain_vdms.vectorstores:VDMS similarity search took 0.0044 seconds
 ``````output
 * The weather forecast for tomorrow is sunny and warm, with a high of 82 degrees. [{'source': 'news'}]
 ```
+
 ### Query by turning into retriever
 
 You can also transform the vector store into a retriever for easier usage in your chains.
 
-
 ```python
 retriever = vector_store.as_retriever(
-    search_type="similarity",
-    search_kwargs={"k": 3},
+        search_type="similarity",
+        search_kwargs={"k": 3},
 )
 results = retriever.invoke("Stealing from the bank is a crime")
 for doc in results:
     print(f"* {doc.page_content} [{doc.metadata}]")
 ```
+
 ```output
 INFO:langchain_vdms.vectorstores:VDMS similarity search took 0.0042 seconds
 ``````output
@@ -313,6 +300,7 @@ results = retriever.invoke("Stealing from the bank is a crime")
 for doc in results:
     print(f"* {doc.page_content} [{doc.metadata}]")
 ```
+
 ```output
 INFO:langchain_vdms.vectorstores:VDMS similarity search took 0.0042 seconds
 ``````output
@@ -321,23 +309,25 @@ INFO:langchain_vdms.vectorstores:VDMS similarity search took 0.0042 seconds
 
 ```python
 retriever = vector_store.as_retriever(
-    search_type="mmr",
-    search_kwargs={"k": 1, "fetch_k": 10},
+        search_type="mmr",
+        search_kwargs={"k": 1, "fetch_k": 10},
 )
 results = retriever.invoke(
-    "Stealing from the bank is a crime", filter={"source": ["==", "news"]}
+        "Stealing from the bank is a crime", filter={"source": ["==", "news"]}
 )
 for doc in results:
     print(f"* {doc.page_content} [{doc.metadata}]")
 ```
+
 ```output
 INFO:langchain_vdms.vectorstores:VDMS mmr search took 0.0042 secs
 ``````output
 * Robbers broke into the city bank and stole $1 million in cash. [{'source': 'news'}]
 ```
-### Delete collection
-Previously, we removed documents based on its `id`. Here, all documents are removed since no ID is provided.
 
+### Delete collection
+
+Previously, we removed documents based on its `id`. Here, all documents are removed since no ID is provided.
 
 ```python
 print("Documents before deletion: ", vector_store.count())
@@ -346,19 +336,21 @@ vector_store.delete(collection_name=collection_name)
 
 print("Documents after deletion: ", vector_store.count())
 ```
+
 ```output
 Documents before deletion:  10
 Documents after deletion:  0
 ```
+
 ## Usage for retrieval-augmented generation
 
 For guides on how to use this vector store for retrieval-augmented generation (RAG), see the following sections:
 
-- [Multi-modal RAG using VDMS](https://github.com/langchain-ai/langchain/blob/master/cookbook/multi_modal_RAG_vdms.ipynb)
-- [Visual RAG using VDMS](https://github.com/langchain-ai/langchain/blob/master/cookbook/visual_RAG_vdms.ipynb)
-- [Tutorials](/oss/tutorials/)
-- [How-to: Question and answer with RAG](https://python.langchain.com/docs/how_to/#qa-with-rag)
-- [Retrieval conceptual docs](https://python.langchain.com/docs/concepts/#retrieval)
+* [Multi-modal RAG using VDMS](https://github.com/langchain-ai/langchain/blob/master/cookbook/multi_modal_RAG_vdms.ipynb)
+* [Visual RAG using VDMS](https://github.com/langchain-ai/langchain/blob/master/cookbook/visual_RAG_vdms.ipynb)
+* [Tutorials](/oss/tutorials/)
+* [How-to: Question and answer with RAG](https://python.langchain.com/docs/how_to/#qa-with-rag)
+* [Retrieval conceptual docs](https://python.langchain.com/docs/concepts/#retrieval)
 
 ## Similarity Search using other engines
 
@@ -368,7 +360,6 @@ By default, the vectorstore uses FaissFlat. Below we show a few examples using t
 ### Similarity Search using Faiss HNSWFlat and Euclidean Distance
 
 Here, we add the documents to VDMS using Faiss IndexHNSWFlat indexing and L2 as the distance metric for similarity search. We search for three documents (`k=3`) related to a query and also return the score along with the document.
-
 
 ```python
 db_FaissHNSWFlat = VDMS.from_documents(
@@ -388,6 +379,7 @@ docs_with_score = db_FaissHNSWFlat.similarity_search_with_score(query, k=k, filt
 for res, score in docs_with_score:
     print(f"* [SIM={score:3f}] {res.page_content} [{res.metadata}]")
 ```
+
 ```output
 INFO:langchain_vdms.vectorstores:Descriptor set my_collection_FaissHNSWFlat_L2 created
 INFO:langchain_vdms.vectorstores:VDMS similarity search took 0.1272 seconds
@@ -396,28 +388,29 @@ INFO:langchain_vdms.vectorstores:VDMS similarity search took 0.1272 seconds
 * [SIM=0.936718] LangGraph is the best framework for building stateful, agentic applications! [{'source': 'tweet'}]
 * [SIM=1.834110] Is the new iPhone worth the price? Read this review to find out. [{'source': 'website'}]
 ```
+
 ### Similarity Search using Faiss IVFFlat and Inner Product (IP) Distance
 
 We add the documents to VDMS using Faiss IndexIVFFlat indexing and IP as the distance metric for similarity search. We search for three documents (`k=3`) related to a query and also return the score along with the document.
 
-
 ```python
 db_FaissIVFFlat = VDMS.from_documents(
     documents,
-    client=vdms_client,
-    ids=doc_ids,
-    collection_name="my_collection_FaissIVFFlat_IP",
-    embedding=embeddings,
-    engine="FaissIVFFlat",
-    distance_strategy="IP",
+        client=vdms_client,
+        ids=doc_ids,
+        collection_name="my_collection_FaissIVFFlat_IP",
+        embedding=embeddings,
+        engine="FaissIVFFlat",
+        distance_strategy="IP",
 )
 
 k = 3
 query = "LangChain provides abstractions to make working with LLMs easy"
 docs_with_score = db_FaissIVFFlat.similarity_search_with_score(query, k=k, filter=None)
 for res, score in docs_with_score:
-    print(f"* [SIM={score:3f}] {res.page_content} [{res.metadata}]")
+        print(f"* [SIM={score:3f}] {res.page_content} [{res.metadata}]")
 ```
+
 ```output
 INFO:langchain_vdms.vectorstores:Descriptor set my_collection_FaissIVFFlat_IP created
 INFO:langchain_vdms.vectorstores:VDMS similarity search took 0.0052 seconds
@@ -426,10 +419,10 @@ INFO:langchain_vdms.vectorstores:VDMS similarity search took 0.0052 seconds
 * [SIM=0.531641] LangGraph is the best framework for building stateful, agentic applications! [{'source': 'tweet'}]
 * [SIM=0.082945] Is the new iPhone worth the price? Read this review to find out. [{'source': 'website'}]
 ```
+
 ### Similarity Search using FLINNG and IP Distance
 
 In this section, we add the documents to VDMS using Filters to Identify Near-Neighbor Groups (FLINNG) indexing and IP as the distance metric for similarity search. We search for three documents (`k=3`) related to a query and also return the score along with the document.
-
 
 ```python
 db_Flinng = VDMS.from_documents(
@@ -448,6 +441,7 @@ docs_with_score = db_Flinng.similarity_search_with_score(query, k=k, filter=None
 for res, score in docs_with_score:
     print(f"* [SIM={score:3f}] {res.page_content} [{res.metadata}]")
 ```
+
 ```output
 INFO:langchain_vdms.vectorstores:Descriptor set my_collection_Flinng_IP created
 INFO:langchain_vdms.vectorstores:VDMS similarity search took 0.0042 seconds
@@ -456,6 +450,7 @@ INFO:langchain_vdms.vectorstores:VDMS similarity search took 0.0042 seconds
 * [SIM=0.000000] I had chocolate chip pancakes and scrambled eggs for breakfast this morning. [{'source': 'tweet'}]
 * [SIM=0.000000] I had chocolate chip pancakes and scrambled eggs for breakfast this morning. [{'source': 'tweet'}]
 ```
+
 ## Filtering on metadata
 
 It can be helpful to narrow down the collection before working with it.
@@ -464,13 +459,12 @@ For example, collections can be filtered on metadata using the `get_by_constrain
 
 ***NOTE:*** `id` was generated as additional metadata as an integer while `langchain_id` (the internal ID) is an unique string for each entry.
 
-
 ```python
 response, response_array = db_FaissIVFFlat.get_by_constraints(
     db_FaissIVFFlat.collection_name,
-    limit=1,
-    include=["metadata", "embeddings"],
-    constraints={"langchain_id": ["==", "2"]},
+        limit=1,
+        include=["metadata", "embeddings"],
+        constraints={"langchain_id": ["==", "2"]},
 )
 
 # Delete id=2
@@ -478,8 +472,9 @@ db_FaissIVFFlat.delete(collection_name=db_FaissIVFFlat.collection_name, ids=["2"
 
 print("Deleted entry:")
 for doc in response:
-    print(f"* ID={doc.id}: {doc.page_content} [{doc.metadata}]")
+        print(f"* ID={doc.id}: {doc.page_content} [{doc.metadata}]")
 ```
+
 ```output
 Deleted entry:
 * ID=2: The weather forecast for tomorrow is cloudy and overcast, with a high of 62 degrees. [{'source': 'news'}]
@@ -488,11 +483,12 @@ Deleted entry:
 ```python
 response, response_array = db_FaissIVFFlat.get_by_constraints(
     db_FaissIVFFlat.collection_name,
-    include=["metadata"],
+        include=["metadata"],
 )
 for doc in response:
-    print(f"* ID={doc.id}: {doc.page_content} [{doc.metadata}]")
+        print(f"* ID={doc.id}: {doc.page_content} [{doc.metadata}]")
 ```
+
 ```output
 * ID=10: I have a bad feeling I am going to get deleted :( [{'source': 'tweet'}]
 * ID=9: The stock market is down 500 points today due to fears of a recession. [{'source': 'news'}]
@@ -504,31 +500,34 @@ for doc in response:
 * ID=3: Building an exciting new project with LangChain - come check it out! [{'source': 'tweet'}]
 * ID=1: I had chocolate chip pancakes and scrambled eggs for breakfast this morning. [{'source': 'tweet'}]
 ```
-Here we use `id` to filter for a range of IDs since it is an integer.
 
+Here we use `id` to filter for a range of IDs since it is an integer.
 
 ```python
 response, response_array = db_FaissIVFFlat.get_by_constraints(
     db_FaissIVFFlat.collection_name,
-    include=["metadata", "embeddings"],
-    constraints={"source": ["==", "news"]},
+        include=["metadata", "embeddings"],
+        constraints={"source": ["==", "news"]},
 )
 for doc in response:
-    print(f"* ID={doc.id}: {doc.page_content} [{doc.metadata}]")
+        print(f"* ID={doc.id}: {doc.page_content} [{doc.metadata}]")
 ```
+
 ```output
 * ID=9: The stock market is down 500 points today due to fears of a recession. [{'source': 'news'}]
 * ID=4: Robbers broke into the city bank and stole $1 million in cash. [{'source': 'news'}]
 ```
-## Stop VDMS Server
 
+## Stop VDMS Server
 
 ```python
 !docker kill vdms_vs_test_nb
 ```
+
 ```output
 vdms_vs_test_nb
 ```
+
 ## API reference
 
 TODO: add API reference

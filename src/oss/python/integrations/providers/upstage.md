@@ -6,8 +6,7 @@ title: Upstage
 >
 >**Solar Pro** is an enterprise-grade LLM optimized for single-GPU deployment, excelling in instruction-following and processing structured formats like HTML and Markdown. It supports English, Korean, and Japanese with top multilingual performance and offers domain expertise in finance, healthcare, and legal.
 
->Other than Solar, Upstage also offers features for real-world RAG (retrieval-augmented generation), such as **Document Parse** and **Groundedness Check**. 
-
+>Other than Solar, Upstage also offers features for real-world RAG (retrieval-augmented generation), such as **Document Parse** and **Groundedness Check**.
 
 ### Upstage LangChain integrations
 
@@ -28,9 +27,7 @@ Install `langchain-upstage` package:
 pip install -qU langchain-core langchain-upstage
 ```
 
-
 Get [API Keys](https://console.upstage.ai) and set environment variable `UPSTAGE_API_KEY`.
-
 
 ```python
 import os
@@ -44,7 +41,6 @@ os.environ["UPSTAGE_API_KEY"] = "YOUR_API_KEY"
 
 See [a usage example](/oss/integrations/chat/upstage).
 
-
 ```python
 from langchain_upstage import ChatUpstage
 
@@ -56,7 +52,6 @@ print(response)
 ## Embedding models
 
 See [a usage example](/oss/integrations/text_embedding/upstage).
-
 
 ```python
 from langchain_upstage import UpstageEmbeddings
@@ -77,7 +72,6 @@ print(query_result)
 
 See [a usage example](/oss/integrations/document_loaders/upstage).
 
-
 ```python
 from langchain_upstage import UpstageDocumentParseLoader
 
@@ -96,7 +90,6 @@ for doc in docs[:3]:
 ### Groundedness Check
 
 See [a usage example](/oss/integrations/tools/upstage_groundedness_check).
-
 
 ```python
 from langchain_upstage import UpstageGroundednessCheck

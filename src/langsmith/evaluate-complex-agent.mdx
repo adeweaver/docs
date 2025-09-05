@@ -4,7 +4,7 @@ sidebarTitle: Evaluate a complex agent
 ---
 
 <Info>
-  [Agent evaluation](/langsmith/evaluation-concepts#agents) | [Evaluators](/langsmith/evaluation-concepts#evaluators) | [LLM-as-judge evaluators](/langsmith/evaluation-concepts#llm-as-judge)
+[Agent evaluation](/langsmith/evaluation-concepts#agents) | [Evaluators](/langsmith/evaluation-concepts#evaluators) | [LLM-as-judge evaluators](/langsmith/evaluation-concepts#llm-as-judge)
 </Info>
 
 In this tutorial, we'll build a customer support bot that helps users navigate a digital music store. Then, we'll go through the three most effective types of evaluations to run on chat bots:
@@ -21,9 +21,15 @@ We'll build our agent using [LangGraph](https://github.com/langchain-ai/langgrap
 
 Let's install the required dependencies:
 
-```bash
+<CodeGroup>
+```bash pip
 pip install -U langgraph langchain[openai]
 ```
+
+```bash uv
+uv add langgraph langchain[openai]
+```
+</CodeGroup>
 
 Let's set up environment variables for OpenAI and [LangSmith](https://smith.langchain.com):
 

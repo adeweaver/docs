@@ -5,16 +5,15 @@ title: MariaDB
 LangChain's MariaDB integration (langchain-mariadb) provides vector capabilities for working with MariaDB version 11.7.1 and above, distributed under the MIT license. Users can use the provided implementations as-is or customize them for specific needs.
  Key features include:
 
- * Built-in vector similarity search
- * Support for cosine and euclidean distance metrics
- * Robust metadata filtering options
- * Performance optimization through connection pooling
- * Configurable table and column settings
+* Built-in vector similarity search
+* Support for cosine and euclidean distance metrics
+* Robust metadata filtering options
+* Performance optimization through connection pooling
+* Configurable table and column settings
 
 ## Setup
 
 Launch a MariaDB Docker container with:
-
 
 ```python
 !docker run --name mariadb-container -e MARIADB_ROOT_PASSWORD=langchain -e MARIADB_DATABASE=langchain -p 3306:3306 -d mariadb:11.7
@@ -23,8 +22,6 @@ Launch a MariaDB Docker container with:
 ### Installing the Package
 
 The package uses SQLAlchemy but works best with the MariaDB connector, which requires C/C++ components:
-
-
 
 ```python
 # Debian, Ubuntu
@@ -39,16 +36,12 @@ The package uses SQLAlchemy but works best with the MariaDB connector, which req
 
 Then install `langchain-mariadb` package
 
-
-
 ```python
 pip install -U langchain-mariadb
 
 ```
 
 VectorStore works along with an LLM model, here using `langchain-openai` as example.
-
-
 
 ```python
 pip install langchain-openai
@@ -57,7 +50,6 @@ export OPENAI_API_KEY=...
 ```
 
 ## Initialization
-
 
 ```python
 from langchain_core.documents import Document
@@ -79,9 +71,8 @@ vectorstore = MariaDBStore(
 ## Manage vector store
 
 ### Adding Data
+
 You can add data as documents with metadata:
-
-
 
 ```python
 docs = [
@@ -98,9 +89,7 @@ docs = [
 vectorstore.add_documents(docs)
 ```
 
-
 Or as plain text with optional metadata:
-
 
 ```python
 texts = [
@@ -117,7 +106,6 @@ vectorstore.add_texts(texts=texts, metadatas=metadatas)
 
 ## Query vector store
 
-
 ```python
 # Basic similarity search
 results = vectorstore.similarity_search("Hello", k=2)
@@ -125,7 +113,6 @@ results = vectorstore.similarity_search("Hello", k=2)
 # Search with metadata filtering
 results = vectorstore.similarity_search("Hello", filter={"category": "greeting"})
 ```
-
 
 ### Filter Options
 
@@ -139,8 +126,6 @@ The system supports various filtering operations on metadata:
 * Logical operations: $and, $or, $not
 
 Example:
-
-
 
 ```python
 # Search with simple filter

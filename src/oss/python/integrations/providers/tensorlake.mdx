@@ -20,9 +20,15 @@ Learn more at [docs.tensorlake.ai](https://docs.tensorlake.ai/introduction)
 
 ## Installation
 
-```bash
+<CodeGroup>
+```bash pip
 pip install -U langchain-tensorlake
 ```
+
+```bash uv
+uv add langchain-tensorlake
+```
+</CodeGroup>
 
 ---
 
@@ -49,7 +55,7 @@ Get your Tensorlake API key from the [Tensorlake Cloud Console](https://cloud.te
 
 ```python
 from langchain_tensorlake import document_markdown_tool
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 import asyncio
 import os
 ```
@@ -59,7 +65,7 @@ import os
 ```python
 async def main(question):
     # Create the agent with the Tensorlake tool
-    agent = create_react_agent(
+    agent = create_agent(
             model="openai:gpt-4o-mini",
             tools=[document_markdown_tool],
             prompt=(

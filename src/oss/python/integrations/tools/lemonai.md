@@ -6,7 +6,6 @@ title: Lemon Agent
 
 See [full docs here](https://github.com/felixbrock/lemonai-py-client).
 
-
 Most connectors available today are focused on read-only operations, limiting the potential of LLMs. Agents, on the other hand, have a tendency to hallucinate from time to time due to missing context or instructions.
 
 With `Lemon AI`, it is possible to give your agents access to well-defined APIs for reliable read and write operations. In addition, `Lemon AI` functions allow you to further reduce the risk of hallucinations by providing a way to statically define workflows that the model can rely on in case of uncertainty.
@@ -49,8 +48,7 @@ Similar to [OpenAI functions](https://openai.com/blog/function-calling-and-other
 
 Your model will have access to these functions and will prefer them over self-selecting tools to solve a given task. All you have to do is to let the agent know that it should use a given function by including the function name in the prompt.
 
-#### Include Lemon AI in your Langchain project 
-
+#### Include Lemon AI in your Langchain project
 
 ```python
 import os
@@ -63,13 +61,11 @@ from lemonai import execute_workflow
 
 To use tools that require authentication, you have to store the corresponding access credentials in your environment in the format `"{tool name}_{authentication string}"` where the authentication string is one of ["API_KEY", "SECRET_KEY", "SUBSCRIPTION_KEY", "ACCESS_KEY"] for API keys or ["ACCESS_TOKEN", "SECRET_TOKEN"] for authentication tokens. Examples are "OPENAI_API_KEY", "BING_SUBSCRIPTION_KEY", "AIRTABLE_ACCESS_TOKEN".
 
-
 ```python
 """ Load all relevant API Keys and Access Tokens into your environment variables """
 os.environ["OPENAI_API_KEY"] = "*INSERT OPENAI API KEY HERE*"
 os.environ["AIRTABLE_ACCESS_TOKEN"] = "*INSERT AIRTABLE TOKEN HERE*"
 ```
-
 
 ```python
 hackernews_username = "*INSERT HACKERNEWS USERNAME HERE*"
@@ -83,8 +79,8 @@ and "created_at_i". Please make sure that Airtable does NOT automatically conver
 """
 
 """
-Use the Lemon AI execute_workflow wrapper 
-to run your Langchain agent in combination with Lemon AI  
+Use the Lemon AI execute_workflow wrapper
+to run your Langchain agent in combination with Lemon AI
 """
 model = OpenAI(temperature=0)
 

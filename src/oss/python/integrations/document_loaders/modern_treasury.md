@@ -3,12 +3,12 @@ title: Modern Treasury
 ---
 
 >[Modern Treasury](https://www.moderntreasury.com/) simplifies complex payment operations. It is a unified platform to power products and processes that move money.
+>
 >- Connect to banks and payment systems
 >- Track transactions and balances in real-time
 >- Automate payment operations for scale
 
 This notebook covers how to load data from the `Modern Treasury REST API` into a format that can be ingested into LangChain, along with example usage for vectorization.
-
 
 ```python
 from langchain.indexes import VectorstoreIndexCreator
@@ -47,12 +47,9 @@ Following resources are available:
 
 `invoices` [Documentation](https://docs.moderntreasury.com/reference/invoices)
 
-
-
 ```python
 modern_treasury_loader = ModernTreasuryLoader("payment_orders")
 ```
-
 
 ```python
 # Create a vectorstore retriever from the loader

@@ -2,11 +2,12 @@
 title: ModelScope
 ---
 
-ModelScope ([Home](https://www.modelscope.cn/) | [GitHub](https://github.com/modelscope/modelscope)) is built upon the notion of “Model-as-a-Service” (MaaS). It seeks to bring together most advanced machine learning models from the AI community, and streamlines the process of leveraging AI models in real-world applications. The core ModelScope library open-sourced in this repository provides the interfaces and implementations that allow developers to perform model inference, training and evaluation. 
+ModelScope ([Home](https://www.modelscope.cn/) | [GitHub](https://github.com/modelscope/modelscope)) is built upon the notion of “Model-as-a-Service” (MaaS). It seeks to bring together most advanced machine learning models from the AI community, and streamlines the process of leveraging AI models in real-world applications. The core ModelScope library open-sourced in this repository provides the interfaces and implementations that allow developers to perform model inference, training and evaluation.
 
 This will help you get started with ModelScope embedding models using LangChain.
 
 ## Overview
+
 ### Integration details
 
 | Provider | Package |
@@ -20,7 +21,6 @@ To access ModelScope embedding models you'll need to create a/an ModelScope acco
 ### Credentials
 
 Head to [ModelScope](https://modelscope.cn/) to sign up to ModelScope.
-
 
 ```python
 import getpass
@@ -36,7 +36,6 @@ if not os.getenv("MODELSCOPE_SDK_TOKEN"):
 
 The LangChain ModelScope integration lives in the `langchain-modelscope-integration` package:
 
-
 ```python
 %pip install -qU langchain-modelscope-integration
 ```
@@ -45,7 +44,6 @@ The LangChain ModelScope integration lives in the `langchain-modelscope-integrat
 
 Now we can instantiate our model object:
 
-
 ```python
 from langchain_modelscope import ModelScopeEmbeddings
 
@@ -53,6 +51,7 @@ embeddings = ModelScopeEmbeddings(
     model_id="damo/nlp_corom_sentence-embedding_english-base",
 )
 ```
+
 ```output
 Downloading Model to directory: /root/.cache/modelscope/hub/damo/nlp_corom_sentence-embedding_english-base
 ``````output
@@ -67,12 +66,12 @@ Downloading Model to directory: /root/.cache/modelscope/hub/damo/nlp_corom_sente
 2024-12-27 16:15:12,319 - modelscope - WARNING - No val key and type key found in preprocessor domain of configuration.json file.
 2024-12-27 16:15:12,319 - modelscope - WARNING - Cannot find available config to build preprocessor at mode inference, current config: {'model_dir': '/root/.cache/modelscope/hub/damo/nlp_corom_sentence-embedding_english-base', 'sequence_length': 128}. trying to build by task and model information.
 ```
+
 ## Indexing and Retrieval
 
 Embedding models are often used in retrieval-augmented generation (RAG) flows, both as part of indexing data as well as later retrieving it. For more detailed instructions, please see our [RAG tutorials](/oss/tutorials/rag).
 
 Below, see how to index and retrieve data using the `embeddings` object we initialized above. In this example, we will index and retrieve a sample document in the `InMemoryVectorStore`.
-
 
 ```python
 # Create a vector store with a sample text
@@ -82,7 +81,7 @@ text = "LangChain is the framework for building context-aware reasoning applicat
 
 vectorstore = InMemoryVectorStore.from_texts(
     [text],
-    embedding=embeddings,
+        embedding=embeddings,
 )
 
 # Use the vectorstore as a retriever
@@ -94,18 +93,17 @@ retrieved_documents = retriever.invoke("What is LangChain?")
 # show the retrieved document's content
 retrieved_documents[0].page_content
 ```
+
 ```output
 /root/miniconda3/envs/langchain/lib/python3.10/site-packages/transformers/modeling_utils.py:1113: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
   warnings.warn(
 /root/miniconda3/envs/langchain/lib/python3.10/site-packages/transformers/modeling_utils.py:1113: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
   warnings.warn(
 ```
-
 
 ```output
 'LangChain is the framework for building context-aware reasoning applications'
 ```
-
 
 ## Direct Usage
 
@@ -117,18 +115,18 @@ You can directly call these methods to get embeddings for your own use cases.
 
 You can embed single texts or documents with `embed_query`:
 
-
 ```python
 single_vector = embeddings.embed_query(text)
 print(str(single_vector)[:100])  # Show the first 100 characters of the vector
 ```
+
 ```output
 [-0.6046376824378967, -0.3595953583717346, 0.11333226412534714, -0.030444221571087837, 0.23397332429
 ```
+
 ### Embed multiple texts
 
 You can embed multiple texts with `embed_documents`:
-
 
 ```python
 text2 = (
@@ -138,10 +136,12 @@ two_vectors = embeddings.embed_documents([text, text2])
 for vector in two_vectors:
     print(str(vector)[:100])  # Show the first 100 characters of the vector
 ```
+
 ```output
 [-0.6046381592750549, -0.3595949709415436, 0.11333223432302475, -0.030444379895925522, 0.23397321999
 [-0.36103254556655884, -0.7602502107620239, 0.6505364775657654, 0.000658963865134865, 1.185304522514
 ```
+
 ## API Reference
 
 For detailed documentation on `ModelScopeEmbeddings` features and configuration options, please refer to the [API reference](https://www.modelscope.cn/docs/sdk/pipelines).

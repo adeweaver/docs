@@ -54,7 +54,7 @@ For the EU region, use `eu.api.smith.langchain.com`.
 Both the `backend` and `queue` services require write access to the destination bucket:
 
 - The `backend` service attempts to write a test file to the destination bucket when the export destination is created.
-  It will delete the test file if it has permission to do so (delete access is optional).
+It will delete the test file if it has permission to do so (delete access is optional).
 - The `queue` service is responsible for bulk export execution and uploading the files to the bucket.
 </Note>
 
@@ -208,7 +208,7 @@ curl --request POST \
 
 - `interval_hours` must be between 1 hour and 168 hours (1 week) inclusive.
 - For spawned exports, the first time range exported is `start_time=(scheduled_export_start_time), end_time=(start_time + interval_hours)`.
-  Then `start_time=(previous_export_end_time), end_time=(this_export_start_time + interval_hours)`, and so on.
+    Then `start_time=(previous_export_end_time), end_time=(this_export_start_time + interval_hours)`, and so on.
 - `end_time` must be omitted for scheduled exports. `end_time` is still required for non-scheduled exports.
 - Scheduled exports can be stopped by [cancelling the export](#stop-an-export).
   - Exports that have been spawned by a scheduled export have the `source_bulk_export_id` attribute filled.

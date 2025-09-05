@@ -4,7 +4,7 @@ sidebarTitle: LLM-as-a-judge evaluator
 ---
 
 <Info>
-  * [LLM-as-a-judge evaluator](/langsmith/evaluation-concepts#llm-as-judge)
+* [LLM-as-a-judge evaluator](/langsmith/evaluation-concepts#llm-as-judge)
 </Info>
 
 LLM applications can be challenging to evaluate since they often generate conversational text with no single correct answer.
@@ -37,10 +37,10 @@ def valid_reasoning(inputs: dict, outputs: dict) -> bool:
     instructions = """\
 Given the following question, answer, and reasoning, determine if the reasoning \
 for the answer is logically valid and consistent with question and the answer.\"""
-    
+
     class Response(BaseModel):
         reasoning_is_valid: bool
-    
+
     msg = f"Question: {inputs['question']}\nAnswer: {outputs['answer']}\nReasoning: {outputs['reasoning']}"
     response = oai_client.beta.chat.completions.parse(
         model="gpt-4o",

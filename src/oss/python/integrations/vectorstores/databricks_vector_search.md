@@ -17,7 +17,6 @@ If you are running LangChain app inside Databricks, you can skip this step.
 
 Otherwise, you need manually set the Databricks workspace hostname and personal access token to `DATABRICKS_HOST` and `DATABRICKS_TOKEN` environment variables, respectively. See [Authentication Documentation](https://docs.databricks.com/en/dev-tools/auth/index.html#databricks-personal-access-tokens) for how to get an access token.
 
-
 ```python
 import getpass
 import os
@@ -33,7 +32,6 @@ if "DATABRICKS_TOKEN" not in os.environ:
 
 The LangChain Databricks integration lives in the `databricks-langchain` package.
 
-
 ```python
 %pip install -qU databricks-langchain
 ```
@@ -46,7 +44,6 @@ If you already have an endpoint and an index, you can skip the section and go st
 
 First, instantiate the Databricks VectorSearch client:
 
-
 ```python
 from databricks.vector_search.client import VectorSearchClient
 
@@ -54,7 +51,6 @@ client = VectorSearchClient()
 ```
 
 Next, we will create a new VectorSearch endpoint.
-
 
 ```python
 endpoint_name = "<your-endpoint-name>"
@@ -71,7 +67,6 @@ Lastly, we will create an index that can be queried on the endpoint. There are t
 Also for delta-sync index, you can choose to use Databricks-managed embeddings or self-managed embeddings (via LangChain embeddings classes).
 
 The following code creates a **direct-access** index. Please refer to the [Databricks documentation](https://docs.databricks.com/en/generative-ai/create-query-vector-search.html) for the instruction to create the other type of indexes.
-
 
 ```python
 index_name = "<your-index-name>"  # Format: "<catalog>.<schema>.<index-name>"
@@ -102,7 +97,6 @@ The instantiation of `DatabricksVectorSearch` is a bit different depending on wh
 
 If you are using a delta-sync index with Databricks-managed embeddings:
 
-
 ```python
 from databricks_langchain import DatabricksVectorSearch
 
@@ -118,8 +112,6 @@ use for the embeddings:
 
 <EmbeddingTabs/>
 
-
-
 ```python
 # | output: false
 # | echo: false
@@ -127,7 +119,6 @@ from langchain_openai import OpenAIEmbeddings
 
 embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
 ```
-
 
 ```python
 vector_store = DatabricksVectorSearch(
@@ -145,7 +136,6 @@ vector_store = DatabricksVectorSearch(
 
 Note: Adding items to vector store via `add_documents` method is only supported for a **direct-access** index.
 
-
 ```python
 from langchain_core.documents import Document
 
@@ -160,37 +150,29 @@ documents = [document_1, document_2, document_3]
 vector_store.add_documents(documents=documents, ids=["1", "2", "3"])
 ```
 
-
-
 ```output
 ['1', '2', '3']
 ```
-
 
 ### Delete items from vector store
 
 Note: Deleting items to vector store via `delete` method is only supported for a **direct-access** index.
 
-
 ```python
 vector_store.delete(ids=["3"])
 ```
-
-
 
 ```output
 True
 ```
 
-
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 
 ### Query directly
 
 Performing a simple similarity search can be done as follows:
-
 
 ```python
 results = vector_store.similarity_search(
@@ -199,11 +181,12 @@ results = vector_store.similarity_search(
 for doc in results:
     print(f"* {doc.page_content} [{doc.metadata}]")
 ```
+
 ```output
 * foo [{'id': '1'}]
 ```
-Note: By default, similarity search only returns the primary key and text column. If you want to retrieve the custom metadata associated with the document, pass the additional columns in the `columns` parameter when initializing the vector store.
 
+Note: By default, similarity search only returns the primary key and text column. If you want to retrieve the custom metadata associated with the document, pass the additional columns in the `columns` parameter when initializing the vector store.
 
 ```python
 vector_store = DatabricksVectorSearch(
@@ -218,11 +201,12 @@ results = vector_store.similarity_search(query="thud", k=1)
 for doc in results:
     print(f"* {doc.page_content} [{doc.metadata}]")
 ```
+
 ```output
 * foo [{'source': 'https://example.com', 'id': '1'}]
 ```
-If you want to execute a similarity search and receive the corresponding scores you can run:
 
+If you want to execute a similarity search and receive the corresponding scores you can run:
 
 ```python
 results = vector_store.similarity_search_with_score(
@@ -231,34 +215,32 @@ results = vector_store.similarity_search_with_score(
 for doc, score in results:
     print(f"* [SIM={score:3f}] {doc.page_content} [{doc.metadata}]")
 ```
+
 ```output
 * [SIM=0.414035] foo [{'source': 'https://example.com', 'id': '1'}]
 ```
+
 ### Query by turning into retriever
 
-You can also transform the vector store into a retriever for easier usage in your chains. 
-
+You can also transform the vector store into a retriever for easier usage in your chains.
 
 ```python
 retriever = vector_store.as_retriever(search_type="mmr", search_kwargs={"k": 1})
 retriever.invoke("thud")
 ```
 
-
-
 ```output
 [Document(metadata={'source': 'https://example.com', 'id': '1'}, page_content='foo')]
 ```
-
 
 ## Usage for retrieval-augmented generation
 
 For guides on how to use this vector store for retrieval-augmented generation (RAG), see the following sections:
 
-- [Tutorials](/oss/tutorials/rag)
-- [How-to: Question and answer with RAG](https://python.langchain.com/docs/how_to/#qa-with-rag)
-- [Retrieval conceptual docs](https://python.langchain.com/docs/concepts/retrieval)
+* [Tutorials](/oss/tutorials/rag)
+* [How-to: Question and answer with RAG](https://python.langchain.com/docs/how_to/#qa-with-rag)
+* [Retrieval conceptual docs](https://python.langchain.com/docs/concepts/retrieval)
 
 ## API reference
 
-For detailed documentation of all DatabricksVectorSearch features and configurations head to the API reference: https://api-docs.databricks.com/python/databricks-ai-bridge/latest/databricks_langchain.html#databricks_langchain.DatabricksVectorSearch
+For detailed documentation of all DatabricksVectorSearch features and configurations head to the API reference: [api-docs.databricks.com/python/databricks-ai-bridge/latest/databricks_langchain.html#databricks_langchain.DatabricksVectorSearch](https://api-docs.databricks.com/python/databricks-ai-bridge/latest/databricks_langchain.html#databricks_langchain.DatabricksVectorSearch)

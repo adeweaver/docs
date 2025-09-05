@@ -45,7 +45,6 @@ process.env.LANGSMITH_API_KEY="your-langchain-api-key"
 
 You can import and instantiate an instance of the `SERPGoogleScholarAPITool` tool like this:
 
-
 ```python
 import { SERPGoogleScholarAPITool } from "@langchain/community/tools/google_scholar";
 
@@ -60,7 +59,6 @@ const tool = new SERPGoogleScholarAPITool({
 
 You can invoke the tool directly with query arguments:
 
-
 ```python
 const results = await tool.invoke({
   query: "neural networks",
@@ -73,7 +71,6 @@ console.log(results);
 ### Invoke with ToolCall
 
 We can also invoke the tool with a model-generated `ToolCall`:
-
 
 ```python
 const modelGeneratedToolCall = {

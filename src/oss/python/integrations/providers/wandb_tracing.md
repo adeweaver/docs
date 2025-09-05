@@ -9,7 +9,6 @@ There are two recommended ways to trace your LangChains:
 
 **Note** if the environment variable is set, all code will be traced, regardless of whether or not it's within the context manager.
 
-
 ```python
 import os
 
@@ -26,14 +25,12 @@ from langchain.agents import AgentType, initialize_agent, load_tools
 from langchain_openai import OpenAI
 ```
 
-
 ```python
 # Agent run with tracing. Ensure that OPENAI_API_KEY is set appropriately to run this example.
 
 llm = OpenAI(temperature=0)
 tools = load_tools(["llm-math"], llm=llm)
 ```
-
 
 ```python
 agent = initialize_agent(
@@ -46,7 +43,6 @@ agent.run("What is 2 raised to .123243 power?")  # this should be traced
 # The url can be used to view the trace session in wandb.
 ```
 
-
 ```python
 # Now, we unset the environment variable and use a context manager.
 if "LANGCHAIN_WANDB_TRACING" in os.environ:
@@ -58,6 +54,7 @@ with wandb_tracing_enabled():
 
 agent.run("What is 2 raised to .123243 power?")  # this should not be traced
 ```
+
 ```output
 > Entering new AgentExecutor chain...
  I need to use a calculator to solve this.
@@ -80,7 +77,6 @@ Final Answer: 1.0891804557407723
 
 > Finished chain.
 ```
-
 
 ```output
 '1.0891804557407723'

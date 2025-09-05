@@ -11,12 +11,13 @@ This guide covers how to use the LangChain `RunPod` LLM class to interact with t
 ## Setup
 
 1. **Install the package:**
+
    ```bash
    pip install -qU langchain-runpod
    ```
+
 2. **Deploy an LLM Endpoint:** Follow the setup steps in the [RunPod Provider Guide](/oss/integrations/providers/runpod#setup) to deploy a compatible text generation endpoint on RunPod Serverless and get its Endpoint ID.
 3. **Set Environment Variables:** Make sure `RUNPOD_API_KEY` and `RUNPOD_ENDPOINT_ID` are set.
-
 
 ```python
 import getpass
@@ -28,10 +29,10 @@ if "RUNPOD_API_KEY" not in os.environ:
 if "RUNPOD_ENDPOINT_ID" not in os.environ:
     os.environ["RUNPOD_ENDPOINT_ID"] = input("Enter your RunPod Endpoint ID: ")
 ```
+
 ## Instantiation
 
 Initialize the `RunPod` class. You can pass model-specific parameters via `model_kwargs` and configure polling behavior.
-
 
 ```python
 from langchain_runpod import RunPod
@@ -49,10 +50,10 @@ llm = RunPod(
     # max_polling_attempts=100
 )
 ```
+
 ## Invocation
 
 Use the standard LangChain `.invoke()` and `.ainvoke()` methods to call the model. Streaming is also supported via `.stream()` and `.astream()` (simulated by polling the RunPod `/stream` endpoint).
-
 
 ```python
 prompt = "Write a tagline for an ice cream shop on the moon."
@@ -67,6 +68,7 @@ except Exception as e:
         f"Error invoking LLM: {e}. Ensure endpoint ID/API key are correct and endpoint is active/compatible."
     )
 ```
+
 ```python
 # Stream (Sync, simulated via polling /stream)
 print("\n--- Sync Stream Response ---")
@@ -82,7 +84,6 @@ except Exception as e:
 
 ### Async Usage
 
-
 ```python
 # AInvoke (Async)
 try:
@@ -92,7 +93,6 @@ try:
 except Exception as e:
     print(f"Error invoking LLM asynchronously: {e}.")
 ```
-
 
 ```python
 # AStream (Async)
@@ -110,7 +110,6 @@ except Exception as e:
 ## Chaining
 
 The LLM integrates seamlessly with LangChain Expression Language (LCEL) chains.
-
 
 ```python
 from langchain_core.output_parsers import StrOutputParser

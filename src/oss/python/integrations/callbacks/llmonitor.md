@@ -5,7 +5,7 @@ title: LLMonitor
 >[LLMonitor](https://llmonitor.com?utm_source=langchain&utm_medium=py&utm_campaign=docs) is an open-source observability platform that provides cost and usage analytics, user tracking, tracing and evaluation tools.
 
 <video controls width='100%' >
-  <source src='https://llmonitor.com/videos/demo-annotated.mp4'/>
+    <source src='https://llmonitor.com/videos/demo-annotated.mp4'/>
 </video>
 
 ## Setup
@@ -90,7 +90,7 @@ import os
 from langchain_community.agent_toolkits.load_tools import load_tools
 from langchain_community.callbacks.llmonitor_callback import LLMonitorCallbackHandler
 from langchain_openai import ChatOpenAI
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 os.environ["LLMONITOR_APP_ID"] = ""
 os.environ["OPENAI_API_KEY"] = ""
@@ -99,7 +99,7 @@ os.environ["SERPAPI_API_KEY"] = ""
 handler = LLMonitorCallbackHandler()
 llm = ChatOpenAI(temperature=0, callbacks=[handler])
 tools = load_tools(["serpapi", "llm-math"], llm=llm)
-agent = create_react_agent("openai:gpt-4.1-mini", tools)
+agent = create_agent("openai:gpt-4.1-mini", tools)
 
 input_message = {
     "role": "user",
@@ -110,6 +110,7 @@ agent.invoke({"messages": [input_message]})
 ```
 
 ## User Tracking
+
 User tracking allows you to identify your users, track their cost, conversations and more.
 
 ```python
@@ -121,6 +122,7 @@ with identify("user-123"):
 with identify("user-456", user_props={"email": "user456@test.com"}):
     agent.invoke(...)
 ```
+
 ## Support
 
 For any question or issue with integration you can reach out to the LLMonitor team on [Discord](http://discord.com/invite/8PafSG58kK) or via [email](mailto:vince@llmonitor.com).
