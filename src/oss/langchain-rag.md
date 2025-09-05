@@ -774,8 +774,7 @@ def prompt_with_context(state: AgentState) -> list[MessageLikeRepresentation]:
     return [{"role": "system", "content": system_message}, *list(state["messages"])]
 
 
-tools = []
-agent = create_agent(llm, tools, prompt=prompt_with_context)
+agent = create_agent(llm, tools=[], prompt=prompt_with_context)
 ```
 :::
 :::js
@@ -894,10 +893,9 @@ class State(AgentState):
     context: list[Document]
 
 
-tools = []
 agent = create_agent(
     llm,
-    tools,
+    tools=[],
     pre_model_hook=retrieve_documents,
     state_schema=State,
 )
