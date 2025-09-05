@@ -1,0 +1,76 @@
+---
+title: ChatMinimax
+---
+
+[Minimax](https://api.minimax.chat) is a Chinese startup that provides natural language processing models for companies and individuals.
+
+This example demonstrates using LangChain.js to interact with Minimax.
+
+## Setup
+
+To use Minimax models, you'll need a Minimax account, an API key, and a Group ID.
+
+import IntegrationInstallTooltip from '/snippets/javascript-integrations/integration-install-tooltip.mdx';
+
+<IntegrationInstallTooltip/>
+
+```bash npm
+npm install @langchain/community @langchain/core
+```
+
+import UnifiedModelParamsTooltip from "/snippets/javascript-integrations/unified-model-params-tooltip.mdx";
+
+<UnifiedModelParamsTooltip />
+
+## Basic usage
+
+import IntegrationMinimax from "/snippets/javascript-integrations/examples/models/chat/integration_minimax.mdx";
+
+<IntegrationMinimax />
+
+## Chain model calls
+
+import MinimaxChain from "/snippets/javascript-integrations/examples/models/chat/minimax_chain.mdx";
+
+<MinimaxChain />
+
+## With function calls
+
+import MinimaxFunctions from "/snippets/javascript-integrations/examples/models/chat/minimax_functions.mdx";
+import MinimaxFunctionsZod from "/snippets/javascript-integrations/examples/models/chat/minimax_functions_zod.mdx";
+
+<MinimaxFunctions />
+
+## Functions with Zod
+
+<MinimaxFunctionsZod />
+
+## With glyph
+
+This feature can help users force the model to return content in the requested format.
+
+import MinimaxGlyph from "/snippets/javascript-integrations/examples/models/chat/minimax_glyph.mdx";
+
+<MinimaxGlyph />
+
+## With sample messages
+
+This feature can help the model better understand the return information the user wants to get,
+including but not limited to the content, format, and response mode of the information.
+
+import MinimaxSampleMessages from "/snippets/javascript-integrations/examples/models/chat/minimax_sample_messages.mdx";
+
+<MinimaxSampleMessages />
+
+## With plugins
+
+This feature supports calling tools like a search engine to get additional data that can assist the model.
+
+import MinimaxPlugins from "/snippets/javascript-integrations/examples/models/chat/minimax_plugins.mdx";
+
+<MinimaxPlugins />
+
+## Related
+
+- Chat model [conceptual guide](/oss/javascript/concepts/chat_models)
+- Chat model [how-to guides](/oss/javascript/how-to/#chat-models)
