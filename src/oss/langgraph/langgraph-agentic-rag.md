@@ -12,7 +12,7 @@ By the end of the tutorial we will have done the following:
 2. Index those documents for semantic search and create a retriever tool for the agent.
 3. Build an agentic RAG system that can decide when to use the retriever tool.
 
-![Screenshot 2024-02-14 at 3.43.58 PM.png](/images/screenshot_2024_02_14_3_43_58_pm.png)
+![Hybrid RAG](/images/langgraph-hybrid-rag-tutorial.png)
 
 ## Setup
 
