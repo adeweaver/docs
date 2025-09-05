@@ -1,0 +1,35 @@
+---
+title: Rockset
+---
+
+Rockset (acquired by OpenAI) is a real-time analyitics SQL database that runs in the cloud.
+Rockset provides vector search capabilities, in the form of SQL functions, to support AI applications that rely on text similarity.
+
+## Setup
+
+Install the rockset client.
+
+```bash
+yarn add @rockset/client
+```
+
+### Usage
+
+import IntegrationInstallTooltip from '/snippets/javascript-integrations/integration-install-tooltip.mdx';
+
+<IntegrationInstallTooltip/>
+
+```bash npm
+npm install @langchain/openai @langchain/core @langchain/community
+```
+
+import Rockset from "/snippets/javascript-integrations/examples/indexes/vector_stores/rockset.mdx";
+
+Below is an example showcasing how to use OpenAI and Rockset to answer questions about a text file:
+
+<Rockset />
+
+## Related
+
+- Vector store [conceptual guide](/oss/javascript/concepts/#vectorstores)
+- Vector store [how-to guides](/oss/javascript/how-to/#vectorstores)
