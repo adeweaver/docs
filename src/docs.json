@@ -164,6 +164,13 @@
                     ]
                   },
                   {
+                    "group": "Tutorials",
+                    "pages": [
+                      "oss/python/langchain-knowledge-base",
+                      "oss/python/langchain-rag"
+                    ]
+                  },
+                  {
                     "group": "Production",
                     "pages": [
                       "oss/python/langchain-studio",
@@ -1152,6 +1159,13 @@
                       "oss/javascript/langchain-multi-agent",
                       "oss/javascript/langchain-retrieval",
                       "oss/javascript/langchain-runtime"
+                    ]
+                  },
+                  {
+                    "group": "Tutorials",
+                    "pages": [
+                      "oss/javascript/langchain-knowledge-base",
+                      "oss/javascript/langchain-rag"
                     ]
                   },
                   {
