@@ -23,7 +23,7 @@ Here we focus on Q&A for unstructured data. If you are interested for RAG over s
 ## Overview
 A typical RAG application has two main components:
 
-**Indexing**: a pipeline for ingesting data from a source and indexing it. *This usually happens offline.*
+**Indexing**: a pipeline for ingesting data from a source and indexing it. *This usually happens in a separate process.*
 
 **Retrieval and generation**: the actual RAG process, which takes the user query at run time and retrieves the relevant data from the index, then passes that to the model.
 
@@ -400,8 +400,6 @@ to configure the tool to attach raw documents as [artifacts](/oss/langchain-mess
 each [ToolMessage](/oss/langchain-messages#tool-message). This will let us access document metadata in our application,
 separate from the stringified representation that is sent to the model.
 
-If desired, you can omit this functionality and specify the tool as a simple function.
-
 </Tip>
 
 <Tip>
@@ -497,31 +495,22 @@ We can see the full sequence of steps, along with latency and other metadata, in
 
 In the above [agentic RAG](#rag-agents) formulation we allow the LLM to use its discretion in
 generating a [tool call](/oss/langchain-models#tool-calling) to help answer user queries. This
-is a good general purpose solution, and has a number of benefits:
+is a good general purpose solution, but comes with some trade-offs:
 
-- The LLM only searches when it needs to— it can answer simple greetings, follow-up questions,
-and other interactions without necessarily performing a search.
+| ✅ Benefits                                                                 | ⚠️ Drawbacks                                                                 |
+|-----------------------------------------------------------------------------|----------------------------------------------------------------------------|
+| **Search only when needed** – The LLM can handle greetings, follow-ups, and simple queries without triggering unnecessary searches. | **Two inference calls** – When a search is performed, it requires one call to generate the query and another to produce the final response. |
+| **Contextual search queries** – By treating search as a tool with a `query` input, the LLM crafts its own queries that incorporate conversational context. | **Reduced control** – The LLM may skip searches when they are actually needed, or issue extra searches when unnecessary. |
+| **Multiple searches allowed** – The LLM can execute several searches in support of a single user query. |                                                                            |
 
-- The LLM can phrase its own search queries— by casting the search as a tool with a `query` input,
-we force the LLM to craft a search query. This way it can incorporate conversational context
-and other information into its query.
-
-- The LLM can execute multiple searches in service of a query.
-
-There are also trade-offs:
-
-- If the LLM performs a search, we are running two inference calls: one to generate the query, and
-another to generate the response.
-
-- We offload some control to the LLM— it may not run a search when it should, or it may run extraneous
-searches when it doesn't have to.
 
 Another common approach is a two-step chain, in which we always run a search (potentially using the raw
 user query) and incorporate the result as context for a single LLM query. This results in a single
 inference all per query, buying reduced latency at the expense of flexibility.
 
-We can implement this chain by removing tools from the agent and instead incorporating the retrieval
-step into a custom prompt:
+In this approach we no longer call the model in a loop, but instead make a single pass. We can implement
+this chain by removing tools from the agent and instead incorporating the retrieval step into a custom
+prompt:
 
 ```python
 from langchain.agents import AgentState
@@ -588,7 +577,7 @@ populate that key (as well as inject the context).
 from langchain_core.documents import Document
 
 
-def get_context(state: AgentState):
+def retrieve_documents(state: AgentState):
     """Inject context into state messages."""
     last_message = state["messages"][-1]
     retrieved_docs = vector_store.similarity_search(last_message.text)
@@ -620,7 +609,7 @@ tools = []
 agent = create_agent(
     llm,
     tools,
-    pre_model_hook=get_context,
+    pre_model_hook=retrieve_documents,
     state_schema=State,
 )
 ```
