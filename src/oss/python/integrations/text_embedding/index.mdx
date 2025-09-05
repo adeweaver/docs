@@ -5,19 +5,17 @@ title: "Embedding models"
 ## Overview
 
 <Note>
-This overview focuses on text‑based embedding models. LangChain does not currently support multimodal embedding models.
+This overview covers **text-based embedding models**. LangChain does not currently support multimodal embeddings.
 </Note>
 
-Embedding models convert raw text—such as a tweet, sentence, or paragraph—into a fixed-length vector of numbers that captures the text’s **semantic meaning**. These vector representations enable machines to perform **semantic comparisons** and **search operations** that go beyond simple keyword matching.
+Embedding models transform raw text—such as a sentence, paragraph, or tweet—into a fixed-length vector of numbers that captures its **semantic meaning**. These vectors allow machines to compare and search text based on meaning rather than exact words.
 
-For example, instead of finding documents containing the exact phrase "machine learning," embeddings let systems find documents that discuss related concepts—even if they use different language.
+In practice, this means that texts with similar ideas are placed close together in the vector space. For example, instead of matching only the phrase *"machine learning"*, embeddings can surface documents that discuss related concepts even when different wording is used.
 
 ### How it works
 
-At a high level, the process involves two steps:
-
-1. **Embed text as a vector**: The model transforms each input string into a high-dimensional vector.
-2. **Measure similarity**: These vectors can then be compared using mathematical similarity metrics.
+1. **Vectorization** — The model encodes each input string as a high-dimensional vector.
+2. **Similarity scoring** — Vectors are compared using mathematical metrics to measure how closely related the underlying texts are.
 
 ### Similarity metrics
 
@@ -42,14 +40,18 @@ print("Cosine Similarity:", similarity)
 
 ## Embedding Interface in LangChain
 
-LangChain provides a standard interface for text embedding models (e.g., OpenAI, Cohere, Hugging Face) via the @[`Embeddings`] class.
+LangChain provides a standard interface for text embedding models (e.g., OpenAI, Cohere, Hugging Face) via the [Embeddings](
+https://python.langchain.com/api_reference/core/embeddings/langchain_core.embeddings.embeddings.Embeddings.html#langchain_core.embeddings.embeddings.Embeddings
+) interface.
 
 Two main methods are available:
 
 * `embed_documents(texts: List[str]) → List[List[float]]`: Embeds a list of documents.
 * `embed_query(text: str) → List[float]`: Embeds a single query.
 
-Some providers **may** use distinct models or strategies for queries versus documents, which is why these methods are separate.
+<Note>
+The interface allows queries and documents to be embedded with different strategies, though most providers handle them the same way in practice.
+</Note>
 
 ## Top integrations
 
@@ -376,28 +378,7 @@ print(cached_embedder.embed_query("Hello, world!"))
 print(f"Second call took: {time.time() - tic:.2f} seconds")
 ````
 
-In production, you would typically use a more robust persistent store, such as a database or cloud storage.
-
-You can either roll out a custom `ByteStore` or use one of the built-in options:
-
-
-
-## Swapping the `ByteStore`
-
-To use a different `ByteStore`, pass it to `CacheBackedEmbeddings` at initialization.
-For example, here we create an equivalent cached embeddings object using the non-persistent `InMemoryByteStore`:
-
-```python
-from langchain.embeddings import CacheBackedEmbeddings
-from langchain.storage import InMemoryByteStore
-
-store = InMemoryByteStore()
-
-cached_embeddings = CacheBackedEmbeddings.from_bytes_store(
-    underlying_embeddings, store, namespace=underlying_embeddings.model
-)
-```
-
+In production, you would typically use a more robust persistent store, such as a database or cloud storage. Please see [stores integrations](/oss/integrations/stores/) for options.
 
 ## All integrations
 
