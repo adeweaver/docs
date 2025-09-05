@@ -2,7 +2,7 @@
 title: Splitting code
 ---
 
-[RecursiveCharacterTextSplitter](https://python.langchain.com/api_reference/text_splitters/character/langchain_text_splitters.character.RecursiveCharacterTextSplitter.html) includes pre-built lists of separators that are useful for [splitting text](/oss/concepts/text_splitters/) in a specific programming language.
+[RecursiveCharacterTextSplitter](https://python.langchain.com/api_reference/text_splitters/character/langchain_text_splitters.character.RecursiveCharacterTextSplitter.html) includes pre-built lists of separators that are useful for [splitting text](/oss/integrations/splitters/) in a specific programming language.
 
 Supported languages are stored in the `langchain_text_splitters.Language` enum. They include:
 
