@@ -345,10 +345,11 @@
                       "oss/python/integrations/chat/index",
                       "oss/python/integrations/tools/index",
                       "oss/python/integrations/retrievers/index",
-                      "oss/python/integrations/splitters/text_splitters",
+                      "oss/python/integrations/splitters/index",
                       "oss/python/integrations/text_embedding/index",
                       "oss/python/integrations/vectorstores/index",
-                      "oss/python/integrations/document_loaders/index"
+                      "oss/python/integrations/document_loaders/index",
+                      "oss/python/integrations/stores/index"
                     ]
                   }
                 ]
@@ -575,7 +576,8 @@
                       "langgraph-platform/set-up-custom-auth",
                       "langgraph-platform/resource-auth",
                       "langgraph-platform/add-auth-server",
-                      "langgraph-platform/openapi-security"
+                      "langgraph-platform/openapi-security",
+                      "langgraph-platform/agent-auth"
                     ]
                   },
                   {
@@ -938,7 +940,8 @@
                       "langsmith/self-host-ttl",
                       "langsmith/self-host-ingress",
                       "langsmith/self-host-mirroring-images",
-                      "langsmith/self-host-playground-environment-settings"
+                      "langsmith/self-host-playground-environment-settings",
+                      "langsmith/troubleshooting"
                     ]
                   },
                   {
@@ -1001,7 +1004,6 @@
                     "group": "Additional resources",
                     "pages": [
                       "langsmith/faq",
-                      "langsmith/troubleshooting",
                       "langsmith/cloud-architecture-and-scalability",
                       "langsmith/regions-faq",
                       "langsmith/authentication-methods",
@@ -1567,7 +1569,8 @@
                       "langgraph-platform/set-up-custom-auth",
                       "langgraph-platform/resource-auth",
                       "langgraph-platform/add-auth-server",
-                      "langgraph-platform/openapi-security"
+                      "langgraph-platform/openapi-security",
+                      "langgraph-platform/agent-auth"
                     ]
                   },
                   {
@@ -1945,7 +1948,8 @@
                       "langsmith/self-host-ttl",
                       "langsmith/self-host-ingress",
                       "langsmith/self-host-mirroring-images",
-                      "langsmith/self-host-playground-environment-settings"
+                      "langsmith/self-host-playground-environment-settings",
+                      "langsmith/troubleshooting"
                     ]
                   },
                   {
@@ -2008,7 +2012,6 @@
                     "group": "Additional resources",
                     "pages": [
                       "langsmith/faq",
-                      "langsmith/troubleshooting",
                       "langsmith/cloud-architecture-and-scalability",
                       "langsmith/regions-faq",
                       "langsmith/authentication-methods",
