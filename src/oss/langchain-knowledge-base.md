@@ -7,7 +7,7 @@ import EmbeddingsTabsJS from '/snippets/embeddings-tabs-js.mdx';
 import VectorstoreTabsPy from '/snippets/vectorstore-tabs-py.mdx';
 import VectorstoreTabsJS from '/snippets/vectorstore-tabs-js.mdx';
 
-This tutorial will familiarize you with LangChain's [document loader](/oss/langchain-retrieval#document-loaders), [embedding](/oss/langchain-retrieval#embedding-models), and [vector store](/oss/langchain-retrieval#vector-store) abstractions. These abstractions are designed to support retrieval of data--  from (vector) databases and other sources--  for integration with LLM workflows. They are important for applications that fetch data to be reasoned over as part of model inference, as in the case of retrieval-augmented generation, or [RAG](/oss/langchain-retrieval).
+This tutorial will familiarize you with LangChain's [document loader](/oss/langchain-retrieval#document-loaders), [embedding](/oss/langchain-retrieval#embedding-models), and [vector store](/oss/langchain-retrieval#vector-store) abstractions. These abstractions are designed to support retrieval of data--  from (vector) databases and other sources -- for integration with LLM workflows. They are important for applications that fetch data to be reasoned over as part of model inference, as in the case of retrieval-augmented generation, or [RAG](/oss/langchain-retrieval).
 
 Here we will build a search engine over a PDF document. This will allow us to retrieve passages in the PDF that are similar to an input query. The guide also includes a minimal RAG implementation on top of the search engine.
 
