@@ -16,7 +16,7 @@ In essence, SingleStore provides a comprehensive solution for managing and query
 
 | Class | Package | JS support |
 | :--- | :--- |  :---: |
-| SingleStoreVectorStore | langchain_singlestore | ✅ | 
+| SingleStoreVectorStore | langchain_singlestore | ✅ |
 
 <Note>
 **For the langchain-community version `SingleStoreDB` (deprecated), see**
@@ -29,14 +29,17 @@ the [v0.2 documentation](https://python.langchain.com/v0.2/docs/integrations/vec
 
 To access SingleStore vector stores you'll need to install the `langchain-singlestore` integration package.
 %pip install -qU "langchain-singlestore"
+
 ## Initialization
 
 To initialize `SingleStoreVectorStore`, you need an `Embeddings` object and connection parameters for the SingleStore database.
 
-### Required Parameters:
+### Required Parameters
+
 - **embedding** (`Embeddings`): A text embedding model.
 
-### Optional Parameters:
+### Optional Parameters
+
 - **distance_strategy** (`DistanceStrategy`): Strategy for calculating vector distances. Defaults to `DOT_PRODUCT`. Options:
   - `DOT_PRODUCT`: Computes the scalar product of two vectors.
   - `EUCLIDEAN_DISTANCE`: Computes the Euclidean distance between two vectors.
@@ -54,19 +57,22 @@ To initialize `SingleStoreVectorStore`, you need an `Embeddings` object and conn
 
 - **use_full_text_search** (`bool`): Enables full-text indexing on content. Defaults to `False`.
 
-### Connection Pool Parameters:
+### Connection Pool Parameters
+
 - **pool_size** (`int`): Number of active connections in the pool. Defaults to `5`.
 - **max_overflow** (`int`): Maximum connections beyond `pool_size`. Defaults to `10`.
 - **timeout** (`float`): Connection timeout in seconds. Defaults to `30`.
 
-### Database Connection Parameters:
+### Database Connection Parameters
+
 - **host** (`str`): Hostname, IP, or URL for the database.
 - **user** (`str`): Database username.
 - **password** (`str`): Database password.
 - **port** (`int`): Database port. Defaults to `3306`.
 - **database** (`str`): Database name.
 
-### Additional Options:
+### Additional Options
+
 - **pure_python** (`bool`): Enables pure Python mode.
 - **local_infile** (`bool`): Allows local file uploads.
 - **charset** (`str`): Character set for string values.
@@ -76,7 +82,6 @@ To initialize `SingleStoreVectorStore`, you need an `Embeddings` object and conn
 - **ssl_verify_identity** (`bool`): Verifies server's identity.
 - **autocommit** (`bool`): Enables autocommits.
 - **results_type** (`str`): Structure of query results (e.g., `tuples`, `dicts`).
-
 
 ```python
 import os
@@ -96,11 +101,9 @@ The `SingleStoreVectorStore` assumes that a Document's ID is an integer. Below a
 
 You can add documents to the vector store as follows:
 
-
 ```python
 %pip install -qU langchain-core
 ```
-
 
 ```python
 from langchain_core.documents import Document
@@ -127,7 +130,7 @@ docs = [
     Document(
         page_content="""Blanketing the countryside in a soft, pristine layer, the
             snowfall painted a serene tableau, muffling the world in a tranquil hush
-            as delicate flakes settled upon the branches of trees like nature's own 
+            as delicate flakes settled upon the branches of trees like nature's own
             lacework.""",
         metadata={"category": "snow"},
     ),
@@ -155,7 +158,6 @@ vector_store.add_documents(docs)
 
 To update an existing document in the vector store, use the following code:
 
-
 ```python
 updated_document = Document(
     page_content="qux", metadata={"source": "https://another-example.com"}
@@ -168,19 +170,17 @@ vector_store.update_documents(document_id="1", document=updated_document)
 
 To delete documents from the vector store, use the following code:
 
-
 ```python
 vector_store.delete(ids=["3"])
 ```
 
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 
 ### Query directly
 
 Performing a simple similarity search can be done as follows:
-
 
 ```python
 results = vector_store.similarity_search(query="trees in the snow", k=1)
@@ -192,7 +192,6 @@ If you want to execute a similarity search and receive the corresponding scores 
 
 - TODO: Edit and then run code cell to generate output
 
-
 ```python
 results = vector_store.similarity_search_with_score(query="trees in the snow", k=1)
 for doc, score in results:
@@ -200,8 +199,8 @@ for doc, score in results:
 ```
 
 ### Metadata filtering
-SingleStoreDB elevates search capabilities by enabling users to enhance and refine search results through prefiltering based on metadata fields. This functionality empowers developers and data analysts to fine-tune queries, ensuring that search results are precisely tailored to their requirements. By filtering search results using specific metadata attributes, users can narrow down the scope of their queries, focusing only on relevant data subsets. 
 
+SingleStoreDB elevates search capabilities by enabling users to enhance and refine search results through prefiltering based on metadata fields. This functionality empowers developers and data analysts to fine-tune queries, ensuring that search results are precisely tailored to their requirements. By filtering search results using specific metadata attributes, users can narrow down the scope of their queries, focusing only on relevant data subsets.
 
 ```python
 query = "trees branches"
@@ -212,11 +211,12 @@ print(docs[0].page_content)
 ```
 
 ### Vector index
-Enhance your search efficiency with SingleStore DB version 8.5 or above by leveraging [ANN vector indexes](https://docs.singlestore.com/cloud/reference/sql-reference/vector-functions/vector-indexing/). By setting `use_vector_index=True` during vector store object creation, you can activate this feature. Additionally, if your vectors differ in dimensionality from the default OpenAI embedding size of 1536, ensure to specify the `vector_size` parameter accordingly. 
+
+Enhance your search efficiency with SingleStore DB version 8.5 or above by leveraging [ANN vector indexes](https://docs.singlestore.com/cloud/reference/sql-reference/vector-functions/vector-indexing/). By setting `use_vector_index=True` during vector store object creation, you can activate this feature. Additionally, if your vectors differ in dimensionality from the default OpenAI embedding size of 1536, ensure to specify the `vector_size` parameter accordingly.
 
 ### Search strategies
-SingleStoreDB presents a diverse range of search strategies, each meticulously crafted to cater to specific use cases and user preferences. The default `VECTOR_ONLY` strategy utilizes vector operations such as `dot_product` or `euclidean_distance` to calculate similarity scores directly between vectors, while `TEXT_ONLY` employs Lucene-based full-text search, particularly advantageous for text-centric applications. For users seeking a balanced approach, `FILTER_BY_TEXT` first refines results based on text similarity before conducting vector comparisons, whereas `FILTER_BY_VECTOR` prioritizes vector similarity, filtering results before assessing text similarity for optimal matches. Notably, both `FILTER_BY_TEXT` and `FILTER_BY_VECTOR` necessitate a full-text index for operation. Additionally, `WEIGHTED_SUM` emerges as a sophisticated strategy, calculating the final similarity score by weighing vector and text similarities, albeit exclusively utilizing dot_product distance calculations and also requiring a full-text index. These versatile strategies empower users to fine-tune searches according to their unique needs, facilitating efficient and precise data retrieval and analysis. Moreover, SingleStoreDB's hybrid approaches, exemplified by `FILTER_BY_TEXT`, `FILTER_BY_VECTOR`, and `WEIGHTED_SUM` strategies, seamlessly blend vector and text-based searches to maximize efficiency and accuracy, ensuring users can fully leverage the platform's capabilities for a wide range of applications.
 
+SingleStoreDB presents a diverse range of search strategies, each meticulously crafted to cater to specific use cases and user preferences. The default `VECTOR_ONLY` strategy utilizes vector operations such as `dot_product` or `euclidean_distance` to calculate similarity scores directly between vectors, while `TEXT_ONLY` employs Lucene-based full-text search, particularly advantageous for text-centric applications. For users seeking a balanced approach, `FILTER_BY_TEXT` first refines results based on text similarity before conducting vector comparisons, whereas `FILTER_BY_VECTOR` prioritizes vector similarity, filtering results before assessing text similarity for optimal matches. Notably, both `FILTER_BY_TEXT` and `FILTER_BY_VECTOR` necessitate a full-text index for operation. Additionally, `WEIGHTED_SUM` emerges as a sophisticated strategy, calculating the final similarity score by weighing vector and text similarities, albeit exclusively utilizing dot_product distance calculations and also requiring a full-text index. These versatile strategies empower users to fine-tune searches according to their unique needs, facilitating efficient and precise data retrieval and analysis. Moreover, SingleStoreDB's hybrid approaches, exemplified by `FILTER_BY_TEXT`, `FILTER_BY_VECTOR`, and `WEIGHTED_SUM` strategies, seamlessly blend vector and text-based searches to maximize efficiency and accuracy, ensuring users can fully leverage the platform's capabilities for a wide range of applications.
 
 ```python
 from langchain_singlestore.vectorstores import DistanceStrategy
@@ -272,9 +272,7 @@ print(weightedSumResults[0].page_content)
 
 ### Query by turning into retriever
 
-You can also transform the vector store into a retriever for easier usage in your chains. 
-
-
+You can also transform the vector store into a retriever for easier usage in your chains.
 
 ```python
 retriever = vector_store.as_retriever(search_kwargs={"k": 1})
@@ -287,11 +285,9 @@ In the realm of multi-modal data analysis, the integration of diverse informatio
 
 To illustrate, let's consider an application scenario where we aim to effectively analyze multi-modal data. In this example, we harness the capabilities of [OpenClip multimodal embeddings](/oss/integrations/text_embedding/open_clip), which leverage CLIP's framework. With OpenClip, we can seamlessly embed textual descriptions alongside corresponding images, enabling comprehensive analysis and retrieval tasks. Whether it's identifying visually similar images based on textual queries or finding relevant text passages associated with specific visual content, OpenClip empowers users to explore and extract insights from multi-modal data with remarkable efficiency and accuracy.
 
-
 ```python
 %pip install -U langchain openai lanchain-singlestore langchain-experimental
 ```
-
 
 ```python
 import os

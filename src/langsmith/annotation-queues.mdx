@@ -49,7 +49,7 @@ When a reviewer views a run, the run is reserved for that reviewer for the speci
 If a reviewer has viewed a run and then leaves the run without marking it "Done", the reservation will expire after the specified "reservation length". The run is then released back into the queue and can be reserved by another reviewer.
 
 <Note>
-  Clicking "Requeue at end" will only move the current run to the end of the current user's queue; it won't affect the queue order of any other user. It will also release the reservation that the current user has on that run.
+Clicking "Requeue at end" will only move the current run to the end of the current user's queue; it won't affect the queue order of any other user. It will also release the reservation that the current user has on that run.
 </Note>
 
 Because of these settings, it's possible (and likely) that the number of runs visible to an individual in an annotation queue differs from the total number of runs in the queue as well as anyone else's queue size.
@@ -71,7 +71,7 @@ To assign runs to an annotation queue, either:
 4. Select one or multiple experiments from the dataset page and click **Annotate**. From the resulting popup, you may either create a new queue or add the runs to an existing one: ![](/langsmith/images/annotate-experiment.png)
 
 <Check>
-  It is often a very good idea to assign runs that have a certain user feedback score (eg thumbs up, thumbs down) from the application to an annotation queue. This way, you can identify and address issues that are causing user dissatisfaction. To learn more about how to capture user feedback from your LLM application, follow [this guide](/langsmith/attach-user-feedback).
+It is often a very good idea to assign runs that have a certain user feedback score (eg thumbs up, thumbs down) from the application to an annotation queue. This way, you can identify and address issues that are causing user dissatisfaction. To learn more about how to capture user feedback from your LLM application, follow [this guide](/langsmith/attach-user-feedback).
 </Check>
 
 ## Review runs in an annotation queue

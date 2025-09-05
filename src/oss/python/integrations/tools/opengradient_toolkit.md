@@ -8,13 +8,11 @@ This notebook shows how to build tools using the OpenGradient toolkit. This tool
 
 Ensure that you have an OpenGradient API key in order to access the OpenGradient network. If you already have an API key, simply set the environment variable:
 
-
 ```python
 !export OPENGRADIENT_PRIVATE_KEY="your-api-key"
 ```
 
 If you need to set up a new API key, download the opengradient SDK and follow the instructions to initialize a new configuration.
-
 
 ```python
 !pip install opengradient
@@ -25,7 +23,6 @@ If you need to set up a new API key, download the opengradient SDK and follow th
 
 This toolkit lives in the `langchain-opengradient` package:
 
-
 ```python
 %pip install -qU langchain-opengradient
 ```
@@ -33,7 +30,6 @@ This toolkit lives in the `langchain-opengradient` package:
 ## Instantiation
 
 Now we can instantiate our toolkit with the API key from before.
-
 
 ```python
 from langchain_opengradient import OpenGradientToolkit
@@ -45,12 +41,12 @@ toolkit = OpenGradientToolkit(
 ```
 
 ## Build your own tools
+
 The OpenGradientToolkit offers two main methods for creating custom tools:
 
 ### 1. Create a tool to run ML models
+
 You can create tools that leverage ML models deployed on the [OpenGradient model hub](https://hub.opengradient.ai/). User-created models can be uploaded, inferenced, and shared to the model hub through the [OpenGradient SDK](https://docs.opengradient.ai/developers/sdk/model_management.html).
-
-
 
 ```python
 import opengradient as og
@@ -127,7 +123,6 @@ Read workflows are scheduled inferences that regularly run models stored on smar
 
 You can create tools that read results from workflow smart contracts:
 
-
 ```python
 # Create a tool to read from a workflow
 forecast_tool = toolkit.create_read_workflow_tool(
@@ -145,7 +140,6 @@ toolkit.add_tool(forecast_tool)
 
 Use the built in `get_tools()` method to view a list of the available tools within the OpenGradient toolkit.
 
-
 ```python
 tools = toolkit.get_tools()
 
@@ -155,12 +149,12 @@ for tool in tools:
 ```
 
 ## Use within an agent
-Here's how to use your OpenGradient tools with a LangChain agent:
 
+Here's how to use your OpenGradient tools with a LangChain agent:
 
 ```python
 from langchain_openai import ChatOpenAI
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 # Initialize LLM
 llm = ChatOpenAI(model="gpt-4o")
@@ -169,7 +163,7 @@ llm = ChatOpenAI(model="gpt-4o")
 tools = toolkit.get_tools()
 
 # Create agent
-agent_executor = create_react_agent(llm, tools)
+agent_executor = create_agent(llm, tools)
 
 # Example query for the agent
 example_query = "What's the current volatility of ETH?"

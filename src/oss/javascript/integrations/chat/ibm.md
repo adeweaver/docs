@@ -5,6 +5,7 @@ title: IBM watsonx.ai
 This will help you getting started with IBM watsonx.ai [chat models](/oss/concepts/chat_models). For detailed documentation of all `IBM watsonx.ai` features and configurations head to the [IBM watsonx.ai](https://api.js.langchain.com/modules/_langchain_community.chat_models_ibm.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [PY support](https://python.langchain.com/docs/integrations/chat/ibm_watsonx/) | Package downloads | Package latest |
@@ -13,17 +14,15 @@ This will help you getting started with IBM watsonx.ai [chat models](/oss/concep
 
 ### Model features
 
-
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: |
-| ✅ | ✅ | ✅  | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | 
+| ✅ | ✅ | ✅  | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ |
 
 ## Setup
 
 To access IBM watsonx.ai models you'll need to create a/an IBM watsonx.ai account, get an API key, and install the `@langchain/community` integration package.
 
 ### Credentials
-
 
 Head to [IBM Cloud](https://cloud.ibm.com/login) to sign up to IBM watsonx.ai and generate an API key or provide any other authentication form as presented below.
 
@@ -121,11 +120,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
-
 
 ```javascript
 import { ChatWatsonx } from "@langchain/community/chat_models/ibm";
@@ -144,13 +142,13 @@ const instance = new ChatWatsonx({
   ...props
 });
 ```
+
 Note:
 
 - You must provide `spaceId`, `projectId` or `idOrName`(deployment id) unless you use lighweight engine which works without specifying either (refer to [watsonx.ai docs](https://www.ibm.com/docs/en/cloud-paks/cp-data/5.0.x?topic=install-choosing-installation-mode))
 - Depending on the region of your provisioned service instance, use correct serviceUrl.
 
 ## Invocation
-
 
 ```javascript
 const aiMsg = await instance.invoke([{
@@ -163,6 +161,7 @@ const aiMsg = await instance.invoke([{
 }]);
 console.log(aiMsg)
 ```
+
 ```output
 AIMessage {
   "id": "chat-c5341b2062dc42f091e5ae2558e905e3",
@@ -191,13 +190,14 @@ AIMessage {
 ```javascript
 console.log(aiMsg.content)
 ```
+
 ```output
  J'adore la programmation.
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```javascript
 import { ChatPromptTemplate } from "@langchain/core/prompts";
@@ -220,6 +220,7 @@ await chain.invoke(
     }
   )
 ```
+
 ```output
 AIMessage {
   "id": "chat-c5c2c08d3c984254acc48225c39c6a08",
@@ -244,8 +245,8 @@ AIMessage {
   }
 }
 ```
-## Streaming the Model output
 
+## Streaming the Model output
 
 ```javascript
 import { HumanMessage, SystemMessage } from "@langchain/core/messages";
@@ -259,6 +260,7 @@ for await(const chunk of stream){
     console.log(chunk)
 }
 ```
+
 ```output
  The
  Moon
@@ -271,8 +273,8 @@ s
  satellite
  and
 ```
-## Tool calling
 
+## Tool calling
 
 ```javascript
 import { tool } from "@langchain/core/tools";
@@ -285,7 +287,7 @@ const calculatorSchema = z.object({
     number1: z.number().describe("The first number to operate on."),
     number2: z.number().describe("The second number to operate on."),
   });
-  
+
 const calculatorTool = tool(
 async ({ operation, number1, number2 }) => {
     if (operation === "add") {
@@ -312,6 +314,7 @@ const instanceWithTools = instance.bindTools([calculatorTool]);
 const res = await instanceWithTools.invoke("What is 3 * 12");
 console.log(res)
 ```
+
 ```output
 AIMessage {
   "id": "chat-d2214d0bdb794483a213b3211cf0d819",
@@ -353,6 +356,7 @@ AIMessage {
   }
 }
 ```
+
 ## API reference
 
 For detailed documentation of all `IBM watsonx.ai` features and configurations head to the API reference: [API docs](https://api.js.langchain.com/modules/_langchain_community.embeddings_ibm.html)

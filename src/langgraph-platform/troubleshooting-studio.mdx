@@ -10,18 +10,18 @@ Safari blocks plain-HTTP traffic on localhost. When running Studio with `langgra
 ### Solution 1: Use Cloudflare Tunnel
 
 <Tabs>
-  <Tab title="Python">
+    <Tab title="Python">
     ```shell
     pip install -U langgraph-cli>=0.2.6
     langgraph dev --tunnel
     ```
-  </Tab>
-  <Tab title="JS">
+    </Tab>
+    <Tab title="JS">
     ```shell
     # Requires @langchain/langgraph-cli>=0.0.26
     npx @langchain/langgraph-cli dev --tunnel
     ```
-  </Tab>
+    </Tab>
 </Tabs>
 
 The command outputs a URL in this format:
@@ -44,23 +44,23 @@ Brave blocks plain-HTTP traffic on localhost when Brave Shields are enabled. Whe
 
 Disable Brave Shields for LangSmith using the Brave icon in the URL bar.
 
-![Brave Shields](/langgraph-platform/images/brave-shields.png)
+![Brave Shields panel with Shields turned off for smith.langchain.com so LangGraph Studio can reach localhost.](/langgraph-platform/images/brave-shields.png)
 
 ### Solution 2: Use Cloudflare Tunnel
 
 <Tabs>
-  <Tab title="Python">
+    <Tab title="Python">
     ```shell
     pip install -U langgraph-cli>=0.2.6
     langgraph dev --tunnel
     ```
-  </Tab>
-  <Tab title="JS">
+    </Tab>
+    <Tab title="JS">
     ```shell
     # Requires @langchain/langgraph-cli>=0.0.26
     npx @langchain/langgraph-cli dev --tunnel
     ```
-  </Tab>
+    </Tab>
 </Tabs>
 
 The command outputs a URL in this format:
@@ -81,16 +81,16 @@ because without proper definition, LangGraph Studio assumes the conditional edge
 Define a mapping between router outputs and target nodes:
 
 <Tabs>
-  <Tab title="Python">
+    <Tab title="Python">
     ```python
     graph.add_conditional_edges("node_a", routing_function, {True: "node_b", False: "node_c"})
     ```
-  </Tab>
-  <Tab title="Javascript">
+    </Tab>
+    <Tab title="Javascript">
     ```ts
     graph.addConditionalEdges("node_a", routingFunction, { true: "node_b", false: "node_c" });
     ```
-  </Tab>
+    </Tab>
 </Tabs>
 
 <a id="python"></a>

@@ -23,7 +23,6 @@ You'll need to install `langchain-community` with `pip install -qU langchain-com
 
 To instantiate and configure the client you need to provide either the `url` or the `host` and `port` of your document indexing pipeline. In the code below we use a publicly available [demo pipeline](https://pathway.com/solutions/ai-pipelines#try-it-out), which REST API you can access at `https://demo-document-indexing.pathway.stream`. This demo ingests documents from [Google Drive](https://drive.google.com/drive/u/0/folders/1cULDv2OaViJBmOfG5WB0oWcgayNrGtVs) and [Sharepoint](https://navalgo.sharepoint.com/sites/ConnectorSandbox/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FConnectorSandbox%2FShared%20Documents%2FIndexerSandbox&p=true&ga=1) and maintains an index for retrieving documents.
 
-
 ```python
 from langchain_community.vectorstores import PathwayVectorClient
 
@@ -32,12 +31,10 @@ client = PathwayVectorClient(url="https://demo-document-indexing.pathway.stream"
 
  And we can start asking queries
 
-
 ```python
 query = "What is Pathway?"
 docs = client.similarity_search(query)
 ```
-
 
 ```python
 print(docs[0].page_content)
@@ -48,7 +45,6 @@ print(docs[0].page_content)
 ## Filtering based on file metadata
 
 We support document filtering using [jmespath](https://jmespath.org/) expressions, for instance:
-
 
 ```python
 # take into account only sources modified later than unix timestamp
@@ -75,7 +71,6 @@ docs = client.similarity_search(
 
  `PathwayVectorClient.get_vectorstore_statistics()` gives essential statistics on the state of the vector store, like the number of indexed files and the timestamp of last updated one. You can use it in your chains to tell the user how fresh is your knowledge base.
 
-
 ```python
 client.get_vectorstore_statistics()
 ```
@@ -83,6 +78,7 @@ client.get_vectorstore_statistics()
 ## Your own pipeline
 
 ### Running in production
+
 To have your own Pathway data indexing pipeline check the Pathway's offer for [hosted pipelines](https://pathway.com/solutions/ai-pipelines). You can also run your own Pathway pipeline - for information on how to build the pipeline refer to [Pathway guide](https://pathway.com/developers/user-guide/llm-xpack/vectorstore_pipeline/).
 
 ### Processing documents

@@ -1,6 +1,7 @@
 ---
 title: Trace without setting environment variables
 sidebarTitle: Trace without env vars
+keywords: cloudflare, cloudflare workers, serverless
 ---
 
 As mentioned in other guides, the following environment variables allow you to configure tracing enabled, the api endpoint, the api key, and the tracing project:
@@ -10,10 +11,10 @@ As mentioned in other guides, the following environment variables allow you to c
 * `LANGSMITH_ENDPOINT`
 * `LANGSMITH_PROJECT`
 
-In some environments, it is not possible to set environment variables. In these cases, you can set the tracing configuration programmatically.
+If you need to trace runs with a custom configuration, are working in an environment that doesn’t support typical environment variables (such as Cloudflare Workers), or would simply prefer not to rely on environment variables, LangSmith allows you to configure tracing programmatically.
 
 <Warning>
-  Due to a number of asks for finer-grained control of tracing using the `trace` context manager, **we changed the behavior** of `with trace` to honor the `LANGSMITH_TRACING` environment variable in version **0.1.95** of the Python SDK. You can find more details in the [release notes](https://github.com/langchain-ai/langsmith-sdk/releases/tag/v0.1.95). The recommended way to disable/enable tracing without setting environment variables is to use the `with tracing_context` context manager, as shown in the example below.
+Due to a number of asks for finer-grained control of tracing using the `trace` context manager, **we changed the behavior** of `with trace` to honor the `LANGSMITH_TRACING` environment variable in version **0.1.95** of the Python SDK. You can find more details in the [release notes](https://github.com/langchain-ai/langsmith-sdk/releases/tag/v0.1.95). The recommended way to disable/enable tracing without setting environment variables is to use the `with tracing_context` context manager, as shown in the example below.
 </Warning>
 
 - Python: The recommended way to do this in Python is to use the `tracing_context` context manager. This works for both code annotated with `traceable` and code within the `trace` context manager.
@@ -29,6 +30,7 @@ from langsmith.wrappers import wrap_openai
 langsmith_client = Client(
   api_key="YOUR_LANGSMITH_API_KEY",  # This can be retrieved from a secrets manager
   api_url="https://api.smith.langchain.com",  # Update appropriately for self-hosted installations or the EU region
+  workspace_id="YOUR_WORKSPACE_ID", # Must be specified for API keys scoped to multiple workspaces
 )
 
 client = wrap_openai(openai.Client())
@@ -75,7 +77,7 @@ const tool = traceable((question: string) => {
 const pipeline = traceable(
     async (question: string) => {
         const context = await tool(question);
-        
+
         const completion = await openai.chat.completions.create({
             model: "gpt-4o-mini",
             messages: [
@@ -83,9 +85,9 @@ const pipeline = traceable(
                 { role: "user" as const, content: `Question: ${question}\nContext: ${context}`}
             ]
         });
-        
+
         return completion.choices[0].message.content;
-    }, 
+    },
     { name: "Chat", client, tracingEnabled: true }
 );
 

@@ -1,4 +1,4 @@
-.PHONY: dev build format lint test install clean format_diff lint_diff unsafe_format
+.PHONY: dev build format lint test install clean format_diff lint_diff unsafe_format lint_md lint_md_fix
 
 dev:
 	@echo "Starting development mode..."
@@ -27,6 +27,23 @@ format format_diff:
 unsafe_format:
 	[ "$(PYTHON_FILES)" = "" ] || uv run ruff check --fix --unsafe-fixes $(PYTHON_FILES)
 
+lint_md:
+	@echo "Linting markdown files..."
+	@if command -v markdownlint >/dev/null 2>&1; then \
+		find src -name "*.md" -o -name "*.mdx" | xargs markdownlint; \
+	else \
+		echo "markdownlint not found. Install with: npm install -g markdownlint-cli or VSCode extension"; \
+		exit 1; \
+	fi
+
+lint_md_fix:
+	@echo "Linting and fixing markdown files..."
+	@if command -v markdownlint >/dev/null 2>&1; then \
+		find src -name "*.md" -o -name "*.mdx" | xargs markdownlint --fix; \
+	else \
+		echo "markdownlint not found. Install with: npm install -g markdownlint-cli or VSCode extension"; \
+		exit 1; \
+	fi
 
 test:
 	uv run pytest --disable-socket --allow-unix-socket $(TEST_FILE) -vv
@@ -46,11 +63,13 @@ clean:
 
 help:
 	@echo "Available commands:"
-	@echo "  make dev      - Start development mode with file watching and mint dev"
-	@echo "  make build    - Build documentation to ./build directory"
-	@echo "  make format   - Format code"
-	@echo "  make lint     - Lint code"
-	@echo "  make test     - Run tests"
-	@echo "  make install  - Install dependencies"
-	@echo "  make clean    - Clean build artifacts"
-	@echo "  make help     - Show this help message"
+	@echo "  make dev        - Start development mode with file watching and mint dev"
+	@echo "  make build      - Build documentation to ./build directory"
+	@echo "  make format     - Format code"
+	@echo "  make lint       - Lint code"
+	@echo "  make lint_md    - Lint markdown files"
+	@echo "  make lint_md_fix - Lint and fix markdown files"
+	@echo "  make test       - Run tests"
+	@echo "  make install    - Install dependencies"
+	@echo "  make clean      - Clean build artifacts"
+	@echo "  make help       - Show this help message"

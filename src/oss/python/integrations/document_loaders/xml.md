@@ -4,18 +4,19 @@ title: UnstructuredXMLLoader
 
 This guide provides a quick overview for getting started with UnstructuredXMLLoader [document loader](https://python.langchain.com/docs/concepts/document_loaders). The `UnstructuredXMLLoader` is used to load `XML` files. The loader works with `.xml` files. The page content will be the text extracted from the XML tags.
 
-
 ## Overview
-### Integration details
 
+### Integration details
 
 | Class | Package | Local | Serializable | [JS support](https://js.langchain.com/docs/integrations/document_loaders/file_loaders/unstructured/)|
 | :--- | :--- | :---: | :---: |  :---: |
-| [UnstructuredXMLLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.xml.UnstructuredXMLLoader.html) | [langchain_community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ✅ | 
+| [UnstructuredXMLLoader](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.xml.UnstructuredXMLLoader.html) | [langchain_community](https://python.langchain.com/api_reference/community/index.html) | ✅ | ❌ | ✅ |
+
 ### Loader features
+
 | Source | Document Lazy Loading | Native Async Support
-| :---: | :---: | :---: | 
-| UnstructuredXMLLoader | ✅ | ❌ | 
+| :---: | :---: | :---: |
+| UnstructuredXMLLoader | ✅ | ❌ |
 
 ## Setup
 
@@ -27,7 +28,6 @@ No credentials are needed to use the UnstructuredXMLLoader
 
 To enable automated tracing of your model calls, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
-
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
 # os.environ["LANGSMITH_TRACING"] = "true"
@@ -37,7 +37,6 @@ To enable automated tracing of your model calls, set your [LangSmith](https://do
 
 Install **langchain_community**.
 
-
 ```python
 %pip install -qU langchain_community
 ```
@@ -45,7 +44,6 @@ Install **langchain_community**.
 ## Initialization
 
 Now we can instantiate our model object and load documents:
-
 
 ```python
 from langchain_community.document_loaders import UnstructuredXMLLoader
@@ -57,28 +55,24 @@ loader = UnstructuredXMLLoader(
 
 ## Load
 
-
 ```python
 docs = loader.load()
 docs[0]
 ```
 
-
-
 ```output
 Document(metadata={'source': './example_data/factbook.xml'}, page_content='United States\n\nWashington, DC\n\nJoe Biden\n\nBaseball\n\nCanada\n\nOttawa\n\nJustin Trudeau\n\nHockey\n\nFrance\n\nParis\n\nEmmanuel Macron\n\nSoccer\n\nTrinidad & Tobado\n\nPort of Spain\n\nKeith Rowley\n\nTrack & Field')
 ```
 
-
-
 ```python
 print(docs[0].metadata)
 ```
+
 ```output
 {'source': './example_data/factbook.xml'}
 ```
-## Lazy Load
 
+## Lazy Load
 
 ```python
 page = []
@@ -93,4 +87,4 @@ for doc in loader.lazy_load():
 
 ## API reference
 
-For detailed documentation of all __ModuleName__Loader features and configurations head to the API reference: https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.xml.UnstructuredXMLLoader.html
+For detailed documentation of all __ModuleName__Loader features and configurations head to the API reference: [python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.xml.UnstructuredXMLLoader.html](https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.xml.UnstructuredXMLLoader.html)

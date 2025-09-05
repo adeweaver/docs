@@ -28,7 +28,6 @@ The `Graph` tool is Writer's graph-based retrieval-augmented generation (RAG) ca
 
 Sign up for [Writer AI Studio](https://app.writer.com/aistudio/signup?utm_campaign=devrel) to generate an API key (you can follow this [Quickstart](https://dev.writer.com/api-guides/quickstart)). Then, set the WRITER_API_KEY environment variable:
 
-
 ```python
 import getpass
 import os
@@ -45,7 +44,6 @@ You can bind graph or function tools to `ChatWriter`.
 
 To bind graph tools, first create and initialize a `GraphTool` instance with the `graph_ids` you want to use as sources:
 
-
 ```python
 from langchain_writer.chat_models import ChatWriter
 from langchain_writer.tools import GraphTool
@@ -57,7 +55,6 @@ graph_tool = GraphTool(graph_ids=[graph_id])
 ```
 
 ## Instantiation
-
 
 ```python
 from typing import Optional
@@ -113,8 +110,8 @@ get_product_info = {
 ```
 
 ### Binding tools
-Then, you can simply bind all tools to the `ChatWriter` instance:
 
+Then, you can simply bind all tools to the `ChatWriter` instance:
 
 ```python
 chat.bind_tools(
@@ -124,13 +121,11 @@ chat.bind_tools(
 
 All tools are stored in the `tools` attribute of the `ChatWriter` instance:
 
-
 ```python
 chat.tools
 ```
 
 The tool choice mode is stored at the `tool_choice` attribute, which is `auto` by default:
-
 
 ```python
 chat.tool_choice
@@ -139,7 +134,6 @@ chat.tool_choice
 ## Invocation
 
 The model will automatically choose the tool during invocation with all modes (streaming/non-streaming, sync/async).
-
 
 ```python
 from langchain_core.messages import HumanMessage
@@ -156,13 +150,11 @@ messages.append(response)
 
 In the case of function tools, you will receive an assistant message with the tool call request.
 
-
 ```python
 print(response.tool_calls)
 ```
 
 Then you can manually handle tool call request, send to model and receive final response:
-
 
 ```python
 for tool_call in response.tool_calls:
@@ -178,13 +170,11 @@ print(response.content)
 
 With a `GraphTool`, the model will call it remotely and return usage info in the `additional_kwargs` under the `graph_data` key:
 
-
 ```python
 print(response.additional_kwargs["graph_data"])
 ```
 
 The `content` attribute contains the final response:
-
 
 ```python
 print(response.content)
@@ -195,4 +185,5 @@ print(response.content)
 Due to specificity of Writer Graph tool (you don't need to call it manually, Writer server will call it by himself and return RAG based generation) it's impossible to invoke it separately, so GraphTool can't be used as part of chain
 
 ## API reference
+
 For detailed documentation of all `GraphTool` features and configurations, head to the [API reference](https://python.langchain.com/api_reference/writer/tools/langchain_writer.tools.GraphTool.html#langchain_writer.tools.GraphTool).

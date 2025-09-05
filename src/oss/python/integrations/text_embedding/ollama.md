@@ -5,6 +5,7 @@ title: OllamaEmbeddings
 This will help you get started with Ollama embedding models using LangChain. For detailed documentation on `OllamaEmbeddings` features and configuration options, please refer to the [API reference](https://python.langchain.com/api_reference/ollama/embeddings/langchain_ollama.embeddings.OllamaEmbeddings.html).
 
 ## Overview
+
 ### Integration details
 
 <ItemTable category="text_embedding" item="Ollama" />
@@ -14,10 +15,10 @@ This will help you get started with Ollama embedding models using LangChain. For
 First, follow [these instructions](https://github.com/ollama/ollama?tab=readme-ov-file#ollama) to set up and run a local Ollama instance:
 
 * [Download](https://ollama.ai/download) and install Ollama onto the available supported platforms (including Windows Subsystem for Linux aka WSL, macOS, and Linux)
-    * macOS users can install via Homebrew with `brew install ollama` and start with `brew services start ollama`
+  * macOS users can install via Homebrew with `brew install ollama` and start with `brew services start ollama`
 * Fetch available LLM model via `ollama pull <name-of-model>`
-    * View a list of available models via the [model library](https://ollama.ai/library)
-    * e.g., `ollama pull llama3`
+  * View a list of available models via the [model library](https://ollama.ai/library)
+  * e.g., `ollama pull llama3`
 * This will download the default tagged version of the model. Typically, the default points to the latest, smallest sized-parameter model.
 
 > On Mac, the models will be download to `~/.ollama/models`
@@ -31,7 +32,6 @@ First, follow [these instructions](https://github.com/ollama/ollama?tab=readme-o
 
 To enable automated tracing of your model calls, set your [LangSmith](https://docs.smith.langchain.com/) API key:
 
-
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -41,17 +41,17 @@ To enable automated tracing of your model calls, set your [LangSmith](https://do
 
 The LangChain Ollama integration lives in the `langchain-ollama` package:
 
-
 ```python
 %pip install -qU langchain-ollama
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate embeddings:
-
 
 ```python
 from langchain_ollama import OllamaEmbeddings
@@ -66,7 +66,6 @@ embeddings = OllamaEmbeddings(
 Embedding models are often used in retrieval-augmented generation (RAG) flows, both as part of indexing data as well as later retrieving it. For more detailed instructions, please see our [RAG tutorials](/oss/tutorials/rag/).
 
 Below, see how to index and retrieve data using the `embeddings` object we initialized above. In this example, we will index and retrieve a sample document in the `InMemoryVectorStore`.
-
 
 ```python
 # Create a vector store with a sample text
@@ -88,9 +87,11 @@ retrieved_documents = retriever.invoke("What is LangChain?")
 # Show the retrieved document's content
 print(retrieved_documents[0].page_content)
 ```
+
 ```output
 LangChain is the framework for building context-aware reasoning applications
 ```
+
 ## Direct Usage
 
 Under the hood, the vectorstore and retriever implementations are calling `embeddings.embed_documents(...)` and `embeddings.embed_query(...)` to create embeddings for the text(s) used in `from_texts` and retrieval `invoke` operations, respectively.
@@ -101,18 +102,18 @@ You can directly call these methods to get embeddings for your own use cases.
 
 You can embed single texts or documents with `embed_query`:
 
-
 ```python
 single_vector = embeddings.embed_query(text)
 print(str(single_vector)[:100])  # Show the first 100 characters of the vector
 ```
+
 ```output
 [-0.0039849705, 0.023019705, -0.001768838, -0.0058736936, 0.00040999008, 0.017861595, -0.011274585,
 ```
+
 ### Embed multiple texts
 
 You can embed multiple texts with `embed_documents`:
-
 
 ```python
 text2 = (
@@ -122,10 +123,12 @@ two_vectors = embeddings.embed_documents([text, text2])
 for vector in two_vectors:
     print(str(vector)[:100])  # Show the first 100 characters of the vector
 ```
+
 ```output
-[-0.0039849705, 0.023019705, -0.001768838, -0.0058736936, 0.00040999008, 0.017861595, -0.011274585, 
+[-0.0039849705, 0.023019705, -0.001768838, -0.0058736936, 0.00040999008, 0.017861595, -0.011274585,
 [-0.0066985516, 0.009878328, 0.008019467, -0.009384944, -0.029560851, 0.025744654, 0.004872892, -0.0
 ```
+
 ## API Reference
 
 For detailed documentation on `OllamaEmbeddings` features and configuration options, please refer to the [API reference](https://python.langchain.com/api_reference/ollama/embeddings/langchain_ollama.embeddings.OllamaEmbeddings.html).

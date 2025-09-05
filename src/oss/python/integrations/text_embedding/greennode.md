@@ -7,6 +7,7 @@ title: GreenNodeEmbeddings
 This guide provides a guide to getting started with `GreenNodeEmbeddings`. It enables you to perform semantic document search using various built-in connectors or your own custom data sources by generating high-quality vector representations of text.
 
 ## Overview
+
 ### Integration details
 
 | Provider | Package |
@@ -21,7 +22,6 @@ To access GreenNode embedding models you'll need to create a GreenNode account, 
 
 GreenNode requires an API key for authentication, which can be provided either as the `api_key` parameter during initialization or set as the environment variable `GREENNODE_API_KEY`. You can obtain an API key by registering for an account on [GreenNode Serverless AI](https://aiplatform.console.greennode.ai/playground).
 
-
 ```python
 import getpass
 import os
@@ -32,7 +32,6 @@ if not os.getenv("GREENNODE_API_KEY"):
 
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
-
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -42,17 +41,17 @@ If you want to get automated tracing of your model calls you can also set your [
 
 The LangChain GreenNode integration lives in the `langchain-greennode` package:
 
-
 ```python
 %pip install -qU langchain-greennode
 ```
+
 ```output
 Note: you may need to restart the kernel to use updated packages.
 ```
+
 ## Instantiation
 
 The `GreenNodeEmbeddings` class can be instantiated with optional parameters for the API key and model name:
-
 
 ```python
 from langchain_greennode import GreenNodeEmbeddings
@@ -66,9 +65,8 @@ embeddings = GreenNodeEmbeddings(
 
 ## Indexing and Retrieval
 
-Embedding models play a key role in retrieval-augmented generation (RAG) workflows by enabling both the indexing of content and its efficient retrieval. 
+Embedding models play a key role in retrieval-augmented generation (RAG) workflows by enabling both the indexing of content and its efficient retrieval.
 Below, see how to index and retrieve data using the `embeddings` object we initialized above. In this example, we will index and retrieve a sample document in the `InMemoryVectorStore`.
-
 
 ```python
 # Create a vector store with a sample text
@@ -91,12 +89,9 @@ retrieved_documents = retriever.invoke("What is LangChain?")
 retrieved_documents[0].page_content
 ```
 
-
-
 ```output
 'LangChain is the framework for building context-aware reasoning applications'
 ```
-
 
 ## Direct Usage
 
@@ -106,18 +101,18 @@ The `GreenNodeEmbeddings` class can be used independently to generate text embed
 
 You can embed single texts or documents with `embed_query`:
 
-
 ```python
 single_vector = embeddings.embed_query(text)
 print(str(single_vector)[:100])  # Show the first 100 characters of the vector
 ```
+
 ```output
 [-0.01104736328125, -0.0281982421875, 0.0035858154296875, -0.0311279296875, -0.0106201171875, -0.039
 ```
+
 ### Embed multiple texts
 
 You can embed multiple texts with `embed_documents`:
-
 
 ```python
 text2 = (
@@ -127,14 +122,15 @@ two_vectors = embeddings.embed_documents([text, text2])
 for vector in two_vectors:
     print(str(vector)[:100])  # Show the first 100 characters of the vector
 ```
+
 ```output
 [-0.01104736328125, -0.0281982421875, 0.0035858154296875, -0.0311279296875, -0.0106201171875, -0.039
 [-0.07177734375, -0.00017452239990234375, -0.002044677734375, -0.0299072265625, -0.0184326171875, -0
 ```
+
 ### Async Support
 
 GreenNodeEmbeddings supports async operations:
-
 
 ```python
 import asyncio
@@ -157,12 +153,13 @@ async def generate_embeddings_async():
 
 await generate_embeddings_async()
 ```
+
 ```output
 Async query embedding dimension: 1024
 Async document embeddings count: 3
 ```
-### Document Similarity Example
 
+### Document Similarity Example
 
 ```python
 import numpy as np
@@ -194,6 +191,7 @@ for i, emb_i in enumerate(embeddings_list):
         similarities.append(f"{similarity:.4f}")
     print(f"Document {i + 1}: {similarities}")
 ```
+
 ```output
 Document Similarity Matrix:
 Document 1: ['1.0000', '0.6005', '0.3542', '0.5788']
@@ -201,6 +199,7 @@ Document 2: ['0.6005', '1.0000', '0.4154', '0.6170']
 Document 3: ['0.3542', '0.4154', '1.0000', '0.3528']
 Document 4: ['0.5788', '0.6170', '0.3528', '1.0000']
 ```
+
 ## API Reference
 
 For more details about the GreenNode Serverless AI API, visit the [GreenNode Serverless AI Documentation](https://aiplatform.console.greennode.ai/api-docs/maas).

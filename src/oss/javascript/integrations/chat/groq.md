@@ -7,6 +7,7 @@ title: ChatGroq
 This will help you getting started with ChatGroq [chat models](/oss/concepts/chat_models). For detailed documentation of all ChatGroq features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_groq.ChatGroq.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [PY support](https://python.langchain.com/docs/integrations/chat/groq) | Package downloads | Package latest |
@@ -19,7 +20,7 @@ See the links in the table headers below for guides on how to use specific featu
 
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: |
-| ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | 
+| ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
 
 ## Setup
 
@@ -55,13 +56,13 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
 
-
 ```typescript
-import { ChatGroq } from "@langchain/groq" 
+import { ChatGroq } from "@langchain/groq"
 
 const llm = new ChatGroq({
     model: "llama-3.3-70b-versatile",
@@ -71,8 +72,8 @@ const llm = new ChatGroq({
     // other params...
 })
 ```
-## Invocation
 
+## Invocation
 
 ```typescript
 const aiMsg = await llm.invoke([
@@ -84,6 +85,7 @@ const aiMsg = await llm.invoke([
 ])
 aiMsg
 ```
+
 ```output
 AIMessage {
   "content": "I enjoy programming. (The French translation is: \"J'aime programmer.\")\n\nNote: I chose to translate \"I love programming\" as \"J'aime programmer\" instead of \"Je suis amoureux de programmer\" because the latter has a romantic connotation that is not present in the original English sentence.",
@@ -104,13 +106,14 @@ AIMessage {
 ```typescript
 console.log(aiMsg.content)
 ```
+
 ```output
 I enjoy programming. (The French translation is: "J'aime programmer.")
 
 Note: I chose to translate "I love programming" as "J'aime programmer" instead of "Je suis amoureux de programmer" because the latter has a romantic connotation that is not present in the original English sentence.
 ```
-## Json invocation
 
+## Json invocation
 
 ```typescript
 const messages = [
@@ -130,16 +133,17 @@ const aiBindMsg = await llmWithResponseFormat.invoke(messages);
 // they are the same
 console.log({ aiInvokeMsgContent: aiInvokeMsg.content, aiBindMsg: aiBindMsg.content });
 ```
+
 ```output
 {
   aiInvokeMsgContent: '{\n"result": 6\n}',
   aiBindMsg: '{\n"result": 6\n}'
 }
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts"
@@ -163,6 +167,7 @@ await chain.invoke(
     }
 )
 ```
+
 ```output
 AIMessage {
   "content": "That's great! I can help you translate English phrases related to programming into German.\n\n\"I love programming\" can be translated to German as \"Ich liebe Programmieren\".\n\nHere are some more programming-related phrases translated into German:\n\n* \"Programming language\" = \"Programmiersprache\"\n* \"Code\" = \"Code\"\n* \"Variable\" = \"Variable\"\n* \"Function\" = \"Funktion\"\n* \"Array\" = \"Array\"\n* \"Object-oriented programming\" = \"Objektorientierte Programmierung\"\n* \"Algorithm\" = \"Algorithmus\"\n* \"Data structure\" = \"Datenstruktur\"\n* \"Debugging\" = \"Debuggen\"\n* \"Compile\" = \"Kompilieren\"\n* \"Link\" = \"Verknüpfen\"\n* \"Run\" = \"Ausführen\"\n* \"Test\" = \"Testen\"\n* \"Deploy\" = \"Bereitstellen\"\n* \"Version control\" = \"Versionskontrolle\"\n* \"Open source\" = \"Open Source\"\n* \"Software development\" = \"Softwareentwicklung\"\n* \"Agile methodology\" = \"Agile Methodik\"\n* \"DevOps\" = \"DevOps\"\n* \"Cloud computing\" = \"Cloud Computing\"\n\nI hope this helps! Let me know if you have any other questions or if you need further translations.",
@@ -179,6 +184,7 @@ AIMessage {
   "invalid_tool_calls": []
 }
 ```
+
 ## API reference
 
-For detailed documentation of all ChatGroq features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_groq.ChatGroq.html
+For detailed documentation of all ChatGroq features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_groq.ChatGroq.html).

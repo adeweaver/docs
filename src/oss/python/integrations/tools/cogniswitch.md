@@ -2,24 +2,21 @@
 title: Cogniswitch Toolkit
 ---
 
-CogniSwitch is used to build production ready applications that can consume, organize and retrieve knowledge flawlessly. Using the framework of your choice, in this case Langchain, CogniSwitch helps alleviate the stress of decision making when it comes to, choosing the right storage and retrieval formats. It also eradicates reliability issues and hallucinations when it comes to responses that are generated. 
+CogniSwitch is used to build production ready applications that can consume, organize and retrieve knowledge flawlessly. Using the framework of your choice, in this case Langchain, CogniSwitch helps alleviate the stress of decision making when it comes to, choosing the right storage and retrieval formats. It also eradicates reliability issues and hallucinations when it comes to responses that are generated.
 
 ## Setup
 
 Visit [this page](https://www.cogniswitch.ai/developer?utm_source=langchain&utm_medium=langchainbuild&utm_id=dev) to register a Cogniswitch account.
 
-- Signup with your email and verify your registration 
+- Signup with your email and verify your registration
 
 - You will get a mail with a platform token and oauth token for using the services.
-
-
 
 ```python
 %pip install -qU langchain-community
 ```
 
 ## Import necessary libraries
-
 
 ```python
 import warnings
@@ -35,7 +32,6 @@ from langchain_openai import ChatOpenAI
 
 ## Cogniswitch platform token, OAuth token and OpenAI API key
 
-
 ```python
 cs_token = "Your CogniSwitch token"
 OAI_token = "Your OpenAI API token"
@@ -46,7 +42,6 @@ os.environ["OPENAI_API_KEY"] = OAI_token
 
 ## Instantiate the cogniswitch toolkit with the credentials
 
-
 ```python
 cogniswitch_toolkit = CogniswitchToolkit(
     cs_token=cs_token, OAI_token=OAI_token, apiKey=oauth_token
@@ -55,13 +50,11 @@ cogniswitch_toolkit = CogniswitchToolkit(
 
 ### Get the list of cogniswitch tools
 
-
 ```python
 tool_lst = cogniswitch_toolkit.get_tools()
 ```
 
 ## Instantiate the LLM
-
 
 ```python
 llm = ChatOpenAI(
@@ -76,41 +69,42 @@ llm = ChatOpenAI(
 
 ### Create an agent with the LLM and Toolkit
 
-
 ```python
 agent_executor = create_conversational_retrieval_agent(llm, tool_lst, verbose=False)
 ```
 
 ### Invoke the agent to upload a URL
 
-
 ```python
 response = agent_executor.invoke("upload this url https://cogniswitch.ai/developer")
 
 print(response["output"])
 ```
+
 ```output
 The URL https://cogniswitch.ai/developer has been uploaded successfully. The status of the document is currently being processed. You will receive an email notification once the processing is complete.
 ```
-### Invoke the agent to upload a File
 
+### Invoke the agent to upload a File
 
 ```python
 response = agent_executor.invoke("upload this file example_file.txt")
 
 print(response["output"])
 ```
+
 ```output
 The file example_file.txt has been uploaded successfully. The status of the document is currently being processed. You will receive an email notification once the processing is complete.
 ```
-### Invoke the agent to get the status of a document
 
+### Invoke the agent to get the status of a document
 
 ```python
 response = agent_executor.invoke("Tell me the status of this document example_file.txt")
 
 print(response["output"])
 ```
+
 ```output
 The status of the document example_file.txt is as follows:
 
@@ -123,14 +117,15 @@ The status of the document example_file.txt is as follows:
 
 The document is currently being processed.
 ```
-### Invoke the agent with query and get the answer
 
+### Invoke the agent with query and get the answer
 
 ```python
 response = agent_executor.invoke("How can cogniswitch help develop GenAI applications?")
 
 print(response["output"])
 ```
+
 ```output
 CogniSwitch can help develop GenAI applications in several ways:
 

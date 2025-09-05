@@ -71,8 +71,8 @@ example = {
 
 # Create the example
 ls_client.create_examples(
-  dataset_id=dataset.id, 
-  examples=[example], 
+  dataset_id=dataset.id,
+  examples=[example],
   # Uncomment this flag if you'd like to upload attachments from local files:
   # dangerously_allow_filesystem=True
 )
@@ -159,11 +159,11 @@ await langsmithClient.uploadExamplesMultipart(dataset.id, [example]);
 ```
 
 <Info>
-  Along with being passed in as bytes, attachments can be specified as paths to local files. To do so pass in a path for the attachment `data` value and specify arg `dangerously_allow_filesystem=True`:
+Along with being passed in as bytes, attachments can be specified as paths to local files. To do so pass in a path for the attachment `data` value and specify arg `dangerously_allow_filesystem=True`:
 
-  ```python
-  client.create_examples(..., dangerously_allow_filesystem=True)
-  ```
+```python
+client.create_examples(..., dangerously_allow_filesystem=True)
+```
 </Info>
 
 ## 2. Run evaluations
@@ -199,7 +199,7 @@ def file_qa(inputs, attachments):
     # Read the audio bytes from the reader and encode them in base64
     audio_reader = attachments["my_wav"]["reader"]
     audio_b64 = base64.b64encode(audio_reader.read()).decode('utf-8')
-    
+
     audio_completion = client.chat.completions.create(
         model="gpt-4o-audio-preview",
         messages=[
@@ -221,7 +221,7 @@ def file_qa(inputs, attachments):
             }
         ]
     )
-    
+
     # Most models support taking in an image URL directly in addition to base64 encoded images
     # You can pipe the image pre-signed URL directly to the model
     image_url = attachments["my_img"]["presigned_url"]
@@ -242,7 +242,7 @@ def file_qa(inputs, attachments):
           }
         ],
     )
-    
+
     return {
         "audio_answer": audio_completion.choices[0].message.content,
         "image_answer": image_completion.choices[0].message.content,
@@ -273,16 +273,16 @@ async function fileQA(inputs: Record<string, any>, config?: Record<string, any>)
   if (!presignedUrl) {
     throw new Error("No presigned URL provided for audio.");
   }
-  
+
   const response = await fetch(presignedUrl);
   if (!response.ok) {
     throw new Error(`Failed to fetch audio: ${response.statusText}`);
   }
-  
+
   const arrayBuffer = await response.arrayBuffer();
   const uint8Array = new Uint8Array(arrayBuffer);
   const audioB64 = Buffer.from(uint8Array).toString("base64");
-  
+
   const audioCompletion = await client.chat.completions.create({
     model: "gpt-4o-audio-preview",
     messages: [
@@ -301,7 +301,7 @@ async function fileQA(inputs: Record<string, any>, config?: Record<string, any>)
       },
     ],
   });
-  
+
   const imageUrl = config?.attachments?.["my_img"]?.presigned_url
   const imageCompletion = await client.chat.completions.create({
     model: "gpt-4o-mini",
@@ -320,7 +320,7 @@ async function fileQA(inputs: Record<string, any>, config?: Record<string, any>)
       },
     ],
   });
-  
+
   return {
     audio_answer: audioCompletion.choices[0].message.content,
     image_answer: imageCompletion.choices[0].message.content,
@@ -346,10 +346,10 @@ def valid_image_description(outputs: dict, attachments: dict) -> bool:
   Does the description of the following image make sense?
   Please carefully review the image and the description to determine if the description is valid.
   """
-  
+
   class Response(BaseModel):
       description_is_valid: bool
-  
+
   image_url = attachments["my_img"]["presigned_url"]
   response = client.beta.chat.completions.parse(
       model="gpt-4o",
@@ -395,7 +395,7 @@ async function validImageDescription({
 }): Promise<{ key: string; score: boolean}> {
   const instructions = `Does the description of the following image make sense?
 Please carefully review the image and the description to determine if the description is valid.`;
-  
+
   const imageUrl = attachments?.["my_img"]?.presigned_url
   const completion = await client.beta.chat.completions.parse({
       model: "gpt-4o",
@@ -414,7 +414,7 @@ Please carefully review the image and the description to determine if the descri
       ],
       response_format: zodResponseFormat(DescriptionResponse, 'imageResponse'),
   });
-  
+
   const score: boolean = completion.choices[0]?.message?.parsed?.description_is_valid ?? false;
   return { key: "valid_image_description", score };
 }
@@ -537,7 +537,7 @@ First, click the file icon in the message where you want to add multimodal conte
 ### Define custom evaluators
 
 <Note>
-  The LangSmith playground does not currently support pulling multimodal content into evaluators. If this would be helpful for your use case, please let us know in the [LangChain Forum](https://forum.langchain.com/) (sign up [here](https://www.langchain.com/join-community) if you're not already a member)!
+The LangSmith playground does not currently support pulling multimodal content into evaluators. If this would be helpful for your use case, please let us know in the [LangChain Forum](https://forum.langchain.com/) (sign up [here](https://www.langchain.com/join-community) if you're not already a member)!
 </Note>
 
 You can evaluate a model's text output by adding an evaluator that takes in the example's inputs and outputs. Even without multimodal support in your evaluators, you can still run text-only evaluations. For example:
@@ -550,7 +550,7 @@ For more information on defining custom evaluators, see the [LLM as Judge](/lang
 ### Update examples with attachments
 
 <Note>
-  Attachments are limited to 20MB in size in the UI.
+Attachments are limited to 20MB in size in the UI.
 </Note>
 
 When editing an example in the UI, you can:

@@ -20,17 +20,13 @@ Run the following command to unzip the zip file (replace the `Export...` with yo
 unzip Roam-Export-1675782732639.zip -d Roam_DB
 ```
 
-
-
 ```python
 from langchain_community.document_loaders import RoamLoader
 ```
 
-
 ```python
 loader = RoamLoader("Roam_DB")
 ```
-
 
 ```python
 docs = loader.load()

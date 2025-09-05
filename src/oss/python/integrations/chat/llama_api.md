@@ -4,8 +4,7 @@ title: ChatLlamaAPI
 
 This notebook shows how to use LangChain with [LlamaAPI](https://llama-api.com/) - a hosted version of Llama2 that adds in support for function calling.
 
-%pip install --upgrade --quiet  llamaapi
-
+%pip install -qU  llamaapi
 
 ```python
 from llamaapi import LlamaAPI
@@ -14,10 +13,10 @@ from llamaapi import LlamaAPI
 llama = LlamaAPI("Your_API_Token")
 ```
 
-
 ```python
 from langchain_experimental.llms import ChatLlamaAPI
 ```
+
 ```output
 /Users/harrisonchase/.pyenv/versions/3.9.1/envs/langchain/lib/python3.9/site-packages/deeplake/util/check_latest_version.py:32: UserWarning: A newer version of deeplake (3.6.12) is available. It's recommended that you update to the latest version using `pip install -U deeplake`.
   warnings.warn(
@@ -26,7 +25,6 @@ from langchain_experimental.llms import ChatLlamaAPI
 ```python
 model = ChatLlamaAPI(client=llama)
 ```
-
 
 ```python
 from langchain.chains import create_tagging_chain
@@ -48,18 +46,13 @@ schema = {
 chain = create_tagging_chain(schema, model)
 ```
 
-
 ```python
 chain.run("give me your money")
 ```
 
-
-
 ```output
 {'sentiment': 'aggressive', 'aggressiveness': 8, 'language': 'english'}
 ```
-
-
 
 ```python
 

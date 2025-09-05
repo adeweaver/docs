@@ -12,7 +12,6 @@ If you do not have a model currently onboarded to Arthur, visit our [onboarding 
 
 Place Arthur credentials here
 
-
 ```python
 arthur_url = "https://app.arthur.ai"
 arthur_login = "your-arthur-login-username-here"
@@ -20,7 +19,6 @@ arthur_model_id = "your-arthur-model-id-here"
 ```
 
 ## Callback handler
-
 
 ```python
 from langchain_community.callbacks import ArthurCallbackHandler
@@ -30,7 +28,6 @@ from langchain_openai import ChatOpenAI
 ```
 
 Create Langchain LLM with Arthur callback handler
-
 
 ```python
 def make_langchain_chat_llm():
@@ -46,17 +43,17 @@ def make_langchain_chat_llm():
     )
 ```
 
-
 ```python
 chatgpt = make_langchain_chat_llm()
 ```
+
 ```output
 Please enter password for admin: ········
 ```
+
 Running the chat LLM with this `run` function will save the chat history in an ongoing list so that the conversation can reference earlier messages and log each response to the Arthur platform. You can view the history of this model's inferences on your [model dashboard page](https://app.arthur.ai/).
 
 Enter `q` to quit the run loop
-
 
 ```python
 def run(llm):
@@ -69,10 +66,10 @@ def run(llm):
         history.append(llm(history))
 ```
 
-
 ```python
 run(chatgpt)
 ```
+
 ```output
 >>> input >>>
 >>>: What is a callback handler?

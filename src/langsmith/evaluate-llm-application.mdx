@@ -6,17 +6,17 @@ sidebarTitle: With the SDK
 This guide shows you how to run an evaluation on an LLM application using the LangSmith SDK.
 
 <Info>
-  [Evaluations](/langsmith/evaluation-concepts#applying-evaluations) | [Evaluators](/langsmith/evaluation-concepts#evaluators) | [Datasets](/langsmith/evaluation-concepts#datasets)
+[Evaluations](/langsmith/evaluation-concepts#applying-evaluations) | [Evaluators](/langsmith/evaluation-concepts#evaluators) | [Datasets](/langsmith/evaluation-concepts#datasets)
 </Info>
 
 In this guide we'll go over how to evaluate an application using the [evaluate()](https://docs.smith.langchain.com/reference/python/evaluation/langsmith.evaluation._runner.evaluate) method in the LangSmith SDK.
 
 <Check>
-  For larger evaluation jobs in Python we recommend using [aevaluate()](https://docs.smith.langchain.com/reference/python/evaluation/langsmith.evaluation._arunner.aevaluate), the asynchronous version of [evaluate()](https://docs.smith.langchain.com/reference/python/evaluation/langsmith.evaluation._runner.evaluate). It is still worthwhile to read this guide first, as the two have identical interfaces, before reading the how-to guide on [running an evaluation asynchronously](/langsmith/evaluation-async).
+For larger evaluation jobs in Python we recommend using [aevaluate()](https://docs.smith.langchain.com/reference/python/evaluation/langsmith.evaluation._arunner.aevaluate), the asynchronous version of [evaluate()](https://docs.smith.langchain.com/reference/python/evaluation/langsmith.evaluation._runner.evaluate). It is still worthwhile to read this guide first, as the two have identical interfaces, before reading the how-to guide on [running an evaluation asynchronously](/langsmith/evaluation-async).
 
-  In JS/TS evaluate() is already asynchronous so no separate method is needed.
+In JS/TS evaluate() is already asynchronous so no separate method is needed.
 
-  It is also important to configure the `max_concurrency`/`maxConcurrency` arg when running large jobs. This parallelizes evaluation by effectively splitting the dataset across threads.
+It is also important to configure the `max_concurrency`/`maxConcurrency` arg when running large jobs. This parallelizes evaluation by effectively splitting the dataset across threads.
 </Check>
 
 ## Define an application
@@ -63,7 +63,7 @@ const toxicityClassifier = traceable(
   async (text: string) => {
     const result = await oaiClient.chat.completions.create({
       messages: [
-        { 
+        {
            role: "system",
           content: "Please review the user query below and determine if it contains any form of toxic behavior, such as insults, threats, or highly negative comments. Respond with 'Toxic' if it does, and 'Not toxic' if it doesn't.",
         },
@@ -72,7 +72,7 @@ const toxicityClassifier = traceable(
       model: "gpt-4o-mini",
       temperature: 0,
     });
-        
+
     return result.choices[0].message.content;
   },
   { name: "toxicityClassifier" }
@@ -98,7 +98,7 @@ ls_client = Client()
 
 examples = [
   {
-    "inputs": {"text": "Shut up, idiot"}, 
+    "inputs": {"text": "Shut up, idiot"},
     "outputs": {"label": "Toxic"},
   },
   {
@@ -106,15 +106,15 @@ examples = [
     "outputs": {"label": "Not toxic"},
   },
   {
-    "inputs": {"text": "This is the worst thing ever"}, 
+    "inputs": {"text": "This is the worst thing ever"},
     "outputs": {"label": "Toxic"},
   },
   {
-    "inputs": {"text": "I had a great day today"}, 
+    "inputs": {"text": "I had a great day today"},
     "outputs": {"label": "Not toxic"},
   },
   {
-    "inputs": {"text": "Nobody likes you"}, 
+    "inputs": {"text": "Nobody likes you"},
     "outputs": {"label": "Toxic"},
   },
   {
@@ -125,7 +125,7 @@ examples = [
 
 dataset = ls_client.create_dataset(dataset_name="Toxic Queries")
 ls_client.create_examples(
-  dataset_id=dataset.id, 
+  dataset_id=dataset.id,
   examples=examples,
 )
 ```
@@ -167,7 +167,7 @@ See [here](/langsmith/#dataset-management) for more on dataset management.
 ## Define an evaluator
 
 <Check>
-  You can also check out LangChain's open source evaluation package [openevals](https://github.com/langchain-ai/openevals) for common pre-built evaluators.
+You can also check out LangChain's open source evaluation package [openevals](https://github.com/langchain-ai/openevals) for common pre-built evaluators.
 </Check>
 
 [Evaluators](/langsmith/evaluation-concepts#evaluators) are functions for scoring your application's outputs. They take in the example inputs, actual outputs, and, when present, the reference outputs. Since we have labels for this task, our evaluator can directly check if the actual outputs match the reference outputs.
@@ -253,7 +253,7 @@ Each invocation of `evaluate()` creates an [Experiment](/langsmith/evaluation-co
 ## Reference code[​](#reference-code "Direct link to Reference code")
 
 <Accordion title="Click to see a consolidated code snippet">
-  <CodeGroup>
+    <CodeGroup>
 
 ```python Python
 from langsmith import Client, traceable, wrappers
@@ -283,7 +283,7 @@ ls_client = Client()
 dataset = ls_client.create_dataset(dataset_name="Toxic Queries")
 examples = [
   {
-    "inputs": {"text": "Shut up, idiot"}, 
+    "inputs": {"text": "Shut up, idiot"},
     "outputs": {"label": "Toxic"},
   },
   {
@@ -291,15 +291,15 @@ examples = [
     "outputs": {"label": "Not toxic"},
   },
   {
-    "inputs": {"text": "This is the worst thing ever"}, 
+    "inputs": {"text": "This is the worst thing ever"},
     "outputs": {"label": "Toxic"},
   },
   {
-    "inputs": {"text": "I had a great day today"}, 
+    "inputs": {"text": "I had a great day today"},
     "outputs": {"label": "Not toxic"},
   },
   {
-    "inputs": {"text": "Nobody likes you"}, 
+    "inputs": {"text": "Nobody likes you"},
     "outputs": {"label": "Toxic"},
   },
   {

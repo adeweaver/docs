@@ -9,6 +9,7 @@ This will help you get started with OCIModelDeployment [chat models](/oss/concep
 > For the latest updates, examples and experimental features, please see [ADS LangChain Integration](https://accelerated-data-science.readthedocs.io/en/latest/user_guide/large_language_model/langchain_models.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | JS support | Package downloads | Package latest |
@@ -19,10 +20,9 @@ This will help you get started with OCIModelDeployment [chat models](/oss/concep
 
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | Native async | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: | :---: |
-| depends | depends | depends | depends | depends | depends | ✅ | ✅ | ✅ | ✅ | 
+| depends | depends | depends | depends | depends | depends | ✅ | ✅ | ✅ | ✅ |
 
 Some model features, including tool calling, structured output, JSON mode and multi-modal inputs, are depending on deployed model.
-
 
 ## Setup
 
@@ -31,13 +31,12 @@ To use ChatOCIModelDeployment you'll need to deploy a chat model with chat compl
 You can easily deploy foundation models using the [AI Quick Actions](https://github.com/oracle-samples/oci-data-science-ai-samples/blob/main/ai-quick-actions/model-deployment-tips.md) on OCI Data Science Model deployment. For additional deployment examples, please visit the [Oracle GitHub samples repository](https://github.com/oracle-samples/oci-data-science-ai-samples/tree/main/ai-quick-actions).
 
 ### Policies
-Make sure to have the required [policies](https://docs.oracle.com/en-us/iaas/data-science/using/model-dep-policies-auth.htm#model_dep_policies_auth__predict-endpoint) to access the OCI Data Science Model Deployment endpoint.
 
+Make sure to have the required [policies](https://docs.oracle.com/en-us/iaas/data-science/using/model-dep-policies-auth.htm#model_dep_policies_auth__predict-endpoint) to access the OCI Data Science Model Deployment endpoint.
 
 ### Credentials
 
 You can set authentication through Oracle ADS. When you are working in OCI Data Science Notebook Session, you can leverage resource principal to access other OCI resources.
-
 
 ```python
 import ads
@@ -50,7 +49,6 @@ ads.set_auth("resource_principal")
 ```
 
 Alternatively, you can configure the credentials using the following environment variables. For example, to use API key with specific profile:
-
 
 ```python
 import os
@@ -70,7 +68,6 @@ Check out [Oracle ADS docs](https://accelerated-data-science.readthedocs.io/en/l
 
 The LangChain OCIModelDeployment integration lives in the `langchain-community` package. The following command will install `langchain-community` and the required dependencies.
 
-
 ```python
 %pip install -qU langchain-community langchain-openai oracle-ads
 ```
@@ -80,7 +77,6 @@ The LangChain OCIModelDeployment integration lives in the `langchain-community` 
 You may instantiate the model with the generic `ChatOCIModelDeployment` or framework specific class like `ChatOCIModelDeploymentVLLM`.
 
 * Using `ChatOCIModelDeployment` when you need a generic entry point for deploying models. You can pass model parameters through `model_kwargs` during the instantiation of this class. This allows for flexibility and ease of configuration without needing to rely on framework-specific details.
-
 
 ```python
 from langchain_community.chat_models import ChatOCIModelDeployment
@@ -107,7 +103,6 @@ chat = ChatOCIModelDeployment(
 
 * Using framework specific class like `ChatOCIModelDeploymentVLLM`: This is suitable when you are working with a specific framework (e.g. `vLLM`) and need to pass model parameters directly through the constructor, streamlining the setup process.
 
-
 ```python
 from langchain_community.chat_models import ChatOCIModelDeploymentVLLM
 
@@ -122,7 +117,6 @@ chat = ChatOCIModelDeploymentVLLM(
 
 ## Invocation
 
-
 ```python
 messages = [
     (
@@ -136,22 +130,19 @@ ai_msg = chat.invoke(messages)
 ai_msg
 ```
 
-
-
 ```output
 AIMessage(content="J'adore programmer.", response_metadata={'token_usage': {'prompt_tokens': 44, 'total_tokens': 52, 'completion_tokens': 8}, 'model_name': 'odsc-llm', 'system_fingerprint': '', 'finish_reason': 'stop'}, id='run-ca145168-efa9-414c-9dd1-21d10766fdd3-0')
 ```
 
-
-
 ```python
 print(ai_msg.content)
 ```
+
 ```output
 J'adore programmer.
 ```
-## Chaining
 
+## Chaining
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate
@@ -176,15 +167,11 @@ chain.invoke(
 )
 ```
 
-
-
 ```output
 AIMessage(content='Ich liebe Programmierung.', response_metadata={'token_usage': {'prompt_tokens': 38, 'total_tokens': 48, 'completion_tokens': 10}, 'model_name': 'odsc-llm', 'system_fingerprint': '', 'finish_reason': 'stop'}, id='run-5dd936b0-b97e-490e-9869-2ad3dd524234-0')
 ```
 
-
 ## Asynchronous calls
-
 
 ```python
 from langchain_community.chat_models import ChatOCIModelDeployment
@@ -207,15 +194,11 @@ await chain.ainvoke(
 )
 ```
 
-
-
 ```output
 AIMessage(content='我喜欢编程', response_metadata={'token_usage': {'prompt_tokens': 37, 'total_tokens': 50, 'completion_tokens': 13}, 'model_name': 'odsc-llm', 'system_fingerprint': '', 'finish_reason': 'stop'}, id='run-a2dc9393-f269-41a4-b908-b1d8a92cf827-0')
 ```
 
-
 ## Streaming calls
-
 
 ```python
 import os
@@ -238,6 +221,7 @@ for chunk in chain.stream({}):
     sys.stdout.write(chunk.content)
     sys.stdout.flush()
 ```
+
 ```output
 1. California
 2. Texas
@@ -245,8 +229,8 @@ for chunk in chain.stream({}):
 4. New York
 5. Illinois
 ```
-## Structured output
 
+## Structured output
 
 ```python
 from langchain_community.chat_models import ChatOCIModelDeployment
@@ -271,13 +255,10 @@ output = structured_llm.invoke(
 output.dict()
 ```
 
-
-
 ```output
 {'setup': 'Why did the cat get stuck in the tree?',
  'punchline': 'Because it was chasing its tail!'}
 ```
-
 
 ## API reference
 

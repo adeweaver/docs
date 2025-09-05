@@ -4,12 +4,11 @@ title: Nebula (Symbl.ai)
 
 [Nebula](https://symbl.ai/nebula/) is a large language model (LLM) built by [Symbl.ai](https://symbl.ai). It is trained to perform generative tasks on human conversations. Nebula excels at modeling the nuanced details of a conversation and performing tasks on the conversation.
 
-Nebula documentation: https://docs.symbl.ai/docs/nebula-llm
+Nebula documentation: [docs.symbl.ai/docs/nebula-llm](https://docs.symbl.ai/docs/nebula-llm)
 
 This example goes over how to use LangChain to interact with the [Nebula platform](https://docs.symbl.ai/docs/nebula-llm).
 
 Make sure you have API Key with you. If you don't have one please [request one](https://info.symbl.ai/Nebula_Private_Beta.html).
-
 
 ```python
 from langchain_community.llms.symblai_nebula import Nebula
@@ -18,7 +17,6 @@ llm = Nebula(nebula_api_key="<your_api_key>")
 ```
 
 Use a conversation transcript and instruction to construct a prompt.
-
 
 ```python
 from langchain.chains import LLMChain

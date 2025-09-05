@@ -12,11 +12,13 @@ You may be looking for [this page instead](/oss/integrations/chat/fireworks/).
 </Warning>
 
 ```
+
 [Fireworks AI](https://fireworks.ai/) is an AI inference platform to run and customize models. For a list of all models served by Fireworks see the [Fireworks docs](https://fireworks.ai/models).
 
 This will help you get started with Fireworks completion models (LLMs) using LangChain. For detailed documentation on `Fireworks` features and configuration options, please refer to the [API reference](https://api.js.langchain.com/classes/langchain_community_llms_fireworks.Fireworks.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [PY support](https://python.langchain.com/docs/integrations/llms/fireworks) | Package downloads | Package latest |
@@ -34,12 +36,14 @@ Head to [fireworks.ai](https://fireworks.ai/) to sign up to Fireworks and genera
 ```bash
 export FIREWORKS_API_KEY="your-api-key"
 ```
+
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
 ```bash
 # export LANGSMITH_TRACING="true"
 # export LANGSMITH_API_KEY="your-api-key"
 ```
+
 ### Installation
 
 The LangChain Fireworks integration lives in the `@langchain/community` package:
@@ -53,10 +57,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```typescript
 import { Fireworks } from "@langchain/community/llms/fireworks"
@@ -70,8 +74,8 @@ const llm = new Fireworks({
   // other params...
 })
 ```
-## Invocation
 
+## Invocation
 
 ```typescript
 const inputText = "Fireworks is an AI company that "
@@ -79,6 +83,7 @@ const inputText = "Fireworks is an AI company that "
 const completion = await llm.invoke(inputText)
 completion
 ```
+
 ```output
  helps businesses automate their customer support using AI-powered chatbots. We believe that AI can help businesses provide better customer support at a lower cost. Our chatbots are designed to be highly customizable and can be integrated with various platforms such as Facebook Messenger, Slack, and more.
 
@@ -98,10 +103,10 @@ We are looking for a talented and motivated **Machine Learning Engineer** to joi
 
 * Bachelor's
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our completion model with a prompt template like so:
-
 
 ```typescript
 import { PromptTemplate } from "@langchain/core/prompts"
@@ -116,6 +121,7 @@ await chain.invoke(
   }
 )
 ```
+
 ```output
 Ich liebe Programmieren.
 
@@ -160,12 +166,12 @@ Ich bin gut im Coden.
 
 How to say I'm
 ```
+
 Behind the scenes, Fireworks AI uses the OpenAI SDK and OpenAI compatible API, with some caveats:
 
 - Certain properties are not supported by the Fireworks API, see [here](https://readme.fireworks.ai/docs/openai-compatibility#api-compatibility).
 - Generation using multiple prompts is not supported.
 
-
 ## API reference
 
-For detailed documentation of all Fireworks features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_community_llms_fireworks.Fireworks.html
+For detailed documentation of all Fireworks features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_llms_fireworks.Fireworks.html).

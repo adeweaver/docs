@@ -12,9 +12,7 @@ Users can view their logs, requests, and API keys on the [Validator Endpoint Fro
 
 If you encounter any difficulties or have any questions, please feel free to reach out to our developer on [GitHub](https://github.com/Kunj-2206), [Discord](https://discordapp.com/users/683542109248159777) or join our discord server for latest update and queries [Neural Internet](https://discord.gg/neuralinternet).
 
-
-## Different Parameter and response handling for NIBittensorLLM 
-
+## Different Parameter and response handling for NIBittensorLLM
 
 ```python
 import json
@@ -44,7 +42,7 @@ print(f"Response provided by LLM with system prompt set is : {sys_resp}")
                     "uid": Unique Identifier of a miner,
                     "responder_hotkey": Hotkey of a miner,
                     "message":{"role":"assistant","content": Contains actual response},
-                    "response_ms": Time in millisecond required to fetch response from a miner} 
+                    "response_ms": Time in millisecond required to fetch response from a miner}
                 ]
     } """
 
@@ -54,8 +52,7 @@ json_multi_resp = json.loads(multi_resp)
 pprint(json_multi_resp)
 ```
 
-##  Using NIBittensorLLM with LLMChain and PromptTemplate
-
+## Using NIBittensorLLM with LLMChain and PromptTemplate
 
 ```python
 from langchain.chains import LLMChain
@@ -83,8 +80,7 @@ question = "What is bittensor?"
 llm_chain.run(question)
 ```
 
-##  Using NIBittensorLLM with Conversational Agent and Google Search Tool
-
+## Using NIBittensorLLM with Conversational Agent and Google Search Tool
 
 ```python
 from langchain_community.utilities import GoogleSearchAPIWrapper
@@ -99,12 +95,11 @@ tool = Tool(
 )
 ```
 
-
 ```python
 from langchain import hub
 from langchain.agents import (
     AgentExecutor,
-    create_react_agent,
+    create_agent,
 )
 from langchain.memory import ConversationBufferMemory
 from langchain_community.llms import NIBittensorLLM
@@ -120,7 +115,7 @@ llm = NIBittensorLLM(
 
 memory = ConversationBufferMemory(memory_key="chat_history")
 
-agent = create_react_agent(llm, tools, prompt)
+agent = create_agent(llm, tools, prompt)
 agent_executor = AgentExecutor(agent=agent, tools=tools, memory=memory)
 
 response = agent_executor.invoke({"input": prompt})

@@ -9,6 +9,7 @@ title: RedisVectorStore
 Only available on Node.js.
 </Tip>
 ```
+
 [Redis](https://redis.io/) is a fast open source, in-memory data store. As part of the [Redis Stack](https://redis.io/docs/latest/operate/oss_and_stack/install/install-stack/), [RediSearch](https://redis.io/docs/latest/develop/interact/search-and-query/) is the module that enables vector similarity semantic search, as well as many other types of searching.
 
 This guide provides a quick overview for getting started with Redis [vector stores](/oss/concepts/#vectorstores). For detailed documentation of all `RedisVectorStore` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_redis.RedisVectorStore.html).
@@ -35,6 +36,7 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/redis @langchain/core redis @langchain/openai
 </Npm2Yarn>
 ```
+
 You can set up a Redis instance locally with Docker by following [these instructions](https://redis.io/docs/latest/operate/oss_and_stack/install/install-stack/docker/#redisredis-stack).
 
 ### Credentials
@@ -44,19 +46,21 @@ Once you've set up an instance, set the `REDIS_URL` environment variable:
 ```typescript
 process.env.REDIS_URL = "your-redis-url"
 ```
+
 If you are using OpenAI embeddings for this guide, you'll need to set your OpenAI key as well:
 
 ```typescript
 process.env.OPENAI_API_KEY = "YOUR_API_KEY";
 ```
+
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
 ```typescript
 // process.env.LANGSMITH_TRACING="true"
 // process.env.LANGSMITH_API_KEY="your-api-key"
 ```
-## Instantiation
 
+## Instantiation
 
 ```typescript
 import { RedisVectorStore } from "@langchain/redis";
@@ -78,10 +82,10 @@ const vectorStore = new RedisVectorStore(embeddings, {
   indexName: "langchainjs-testing",
 });
 ```
+
 ## Manage vector store
 
 ### Add items to vector store
-
 
 ```typescript
 import type { Document } from "@langchain/core/documents";
@@ -110,16 +114,16 @@ const documents = [document1, document2, document3, document4];
 
 await vectorStore.addDocuments(documents);
 ```
+
 Top-level document ids and deletion are currently not supported.
 
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 
 ### Query directly
 
 Performing a simple similarity search can be done as follows:
-
 
 ```typescript
 const similaritySearchResults = await vectorStore.similaritySearch("biology", 2);
@@ -128,10 +132,10 @@ for (const doc of similaritySearchResults) {
   console.log(`* ${doc.pageContent} [${JSON.stringify(doc.metadata, null)}]`);
 }
 ```
+
 Filtering will currently look for any metadata key containing the provided string.
 
 If you want to execute a similarity search and receive the corresponding scores you can run:
-
 
 ```typescript
 const similaritySearchWithScoreResults = await vectorStore.similaritySearchWithScore("biology", 2)
@@ -140,14 +144,15 @@ for (const [doc, score] of similaritySearchWithScoreResults) {
   console.log(`* [SIM=${score.toFixed(3)}] ${doc.pageContent} [${JSON.stringify(doc.metadata)}]`);
 }
 ```
+
 ```output
 * [SIM=0.835] The powerhouse of the cell is the mitochondria [{"type":"example"}]
 * [SIM=0.852] Mitochondria are made out of lipids [{"type":"example"}]
 ```
+
 ### Query by turning into retriever
 
-You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains. 
-
+You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains.
 
 ```typescript
 const retriever = vectorStore.asRetriever({
@@ -155,6 +160,7 @@ const retriever = vectorStore.asRetriever({
 });
 await retriever.invoke("biology");
 ```
+
 ```output
 [
   Document {
@@ -169,6 +175,7 @@ await retriever.invoke("biology");
   }
 ]
 ```
+
 ### Usage for retrieval-augmented generation
 
 For guides on how to use this vector store for retrieval-augmented generation (RAG), see the following sections:
@@ -181,7 +188,6 @@ For guides on how to use this vector store for retrieval-augmented generation (R
 
 You can delete an entire index with the following command:
 
-
 ```typescript
 await vectorStore.delete({ deleteAll: true });
 ```
@@ -189,7 +195,6 @@ await vectorStore.delete({ deleteAll: true });
 ## Closing connections
 
 Make sure you close the client connection when you are finished to avoid excessive resource consumption:
-
 
 ```typescript
 await client.disconnect();

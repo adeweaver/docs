@@ -14,12 +14,14 @@ You may be looking for [this page instead](/oss/integrations/chat/bedrock/).
 </Warning>
 
 ```
+
 > [Amazon Bedrock](https://aws.amazon.com/bedrock/) is a fully managed service that makes Foundation Models (FMs)
 > from leading AI startups and Amazon available via an API. You can choose from a wide range of FMs to find the model that is best suited for your use case.
 
 This will help you get started with Bedrock completion models (LLMs) using LangChain. For detailed documentation on `Bedrock` features and configuration options, please refer to the [API reference](https://api.js.langchain.com/classes/langchain_community_llms_bedrock.Bedrock.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [PY support](https://python.langchain.com/docs/integrations/llms/bedrock) | Package downloads | Package latest |
@@ -39,12 +41,14 @@ export BEDROCK_AWS_REGION="your-region-url"
 export BEDROCK_AWS_ACCESS_KEY_ID="your-access-key-id"
 export BEDROCK_AWS_SECRET_ACCESS_KEY="your-secret-access-key"
 ```
+
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
 ```bash
 # export LANGSMITH_TRACING="true"
 # export LANGSMITH_API_KEY="your-api-key"
 ```
+
 ### Installation
 
 The LangChain Bedrock integration lives in the `@langchain/community` package:
@@ -71,10 +75,10 @@ and using the `web` entrypoint:
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```typescript
 // @lc-docs-hide-cell
@@ -107,6 +111,7 @@ const llm = new Bedrock({
   // other params...
 })
 ```
+
 ```typescript
 import { Bedrock } from "@langchain/community/llms/bedrock"
 
@@ -128,8 +133,7 @@ const llm = new Bedrock({
 ## Invocation
 
 Note that some models require specific prompting techniques. For example, Anthropic's Claude-v2 model will throw an error if
-the prompt does not start with `Human: `.
-
+the prompt does not start with `Human:`.
 
 ```typescript
 const inputText = "Human: Bedrock is an AI company that\nAssistant: "
@@ -138,19 +142,15 @@ const completion = await llm.invoke(inputText)
 completion
 ```
 
-
-
 ```output
 " Here are a few key points about Bedrock AI:\n" +
   "\n" +
   "- Bedrock was founded in 2021 and is based in San Fran"... 116 more characters
 ```
 
-
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our completion model with a prompt template like so:
-
 
 ```typescript
 import { PromptTemplate } from "@langchain/core/prompts"
@@ -166,15 +166,12 @@ await chain.invoke(
 )
 ```
 
-
-
 ```output
 ' Here is how to say "I love programming" in German:\n' +
   "\n" +
   "Ich liebe das Programmieren."
 ```
 
-
 ## API reference
 
-For detailed documentation of all Bedrock features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_community_llms_bedrock.Bedrock.html
+For detailed documentation of all Bedrock features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_llms_bedrock.Bedrock.html).

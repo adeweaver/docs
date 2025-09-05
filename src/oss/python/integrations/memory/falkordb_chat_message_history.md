@@ -8,13 +8,11 @@ This notebook goes over how to use `FalkorDB` to store chat message history
 
 **NOTE**: You can use FalkorDB locally or use FalkorDB Cloud. <a href='https://docs.falkordb.com/' target='blank'>See installation instructions</a>
 
-
 ```python
 # For this example notebook we will be using FalkorDB locally
 host = "localhost"
 port = 6379
 ```
-
 
 ```python
 from langchain_falkordb.message_history import (
@@ -28,12 +26,9 @@ history.add_user_message("hi!")
 history.add_ai_message("whats up?")
 ```
 
-
 ```python
 history.messages
 ```
-
-
 
 ```output
 [HumanMessage(content='hi!', additional_kwargs={}, response_metadata={}),

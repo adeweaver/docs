@@ -51,6 +51,28 @@ class DocsFileHandler(FileSystemEventHandler):
         self.event_queue = event_queue
         self.loop = loop
 
+    def _should_ignore_file(self, file_path: Path) -> bool:
+        """Check if a file should be ignored by the watcher.
+
+        Ignores temporary files, backup files, and other non-source files.
+
+        Args:
+            file_path: Path to the file to check.
+
+        Returns:
+            True if the file should be ignored, False otherwise.
+        """
+        file_name = file_path.name
+
+        # Ignore backup files created by editors
+        if file_name.endswith(("~", ".bak", ".orig")):
+            return True
+
+        # Ignore other kinds of temporary files
+        return bool(
+            file_name.startswith(".") and file_name.endswith((".tmp", ".temp", ".swp"))
+        )
+
     def on_modified(self, event: FileSystemEvent) -> None:
         """Handle file modification events.
 
@@ -70,6 +92,11 @@ class DocsFileHandler(FileSystemEventHandler):
         src_path = event.src_path
 
         file_path = Path(src_path)
+
+        # Skip ignored files
+        if self._should_ignore_file(file_path):
+            return
+
         if file_path.suffix.lower() in self.builder.copy_extensions:
             logger.info("File changed: %s", file_path)
             # Put file change event in queue for async processing
@@ -103,6 +130,10 @@ class DocsFileHandler(FileSystemEventHandler):
             raise TypeError(msg)
 
         file_path = Path(event.src_path)
+
+        # Skip ignored files
+        if self._should_ignore_file(file_path):
+            return
 
         relative_path = file_path.relative_to(self.builder.src_dir.absolute())
         output_path = self.builder.build_dir / relative_path
@@ -237,7 +268,7 @@ class FileWatcher:
         Args:
             files_to_build: List of source files that need to be built.
         """
-        from concurrent.futures import ThreadPoolExecutor
+        from concurrent.futures import ThreadPoolExecutor  # noqa: PLC0415
 
         file_count = len(files_to_build)
 

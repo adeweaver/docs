@@ -10,7 +10,6 @@ Learn more about the package on [GitHub](https://github.com/googleapis/langchain
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/googleapis/langchain-google-bigtable-python/blob/main/docs/chat_message_history.ipynb)
 
-
 ## Before You Begin
 
 To run this notebook, you will need to do the following:
@@ -25,13 +24,11 @@ To run this notebook, you will need to do the following:
 
 The integration lives in its own `langchain-google-bigtable` package, so we need to install it.
 
-
 ```python
 %pip install -upgrade --quiet langchain-google-bigtable
 ```
 
 **Colab only**: Uncomment the following cell to restart the kernel or use the button to restart the kernel. For Vertex AI Workbench you can restart the terminal using the button on top.
-
 
 ```python
 # # Automatically restart kernel after installs so that your environment can access the new packages
@@ -42,6 +39,7 @@ The integration lives in its own `langchain-google-bigtable` package, so we need
 ```
 
 ### ☁ Set Your Google Cloud Project
+
 Set your Google Cloud project so that you can leverage Google Cloud resources within this notebook.
 
 If you don't know your project ID, try the following:
@@ -49,7 +47,6 @@ If you don't know your project ID, try the following:
 * Run `gcloud config list`.
 * Run `gcloud projects list`.
 * See the support page: [Locate the project ID](https://support.google.com/googleapi/answer/7014113).
-
 
 ```python
 # @markdown Please fill in the value below with your Google Cloud project ID and then run the cell.
@@ -64,9 +61,8 @@ PROJECT_ID = "my-project-id"  # @param {type:"string"}
 
 Authenticate to Google Cloud as the IAM user logged into this notebook in order to access your Google Cloud Project.
 
-- If you are using Colab to run this notebook, use the cell below and continue.
-- If you are using Vertex AI Workbench, check out the setup instructions [here](https://github.com/GoogleCloudPlatform/generative-ai/tree/main/setup-env).
-
+* If you are using Colab to run this notebook, use the cell below and continue.
+* If you are using Vertex AI Workbench, check out the setup instructions [here](https://github.com/GoogleCloudPlatform/generative-ai/tree/main/setup-env).
 
 ```python
 from google.colab import auth
@@ -80,7 +76,6 @@ auth.authenticate_user()
 
 The schema for BigtableChatMessageHistory requires the instance and table to exist, and have a column family called `langchain`.
 
-
 ```python
 # @markdown Please specify an instance and a table for demo purpose.
 INSTANCE_ID = "my_instance"  # @param {type:"string"}
@@ -88,7 +83,6 @@ TABLE_ID = "my_table"  # @param {type:"string"}
 ```
 
 If the table or the column family do not exist, you can use the following function to create them:
-
 
 ```python
 from google.cloud import bigtable
@@ -108,7 +102,6 @@ To initialize the `BigtableChatMessageHistory` class you need to provide only 3 
 1. `table_id` : The Bigtable table to store the chat message history.
 1. `session_id` - A unique identifier string that specifies an id for the session.
 
-
 ```python
 from langchain_google_bigtable import BigtableChatMessageHistory
 
@@ -122,7 +115,6 @@ message_history.add_user_message("hi!")
 message_history.add_ai_message("whats up?")
 ```
 
-
 ```python
 message_history.messages
 ```
@@ -133,7 +125,6 @@ When the history of a specific session is obsolete and can be deleted, it can be
 
 **Note:** Once deleted, the data is no longer stored in Bigtable and is gone forever.
 
-
 ```python
 message_history.clear()
 ```
@@ -141,8 +132,8 @@ message_history.clear()
 ## Advanced Usage
 
 ### Custom client
-The client created by default is the default client, using only admin=True option. To use a non-default, a [custom client](https://cloud.google.com/python/docs/reference/bigtable/latest/client#class-googlecloudbigtableclientclientprojectnone-credentialsnone-readonlyfalse-adminfalse-clientinfonone-clientoptionsnone-adminclientoptionsnone-channelnone) can be passed to the constructor.
 
+The client created by default is the default client, using only admin=True option. To use a non-default, a [custom client](https://cloud.google.com/python/docs/reference/bigtable/latest/client#class-googlecloudbigtableclientclientprojectnone-credentialsnone-readonlyfalse-adminfalse-clientinfonone-clientoptionsnone-adminclientoptionsnone-channelnone) can be passed to the constructor.
 
 ```python
 from google.cloud import bigtable

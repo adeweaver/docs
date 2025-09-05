@@ -16,11 +16,13 @@ You may be looking for [this page instead](/oss/integrations/chat/mistral/).
 :::
 
 ```
+
 [Mistral AI](https://mistral.ai/) is a platform that offers hosting for their powerful [open source models](https://docs.mistral.ai/getting-started/models/).
 
 This will help you get started with MistralAI completion models (LLMs) using LangChain. For detailed documentation on `MistralAI` features and configuration options, please refer to the [API reference](https://api.js.langchain.com/classes/langchain_mistralai.MistralAI.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | PY support | Package downloads | Package latest |
@@ -38,12 +40,14 @@ Head to [console.mistral.ai](https://console.mistral.ai/) to sign up to MistralA
 ```bash
 export MISTRAL_API_KEY="your-api-key"
 ```
+
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
 ```bash
 # export LANGSMITH_TRACING="true"
 # export LANGSMITH_API_KEY="your-api-key"
 ```
+
 ### Installation
 
 The LangChain MistralAI integration lives in the `@langchain/mistralai` package:
@@ -57,10 +61,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```typescript
 import { MistralAI } from "@langchain/mistralai"
@@ -73,8 +77,8 @@ const llm = new MistralAI({
   // other params...
 })
 ```
-## Invocation
 
+## Invocation
 
 ```typescript
 const inputText = "MistralAI is an AI company that "
@@ -82,6 +86,7 @@ const inputText = "MistralAI is an AI company that "
 const completion = await llm.invoke(inputText)
 completion
 ```
+
 ```output
  has developed Mistral 7B, a large language model (LLM) that is open-source and available for commercial use. Mistral 7B is a 7 billion parameter model that is trained on a diverse and high-quality dataset, and it has been fine-tuned to perform well on a variety of tasks, including text generation, question answering, and code interpretation.
 
@@ -93,10 +98,10 @@ Mistral 7B is also a highly efficient model, capable of processing text at a fas
 
 Overall, Mistral 7B is a powerful and versatile large language model that is open-source and available for commercial use. Its ability to perform well on a variety of tasks, its efficiency, and its permissive license make it a popular choice for businesses and organizations that want to leverage the power of large language models.
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our completion model with a prompt template like so:
-
 
 ```typescript
 import { PromptTemplate } from "@langchain/core/prompts"
@@ -111,6 +116,7 @@ await chain.invoke(
   }
 )
 ```
+
 ```output
 I love programming.
 
@@ -118,8 +124,8 @@ Ich liebe Programmieren.
 
 In German, the phrase "I love programming" is translated as "Ich liebe Programmieren." The word "programming" is translated to "Programmieren," and "I love" is translated to "Ich liebe."
 ```
-Since the Mistral LLM is a completions model, they also allow you to insert a `suffix` to the prompt. Suffixes can be passed via the call options when invoking a model like so:
 
+Since the Mistral LLM is a completions model, they also allow you to insert a `suffix` to the prompt. Suffixes can be passed via the call options when invoking a model like so:
 
 ```typescript
 const suffixResponse = await llm.invoke(
@@ -129,12 +135,13 @@ const suffixResponse = await llm.invoke(
 );
 console.log(suffixResponse);
 ```
+
 ```output
 console.log('hello world');
 \`\`\`
 ```
-As seen in the first example, the model generated the requested `console.log('hello world')` code snippet, but also included extra unwanted text. By adding a suffix, we can constrain the model to only complete the prompt up to the suffix (in this case, three backticks). This allows us to easily parse the completion and extract only the desired response without the suffix using a custom output parser.
 
+As seen in the first example, the model generated the requested `console.log('hello world')` code snippet, but also included extra unwanted text. By adding a suffix, we can constrain the model to only complete the prompt up to the suffix (in this case, three backticks). This allows us to easily parse the completion and extract only the desired response without the suffix using a custom output parser.
 
 ```typescript
 import { MistralAI } from "@langchain/mistralai";
@@ -161,13 +168,14 @@ const resWithParser = await llmForFillInCompletion.invoke(
 
 console.log(customOutputParser(resWithParser));
 ```
+
 ```output
 console.log('hello world');
 ```
+
 ## Hooks
 
 Mistral AI supports custom hooks for three events: beforeRequest, requestError, and reponse. Examples of the function signature for each hook type can be seen below:
-
 
 ```typescript
 const beforeRequestHook = (req: Request): Request | void | Promise<Request | void> => {
@@ -185,9 +193,8 @@ const responseHook = (res: Response, req: Request): void | Promise<void> => {
 
 To add these hooks to the chat model, either pass them as arguments and they are automatically added:
 
-
 ```typescript
-import { ChatMistralAI } from "@langchain/mistralai" 
+import { ChatMistralAI } from "@langchain/mistralai"
 
 const modelWithHooks = new ChatMistralAI({
     model: "mistral-large-latest",
@@ -202,9 +209,8 @@ const modelWithHooks = new ChatMistralAI({
 
 Or assign and add them manually after instantiation:
 
-
 ```typescript
-import { ChatMistralAI } from "@langchain/mistralai" 
+import { ChatMistralAI } from "@langchain/mistralai"
 
 const model = new ChatMistralAI({
     model: "mistral-large-latest",
@@ -224,7 +230,6 @@ The method addAllHooksToHttpClient clears all currently added hooks before assig
 
 Hooks can be removed one at a time, or all hooks can be cleared from the model at once.
 
-
 ```typescript
 model.removeHookFromHttpClient(beforeRequestHook);
 
@@ -233,4 +238,4 @@ model.removeAllHooksFromHttpClient();
 
 ## API reference
 
-For detailed documentation of all MistralAI features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_mistralai.MistralAI.html
+For detailed documentation of all MistralAI features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_mistralai.MistralAI.html).

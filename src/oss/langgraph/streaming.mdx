@@ -67,17 +67,17 @@ for await (const chunk of await graph.stream(inputs, {
   ```python {highlight={24,26}}
   from typing import TypedDict
   from langgraph.graph import StateGraph, START, END
-  
+
   class State(TypedDict):
       topic: str
       joke: str
-  
+
   def refine_topic(state: State):
       return {"topic": state["topic"] + " and cats"}
-  
+
   def generate_joke(state: State):
       return {"joke": f"This is a joke about {state['topic']}"}
-  
+
   graph = (
       StateGraph(State)
       .add_node(refine_topic)
@@ -87,28 +87,28 @@ for await (const chunk of await graph.stream(inputs, {
       .add_edge("generate_joke", END)
       .compile()
   )
-  
+
   for chunk in graph.stream( # (1)!
       {"topic": "ice cream"},
       stream_mode="updates", # (2)!
   ):
       print(chunk)
 ```
-  
+
   1. The `stream()` method returns an iterator that yields streamed outputs.
-  2. Set `stream_mode="updates"` to stream only the updates to the graph state after each node. Other stream modes are also available. See [supported stream modes](#supported-stream-modes) for details.
+    2. Set `stream_mode="updates"` to stream only the updates to the graph state after each node. Other stream modes are also available. See [supported stream modes](#supported-stream-modes) for details.
   :::
-  
+
   :::js
   ```typescript
   import { StateGraph, START, END } from "@langchain/langgraph";
   import { z } from "zod/v4";
-  
+
   const State = z.object({
     topic: z.string(),
     joke: z.string(),
   });
-  
+
   const graph = new StateGraph(State)
     .addNode("refineTopic", (state) => {
       return { topic: state.topic + " and cats" };
@@ -120,7 +120,7 @@ for await (const chunk of await graph.stream(inputs, {
     .addEdge("refineTopic", "generateJoke")
     .addEdge("generateJoke", END)
     .compile();
-  
+
   for await (const chunk of await graph.stream(
     { topic: "ice cream" },
     { streamMode: "updates" } // (1)!
@@ -128,10 +128,10 @@ for await (const chunk of await graph.stream(inputs, {
     console.log(chunk);
   }
   ```
-  
+
   1. Set `streamMode: "updates"` to stream only the updates to the graph state after each node. Other stream modes are also available. See [supported stream modes](#supported-stream-modes) for details.
   :::
-  
+
   ```output
   {'refineTopic': {'topic': 'ice cream and cats'}}
   {'generateJoke': {'joke': 'This is a joke about ice cream and cats'}}
@@ -227,9 +227,9 @@ const graph = new StateGraph(State)
 :::
 
 <Tabs>
-  <Tab title="updates">
+    <Tab title="updates">
     Use this to stream only the **state updates** returned by the nodes after each step. The streamed outputs include the name of the node as well as the update.
-    
+
     :::python
     ```python {highlight={3}}
     for chunk in graph.stream(
@@ -239,7 +239,7 @@ const graph = new StateGraph(State)
         print(chunk)
     ```
     :::
-    
+
     :::js
     ```typescript
     for await (const chunk of await graph.stream(
@@ -250,10 +250,10 @@ const graph = new StateGraph(State)
     }
     ```
     :::
-  </Tab>
-  <Tab title="values">
+    </Tab>
+    <Tab title="values">
     Use this to stream the **full state** of the graph after each step.
-    
+
     :::python
     ```python {highlight={3}}
     for chunk in graph.stream(
@@ -263,7 +263,7 @@ const graph = new StateGraph(State)
         print(chunk)
     ```
     :::
-    
+
     :::js
     ```typescript
     for await (const chunk of await graph.stream(
@@ -274,7 +274,7 @@ const graph = new StateGraph(State)
     }
     ```
     :::
-  </Tab>
+    </Tab>
 </Tabs>
 
 ## Stream subgraph outputs
@@ -321,39 +321,39 @@ for await (const chunk of await graph.stream(
   ```python {highlight={39}}
   from langgraph.graph import START, StateGraph
   from typing import TypedDict
-  
+
   # Define subgraph
   class SubgraphState(TypedDict):
       foo: str  # note that this key is shared with the parent graph state
       bar: str
-  
+
   def subgraph_node_1(state: SubgraphState):
       return {"bar": "bar"}
-  
+
   def subgraph_node_2(state: SubgraphState):
       return {"foo": state["foo"] + state["bar"]}
-  
+
   subgraph_builder = StateGraph(SubgraphState)
   subgraph_builder.add_node(subgraph_node_1)
   subgraph_builder.add_node(subgraph_node_2)
   subgraph_builder.add_edge(START, "subgraph_node_1")
   subgraph_builder.add_edge("subgraph_node_1", "subgraph_node_2")
   subgraph = subgraph_builder.compile()
-  
+
   # Define parent graph
   class ParentState(TypedDict):
       foo: str
-  
+
   def node_1(state: ParentState):
       return {"foo": "hi! " + state["foo"]}
-  
+
   builder = StateGraph(ParentState)
   builder.add_node("node_1", node_1)
   builder.add_node("node_2", subgraph)
   builder.add_edge(START, "node_1")
   builder.add_edge("node_1", "node_2")
   graph = builder.compile()
-  
+
   for chunk in graph.stream(
       {"foo": "foo"},
       stream_mode="updates",
@@ -361,21 +361,21 @@ for await (const chunk of await graph.stream(
   ):
       print(chunk)
   ```
-  
-  1. Set `subgraphs=True` to stream outputs from subgraphs.
+
+    1. Set `subgraphs=True` to stream outputs from subgraphs.
   :::
-  
+
   :::js
   ```typescript
   import { StateGraph, START } from "@langchain/langgraph";
   import { z } from "zod/v4";
-  
+
   // Define subgraph
   const SubgraphState = z.object({
     foo: z.string(), // note that this key is shared with the parent graph state
     bar: z.string(),
   });
-  
+
   const subgraphBuilder = new StateGraph(SubgraphState)
     .addNode("subgraphNode1", (state) => {
       return { bar: "bar" };
@@ -386,12 +386,12 @@ for await (const chunk of await graph.stream(
     .addEdge(START, "subgraphNode1")
     .addEdge("subgraphNode1", "subgraphNode2");
   const subgraph = subgraphBuilder.compile();
-  
+
   // Define parent graph
   const ParentState = z.object({
     foo: z.string(),
   });
-  
+
   const builder = new StateGraph(ParentState)
     .addNode("node1", (state) => {
       return { foo: "hi! " + state.foo };
@@ -400,7 +400,7 @@ for await (const chunk of await graph.stream(
     .addEdge(START, "node1")
     .addEdge("node1", "node2");
   const graph = builder.compile();
-  
+
   for await (const chunk of await graph.stream(
     { foo: "foo" },
     {
@@ -411,10 +411,10 @@ for await (const chunk of await graph.stream(
     console.log(chunk);
   }
   ```
-  
+
   1. Set `subgraphs: true` to stream outputs from subgraphs.
   :::
-  
+
   :::python
   ```
   ((), {'node_1': {'foo': 'hi! foo'}})
@@ -423,7 +423,7 @@ for await (const chunk of await graph.stream(
   ((), {'node_2': {'foo': 'hi! foobar'}})
   ```
   :::
-  
+
   :::js
   ```
   [[], {'node1': {'foo': 'hi! foo'}}]
@@ -432,7 +432,7 @@ for await (const chunk of await graph.stream(
   [[], {'node2': {'foo': 'hi! foobar'}}]
   ```
   :::
-  
+
   **Note** that we are receiving not just the node updates, but we also the namespaces which tell us what graph (or subgraph) we are streaming from.
 </Accordion>
 
@@ -476,8 +476,8 @@ The streamed output from [`messages` mode](#supported-stream-modes) is a tuple `
 > If your LLM is not available as a LangChain integration, you can stream its outputs using `custom` mode instead. See [use with any LLM](#use-with-any-llm) for details.
 
 <Warning>
-  **Manual config required for async in Python < 3.11**
-  When using Python < 3.11 with async code, you must explicitly pass `RunnableConfig` to `ainvoke()` to enable proper streaming. See [Async with Python < 3.11](#async) for details or upgrade to Python 3.11+.
+**Manual config required for async in Python < 3.11**
+When using Python < 3.11 with async code, you must explicitly pass `RunnableConfig` to `ainvoke()` to enable proper streaming. See [Async with Python < 3.11](#async) for details or upgrade to Python 3.11+.
 </Warning>
 
 ```python {highlight={17,33}}
@@ -633,20 +633,20 @@ for await (const [msg, metadata] of await graph.stream( // (3)!
   :::python
   ```python {highlight={42}}
   from typing import TypedDict
-  
+
   from langchain.chat_models import init_chat_model
   from langgraph.graph import START, StateGraph
-  
+
   joke_model = init_chat_model(model="openai:gpt-4o-mini", tags=["joke"]) # (1)!
   poem_model = init_chat_model(model="openai:gpt-4o-mini", tags=["poem"]) # (2)!
-  
-  
+
+
   class State(TypedDict):
         topic: str
         joke: str
         poem: str
-  
-  
+
+
   async def call_model(state, config):
         topic = state["topic"]
         print("Writing joke...")
@@ -662,15 +662,15 @@ for await (const [msg, metadata] of await graph.stream( // (3)!
               config, # (3)!
         )
         return {"joke": joke_response.content, "poem": poem_response.content}
-  
-  
+
+
   graph = (
         StateGraph(State)
         .add_node(call_model)
         .add_edge(START, "call_model")
         .compile()
   )
-  
+
   async for msg, metadata in graph.astream(
         {"topic": "cats"},
         stream_mode="messages", # (4)!
@@ -678,19 +678,19 @@ for await (const [msg, metadata] of await graph.stream( // (3)!
       if metadata["tags"] == ["joke"]: # (4)!
           print(msg.content, end="|", flush=True)
 ```
-  
+
   1. The `joke_model` is tagged with "joke".
   2. The `poem_model` is tagged with "poem".
   3. The `config` is passed through explicitly to ensure the context vars are propagated correctly. This is required for Python < 3.11 when using async code. Please see the [async section](#async) for more details.
   4. The `stream_mode` is set to "messages" to stream LLM tokens. The `metadata` contains information about the LLM invocation, including the tags.
   :::
-  
+
   :::js
   ```typescript
   import { ChatOpenAI } from "@langchain/openai";
   import { StateGraph, START } from "@langchain/langgraph";
   import { z } from "zod/v4";
-  
+
   const jokeModel = new ChatOpenAI({
     model: "gpt-4o-mini",
     tags: ["joke"] // (1)!
@@ -699,27 +699,27 @@ for await (const [msg, metadata] of await graph.stream( // (3)!
     model: "gpt-4o-mini",
     tags: ["poem"] // (2)!
   });
-  
+
   const State = z.object({
     topic: z.string(),
     joke: z.string(),
     poem: z.string(),
   });
-  
+
   const graph = new StateGraph(State)
     .addNode("callModel", (state) => {
       const topic = state.topic;
       console.log("Writing joke...");
-  
+
       const jokeResponse = await jokeModel.invoke([
         { role: "user", content: `Write a joke about ${topic}` }
       ]);
-  
+
       console.log("\n\nWriting poem...");
       const poemResponse = await poemModel.invoke([
         { role: "user", content: `Write a short poem about ${topic}` }
       ]);
-  
+
       return {
         joke: jokeResponse.content,
         poem: poemResponse.content
@@ -727,7 +727,7 @@ for await (const [msg, metadata] of await graph.stream( // (3)!
     })
     .addEdge(START, "callModel")
     .compile();
-  
+
   for await (const [msg, metadata] of await graph.stream(
     { topic: "cats" },
     { streamMode: "messages" } // (3)!
@@ -737,7 +737,7 @@ for await (const [msg, metadata] of await graph.stream( // (3)!
     }
   }
   ```
-  
+
   1. The `jokeModel` is tagged with "joke".
   2. The `poemModel` is tagged with "poem".
   3. The `streamMode` is set to "messages" to stream LLM tokens. The `metadata` contains information about the LLM invocation, including the tags.
@@ -787,32 +787,32 @@ for await (const [msg, metadata] of await graph.stream(
   from typing import TypedDict
   from langgraph.graph import START, StateGraph
   from langchain_openai import ChatOpenAI
-  
+
   model = ChatOpenAI(model="gpt-4o-mini")
-  
-  
+
+
   class State(TypedDict):
         topic: str
         joke: str
         poem: str
-  
-  
+
+
   def write_joke(state: State):
         topic = state["topic"]
         joke_response = model.invoke(
               [{"role": "user", "content": f"Write a joke about {topic}"}]
         )
         return {"joke": joke_response.content}
-  
-  
+
+
   def write_poem(state: State):
         topic = state["topic"]
         poem_response = model.invoke(
               [{"role": "user", "content": f"Write a short poem about {topic}"}]
         )
         return {"poem": poem_response.content}
-  
-  
+
+
   graph = (
         StateGraph(State)
         .add_node(write_joke)
@@ -822,7 +822,7 @@ for await (const [msg, metadata] of await graph.stream(
         .add_edge(START, "write_poem")
         .compile()
   )
-  
+
   for msg, metadata in graph.stream( # (1)!
       {"topic": "cats"},
       stream_mode="messages",
@@ -830,25 +830,25 @@ for await (const [msg, metadata] of await graph.stream(
       if msg.content and metadata["langgraph_node"] == "write_poem": # (2)!
           print(msg.content, end="|", flush=True)
   ```
-  
+
   1. The "messages" stream mode returns a tuple of `(message_chunk, metadata)` where `message_chunk` is the token streamed by the LLM and `metadata` is a dictionary with information about the graph node where the LLM was called and other information.
   2. Filter the streamed tokens by the `langgraph_node` field in the metadata to only include the tokens from the `write_poem` node.
   :::
-  
+
   :::js
   ```typescript
   import { ChatOpenAI } from "@langchain/openai";
   import { StateGraph, START } from "@langchain/langgraph";
   import { z } from "zod/v4";
-  
+
   const model = new ChatOpenAI({ model: "gpt-4o-mini" });
-  
+
   const State = z.object({
     topic: z.string(),
     joke: z.string(),
     poem: z.string(),
   });
-  
+
   const graph = new StateGraph(State)
     .addNode("writeJoke", async (state) => {
       const topic = state.topic;
@@ -868,7 +868,7 @@ for await (const [msg, metadata] of await graph.stream(
     .addEdge(START, "writeJoke")
     .addEdge(START, "writePoem")
     .compile();
-  
+
   for await (const [msg, metadata] of await graph.stream( // (1)!
     { topic: "cats" },
     { streamMode: "messages" }
@@ -878,7 +878,7 @@ for await (const [msg, metadata] of await graph.stream(
     }
   }
   ```
-  
+
   1. The "messages" stream mode returns a tuple of `[messageChunk, metadata]` where `messageChunk` is the token streamed by the LLM and `metadata` is a dictionary with information about the graph node where the LLM was called and other information.
   2. Filter the streamed tokens by the `langgraph_node` field in the metadata to only include the tokens from the `writePoem` node.
   :::
@@ -893,51 +893,51 @@ To send **custom user-defined data** from inside a LangGraph node or tool, follo
 2. Set `stream_mode="custom"` when calling `.stream()` or `.astream()` to get the custom data in the stream. You can combine multiple modes (e.g., `["updates", "custom"]`), but at least one must be `"custom"`.
 
 <Warning>
-  **No `get_stream_writer()` in async for Python < 3.11**
-  In async code running on Python < 3.11, `get_stream_writer()` will not work.
-  Instead, add a `writer` parameter to your node or tool and pass it manually.
-  See [Async with Python < 3.11](#async) for usage examples.
+**No `get_stream_writer()` in async for Python < 3.11**
+In async code running on Python < 3.11, `get_stream_writer()` will not work.
+Instead, add a `writer` parameter to your node or tool and pass it manually.
+See [Async with Python < 3.11](#async) for usage examples.
 </Warning>
 
 <Tabs>
-  <Tab title="node">
+    <Tab title="node">
     ```python
     from typing import TypedDict
     from langgraph.config import get_stream_writer
     from langgraph.graph import StateGraph, START
-    
+
     class State(TypedDict):
         query: str
         answer: str
-    
+
     def node(state: State):
         writer = get_stream_writer()  # (1)!
         writer({"custom_key": "Generating custom data inside node"}) # (2)!
         return {"answer": "some data"}
-    
+
     graph = (
         StateGraph(State)
         .add_node(node)
         .add_edge(START, "node")
         .compile()
     )
-    
+
     inputs = {"query": "example"}
-    
+
     # Usage
     for chunk in graph.stream(inputs, stream_mode="custom"):  # (3)!
         print(chunk)
     ```
-    
+
     1. Get the stream writer to send custom data.
     2. Emit a custom key-value pair (e.g., progress update).
-    3. Set `stream_mode="custom"` to receive the custom data in the stream.
-  </Tab>
-  <Tab title="tool">
+        3. Set `stream_mode="custom"` to receive the custom data in the stream.
+    </Tab>
+    <Tab title="tool">
     ```python {highlight={8,10}}
     from langchain_core.tools import tool
     from langgraph.config import get_stream_writer
-    
+
     @tool
     def query_database(query: str) -> str:
         """Query the database."""
@@ -946,19 +946,19 @@ To send **custom user-defined data** from inside a LangGraph node or tool, follo
         # perform query
         writer({"data": "Retrieved 100/100 records", "type": "progress"}) # (3)!
         return "some-answer"
-    
-    
+
+
     graph = ... # define a graph that uses this tool
-    
+
     for chunk in graph.stream(inputs, stream_mode="custom"): # (4)!
         print(chunk)
 ```
-    
+
     1. Access the stream writer to send custom data.
     2. Emit a custom key-value pair (e.g., progress update).
     3. Emit another custom key-value pair.
-    4. Set `stream_mode="custom"` to receive the custom data in the stream.
-  </Tab>
+        4. Set `stream_mode="custom"` to receive the custom data in the stream.
+    </Tab>
 </Tabs>
 :::
 
@@ -969,16 +969,16 @@ To send **custom user-defined data** from inside a LangGraph node or tool, follo
 2. Set `streamMode: "custom"` when calling `.stream()` to get the custom data in the stream. You can combine multiple modes (e.g., `["updates", "custom"]`), but at least one must be `"custom"`.
 
 <Tabs>
-  <Tab title="node">
+    <Tab title="node">
     ```typescript
     import { StateGraph, START, LangGraphRunnableConfig } from "@langchain/langgraph";
     import { z } from "zod/v4";
-    
+
     const State = z.object({
       query: z.string(),
       answer: z.string(),
     });
-    
+
     const graph = new StateGraph(State)
       .addNode("node", async (state, config) => {
         config.writer({ custom_key: "Generating custom data inside node" }); // (1)!
@@ -986,24 +986,24 @@ To send **custom user-defined data** from inside a LangGraph node or tool, follo
       })
       .addEdge(START, "node")
       .compile();
-    
+
     const inputs = { query: "example" };
-    
+
     // Usage
     for await (const chunk of await graph.stream(inputs, { streamMode: "custom" })) { // (2)!
       console.log(chunk);
     }
     ```
-    
+
     1. Use the writer to emit a custom key-value pair (e.g., progress update).
     2. Set `streamMode: "custom"` to receive the custom data in the stream.
-  </Tab>
-  <Tab title="tool">
+    </Tab>
+    <Tab title="tool">
     ```typescript
     import { tool } from "@langchain/core/tools";
     import { LangGraphRunnableConfig } from "@langchain/langgraph";
     import { z } from "zod/v4";
-    
+
     const queryDatabase = tool(
       async (input, config: LangGraphRunnableConfig) => {
         config.writer({ data: "Retrieved 0/100 records", type: "progress" }); // (1)!
@@ -1019,18 +1019,18 @@ To send **custom user-defined data** from inside a LangGraph node or tool, follo
         }),
       }
     );
-    
+
     const graph = // ... define a graph that uses this tool
-    
+
     for await (const chunk of await graph.stream(inputs, { streamMode: "custom" })) { // (3)!
       console.log(chunk);
     }
     ```
-    
+
     1. Use the writer to emit a custom key-value pair (e.g., progress update).
     2. Emit another custom key-value pair.
     3. Set `streamMode: "custom"` to receive the custom data in the stream.
-  </Tab>
+    </Tab>
 </Tabs>
 :::
 
@@ -1118,17 +1118,17 @@ for await (const chunk of await graph.stream(
   ```python
   import operator
   import json
-  
+
   from typing import TypedDict
   from typing_extensions import Annotated
   from langgraph.graph import StateGraph, START
-  
+
   from openai import AsyncOpenAI
-  
+
   openai_client = AsyncOpenAI()
   model_name = "gpt-4o-mini"
-  
-  
+
+
   async def stream_tokens(model_name: str, messages: list[dict]):
       response = await openai_client.chat.completions.create(
           messages=messages, model=model_name, stream=True
@@ -1136,14 +1136,14 @@ for await (const chunk of await graph.stream(
       role = None
       async for chunk in response:
           delta = chunk.choices[0].delta
-  
+
           if delta.role is not None:
               role = delta.role
-  
+
           if delta.content:
               yield {"role": role, "content": delta.content}
-  
-  
+
+
   # this is our tool
   async def get_items(place: str) -> str:
       """Use this tool to list items one might find in a place you're asked about."""
@@ -1165,26 +1165,26 @@ for await (const chunk of await graph.stream(
       ):
           response += msg_chunk["content"]
           writer(msg_chunk)
-  
+
       return response
-  
-  
+
+
   class State(TypedDict):
       messages: Annotated[list[dict], operator.add]
-  
-  
+
+
   # this is the tool-calling graph node
   async def call_tool(state: State):
       ai_message = state["messages"][-1]
       tool_call = ai_message["tool_calls"][-1]
-  
+
       function_name = tool_call["function"]["name"]
       if function_name != "get_items":
           raise ValueError(f"Tool {function_name} not supported")
-  
+
       function_arguments = tool_call["function"]["arguments"]
       arguments = json.loads(function_arguments)
-  
+
       function_response = await get_items(**arguments)
       tool_message = {
           "tool_call_id": tool_call["id"],
@@ -1193,8 +1193,8 @@ for await (const chunk of await graph.stream(
           "content": function_response,
       }
       return {"messages": [tool_message]}
-  
-  
+
+
   graph = (
       StateGraph(State)
       .add_node(call_tool)
@@ -1202,9 +1202,9 @@ for await (const chunk of await graph.stream(
       .compile()
   )
   ```
-  
+
   Let's invoke the graph with an AI message that includes a tool call:
-  
+
   ```python
   inputs = {
       "messages": [
@@ -1224,7 +1224,7 @@ for await (const chunk of await graph.stream(
           }
       ]
   }
-  
+
   async for chunk in graph.astream(
       inputs,
       stream_mode="custom",
@@ -1232,7 +1232,7 @@ for await (const chunk of await graph.stream(
       print(chunk["content"], end="|", flush=True)
   ```
   :::
-  
+
   :::js
   ```typescript
   import { StateGraph, START, MessagesZodMeta, LangGraphRunnableConfig } from "@langchain/langgraph";
@@ -1240,31 +1240,31 @@ for await (const chunk of await graph.stream(
   import { registry } from "@langchain/langgraph/zod";
   import { z } from "zod/v4";
   import OpenAI from "openai";
-  
+
   const openaiClient = new OpenAI();
   const modelName = "gpt-4o-mini";
-  
+
   async function* streamTokens(modelName: string, messages: any[]) {
     const response = await openaiClient.chat.completions.create({
       messages,
       model: modelName,
       stream: true,
     });
-  
+
     let role: string | null = null;
     for await (const chunk of response) {
       const delta = chunk.choices[0]?.delta;
-  
+
       if (delta?.role) {
         role = delta.role;
       }
-  
+
       if (delta?.content) {
         yield { role, content: delta.content };
       }
     }
   }
-  
+
   // this is our tool
   const getItems = tool(
     async (input, config: LangGraphRunnableConfig) => {
@@ -1291,27 +1291,27 @@ for await (const chunk of await graph.stream(
       }),
     }
   );
-  
+
   const State = z.object({
     messages: z
       .array(z.custom<BaseMessage>())
       .register(registry, MessagesZodMeta),
   });
-  
+
   const graph = new StateGraph(State)
     // this is the tool-calling graph node
     .addNode("callTool", async (state) => {
       const aiMessage = state.messages.at(-1);
       const toolCall = aiMessage.tool_calls?.at(-1);
-  
+
       const functionName = toolCall?.function?.name;
       if (functionName !== "get_items") {
         throw new Error(`Tool ${functionName} not supported`);
       }
-  
+
       const functionArguments = toolCall?.function?.arguments;
       const args = JSON.parse(functionArguments);
-  
+
       const functionResponse = await getItems.invoke(args);
       const toolMessage = {
         tool_call_id: toolCall.id,
@@ -1324,9 +1324,9 @@ for await (const chunk of await graph.stream(
     .addEdge(START, "callTool")
     .compile();
   ```
-  
+
   Let's invoke the graph with an AI message that includes a tool call:
-  
+
   ```typescript
   const inputs = {
     messages: [
@@ -1346,7 +1346,7 @@ for await (const chunk of await graph.stream(
       }
     ]
   };
-  
+
   for await (const chunk of await graph.stream(
     inputs,
     { streamMode: "custom" }
@@ -1366,27 +1366,27 @@ models that do not support it.
 Set `disable_streaming=True` when initializing the model.
 
 <Tabs>
-  <Tab title="init_chat_model">
+    <Tab title="init_chat_model">
     ```python {highlight={5}}
     from langchain.chat_models import init_chat_model
-    
+
     model = init_chat_model(
         "anthropic:claude-3-7-sonnet-latest",
         disable_streaming=True # (1)!
     )
     ```
-    
-    1. Set `disable_streaming=True` to disable streaming for the chat model.
-  </Tab>
-  <Tab title="chat model interface">
+
+        1. Set `disable_streaming=True` to disable streaming for the chat model.
+    </Tab>
+    <Tab title="chat model interface">
     ```python
     from langchain_openai import ChatOpenAI
-    
+
     llm = ChatOpenAI(model="o1-preview", disable_streaming=True) # (1)!
     ```
-    
-    1. Set `disable_streaming=True` to disable streaming for the chat model.
-  </Tab>
+
+        1. Set `disable_streaming=True` to disable streaming for the chat model.
+    </Tab>
 </Tabs>
 :::
 
@@ -1418,13 +1418,13 @@ This limits LangGraph ability to automatically propagate context, and affects La
   from typing import TypedDict
   from langgraph.graph import START, StateGraph
   from langchain.chat_models import init_chat_model
-  
+
   llm = init_chat_model(model="openai:gpt-4o-mini")
-  
+
   class State(TypedDict):
       topic: str
       joke: str
-  
+
   async def call_model(state, config): # (1)!
       topic = state["topic"]
       print("Generating joke...")
@@ -1433,14 +1433,14 @@ This limits LangGraph ability to automatically propagate context, and affects La
           config, # (2)!
       )
       return {"joke": joke_response.content}
-  
+
   graph = (
       StateGraph(State)
       .add_node(call_model)
       .add_edge(START, "call_model")
       .compile()
   )
-  
+
   async for chunk, metadata in graph.astream(
       {"topic": "ice cream"},
       stream_mode="messages", # (3)!
@@ -1448,40 +1448,40 @@ This limits LangGraph ability to automatically propagate context, and affects La
       if chunk.content:
           print(chunk.content, end="|", flush=True)
   ```
-  
+
   1. Accept `config` as an argument in the async node function.
   2. Pass `config` to `llm.ainvoke()` to ensure proper context propagation.
-  3. Set `stream_mode="messages"` to stream LLM tokens.
+    3. Set `stream_mode="messages"` to stream LLM tokens.
 </Accordion>
 
 <Accordion title="Extended example: async custom streaming with stream writer">
   ```python {highlight={8,21}}
   from typing import TypedDict
   from langgraph.types import StreamWriter
-  
+
   class State(TypedDict):
         topic: str
         joke: str
-  
+
   async def generate_joke(state: State, writer: StreamWriter): # (1)!
         writer({"custom_key": "Streaming custom data while generating a joke"})
         return {"joke": f"This is a joke about {state['topic']}"}
-  
+
   graph = (
         StateGraph(State)
         .add_node(generate_joke)
         .add_edge(START, "generate_joke")
         .compile()
   )
-  
+
   async for chunk in graph.astream(
         {"topic": "ice cream"},
         stream_mode="custom", # (2)!
   ):
         print(chunk)
   ```
-  
+
   1. Add `writer` as an argument in the function signature of the async node or tool. LangGraph will automatically pass the stream writer to the function.
-  2. Set `stream_mode="custom"` to receive the custom data in the stream.
+    2. Set `stream_mode="custom"` to receive the custom data in the stream.
 </Accordion>
 :::

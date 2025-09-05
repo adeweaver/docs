@@ -4,12 +4,10 @@ title: DocArray
 
 >[DocArray](https://github.com/docarray/docarray) is a versatile, open-source tool for managing your multi-modal data. It lets you shape your data however you want, and offers the flexibility to store and search it using various document index backends. Plus, it gets even better - you can utilize your `DocArray` document index to create a `DocArrayRetriever`, and build awesome Langchain apps!
 
-This notebook is split into two sections. The [first section](#document-index-backends) offers an introduction to all five supported document index backends. It provides guidance on setting up and indexing each backend and also instructs you on how to build a `DocArrayRetriever` for finding relevant documents. 
+This notebook is split into two sections. The [first section](#document-index-backends) offers an introduction to all five supported document index backends. It provides guidance on setting up and indexing each backend and also instructs you on how to build a `DocArrayRetriever` for finding relevant documents.
 In the [second section](#movie-retrieval-using-hnswdocumentindex), we'll select one of these backends and illustrate how to use it through a basic example.
 
-
 ## Document Index Backends
-
 
 ```python
 import random
@@ -26,7 +24,6 @@ Before you start building the index, it's important to define your document sche
 
 For this demonstration, we'll create a somewhat random schema containing 'title' (str), 'title_embedding' (numpy array), 'year' (int), and 'color' (str)
 
-
 ```python
 class MyDoc(BaseDoc):
     title: str
@@ -39,8 +36,7 @@ class MyDoc(BaseDoc):
 
 `InMemoryExactNNIndex` stores all Documents in memory. It is a great starting point for small datasets, where you may not want to launch a database server.
 
-Learn more here: https://docs.docarray.org/user_guide/storing/index_in_memory/
-
+Learn more here: [docs.docarray.org/user_guide/storing/index_in_memory/](https://docs.docarray.org/user_guide/storing/index_in_memory/)
 
 ```python
 from docarray.index import InMemoryExactNNIndex
@@ -63,7 +59,6 @@ db.index(
 filter_query = {"year": {"$lte": 90}}
 ```
 
-
 ```python
 # create a retriever
 retriever = DocArrayRetriever(
@@ -78,15 +73,16 @@ retriever = DocArrayRetriever(
 doc = retriever.invoke("some query")
 print(doc)
 ```
+
 ```output
 [Document(page_content='My document 56', metadata={'id': '1f33e58b6468ab722f3786b96b20afe6', 'year': 56, 'color': 'red'})]
 ```
+
 ### HnswDocumentIndex
 
 `HnswDocumentIndex` is a lightweight Document Index implementation that runs fully locally and is best suited for small- to medium-sized datasets. It stores vectors on disk in [hnswlib](https://github.com/nmslib/hnswlib), and stores all other data in [SQLite](https://www.sqlite.org/index.html).
 
-Learn more here: https://docs.docarray.org/user_guide/storing/index_hnswlib/
-
+Learn more here: [docs.docarray.org/user_guide/storing/index_hnswlib/](https://docs.docarray.org/user_guide/storing/index_hnswlib/)
 
 ```python
 from docarray.index import HnswDocumentIndex
@@ -110,7 +106,6 @@ db.index(
 filter_query = {"year": {"$lte": 90}}
 ```
 
-
 ```python
 # create a retriever
 retriever = DocArrayRetriever(
@@ -125,15 +120,16 @@ retriever = DocArrayRetriever(
 doc = retriever.invoke("some query")
 print(doc)
 ```
+
 ```output
 [Document(page_content='My document 28', metadata={'id': 'ca9f3f4268eec7c97a7d6e77f541cb82', 'year': 28, 'color': 'red'})]
 ```
+
 ### WeaviateDocumentIndex
 
 `WeaviateDocumentIndex` is a document index that is built upon [Weaviate](https://weaviate.io/) vector database.
 
-Learn more here: https://docs.docarray.org/user_guide/storing/index_weaviate/
-
+Learn more here: [docs.docarray.org/user_guide/storing/index_weaviate/](https://docs.docarray.org/user_guide/storing/index_weaviate/)
 
 ```python
 # There's a small difference with the Weaviate backend compared to the others.
@@ -149,7 +145,6 @@ class WeaviateDoc(BaseDoc):
     year: int
     color: str
 ```
-
 
 ```python
 from docarray.index import WeaviateDocumentIndex
@@ -174,7 +169,6 @@ db.index(
 filter_query = {"path": ["year"], "operator": "LessThanEqual", "valueInt": "90"}
 ```
 
-
 ```python
 # create a retriever
 retriever = DocArrayRetriever(
@@ -189,15 +183,16 @@ retriever = DocArrayRetriever(
 doc = retriever.invoke("some query")
 print(doc)
 ```
+
 ```output
 [Document(page_content='My document 17', metadata={'id': '3a5b76e85f0d0a01785dc8f9d965ce40', 'year': 17, 'color': 'red'})]
 ```
+
 ### ElasticDocIndex
 
 `ElasticDocIndex` is a document index that is built upon [ElasticSearch](https://github.com/elastic/elasticsearch)
 
 Learn more [here](https://docs.docarray.org/user_guide/storing/index_elastic/)
-
 
 ```python
 from docarray.index import ElasticDocIndex
@@ -223,7 +218,6 @@ db.index(
 filter_query = {"range": {"year": {"lte": 90}}}
 ```
 
-
 ```python
 # create a retriever
 retriever = DocArrayRetriever(
@@ -238,15 +232,16 @@ retriever = DocArrayRetriever(
 doc = retriever.invoke("some query")
 print(doc)
 ```
+
 ```output
 [Document(page_content='My document 46', metadata={'id': 'edbc721bac1c2ad323414ad1301528a4', 'year': 46, 'color': 'green'})]
 ```
+
 ### QdrantDocumentIndex
 
 `QdrantDocumentIndex` is a document index that is built upon [Qdrant](https://qdrant.tech/) vector database
 
 Learn more [here](https://docs.docarray.org/user_guide/storing/index_qdrant/)
-
 
 ```python
 from docarray.index import QdrantDocumentIndex
@@ -281,6 +276,7 @@ filter_query = rest.Filter(
     ]
 )
 ```
+
 ```output
 WARNING:root:Payload indexes have no effect in the local Qdrant. Please use server Qdrant if you need payload indexes.
 ```
@@ -299,11 +295,12 @@ retriever = DocArrayRetriever(
 doc = retriever.invoke("some query")
 print(doc)
 ```
+
 ```output
 [Document(page_content='My document 80', metadata={'id': '97465f98d0810f1f330e4ecc29b13d20', 'year': 80, 'color': 'blue'})]
 ```
-## Movie Retrieval using HnswDocumentIndex
 
+## Movie Retrieval using HnswDocumentIndex
 
 ```python
 movies = [
@@ -346,7 +343,6 @@ movies = [
 ]
 ```
 
-
 ```python
 import getpass
 import os
@@ -354,6 +350,7 @@ import os
 if "OPENAI_API_KEY" not in os.environ:
     os.environ["OPENAI_API_KEY"] = getpass.getpass("OpenAI API Key:")
 ```
+
 ```output
 OpenAI API Key: ········
 ```
@@ -387,7 +384,6 @@ docs = DocList[MyDoc](
 )
 ```
 
-
 ```python
 from docarray.index import HnswDocumentIndex
 
@@ -399,7 +395,6 @@ db.index(docs)
 ```
 
 ### Normal Retriever
-
 
 ```python
 from langchain_community.retrievers import DocArrayRetriever
@@ -416,11 +411,12 @@ retriever = DocArrayRetriever(
 doc = retriever.invoke("movie about dreams")
 print(doc)
 ```
+
 ```output
 [Document(page_content='A thief who steals corporate secrets through the use of dream-sharing technology is given the task of planting an idea into the mind of a CEO.', metadata={'id': 'f1649d5b6776db04fec9a116bbb6bbe5', 'title': 'Inception', 'rating': 8.8, 'director': 'Christopher Nolan'})]
 ```
-### Retriever with Filters
 
+### Retriever with Filters
 
 ```python
 from langchain_community.retrievers import DocArrayRetriever
@@ -439,11 +435,12 @@ retriever = DocArrayRetriever(
 docs = retriever.invoke("space travel")
 print(docs)
 ```
+
 ```output
 [Document(page_content='Interstellar explores the boundaries of human exploration as a group of astronauts venture through a wormhole in space. In their quest to ensure the survival of humanity, they confront the vastness of space-time and grapple with love and sacrifice.', metadata={'id': 'ab704cc7ae8573dc617f9a5e25df022a', 'title': 'Interstellar', 'rating': 8.6, 'director': 'Christopher Nolan'}), Document(page_content='A thief who steals corporate secrets through the use of dream-sharing technology is given the task of planting an idea into the mind of a CEO.', metadata={'id': 'f1649d5b6776db04fec9a116bbb6bbe5', 'title': 'Inception', 'rating': 8.8, 'director': 'Christopher Nolan'})]
 ```
-### Retriever with MMR search
 
+### Retriever with MMR search
 
 ```python
 from langchain_community.retrievers import DocArrayRetriever
@@ -463,6 +460,7 @@ retriever = DocArrayRetriever(
 docs = retriever.invoke("action movies")
 print(docs)
 ```
+
 ```output
 [Document(page_content="The lives of two mob hitmen, a boxer, a gangster's wife, and a pair of diner bandits intertwine in four tales of violence and redemption.", metadata={'id': 'e6aa313bbde514e23fbc80ab34511afd', 'title': 'Pulp Fiction', 'rating': 8.9, 'director': 'Quentin Tarantino'}), Document(page_content='A thief who steals corporate secrets through the use of dream-sharing technology is given the task of planting an idea into the mind of a CEO.', metadata={'id': 'f1649d5b6776db04fec9a116bbb6bbe5', 'title': 'Inception', 'rating': 8.8, 'director': 'Christopher Nolan'}), Document(page_content='When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.', metadata={'id': '91dec17d4272041b669fd113333a65f7', 'title': 'The Dark Knight', 'rating': 9.0, 'director': 'Christopher Nolan'})]
 ```

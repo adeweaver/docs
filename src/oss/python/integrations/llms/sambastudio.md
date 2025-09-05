@@ -7,11 +7,11 @@ title: SambaStudio
 <Warning>
 **You are currently on a page documenting the use of SambaStudio models as [text completion models](/oss/concepts/text_llms). We recommend you to use the [chat completion models](/oss/concepts/chat_models).**
 
-
 You may be looking for [SambaStudio Chat Models](/oss/integrations/chat/sambastudio/) .
 </Warning>
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | JS support | Package downloads | Package latest |
@@ -23,10 +23,10 @@ This example goes over how to use LangChain to interact with SambaStudio models
 ## Setup
 
 ### Credentials
+
 A SambaStudio environment is required to deploy a model. Get more information at [sambanova.ai/products/enterprise-ai-platform-sambanova-suite](https://sambanova.ai/products/enterprise-ai-platform-sambanova-suite)
 
 you'll need to [deploy an endpoint](https://docs.sambanova.ai/sambastudio/latest/endpoints.html) and set the `SAMBASTUDIO_URL` and `SAMBASTUDIO_API_KEY` environment variables:
-
 
 ```python
 import getpass
@@ -40,15 +40,13 @@ if "SAMBASTUDIO_API_KEY" not in os.environ:
 
 ### Installation
 
-The integration lives in the `langchain-community` package. We also need  to install the [sseclient-py](https://pypi.org/project/sseclient-py/) package this is required to run streaming predictions 
-
+The integration lives in the `langchain-community` package. We also need  to install the [sseclient-py](https://pypi.org/project/sseclient-py/) package this is required to run streaming predictions
 
 ```python
 %pip install --quiet -U langchain-community sseclient-py
 ```
 
 ## Instantiation
-
 
 ```python
 from langchain_community.llms.sambanova import SambaStudio
@@ -72,7 +70,6 @@ llm = SambaStudio(
 
 Now we can instantiate our model object and generate chat completions:
 
-
 ```python
 input_text = "Why should I use open source models?"
 
@@ -80,19 +77,16 @@ completion = llm.invoke(input_text)
 completion
 ```
 
-
-
 ```output
 "Using open source models can have numerous benefits. Here are some reasons why you should consider using open source models:\n\n1. **Cost-effective**: Open source models are often free to use, modify, and distribute, which can significantly reduce costs compared to proprietary models.\n2. **Customizability**: Open source models can be modified to fit your specific needs, allowing you to tailor the model to your project's requirements.\n3. **Transparency**: Open source models provide complete transparency into the model's architecture, training data, and algorithms, which can be essential for understanding how the model works and identifying potential biases.\n4. **Community involvement**: Open source models are often maintained by a community of developers, researchers, and users, which can lead to faster bug fixes, new feature additions, and improved performance.\n5. **Flexibility**: Open source models can be used in a variety of applications, from research to production, and can be easily integrated into different workflows and systems.\n6. **Auditability**: With open source models, you can audit the model's performance, data, and algorithms, which is critical in regulated industries or when working with sensitive data.\n7. **No vendor lock-in**: By using open source models, you're not tied to a specific vendor or proprietary technology, giving you more freedom to switch or modify your approach as needed.\n8. **Improved security**: Open source models can be reviewed and audited by the community, which can help identify and fix security vulnerabilities more quickly.\n9. **Access to cutting-edge research**: Open source models can provide access to the latest research and advancements in AI and machine learning, allowing you to leverage the work of experts in the field.\n10. **Ethical considerations**: By using open source models, you can ensure that your AI systems are transparent, explainable, and fair, which is essential for building trust in AI applications.\n11. **Reduced risk of bias**: Open source models can help reduce the risk of bias by providing transparency into the model's development, training data, and algorithms.\n12. **Faster development**: Open source models can accelerate your development process by providing pre-trained models, datasets, and tools that can be easily integrated into your project.\n13. **Improved collaboration**: Open source models can facilitate collaboration among researchers, developers, and organizations, leading to faster progress and innovation in AI and machine learning.\n14. **Access to large datasets**: Open source models can provide access to large datasets, which can be essential for training and testing AI models.\n15. **Compliance with regulations**: In some cases, using open source models can help ensure compliance with regulations, such as GDPR, HIPAA, or CCPA, which require transparency and explainability in AI systems.\n\nOverall, using open source models can provide numerous benefits, from cost savings to improved transparency and customizability. By leveraging open source models, you can accelerate your AI and machine learning projects while ensuring that your systems are transparent, explainable, and fair."
 ```
-
-
 
 ```python
 # Streaming response
 for chunk in llm.stream("Why should I use open source models?"):
     print(chunk, end="", flush=True)
 ```
+
 ```output
 Using open source models can have numerous benefits. Here are some reasons why you should consider using open source models:
 
@@ -114,8 +108,8 @@ Using open source models can have numerous benefits. Here are some reasons why y
 
 Overall, using open source models can provide numerous benefits, from cost savings to improved transparency and customizability. By leveraging open source models, you can accelerate your AI and machine learning projects while ensuring that your systems are transparent, explainable, and fair.
 ```
-## Chaining
 
+## Chaining
 
 ```python
 from langchain_core.prompts import PromptTemplate
@@ -131,13 +125,10 @@ chain.invoke(
 )
 ```
 
-
-
 ```output
 'In German, you can say:\n\n"Ich liebe das Programmieren."\n\nHere\'s a breakdown of the sentence:\n\n* "Ich" means "I"\n* "liebe" is the verb "to love" in the present tense, first person singular (I love)\n* "das" is the definite article "the"\n* "Programmieren" is the noun "programming"\n\nSo, "Ich liebe das Programmieren" literally means "I love the programming".\n\nIf you want to make it sound more casual, you can say:\n\n"Ich liebe\'s Programmieren."\n\nThe apostrophe in "liebe\'s" is a contraction of "liebe es", which is a more informal way of saying "I love it".\n\nAlternatively, you can also say:\n\n"Programmieren ist meine Leidenschaft."\n\nThis sentence means "Programming is my passion". Here, "Programmieren" is the subject, "ist" is the verb "to be" in the present tense, and "meine Leidenschaft" means "my passion".'
 ```
 
-
 ## API reference
 
-For detailed documentation of all `SambaStudio` llm features and configurations head to the API reference: https://python.langchain.com/api_reference/community/llms/langchain_community.llms.sambanova.SambaStudio.html
+For detailed documentation of all `SambaStudio` llm features and configurations head to the API reference: [python.langchain.com/api_reference/community/llms/langchain_community.llms.sambanova.SambaStudio.html](https://python.langchain.com/api_reference/community/llms/langchain_community.llms.sambanova.SambaStudio.html)

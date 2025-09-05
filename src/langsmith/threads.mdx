@@ -99,7 +99,7 @@ const threadId = "thread-id-1";
 
 const client = wrapOpenAI(new OpenAI(), {
   project_name: langsmithProject,
-  metadata: { session_id: threadId }  
+  metadata: { session_id: threadId }
 });
 const langsmithClient = new Client();
 
@@ -167,7 +167,7 @@ const chatPipeline = traceable(
   {
     name: "Chat Bot",
     project_name: langsmithProject,
-    metadata: { session_id: threadId }  
+    metadata: { session_id: threadId }
   }
 );
 

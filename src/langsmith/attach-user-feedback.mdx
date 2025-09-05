@@ -9,7 +9,7 @@ sidebarTitle: Log user feedback using the SDK
 - [Reference guide on feedback data format](/langsmith/feedback-data-format)
 </Tip>
 
-LangSmith makes it easy to attach feedback to traces. 
+LangSmith makes it easy to attach feedback to traces.
 This feedback can come from users, annotators, automated evaluators, etc., and is crucial for monitoring and evaluating applications.
 
 ## Use [create_feedback()](https://docs.smith.langchain.com/reference/python/client/langsmith.client.Client#langsmith.client.Client.create_feedback) / [createFeedback()](https://docs.smith.langchain.com/reference/js/classes/client.Client#createfeedback)
@@ -65,7 +65,7 @@ client.create_feedback(
     key="correctness",
     score=0,
     run_id=foo_run_id,
-    # trace_id= is optional but recommended to enable batched and backgrounded 
+    # trace_id= is optional but recommended to enable batched and backgrounded
     # feedback ingestion.
     trace_id=trace_id,
 )

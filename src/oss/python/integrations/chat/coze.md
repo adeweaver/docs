@@ -4,12 +4,10 @@ title: Chat with Coze Bot
 
 ChatCoze chat models API by coze.com. For more information, see [https://www.coze.com/open/docs/chat](https://www.coze.com/open/docs/chat)
 
-
 ```python
 from langchain_community.chat_models import ChatCoze
 from langchain_core.messages import HumanMessage
 ```
-
 
 ```python
 chat = ChatCoze(
@@ -24,7 +22,6 @@ chat = ChatCoze(
 
 Alternatively, you can set your API key and API base with:
 
-
 ```python
 import os
 
@@ -32,12 +29,9 @@ os.environ["COZE_API_KEY"] = "YOUR_API_KEY"
 os.environ["COZE_API_BASE"] = "YOUR_API_BASE"
 ```
 
-
 ```python
 chat([HumanMessage(content="什么是扣子(coze)")])
 ```
-
-
 
 ```output
 AIMessage(content='为你找到关于coze的信息如下：
@@ -49,9 +43,7 @@ Coze是一个由字节跳动推出的AI聊天机器人和应用程序编辑开�
 国际版使用的模型比国内版更强大。')
 ```
 
-
 ## Chat with Coze Streaming
-
 
 ```python
 chat = ChatCoze(
@@ -64,12 +56,9 @@ chat = ChatCoze(
 )
 ```
 
-
 ```python
 chat([HumanMessage(content="什么是扣子(coze)")])
 ```
-
-
 
 ```output
 AIMessageChunk(content='为你查询到Coze是一个由字节跳动推出的AI聊天机器人和应用程序编辑开发平台。')

@@ -8,14 +8,12 @@ This notebook goes over how to use a retriever that under the hood uses a kNN.
 
 Largely based on the code of [Andrej Karpathy](https://github.com/karpathy/randomfun/blob/master/knn_vs_svm.html).
 
-
 ```python
 from langchain_community.retrievers import KNNRetriever
 from langchain_openai import OpenAIEmbeddings
 ```
 
 ## Create New Retriever with Texts
-
 
 ```python
 retriever = KNNRetriever.from_texts(
@@ -27,17 +25,13 @@ retriever = KNNRetriever.from_texts(
 
 We can now use the retriever!
 
-
 ```python
 result = retriever.invoke("foo")
 ```
 
-
 ```python
 result
 ```
-
-
 
 ```output
 [Document(page_content='foo', metadata={}),

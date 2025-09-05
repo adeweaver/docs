@@ -45,7 +45,7 @@ Do not include any text except the generated Cypher statement.
 Follow these Cypher example when Generating Cypher statements:
 # How many actors played in Top Gun?
 MATCH (m:Movie {{title:"Top Gun"}})<-[:ACTED_IN]-()
-RETURN count(*) AS result 
+RETURN count(*) AS result
 
 The question is:
 {question}`;

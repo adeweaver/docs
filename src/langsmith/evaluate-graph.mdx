@@ -4,7 +4,7 @@ sidebarTitle: Evaluate a graph
 ---
 
 <Info>
-  [langgraph](https://langchain-ai.github.io/langgraph/)
+[langgraph](https://langchain-ai.github.io/langgraph/)
 </Info>
 
 `langgraph` is a library for building stateful, multi-actor applications with LLMs, used to create agent and multi-agent workflows. Evaluating `langgraph` graphs can be challenging because a single invocation can involve many LLM calls, and which LLM calls are made may depend on the outputs of preceding calls. In this guide we will focus on the mechanics of how to pass graphs and graph nodes to `evaluate()` / `aevaluate()`. For evaluation techniques and best practices when building agents head to the [langgraph docs](https://langchain-ai.github.io/langgraph/tutorials/#evaluation).
@@ -159,7 +159,7 @@ async def correct(outputs: dict, reference_outputs: dict) -> bool:
 Now we can run our evaluations and explore the results. We'll just need to wrap our graph function so that it can take inputs in the format they're stored on our example:
 
 <Note>
-  If all of your graph nodes are defined as sync functions then you can use `evaluate` or `aevaluate`. If any of you nodes are defined as async, you'll need to use `aevaluate`
+If all of your graph nodes are defined as sync functions then you can use `evaluate` or `aevaluate`. If any of you nodes are defined as async, you'll need to use `aevaluate`
 </Note>
 
 Requires `langsmith>=0.2.0`
@@ -206,7 +206,7 @@ experiment_results = await aevaluate(
 If we need access to information about intermediate steps that isn't in state, we can look at the Run object. This contains the full traces for all node inputs and outputs:
 
 <Check>
-  See more about what arguments you can pass to custom evaluators in this [how-to guide](/langsmith/code-evaluator).
+See more about what arguments you can pass to custom evaluators in this [how-to guide](/langsmith/code-evaluator).
 </Check>
 
 ```python

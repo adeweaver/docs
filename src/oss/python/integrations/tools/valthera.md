@@ -16,16 +16,13 @@ In this guide, you'll learn:
 
 Let's dive in!
 
-
 ## Setup
 
 This section covers installation of dependencies and setting up custom data connectors for Valthera.
 
-
 ```python
 pip install openai langchain langchain_openai valthera langchain_valthera langgraph
 ```
-
 
 ```python
 from typing import Any, Dict, List
@@ -119,7 +116,6 @@ class MockSnowflakeConnector(BaseConnector):
 
 In this section, we instantiate the core components. First, we create a Data Aggregator to combine data from the custom connectors. Then, we configure the scoring metrics for motivation and ability.
 
-
 ```python
 from valthera.aggregator import DataAggregator
 
@@ -143,7 +139,6 @@ data_aggregator = DataAggregator(
 
 # You can now fetch unified user data by calling data_aggregator.get_user_context(user_id)
 ```
-
 
 ```python
 from typing import Callable, Union
@@ -234,7 +229,6 @@ scorer = ValtheraScorer(motivation_config, ability_config)
 
 Next, we set up the Reasoning Engine and Trigger Generator, then bring all components together by instantiating the Valthera Tool. Finally, we execute the agent workflow to process an input message.
 
-
 ```python
 import os
 
@@ -290,7 +284,6 @@ except ValueError as e:
     print(f"Error initializing reasoning engine: {e}")
 ```
 
-
 ```python
 from valthera.trigger_generator import TriggerGenerator
 
@@ -305,10 +298,9 @@ except ValueError as e:
     print(f"Error initializing trigger generator: {e}")
 ```
 
-
 ```python
 from langchain_valthera.tools import ValtheraTool
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 try:
     api_key = get_openai_api_key()
@@ -325,7 +317,7 @@ try:
     # Create agent with LLM
     llm = ChatOpenAI(model_name="gpt-4-turbo", temperature=0.0, openai_api_key=api_key)
     tools = [valthera_tool]
-    graph = create_react_agent(llm, tools=tools)
+    graph = create_agent(llm, tools=tools)
 
     # Define input message for testing
     inputs = {
