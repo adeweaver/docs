@@ -6,13 +6,11 @@ title: SceneXplain
 
 To use this tool, you'll need to make an account and fetch your API Token [from the website](https://scenex.jina.ai/api). Then you can instantiate the tool.
 
-
 ```python
 import os
 
 os.environ["SCENEX_API_KEY"] = "<YOUR_API_KEY>"
 ```
-
 
 ```python
 from langchain.agents import load_tools
@@ -21,7 +19,6 @@ tools = load_tools(["sceneXplain"])
 ```
 
 Or directly instantiate the tool.
-
 
 ```python
 from langchain_community.tools import SceneXplainTool
@@ -32,7 +29,6 @@ tool = SceneXplainTool()
 ## Usage in an Agent
 
 The tool can be used in any LangChain agent as follows:
-
 
 ```python
 from langchain.agents import initialize_agent
@@ -53,6 +49,7 @@ output = agent.run(
 
 print(output)
 ```
+
 ```output
 > Entering new AgentExecutor chain...
 

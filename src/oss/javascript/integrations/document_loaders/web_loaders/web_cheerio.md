@@ -6,6 +6,7 @@ title: Cheerio
 This notebook provides a quick overview for getting started with [CheerioWebBaseLoader](/oss/integrations/document_loaders/). For detailed documentation of all CheerioWebBaseLoader features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_cheerio.CheerioWebBaseLoader.html).
 
 ## Overview
+
 ### Integration details
 
 This example goes over how to load data from webpages using Cheerio. One document will be created for each webpage.
@@ -16,11 +17,13 @@ However, Cheerio does not simulate a web browser, so it cannot execute JavaScrip
 
 | Class | Package | Local | Serializable | PY support|
 | :--- | :--- | :---: | :---: |  :---: |
-| [CheerioWebBaseLoader](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_cheerio.CheerioWebBaseLoader.html) | @langchain/community | ✅ | ✅ | ❌ | 
+| [CheerioWebBaseLoader](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_cheerio.CheerioWebBaseLoader.html) | @langchain/community | ✅ | ✅ | ❌ |
+
 ### Loader features
+
 | Source | Web Support | Node Support
-| :---: | :---: | :---: | 
-| CheerioWebBaseLoader | ✅ | ✅ | 
+| :---: | :---: | :---: |
+| CheerioWebBaseLoader | ✅ | ✅ |
 
 ## Setup
 
@@ -48,10 +51,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and load documents:
-
 
 ```typescript
 import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/cheerio"
@@ -60,13 +63,14 @@ const loader = new CheerioWebBaseLoader("https://news.ycombinator.com/item?id=34
   // optional params: ...
 })
 ```
-## Load
 
+## Load
 
 ```typescript
 const docs = await loader.load()
 docs[0]
 ```
+
 ```output
 Document {
   pageContent: '\n' +
@@ -163,13 +167,14 @@ Document {
 ```typescript
 console.log(docs[0].metadata)
 ```
+
 ```output
 { source: 'https://news.ycombinator.com/item?id=34817881' }
 ```
+
 ## Additional configurations
 
 `CheerioWebBaseLoader` supports additional configuration when instantiating the loader. Here is an example of how to use it with the `selector` field passed, making it only load content from the provided HTML class names:
-
 
 ```typescript
 import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/cheerio"
@@ -181,9 +186,11 @@ const loaderWithSelector = new CheerioWebBaseLoader("https://news.ycombinator.co
 const docsWithSelector = await loaderWithSelector.load();
 docsWithSelector[0].pageContent;
 ```
+
 ```output
 Some of my favourite simulation projects:- IllustrisTNG: https://www.tng-project.org/- SWIFT: https://swift.dur.ac.uk/- CO5BOLD: https://www.astro.uu.se/~bf/co5bold_main.html (which produced these animations of a red-giant star: https://www.astro.uu.se/~bf/movie/AGBmovie.html)- AbacusSummit: https://abacussummit.readthedocs.io/en/latest/And I can add the simulations in the article, too.
 ```
+
 ## API reference
 
-For detailed documentation of all CheerioWebBaseLoader features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_community_document_loaders_web_cheerio.CheerioWebBaseLoader.html
+For detailed documentation of all CheerioWebBaseLoader features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_document_loaders_web_cheerio.CheerioWebBaseLoader.html).

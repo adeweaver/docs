@@ -4,18 +4,19 @@ title: PredictionGuard
 
 >[Prediction Guard](https://predictionguard.com) is a secure, scalable GenAI platform that safeguards sensitive data, prevents common AI malfunctions, and runs on affordable hardware.
 
-
 ## Overview
 
 ### Integration details
+
 This integration utilizes the Prediction Guard API, which includes various safeguards and security features.
 
 ## Setup
+
 To access Prediction Guard models, contact us [here](https://predictionguard.com/get-started) to get a Prediction Guard API key and get started.
 
 ### Credentials
-Once you have a key, you can set it with
 
+Once you have a key, you can set it with
 
 ```python
 import os
@@ -26,18 +27,15 @@ if "PREDICTIONGUARD_API_KEY" not in os.environ:
 
 ### Installation
 
-
 ```python
 %pip install -qU langchain-predictionguard
 ```
 
 ## Instantiation
 
-
 ```python
 from langchain_predictionguard import PredictionGuard
 ```
-
 
 ```python
 # If predictionguard_api_key is not passed, default behavior is to use the `PREDICTIONGUARD_API_KEY` environment variable.
@@ -46,24 +44,19 @@ llm = PredictionGuard(model="Hermes-3-Llama-3.1-8B")
 
 ## Invocation
 
-
 ```python
 llm.invoke("Tell me a short funny joke.")
 ```
 
-
-
 ```output
 ' I need a laugh.\nA man walks into a library and asks the librarian, "Do you have any books on paranoia?"\nThe librarian whispers, "They\'re right behind you."'
 ```
-
 
 ## Process Input
 
 With Prediction Guard, you can guard your model inputs for PII or prompt injections using one of our input checks. See the [Prediction Guard docs](https://docs.predictionguard.com/docs/process-llm-input/) for more information.
 
 ### PII
-
 
 ```python
 llm = PredictionGuard(
@@ -75,11 +68,12 @@ try:
 except ValueError as e:
     print(e)
 ```
+
 ```output
 Could not make prediction. pii detected
 ```
-### Prompt Injection
 
+### Prompt Injection
 
 ```python
 llm = PredictionGuard(
@@ -94,15 +88,16 @@ try:
 except ValueError as e:
     print(e)
 ```
+
 ```output
 Could not make prediction. prompt injection detected
 ```
+
 ## Output Validation
 
 With Prediction Guard, you can check validate the model outputs using factuality to guard against hallucinations and incorrect info, and toxicity to guard against toxic responses (e.g. profanity, hate speech). See the [Prediction Guard docs](https://docs.predictionguard.com/docs/validating-llm-output) for more information.
 
 ### Toxicity
-
 
 ```python
 llm = PredictionGuard(
@@ -113,11 +108,12 @@ try:
 except ValueError as e:
     print(e)
 ```
+
 ```output
 Could not make prediction. failed toxicity check
 ```
-### Factuality
 
+### Factuality
 
 ```python
 llm = PredictionGuard(
@@ -129,11 +125,12 @@ try:
 except ValueError as e:
     print(e)
 ```
+
 ```output
 Could not make prediction. failed factuality check
 ```
-## Chaining
 
+## Chaining
 
 ```python
 from langchain_core.prompts import PromptTemplate
@@ -151,12 +148,9 @@ question = "What NFL team won the Super Bowl in the year Justin Beiber was born?
 llm_chain.invoke({"question": question})
 ```
 
-
-
 ```output
 " Justin Bieber was born on March 1, 1994. Super Bowl XXVIII was held on January 30, 1994. Since the Super Bowl happened before the year of Justin Bieber's birth, it means that no NFL team won the Super Bowl in the year Justin Bieber was born. The question is invalid. However, Super Bowl XXVIII was won by the Dallas Cowboys. So, if the question was asking for the winner of Super Bowl XXVIII, the answer would be the Dallas Cowboys. \n\nExplanation: The question seems to be asking for the winner of the Super"
 ```
 
-
 ## API reference
-https://python.langchain.com/api_reference/community/llms/langchain_community.llms.predictionguard.PredictionGuard.html
+[python.langchain.com/api_reference/community/llms/langchain_community.llms.predictionguard.PredictionGuard.html](https://python.langchain.com/api_reference/community/llms/langchain_community.llms.predictionguard.PredictionGuard.html)

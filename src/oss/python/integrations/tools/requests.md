@@ -7,6 +7,7 @@ We can use the Requests [toolkit](/oss/concepts/tools/#toolkits) to construct ag
 For detailed documentation of all API toolkit features and configurations head to the API reference for [RequestsToolkit](https://python.langchain.com/api_reference/community/agent_toolkits/langchain_community.agent_toolkits.openapi.toolkit.RequestsToolkit.html).
 
 ## ⚠️ Security note ⚠️
+
 There are inherent risks in giving models discretion to execute real-world actions. Take precautions to mitigate these risks:
 
 - Make sure that permissions associated with the tools are narrowly-scoped (e.g., for database operations or API requests);
@@ -18,13 +19,11 @@ There are inherent risks in giving models discretion to execute real-world actio
 
 This toolkit lives in the `langchain-community` package:
 
-
 ```python
 %pip install -qU langchain-community
 ```
 
 To enable automated tracing of individual tools, set your [LangSmith](https://docs.smith.langchain.com/) API key:
-
 
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -38,7 +37,6 @@ First we will demonstrate a minimal example.
 **NOTE**: There are inherent risks in giving models discretion to execute real-world actions. We must "opt-in" to these risks by setting `allow_dangerous_request=True` to use these tools.
 **This can be dangerous for calling unwanted requests**. Please make sure your custom OpenAPI spec (yaml) is safe and that permissions associated with the tools are narrowly-scoped.
 
-
 ```python
 ALLOW_DANGEROUS_REQUEST = True
 ```
@@ -46,7 +44,6 @@ ALLOW_DANGEROUS_REQUEST = True
 We can use the [JSONPlaceholder](https://jsonplaceholder.typicode.com) API as a testing ground.
 
 Let's create (a subset of) its API spec:
-
 
 ```python
 from typing import Any, Dict, Union
@@ -111,7 +108,6 @@ api_spec = _get_api_spec()
 
 Next we can instantiate the toolkit. We require no authorization or other headers for this API:
 
-
 ```python
 from langchain_community.agent_toolkits.openapi.toolkit import RequestsToolkit
 from langchain_community.utilities.requests import TextRequestsWrapper
@@ -126,14 +122,11 @@ toolkit = RequestsToolkit(
 
 View available tools:
 
-
 ```python
 tools = toolkit.get_tools()
 
 tools
 ```
-
-
 
 ```output
 [RequestsGetTool(requests_wrapper=TextRequestsWrapper(headers={}, aiosession=None, auth=None, response_content_type='text', verify=True), allow_dangerous_requests=True),
@@ -143,7 +136,6 @@ tools
  RequestsDeleteTool(requests_wrapper=TextRequestsWrapper(headers={}, aiosession=None, auth=None, response_content_type='text', verify=True), allow_dangerous_requests=True)]
 ```
 
-
 - [RequestsGetTool](https://python.langchain.com/api_reference/community/tools/langchain_community.tools.requests.tool.RequestsGetTool.html)
 - [RequestsPostTool](https://python.langchain.com/api_reference/community/tools/langchain_community.tools.requests.tool.RequestsPostTool.html)
 - [RequestsPatchTool](https://python.langchain.com/api_reference/community/tools/langchain_community.tools.requests.tool.RequestsPatchTool.html)
@@ -152,10 +144,9 @@ tools
 
 ## Use within an agent
 
-
 ```python
 from langchain_openai import ChatOpenAI
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 llm = ChatOpenAI(model="gpt-4o-mini")
 
@@ -165,9 +156,8 @@ Here is documentation on the API:
 {api_spec}
 """.format(api_spec=api_spec)
 
-agent_executor = create_react_agent(llm, tools, prompt=system_message)
+agent_executor = create_agent(llm, tools, prompt=system_message)
 ```
-
 
 ```python
 example_query = "Fetch the top two posts. What are their titles?"
@@ -179,6 +169,7 @@ events = agent_executor.stream(
 for event in events:
     event["messages"][-1].pretty_print()
 ```
+
 ```output
 ================================ Human Message =================================
 
@@ -212,6 +203,7 @@ The titles of the top two posts are:
 1. "sunt aut facere repellat provident occaecati excepturi optio reprehenderit"
 2. "qui est esse"
 ```
+
 ## API reference
 
 For detailed documentation of all API toolkit features and configurations head to the API reference for [RequestsToolkit](https://python.langchain.com/api_reference/community/agent_toolkits/langchain_community.agent_toolkits.openapi.toolkit.RequestsToolkit.html).

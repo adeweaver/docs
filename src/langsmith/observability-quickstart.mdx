@@ -9,12 +9,12 @@ This is where LangSmith can help! LangSmith gives you **visibility into each ste
 
 # Get started
 
-This tutorial will show you how to instrument a simple [RAG](https://www.mckinsey.com/featured-insights/mckinsey-explainers/what-is-retrieval-augmented-generation-rag) application that consists of a retrieval step to fetch data and an LLM call to OpenAI to answer the user question based on the data. 
+This tutorial will show you how to instrument a simple [RAG](https://www.mckinsey.com/featured-insights/mckinsey-explainers/what-is-retrieval-augmented-generation-rag) application that consists of a retrieval step to fetch data and an LLM call to OpenAI to answer the user question based on the data.
 
 <Tip>
-  If you're building an application with [LangChain](https://python.langchain.com/docs/introduction/) or [LangGraph](https://langchain-ai.github.io/langgraph/), you can enable LangSmith tracing with a single environment variable.
-  
-  Get started by reading the guides for tracing with [LangChain](/langsmith/trace-with-langchain) or tracing with [LangGraph](/langsmith/trace-with-langgraph).
+If you're building an application with [LangChain](https://python.langchain.com/docs/introduction/) or [LangGraph](https://langchain-ai.github.io/langgraph/), you can enable LangSmith tracing with a single environment variable.
+
+Get started by reading the guides for tracing with [LangChain](/langsmith/trace-with-langchain) or tracing with [LangGraph](/langsmith/trace-with-langgraph).
 </Tip>
 
 ## 1. Install Dependencies
@@ -37,14 +37,17 @@ To create an API key head to the [LangSmith settings page](https://smith.langcha
 
 ## 3. Set up environment variables
 
-This example uses OpenAI, but you can adapt it to use any LLM provider. 
+This example uses OpenAI, but you can adapt it to use any LLM provider.
 
 If you're using Anthropic, use the [Anthropic wrapper](/langsmith/annotate-code#wrap-the-anthropic-client-python-only) to trace your calls. For other providers, use [the traceable wrapper](/langsmith/annotate-code#use-%40traceable-%2F-traceable).
+
+If your LangSmith API key is linked to multiple workspaces, set the `LANGSMITH_WORKSPACE_ID` environment variable to specify which workspace to use.
 
 ``` bash
 export LANGSMITH_TRACING=true
 export LANGSMITH_API_KEY="<your-langsmith-api-key>"
 export OPENAI_API_KEY="<your-openai-api-key>"
+export LANGSMITH_WORKSPACE_ID="<your-workspace-id>"
 ```
 
 ## 4. Define your application
@@ -52,7 +55,7 @@ export OPENAI_API_KEY="<your-openai-api-key>"
 We will instrument a simple RAG application for this tutorial, but feel free to use your own code if you'd like - just make sure it has an LLM call!
 
 <Accordion title="Application Code">
-  <CodeGroup>
+    <CodeGroup>
 
 ```python Python
 from openai import OpenAI
@@ -70,7 +73,7 @@ def rag(question):
     docs = retriever(question)
     system_message = """Answer the users question using only the provided information below:
         {docs}""".format(docs="\n".join(docs))
-        
+
     return openai_client.chat.completions.create(
         messages=[
             {"role": "system", "content": system_message},
@@ -95,11 +98,11 @@ async function retriever(query: string) {
 // It does a retrieval step then calls OpenAI
 async function rag(question: string) {
   const docs = await retriever(question);
-  
+
   const systemMessage =
     "Answer the users question using only the provided information below:\n\n" +
     docs.join("\n");
-    
+
   return await openAIClient.chat.completions.create({
     messages: [
       { role: "system", content: systemMessage },
@@ -110,7 +113,7 @@ async function rag(question: string) {
 }
 ```
 
-  </CodeGroup>
+    </CodeGroup>
 </Accordion>
 
 ## 5. Trace OpenAI calls
@@ -137,7 +140,7 @@ def rag(question):
     docs = retriever(question)
     system_message = """Answer the users question using only the provided information below:
         {docs}""".format(docs="\n".join(docs))
-        
+
     return openai_client.chat.completions.create(
         messages=[
             {"role": "system", "content": system_message},
@@ -163,11 +166,11 @@ async function retriever(query: string) {
 // It does a retrieval step then calls OpenAI
 async function rag(question: string) {
   const docs = await retriever(question);
-  
+
   const systemMessage =
     "Answer the users question using only the provided information below:\n\n" +
     docs.join("\n");
-    
+
   return await openAIClient.chat.completions.create({
     messages: [
       { role: "system", content: systemMessage },
@@ -212,7 +215,7 @@ def rag(question):
     docs = retriever(question)
     system_message = """Answer the users question using only the provided information below:
         {docs}""".format(docs="\n".join(docs))
-        
+
     return openai_client.chat.completions.create(
         messages=[
             {"role": "system", "content": system_message},
@@ -235,11 +238,11 @@ async function retriever(query: string) {
 
 const rag = traceable(async function rag(question: string) {
   const docs = await retriever(question);
-  
+
   const systemMessage =
     "Answer the users question using only the provided information below:\n\n" +
     docs.join("\n");
-    
+
   return await openAIClient.chat.completions.create({
     messages: [
       { role: "system", content: systemMessage },

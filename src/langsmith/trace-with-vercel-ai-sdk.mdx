@@ -40,6 +40,9 @@ export LANGSMITH_API_KEY=<your-api-key>
 
 # The examples use OpenAI, but you can use any LLM provider of choice
 export OPENAI_API_KEY=<your-openai-api-key>
+
+# For LangSmith API keys linked to multiple workspaces, set the LANGSMITH_WORKSPACE_ID environment variable to specify which workspace to use.
+export LANGSMITH_WORKSPACE_ID=<your-workspace-id>
 ```
 
 </CodeGroup>
@@ -232,7 +235,7 @@ export async function POST(request: Request) {
   const client = new Client();
 
   ...
-  
+
   after(async () => {
     await client.awaitPendingTraceBatches();
   });

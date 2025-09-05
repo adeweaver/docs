@@ -4,26 +4,19 @@ title: Ionic Shopping Tool
 
 [Ionic](https://www.ioniccommerce.com/) is a plug and play ecommerce marketplace for AI Assistants. By including the [Ionic Tool](https://github.com/ioniccommerce/ionic_langchain) in your agent, you are effortlessly providing your users with the ability to shop and transact directly within your agent, and you'll get a cut of the transaction.
 
-
 This is a basic jupyter notebook demonstrating how to integrate the Ionic Tool into your agent. For more information on setting up your Agent with Ionic, see the Ionic [documentation](https://docs.ioniccommerce.com/introduction).
 
 This Jupyter Notebook demonstrates how to use the Ionic tool with an Agent.
 
 **Note: The ionic-langchain package is maintained by the Ionic Commerce team, not the LangChain maintainers.**
 
-
-
 ---
 
-
-
 ## Setup
-
 
 ```python
 pip install langchain langchain_openai langchainhub
 ```
-
 
 ```python
 pip install ionic-langchain
@@ -31,11 +24,10 @@ pip install ionic-langchain
 
 ## Setup Agent
 
-
 ```python
 from ionic_langchain.tool import Ionic, IonicTool
 from langchain import hub
-from langchain.agents import AgentExecutor, Tool, create_react_agent
+from langchain.agents import AgentExecutor, Tool, create_agent
 from langchain_openai import OpenAI
 
 # Based on ReAct Agent
@@ -79,10 +71,10 @@ Return them as a markdown formatted list with each recommendation from tool resu
 
 tools = [ionic_tool]
 
-# default prompt for create_react_agent
+# default prompt for create_agent
 prompt = hub.pull("hwchase17/react")
 
-agent = create_react_agent(
+agent = create_agent(
     llm,
     tools,
     prompt=prompt,
@@ -94,7 +86,6 @@ agent_executor = AgentExecutor(
 ```
 
 ## Run
-
 
 ```python
 input = (

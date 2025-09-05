@@ -38,6 +38,7 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   langchain @langchain/core typeorm
 </Npm2Yarn>
 ```
+
 ## Instantiation
 
 First, we need to define our LLM to be used in the toolkit.
@@ -45,6 +46,7 @@ First, we need to define our LLM to be used in the toolkit.
 ```{=mdx}
 <ChatModelTabs customVarName="llm" />
 ```
+
 ```typescript
 // @lc-docs-hide-cell
 
@@ -55,7 +57,6 @@ const llm = new ChatOpenAI({
   temperature: 0,
 })
 ```
-
 
 ```typescript
 import { SqlToolkit } from "langchain/agents/toolkits/sql"
@@ -77,7 +78,6 @@ const toolkit = new SqlToolkit(db, llm);
 
 View available tools:
 
-
 ```typescript
 const tools = toolkit.getTools();
 
@@ -86,6 +86,7 @@ console.log(tools.map((tool) => ({
   description: tool.description,
 })))
 ```
+
 ```output
 [
   {
@@ -112,6 +113,7 @@ console.log(tools.map((tool) => ({
   }
 ]
 ```
+
 ## Use within an agent
 
 First, ensure you have LangGraph installed:
@@ -121,12 +123,12 @@ First, ensure you have LangGraph installed:
   @langchain/langgraph
 </Npm2Yarn>
 ```
+
 ```typescript
-import { createReactAgent } from "@langchain/langgraph/prebuilt"
+import { createAgent } from "langchain"
 
-const agentExecutor = createReactAgent({ llm, tools });
+const agentExecutor = createAgent({ llm, tools });
 ```
-
 
 ```typescript
 const exampleQuery = "Can you list 10 artists from my database?"
@@ -145,6 +147,7 @@ for await (const event of events) {
   }
 }
 ```
+
 ```output
 [
   {
@@ -169,7 +172,7 @@ The SQL query you provided is:
 SELECT * FROM Artist LIMIT 10;
 \`\`\`
 
-This query is straightforward and does not contain any of the common mistakes listed. It simply selects all columns from the `Artist` table and limits the result to 10 rows. 
+This query is straightforward and does not contain any of the common mistakes listed. It simply selects all columns from the `Artist` table and limits the result to 10 rows.
 
 Therefore, there are no mistakes to correct, and the original query can be reproduced as is:
 
@@ -198,6 +201,7 @@ Here are 10 artists from your database:
 9. BackBeat
 10. Billy Cobham
 ```
+
 ## API reference
 
 For detailed documentation of all SqlToolkit features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain.agents_toolkits_sql.SqlToolkit.html).

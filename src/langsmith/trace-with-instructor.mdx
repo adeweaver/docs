@@ -15,13 +15,21 @@ In order to use, you first need to set your LangSmith API key.
 
 ```shell
 export LANGSMITH_API_KEY=<your-api-key>
+# For LangSmith API keys linked to multiple workspaces, set the LANGSMITH_WORKSPACE_ID environment variable to specify which workspace to use.
+export LANGSMITH_WORKSPACE_ID=<your-workspace-id>
 ```
 
 Next, you will need to install the LangSmith SDK:
 
-```shell
+<CodeGroup>
+```bash pip
 pip install -U langsmith
 ```
+
+```bash uv
+uv add langsmith
+```
+</CodeGroup>
 
 Wrap your OpenAI client with `langsmith.wrappers.wrap_openai`
 

@@ -14,14 +14,12 @@ Both `LlamaEdgeChatService` and `LlamaEdgeChatLocal` run on the infrastructure d
 
 `LlamaEdgeChatService` works on the `llama-api-server`. Following the steps in [llama-api-server quick-start](https://github.com/second-state/llama-utils/tree/main/api-server#readme), you can host your own API service so that you can chat with any models you like on any device you have anywhere as long as the internet is available.
 
-
 ```python
 from langchain_community.chat_models.llama_edge import LlamaEdgeChatService
 from langchain_core.messages import HumanMessage, SystemMessage
 ```
 
 ### Chat with LLMs in the non-streaming mode
-
 
 ```python
 # service url
@@ -40,11 +38,12 @@ response = chat.invoke(messages)
 
 print(f"[Bot] {response.content}")
 ```
+
 ```output
 [Bot] Hello! The capital of France is Paris.
 ```
-### Chat with LLMs in the streaming mode
 
+### Chat with LLMs in the streaming mode
 
 ```python
 # service url
@@ -68,6 +67,7 @@ for chunk in chat.stream(messages):
 
 print(f"[Bot] {output}")
 ```
+
 ```output
 [Bot]   Hello! I'm happy to help you with your question. The capital of Norway is Oslo.
 ```

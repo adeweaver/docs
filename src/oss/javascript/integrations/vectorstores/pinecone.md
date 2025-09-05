@@ -28,6 +28,7 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/pinecone @langchain/openai @langchain/core @pinecone-database/pinecone@5
 </Npm2Yarn>
 ```
+
 ### Credentials
 
 Sign up for a [Pinecone](https://www.pinecone.io/) account and create an index. Make sure the dimensions match those of the embeddings you want to use (the default is 1536 for OpenAI's `text-embedding-3-small`). Once you've done this set the `PINECONE_INDEX`, `PINECONE_API_KEY`, and (optionally) `PINECONE_ENVIRONMENT` environment variables:
@@ -39,19 +40,21 @@ process.env.PINECONE_INDEX = "your-pinecone-index";
 // Optional
 process.env.PINECONE_ENVIRONMENT = "your-pinecone-environment";
 ```
+
 If you are using OpenAI embeddings for this guide, you'll need to set your OpenAI key as well:
 
 ```typescript
 process.env.OPENAI_API_KEY = "YOUR_API_KEY";
 ```
+
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
 ```typescript
 // process.env.LANGSMITH_TRACING="true"
 // process.env.LANGSMITH_API_KEY="your-api-key"
 ```
-## Instantiation
 
+## Instantiation
 
 ```typescript
 import { PineconeStore } from "@langchain/pinecone";
@@ -78,10 +81,10 @@ const vectorStore = await PineconeStore.fromExistingIndex(
   }
 );
 ```
+
 ## Manage vector store
 
 ### Add items to vector store
-
 
 ```typescript
 import type { Document } from "@langchain/core/documents";
@@ -110,13 +113,14 @@ const documents = [document1, document2, document3, document4];
 
 await vectorStore.addDocuments(documents, { ids: ["1", "2", "3", "4"] });
 ```
+
 ```output
 [ '1', '2', '3', '4' ]
 ```
+
 **Note:** After adding documents, there is a slight delay before they become queryable.
 
 ### Delete items from vector store
-
 
 ```typescript
 await vectorStore.delete({ ids: ["4"] });
@@ -124,12 +128,11 @@ await vectorStore.delete({ ids: ["4"] });
 
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 
 ### Query directly
 
 Performing a simple similarity search can be done as follows:
-
 
 ```typescript
 // Optional filter
@@ -141,12 +144,13 @@ for (const doc of similaritySearchResults) {
   console.log(`* ${doc.pageContent} [${JSON.stringify(doc.metadata, null)}]`);
 }
 ```
+
 ```output
 * The powerhouse of the cell is the mitochondria [{"source":"https://example.com"}]
 * Mitochondria are made out of lipids [{"source":"https://example.com"}]
 ```
-If you want to execute a similarity search and receive the corresponding scores you can run:
 
+If you want to execute a similarity search and receive the corresponding scores you can run:
 
 ```typescript
 const similaritySearchWithScoreResults = await vectorStore.similaritySearchWithScore("biology", 2, filter)
@@ -155,14 +159,15 @@ for (const [doc, score] of similaritySearchWithScoreResults) {
   console.log(`* [SIM=${score.toFixed(3)}] ${doc.pageContent} [${JSON.stringify(doc.metadata)}]`);
 }
 ```
+
 ```output
 * [SIM=0.165] The powerhouse of the cell is the mitochondria [{"source":"https://example.com"}]
 * [SIM=0.148] Mitochondria are made out of lipids [{"source":"https://example.com"}]
 ```
+
 ### Query by turning into retriever
 
-You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains. 
-
+You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains.
 
 ```typescript
 const retriever = vectorStore.asRetriever({
@@ -173,6 +178,7 @@ const retriever = vectorStore.asRetriever({
 
 await retriever.invoke("biology");
 ```
+
 ```output
 [
   Document {
@@ -187,6 +193,7 @@ await retriever.invoke("biology");
   }
 ]
 ```
+
 ### Usage for retrieval-augmented generation
 
 For guides on how to use this vector store for retrieval-augmented generation (RAG), see the following sections:

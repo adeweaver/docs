@@ -2,7 +2,7 @@
 title: BedrockChat
 ---
 
-[Amazon Bedrock](https://aws.amazon.com/bedrock/) is a fully managed service that offers a choice of high-performing foundation models (FMs) from leading AI companies like AI21 Labs, Anthropic, Cohere, Meta, Stability AI, and Amazon via a single API, along with a broad set of capabilities you need to build generative AI applications with security, privacy, and responsible AI. 
+[Amazon Bedrock](https://aws.amazon.com/bedrock/) is a fully managed service that offers a choice of high-performing foundation models (FMs) from leading AI companies like AI21 Labs, Anthropic, Cohere, Meta, Stability AI, and Amazon via a single API, along with a broad set of capabilities you need to build generative AI applications with security, privacy, and responsible AI.
 
 This will help you getting started with Amazon Bedrock [chat models](/oss/concepts/chat_models). For detailed documentation of all `BedrockChat` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_chat_models_bedrock.BedrockChat.html).
 
@@ -11,7 +11,9 @@ This will help you getting started with Amazon Bedrock [chat models](/oss/concep
 The newer [`ChatBedrockConverse` chat model is now available via the dedicated `@langchain/aws`](/oss/integrations/chat/bedrock_converse) integration package. Use [tool calling](/oss/concepts/tool_calling) with more models with this package.
 </Tip>
 ```
+
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [PY support](https://python.langchain.com/docs/integrations/chat/bedrock/) | Package downloads | Package latest |
@@ -24,7 +26,7 @@ See the links in the table headers below for guides on how to use specific featu
 
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: |
-| ✅ | ✅ | ❌ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | 
+| ✅ | ✅ | ❌ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ |
 
 ## Setup
 
@@ -40,6 +42,7 @@ If you want to get automated tracing of your model calls you can also set your [
 # export LANGSMITH_TRACING="true"
 # export LANGSMITH_API_KEY="your-api-key"
 ```
+
 ### Installation
 
 The LangChain `BedrockChat` integration lives in the `@langchain/community` package. You'll also need to install several official AWS packages as peer dependencies:
@@ -52,6 +55,7 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/community @langchain/core @aws-crypto/sha256-js @aws-sdk/credential-provider-node @smithy/protocol-http @smithy/signature-v4 @smithy/eventstream-codec @smithy/util-utf8 @aws-sdk/types
 </Npm2Yarn>
 ```
+
 You can also use BedrockChat in web environments such as Edge functions or Cloudflare Workers by omitting the @aws-sdk/credential-provider-node dependency and using the web entrypoint:
 
 ```{=mdx}
@@ -62,12 +66,12 @@ You can also use BedrockChat in web environments such as Edge functions or Cloud
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Currently, only Anthropic, Cohere, and Mistral models are supported with the chat model integration. For foundation models from AI21 or Amazon, see the [text generation Bedrock variant](/oss/integrations/llms/bedrock/).
 
 There are a few different ways to authenticate with AWS - the below examples rely on an access key, secret access key and region set in your environment variables:
-
 
 ```typescript
 import { BedrockChat } from "@langchain/community/chat_models/bedrock";
@@ -85,8 +89,8 @@ const llm = new BedrockChat({
   // },
 });
 ```
-## Invocation
 
+## Invocation
 
 ```typescript
 const aiMsg = await llm.invoke([
@@ -98,6 +102,7 @@ const aiMsg = await llm.invoke([
 ])
 aiMsg
 ```
+
 ```output
 AIMessage {
   "content": "J'adore la programmation.",
@@ -123,13 +128,14 @@ AIMessage {
 ```typescript
 console.log(aiMsg.content)
 ```
+
 ```output
 J'adore la programmation.
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts"
@@ -153,6 +159,7 @@ await chain.invoke(
   }
 )
 ```
+
 ```output
 AIMessage {
   "content": "Here's the German translation:\n\nIch liebe Programmieren.",
@@ -174,10 +181,11 @@ AIMessage {
   "invalid_tool_calls": []
 }
 ```
+
 ## Tool calling
 
 Tool calling with Bedrock models works in a similar way to [other models](/oss/how-to/tool_calling), but note that not all Bedrock models support tool calling. Please refer to the [AWS model documentation](https://docs.aws.amazon.com/bedrock/latest/APIReference/welcome.html) for more information.
 
 ## API reference
 
-For detailed documentation of all `BedrockChat` features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_community_chat_models_bedrock.BedrockChat.html
+For detailed documentation of all `BedrockChat` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_community_chat_models_bedrock.BedrockChat.html).

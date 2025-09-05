@@ -42,7 +42,6 @@ export SAMBASTUDIO_API_KEY="your-sambastudio-api-key-here"
 
 ## Chat models
 
-
 ```python
 from langchain_sambanova import ChatSambaNovaCloud
 
@@ -51,7 +50,6 @@ llm.invoke("Tell me a joke about artificial intelligence.")
 ```
 
 For a more detailed walkthrough of the ChatSambaNovaCloud component, see [this notebook](https://python.langchain.com/docs/integrations/chat/sambanova/)
-
 
 ```python
 from langchain_sambanova import ChatSambaStudio
@@ -64,7 +62,6 @@ For a more detailed walkthrough of the ChatSambaStudio component, see [this note
 
 ## Embedding Models
 
-
 ```python
 from langchain_sambanova import SambaNovaCloudEmbeddings
 
@@ -73,7 +70,6 @@ embeddings.embed_query("What is the meaning of life?")
 ```
 
 For a more detailed walkthrough of the SambaNovaCloudEmbeddings component, see [this notebook](https://python.langchain.com/docs/integrations/text_embedding/sambanova/)
-
 
 ```python
 from langchain_sambanova import SambaStudioEmbeddings

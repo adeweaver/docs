@@ -11,6 +11,7 @@ Only available on Node.js.
 </Tip>
 
 ```
+
 [Faiss](https://github.com/facebookresearch/faiss) is a library for efficient similarity search and clustering of dense vectors.
 
 LangChain.js supports using Faiss as a locally-running vectorstore that can be saved to a file. It also provides the ability to read the saved file from the [LangChain Python implementation](https://python.langchain.com/docs/integrations/vectorstores/faiss#saving-and-loading).
@@ -39,6 +40,7 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/community faiss-node @langchain/openai @langchain/core
 </Npm2Yarn>
 ```
+
 ### Credentials
 
 Because Faiss runs locally, you do not need any credentials to use it.
@@ -48,14 +50,15 @@ If you are using OpenAI embeddings for this guide, you'll need to set your OpenA
 ```typescript
 process.env.OPENAI_API_KEY = "YOUR_API_KEY";
 ```
+
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
 ```typescript
 // process.env.LANGSMITH_TRACING="true"
 // process.env.LANGSMITH_API_KEY="your-api-key"
 ```
-## Instantiation
 
+## Instantiation
 
 ```typescript
 import { FaissStore } from "@langchain/community/vectorstores/faiss";
@@ -67,10 +70,10 @@ const embeddings = new OpenAIEmbeddings({
 
 const vectorStore = new FaissStore(embeddings, {});
 ```
+
 ## Manage vector store
 
 ### Add items to vector store
-
 
 ```typescript
 import type { Document } from "@langchain/core/documents";
@@ -99,11 +102,12 @@ const documents = [document1, document2, document3, document4];
 
 await vectorStore.addDocuments(documents, { ids: ["1", "2", "3", "4"] });
 ```
+
 ```output
 [ '1', '2', '3', '4' ]
 ```
-### Delete items from vector store
 
+### Delete items from vector store
 
 ```typescript
 await vectorStore.delete({ ids: ["4"] });
@@ -111,12 +115,11 @@ await vectorStore.delete({ ids: ["4"] });
 
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 
 ### Query directly
 
 Performing a simple similarity search can be done as follows:
-
 
 ```typescript
 const similaritySearchResults = await vectorStore.similaritySearch("biology", 2);
@@ -125,14 +128,15 @@ for (const doc of similaritySearchResults) {
   console.log(`* ${doc.pageContent} [${JSON.stringify(doc.metadata, null)}]`);
 }
 ```
+
 ```output
 * The powerhouse of the cell is the mitochondria [{"source":"https://example.com"}]
 * Mitochondria are made out of lipids [{"source":"https://example.com"}]
 ```
+
 Filtering by metadata is currently not supported.
 
 If you want to execute a similarity search and receive the corresponding scores you can run:
-
 
 ```typescript
 const similaritySearchWithScoreResults = await vectorStore.similaritySearchWithScore("biology", 2);
@@ -141,14 +145,15 @@ for (const [doc, score] of similaritySearchWithScoreResults) {
   console.log(`* [SIM=${score.toFixed(3)}] ${doc.pageContent} [${JSON.stringify(doc.metadata)}]`);
 }
 ```
+
 ```output
 * [SIM=1.671] The powerhouse of the cell is the mitochondria [{"source":"https://example.com"}]
 * [SIM=1.705] Mitochondria are made out of lipids [{"source":"https://example.com"}]
 ```
+
 ### Query by turning into retriever
 
-You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains. 
-
+You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains.
 
 ```typescript
 const retriever = vectorStore.asRetriever({
@@ -156,6 +161,7 @@ const retriever = vectorStore.asRetriever({
 });
 await retriever.invoke("biology");
 ```
+
 ```output
 [
   {
@@ -168,6 +174,7 @@ await retriever.invoke("biology");
   }
 ]
 ```
+
 ### Usage for retrieval-augmented generation
 
 For guides on how to use this vector store for retrieval-augmented generation (RAG), see the following sections:
@@ -179,7 +186,6 @@ For guides on how to use this vector store for retrieval-augmented generation (R
 ## Merging indexes
 
 Faiss also supports merging existing indexes:
-
 
 ```typescript
 // Create an initial vector store
@@ -211,7 +217,6 @@ await newStore2.similaritySearch("Bye bye", 1);
 ## Save an index to file and load it again
 
 To persist an index on disk, use the `.save` and static `.load` methods:
-
 
 ```typescript
 // Create a vector store through any method, here from texts as an example
@@ -246,8 +251,8 @@ To enable the ability to read the saved file from [LangChain Python's implementa
   pickleparser
 </Npm2Yarn>
 ```
-Then you can use the `.loadFromPython` static method:
 
+Then you can use the `.loadFromPython` static method:
 
 ```typescript
 // The directory of data saved from Python

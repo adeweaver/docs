@@ -11,13 +11,13 @@ Cohere has marked their `generate` endpoint for LLMs as deprecated. Follow their
 <Warning>
 **You are currently on a page documenting the use of Cohere models as [text completion models](/oss/concepts/text_llms). Many popular models available on Cohere are [chat completion models](/oss/concepts/chat_models).**
 
-
 You may be looking for [this page instead](/oss/integrations/chat/cohere/).
 </Warning>
 
 This will help you get started with Cohere completion models (LLMs) using LangChain. For detailed documentation on `Cohere` features and configuration options, please refer to the [API reference](https://api.js.langchain.com/classes/langchain_cohere.Cohere.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | Serializable | [PY support](https://python.langchain.com/docs/integrations/llms/cohere) | Package downloads | Package latest |
@@ -35,12 +35,14 @@ Head to [cohere.com](https://cohere.com) to sign up to Cohere and generate an AP
 ```bash
 export COHERE_API_KEY="your-api-key"
 ```
+
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
 ```bash
 # export LANGSMITH_TRACING="true"
 # export LANGSMITH_API_KEY="your-api-key"
 ```
+
 ### Installation
 
 The LangChain Cohere integration lives in the `@langchain/cohere` package:
@@ -54,10 +56,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```typescript
 import { Cohere } from "@langchain/cohere"
@@ -70,12 +72,12 @@ const llm = new Cohere({
   // other params...
 })
 ```
-### Custom client for Cohere on Azure, Cohere on AWS Bedrock, and Standalone Cohere Instance.
+
+### Custom client for Cohere on Azure, Cohere on AWS Bedrock, and Standalone Cohere Instance
 
 We can instantiate a custom `CohereClient` and pass it to the ChatCohere constructor.
 
 **Note:** If a custom client is provided both `COHERE_API_KEY` environment variable and `apiKey` parameter in the constructor will be ignored.
-
 
 ```typescript
 import { Cohere } from "@langchain/cohere";
@@ -92,8 +94,8 @@ const llmWithCustomClient = new Cohere({
   // other params...
 });
 ```
-## Invocation
 
+## Invocation
 
 ```typescript
 const inputText = "Cohere is an AI company that "
@@ -101,13 +103,14 @@ const inputText = "Cohere is an AI company that "
 const completion = await llm.invoke(inputText)
 completion
 ```
+
 ```output
 Cohere is a company that provides natural language processing models that help companies improve human-machine interactions. Cohere was founded in 2019 by Aidan Gomez, Ivan Zhang, and Nick Frosst.
 ```
+
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our completion model with a prompt template like so:
-
 
 ```typescript
 import { PromptTemplate } from "@langchain/core/prompts"
@@ -125,6 +128,7 @@ await chain.invoke(
   }
 )
 ```
+
 ```output
  Ich liebe Programming.
 
@@ -136,6 +140,7 @@ There are also other ways to express this feeling, such as "Ich habe Spaß mit P
 
 Let me know if I can be of further help with something else!
 ```
+
 ## API reference
 
-For detailed documentation of all Cohere features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_cohere.Cohere.html
+For detailed documentation of all Cohere features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_cohere.Cohere.html).

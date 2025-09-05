@@ -4,24 +4,21 @@ title: Vearch
 
 >[Vearch](https://vearch.readthedocs.io) is the vector search infrastructure for deeping learning and AI applications.
 
-
 ## Setting up
 
 Follow [instructions](https://vearch.readthedocs.io/en/latest/quick-start-guide.html#).
 
 You'll need to install `langchain-community` with `pip install -qU langchain-community` to use this integration
 
-
 ```python
-%pip install --upgrade --quiet  vearch
+%pip install -qU  vearch
 
 # OR
 
-%pip install --upgrade --quiet  vearch_cluster
+%pip install -qU  vearch_cluster
 ```
 
 ## Example
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -36,6 +33,7 @@ model_path = "/data/zhx/zhx/langchain-ChatGLM_new/chatglm2-6b"
 tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
 model = AutoModel.from_pretrained(model_path, trust_remote_code=True).half().cuda(0)
 ```
+
 ```output
 Loading checkpoint shards: 100%|██████████| 7/7 [00:07<00:00,  1.01s/it]
 ```
@@ -48,6 +46,7 @@ query = "你知道凌波微步吗，你知道都有谁学会了吗?"
 response, history = model.chat(tokenizer, query, history=history)
 print(f"Human: {query}\nChatGLM:{response}\n")
 ```
+
 ```output
 Human: 你好!
 ChatGLM:你好👋！我是人工智能助手 ChatGLM2-6B，很高兴见到你，欢迎问我任何问题。
@@ -70,6 +69,7 @@ texts = text_splitter.split_documents(documents)
 embedding_path = "/data/zhx/zhx/langchain-ChatGLM_new/text2vec/text2vec-large-chinese"
 embeddings = HuggingFaceEmbeddings(model_name=embedding_path)
 ```
+
 ```output
 No sentence-transformers model found with name /data/zhx/zhx/langchain-ChatGLM_new/text2vec/text2vec-large-chinese. Creating a new one with MEAN pooling.
 ```
@@ -104,6 +104,7 @@ vearch_cluster_b = Vearch(
     flag=1,
 )
 ```
+
 ```output
 docids ['18ce6747dca04a2c833e60e8dfd83c04', 'aafacb0e46574b378a9f433877ab06a8', '9776bccfdd8643a8b219ccee0596f370']
 ***************after is cluster res*****************
@@ -141,6 +142,7 @@ new_query_c = f"基于以下信息，尽可能准确的来回答用户的问题�
 response_c, history_c = model.chat(tokenizer, new_query_c, history=[])
 print(f"********ChatGLM:{response_c}\n")
 ```
+
 ```output
 ####################第1段相关文档####################
 
@@ -241,6 +243,7 @@ print("*****************after is cluster res********************")
 
 vearch_cluster.add_texts(vearch_info, vearch_source)
 ```
+
 ```output
 Human: 你知道vearch是什么吗?
 ChatGLM:是的，我知道 Vearch。Vearch 是一种用于计算机械系统极化子的工具，它可以用于模拟和优化电路的性能。它是一个基于Matlab的电路仿真软件，可以用于设计和分析各种类型的电路，包括交流电路和直流电路。
@@ -250,12 +253,9 @@ docids ['eee5e7468434427eb49829374c1e8220', '2776754da8fc4bb58d3e482006010716', 
 docids ['-4311783201092343475', '-2899734009733762895', '1342026762029067927']
 ```
 
-
 ```output
 ['-4311783201092343475', '-2899734009733762895', '1342026762029067927']
 ```
-
-
 
 ```python
 query3 = "你知道vearch是什么吗?"
@@ -281,6 +281,7 @@ response_c, history_c = model.chat(tokenizer, new_query1_c, history=[])
 
 print(f"***************ChatGLM:{response_c}\n")
 ```
+
 ```output
 ####################第1段相关文档####################
 
@@ -369,6 +370,7 @@ get_id_doc = vearch_cluster.get(
 )
 print("get existed docid", get_id_doc)
 ```
+
 ```output
 delete vearch standalone docid True
 Human: 你知道vearch是什么吗?
@@ -393,10 +395,10 @@ get existed docid {'1841638988191686991': Document(page_content='《天龙八部
 ```python
 ```
 
-
 ```python
 
 ```
+
 ```python
 
 ```

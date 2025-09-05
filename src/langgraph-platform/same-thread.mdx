@@ -11,36 +11,36 @@ You'll see that the second agent will respond using information from the [checkp
 ## Setup
 
 <Tabs>
-  <Tab title="Python">
+    <Tab title="Python">
     ```python
     from langgraph_sdk import get_client
-    
+
     client = get_client(url=<DEPLOYMENT_URL>)
-    
+
     openai_assistant = await client.assistants.create(
         graph_id="agent", config={"configurable": {"model_name": "openai"}}
     )
-    
+
     # There should always be a default assistant with no configuration
     assistants = await client.assistants.search()
     default_assistant = [a for a in assistants if not a["config"]][0]
     ```
-  </Tab>
-  <Tab title="Javascript">
+    </Tab>
+    <Tab title="Javascript">
     ```js
     import { Client } from "@langchain/langgraph-sdk";
-    
+
     const client = new Client({ apiUrl: <DEPLOYMENT_URL> });
-    
+
     const openAIAssistant = await client.assistants.create(
       { graphId: "agent", config: {"configurable": {"model_name": "openai"}}}
     );
-    
+
     const assistants = await client.assistants.search();
     const defaultAssistant = assistants.find(a => !a.config);
     ```
-  </Tab>
-  <Tab title="CURL">
+    </Tab>
+    <Tab title="CURL">
     ```bash
     curl --request POST \
         --url <DEPLOYMENT_URL>/assistants \
@@ -57,28 +57,28 @@ You'll see that the second agent will respond using information from the [checkp
             "offset": 0
         }' | jq -c 'map(select(.config == null or .config == {})) | .[0]'
     ```
-  </Tab>
+    </Tab>
 </Tabs>
 
 We can see that these agents are different:
 
 <Tabs>
-  <Tab title="Python">
+    <Tab title="Python">
     ```python
     print(openai_assistant)
     ```
-  </Tab>
-  <Tab title="Javascript">
+    </Tab>
+    <Tab title="Javascript">
     ```js
     console.log(openAIAssistant);
     ```
-  </Tab>
-  <Tab title="CURL">
+    </Tab>
+    <Tab title="CURL">
     ```bash
     curl --request GET \
         --url <DEPLOYMENT_URL>/assistants/<OPENAI_ASSISTANT_ID>
     ```
-  </Tab>
+    </Tab>
 </Tabs>
 
 Output:
@@ -99,22 +99,22 @@ Output:
 ```
 
 <Tabs>
-  <Tab title="Python">
+    <Tab title="Python">
     ```python
     print(default_assistant)
     ```
-  </Tab>
-  <Tab title="Javascript">
+    </Tab>
+    <Tab title="Javascript">
     ```js
     console.log(defaultAssistant);
     ```
-  </Tab>
-  <Tab title="CURL">
+    </Tab>
+    <Tab title="CURL">
     ```bash
     curl --request GET \
         --url <DEPLOYMENT_URL>/assistants/<DEFAULT_ASSISTANT_ID>
     ```
-  </Tab>
+    </Tab>
 </Tabs>
 
 Output:
@@ -139,7 +139,7 @@ Output:
 We can now run the OpenAI assistant on the thread first.
 
 <Tabs>
-  <Tab title="Python">
+    <Tab title="Python">
     ```python
     thread = await client.threads.create()
     input = {"messages": [{"role": "user", "content": "who made you?"}]}
@@ -153,12 +153,12 @@ We can now run the OpenAI assistant on the thread first.
         print(event.data)
         print("\n\n")
     ```
-  </Tab>
-  <Tab title="Javascript">
+    </Tab>
+    <Tab title="Javascript">
     ```js
     const thread = await client.threads.create();
     let input =  {"messages": [{"role": "user", "content": "who made you?"}]}
-    
+
     const streamResponse = client.runs.stream(
       thread["thread_id"],
       openAIAssistant["assistant_id"],
@@ -173,8 +173,8 @@ We can now run the OpenAI assistant on the thread first.
       console.log("\n\n");
     }
     ```
-  </Tab>
-  <Tab title="CURL">
+    </Tab>
+    <Tab title="CURL">
     ```bash
     thread_id=$(curl --request POST \
         --url <DEPLOYMENT_URL>/threads \
@@ -218,7 +218,7 @@ We can now run the OpenAI assistant on the thread first.
         }
     '
     ```
-  </Tab>
+    </Tab>
 </Tabs>
 
 Output:
@@ -236,7 +236,7 @@ Receiving event of type: updates
 Now, we can run it on the default assistant and see that this second assistant is aware of the initial question, and can answer the question, "and you?":
 
 <Tabs>
-  <Tab title="Python">
+    <Tab title="Python">
     ```python
     input = {"messages": [{"role": "user", "content": "and you?"}]}
     async for event in client.runs.stream(
@@ -249,11 +249,11 @@ Now, we can run it on the default assistant and see that this second assistant i
         print(event.data)
         print("\n\n")
     ```
-  </Tab>
-  <Tab title="Javascript">
+    </Tab>
+    <Tab title="Javascript">
     ```js
     let input =  {"messages": [{"role": "user", "content": "and you?"}]}
-    
+
     const streamResponse = client.runs.stream(
       thread["thread_id"],
       defaultAssistant["assistant_id"],
@@ -268,8 +268,8 @@ Now, we can run it on the default assistant and see that this second assistant i
       console.log("\n\n");
     }
     ```
-  </Tab>
-  <Tab title="CURL">
+    </Tab>
+    <Tab title="CURL">
     ```bash
     curl --request POST \
         --url <DEPLOYMENT_URL>/threads/<THREAD_ID>/runs/stream \
@@ -309,7 +309,7 @@ Now, we can run it on the default assistant and see that this second assistant i
         }
     '
     ```
-  </Tab>
+    </Tab>
 </Tabs>
 
 Output:

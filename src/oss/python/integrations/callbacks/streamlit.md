@@ -12,8 +12,8 @@ In this guide we will demonstrate how to use `StreamlitCallbackHandler` to displ
 interactive Streamlit app. Try it out with the running app below using the MRKL agent:
 
 <iframe loading="lazy" src="https://langchain-mrkl.streamlit.app/?embed=true&embed_options=light_theme"
-    style={{ width: 100 + '%', border: 'none', marginBottom: 1 + 'rem', height: 600 }}
-    allow="camera;clipboard-read;clipboard-write;"
+        style={{ width: 100 + '%', border: 'none', marginBottom: 1 + 'rem', height: 600 }}
+        allow="camera;clipboard-read;clipboard-write;"
 ></iframe>
 
 ## Installation and Setup
@@ -50,13 +50,13 @@ thoughts and actions live in your app.
 ```python
 import streamlit as st
 from langchain import hub
-from langchain.agents import AgentExecutor, create_react_agent, load_tools
+from langchain.agents import AgentExecutor, create_agent, load_tools
 from langchain_openai import OpenAI
 
 llm = OpenAI(temperature=0, streaming=True)
 tools = load_tools(["ddg-search"])
 prompt = hub.pull("hwchase17/react")
-agent = create_react_agent(llm, tools, prompt)
+agent = create_agent(llm, tools, prompt)
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
 if prompt := st.chat_input():

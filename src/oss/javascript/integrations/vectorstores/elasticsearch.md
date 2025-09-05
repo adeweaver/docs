@@ -11,6 +11,7 @@ Only available on Node.js.
 </Tip>
 
 ```
+
 [Elasticsearch](https://github.com/elastic/elasticsearch) is a distributed, RESTful search engine optimized for speed and relevance on production-scale workloads. It supports also vector search using the [k-nearest neighbor](https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm) (kNN) algorithm and also [custom models for Natural Language Processing](https://www.elastic.co/blog/how-to-deploy-nlp-text-embeddings-and-vector-search) (NLP).
 You can read more about the support of vector search in Elasticsearch [here](https://www.elastic.co/guide/en/elasticsearch/reference/current/knn-search.html).
 
@@ -40,6 +41,7 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/community @elastic/elasticsearch @langchain/openai @langchain/core
 </Npm2Yarn>
 ```
+
 ### Credentials
 
 To use Elasticsearch vector stores, you'll need to have an Elasticsearch instance running.
@@ -53,16 +55,17 @@ If you are using OpenAI embeddings for this guide, you'll need to set your OpenA
 ```typescript
 process.env.OPENAI_API_KEY = "YOUR_API_KEY";
 ```
+
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
 ```typescript
 // process.env.LANGSMITH_TRACING="true"
 // process.env.LANGSMITH_API_KEY="your-api-key"
 ```
+
 ## Instantiation
 
 Instatiating Elasticsearch will vary depending on where your instance is hosted.
-
 
 ```typescript
 import {
@@ -107,10 +110,10 @@ const clientArgs: ElasticClientArgs = {
 
 const vectorStore = new ElasticVectorSearch(embeddings, clientArgs);
 ```
+
 ## Manage vector store
 
 ### Add items to vector store
-
 
 ```typescript
 import type { Document } from "@langchain/core/documents";
@@ -139,13 +142,14 @@ const documents = [document1, document2, document3, document4];
 
 await vectorStore.addDocuments(documents, { ids: ["1", "2", "3", "4"] });
 ```
+
 ```output
 [ '1', '2', '3', '4' ]
 ```
+
 ### Delete items from vector store
 
 You can delete values from the store by passing the same id you passed in:
-
 
 ```typescript
 await vectorStore.delete({ ids: ["4"] });
@@ -158,7 +162,6 @@ Once your vector store has been created and the relevant documents have been add
 ### Query directly
 
 Performing a simple similarity search can be done as follows:
-
 
 ```typescript
 const filter = [{
@@ -173,14 +176,15 @@ for (const doc of similaritySearchResults) {
   console.log(`* ${doc.pageContent} [${JSON.stringify(doc.metadata, null)}]`);
 }
 ```
+
 ```output
 * The powerhouse of the cell is the mitochondria [{"source":"https://example.com"}]
 * Mitochondria are made out of lipids [{"source":"https://example.com"}]
 ```
+
 The vector store supports [Elasticsearch filter syntax](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-filter-context.html) operators.
 
 If you want to execute a similarity search and receive the corresponding scores you can run:
-
 
 ```typescript
 const similaritySearchWithScoreResults = await vectorStore.similaritySearchWithScore("biology", 2, filter)
@@ -189,14 +193,15 @@ for (const [doc, score] of similaritySearchWithScoreResults) {
   console.log(`* [SIM=${score.toFixed(3)}] ${doc.pageContent} [${JSON.stringify(doc.metadata)}]`);
 }
 ```
+
 ```output
 * [SIM=0.374] The powerhouse of the cell is the mitochondria [{"source":"https://example.com"}]
 * [SIM=0.370] Mitochondria are made out of lipids [{"source":"https://example.com"}]
 ```
+
 ### Query by turning into retriever
 
-You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains. 
-
+You can also transform the vector store into a [retriever](/oss/concepts/retrievers) for easier usage in your chains.
 
 ```typescript
 const retriever = vectorStore.asRetriever({
@@ -206,6 +211,7 @@ const retriever = vectorStore.asRetriever({
 });
 await retriever.invoke("biology");
 ```
+
 ```output
 [
   Document {
@@ -220,6 +226,7 @@ await retriever.invoke("biology");
   }
 ]
 ```
+
 ### Usage for retrieval-augmented generation
 
 For guides on how to use this vector store for retrieval-augmented generation (RAG), see the following sections:

@@ -10,13 +10,11 @@ This notebook shows how to use the functionalities related to the `Epsilla` vect
 
 As a prerequisite, you need to have a running Epsilla vector database (for example, through our docker image), and install the ``pyepsilla`` package. View full docs at [docs](https://epsilla-inc.gitbook.io/epsilladb/quick-start).
 
-
 ```python
 !pip/pip3 install pyepsilla
 ```
 
-We want to use OpenAIEmbeddings so we have to get the OpenAI API Key. 
-
+We want to use OpenAIEmbeddings so we have to get the OpenAI API Key.
 
 ```python
 import getpass
@@ -28,12 +26,10 @@ if "OPENAI_API_KEY" not in os.environ:
 
 OpenAI API Key: ········
 
-
 ```python
 from langchain_community.vectorstores import Epsilla
 from langchain_openai import OpenAIEmbeddings
 ```
-
 
 ```python
 from langchain_community.document_loaders import TextLoader
@@ -51,7 +47,6 @@ embeddings = OpenAIEmbeddings()
 
 Epsilla vectordb is running with default host "localhost" and port "8888". We have a custom db path, db name and collection name instead of the default ones.
 
-
 ```python
 from pyepsilla import vectordb
 
@@ -65,7 +60,6 @@ vector_store = Epsilla.from_documents(
     collection_name="MyCollection",
 )
 ```
-
 
 ```python
 query = "What did the president say about Ketanji Brown Jackson"

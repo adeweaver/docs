@@ -113,10 +113,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/community @langchain/core
 </Npm2Yarn>
 ```
+
 ## Instantiation
 
 Now we can instantiate our compressor:
-
 
 ```javascript
 import { WatsonxRerank } from "@langchain/community/document_compressors/ibm";
@@ -128,10 +128,10 @@ const watsonxRerank = new WatsonxRerank({
   model: "cross-encoder/ms-marco-minilm-l-12-v2",
 });
 ```
+
 ## Usage
 
 First, set up a basic RAG ingest pipeline with embeddings, a text splitter and a vector store. We'll use this to and rerank some documents regarding the selected query:
-
 
 ```javascript
 import { readFileSync } from "node:fs";
@@ -151,7 +151,7 @@ const textSplitter = new CharacterTextSplitter({
   chunkSize: 400,
   chunkOverlap: 0,
 });
-  
+
 const query = "What did the president say about Ketanji Brown Jackson";
 const text = readFileSync("state_of_the_union.txt", "utf8");
 
@@ -162,6 +162,7 @@ const vectorStoreRetriever = vectorStore.asRetriever();
 const result = await vectorStoreRetriever.invoke(query);
 console.log(result);
 ```
+
 ```output
 [
   Document {
@@ -198,8 +199,8 @@ console.log(result);
   }
 ]
 ```
-Pass selected documents to rerank and recive specific score for each
 
+Pass selected documents to rerank and recive specific score for each
 
 ```javascript
 import { WatsonxRerank } from "@langchain/community/document_compressors/ibm";
@@ -213,6 +214,7 @@ const reranker = new WatsonxRerank({
 const compressed = await reranker.rerank(result, query);
 console.log(compressed);
 ```
+
 ```output
 [
   { index: 0, relevanceScore: 0.726995587348938 },
@@ -221,13 +223,14 @@ console.log(compressed);
   { index: 3, relevanceScore: 0.5468723773956299 }
 ]
 ```
-Or else you could have the documents returned with the result, for that use .compressDocuments() method as below.
 
+Or else you could have the documents returned with the result, for that use .compressDocuments() method as below.
 
 ```javascript
 const compressedWithResults = await reranker.compressDocuments(result, query);
 console.log(compressedWithResults);
 ```
+
 ```output
 [
   Document {
@@ -264,6 +267,7 @@ console.log(compressedWithResults);
   }
 ]
 ```
+
 ## API reference
 
 For detailed documentation of all Watsonx document compressor features and configurations head to the [API reference](https://api.js.langchain.com/modules/_langchain_community.document_compressors_ibm.html).

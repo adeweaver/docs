@@ -12,13 +12,12 @@ The FMP (Financial Modeling Prep) LangChain integration provides a seamless way 
 - `FMPDataTool`: A single unified tool that automatically selects and uses the appropriate endpoints
 
 The integration leverages LangChain's semantic search capabilities to match user queries with the most relevant FMP API endpoints, making financial data access more intuitive and efficient.
-## Setup
 
+## Setup
 
 ```python
 !pip install -U langchain-fmp-data
 ```
-
 
 ```python
 import os
@@ -30,16 +29,16 @@ os.environ["OPENAI_API_KEY"] = "your-openai-api-key"  # pragma: allowlist secret
 
 It's also helpful (but not needed) to set up [LangSmith](https://smith.langchain.com/) for best-in-class observability:
 
-
 ```python
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass()
 ```
 
 ## Instantiation
-There are two main ways to instantiate the FMP LangChain integration:
-1. Using FMPDataToolkit
 
+There are two main ways to instantiate the FMP LangChain integration:
+
+1. Using FMPDataToolkit
 
 ```python
 from langchain_fmp_data import FMPDataToolkit
@@ -65,7 +64,6 @@ custom_toolkit = FMPDataToolkit(
 
 2. Using FMPDataTool
 
-
 ```python
 from langchain_fmp_data import FMPDataTool
 from langchain_fmp_data.tools import ResponseFormat
@@ -81,10 +79,10 @@ advanced_tool = FMPDataTool(
 ```
 
 ## Invocation
+
 The tools can be invoked in several ways:
 
 ### Direct Invocation
-
 
 ```python
 # Using FMPDataTool
@@ -107,7 +105,6 @@ detailed_result = tool_direct.invoke(
 ```
 
 ### Using with LangChain Agents
-
 
 ```python
 from langchain.agents import AgentExecutor, create_openai_functions_agent
@@ -136,10 +133,8 @@ response = agent_executor.invoke({"input": "What's the PE ratio of Microsoft?"})
 ```
 
 ## Advanced Usage
+
 You can customize the tool's behavior:
-
-
-
 
 ```python
 # Initialize with custom settings
@@ -168,8 +163,8 @@ print(response)
 ```
 
 ## Chaining
-You can chain the tool similar to other tools simply by creating a chain with desired model.
 
+You can chain the tool similar to other tools simply by creating a chain with desired model.
 
 ```python
 from langchain_core.output_parsers import StrOutputParser
@@ -198,8 +193,8 @@ response = runner.invoke(
 ## API reference
 
 ### FMPDataToolkit
-Main class for creating collections of FMP API tools:
 
+Main class for creating collections of FMP API tools:
 
 ```python
 from typing import Any
@@ -224,8 +219,8 @@ class FMPDataToolkit:
 ```
 
 ### FMPDataTool
-Unified tool that automatically selects appropriate FMP endpoints:
 
+Unified tool that automatically selects appropriate FMP endpoints:
 
 ```python
 # fmt: off
@@ -249,8 +244,8 @@ class FMPDataTool:
 ```
 
 ### ResponseFormat
-Enum for controlling response format:
 
+Enum for controlling response format:
 
 ```python
 from enum import Enum

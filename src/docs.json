@@ -32,7 +32,6 @@
   "contextual": {
     "options": [
       "copy",
-      "view",
       {
         "title": "llms.txt",
         "description": "Open llms.txt for this site",
@@ -40,7 +39,10 @@
         "href": "https://docs.langchain.com/llms.txt"
       },
       "chatgpt",
-      "claude"
+      "claude",
+      "mcp",
+      "cursor",
+      "vscode"
     ]
   },
   "integrations": {
@@ -101,10 +103,6 @@
   "styles": [
     "/hide-version-picker.css"
   ],
-  "banner": {
-    "content": "Our new LangChain Academy Course Deep Research with LangGraph is now live! [Enroll for free](https://academy.langchain.com/courses/deep-research-with-langgraph/?utm_medium=internal&utm_source=docs&utm_campaign=q3-2025_deep-research-course_co).",
-    "dismissible": true
-  },
   "navbar": {
     "links": [
       {
@@ -126,18 +124,12 @@
         "dropdowns": [
           {
             "dropdown": "OSS (v1-alpha)",
-            "icon": "/images/brand/langgraph-pill.svg",
+            "icon": "link",
             "description": "LangChain and LangGraph",
             "tabs": [
               {
                 "tab": "LangChain",
                 "groups": [
-                  {
-                    "group": " ",
-                    "pages": [
-                      "oss/python/langchain-v1"
-                    ]
-                  },
                   {
                     "group": "Get started",
                     "pages": [
@@ -346,10 +338,11 @@
                       "oss/python/integrations/chat/index",
                       "oss/python/integrations/tools/index",
                       "oss/python/integrations/retrievers/index",
-                      "oss/python/integrations/splitters/text_splitters",
+                      "oss/python/integrations/splitters/index",
                       "oss/python/integrations/text_embedding/index",
                       "oss/python/integrations/vectorstores/index",
-                      "oss/python/integrations/document_loaders/index"
+                      "oss/python/integrations/document_loaders/index",
+                      "oss/python/integrations/stores/index"
                     ]
                   }
                 ]
@@ -360,9 +353,20 @@
                   {
                     "group": "Release versions",
                     "pages": [
-                      "oss/python/releases",
                       "oss/python/versioning",
-                      "oss/python/release-policy"
+                      "oss/python/release-policy",
+                      {
+                        "group": "Releases",
+                        "pages": [
+                          "oss/python/releases-v1"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "LangChain reference",
+                    "pages": [
+                      "oss/python/langchain-api-reference"
                     ]
                   },
                   {
@@ -409,7 +413,7 @@
           },
           {
             "dropdown": "LangGraph Platform",
-            "icon": "/images/brand/langgraph-platform-pill.svg",
+            "icon": "rocket-launch",
             "description": "Platform for building and deploying AI agents",
             "tabs": [
               {
@@ -486,6 +490,7 @@
                       "langgraph-platform/add-human-in-the-loop",
                       "langgraph-platform/human-in-the-loop-time-travel",
                       "langgraph-platform/server-mcp",
+                      "langgraph-platform/server-a2a",
                       "langgraph-platform/use-webhooks",
                       {
                         "group": "Double-texting",
@@ -547,7 +552,8 @@
                       "langgraph-platform/graph-rebuild",
                       "langgraph-platform/langgraph-cli",
                       "langgraph-platform/sdk",
-                      "langgraph-platform/egress-metrics-metadata"
+                      "langgraph-platform/egress-metrics-metadata",
+                      "langgraph-platform/monorepo-support"
                     ]
                   }
                 ]
@@ -563,7 +569,8 @@
                       "langgraph-platform/set-up-custom-auth",
                       "langgraph-platform/resource-auth",
                       "langgraph-platform/add-auth-server",
-                      "langgraph-platform/openapi-security"
+                      "langgraph-platform/openapi-security",
+                      "langgraph-platform/agent-auth"
                     ]
                   },
                   {
@@ -618,7 +625,7 @@
           },
           {
             "dropdown": "LangSmith",
-            "icon": "/images/brand/langsmith-pill.svg",
+            "icon": "screwdriver-wrench",
             "description": "Platform for LLM observability and evaluation",
             "tabs": [
               {
@@ -926,7 +933,8 @@
                       "langsmith/self-host-ttl",
                       "langsmith/self-host-ingress",
                       "langsmith/self-host-mirroring-images",
-                      "langsmith/self-host-playground-environment-settings"
+                      "langsmith/self-host-playground-environment-settings",
+                      "langsmith/troubleshooting"
                     ]
                   },
                   {
@@ -989,7 +997,6 @@
                     "group": "Additional resources",
                     "pages": [
                       "langsmith/faq",
-                      "langsmith/troubleshooting",
                       "langsmith/cloud-architecture-and-scalability",
                       "langsmith/regions-faq",
                       "langsmith/authentication-methods",
@@ -1003,7 +1010,7 @@
           },
           {
             "dropdown": "LangChain Labs",
-            "icon": "/images/brand/langchain-labs-pill.svg",
+            "icon": "flask",
             "description": "Experimental AI products from LangChain",
             "tabs": [
               {
@@ -1107,19 +1114,13 @@
         "version": "JavaScript",
         "dropdowns": [
           {
-            "dropdown": "OSS frameworks",
-            "icon": "/images/brand/langgraph-pill.svg",
+            "dropdown": "OSS (v1-alpha)",
+            "icon": "link",
             "description": "LangChain and LangGraph",
             "tabs": [
               {
                 "tab": "LangChain",
                 "groups": [
-                  {
-                    "group": " ",
-                    "pages": [
-                      "oss/javascript/langchain-v1"
-                    ]
-                  },
                   {
                     "group": "Get started",
                     "pages": [
@@ -1338,9 +1339,20 @@
                   {
                     "group": "Release versions",
                     "pages": [
-                      "oss/javascript/releases",
                       "oss/javascript/versioning",
-                      "oss/javascript/release-policy"
+                      "oss/javascript/release-policy",
+                      {
+                        "group": "Releases",
+                        "pages": [
+                          "oss/javascript/releases-v1"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "LangChain reference",
+                    "pages": [
+                      "oss/javascript/langchain-api-reference"
                     ]
                   },
                   {
@@ -1387,7 +1399,7 @@
           },
           {
             "dropdown": "LangGraph Platform",
-            "icon": "/images/brand/langgraph-platform-pill.svg",
+            "icon": "rocket-launch",
             "description": "Platform for building and deploying AI agents",
             "tabs": [
               {
@@ -1464,6 +1476,7 @@
                       "langgraph-platform/add-human-in-the-loop",
                       "langgraph-platform/human-in-the-loop-time-travel",
                       "langgraph-platform/server-mcp",
+                      "langgraph-platform/server-a2a",
                       "langgraph-platform/use-webhooks",
                       {
                         "group": "Double-texting",
@@ -1525,7 +1538,8 @@
                       "langgraph-platform/graph-rebuild",
                       "langgraph-platform/langgraph-cli",
                       "langgraph-platform/sdk",
-                      "langgraph-platform/egress-metrics-metadata"
+                      "langgraph-platform/egress-metrics-metadata",
+                      "langgraph-platform/monorepo-support"
                     ]
                   }
                 ]
@@ -1541,7 +1555,8 @@
                       "langgraph-platform/set-up-custom-auth",
                       "langgraph-platform/resource-auth",
                       "langgraph-platform/add-auth-server",
-                      "langgraph-platform/openapi-security"
+                      "langgraph-platform/openapi-security",
+                      "langgraph-platform/agent-auth"
                     ]
                   },
                   {
@@ -1596,7 +1611,7 @@
           },
           {
             "dropdown": "LangSmith",
-            "icon": "/images/brand/langsmith-pill.svg",
+            "icon": "screwdriver-wrench",
             "description": "Platform for LLM observability and evaluation",
             "tabs": [
               {
@@ -1919,7 +1934,8 @@
                       "langsmith/self-host-ttl",
                       "langsmith/self-host-ingress",
                       "langsmith/self-host-mirroring-images",
-                      "langsmith/self-host-playground-environment-settings"
+                      "langsmith/self-host-playground-environment-settings",
+                      "langsmith/troubleshooting"
                     ]
                   },
                   {
@@ -1982,7 +1998,6 @@
                     "group": "Additional resources",
                     "pages": [
                       "langsmith/faq",
-                      "langsmith/troubleshooting",
                       "langsmith/cloud-architecture-and-scalability",
                       "langsmith/regions-faq",
                       "langsmith/authentication-methods",
@@ -1996,7 +2011,7 @@
           },
           {
             "dropdown": "LangChain Labs",
-            "icon": "/images/brand/langchain-labs-pill.svg",
+            "icon": "flask",
             "description": "Experimental AI products from LangChain",
             "tabs": [
               {

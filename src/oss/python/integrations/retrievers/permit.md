@@ -10,8 +10,8 @@ This notebook illustrates how to integrate [Permit.io](https://permit.io/) permi
 
 We provide two custom retrievers:
 
-- PermitSelfQueryRetriever – Uses a self-query approach to parse the user’s natural-language prompt, fetch the user’s permitted resource IDs from Permit, and apply that filter automatically in a vector store search. 
- 
+- PermitSelfQueryRetriever – Uses a self-query approach to parse the user’s natural-language prompt, fetch the user’s permitted resource IDs from Permit, and apply that filter automatically in a vector store search.
+
 - PermitEnsembleRetriever – Combines multiple underlying retrievers (e.g., BM25 + Vector) via LangChain’s EnsembleRetriever, then filters the merged results with Permit.io.
 
 ## Setup
@@ -23,7 +23,6 @@ pip install langchain-permit
 ```
 
 If you want to get automated tracing from individual queries, you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
-
 
 ```python
 # os.environ["LANGSMITH_API_KEY"] = getpass.getpass("Enter your LangSmith API key: ")
@@ -43,9 +42,9 @@ PERMIT_API_KEY=your_api_key
 PERMIT_PDP_URL= # or your real deployment
 OPENAI_API_KEY=sk-...
 ```
+
 - A running Permit PDP. See [Permit docs](https://docs.permit.io/) for details on setting up your policy and container.
 - A vector store or multiple retrievers that we can wrap.
-
 
 ```python
 %pip install -qU langchain-permit
@@ -57,7 +56,7 @@ OPENAI_API_KEY=sk-...
 
 #### Basic Explanation
 
-1. Retrieves permitted document IDs from Permit.  
+1. Retrieves permitted document IDs from Permit.
 
 2. Uses an LLM to parse your query and build a “structured filter,” ensuring only docs with those permitted IDs are considered.
 
@@ -138,7 +137,6 @@ With these custom retrievers, you can seamlessly integrate Permit.io’s permiss
 
 For more details on setting up Permit policies, see the official Permit docs. If you want to combine these with other tools (like JWT validation or a broader RAG pipeline), check out our docs/tools.ipynb in the examples folder.
 
-
 ```python
 from langchain_permit import PermitRetriever
 
@@ -148,9 +146,6 @@ retriever = PermitRetriever(
 ```
 
 ## Usage
-
-
-
 
 ```python
 query = "..."
@@ -166,7 +161,6 @@ We will need a LLM or chat model:
 
 <ChatModelTabs customVarName="llm" />
 
-
 ```python
 # | output: false
 # | echo: false
@@ -175,7 +169,6 @@ from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(model="gpt-3.5-turbo-0125", temperature=0)
 ```
-
 
 ```python
 from langchain_core.output_parsers import StrOutputParser
@@ -202,7 +195,6 @@ chain = (
     | StrOutputParser()
 )
 ```
-
 
 ```python
 chain.invoke("...")

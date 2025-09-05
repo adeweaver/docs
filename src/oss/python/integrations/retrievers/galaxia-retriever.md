@@ -12,11 +12,13 @@ After the model is built and activated, you will be able to use this integration
 The module repository is located here: [github](https://github.com/rrozanski-smabbler/galaxia-langchain)
 
 ### Integration details
+
 | Retriever | Self-host | Cloud offering | Package |
 | :--- | :--- | :---: | :---: |
 [Galaxia Retriever](https://github.com/rrozanski-smabbler/galaxia-langchain) | ❌ | ✅ | __langchain-galaxia-retriever__ |
 
 ## Setup
+
 Before you can retrieve anything you need to create your Graph Language Model here: [smabbler-cloud](https://beta.cloud.smabbler.com)
 
 following these 3 simple steps: [rag-instruction](https://smabbler.gitbook.io/smabbler/api-rag/build-rag-model-in-3-steps)
@@ -24,15 +26,14 @@ following these 3 simple steps: [rag-instruction](https://smabbler.gitbook.io/sm
 Don't forget to activate the model after building it!
 
 ### Installation
-The retriever is implemented in the following package: [pypi](https://pypi.org/project/langchain-galaxia-retriever/)
 
+The retriever is implemented in the following package: [pypi](https://pypi.org/project/langchain-galaxia-retriever/)
 
 ```python
 %pip install -qU langchain-galaxia-retriever
 ```
 
 ## Instantiation
-
 
 ```python
 from langchain_galaxia_retriever.retriever import GalaxiaRetriever
@@ -48,14 +49,12 @@ gr = GalaxiaRetriever(
 
 ## Usage
 
-
 ```python
 result = gr.invoke("<test question>")
 print(result)
 ```
 
 ## Use within a chain
-
 
 ```python
 # | output: false
@@ -65,7 +64,6 @@ from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(model="gpt-3.5-turbo-0125", temperature=0)
 ```
-
 
 ```python
 from langchain_core.output_parsers import StrOutputParser
@@ -92,7 +90,6 @@ chain = (
     | StrOutputParser()
 )
 ```
-
 
 ```python
 chain.invoke("<test question>")

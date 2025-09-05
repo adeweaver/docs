@@ -78,7 +78,7 @@ For instructions on using SCIM along with SAML for user provisioning and deprovi
 ### Initial configuration
 
 <Note>
-  See IdP-specific instructions [below](#identity-provider-idp-setup)
+See IdP-specific instructions [below](#identity-provider-idp-setup)
 </Note>
 
 1. In your IdP: Configure a SAML application with the following details, then copy the metadata URL or XML for step 3.
@@ -87,10 +87,10 @@ For instructions on using SCIM along with SAML for user provisioning and deprovi
    The following URLs are different for the US and EU regions. Ensure you select the correct link.
    </Note>
 
-   1. Single sign-on URL (or ACS URL): 
+   1. Single sign-on URL (or ACS URL):
       - US: [https://auth.langchain.com/auth/v1/sso/saml/acs](https://auth.langchain.com/auth/v1/sso/saml/acs)
       - EU: [https://eu.auth.langchain.com/auth/v1/sso/saml/acs](https://eu.auth.langchain.com/auth/v1/sso/saml/acs)
-   2. Audience URI (or SP Entity ID): 
+   2. Audience URI (or SP Entity ID):
       - US: [https://auth.langchain.com/auth/v1/sso/saml/metadata](https://auth.langchain.com/auth/v1/sso/saml/metadata)
       - EU: [https://eu.auth.langchain.com/auth/v1/sso/saml/metadata](https://eu.auth.langchain.com/auth/v1/sso/saml/metadata)
    3. Name ID format: email address.
@@ -165,10 +165,10 @@ For additional information, see Microsoft's [documentation](https://learn.micros
 
 4. Update the **Basic SAML Configuration**:
 
-   1. `Identifier (Entity ID)`: 
+   1. `Identifier (Entity ID)`:
       - US: [https://auth.langchain.com/auth/v1/sso/saml/metadata](https://auth.langchain.com/auth/v1/sso/saml/metadata)
       - EU: [https://eu.auth.langchain.com/auth/v1/sso/saml/metadata](https://eu.auth.langchain.com/auth/v1/sso/saml/metadata)
-   2. `Reply URL (Assertion Consumer Service URL)`: 
+   2. `Reply URL (Assertion Consumer Service URL)`:
       - US: [https://auth.langchain.com/auth/v1/sso/saml/acs](https://auth.langchain.com/auth/v1/sso/saml/acs)
       - EU: [https://eu.auth.langchain.com/auth/v1/sso/saml/acs](https://eu.auth.langchain.com/auth/v1/sso/saml/acs)
    3. Leave `Relay State`, `Logout Url`, and `Sign on URL` empty.
@@ -220,10 +220,10 @@ For additional information, see Google's [documentation](https://support.google.
 
 6. In the `Service Provider Details` window, enter:
 
-   1. `ACS URL`: 
+   1. `ACS URL`:
       - US: [https://auth.langchain.com/auth/v1/sso/saml/acs](https://auth.langchain.com/auth/v1/sso/saml/acs)
       - EU: [https://eu.auth.langchain.com/auth/v1/sso/saml/acs](https://eu.auth.langchain.com/auth/v1/sso/saml/acs)
-   2. `Entity ID`: 
+   2. `Entity ID`:
       - US: [https://auth.langchain.com/auth/v1/sso/saml/metadata](https://auth.langchain.com/auth/v1/sso/saml/metadata)
       - EU: [https://eu.auth.langchain.com/auth/v1/sso/saml/metadata](https://eu.auth.langchain.com/auth/v1/sso/saml/metadata)
    3. Leave `Start URL` and the `Signed response` box empty.
@@ -301,10 +301,10 @@ For additional information, see Okta's [documentation](https://help.okta.com/en-
 
 5. Enter the following information in the **Configure SAML** page:
 
-   1. `Single sign-on URL` (`ACS URL`). Keep `Use this for Recipient URL and Destination URL` checked: 
+   1. `Single sign-on URL` (`ACS URL`). Keep `Use this for Recipient URL and Destination URL` checked:
       - US: [https://auth.langchain.com/auth/v1/sso/saml/acs](https://auth.langchain.com/auth/v1/sso/saml/acs)
       - EU: [https://eu.auth.langchain.com/auth/v1/sso/saml/acs](https://eu.auth.langchain.com/auth/v1/sso/saml/acs)
-   2. `Audience URI (SP Entity ID)`: 
+   2. `Audience URI (SP Entity ID)`:
       - US: [https://auth.langchain.com/auth/v1/sso/saml/metadata](https://auth.langchain.com/auth/v1/sso/saml/metadata)
       - EU: [https://eu.auth.langchain.com/auth/v1/sso/saml/metadata](https://eu.auth.langchain.com/auth/v1/sso/saml/metadata)
    3. `Name ID format`: **Persistent**.
@@ -587,7 +587,7 @@ You must use the [Okta Lifecycle Management](https://www.okta.com/products/lifec
 </Note>
 
 <div id="add-application-okta-oin">
-  <b>Step 1: Add application from Okta Integration Network</b>
+    <b>Step 1: Add application from Okta Integration Network</b>
 </div>
 
 :::note

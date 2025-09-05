@@ -4,10 +4,10 @@ sidebarTitle: Simulate multi-turn interactions
 ---
 
 <Info>
-  * [Multi-turn interactions](/langsmith/evaluation-concepts#multi-turn-interactions)
-  * [Evaluators](/langsmith/evaluation-concepts#evaluators)
-  * [LLM-as-judge](/langsmith/evaluation-concepts#llm-as-judge)
-  * [OpenEvals](https://github.com/langchain-ai/openevals)
+* [Multi-turn interactions](/langsmith/evaluation-concepts#multi-turn-interactions)
+* [Evaluators](/langsmith/evaluation-concepts#evaluators)
+* [LLM-as-judge](/langsmith/evaluation-concepts#llm-as-judge)
+* [OpenEvals](https://github.com/langchain-ai/openevals)
 </Info>
 
 AI applications with conversational interfaces, like chatbots, operate over multiple interactions with a user, also called conversation *turns*. When evaluating the performance of such applications, core concepts such as [building a dataset](/langsmith/evaluation-concepts#datasets) and defining [evaluators](/langsmith/evaluation-concepts#evaluators) and metrics to judge your app outputs remain useful. However, you may also find it useful to run a *simulation* between your app and a user, then evaluate this dynamically created trajectory.
@@ -41,7 +41,7 @@ npm install langsmith openevals
 </CodeGroup>
 
 <Info>
-  If you are using `yarn` as your package manager, you will also need to manually install `@langchain/core` as a peer dependency of `openevals`. This is not required for LangSmith evals in general.
+If you are using `yarn` as your package manager, you will also need to manually install `@langchain/core` as a peer dependency of `openevals`. This is not required for LangSmith evals in general.
 </Info>
 
 And set up your environment variables:
@@ -190,7 +190,7 @@ The response looks like this:
 The simulation first generates an initial query from the simulated `user`, then passes response chat messages back and forth until it reaches `max_turns` (you can alternatively pass a `stopping_condition` that takes the current trajectory and returns `True` or `False` - [see the OpenEvals README for more information](https://github.com/langchain-ai/openevals?tab=readme-ov-file#multiturn-simulation)). The return value is the final list of chat messages that make up the converation's **trajectory**.
 
 <Info>
-  There are several ways to configure the simulated user, such as having it return fixed responses for the first turns of your simulation, as well as the simulation as a whole. For full details, check out [the OpenEvals README](https://github.com/langchain-ai/openevals?tab=readme-ov-file#multiturn-simulation).
+There are several ways to configure the simulated user, such as having it return fixed responses for the first turns of your simulation, as well as the simulation as a whole. For full details, check out [the OpenEvals README](https://github.com/langchain-ai/openevals?tab=readme-ov-file#multiturn-simulation).
 </Info>
 
 The final trace will look something [like this](https://smith.langchain.com/public/648ca37d-1c4d-4f7b-9b6a-89e35dc5d4f0/r) with responses from your `app` and `user` interleaved:
@@ -201,18 +201,19 @@ Congrats! You just ran your first multi-turn simulation. Next, we'll cover how t
 
 ## Running in LangSmith experiments
 
-You can use the results of multi-turn simulations as part of a LangSmith experiment to track performance and progress over time. For these sections, it helps to be familiar with at least one of LangSmith's [`pytest`](https://docs.smith.langchain.com/langsmith/pytest) (Python-only), [`Vitest`/`Jest`](https://docs.smith.langchain.com/langsmith/vitest-jest) (JS only), or [`evaluate`](https://docs.smith.langchain.com/langsmith/evaluate-llm-application) runners.
+You can use the results of multi-turn simulations as part of a LangSmith experiment to track performance and progress over time. For these sections, it helps to be familiar with at least one of LangSmith's [`pytest`](/langsmith/pytest) (Python-only), [`Vitest`/`Jest`](/langsmith/vitest-jest) (JS only), or [`evaluate`](/langsmith/evaluate-llm-application) runners.
 
 ### Using `pytest` or `Vitest/Jest`
 
 <Check>
-  See the following guides to learn how to set up evals using LangSmith's integrations with test frameworks:
+See the following guides to learn how to set up evals using LangSmith's integrations with test frameworks:
 
-  * [`pytest`](https://docs.smith.langchain.com/langsmith/pytest)
-  * [`Vitest` or `Jest`](https://docs.smith.langchain.com/langsmith/vitest-jest)
+* [`pytest`](https://docs.smith.langchain.com/langsmith/pytest)
+* [`Vitest` or `Jest`](https://docs.smith.langchain.com/langsmith/vitest-jest)
+
 </Check>
 
-If you are using one of the [LangSmith test framework integrations](https://docs.smith.langchain.com/langsmith/pytest), you can pass in an array of OpenEvals evaluators as a `trajectory_evaluators` param when running the simulation. These evaluators will run at the end of the simulation, taking the final list of chat messages as an `outputs` kwarg. Your passed `trajectory_evaluator` must therefore accept this kwarg.
+If you are using one of the [LangSmith test framework integrations](/langsmith/pytest), you can pass in an array of OpenEvals evaluators as a `trajectory_evaluators` param when running the simulation. These evaluators will run at the end of the simulation, taking the final list of chat messages as an `outputs` kwarg. Your passed `trajectory_evaluator` must therefore accept this kwarg.
 
 ![](/langsmith/images/multi-turn-vitest.png)
 
@@ -367,7 +368,7 @@ You may also find it convenient to have the simulated user's system prompt to be
 
 ### Using `evaluate`
 
-You can also use the [`evaluate`](https://docs.smith.langchain.com/langsmith/evaluate-llm-application) runner to evaluate simulated multi-turn interactions. This will be a little bit different from the `pytest`/`Vitest`/`Jest` example in the following ways:
+You can also use the [`evaluate`](/langsmith/evaluate-llm-application) runner to evaluate simulated multi-turn interactions. This will be a little bit different from the `pytest`/`Vitest`/`Jest` example in the following ways:
 
 * The simulation should be part of your `target` function, and your target function should return the final trajectory.
   * This will make the trajectory the `outputs` that LangSmith will pass to your evaluators.

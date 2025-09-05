@@ -34,13 +34,13 @@ client = Client()
 results = client.evaluate(
     dummy_target,  # <-- target function
     data="your-dataset-name",
-    evaluators=[evaluator_one, evaluator_two], 
+    evaluators=[evaluator_one, evaluator_two],
     ...
 )
 ```
 
 <Check>
-  `evaluate()` will automatically trace your target function. This means that if you run any traceable code within your target function, this will also be traced as child runs of the target trace.
+`evaluate()` will automatically trace your target function. This means that if you run any traceable code within your target function, this will also be traced as child runs of the target trace.
 </Check>
 
 ## Example: Single LLM call
@@ -51,7 +51,7 @@ results = client.evaluate(
 from langsmith import wrappers
 from openai import OpenAI
 
-# Optionally wrap the OpenAI client to automatically 
+# Optionally wrap the OpenAI client to automatically
 # trace all model calls.
 oai_client = wrappers.wrap_openai(OpenAI())
 
@@ -145,7 +145,7 @@ def target(inputs: dict) -> dict:
 ```typescript TypeScript
 import { traceable } from "langsmith/traceable";
 
-// Optionally wrap in 'traceable' to trace all invocations of this function. 
+// Optionally wrap in 'traceable' to trace all invocations of this function.
 const calculatorTool = traceable(async ({ operation, number1, number2 }) => {
 // Functions must return strings
 if (operation === "add") {
@@ -209,12 +209,12 @@ return response;
 </CodeGroup>
 
 <Check>
-  If you have a LangGraph/LangChain agent that accepts the inputs defined in your dataset and that returns the output format you want to use in your evaluators, you can pass that object in as the target directly:
+If you have a LangGraph/LangChain agent that accepts the inputs defined in your dataset and that returns the output format you want to use in your evaluators, you can pass that object in as the target directly:
 
-  ```python
-  from my_agent import agent
-  from langsmith import Client
-  client = Client()
-  client.evaluate(agent, ...)
-  ```
+```python
+from my_agent import agent
+from langsmith import Client
+client = Client()
+client.evaluate(agent, ...)
+```
 </Check>

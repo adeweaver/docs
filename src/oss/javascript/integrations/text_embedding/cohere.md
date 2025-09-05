@@ -5,6 +5,7 @@ title: CohereEmbeddings
 This will help you get started with CohereEmbeddings [embedding models](/oss/concepts/embedding_models) using LangChain. For detailed documentation on `CohereEmbeddings` features and configuration options, please refer to the [API reference](https://api.js.langchain.com/classes/langchain_cohere.CohereEmbeddings.html).
 
 ## Overview
+
 ### Integration details
 
 | Class | Package | Local | [Py support](https://python.langchain.com/docs/integrations/text_embedding/cohere/) | Package downloads | Package latest |
@@ -42,10 +43,10 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   @langchain/cohere @langchain/core
 </Npm2Yarn>
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```typescript
 import { CohereEmbeddings } from "@langchain/cohere";
@@ -56,12 +57,12 @@ const embeddings = new CohereEmbeddings({
   model: "embed-english-v3.0",
 });
 ```
-### Custom client for Cohere on Azure, Cohere on AWS Bedrock, and Standalone Cohere Instance.
+
+### Custom client for Cohere on Azure, Cohere on AWS Bedrock, and Standalone Cohere Instance
 
 We can instantiate a custom `CohereClient` and pass it to the ChatCohere constructor.
 
 **Note:** If a custom client is provided both `COHERE_API_KEY` environment variable and apiKey parameter in the constructor will be ignored
-
 
 ```typescript
 import { CohereEmbeddings } from "@langchain/cohere";
@@ -78,12 +79,12 @@ const embeddingsWithCustomClient = new CohereEmbeddings({
   // other params...
 });
 ```
+
 ## Indexing and Retrieval
 
 Embedding models are often used in retrieval-augmented generation (RAG) flows, both as part of indexing data as well as later retrieving it. For more detailed instructions, please see our RAG tutorials under the [working with external knowledge tutorials](/oss/tutorials/#working-with-external-knowledge).
 
 Below, see how to index and retrieve data using the `embeddings` object we initialized above. In this example, we will index and retrieve a sample document using the demo [`MemoryVectorStore`](/oss/integrations/vectorstores/memory).
-
 
 ```typescript
 // Create a vector store with a sample text
@@ -104,9 +105,11 @@ const retrievedDocuments = await retriever.invoke("What is LangChain?");
 
 retrievedDocuments[0].pageContent;
 ```
+
 ```output
 LangChain is the framework for building context-aware reasoning applications
 ```
+
 ## Direct Usage
 
 Under the hood, the vectorstore and retriever implementations are calling `embeddings.embedDocument(...)` and `embeddings.embedQuery(...)` to create embeddings for the text(s) used in `fromDocuments` and the retriever's `invoke` operations, respectively.
@@ -117,12 +120,12 @@ You can directly call these methods to get embeddings for your own use cases.
 
 You can embed queries for search with `embedQuery`. This generates a vector representation specific to the query:
 
-
 ```typescript
 const singleVector = await embeddings.embedQuery(text);
 
 console.log(singleVector.slice(0, 100));
 ```
+
 ```output
 [
    -0.022979736,  -0.030212402,   -0.08886719,  -0.08569336,   0.007030487,
@@ -147,10 +150,10 @@ console.log(singleVector.slice(0, 100));
   -0.0069770813,  -0.030639648,  -0.051208496,  0.005279541, -0.0109939575
 ]
 ```
+
 ### Embed multiple texts
 
 You can embed multiple texts for indexing with `embedDocuments`. The internals used for this method may (but do not have to) differ from embedding queries:
-
 
 ```typescript
 const text2 = "LangGraph is a library for building stateful, multi-actor applications with LLMs";
@@ -160,6 +163,7 @@ const vectors = await embeddings.embedDocuments([text, text2]);
 console.log(vectors[0].slice(0, 100));
 console.log(vectors[1].slice(0, 100));
 ```
+
 ```output
 [
    -0.028869629,  -0.030410767,   -0.099121094,    -0.07116699,  -0.012748718,
@@ -206,6 +210,7 @@ console.log(vectors[1].slice(0, 100));
   -0.0026760101,  0.028625488,   0.041015625,   0.006893158,    -0.01902771
 ]
 ```
+
 ## API reference
 
-For detailed documentation of all CohereEmbeddings features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_cohere.CohereEmbeddings.html
+For detailed documentation of all CohereEmbeddings features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_cohere.CohereEmbeddings.html).

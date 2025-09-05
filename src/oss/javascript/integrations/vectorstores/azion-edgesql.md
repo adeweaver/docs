@@ -2,7 +2,7 @@
 title: AzionVectorStore
 ---
 
-The `AzionVectorStore` is used to manage and search through a collection of documents using vector embeddings, directly on Azion's Edge Plataform using Edge SQL. 
+The `AzionVectorStore` is used to manage and search through a collection of documents using vector embeddings, directly on Azion's Edge Plataform using Edge SQL.
 
 This guide provides a quick overview for getting started with Azion EdgeSQL [vector stores](/oss/concepts/#vectorstores). For detailed documentation of all `AzionVectorStore` features and configurations head to the [API reference](https://api.js.langchain.com/classes/_langchain_community.vectorstores_azion_edgesql.AzionVectorStore.html).
 
@@ -28,6 +28,7 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
   azion @langchain/openai @langchain/community
 </Npm2Yarn>
 ```
+
 ### Credentials
 
 Once you've done this set the AZION_TOKEN environment variable:
@@ -35,19 +36,21 @@ Once you've done this set the AZION_TOKEN environment variable:
 ```typescript
 process.env.AZION_TOKEN = "your-api-key"
 ```
+
 If you are using OpenAI embeddings for this guide, you'll need to set your OpenAI key as well:
 
 ```typescript
 process.env.OPENAI_API_KEY = "YOUR_API_KEY";
 ```
+
 If you want to get automated tracing of your model calls you can also set your [LangSmith](https://docs.smith.langchain.com/) API key by uncommenting below:
 
 ```typescript
 // process.env.LANGCHAIN_TRACING_V2="true"
 // process.env.LANGCHAIN_API_KEY="your-api-key"
 ```
-## Instantiation
 
+## Instantiation
 
 ```typescript
 import { AzionVectorStore } from "@langchain/community/vectorstores/azion_edgesql";
@@ -66,10 +69,10 @@ const vectorStore = new AzionVectorStore(embeddings, { dbName: "langchain", tabl
 // OR instantiate with the static method if the database and table have not been created yet
 // const vectorStore = await AzionVectorStore.initialize(embeddingModel, { dbName: "langchain", tableName: "documents" }, { columns:[], mode: "hybrid" })
 ```
+
 ## Manage vector store
 
 ### Add items to vector store
-
 
 ```typescript
 import type { Document } from "@langchain/core/documents";
@@ -98,33 +101,35 @@ const documents = [document1, document2, document3, document4];
 
 await vectorStore.addDocuments(documents);
 ```
+
 ```output
 Inserting chunks
 Inserting chunk 0
 Chunks inserted!
 ```
-### Delete items from vector store
 
+### Delete items from vector store
 
 ```typescript
 await vectorStore.delete(["4"]);
 ```
+
 ```output
 Deleted 1 items from documents
 ```
+
 ## Query vector store
 
-Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent. 
+Once your vector store has been created and the relevant documents have been added you will most likely wish to query it during the running of your chain or agent.
 
 ### Query directly
 
 Performing a simple similarity search can be done as follows:
 
-
 ```typescript
 const filter = [{ operator: "=", column: "language", value: "en" }]
 
-const hybridSearchResults = await vectorStore.azionHybridSearch("biology", {kfts:2, kvector:1, 
+const hybridSearchResults = await vectorStore.azionHybridSearch("biology", {kfts:2, kvector:1,
                                       filter:[{ operator: "=", column: "language", value: "en" }]});
 
 console.log("Hybrid Search Results")
@@ -132,6 +137,7 @@ for (const doc of hybridSearchResults) {
   console.log(`${JSON.stringify(doc)}`);
 }
 ```
+
 ```output
 Hybrid Search Results
 [{"pageContent":"The Australian dingo is a unique species that plays a key role in the ecosystem","metadata":{"searchtype":"fulltextsearch"},"id":"6"},-0.25748711028997995]
@@ -147,14 +153,15 @@ for (const doc of similaritySearchResults) {
   console.log(`${JSON.stringify(doc)}`);
 }
 ```
+
 ```output
 Similarity Search Results
 [{"pageContent":"Australia s indigenous people have inhabited the continent for over 65,000 years","metadata":{"searchtype":"similarity"},"id":"3"},0.4486490488052368]
 ```
+
 ### Query by turning into retriever
 
-You can also transform the vector store into a [retriever](/oss/concepts/#retrievers) for easier usage in your chains. 
-
+You can also transform the vector store into a [retriever](/oss/concepts/#retrievers) for easier usage in your chains.
 
 ```typescript
 const retriever = vectorStore.asRetriever({
@@ -164,6 +171,7 @@ const retriever = vectorStore.asRetriever({
 });
 await retriever.invoke("biology");
 ```
+
 ```output
 [
   Document {
@@ -178,6 +186,7 @@ await retriever.invoke("biology");
   }
 ]
 ```
+
 ### Usage for retrieval-augmented generation
 
 For guides on how to use this vector store for retrieval-augmented generation (RAG), see the following sections:

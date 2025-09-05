@@ -5,7 +5,6 @@ title: ChatVertexAI
 [Google Vertex](https://cloud.google.com/vertex-ai) is a service that exposes all foundation models available in Google Cloud, like `gemini-1.5-pro`, `gemini-2.0-flash-exp`, etc.
 It also provides some non-Google models such as [Anthropic's Claude](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/use-claude).
 
-
 This will help you getting started with `ChatVertexAI` [chat models](/oss/concepts/chat_models). For detailed documentation of all `ChatVertexAI` features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_google_vertexai.ChatVertexAI.html).
 
 ## Overview
@@ -22,7 +21,7 @@ See the links in the table headers below for guides on how to use specific featu
 
 | [Tool calling](/oss/how-to/tool_calling) | [Structured output](/oss/how-to/structured_output/) | JSON mode | [Image input](/oss/how-to/multimodal_inputs/) | Audio input | Video input | [Token-level streaming](/oss/how-to/chat_streaming/) | [Token usage](/oss/how-to/chat_token_usage_tracking/) | [Logprobs](/oss/how-to/logprobs/) |
 | :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: |
-| ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 
+| ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
 Note that while logprobs are supported, Gemini has fairly restricted usage of them.
 
@@ -81,10 +80,10 @@ Or if using in a web environment like a [Vercel Edge function](https://vercel.co
 </Npm2Yarn>
 
 ```
+
 ## Instantiation
 
 Now we can instantiate our model object and generate chat completions:
-
 
 ```typescript
 import { ChatVertexAI } from "@langchain/google-vertexai"
@@ -100,8 +99,8 @@ const llm = new ChatVertexAI({
     // other params...
 })
 ```
-## Invocation
 
+## Invocation
 
 ```typescript
 const aiMsg = await llm.invoke([
@@ -113,6 +112,7 @@ const aiMsg = await llm.invoke([
 ])
 aiMsg
 ```
+
 ```output
 AIMessageChunk {
   "content": "J'adore programmer. \n",
@@ -132,22 +132,22 @@ AIMessageChunk {
 ```typescript
 console.log(aiMsg.content)
 ```
+
 ```output
 J'adore programmer.
 ```
+
 ## Tool Calling with Google Search Retrieval
 
 It is possible to call the model with a Google search tool which you can use to [ground](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/grounding) content generation with real-world information and reduce hallucinations.
 
 Grounding is currently not supported by `gemini-2.0-flash-exp`.
 
-You can choose to either ground using Google Search or by using a custom data store. Here are examples of both:  
+You can choose to either ground using Google Search or by using a custom data store. Here are examples of both:
 
 ### Google Search Retrieval
 
 Grounding example that uses Google Search:
-
-
 
 ```typescript
 import { ChatVertexAI } from "@langchain/google-vertexai"
@@ -171,9 +171,11 @@ const searchRetrievalResult = await searchRetrievalModel.invoke("Who won the 202
 
 console.log(searchRetrievalResult.content);
 ```
+
 ```output
 The Boston Celtics won the 2024 NBA Finals, defeating the Dallas Mavericks 4-1 in the series to claim their 18th NBA championship. This victory marked their first title since 2008 and established them as the team with the most NBA championships, surpassing the Los Angeles Lakers' 17 titles.
 ```
+
 ### Google Search Retrieval with Data Store
 
 First, set up your data store (this is a schema of an example data store):
@@ -189,8 +191,6 @@ First, set up your data store (this is a schema of an example data store):
 Then, use this data store in the example provided below:
 
 (Note that you have to use your own variables for `projectId` and `datastoreId`)
-
-
 
 ```typescript
 import { ChatVertexAI } from "@langchain/google-vertexai";
@@ -219,9 +219,11 @@ const searchRetrievalModelResult = await searchRetrievalModelWithDataset.invoke(
 
 console.log(searchRetrievalModelResult.content);
 ```
+
 ```output
 Argentina won against Bolivia with a score of 6-0 on October 15, 2024.
 ```
+
 You should now get results that are grounded in the data from your provided data store.
 
 ## Context Caching
@@ -231,7 +233,6 @@ Vertex AI offers context caching functionality, which helps optimize costs by st
 To use this feature, first create a context cache by following [this official guide](https://cloud.google.com/vertex-ai/generative-ai/docs/context-cache/context-cache-create).
 
 Once you've created a cache, you can pass its id in as a runtime param as follows:
-
 
 ```typescript
 import { ChatVertexAI } from "@langchain/google-vertexai";
@@ -249,7 +250,6 @@ await modelWithCachedContent.invoke("What is in the content?", {
 
 You can also bind this field directly onto the model instance:
 
-
 ```typescript
 const modelWithBoundCachedContent = new ChatVertexAI({
   model: "gemini-1.5-pro-002",
@@ -266,7 +266,6 @@ Note that not all models currently support context caching.
 ## Chaining
 
 We can [chain](/oss/how-to/sequence/) our model with a prompt template like so:
-
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts"
@@ -290,6 +289,7 @@ await chain.invoke(
   }
 );
 ```
+
 ```output
 AIMessageChunk {
   "content": "Ich liebe das Programmieren. \n",
@@ -305,6 +305,7 @@ AIMessageChunk {
   }
 }
 ```
+
 ## API reference
 
-For detailed documentation of all ChatVertexAI features and configurations head to the API reference: https://api.js.langchain.com/classes/langchain_google_vertexai.ChatVertexAI.html
+For detailed documentation of all ChatVertexAI features and configurations head to the [API reference](https://api.js.langchain.com/classes/langchain_google_vertexai.ChatVertexAI.html).

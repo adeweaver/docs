@@ -5,8 +5,8 @@ sidebarTitle: Deploy hybrid
 Before deploying, review the [conceptual guide for the Hybrid](/langgraph-platform/hybrid) deployment option.
 
 <Info>
-  **Important**
-  The Hybrid deployment option requires an [Enterprise](/langgraph-platform/plans) plan.
+**Important**
+The Hybrid deployment option requires an [Enterprise](/langgraph-platform/plans) plan.
 </Info>
 
 ## Prerequisites
@@ -38,7 +38,11 @@ Before deploying, review the [conceptual guide for the Hybrid](/langgraph-platfo
     3. Enter a unique `Compute ID` for the listener. The `Compute ID` is a user-defined identifier that should be unique across all listeners in the current LangSmith workspace. The `Compute ID` is displayed to end users when they are creating a new deployment. Ensure that the `Compute ID` provides context to the end user about where their LangGraph Server deployments will be deployed to. For example, a `Compute ID` can be set to `k8s-cluster-name-dev-01`. In this example, the name of the Kubernetes cluster is `k8s-cluster-name`, `dev` denotes that the cluster is reserved for "development" workloads, and `01` is a numerical suffix to reduce naming collisions.
     4. Enter one or more Kubernetes namespaces. Later, the "listener" application will be configured to deploy to each of these namespaces.
     5. In the top-right on the page, select `Submit`.
-    6. After the listener is created, copy the listener ID. You will use it later when installing the actual "listener" application.
+    6. After the listener is created, copy the listener ID. You will use it later when installing the actual "listener" application in the Kubernetes cluster (step 5).
+    <Info>
+    **Important**
+    Creating a listener from the LangSmith UI does not install the "listener" application in the Kubernetes cluster.
+    </Info>
 3. A [Helm chart](https://github.com/langchain-ai/helm/tree/main/charts/langgraph-dataplane) is provided to install the necesssary components in your Kubernetes cluster.
     - `langgraph-listener`: This is a service that listens to LangChain's [control plane](/langgraph-platform/control-plane) for changes to your deployments and creates/updates downstream CRDs. This is the ["listener" application](/langgraph-platform/data-plane#”listener”-application).
     - `LangGraphPlatform CRD`: A CRD for LangGraph Platform deployments. This contains the spec for managing an instance of a LangGraph Platform deployment.
@@ -50,7 +54,7 @@ Before deploying, review the [conceptual guide for the Hybrid](/langgraph-platfo
         langsmithWorkspaceId: "" # Workspace ID
         hostBackendUrl: "https://api.host.langchain.com" # Only override this if on EU
         smithBackendUrl: "https://api.smith.langchain.com" # Only override this if on EU
-        langgraphListenerId: "" # Listener ID from Step 2-6
+        langgraphListenerId: "" # Listener ID from Step 2f
         watchNamespaces: "" # comma-separated list of Kubernetes namespaces that the listener and operator will deploy to
         enableLGPDeploymentHealthCheck: true # enable/disable health check step for deployments
 
@@ -64,7 +68,7 @@ Before deploying, review the [conceptual guide for the Hybrid](/langgraph-platfo
     - `config.langsmithApiKey`: The `langgraph-listener` deployment authenticates with LangChain's LangGraph control plane API with the `langsmithApiKey`.
     - `config.langsmithWorkspaceId`: The `langgraph-listener` deployment is coupled to LangGraph Server deployments in the LangSmith workspace. In other words, the `langgraph-listener` deployment can only manage LangGraph Server deployments in the specified LangSmith workspace ID.
     - `config.langgraphListenerId`: In addition to being coupled with a LangSmith workspace, the `langgraph-listener` deployment is also coupled to a listener. When a new LangGraph Server deployment is created, it is automatically coupled to a `langgraphListenerId`. Specifying `langgraphListenerId` ensures that the `langgraph-listener` deployment can only manage LangGraph Server deployments that are coupled to `langgraphListenerId`.
-    - `config.watchNamespaces`: A comma-separated list of Kubernetes namespaces that the `langgraph-listener` deployment will deploy to. This list should match the list of namespaces specified in step 2-4.
+    - `config.watchNamespaces`: A comma-separated list of Kubernetes namespaces that the `langgraph-listener` deployment will deploy to. This list should match the list of namespaces specified in step 2d.
     - `config.enableLGPDeploymentHealthCheck`: To disable the LangGraph Server health check, set this to `false`.
     - `ingress.hostname`: As part of the deployment workflow, the `langgraph-listener` deployment attempts to call the LangGraph Server health check endpoint (`GET /ok`) to verify that the application has started up correctly. A typical setup involves creating a shared DNS record or domain for LangGraph Server deployments. This is not managed by LangGraph Platform. Once created, set `ingress.hostname` to the domain, which will be used to complete the health check.
     - `operator.enabled`: There can only be 1 instance of the `langgraph-platform-operator` deployed in a Kubernetes namespace. Set this to `false` if there is already an instance of `langgraph-platform-operator` deployed in the current Kubernetes namespace.
@@ -86,4 +90,4 @@ Before deploying, review the [conceptual guide for the Hybrid](/langgraph-platfo
     1. Select the desired listener from the list of `Compute IDs` in the dropdown menu.
     2. Select the Kubernetes namespace to deploy to.
     3. Fill out all other required fields and select `Submit` in the top-right of the panel.
-    4. The deployment will be deployed on the Kubernetes cluster where the listener is deployed and in the Kubernetes namespace specified in step 7-2.
+    4. The deployment will be deployed on the Kubernetes cluster where the listener is deployed and in the Kubernetes namespace specified in step 7b.
