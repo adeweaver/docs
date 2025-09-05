@@ -2,9 +2,13 @@
 title: "Text splitters"
 ---
 
-[Text splitters](/oss/langchain-retrieval#text-splitters) break large docs into smaller chunks that will be retrievable individually and fit within model context window limit.
+**Text splitters** break large docs into smaller chunks that will be retrievable individually and fit within model context window limit.
 
 There are several strategies for splitting documents, each with its own advantages.
+
+<Tip>
+For most use cases, start with the [RecursiveCharacterTextSplitter](/oss/integrations/splitters/recursive_text_splitter). It provides a solid balance between keeping context intact and managing chunk size. This default strategy works well out of the box, and you should only consider adjusting it if you need to fine-tune performance for your specific application.
+</Tip>
 
 ## Text structure-based
 Text is naturally organized into hierarchical units such as paragraphs, sentences, and words. We can leverage this inherent structure to inform our splitting strategy, creating split that maintain natural language flow, maintain semantic coherence within split, and adapts to varying levels of text granularity. LangChain's `RecursiveCharacterTextSplitter` implements this concept:
@@ -13,7 +17,7 @@ Text is naturally organized into hierarchical units such as paragraphs, sentence
 - If a unit exceeds the chunk size, it moves to the next level (e.g., sentences).
 - This process continues down to the word level if necessary.
 
-Here is example usage:
+Example usage:
 
 ```python
 from langchain_text_splitters import RecursiveCharacterTextSplitter

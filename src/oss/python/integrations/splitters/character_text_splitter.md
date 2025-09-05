@@ -2,15 +2,15 @@
 title: Splitting by character
 ---
 
-This is the simplest method. This [splits](/oss/concepts/text_splitters/) based on a given character sequence, which defaults to `"\n\n"`. Chunk length is measured by number of characters.
+Character-based splitting is the simplest approach to text splitting. It divides text using a specified character sequence (default: `"\n\n"`), with chunk length measured by the number of characters.
 
-1. How the text is split: by single character separator.
-2. How the chunk size is measured: by number of characters.
+**Key points**:
+1. **How text is split**: by a given character separator.
+2. **How chunk size is measured**: by character count.
 
-To obtain the string content directly, use `.split_text`.
-
-To create LangChain [Document](https://python.langchain.com/api_reference/core/documents/langchain_core.documents.base.Document.html) objects (e.g., for use in downstream tasks), use `.create_documents`.
-
+You can choose between:
+- `.split_text` — returns plain string chunks.
+- `.create_documents` — returns LangChain [Document](https://python.langchain.com/api_reference/core/documents/langchain_core.documents.base.Document.html) objects, useful when metadata needs to be preserved for downstream tasks.
 
 ```python
 %pip install -qU langchain-text-splitters
