@@ -1,4 +1,6 @@
-# How to split HTML
+---
+title: Split HTML
+---
 
 Splitting HTML documents into manageable chunks is essential for various text processing tasks such as natural language processing, search indexing, and more. In this guide, we will explore three different text splitters provided by LangChain that you can use to split HTML content effectively:
 
@@ -652,9 +654,3 @@ Document(metadata={'Header 1': 'Section with Image and Link'}, page_content=". I
 #### Explanation:
 
 With our custom handler written to extract the specific fields from a `<img>` element in HTML, we can further process the data with our agent, and insert the result directly into our chunk. It is important to ensure `preserve_images` is set to `False` otherwise the default processing of `<img>` fields will take place.
-
-
-
-```python
-
-```

@@ -1,6 +1,6 @@
-# How to split Markdown by Headers
-
-### Motivation
+---
+title: Split markdown
+---
 
 Many chat or Q+A applications involve chunking input documents prior to embedding and vector storage.
 

@@ -1,4 +1,6 @@
-# How to split text by tokens
+---
+title: Splitting by token
+---
 
 Language models have a [token](/oss/concepts/tokens/) limit. You should not exceed the token limit. When you [split your text](/oss/concepts/text_splitters/) into chunks it is therefore a good idea to count the number of tokens. There are many tokenizers. When you count tokens in your text you should use the same tokenizer as used in the language model.
 
@@ -395,8 +397,4 @@ Last year COVID-19 kept us apart. This year we are finally together again.
 Tonight, we meet as Democrats Republicans and Independents. But most importantly as Americans.
 
 With a duty to one another to the American people to the Constitution.
-```
-
-```python
-
 ```

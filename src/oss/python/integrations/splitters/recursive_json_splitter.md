@@ -1,4 +1,6 @@
-# How to split JSON data
+---
+title: Split JSON data
+---
 
 This json splitter [splits](/oss/concepts/text_splitters/) json data while allowing control over chunk sizes. It traverses json data depth first and builds smaller json chunks. It attempts to keep nested json objects whole but will split them if needed to keep chunks between a min_chunk_size and the max_chunk_size.
 

@@ -1,4 +1,6 @@
-# How to split code
+---
+title: Splitting code
+---
 
 [RecursiveCharacterTextSplitter](https://python.langchain.com/api_reference/text_splitters/character/langchain_text_splitters.character.RecursiveCharacterTextSplitter.html) includes pre-built lists of separators that are useful for [splitting text](/oss/concepts/text_splitters/) in a specific programming language.
 
