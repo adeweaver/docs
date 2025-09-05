@@ -55,7 +55,6 @@ pnpm add @langchain/community pdf-parse
 ```
 </CodeGroup>
 
-
 :::
 
 For more details, see our [Installation guide](/oss/langchain-installation).

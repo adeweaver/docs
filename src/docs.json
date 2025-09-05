@@ -1162,7 +1162,8 @@
                   {
                     "group": "Tutorials",
                     "pages": [
-                      "oss/javascript/langchain-knowledge-base"
+                      "oss/javascript/langchain-knowledge-base",
+                      "oss/javascript/langchain-rag"
                     ]
                   },
                   {
