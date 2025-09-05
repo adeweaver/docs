@@ -11,7 +11,7 @@ This notebook goes over how to use the ``StackExchange`` component.
 We first have to install the python package stackapi which implements the Stack Exchange API.
 
 ```python
-pip install --upgrade stackapi
+pip install -U stackapi
 ```
 
 ```python

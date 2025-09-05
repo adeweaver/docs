@@ -60,10 +60,10 @@ If you want to get automated tracing from individual queries, you can also set y
 This retriever lives in the `langchain-community` package. We will need some additional dependencies as well:
 
 ```python
-%pip install --upgrade --quiet langchain-community
-%pip install --upgrade --quiet langchain-openai
-%pip install --upgrade --quiet  azure-search-documents>=11.4
-%pip install --upgrade --quiet  azure-identity
+%pip install -qU langchain-community
+%pip install -qU langchain-openai
+%pip install -qU  azure-search-documents>=11.4
+%pip install -qU  azure-identity
 ```
 
 ## Instantiation

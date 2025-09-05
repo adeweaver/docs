@@ -413,19 +413,6 @@
                     ]
                   }
                 ]
-              },
-              {
-                "tab": "Contributing",
-                "groups": [
-                  {
-                    "group": "Contribute",
-                    "pages": [
-                      "oss/python/contributing",
-                      "oss/python/contributing/documentation",
-                      "oss/python/contributing/code"
-                    ]
-                  }
-                ]
               }
             ]
           },
@@ -508,6 +495,7 @@
                       "langgraph-platform/add-human-in-the-loop",
                       "langgraph-platform/human-in-the-loop-time-travel",
                       "langgraph-platform/server-mcp",
+                      "langgraph-platform/server-a2a",
                       "langgraph-platform/use-webhooks",
                       {
                         "group": "Double-texting",
@@ -569,7 +557,8 @@
                       "langgraph-platform/graph-rebuild",
                       "langgraph-platform/langgraph-cli",
                       "langgraph-platform/sdk",
-                      "langgraph-platform/egress-metrics-metadata"
+                      "langgraph-platform/egress-metrics-metadata",
+                      "langgraph-platform/monorepo-support"
                     ]
                   }
                 ]
@@ -1415,19 +1404,6 @@
                     ]
                   }
                 ]
-              },
-              {
-                "tab": "Contributing",
-                "groups": [
-                  {
-                    "group": "Contribute",
-                    "pages": [
-                      "oss/javascript/contributing",
-                      "oss/javascript/contributing/documentation",
-                      "oss/javascript/contributing/code"
-                    ]
-                  }
-                ]
               }
             ]
           },
@@ -1510,6 +1486,7 @@
                       "langgraph-platform/add-human-in-the-loop",
                       "langgraph-platform/human-in-the-loop-time-travel",
                       "langgraph-platform/server-mcp",
+                      "langgraph-platform/server-a2a",
                       "langgraph-platform/use-webhooks",
                       {
                         "group": "Double-texting",
@@ -1571,7 +1548,8 @@
                       "langgraph-platform/graph-rebuild",
                       "langgraph-platform/langgraph-cli",
                       "langgraph-platform/sdk",
-                      "langgraph-platform/egress-metrics-metadata"
+                      "langgraph-platform/egress-metrics-metadata",
+                      "langgraph-platform/monorepo-support"
                     ]
                   }
                 ]

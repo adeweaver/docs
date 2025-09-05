@@ -38,11 +38,11 @@ Install `langchain-surrealdb` and `surrealdb` python packages.
 
 ```shell
 # -- Using pip
-pip install --upgrade langchain-surrealdb surrealdb
+pip install -U langchain-surrealdb surrealdb
 # -- Using poetry
 poetry add langchain-surrealdb surrealdb
 # -- Using uv
-uv add --upgrade langchain-surrealdb surrealdb
+uv add langchain-surrealdb surrealdb
 ```
 
 To run this notebook, we just need to install the additional dependencies required by this example:

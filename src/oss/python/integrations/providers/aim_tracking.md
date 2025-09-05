@@ -21,10 +21,10 @@ Let's move forward and see how to enable and configure Aim callback.
 In this notebook we will explore three usage scenarios. To start off, we will install the necessary packages and import certain modules. Subsequently, we will configure two environment variables that can be established either within the Python script or through the terminal.
 
 ```python
-%pip install --upgrade --quiet  aim
-%pip install --upgrade --quiet  langchain
-%pip install --upgrade --quiet  langchain-openai
-%pip install --upgrade --quiet  google-search-results
+%pip install -qU  aim
+%pip install -qU  langchain
+%pip install -qU  langchain-openai
+%pip install -qU  google-search-results
 ```
 
 ```python

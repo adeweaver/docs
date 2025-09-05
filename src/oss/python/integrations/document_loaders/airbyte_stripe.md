@@ -13,7 +13,7 @@ This loader exposes the Stripe connector as a document loader, allowing you to l
 First, you need to install the `airbyte-source-stripe` python package.
 
 ```python
-%pip install --upgrade --quiet  airbyte-source-stripe
+%pip install -qU  airbyte-source-stripe
 ```
 
 ## Example

@@ -13,7 +13,7 @@ This example goes over how to use LangChain to interact with Aleph Alpha models
 
 ```python
 # Install the package
-%pip install --upgrade --quiet  aleph-alpha-client
+%pip install -qU  aleph-alpha-client
 ```
 
 ```python

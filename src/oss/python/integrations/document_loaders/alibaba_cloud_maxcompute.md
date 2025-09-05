@@ -7,7 +7,7 @@ title: Alibaba Cloud MaxCompute
 The `MaxComputeLoader` lets you execute a MaxCompute SQL query and loads the results as one document per row.
 
 ```python
-%pip install --upgrade --quiet  pyodps
+%pip install -qU  pyodps
 ```
 
 ```output

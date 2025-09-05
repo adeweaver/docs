@@ -10,7 +10,7 @@ This notebook covers how to get started with using Langchain + the GPTRouter I/O
 * or use the `gpt_router_api_key` keyword argument
 
 ```python
-%pip install --upgrade --quiet  GPTRouter
+%pip install -qU  GPTRouter
 ```
 
 ```output
@@ -29,7 +29,7 @@ Requirement already satisfied: h11<0.15,>=0.13 in /Users/sirjan-ws/.pyenv/versio
 Requirement already satisfied: exceptiongroup in /Users/sirjan-ws/.pyenv/versions/3.10.13/envs/langchain_venv5/lib/python3.10/site-packages (from anyio->httpx>=0.25.2->GPTRouter) (1.2.0)
 
 [notice] A new release of pip is available: 23.0.1 -> 23.3.2
-[notice] To update, run: pip install --upgrade pip
+[notice] To update, run: pip install -U pip
 Note: you may need to restart the kernel to use updated packages.
 ```
 

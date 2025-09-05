@@ -16,9 +16,11 @@ Short term memory lets your application remember previous interactions within a 
     A thread organizes multiple interactions in a session, similar to the way email groups messages in a single conversation.
 </Note>
 
-Conversation history is the most common form of short-term memory, and long conversations pose a challenge to today's LLMs. A full history may not fit inside an LLM's context window, resulting in an irrecoverable error. Even if your LLM supports the full context length, most LLMs still perform poorly over long contexts. They get "distracted" by stale or off-topic content, all while suffering from slower response times and higher costs.
+Conversation history is the most common form of short-term memory. Long conversations pose a challenge to today's LLMs; a full history may not fit inside an LLM's context window, resulting in an context loss or errors.
 
-Chat models accept context using messages, which include developer provided instructions (a system message) and user inputs (human messages). In chat applications, messages alternate between human inputs and model responses, resulting in a list of messages that grows longer over time. Because context windows are limited and token-rich message lists can be costly, many applications can benefit from using techniques to manually remove or forget stale information.
+Even if your model supports the full context length, most LLMs still perform poorly over long contexts. They get "distracted" by stale or off-topic content, all while suffering from slower response times and higher costs.
+
+Chat models accept context using [messages](/oss/langchain-messages), which include instructions (a system message) and inputs (human messages). In chat applications, messages alternate between human inputs and model responses, resulting in a list of messages that grows longer over time. Because context windows are limited, many applications can benefit from using techniques to remove or "forget" stale information.
 
 ## Usage
 
@@ -141,14 +143,24 @@ const agent = createAgent({
 ```
 :::
 
-## Common Patterns
+## Common patterns
 
 With [short-term memory](#add-short-term-memory) enabled, long conversations can exceed the LLM's context window. Common solutions are:
 
-* [Trim messages](#trim-messages): Remove first or last N messages (before calling LLM)
-* [Delete messages](#delete-messages) from LangGraph state permanently
-* [Summarize messages](#summarize-messages): Summarize earlier messages in the history and replace them with a summary
-* Custom strategies (e.g., message filtering, etc.)
+<CardGroup cols={2}>
+    <Card title="Trim messages" icon="scissors" href="#trim-messages" arrow>
+        Remove first or last N messages (before calling LLM)
+    </Card>
+    <Card title="Delete messages" icon="trash" href="#delete-messages" arrow>
+        Delete messages from LangGraph state permanently
+    </Card>
+    <Card title="Summarize messages" icon="layer-group" href="#summarize-messages" arrow>
+        Summarize earlier messages in the history and replace them with a summary
+    </Card>
+    <Card title="Custom strategies" icon="gears">
+        Custom strategies (e.g., message filtering, etc.)
+    </Card>
+</CardGroup>
 
 This allows the agent to keep track of the conversation without exceeding the LLM's context window.
 
@@ -251,7 +263,7 @@ This is useful when you want to remove specific messages or clear the entire mes
 :::python
 To delete messages from the graph state, you can use the `RemoveMessage`.
 
-For `RemoveMessage` to work, you need to use a state key with @[`add_messages`][add_messages] [reducer](/oss/graph-api#reducers),.
+For `RemoveMessage` to work, you need to use a state key with @[`add_messages`][add_messages] [reducer](/oss/graph-api#reducers).
 
 The default `AgentState` provides this.
 
@@ -487,8 +499,8 @@ TODO
 You can access the short-term memory of an agent in a few different ways:
 
 * [Tools](#tools)
-* [Pre Model Hook](#pre-model-hook)
-* [Post Model Hook](#post-model-hook)
+* [Pre model hook](#pre-model-hook)
+* [Post model hook](#post-model-hook)
 
 ### Tools
 
@@ -525,7 +537,7 @@ result = agent.invoke({
     "user_id": "user_123"
 })
 print(result["messages"][-1].content)
-#> User is John Smith.
+# > User is John Smith.
 ```
 :::
 :::js
@@ -567,7 +579,7 @@ const result = await agent.invoke(
 );
 
 console.log(result.messages.at(-1)?.content);
-// outputs: "User is John Smith."
+// Outputs: "User is John Smith."
 ```
 :::
 
@@ -804,7 +816,7 @@ const result = await agent.invoke(
 );
 
 for (const message of result.messages) {
-  console.log(message);
+    console.log(message);
 }
 /**
  * HumanMessage {
@@ -838,7 +850,7 @@ for (const message of result.messages) {
 ```
 :::
 
-### Pre Model Hook
+### Pre model hook
 
 Access short term memory (state) in a pre model hook by injecting the agent's state into the hook signature.
 
@@ -914,7 +926,7 @@ console.log(result.messages.at(-1)?.content);
 ```
 :::
 
-### Post Model Hook
+### Post model hook
 
 Access short term memory (state) in a post model hook by injecting the agent's state into the hook signature.
 

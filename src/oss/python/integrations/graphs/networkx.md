@@ -11,7 +11,7 @@ This notebook goes over how to do question answering over a graph data structure
 We have to install a Python package.
 
 ```python
-%pip install --upgrade --quiet  networkx
+%pip install -qU  networkx
 ```
 
 ## Create the graph

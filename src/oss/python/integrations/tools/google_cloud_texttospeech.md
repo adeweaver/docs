@@ -11,7 +11,7 @@ This notebook shows how to interact with the `Google Cloud Text-to-Speech API` t
 First, you need to set up an Google Cloud project. You can follow the instructions [here](https://cloud.google.com/text-to-speech/docs/before-you-begin).
 
 ```python
-!pip install --upgrade langchain-google-community[texttospeech]
+!pip install -U langchain-google-community[texttospeech]
 ```
 
 ## Instantiation

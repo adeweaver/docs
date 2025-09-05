@@ -11,7 +11,7 @@ To use this toolkit, you will need to have your Amadeus API keys ready, explaine
 Note: Amadeus Self-Service APIs offers a test environment with [free limited data](https://amadeus4dev.github.io/developer-guides/test-data/). This allows developers to build and test their applications before deploying them to production. To access real-time data, you will need to [move to the production environment](https://amadeus4dev.github.io/developer-guides/API-Keys/moving-to-production/).
 
 ```python
-%pip install --upgrade --quiet  amadeus > /dev/null
+%pip install -qU  amadeus > /dev/null
 ```
 
 ```python

@@ -13,12 +13,12 @@ First we'll want to create a TencentVectorDB and seed it with some data. We've c
 **Note:** The self-query retriever requires you to have `lark` installed (`pip install lark`) along with integration-specific requirements.
 
 ```python
-%pip install --upgrade --quiet tcvectordb langchain-openai tiktoken lark
+%pip install -qU tcvectordb langchain-openai tiktoken lark
 ```
 
 ```output
 [notice] A new release of pip is available: 23.2.1 -> 24.0
-[notice] To update, run: pip install --upgrade pip
+[notice] To update, run: pip install -U pip
 Note: you may need to restart the kernel to use updated packages.
 ```
 

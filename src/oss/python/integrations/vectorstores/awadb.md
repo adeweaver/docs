@@ -9,7 +9,7 @@ You'll need to install `langchain-community` with `pip install -qU langchain-com
 This notebook shows how to use functionality related to the `AwaDB`.
 
 ```python
-%pip install --upgrade --quiet  awadb
+%pip install -qU  awadb
 ```
 
 ```python

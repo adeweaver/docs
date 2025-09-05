@@ -40,13 +40,13 @@ You will need to install the following packages...
 
 ```python
 # Install Langchain community and core packages
-%pip install --upgrade --quiet langchain-core langchain-community
+%pip install -qU langchain-core langchain-community
 
 # Install Kinetica DB connection package
-%pip install --upgrade --quiet 'gpudb>=7.2.0.8' typeguard pandas tqdm
+%pip install -qU 'gpudb>=7.2.0.8' typeguard pandas tqdm
 
 # Install packages needed for this tutorial
-%pip install --upgrade --quiet faker ipykernel
+%pip install -qU faker ipykernel
 ```
 
 ## Database Connection

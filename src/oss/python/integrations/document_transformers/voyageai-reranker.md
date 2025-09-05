@@ -7,16 +7,16 @@ title: VoyageAI Reranker
 This notebook shows how to use [Voyage AI's rerank endpoint](https://api.voyageai.com/v1/rerank) in a retriever. This builds on top of ideas in the [ContextualCompressionRetriever](/oss/how-to/contextual_compression).
 
 ```python
-%pip install --upgrade --quiet  voyageai
-%pip install --upgrade --quiet  langchain-voyageai
+%pip install -qU  voyageai
+%pip install -qU  langchain-voyageai
 ```
 
 ```python
-%pip install --upgrade --quiet  faiss
+%pip install -qU  faiss
 
 # OR  (depending on Python version)
 
-%pip install --upgrade --quiet  faiss-cpu
+%pip install -qU  faiss-cpu
 ```
 
 ```python

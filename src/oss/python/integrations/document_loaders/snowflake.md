@@ -5,7 +5,7 @@ title: Snowflake
 This notebooks goes over how to load documents from Snowflake
 
 ```python
-%pip install --upgrade --quiet  snowflake-connector-python
+%pip install -qU  snowflake-connector-python
 ```
 
 ```python

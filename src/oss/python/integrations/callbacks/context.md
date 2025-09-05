@@ -11,7 +11,7 @@ In this guide we will show you how to integrate with Context.
 ## Installation and Setup
 
 ```python
-%pip install --upgrade --quiet  langchain langchain-openai langchain-community context-python
+%pip install -qU  langchain langchain-openai langchain-community context-python
 ```
 
 ### Getting API Credentials

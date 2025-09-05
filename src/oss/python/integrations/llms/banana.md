@@ -13,7 +13,7 @@ This example goes over how to use LangChain to interact with Banana models
 
 ```python
 # Install the package  https://docs.banana.dev/banana-docs/core-concepts/sdks/python
-%pip install --upgrade --quiet  banana-dev
+%pip install -qU  banana-dev
 ```
 
 ```python

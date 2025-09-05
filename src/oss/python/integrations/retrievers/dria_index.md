@@ -9,7 +9,7 @@ title: Dria
 Ensure you have the `dria` package installed. You can install it using pip:
 
 ```python
-%pip install --upgrade --quiet dria
+%pip install -qU dria
 ```
 
 # Configure API Key

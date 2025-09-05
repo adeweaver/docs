@@ -11,11 +11,11 @@ This notebook shows how to load `TensorFlow Datasets` into a Document format tha
 You need to install `tensorflow` and `tensorflow-datasets` python packages.
 
 ```python
-%pip install --upgrade --quiet  tensorflow
+%pip install -qU  tensorflow
 ```
 
 ```python
-%pip install --upgrade --quiet  tensorflow-datasets
+%pip install -qU  tensorflow-datasets
 ```
 
 ## Example

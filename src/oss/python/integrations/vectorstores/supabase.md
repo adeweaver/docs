@@ -59,7 +59,7 @@ $$;
 
 ```python
 # with pip
-%pip install --upgrade --quiet  supabase
+%pip install -qU  supabase
 
 # with conda
 # !conda install -c conda-forge supabase

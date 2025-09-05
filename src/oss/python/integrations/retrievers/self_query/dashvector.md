@@ -21,7 +21,7 @@ To use DashVector, you have to have `dashvector` package installed, and you must
 NOTE: The self-query retriever requires you to have `lark` package installed.
 
 ```python
-%pip install --upgrade --quiet  lark dashvector
+%pip install -qU  lark dashvector
 ```
 
 ```python

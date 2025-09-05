@@ -14,7 +14,7 @@ First we'll want to create a Weaviate vector store and seed it with some data. W
 **Note:** The self-query retriever requires you to have `lark` installed (`pip install lark`). We also need the `weaviate-client` package.
 
 ```python
-%pip install --upgrade --quiet  lark weaviate-client
+%pip install -qU  lark weaviate-client
 ```
 
 ```python

@@ -41,7 +41,7 @@ To enable automated tracing of your model calls, set your [LangSmith](https://do
 ## Installation
 
 ```python
-%pip install --upgrade --quiet  langchain-google-genai
+%pip install -qU  langchain-google-genai
 ```
 
 ## Usage
@@ -125,7 +125,7 @@ retrieved_documents[0].page_content
 By default, we use `RETRIEVAL_DOCUMENT` in the `embed_documents` method and `RETRIEVAL_QUERY` in the `embed_query` method. If you provide a task type, we will use that for all methods.
 
 ```python
-%pip install --upgrade --quiet  matplotlib scikit-learn
+%pip install -qU  matplotlib scikit-learn
 ```
 
 ```python

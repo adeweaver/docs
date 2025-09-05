@@ -36,9 +36,9 @@ Follow these steps to get ready to follow this tutorial.
 
 ```python
 # Pip install necessary packages
-%pip install --upgrade --quiet  timescale-vector
-%pip install --upgrade --quiet  langchain-openai langchain-community
-%pip install --upgrade --quiet  tiktoken
+%pip install -qU  timescale-vector
+%pip install -qU  langchain-openai langchain-community
+%pip install -qU  tiktoken
 ```
 
 In this example, we'll use `OpenAIEmbeddings`, so let's load your OpenAI API key.

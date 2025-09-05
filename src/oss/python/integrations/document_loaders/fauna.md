@@ -7,7 +7,7 @@ title: Fauna
 Query `Fauna` documents
 
 ```python
-%pip install --upgrade --quiet  fauna
+%pip install -qU  fauna
 ```
 
 ## Query data example

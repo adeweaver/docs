@@ -44,7 +44,7 @@ You can create [additional API keys](https://www.meilisearch.com/docs/learn/secu
 This guide uses the [Meilisearch Python SDK](https://github.com/meilisearch/meilisearch-python). You can install it by running:
 
 ```python
-%pip install --upgrade --quiet  meilisearch
+%pip install -qU  meilisearch
 ```
 
 For more information, refer to the [Meilisearch Python SDK documentation](https://meilisearch.github.io/meilisearch-python/).
