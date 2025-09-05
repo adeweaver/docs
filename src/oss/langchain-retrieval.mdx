@@ -6,18 +6,120 @@ import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
 
 <AlphaCallout />
 
-## Retrieval
-
 Large language models (LLMs) are powerful, but they have two key limitations:
 
-* **Finite context** — they can’t ingest entire corpora at once as input.
+* **Finite context** — they can’t ingest entire corpora at once.
 * **Static knowledge** — their training data is frozen at a point in time.
 
-**Retrieval** addresses these problems by fetching relevant external knowledge at query time. This is the foundation of **Retrieval-Augmented Generation (RAG)**: enhancing an LLM’s answers with context-specific information.
+Retrieval addresses these problems by fetching relevant external knowledge at query time. This is the foundation of **Retrieval-Augmented Generation (RAG)**: enhancing an LLM’s answers with context-specific information.
+
+
+## Building a knowledge base
+
+A **knowledge base** is a repository of documents or structured data used during retrieval.
+
+If you need a custom knowledge base, you can use LangChain’s document loaders and vector stores to build one from your own data.
+
+<Note>
+    If you already have a knowledge base (e.g., a SQL database, CRM, or internal documentation system), you do **not** need to rebuild it. You can:
+    - Connect it as a **tool** for an agent in Agentic RAG.
+    - Query it and supply the retrieved content as context to the LLM [(2-Step RAG)](#2-step-rag).
+</Note>
+
+See the following tutorial to build a searchable knowledge base and minimal RAG workflow:
+
+<Card
+    title="Tutorial: Semantic search"
+    icon="database"
+    href="/oss/langchain-knowledge-base"
+    arrow cta="Learn more"
+>
+    Learn how to create a searchable knowledge base from your own data using LangChain’s document loaders, embeddings, and vector stores.
+    In this tutorial, you’ll build a search engine over a PDF, enabling retrieval of passages relevant to a query. You’ll also implement a minimal RAG workflow on top of this engine to see how external knowledge can be integrated into LLM reasoning.
+</Card>
+
+### From retrieval to RAG
+
+Retrieval allows LLMs to access relevant context at runtime. But most real-world applications go one step further: they **integrate retrieval with generation** to produce grounded, context-aware answers.
+
+This is the core idea behind **Retrieval-Augmented Generation (RAG)**. The retrieval pipeline becomes a foundation for a broader system that combines search with generation.
+
+### Retrieval Pipeline
+
+A typical retrieval workflow looks like this:
+
+```mermaid
+flowchart LR
+  S(["Sources<br>(Google Drive, Slack, Notion, etc.)"]) --> L[Document Loaders]
+  L --> A([Documents])
+  A --> B[Split into chunks]
+  B --> C[Turn into embeddings]
+  C --> D[(Vector Store)]
+  Q([User Query]) --> E[Query embedding]
+  E --> D
+  D --> F[Retriever]
+  F --> G[LLM uses retrieved info]
+  G --> H([Answer])
+```
+
+Each component is modular: you can swap loaders, splitters, embeddings, or vector stores without rewriting the app’s logic.
+
+### Building Blocks
+
+<Columns cols={2}>
+    <Card
+        title="Document loaders"
+        icon="file-import"
+        href="/oss/integrations/document_loaders"
+        arrow cta="Learn more"
+    >
+        Ingest data from external sources (Google Drive, Slack, Notion, etc.), returning standardized `Document` objects.
+    </Card>
+
+    <Card
+        title="Text splitters"
+        icon="scissors"
+        href="/oss/integrations/splitters"
+        arrow
+        cta="Learn more"
+    >
+        Break large docs into smaller chunks that will be retrievable individually and fit within a model's context window.
+    </Card>
+
+    <Card
+        title="Embedding models"
+        icon="diagram-project"
+        href="/oss/integrations/text_embedding"
+        arrow
+        cta="Learn more"
+    >
+        An embedding model turns text into a vector of numbers so that texts with similar meaning land close together in that vector space.
+    </Card>
+
+    <Card
+        title="Vector stores"
+        icon="database"
+        href="/oss/integrations/vectorstores/"
+        arrow
+        cta="Learn more"
+    >
+        Specialized databases for storing and searching embeddings.
+    </Card>
+
+    <Card
+        title="Retrievers"
+        icon="binoculars"
+        href="/oss/integrations/retrievers/"
+        arrow
+        cta="Learn more"
+    >
+        A retriever is an interface that returns documents given an unstructured query.
+    </Card>
+</Columns>
 
 ## RAG Architectures
 
-RAG can be implemented in multiple ways, depending on your system's needs:
+RAG can be implemented in multiple ways, depending on your system's needs. We outline each type in the sections below.
 
 | Architecture            | Description                                                                | Control   | Flexibility | Latency        | Example Use Case                                   |
 |-------------------------|----------------------------------------------------------------------------|-----------|-------------|----------------|----------------------------------------------------|
@@ -34,9 +136,7 @@ RAG can be implemented in multiple ways, depending on your system's needs:
 **Agentic Retrieval-Augmented Generation (RAG)** combines the strengths of Retrieval-Augmented Generation with agent-based reasoning. Instead of retrieving documents before answering, an agent (powered by an LLM) reasons step-by-step and decides **when** and **how** to retrieve information during the interaction.
 
 <Tip>
-
-The only thing an agent needs to enable RAG behavior is access to one or more **tools** that can fetch external knowledge — such as documentation loaders, web APIs, or database queries. This tool-based architecture makes Agentic RAG modular, flexible, and ideal for evolving knowledge environments.
-
+The only thing an agent needs to enable RAG behavior is access to one or more **tools** that can fetch external knowledge — such as documentation loaders, web APIs, or database queries. 
 </Tip>
 
 ```mermaid
@@ -165,6 +265,18 @@ print(response['messages'][-1].content)
 ```
 </Expandable>
 
+<Card
+    title="Tutorial: Retrieval-Augmented Generation (RAG)"
+    icon="robot"
+    href="/oss/langchain-knowledge-base"
+    arrow cta="Learn more"
+>
+    See how to build a Q&A chatbot that can answer questions grounded in your data using Retrieval-Augmented Generation.
+    This tutorial walks through two approaches:
+    * A **RAG agent** that runs searches with a flexible tool—great for general-purpose use.
+    * A **2-step RAG** chain that requires just one LLM call per query—fast and efficient for simpler tasks.
+</Card>
+
 ### 2-step RAG
 
 In **2-Step RAG**, the retrieval step is always executed before the generation step. This architecture is straightforward and predictable, making it suitable for many applications where the retrieval of relevant documents is a clear prerequisite for generating an answer.
@@ -182,6 +294,18 @@ graph LR
     class A,D startend
     class B,C process
 ```
+
+<Card
+    title="Tutorial: Retrieval-Augmented Generation (RAG)"
+    icon="robot"
+    href="/oss/langchain-knowledge-base"
+    arrow cta="Learn more"
+>
+    See how to build a Q&A chatbot that can answer questions grounded in your data using Retrieval-Augmented Generation.
+    This tutorial walks through two approaches:
+    * A **RAG agent** that runs searches with a flexible tool—great for general-purpose use.
+    * A **2-step RAG** chain that requires just one LLM call per query—fast and efficient for simpler tasks.
+</Card>
 
 ### Hybrid RAG
 
@@ -225,88 +349,11 @@ This architecture is suitable for:
 * Systems that require validation or quality control steps
 * Workflows involving multiple sources or iterative refinement
 
-👉 [**Tutorial**: Agentic RAG with Self-Correction](https://langchain-ai.github.io/langgraph/tutorials/rag/langgraph_agentic_rag)
-
-## Building a knowledge base
-
-A **knowledge base** is a repository of documents or data you query during retrieval.
-
-If you want to build a custom knowledge base, you can use LangChain's document loaders and vector stores to create one from your own data.
-
-:::python
-👉 [**Tutorial**: Build a Retrieval Augmented Generation (RAG) App](https://python.langchain.com/docs/tutorials/rag/)
-:::
-:::js
-👉 [**Tutorial**: Build a Retrieval Augmented Generation (RAG) App](https://js.langchain.com/docs/tutorials/rag/)
-:::
-
-### Retrieval Pipeline
-
-A typical retrieval workflow looks like this:
-
-```mermaid
-flowchart LR
-  S(["Sources<br>(Google Drive, Slack, Notion, etc.)"]) --> L[Document Loaders]
-  L --> A([Documents])
-  A --> B[Split into chunks]
-  B --> C[Turn into embeddings]
-  C --> D[(Vector Store)]
-  Q([User Query]) --> E[Query embedding]
-  E --> D
-  D --> F[Retriever]
-  F --> G[LLM uses retrieved info]
-  G --> H([Answer])
-```
-
-Each component is modular: you can swap loaders, splitters, embeddings, or vector stores without rewriting the app’s logic.
-
-### Building Blocks
-
-<Card 
-    title="Document loaders" 
-    icon="file-import" 
-    href="/oss/integrations/document_loaders" 
+<Card
+    title="Tutorial: Agentic RAG with Self-Correction"
+    icon="robot"
+    href="/oss/langgraph/langgraph-agentic-rag"
     arrow cta="Learn more"
 >
-    Ingest data from external sources (Google Drive, Slack, Notion, etc.). They implement `.load()` and return standardized `Document` objects.
-</Card>
-
-<Card
-    title="Text splitters"
-    icon="scissors"
-    href="/oss/integrations/splitters"
-    arrow
-    cta="Learn more"
->
-    Break large docs into smaller chunks that will be retrievable individually and fit within model context window limit.
-</Card>
-
-<Card 
-  title="Embedding models" 
-  icon="diagram-project" 
-  href="/oss/integrations/text_embedding" 
-  arrow 
-  cta="Learn more"
->
-  An embedding model turns text into a vector of numbers so that texts with similar meaning land close together in that vector space.
-</Card>
-
-<Card 
-  title="Vector stores" 
-  icon="database" 
-  href="/oss/integrations/vectorstores/" 
-  arrow 
-  cta="Learn more"
->
-  Specialized databases for storing and searching embeddings.
-</Card>
-
-<Card
-    title="Retrievers"
-    icon="fa-solid fa-binoculars"
-    href="/oss/integrations/retrievers/"
-    arrow
-    cta="Learn more"
->
-    A retriever is an interface that returns documents given an unstructured query.
+    An example of **Hybrid RAG** that combines agentic reasoning with retrieval and self-correction.
 </Card>
