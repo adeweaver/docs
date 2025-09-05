@@ -568,7 +568,8 @@
                       "langgraph-platform/set-up-custom-auth",
                       "langgraph-platform/resource-auth",
                       "langgraph-platform/add-auth-server",
-                      "langgraph-platform/openapi-security"
+                      "langgraph-platform/openapi-security",
+                      "langgraph-platform/agent-auth"
                     ]
                   },
                   {
@@ -1553,7 +1554,8 @@
                       "langgraph-platform/set-up-custom-auth",
                       "langgraph-platform/resource-auth",
                       "langgraph-platform/add-auth-server",
-                      "langgraph-platform/openapi-security"
+                      "langgraph-platform/openapi-security",
+                      "langgraph-platform/agent-auth"
                     ]
                   },
                   {
