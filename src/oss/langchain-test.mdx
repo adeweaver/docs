@@ -989,14 +989,69 @@ To learn more about evaluating your agent with LangSmith, see the [LangSmith doc
 Integration tests that call real LLM APIs can be slow and expensive, especially when run frequently in CI/CD pipelines. We recommend using a library for recording HTTP requests and responses, then replaying them in subsequent runs without making actual network calls.
 
 :::python
-You can use [`vcrpy`](https://pypi.org/project/vcrpy/1.5.2/) to achieve this. If you're using `pytest`, the [`pytest-vcr` plugin](https://pytest-vcr.readthedocs.io/en/latest/) provides a simple way to enable this with minimal configuration. Request/responses are recorded in cassettes, which are then used to mock the real network calls in subsequent runs.
+You can use [`vcrpy`](https://pypi.org/project/vcrpy/1.5.2/) to achieve this. If you're using `pytest`, the [`pytest-recording` plugin](https://pypi.org/project/pytest-recording/) provides a simple way to enable this with minimal configuration. Request/responses are recorded in cassettes, which are then used to mock the real network calls in subsequent runs.
+
+Set up your `conftest.py` file to filter out sensitive information from the cassettes:
+
+```py conftest.py
+import pytest
+
+@pytest.fixture(scope="session")
+def vcr_config():
+    return {
+        "filter_headers": [
+            ("authorization", "XXXX"),
+            ("x-api-key", "XXXX"),
+            # ... other headers you want to mask
+        ],
+        "filter_query_parameters": [
+            ("api_key", "XXXX"),
+            ("key", "XXXX"),
+        ],
+    }
+```
+
+Then configure your project to recognise the `vcr` marker:
+
+<CodeGroup>
+```ini pytest.ini
+[pytest]
+markers =
+    vcr: record/replay HTTP via VCR
+addopts = --record-mode=once
+```
+```toml pyproject.toml
+[tool.pytest.ini_options]
+markers = [
+  "vcr: record/replay HTTP via VCR"
+]
+addopts = "--record-mode=once"
+```
+</CodeGroup>
+
+<Info>
+The `--record-mode=once` option records HTTP interactions on the first run and replays them on subsequent runs.
+</Info>
+
+Now, simply decorate your tests with the `vcr` marker:
+
+```python
+@pytest.mark.vcr()
+def test_agent_trajectory():
+    # ...
+```
+
+The first time you run this test, your agent will make real network calls and pytest will generate a cassette file `test_agent_trajectory.yaml` in the `tests/cassettes` directory. Subsequent runs will use that cassette to mock the real network calls, granted the agent's requests don't change from the previous run. If they do, the test will fail and you'll need to delete the cassette and rerun the test to record fresh interactions.
+
+<Warning>
+When you modify prompts, add new tools, or change expected trajectories, your saved cassettes will become outdated and your existing tests **will fail**. You should delete the corresponding cassette files and rerun the tests to record fresh interactions.
+</Warning>
 :::
 
 :::js
 You can use [`nock`](https://github.com/nock/nock) to achieve this. Request/responses are recorded in cassettes, which are then used to mock the real network calls in subsequent runs.
-:::
 
 <Note>
 When you modify prompts, add new tools, or change expected trajectories, delete the corresponding cassette files and rerun the tests to record fresh interactions.
 </Note>
-
+:::
