@@ -1,0 +1,286 @@
+---
+title: Middleware
+---
+
+## Overview
+
+Middleware is a new configuration option available for agents.
+It provides a way to more tightly control what happens inside the agent.
+
+The core agent loop involves calling a `model`, letting it choose `tools` to execute, and then finishing when it calls no more tools.
+Middleware provides control over what happens before and after those steps.
+
+## Using in an agent
+
+You can use middleware in an agent by passing it `create_agent`:
+```python
+from langchain.agents import create_agent
+from langchain.middleware import SummarizationMiddleware, HumanInTheLoopMiddleware
+
+agent = create_agent(
+    ...,
+    middleware=[SummarizationMiddleware(), HumanInTheLoopMiddleware()],
+    ...
+)
+```
+
+
+
+Middleware is highly flexible and replaces some other functionality in the agent.
+As such, when middleware are used, there are some restrictions on the arguments used to create the agent:
+- `model` must be either a string or a BaseChatModel. Will error if a function is passed. If you want to dynamically control the model, use `AgentMiddleware.modify_model_request`
+- `prompt` must be either a string or None. Will error if a function is passed. If you want to dynamically control the prompt, use `AgentMiddleware.modify_model_request`
+- `pre_model_hook` must not be provided. Use `AgentMiddleware.before_model` instead.
+- `post_model_hook` must not be provided. Use `AgentMiddleware.after_model` instead.
+
+
+
+## Built-in Middleware
+
+LangChain provides several built in middleware to use off-the-shelf
+
+- Summarization
+- Human in the loop
+- Anthropic Prompt Caching
+
+### Summarization
+
+The `summarizationMiddleware` automatically manages conversation history by summarizing older messages when token limits are approached. This middleware monitors the total token count of messages and creates concise summaries to preserve context while staying within model limits.
+
+**Key Features:**
+
+- Automatic token counting and threshold monitoring
+- Intelligent message partitioning that preserves AI/Tool message pairs
+- Customizable summary prompts and token limits
+- Seamless integration with existing conversation flow
+
+**Use Cases:**
+
+- Long-running conversations that exceed token limits
+- Multi-turn dialogues with extensive context
+- Applications requiring persistent conversation history
+
+
+
+**Configuration Options:**
+
+- `model`: Language model to use for generating summaries (required)
+- `maxTokensBeforeSummary`: Token threshold that triggers summarization
+- `messagesToKeep`: Number of recent messages to preserve (default: 20)
+- `tokenCounter`: Custom function for counting tokens (defaults to character-based approximation)
+- `summaryPrompt`: Custom prompt template for summary generation
+- `summaryPrefix`: Prefix added to system messages containing summaries (default: "## Previous conversation summary:")
+
+The middleware ensures tool call integrity by:
+
+1. Never splitting AI messages from their corresponding tool responses
+2. Preserving the most recent messages for continuity
+3. Including previous summaries in new summarization cycles
+
+### Human in the loop
+
+The `humanInTheLoopMiddleware` enables human oversight and intervention for tool calls made by AI agents. This middleware intercepts tool executions and allows human operators to approve, modify, reject, or manually respond to tool calls before they execute.
+
+**Key Features:**
+
+- Selective tool approval based on configuration
+- Multiple response types (accept, edit, ignore, response)
+- Asynchronous approval workflow using LangGraph interrupts
+- Custom approval messages with contextual information
+
+**Use Cases:**
+
+- High-stakes operations requiring human approval (database writes, file system changes)
+- Quality control and safety checks for AI actions
+- Compliance scenarios requiring audit trails
+- Development and testing of agent behaviors
+
+
+
+**Handling Approval Requests:**
+
+When a tool requires approval, the agent execution pauses and waits for human input:
+
+
+
+**Response Types:**
+
+- `accept`: Execute the tool with original arguments
+- `edit`: Modify arguments before execution - `{ type: "edit", args: { action: "tool_name", args: { modified: "args" } } }`
+- `ignore`: Skip tool execution and terminate agent
+- `response`: Provide manual response instead of executing tool - `{ type: "response", args: "Manual response text" }`
+
+**Configuration:**
+
+- `toolConfigs`: Map of tool names to their approval settings
+    - `requireApproval`: Whether the tool needs human approval
+    - `description`: Custom message shown during approval request
+- `messagePrefix`: Default prefix for approval messages
+
+The middleware processes tool calls in order, bundling multiple approval requests into a single interrupt for efficiency. Tools not requiring approval execute immediately without interruption.
+
+### Anthropic Prompt Caching
+
+`AnthropicPromptCachingMiddleware` is a middleware that enables you to enable Anthropic's native prompt caching.
+
+Prompt caching enables optimial API usage by allowing resuming from specific prefixes in your prompts.
+This is particularly useful for tasks with repetitive prompts or prompts with redundant information.
+
+<Info>
+Learn more about Anthropic Prompt Caching (strategies, limitations, etc.) [here](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching#cache-limitations).
+</Info>
+
+When using prompt caching, you'll likely want to use a checkpointer to store conversation
+history across invocations.
+
+```python
+from langchain_anthropic import ChatAnthropic
+from langchain.agents.middleware.prompt_caching import AnthropicPromptCachingMiddleware
+from langchain.agents import create_agent
+from langgraph.checkpoint.memory import InMemorySaver
+
+LONG_PROMPT = """
+Please be a helpful assistant.
+
+<Lots more context ...>
+"""
+
+agent = create_agent(
+    model=ChatAnthropic(model="claude-sonnet-4-latest"),
+    prompt=LONG_PROMPT,
+    middleware=[AnthropicPromptCachingMiddleware(ttl="5m")],
+    checkpointer=InMemorySaver(),
+)
+
+common_config = {"configurable": {"thread_id": "1"}}
+
+# cache store
+agent.invoke({"messages": [HumanMessage("Hi, my name is Bob")]}, common_config)
+
+# cache hit
+agent.invoke({"messages": [HumanMessage("What's my name?")]}, common_config)
+```
+
+
+
+## Custom Middleware
+
+Middleware for agents are subclasses of `AgentMiddleware`, which implement one or more of its hooks.
+
+`AgentMiddleware` currently provides three different ways to modify the core agent loop:
+
+- `before_model`: runs before the model is run. Can update state or exit early with `AgentJump`
+- `modify_model_request`: runs before the model is run. Cannot update state or exit early with `AgentJump`
+- `after_model`: runs after the model is run. Can update state or exit early with `AgentJump`
+
+### `before_model`
+
+Runs before the model is run. Can modify state by returning a new state object or state update.
+Can return `AgentJump` to exit early.
+
+Signature:
+```python
+from langchain.agents.types import AgentState, AgentUpdate, AgentJump
+
+def before_model(self, state: AgentState) -> AgentUpdate | AgentJump | None:
+```
+
+
+
+### `modify_model_request`
+
+Runs before the model has run, but after all the `before_model` calls.
+These functions **cannot** modify permanent state or exit early.
+Rather, they are intended to modify calls to the model in a **stateless\* way.
+If you want to modify calls to the model in a **stateful\*\* way, you will need to use `before_model`
+
+Modifies the model request. The model request has several key properties:
+- `model` (`BaseChatModel`): the model to use. Note: this needs to the base chat model, not a string.
+- `system_prompt` (`str`): the system prompt to use. Will get appended to `messages`
+- `messages` (list of messages): the message list. Should not include system prompt.
+- `tool_choice` (Any): the tool choice to use
+
+
+- `tools` (list of `BaseTool`): the tools to use for this model call
+- `response_format` (`ResponseFormat`): the response format to use for structured output
+
+
+
+Signature:
+```python
+def modify_model_request(
+        self, request: ModelRequest, state: AgentState
+    ) -> ModelRequest:
+        return request
+
+```
+
+
+### `after_model`
+
+Runs after the model is run. Can modify state by returning a new state object or state update.
+Can return `AgentJump` to exit early
+
+Signature:
+```python
+def after_model(self, state: AgentState) -> AgentUpdate | AgentJump | None:
+```
+
+
+
+## New state keys
+
+Middleware may require new state keys to exist.
+Middleware can declare new state keys by typing the input or output types.
+
+Example usage:
+```python
+```
+
+
+
+## Middleware execution order
+
+You can provide multiple middlewares. They are executed in the following logic:
+
+**`before_model`**: Are run in the order they are passed in. If an earlier middleware exits early, then following middleware are not run
+**`modify_model_request`**: Are run in the order they are passed in.
+**`after_model`**: Are run in the _reverse_ order that they are passed in. If an earlier middleware exits early, then following middleware are not run
+
+
+
+## AgentJump
+
+`before_model` and `after_model` can return `AgentJump`.
+
+
+
+`AgentJump` contains a `jump_to` value.
+
+This `jump_to` value can be one of:
+- `tools`
+- `model`
+- `__end__`
+
+This specifies the node to jump to.
+
+If this is specified, all subsequent middleware will not run.
+
+If you jump to `model` node, all `before_model` middleware will run. It's forbidden to jump to `model` from an existing `before_model` middleware.
+
+
+
+Example usage:
+```python
+from langchain.agents.types import AgentState, AgentUpdate, AgentJump
+from langchain.middleware import AgentMiddleware
+
+class MyMiddleware(AgentMiddleware):
+    def after_model(self, state: AgentState) -> AgentUpdate | AgentJump | None:
+        return {
+        "messages": ...,
+        "jump_to": "model"
+    }
+```
+
+
