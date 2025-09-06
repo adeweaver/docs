@@ -4,8 +4,7 @@ title: Middleware
 
 ## Overview
 
-Middleware is a new configuration option available for agents.
-It provides a way to more tightly control what happens inside the agent.
+Middleware provides a way to more tightly control what happens inside the agent.
 
 The core agent loop involves calling a `model`, letting it choose `tools` to execute, and then finishing when it calls no more tools.
 Middleware provides control over what happens before and after those steps.
@@ -70,13 +69,11 @@ The `summarizationMiddleware` automatically manages conversation history by summ
 - Automatic token counting and threshold monitoring
 - Intelligent message partitioning that preserves AI/Tool message pairs
 - Customizable summary prompts and token limits
-- Seamless integration with existing conversation flow
 
 **Use Cases:**
 
 - Long-running conversations that exceed token limits
 - Multi-turn dialogues with extensive context
-- Applications requiring persistent conversation history
 
 :::js
 ```typescript
@@ -218,7 +215,7 @@ The middleware processes tool calls in order, bundling multiple approval request
 
 `AnthropicPromptCachingMiddleware` is a middleware that enables you to enable Anthropic's native prompt caching.
 
-Prompt caching enables optimial API usage by allowing resuming from specific prefixes in your prompts.
+Prompt caching enables optimal API usage by allowing resuming from specific prefixes in your prompts.
 This is particularly useful for tasks with repetitive prompts or prompts with redundant information.
 
 <Info>
