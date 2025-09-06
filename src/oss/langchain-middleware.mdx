@@ -31,7 +31,9 @@ import { createAgent } from "langchain";
 import { summarizationMiddleware, humanInTheLoopMiddleware } from "langchain/middleware";
 
 const agent = createAgent({
-  middleware: [summarizationMiddleware, humanInTheLoopMiddleware],
+    // ...
+    middleware: [summarizationMiddleware, humanInTheLoopMiddleware],
+    // ...
 });
 ```
 :::
@@ -379,15 +381,184 @@ function afterModel (state: AgentState): AgentUpdate | AgentJump | undefined {
 
 ## New state keys
 
-Middleware may require new state keys to exist.
-Middleware can declare new state keys by typing the input or output types.
+Middleware can extend the agent's state and context with custom properties, enabling rich data flow between middleware components and ensuring type safety throughout the agent execution.
 
-Example usage:
+### State Extension
+
+Middleware can define additional state properties that persist throughout the agent's execution. These properties become part of the agent's state and are available to all middleware in the chain.
+
+:::js
+When a middleware defines required state properties through its `stateSchema`, these properties must be provided when invoking the agent:
+
+```typescript
+import { createMiddleware, createAgent } from "langchain";
+import { z } from "zod";
+
+// Middleware with custom state requirements
+const authMiddleware = createMiddleware({
+    name: "AuthMiddleware",
+    stateSchema: z.object({
+        userId: z.string(), // Required
+        userRole: z.string().default("user"), // Optional with default
+    }),
+    beforeModel: (state) => {
+        // Access custom state properties
+        console.log(`User ${state.userId} with role ${state.userRole}`);
+        return;
+    },
+});
+
+const agent = createAgent({
+    model: "openai:gpt-4o",
+    tools: [],
+    middlewares: [authMiddleware] as const,
+});
+
+// TypeScript enforces required state properties
+const result = await agent.invoke({
+    messages: [new HumanMessage("Hello")],
+    userId: "user-123", // Required by middleware
+    // userRole is optional due to default value
+});
+```
+:::
+
+### Context Extension
+
+Context properties are configuration values passed through the runnable config. Unlike state, context is read-only and typically used for configuration that doesn't change during execution.
+
+:::js
+Middleware can define context requirements that must be satisfied through the agent's configuration:
+
+```typescript
+const rateLimitMiddleware = createMiddleware({
+    name: "RateLimitMiddleware",
+    contextSchema: z.object({
+        maxRequestsPerMinute: z.number(),
+        apiKey: z.string(),
+    }),
+    beforeModel: async (state, runtime) => {
+        // Access context through runtime
+        const { maxRequestsPerMinute, apiKey } = runtime.context;
+
+        // Implement rate limiting logic
+        const allowed = await checkRateLimit(apiKey, maxRequestsPerMinute);
+        if (!allowed) {
+            return { jump_to: "END" };
+        }
+    },
+});
+
+// Context is provided through config
+await agent.invoke(
+    { messages: [new HumanMessage("Process data")] },
+    {
+        context: {
+            maxRequestsPerMinute: 60,
+            apiKey: "api-key-123",
+        },
+    }
+);
+```
+:::
+
+### Combining Multiple Middleware
+
+When using multiple middleware, their state and context schemas are merged. All required properties from all middleware must be satisfied:
+
+:::js
+
+```typescript
+const middleware1 = createMiddleware({
+    name: "Middleware1",
+    stateSchema: z.object({
+        prop1: z.string(),
+        sharedProp: z.number(),
+    }),
+});
+
+const middleware2 = createMiddleware({
+    name: "Middleware2",
+    stateSchema: z.object({
+        prop2: z.boolean(),
+        sharedProp: z.number(), // Same property name must have compatible types
+    }),
+});
+
+const agent = createAgent({
+    model: "openai:gpt-4o",
+    tools: [],
+    middlewares: [middleware1, middleware2] as const,
+});
+
+// Must provide all required properties
+const result = await agent.invoke({
+    messages: [new HumanMessage("Hello")],
+    prop1: "value1", // Required by middleware1
+    prop2: true, // Required by middleware2
+    sharedProp: 42, // Required by both
+});
+```
+:::
+
+### Agent-Level Context Schema
+
+Agents can also define their own context requirements that combine with middleware requirements:
+
 :::python
 ```python
+# ...
 ```
 :::
 :::js
+```typescript
+const agent = createAgent({
+    model: "openai:gpt-4o",
+    tools: [],
+    contextSchema: z.object({
+        environment: z.enum(["development", "production"]),
+    }),
+    middlewares: [rateLimitMiddleware] as const,
+});
+
+// Must satisfy both agent and middleware context requirements
+await agent.invoke(
+    { messages: [new HumanMessage("Deploy application")] },
+    {
+        context: {
+            environment: "production", // Required by agent
+            maxRequestsPerMinute: 60, // Required by middleware
+            apiKey: "api-key-123", // Required by middleware
+        },
+    }
+);
+```
+:::
+
+### Best Practices
+
+1. **Use State for Dynamic Data**: Properties that change during execution (user session, accumulated data)
+2. **Use Context for Configuration**: Static configuration values (API keys, feature flags, limits)
+3. **Provide Defaults When Possible**: Use `.default()` in Zod schemas to make properties optional
+4. **Document Requirements**: Clearly document what state and context properties your middleware requires
+:::js
+5. **Type Safety**: Leverage TypeScript's type checking to catch missing properties at compile time
+
+The type system ensures all required properties are provided, preventing runtime errors:
+
+```typescript
+// TypeScript error: Property 'userId' is missing
+await agent.invoke({
+    messages: [new HumanMessage("Hello")],
+    // userId is required but not provided
+});
+
+// TypeScript error: Type 'number' is not assignable to type 'string'
+await agent.invoke({
+    messages: [new HumanMessage("Hello")],
+    userId: 123, // Wrong type
+});
+```
 :::
 
 ## Middleware execution order
