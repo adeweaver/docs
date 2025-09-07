@@ -7,7 +7,83 @@ title: Middleware
 Middleware provides a way to more tightly control what happens inside the agent.
 
 The core agent loop involves calling a `model`, letting it choose `tools` to execute, and then finishing when it calls no more tools.
+
+
+<Card>
+```mermaid
+%%{
+  init: {
+    "fontFamily": "monospace",
+    "flowchart": {
+      "curve": "curve"
+    },
+    "themeVariables": {"edgeLabelBackground": "transparent"}
+  }
+}%%
+graph TD
+  %% Outside the agent
+  QUERY([input])
+  LLM{model}
+  TOOL(tools)
+  ANSWER([output])
+
+  %% Main flows (no inline labels)
+  QUERY --> LLM
+  LLM --"action"--> TOOL
+  TOOL --"observation"--> LLM
+  LLM --"finish"--> ANSWER
+
+  classDef blueHighlight fill:#0a1c25,stroke:#0a455f,color:#bae6fd;
+  classDef greenHighlight fill:#0b1e1a,stroke:#0c4c39,color:#9ce4c4;
+  class QUERY blueHighlight;
+  class ANSWER blueHighlight;
+```
+</Card>
+
 Middleware provides control over what happens before and after those steps.
+Each middleware can add in three different types of modifiers:
+- `Middleware.before_model`: runs before model execution. Can update state or jump to a different node (`model`, `tools`, `END`)
+- `Middleware.modify_model_request`: runs before model execution, to prepare the model request object. Can only modify the current model request object (no permanent state updates) and cannot jump to a different node.
+- `Middleware.after_model`: runs after model execution, before tools are executed. Can update state or jump to a different node (`model`, `tools`, `END`)
+
+An agent can contain multiple middleware. Each middleware does not need to implement all three of `before_model`, `modify_model_request`, `after_model`.
+
+<Card>
+```mermaid
+%%{
+  init: {
+    "fontFamily": "monospace",
+    "flowchart": {
+      "curve": "curve"
+    },
+    "themeVariables": {"edgeLabelBackground": "transparent"}
+  }
+}%%
+graph TD
+  %% Outside the agent
+  QUERY([input])
+  BEFORE_MODEL(Middleware.before_model)
+  MODIFY_MODEL_REQUEST(Middleware.modify_model_request)
+  LLM{model}
+  AFTER_MODEL(Middleware.after_model)
+  TOOL(tools)
+  ANSWER([output])
+
+  %% Main flows (no inline labels)
+  QUERY --> BEFORE_MODEL
+  BEFORE_MODEL --> MODIFY_MODEL_REQUEST
+  MODIFY_MODEL_REQUEST --> LLM
+  LLM --> AFTER_MODEL
+  AFTER_MODEL --"action"--> TOOL
+  TOOL --"observation"--> LLM
+  LLM --"finish"--> ANSWER
+
+  classDef blueHighlight fill:#0a1c25,stroke:#0a455f,color:#bae6fd;
+  classDef greenHighlight fill:#0b1e1a,stroke:#0c4c39,color:#9ce4c4;
+  class QUERY blueHighlight;
+  class ANSWER blueHighlight;
+```
+</Card>
 
 ## Using in an agent
 
