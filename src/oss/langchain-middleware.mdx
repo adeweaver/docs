@@ -42,11 +42,24 @@ graph TD
 
 Middleware provides control over what happens before and after those steps.
 Each middleware can add in three different types of modifiers:
-- `Middleware.before_model`: runs before model execution. Can update state or jump to a different node (`model`, `tools`, `END`)
+
+:::python
+- `Middleware.before_model`: runs before model execution. Can update state or jump to a different node (`model`, `tools`, `__end__`)
 - `Middleware.modify_model_request`: runs before model execution, to prepare the model request object. Can only modify the current model request object (no permanent state updates) and cannot jump to a different node.
 - `Middleware.after_model`: runs after model execution, before tools are executed. Can update state or jump to a different node (`model`, `tools`, `END`)
+:::
+:::js
+- `Middleware.beforeModel`: runs before model execution. Can update state or jump to a different node (`model`, `tools`, `__end__`)
+- `Middleware.modifyModelRequest`: runs before model execution, to prepare the model request object. Can only modify the current model request object (no permanent state updates) and cannot jump to a different node.
+- `Middleware.afterModel`: runs after model execution, before tools are executed. Can update state or jump to a different node (`model`, `tools`, `__end__`)
+:::
 
+:::python
 An agent can contain multiple middleware. Each middleware does not need to implement all three of `before_model`, `modify_model_request`, `after_model`.
+:::
+:::js
+An agent can contain multiple middleware. Each middleware does not need to implement all three of `beforeModel`, `modifyModelRequest`, `afterModel`.
+:::
 
 <Card>
 ```mermaid
@@ -116,7 +129,7 @@ const agent = createAgent({
 Middleware is highly flexible and replaces some other functionality in the agent.
 As such, when middleware are used, there are some restrictions on the arguments used to create the agent:
 :::python
-- `model` must be either a string or a BaseChatModel. Will error if a function is passed. If you want to dynamically control the model, use `AgentMiddleware.modify_model_request`
+- `model` must be either a string or a `BaseChatModel`. Will error if a function is passed. If you want to dynamically control the model, use `AgentMiddleware.modify_model_request`
 - `prompt` must be either a string or None. Will error if a function is passed. If you want to dynamically control the prompt, use `AgentMiddleware.modify_model_request`
 - `pre_model_hook` must not be provided. Use `AgentMiddleware.before_model` instead.
 - `post_model_hook` must not be provided. Use `AgentMiddleware.after_model` instead.
@@ -132,9 +145,9 @@ As such, when middleware are used, there are some restrictions on the arguments 
 
 LangChain provides several built in middleware to use off-the-shelf
 
-- Summarization
-- Human in the loop
-- Anthropic Prompt Caching
+- [Summarization](#summarization)
+- [Human in the loop](#human-in-the-loop)
+- [Anthropic Prompt Caching](#anthropic-prompt-caching)
 
 ### Summarization
 
@@ -362,21 +375,39 @@ Middleware for agents are subclasses of `AgentMiddleware`, which implement one o
 
 `AgentMiddleware` currently provides three different ways to modify the core agent loop:
 
-- `before_model`: runs before the model is run. Can update state or exit early with `AgentJump`
-- `modify_model_request`: runs before the model is run. Cannot update state or exit early with `AgentJump`
-- `after_model`: runs after the model is run. Can update state or exit early with `AgentJump`
+- `before_model`: runs before the model is run. Can update state or exit early with a jump.
+- `modify_model_request`: runs before the model is run. Cannot update state or exit early with a jump.
+- `after_model`: runs after the model is run. Can update state or exit early with a jump.
+
+In order to **exit early**, you can add a `jump_to` key to the state update with one of the following values:
+
+- `"model"`: Jump to the model node
+- `"tools"`: Jump to the tools node
+- `"__end__"`: Jump to the end node
+
+If this is specified, all subsequent middleware will not run.
+
+Learn more about exiting early in the [agent jumps](#agent-jumps) section.
 
 ### `before_model`
 
 Runs before the model is run. Can modify state by returning a new state object or state update.
-Can return `AgentJump` to exit early.
 
 Signature:
 :::python
 ```python
-from langchain.agents.types import AgentState, AgentUpdate, AgentJump
+from langchain.agents.middleware import AgentMiddleware, AgentState
+from langchain_core.messages import AIMessage
 
-def before_model(self, state: AgentState) -> AgentUpdate | AgentJump | None:
+class MyMiddleware(AgentMiddleware):
+    def before_model(self, state: AgentState) -> dict[str, Any] | None:
+        # terminate early if the conversation is too long
+        if len(state["messages"]) > 50:
+            return {
+                "messages": [AIMessage("I'm sorry, the conversation has been terminated.")],
+                "jump_to": "__end__"
+            }
+        return state
 ```
 :::
 :::js
@@ -398,7 +429,7 @@ If you want to modify calls to the model in a **stateful\*\* way, you will need 
 
 Modifies the model request. The model request has several key properties:
 - `model` (`BaseChatModel`): the model to use. Note: this needs to the base chat model, not a string.
-- `system_prompt` (`str`): the system prompt to use. Will get appended to `messages`
+- `system_prompt` (`str`): the system prompt to use. Will get prepended to `messages`
 - `messages` (list of messages): the message list. Should not include system prompt.
 :::python
 - `tool_choice` (Any): the tool choice to use
@@ -417,12 +448,17 @@ Modifies the model request. The model request has several key properties:
 Signature:
 :::python
 ```python
-def modify_model_request(
-        self, request: ModelRequest, state: AgentState
-    ) -> ModelRequest:
+from langchain.agents.middleware import AgentState, ModelRequest, AgentMiddleware
+
+class MyMiddleware(AgentMiddleware):
+    def modify_model_request(self, request: ModelRequest, state: AgentState) -> ModelRequest:
+        if len(state["messages"]) > 10:
+            request.model = "gpt-5"
+        else:
+            request.model = "gpt-5-nano"
         return request
-:::
 ```
+:::
 :::js
 ```typescript
 function modifyModelRequest (request: ModelRequest, state: AgentState): ModelRequest {
@@ -434,12 +470,15 @@ function modifyModelRequest (request: ModelRequest, state: AgentState): ModelReq
 ### `after_model`
 
 Runs after the model is run. Can modify state by returning a new state object or state update.
-Can return `AgentJump` to exit early
 
 Signature:
 :::python
 ```python
-def after_model(self, state: AgentState) -> AgentUpdate | AgentJump | None:
+from langchain.agents.middleware import AgentState, AgentUpdate, AgentMiddleware
+
+class MyMiddleware(AgentMiddleware):
+    def after_model(self, state: AgentState) -> dict[str, Any] | None:
+        ...
 ```
 :::
 :::js
@@ -454,11 +493,32 @@ function afterModel (state: AgentState): AgentUpdate | AgentJump | undefined {
 
 ## New state keys
 
-Middleware can extend the agent's state and context with custom properties, enabling rich data flow between middleware components and ensuring type safety throughout the agent execution.
+Middleware can extend the agent's state with custom properties, enabling rich data flow between middleware components and ensuring type safety throughout the agent execution.
 
 ### State Extension
 
-Middleware can define additional state properties that persist throughout the agent's execution. These properties become part of the agent's state and are available to all middleware in the chain.
+Middleware can define additional state properties that persist throughout the agent's execution. These properties become part of the agent's state and are available to all hooks for said middleware.
+
+:::python
+```python
+from langchain.agents.middleware import AgentState, AgentMiddleware
+
+class MyState(AgentState):
+    model_call_count: int
+
+class MyMiddleware(AgentMiddleware[MyState]):
+    state_schema: MyState
+
+    def before_model(self, state: AgentState) -> dict[str, Any] | None:
+        # terminate early if the model has been called too many times
+        if state["model_call_count"] > 10:
+            return {"jump_to": "__end__"}
+        return state
+
+    def after_model(self, state: AgentState) -> dict[str, Any] | None:
+        return {"model_call_count": state["model_call_count"] + 1}
+```
+:::
 
 :::js
 When a middleware defines required state properties through its `stateSchema`, these properties must be provided when invoking the agent:
@@ -649,29 +709,20 @@ You can provide multiple middlewares. They are executed in the following logic:
 **`afterModel`**: Are run in the _reverse_ order that they are passed in. If an earlier middleware exits early, then following middleware are not run
 :::
 
-## AgentJump
+## Agent Jumps
 
-:::python
-`before_model` and `after_model` can return `AgentJump`.
-:::
-:::js
-`beforeModel` and `afterModel` can return `AgentJump`.
-:::
+In order to **exit early**, you can add a `jump_to` key to the state update with one of the following values:
 
-`AgentJump` contains a `jump_to` value.
-
-This `jump_to` value can be one of:
-- `tools`
-- `model`
-- `__end__`
-
-This specifies the node to jump to.
+- `"model"`: Jump to the model node
+- `"tools"`: Jump to the tools node
+- `"__end__"`: Jump to the end node
 
 If this is specified, all subsequent middleware will not run.
 
 :::python
 If you jump to `model` node, all `before_model` middleware will run. It's forbidden to jump to `model` from an existing `before_model` middleware.
 :::
+
 :::js
 If you jump to `model` node, all `beforeModel` middleware will run. It's forbidden to jump to `model` from an existing `beforeModel` middleware.
 :::
