@@ -2,7 +2,10 @@
 title: Workflows and agents
 ---
 
-This guide reviews common workflow and agent patterns. Workflows have predetermined code paths and are designed to operate in a certain order. Agents are more dynamic and define their own processes and tool usage.
+This guide reviews common workflow and agent patterns.
+
+- Workflows have predetermined code paths and are designed to operate in a certain order.
+- Agents are dynamic and define their own processes and tool usage.
 
 ![Agent Workflow](/oss/images/agent_workflow.png)
 
@@ -10,16 +13,15 @@ LangGraph offers several benefits when building agents and workflows, including 
 
 ## Setup
 
-You can use [any chat model](/oss/integrations/chat) that supports structured outputs and tool calling to build workflows and agents. To get started, install dependencies and then set your API keys like the Anthropic example below.
+To build a workflow or agent, you can use [any chat model](/oss/integrations/chat) that supports structured outputs and tool calling. The following example uses Anthropic:
 
 :::python
-<Accordion title="Install dependencies">
+1. Install dependencies:
 ```bash
 pip install langchain_core langchain-anthropic langgraph
 ```
-</Accordion>
 
-With dependencies installed, you can initialize the LLM.
+2. Initialize the LLM:
 
 ```python
 import os
@@ -162,7 +164,10 @@ console.log(msg.tool_calls);
 
 ## Prompt chaining
 
-Prompt chaining is when each LLM call processes the output of the previous call. It's often used for performing well-defined tasks that can be broken down into smaller, verifiable steps. Some examples include translating documents into different languages or verifying generated content for consistency.
+Prompt chaining is when each LLM call processes the output of the previous call. It's often used for performing well-defined tasks that can be broken down into smaller, verifiable steps. Some examples include:
+
+- Translating documents into different languages
+- Verifying generated content for consistency
 
 ![Prompt chaining](/oss/images/prompt_chain.png)
 
@@ -211,7 +216,6 @@ def improve_joke(state: State):
 
 def polish_joke(state: State):
     """Third LLM call for final polish"""
-
     msg = llm.invoke(f"Add a surprising twist to this joke: {state['improved_joke']}")
     return {"final_joke": msg.content}
 
@@ -718,7 +722,7 @@ for await (const step of stream) {
 
 ## Routing
 
-Routing workflows process inputs and then directs them to context-specific tasks. This allows you to define specialized flows, and should be used for complex tasks. For example, a workflow built to answer product related questions might process the type of question first, and then route the request to specific processes for pricing, refunds, returns, etc.
+Routing workflows process inputs and then directs them to context-specific tasks. This allows you to define specialized flows for complex tasks. For example, a workflow built to answer product related questions might process the type of question first, and then route the request to specific processes for pricing, refunds, returns, etc.
 
 ![routing.png](/oss/images/routing.png)
 
@@ -1131,7 +1135,7 @@ In an orchestrator-worker configuration, the orchestrator:
 
 ![worker.png](/oss/images/worker.png)
 
-Orchestrator-worker configurations provide more flexibility and are often used when subtasks can't be predefined the way they can with [parallelization](#parallelization). This is common with workflows that write code or need to update content across multiple files. For example, a workflow that needs to update installation instructions for multiple Python libraries across an unknown number of documents might use this pattern.
+Orchestrator-worker workflows provide more flexibility and are often used when subtasks cannot be predefined the way they can with [parallelization](#parallelization). This is common with workflows that write code or need to update content across multiple files. For example, a workflow that needs to update installation instructions for multiple Python libraries across an unknown number of documents might use this pattern.
 
 ### Code examples
 
