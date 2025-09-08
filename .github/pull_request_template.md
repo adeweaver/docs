@@ -7,18 +7,18 @@
 <!-- Check the relevant box -->
 - [ ] New documentation page
 - [ ] Update existing documentation
-- [ ] Fix typo or formatting issue
-- [ ] Fix broken links
+- [ ] Fix typo, broken link, or formatting issue
 - [ ] Remove outdated content
-- [ ] Add/improve examples
-- [ ] API reference updates
-- [ ] Integration documentation
 - [ ] Other (please describe):
 
 ## Related Issues/PRs
 <!-- Link to related issues, feature PRs, or discussions (if applicable) -->
-- Linear or GitHub issue:
+- GitHub issue:
 - Feature PR:
+- Slack thread:
+
+<!-- For LangChain employees, if applicable: -->
+- Linear issue:
 - Slack thread:
 
 ## Checklist
