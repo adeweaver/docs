@@ -433,6 +433,14 @@
                       "oss/python/contributing/documentation",
                       "oss/python/contributing/code"
                     ]
+                  },
+                  {
+                    "group": "Integrations",
+                    "pages": [
+                      "oss/python/contributing/integrations",
+                      "oss/python/contributing/standard-tests",
+                      "oss/python/contributing/publish"
+                    ]
                   }
                 ]
               }
@@ -1445,6 +1453,14 @@
                       "oss/javascript/contributing",
                       "oss/javascript/contributing/documentation",
                       "oss/javascript/contributing/code"
+                    ]
+                  },
+                  {
+                    "group": "Integrations",
+                    "pages": [
+                      "oss/javascript/contributing/integrations",
+                      "oss/javascript/contributing/standard-tests",
+                      "oss/javascript/contributing/publish"
                     ]
                   }
                 ]
