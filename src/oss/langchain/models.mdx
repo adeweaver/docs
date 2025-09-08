@@ -152,7 +152,7 @@ console.log(response);
 ```
 :::
 
-A list of messages can be provided to a model to represent conversation history. Each message has a role that models use to indicate who sent the message in the conversation. See the [messages](/oss/langchain-messages) guide for more detail on roles, types, and content.
+A list of messages can be provided to a model to represent conversation history. Each message has a role that models use to indicate who sent the message in the conversation. See the [messages](/oss/langchain/messages) guide for more detail on roles, types, and content.
 
 :::python
 ```python Conversation history
@@ -292,7 +292,7 @@ The resulting message can be treated the same as a message that was generated wi
     <Accordion title='"Auto-streaming" chat models'>
         LangChain simplifies streaming from chat models by automatically enabling streaming mode in certain cases, even when you're not explicitly calling the streaming methods. This is particularly useful when you use the non-streaming invoke method but still want to stream the entire application, including intermediate results from the chat model.
 
-        In [LangGraph agents](/oss/langchain-agents), for example, you can call `model.invoke()` within nodes, but LangChain will automatically delegate to streaming if running in a streaming mode.
+        In [LangGraph agents](/oss/langchain/agents), for example, you can call `model.invoke()` within nodes, but LangChain will automatically delegate to streaming if running in a streaming mode.
 
         #### How it works
 
@@ -489,7 +489,7 @@ To make tools that you have defined available for use by a model, you must bind 
 Some model providers offer built-in tools that can be enabled via model parameters. Check the respective [provider reference](/oss/integrations/providers) for details.
 
 <Tip>
-    See the [tools guide](/oss/langchain-tools) for details and other options for creating tools.
+    See the [tools guide](/oss/langchain/tools) for details and other options for creating tools.
 </Tip>
 
 :::python
@@ -1074,17 +1074,17 @@ LangChain supports all major model providers, including OpenAI, Anthropic, Googl
 
 ### Multimodal
 
-Certain models can process and return non-textual data such as images, audio, and video. You can pass non-textual data to a model by providing [content blocks](/oss/langchain-messages#content).
+Certain models can process and return non-textual data such as images, audio, and video. You can pass non-textual data to a model by providing [content blocks](/oss/langchain/messages#content).
 
 <Tip>
     All LangChain chat models with underlying multimodal capabilities support:
 
-    1. Data in the cross-provider standard format (see [our messages guide](/oss/langchain-messages))
+    1. Data in the cross-provider standard format (see [our messages guide](/oss/langchain/messages))
     2. OpenAI [chat completions](https://platform.openai.com/docs/guides/images-vision?api-mode=chat) format
     3. Any format that is native to that specific provider (e.g., Anthropic models accept Anthropic native format)
 </Tip>
 
-See the [multimodal section](/oss/langchain-messages#multimodal) of the messages guide for details.
+See the [multimodal section](/oss/langchain/messages#multimodal) of the messages guide for details.
 
 Some models can also return multimodal data as part of their response. In such cases, the resulting `AIMessage` will have content blocks with multimodal types.
 
@@ -1341,7 +1341,7 @@ print(response.response_metadata["logprobs"])
 
 ### Token usage
 
-A number of model providers return token usage information as part of the invocation response. When available, this information will be included on the `AIMessage` objects produced by the corresponding model. For more details, see the [messages](/oss/langchain-messages) guide.
+A number of model providers return token usage information as part of the invocation response. When available, this information will be included on the `AIMessage` objects produced by the corresponding model. For more details, see the [messages](/oss/langchain/messages) guide.
 
 <Note>
     Some provider APIs, notably OpenAI and Azure OpenAI chat completions, require users opt-in to receiving token usage data in streaming contexts. See the [streaming usage metadata](/oss/integrations/chat/openai#streaming-usage-metadata) section of the integration guide for details.
