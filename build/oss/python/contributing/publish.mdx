@@ -1,0 +1,195 @@
+---
+title: Publish an integration
+sidebarTitle: Publish
+---
+
+<Icon icon="rocket" size={32} />
+**Make your integration available to the community.**
+
+Now that your package is implemented and tested, you can publish it and add documentation to make it discoverable by the community.
+
+## Publishing your package to PyPI
+
+<Info>
+    This guide assumes you have already implemented your package and written tests for it. If you haven't, please refer to the [implementation guide](/oss/python/contributing/integrations) and [testing guide](/oss/python/contributing/standard-tests).
+</Info>
+
+<Note>
+    Poetry is not required to publish a package to PyPI, and we're using it in this guide end-to-end for convenience. You are welcome to publish your package using any other method you prefer.
+</Note>
+
+### Setup PyPI credentials
+
+First, make sure you have a PyPI account:
+
+<AccordionGroup>
+    <Accordion title="How to create a PyPI Token" icon="key">
+        <Steps>
+            <Step title="Create account">
+                Go to the [PyPI website](https://pypi.org/) and create an account
+            </Step>
+
+            <Step title="Verify email">
+                Verify your email address by clicking the link that PyPI emails to you
+            </Step>
+
+            <Step title="Enable 2FA">
+                Go to your account settings and click "Generate Recovery Codes" to enable 2FA. To generate an API token, you **must** have 2FA enabled currently
+            </Step>
+
+            <Step title="Generate token">
+                Go to your account settings and [generate a new API token](https://pypi.org/manage/account/token/)
+            </Step>
+        </Steps>
+    </Accordion>
+</AccordionGroup>
+
+### Build and publish
+
+<Steps>
+    <Step title="Build your package">
+        TODO
+    </Step>
+
+    <Step title="Publish to PyPI">
+        TODO
+    </Step>
+
+    <Step title="Verify publication">
+        Your package is now available on PyPI and can be installed with:
+
+        <CodeGroup>
+            ```bash pip
+            pip install langchain-parrot-link
+            ```
+            ```bash uv
+            uv add langchain-parrot-link
+            ```
+        </CodeGroup>
+    </Step>
+</Steps>
+
+<Check>
+    **Success!** Your package is now published and available to the community.
+</Check>
+
+## Adding documentation to the LangChain monorepo
+
+To add documentation for your package to the LangChain monorepo, you will need to:
+
+TODO
+
+### Bootstrap your documentation pages (Recommended)
+
+To make it easier to create the necessary documentation pages, you can use the `langchain-cli` to bootstrap them for you.
+
+
+TODO check the following works!
+<Steps>
+    <Step title="Install CLI">
+        Install the latest version of the `langchain-cli` package:
+
+        <CodeGroup>
+            ```bash pip
+            pip install -U langchain-cli
+            ```
+            ```bash uv
+            uv add langchain-cli
+            uv sync
+            ```
+        </CodeGroup>
+    </Step>
+
+    <Step title="View available commands">
+        To see the available commands to bootstrap your documentation pages:
+
+        ```bash
+        langchain-cli integration create-doc --help
+        ```
+    </Step>
+
+    <Step title="Create provider page">
+        Bootstrap a provider page from the root of the monorepo:
+
+        ```bash
+        langchain-cli integration create-doc \
+            --component-type Provider \
+            --destination-dir docs/docs/integrations/providers \
+            --name parrot-link \
+            --name-class ParrotLink
+        ```
+    </Step>
+
+    <Step title="Create component pages">
+        Create pages for each component type you've implemented:
+
+        <Tabs>
+            <Tab title="Chat Model">
+                ```bash
+                langchain-cli integration create-doc \
+                    --component-type ChatModel \
+                    --destination-dir docs/docs/integrations/chat \
+                    --name parrot-link \
+                    --name-class ParrotLink
+                ```
+            </Tab>
+
+            <Tab title="Vector Store">
+                ```bash
+                langchain-cli integration create-doc \
+                    --component-type VectorStore \
+                    --destination-dir docs/docs/integrations/vectorstores \
+                    --name parrot-link \
+                    --name-class ParrotLink
+                ```
+            </Tab>
+
+            <Tab title="Embeddings">
+                ```bash
+                langchain-cli integration create-doc \
+                    --component-type Embeddings \
+                    --destination-dir docs/docs/integrations/text_embedding \
+                    --name parrot-link \
+                    --name-class ParrotLink
+                ```
+            </Tab>
+
+            <Tab title="Tools">
+                ```bash
+                langchain-cli integration create-doc \
+                    --component-type Tools \
+                    --destination-dir docs/docs/integrations/tools \
+                    --name parrot-link \
+                    --name-class ParrotLink
+                ```
+            </Tab>
+        </Tabs>
+    </Step>
+
+    <Step title="Fill out documentation">
+        These commands will create documentation files that you should fill out with information about your package:
+
+        - `docs/docs/integrations/providers/parrot_link.ipynb`
+        - `docs/docs/integrations/chat/parrot_link.ipynb` (if applicable)
+        - `docs/docs/integrations/vectorstores/parrot_link.ipynb` (if applicable)
+        - Additional component pages based on what you implemented
+    </Step>
+</Steps>
+
+### Manually create documentation pages (Alternative)
+
+If you prefer to create the documentation pages manually, you can create the same files listed above and fill them out with information about your package.
+
+<Tip>
+    TODO THIS NEEDS TO BE UPDATED
+
+    You can view the templates that the CLI uses to create these files [here](https://github.com/langchain-ai/langchain/tree/master/libs/cli/langchain_cli/integration_template/docs) for reference!
+</Tip>
+
+### Submit a PR with your changes
+
+<Check>
+    **Congratulations!** Your integration is now published and documented, making it available to the entire LangChain community.
+</Check>
+
+
