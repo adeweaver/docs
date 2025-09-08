@@ -177,6 +177,8 @@ Set up your development environment:
     {/* TODO: langchain-community? */}
 </Tabs>
 
+---
+
 ## Repository structure
 
 <Tabs>
@@ -186,12 +188,12 @@ Set up your development environment:
         <AccordionGroup>
             <Accordion title="Core packages" defaultOpen>
                 :::python
-                - **`langchain-core` (`libs/core/`)**: Base interfaces and core abstractions
-                - **`langchain` (`libs/langchain/`)**: Main package with chains, agents, and retrieval logic
+                - **`langchain-core` (located in `libs/core/`)**: Base interfaces and core abstractions
+                - **`langchain` (located in `libs/langchain/`)**: Main package with chains, agents, and retrieval logic
                 :::
                 :::js
-                - **`langchain-core` (`langchain-core/`)**: Base interfaces and core abstractions
-                - **`langchain` (`langchain/`)**: Main package with chains, agents, and retrieval logic
+                - **`langchain-core` (located in `langchain-core/`)**: Base interfaces and core abstractions
+                - **`langchain` (located in `langchain/`)**: Main package with chains, agents, and retrieval logic
                 :::
             </Accordion>
 
@@ -203,17 +205,22 @@ Set up your development environment:
                 :::js
                 Located in `libs/`, these are independently versioned packages for specific integrations. For example:
                 :::
-                - **`langchain-openai`**: OpenAI integrations
-                - **`langchain-anthropic`**: Anthropic integrations
-                - **`langchain-google-genai`**: Google Generative AI integrations
+                - **`langchain-openai`**: [OpenAI](/oss/integrations/providers/openai) integrations
+                - **`langchain-anthropic`**: [Anthropic](oss/integrations/providers/anthropic) integrations
+                - **`langchain-google-genai`**: [Google Generative AI](/oss/integrations/chat/google_generative_ai) integrations
 
                 Many partner packages are in external repositories. Please check the [list of integrations](/oss/integrations/providers) for details.
 
             </Accordion>
 
             <Accordion title="Supporting packages">
+                :::python
                 - **`langchain-text-splitters`**: Text splitting utilities
                 - **`langchain-cli`**: Command line interface
+                :::
+                :::js
+                - **`textsplitters`**: Text splitting utilities
+                :::
                 - **`langchain-standard-tests`**: Standard test suites for integrations
             </Accordion>
         </AccordionGroup>
@@ -223,52 +230,75 @@ Set up your development environment:
     </Tab>
 </Tabs>
 
+---
 
 ## Development workflow
 
 ### Testing requirements
 
 <Info>
-    Every code change must include comprehensive tests. No exceptions.
+    Directories are relative to the package you're working in.
 </Info>
 
-Test types and requirements:
+Every code change must include comprehensive tests. No exceptions.
 
 <Steps>
     <Step title="Unit tests">
+        :::python
         **Location**: `tests/unit_tests/`
+        :::
+        :::js
+        **Location**: `src/tests/FILENAME_BEING_TESTED.test.ts`
+        :::
 
         **Requirements**:
         - No network calls allowed
         - Test all code paths including edge cases
         - Use mocks for external dependencies
 
+        :::python
         ```bash
         make test
         # or directly:
         uv run --group test pytest tests/unit_tests
         ```
+        :::
+        :::js
+        ```bash
+        yarn test
+        ```
+        :::
     </Step>
 
     <Step title="Integration tests">
+        :::python
         **Location**: `tests/integration_tests/`
+        :::
+        :::js
+        **Location**: `src/tests/FILENAME_BEING_TESTED.int.test.ts`
+        :::
 
         **Requirements**:
         - Test real integrations with external services
         - Use environment variables for API keys
         - Skip gracefully if credentials unavailable
 
+        :::python
         ```bash
         make integration_tests
         ```
+        :::
+        :::js
+        ```bash
+        yarn test:int
+        ```
+        :::
     </Step>
 
     <Step title="Test quality checklist">
         - [ ] Tests fail when your code is broken
-        - [ ] Happy path is covered
         - [ ] Edge cases and error conditions are tested
         - [ ] Proper use of fixtures and mocks
-        - [ ] Tests are deterministic (no flaky tests)
     </Step>
 </Steps>
 
@@ -284,6 +314,7 @@ Quality requirements:
     <Tab title="Type hints">
         **Required**: Complete type annotations for all functions
 
+        :::python
         ```python
         def process_documents(
             docs: list[Document],
@@ -303,10 +334,21 @@ Quality requirements:
 
             """
         ```
+        :::
+        :::js
+        ```typescript
+        TODO
+        ```
+        :::
     </Tab>
 
     <Tab title="Documentation">
+        :::python
         **Required**: Google-style docstrings for all public functions
+        :::
+        :::js
+        **Required**: TODO(style, see Python) for all public functions
+        :::
 
         - Document all parameters and return values
         - Include usage examples for complex functions
@@ -315,16 +357,26 @@ Quality requirements:
     </Tab>
 
     <Tab title="Code style">
+        :::python
         **Automated**: Formatting and linting via `ruff`
 
         ```bash
         make format  # Apply formatting
         make lint    # Check style and types
         ```
+        :::
+        :::js
+        **Automated**: Formatting and linting:
+
+        ```bash
+        yarn lint    # Check style and types
+        yarn format  # Apply formatting
+        ```
+        :::
 
         **Standards**:
         - Descriptive variable names
-        - Break up complex functions (>20 lines)
+        - Break up complex functions (aim for >20 lines)
         - Follow existing patterns in the codebase
     </Tab>
 </Tabs>
@@ -358,6 +410,8 @@ Setup pre-commit hooks:
     </Step>
 </Steps>
 
+---
+
 ## Contribution guidelines
 
 ### Backwards compatibility
@@ -381,7 +435,12 @@ Maintain compatibility:
 
     <Accordion title="Safe changes">
         **Acceptable modifications**:
+        :::python
         - Adding new optional parameters (use `*` for keyword-only)
+        :::
+        :::js
+        - Adding new optional parameters
+        :::
         - Adding new methods to classes
         - Improving performance without changing behavior
         - Adding new modules or functions
@@ -389,7 +448,9 @@ Maintain compatibility:
 
     <Accordion title="Before making changes">
         **Check if your target is public**:
+        :::python
         - If needed, is it exported in `__init__.py`?
+        :::
         - Are there existing usage patterns in tests?
         - Would this break existing user code?
     </Accordion>
@@ -458,8 +519,10 @@ Security checklist:
 <AccordionGroup>
     <Accordion title="Input validation">
         - Validate and sanitize all user inputs
-        - Never use `eval()`, `exec()`, or `pickle` on user data
         - Properly escape data in templates and queries
+        :::python
+        - Never use `eval()`, `exec()`, or `pickle` on user data
+        :::
     </Accordion>
 
     <Accordion title="Error handling">
@@ -475,6 +538,8 @@ Security checklist:
     </Accordion>
 </AccordionGroup>
 
+---
+
 ## Testing and validation
 
 ### Running tests locally
@@ -483,26 +548,56 @@ Before submitting your PR:
 
 <Steps>
     <Step title="Unit tests">
+        :::python
+
         ```bash
         make test
         ```
+        :::
+        :::js
+
+        ```bash
+        jarn test
+        ```
+        :::
         All unit tests must pass
     </Step>
 
     <Step title="Integration tests">
+        :::python
+
         ```bash
         make integration_tests
         ```
-        Run if your changes affect integrations
+        :::
+        :::js
+
+        ```bash
+        yarn test:int
+        ```
+        :::
+        (Run if your changes affect integrations)
     </Step>
 
     <Step title="Formatting">
+        :::python
+
         ```bash
         make format
         make lint
         ```
+        :::
+        :::js
+
+        ```bash
+        yarn format
+        yarn lint
+        ```
+        :::
         Code must pass all style checks
     </Step>
+
+    :::python
 
     <Step title="Type checking">
         ```bash
@@ -510,6 +605,7 @@ Before submitting your PR:
         ```
         All type hints must be valid
     </Step>
+    :::
 </Steps>
 
 ### Test writing guidelines
@@ -518,6 +614,7 @@ Write effective tests:
 
 <Tabs>
     <Tab title="Unit tests">
+        :::python
         ```python
         def test_document_processor_handles_empty_input():
             """Test processor gracefully handles empty document list."""
@@ -525,30 +622,37 @@ Write effective tests:
 
             result = processor.process([])
 
-            assert result.success is True
+            assert result.success
             assert result.processed_count == 0
             assert len(result.errors) == 0
         ```
+        :::
+        :::js
+        TODO
+        :::
     </Tab>
 
     <Tab title="Integration tests">
+        :::python
         ```python
         @pytest.mark.requires("openai")
         def test_openai_chat_integration():
             """Test OpenAI chat integration with real API."""
-            api_key = os.getenv("OPENAI_API_KEY")
-            if not api_key:
-                pytest.skip("OPENAI_API_KEY not set")
 
-            chat = ChatOpenAI(api_key=api_key)
+            chat = ChatOpenAI()
             response = chat.invoke("Hello")
 
             assert isinstance(response.content, str)
             assert len(response.content) > 0
         ```
+        :::
+        :::js
+        TODO
+        :::
     </Tab>
 
     <Tab title="Mock usage">
+        :::python
         ```python
         def test_retry_mechanism(mocker):
             """Test retry mechanism handles transient failures."""
@@ -564,6 +668,10 @@ Write effective tests:
             assert result["result"] == "success"
             assert mock_client.call.call_count == 2
         ```
+        :::
+        :::js
+        TODO
+        :::
     </Tab>
 </Tabs>
 
