@@ -9,7 +9,7 @@ import EmbeddingsTabsJS from '/snippets/embeddings-tabs-js.mdx';
 import VectorstoreTabsPy from '/snippets/vectorstore-tabs-py.mdx';
 import VectorstoreTabsJS from '/snippets/vectorstore-tabs-js.mdx';
 
-One of the most powerful applications enabled by LLMs is sophisticated question-answering (Q&A) chatbots. These are applications that can answer questions about specific source information. These applications use a technique known as Retrieval Augmented Generation, or [RAG](/oss/langchain-retrieval/).
+One of the most powerful applications enabled by LLMs is sophisticated question-answering (Q&A) chatbots. These are applications that can answer questions about specific source information. These applications use a technique known as Retrieval Augmented Generation, or [RAG](/oss/langchain/retrieval/).
 
 This tutorial will show how to build a simple Q&A application
 over a text data source. We will demonstrate:
@@ -18,7 +18,7 @@ over a text data source. We will demonstrate:
 2. A two-step RAG [chain](#rag-chains) that uses just a single LLM call per query. This is a fast and effective method for simple queries.
 
 <Note>
-Here we focus on Q&A for unstructured data. If you are interested for RAG over structured data, check out our tutorial on doing [question/answering over SQL data](/oss/langchain-sql-qa).
+Here we focus on Q&A for unstructured data. If you are interested for RAG over structured data, check out our tutorial on doing [question/answering over SQL data](/oss/langchain/sql-qa).
 </Note>
 
 ## Overview
@@ -31,7 +31,7 @@ A typical RAG application has two main components:
 Once we've indexed our data, we will use an [agent](oss/langchain-agents) as our orchestration framework to implement the retrieval and generation steps.
 
 <Note>
-The indexing portion of this tutorial will largely follow the [semantic search tutorial](/oss/langchain-knowledge-base).
+The indexing portion of this tutorial will largely follow the [semantic search tutorial](/oss/langchain/knowledge-base).
 
 If your data is already available for search (i.e., you have a function to execute a search), or you're
 comfortable with the content from that tutorial, feel free to skip to the section on
@@ -72,7 +72,7 @@ pnpm add langchain @langchain/community @langchain/textsplitters
 
 :::
 
-For more details, see our [Installation guide](/oss/langchain-installation).
+For more details, see our [Installation guide](/oss/langchain/installation).
 
 ### LangSmith
 
@@ -298,27 +298,27 @@ going on.
 ## 1. Indexing
 
 <Note>
-**This section is an abbreviated version of the content in the [semantic search tutorial](/oss/langchain-knowledge-base).**
+**This section is an abbreviated version of the content in the [semantic search tutorial](/oss/langchain/knowledge-base).**
 
 If your data is already indexed and available for search (i.e., you have a function to execute a search), or if you're
-comfortable with [document loaders](/oss/langchain-retrieval#document_loaders),
-[embeddings](/oss/langchain-retrieval#embedding_models), and [vector stores](/oss/langchain-retrieval#vectorstores),
-feel free to skip to the next section on [retrieval and generation](/oss/langchain-rag#2-retrieval-and-generation).
+comfortable with [document loaders](/oss/langchain/retrieval#document_loaders),
+[embeddings](/oss/langchain/retrieval#embedding_models), and [vector stores](/oss/langchain/retrieval#vectorstores),
+feel free to skip to the next section on [retrieval and generation](/oss/langchain/rag#2-retrieval-and-generation).
 
 </Note>
 
 Indexing commonly works as follows:
 
-1. **Load**: First we need to load our data. This is done with [Document Loaders](/oss/langchain-retrieval#document_loaders).
-2. **Split**: [Text splitters](/oss/langchain-retrieval#text_splitters) break large `Documents` into smaller chunks. This is useful both for indexing data and passing it into a model, as large chunks are harder to search over and won't fit in a model's finite context window.
-3. **Store**: We need somewhere to store and index our splits, so that they can be searched over later. This is often done using a [VectorStore](/oss/langchain-retrieval#vectorstores) and [Embeddings](/oss/langchain-retrieval#embedding_models) model.
+1. **Load**: First we need to load our data. This is done with [Document Loaders](/oss/langchain/retrieval#document_loaders).
+2. **Split**: [Text splitters](/oss/langchain/retrieval#text_splitters) break large `Documents` into smaller chunks. This is useful both for indexing data and passing it into a model, as large chunks are harder to search over and won't fit in a model's finite context window.
+3. **Store**: We need somewhere to store and index our splits, so that they can be searched over later. This is often done using a [VectorStore](/oss/langchain/retrieval#vectorstores) and [Embeddings](/oss/langchain/retrieval#embedding_models) model.
 
 ![index_diagram](/images/rag_indexing.png)
 
 ### Loading documents
 
 We need to first load the blog post contents. We can use
-[DocumentLoaders](/oss/langchain-retrieval#document_loaders)
+[DocumentLoaders](/oss/langchain/retrieval#document_loaders)
 for this, which are objects that load in data from a source and return a
 list of
 [Document](https://python.langchain.com/api_reference/core/documents/langchain_core.documents.base.Document.html)
@@ -416,7 +416,7 @@ To handle this we’ll split the `Document` into chunks for embedding and
 vector storage. This should help us retrieve only the most relevant parts
 of the blog post at run time.
 
-As in the [semantic search tutorial](/oss/langchain-knowledge-base), we use a
+As in the [semantic search tutorial](/oss/langchain/knowledge-base), we use a
 [RecursiveCharacterTextSplitter](/oss/integrations/recursive_text_splitter),
 which will recursively split the document using common separators like
 new lines until each chunk is the appropriate size. This is the
@@ -466,13 +466,13 @@ chunks for storage and retrieval.
 ### Storing documents
 
 Now we need to index our 66 text chunks so that we can search over them
-at runtime. Following the [semantic search tutorial](/oss/langchain-knowledge-base),
-our approach is to [embed](/oss/langchain-retrieval#embedding_models/) the contents of each document split and insert these embeddings
-into a [vector store](/oss/langchain-retrieval#vectorstores/). Given an input query, we can then use
+at runtime. Following the [semantic search tutorial](/oss/langchain/knowledge-base),
+our approach is to [embed](/oss/langchain/retrieval#embedding_models/) the contents of each document split and insert these embeddings
+into a [vector store](/oss/langchain/retrieval#vectorstores/). Given an input query, we can then use
 vector search to retrieve relevant documents.
 
 We can embed and store all of our document splits in a single command
-using the vector store and embeddings model selected at the [start of the tutorial](/oss/langchain-rag#components).
+using the vector store and embeddings model selected at the [start of the tutorial](/oss/langchain/rag#components).
 
 :::python
 ```python
@@ -512,8 +512,8 @@ the snippets of the blog post that answer the question.
 
 RAG applications commonly work as follows:
 
-1. **Retrieve**: Given a user input, relevant splits are retrieved from storage using a [Retriever](/oss/langchain-retrieval#retrievers).
-2. **Generate**: A [model](/oss/langchain-models) produces an answer using a prompt that includes both the question with the retrieved data
+1. **Retrieve**: Given a user input, relevant splits are retrieved from storage using a [Retriever](/oss/langchain/retrieval#retrievers).
+2. **Generate**: A [model](/oss/langchain/models) produces an answer using a prompt that includes both the question with the retrieved data
 
 ![retrieval_diagram](/images/rag_retrieval_generation.png)
 
@@ -529,8 +529,8 @@ We will demonstrate:
 
 ### RAG agents
 
-One formulation of a RAG application is as a simple [agent](/oss/langchain-agents) with a tool that retrieves
-information. We can assemble a minimal RAG agent by implementing a [tool](/oss/langchain-tools) that wraps
+One formulation of a RAG application is as a simple [agent](/oss/langchain/agents) with a tool that retrieves
+information. We can assemble a minimal RAG agent by implementing a [tool](/oss/langchain/tools) that wraps
 our vector store:
 
 :::python
@@ -578,8 +578,8 @@ const retrieve = tool(
 <Tip>
 
 Here we use the [tool decorator](https://python.langchain.com/api_reference/core/tools/langchain_core.tools.convert.tool.html)
-to configure the tool to attach raw documents as [artifacts](/oss/langchain-messages#param-artifact) to
-each [ToolMessage](/oss/langchain-messages#tool-message). This will let us access document metadata in our application,
+to configure the tool to attach raw documents as [artifacts](/oss/langchain/messages#param-artifact) to
+each [ToolMessage](/oss/langchain/messages#tool-message). This will let us access document metadata in our application,
 separate from the stringified representation that is sent to the model.
 
 </Tip>
@@ -744,7 +744,7 @@ for more advanced formulations.
 ### RAG chains
 
 In the above [agentic RAG](#rag-agents) formulation we allow the LLM to use its discretion in
-generating a [tool call](/oss/langchain-models#tool-calling) to help answer user queries. This
+generating a [tool call](/oss/langchain/models#tool-calling) to help answer user queries. This
 is a good general purpose solution, but comes with some trade-offs:
 
 | ✅ Benefits                                                                 | ⚠️ Drawbacks                                                                 |
@@ -867,7 +867,7 @@ source documents in the application state to have access to document metadata. W
 do this for the two-step chain case by:
 
 1. Adding a key to the state to store the retrieved documents
-2. Adding a new node via a [pre-model hook](/oss/langchain-agents#pre-model-hook) to
+2. Adding a new node via a [pre-model hook](/oss/langchain/agents#pre-model-hook) to
 populate that key (as well as inject the context).
 
 ```python
@@ -918,8 +918,8 @@ agent = create_agent(
 Now that we've implemented a simple RAG application via `create_agent`, we can easily
 incorporate new features and go deeper:
 
-- [Stream](/oss/langchain-streaming) tokens and other information for responsive user experiences
-- Add [conversational memory](/oss/langchain-short-term-memory) to support multi-turn interactions
-- Add [long-term memory](/oss/langchain-long-term-memory) to support memory across conversational threads
-- Add [structured responses](/oss/langchain-structured-output)
+- [Stream](/oss/langchain/streaming) tokens and other information for responsive user experiences
+- Add [conversational memory](/oss/langchain/short-term-memory) to support multi-turn interactions
+- Add [long-term memory](/oss/langchain/long-term-memory) to support memory across conversational threads
+- Add [structured responses](/oss/langchain/structured-output)
 - Deploy your application with [LangGraph platform](/langgraph-platform)
