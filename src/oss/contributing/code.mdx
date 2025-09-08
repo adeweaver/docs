@@ -75,7 +75,7 @@ For simple bugfixes, you can get started immediately:
 
         ```bash
         # Inside your repo, install dependencies
-        yarn
+        pnpm install
         ```
         :::
     </Step>
@@ -94,11 +94,28 @@ For simple bugfixes, you can get started immediately:
         Include unit tests that fail without your fix
     </Step>
 
+    :::js
+    <Step title="Run build">
+        Run the build command to ensure the package still builds properly
+        ```bash
+        pnpm build
+        ```
+    </Step>
+    :::
+
     <Step title="Run tests">
+        :::python
         ```bash
         make test
         make lint
         ```
+        :::
+        :::js
+        ```bash
+        pnpm test
+        pnpm lint
+        ```
+        :::
     </Step>
 
     <Step title="Submit pull request">
@@ -137,7 +154,7 @@ For ongoing development or larger contributions:
 :::
 :::js
 <Warning>
-    This project uses [`yarn`](https://yarnpkg.com/) for dependency management. Make sure you have the latest version of `yarn` installed.
+    This project uses [`pnpm`](https://pnpm.io/) for dependency management. Make sure you have the latest version of `pnpm` installed.
 </Warning>
 :::
 
@@ -148,23 +165,42 @@ Set up your development environment:
     <Tab title="Core packages">
         For changes to `langchain-core`:
 
+        :::python
         ```bash
         cd libs/core
         uv sync --all-groups
         make test  # Ensure tests pass before starting development
         ```
+        :::
+        :::js
+        ```bash
+        cd libs/langchain-core
+        pnpm install
+        pnpm test  # Ensure tests pass before starting development
+        ```
+        :::
     </Tab>
 
     <Tab title="Main package">
         For changes to `langchain`:
 
+        :::python
         ```bash
         cd libs/langchain
         uv sync --all-groups
         make test  # Ensure tests pass before starting development
         ```
+        :::
+        :::js
+        ```bash
+        cd langchain
+        pnpm install
+        pnpm test  # Ensure tests pass before starting development
+        ```
+        :::
     </Tab>
 
+    :::python
     <Tab title="Partner packages">
         For changes to [partner integrations](/oss/integrations/providers):
 
@@ -173,6 +209,18 @@ Set up your development environment:
         make test  # Ensure tests pass before starting development
         ```
     </Tab>
+    :::
+    :::js
+    <Tab title="Provider packages">
+        For changes to [partner integrations](/oss/integrations/providers):
+
+        ```bash
+        cd libs/providers/langchain-{partner}
+        pnpm install
+        pnpm test  # Ensure tests pass before starting development
+        ```
+    </Tab>
+    :::
 
     {/* TODO: langchain-community? */}
 </Tabs>
@@ -192,8 +240,8 @@ Set up your development environment:
                 - **`langchain` (located in `libs/langchain/`)**: Main package with chains, agents, and retrieval logic
                 :::
                 :::js
-                - **`langchain-core` (located in `langchain-core/`)**: Base interfaces and core abstractions
-                - **`langchain` (located in `langchain/`)**: Main package with chains, agents, and retrieval logic
+                - **`@langchain/core` (located in `libs/langchain-core/`)**: Base interfaces and core abstractions
+                - **`langchain` (located in `libs/langchain/`)**: Main package with chains, agents, and retrieval logic
                 :::
             </Accordion>
 
@@ -201,15 +249,18 @@ Set up your development environment:
 
                 :::python
                 Located in `libs/partners/`, these are independently versioned packages for specific integrations. For example:
-                :::
-                :::js
-                Located in `libs/`, these are independently versioned packages for specific integrations. For example:
-                :::
                 - **`langchain-openai`**: [OpenAI](/oss/integrations/providers/openai) integrations
                 - **`langchain-anthropic`**: [Anthropic](oss/integrations/providers/anthropic) integrations
                 - **`langchain-google-genai`**: [Google Generative AI](/oss/integrations/chat/google_generative_ai) integrations
 
                 Many partner packages are in external repositories. Please check the [list of integrations](/oss/integrations/providers) for details.
+                :::
+                :::js
+                Located in `libs/providers/`, these are independently versioned packages for specific integrations. For example:
+                - **`@langchain/openai`**: [OpenAI](/oss/integrations/providers/openai) integrations
+                - **`@langchain/anthropic`**: [Anthropic](oss/integrations/providers/anthropic) integrations
+                - **`@langchain/google-genai`**: [Google Generative AI](/oss/integrations/chat/google_generative_ai) integrations
+                :::
 
             </Accordion>
 
@@ -217,11 +268,13 @@ Set up your development environment:
                 :::python
                 - **`langchain-text-splitters`**: Text splitting utilities
                 - **`langchain-cli`**: Command line interface
+                - **`langchain-standard-tests`**: Standard test suites for integrations
                 :::
                 :::js
-                - **`textsplitters`**: Text splitting utilities
+                - **`@langchain/textsplitters`**: Text splitting utilities
+                - **`@langchain/standard-tests`**: Standard test suites for integrations
                 :::
-                - **`langchain-standard-tests`**: Standard test suites for integrations
+
             </Accordion>
         </AccordionGroup>
     </Tab>
@@ -265,7 +318,7 @@ Every code change must include comprehensive tests. No exceptions.
         :::
         :::js
         ```bash
-        yarn test
+        pnpm test
         ```
         :::
     </Step>
@@ -290,7 +343,7 @@ Every code change must include comprehensive tests. No exceptions.
         :::
         :::js
         ```bash
-        yarn test:int
+        pnpm test:int
         ```
         :::
     </Step>
@@ -312,9 +365,9 @@ Quality requirements:
 
 <Tabs>
     <Tab title="Type hints">
+        :::python
         **Required**: Complete type annotations for all functions
 
-        :::python
         ```python
         def process_documents(
             docs: list[Document],
@@ -336,8 +389,16 @@ Quality requirements:
         ```
         :::
         :::js
+        **Required**: Complete types for all functions
+
         ```typescript
-        TODO
+        function processDocuments(
+            docs: Document[],
+            processor: DocumentProcessor,
+            batchSize: number = 100
+        ): ProcessingResult {
+            // ...
+        }
         ```
         :::
     </Tab>
@@ -347,7 +408,38 @@ Quality requirements:
         **Required**: Google-style docstrings for all public functions
         :::
         :::js
-        **Required**: TODO(style, see Python) for all public functions
+        **Required**: JSDocs for all exported functions and interfaces
+
+        ```typescript
+        /**
+         * Document processing instance.
+         */
+        interface FooDocumentProcessor {
+            /**
+             * Process documents in batches.
+             *
+             * @param docs - List of documents to process.
+             * @returns Processing results with success/failure counts.
+             */
+            process(docs: Document[]): ProcessingResult;
+        }
+
+        /**
+         * Process documents in batches.
+         *
+         * @param docs - List of documents to process.
+         * @param processor - Document processing instance.
+         * @param batchSize - Number of documents per batch.
+         * @returns Processing results with success/failure counts.
+         */
+        export function processDocuments(
+            docs: Document[],
+            processor: DocumentProcessor,
+            batchSize: number = 100
+        ): ProcessingResult {
+            // ...
+        }
+        ```
         :::
 
         - Document all parameters and return values
@@ -369,8 +461,8 @@ Quality requirements:
         **Automated**: Formatting and linting:
 
         ```bash
-        yarn lint    # Check style and types
-        yarn format  # Apply formatting
+        pnpm lint    # Check style and types
+        pnpm format  # Apply formatting
         ```
         :::
 
@@ -381,6 +473,7 @@ Quality requirements:
     </Tab>
 </Tabs>
 
+:::python
 ### Pre-commit hooks
 
 <Note>
@@ -409,6 +502,7 @@ Setup pre-commit hooks:
         - Prevent commits if checks fail
     </Step>
 </Steps>
+:::
 
 ---
 
@@ -439,7 +533,7 @@ Maintain compatibility:
         - Adding new optional parameters (use `*` for keyword-only)
         :::
         :::js
-        - Adding new optional parameters
+        - Adding new optional parameters/ type parameters
         :::
         - Adding new methods to classes
         - Improving performance without changing behavior
@@ -528,6 +622,9 @@ Security checklist:
         :::python
         - Never use `eval()`, `exec()`, or `pickle` on user data
         :::
+        :::js
+        - Never use `eval()`
+        :::
     </Accordion>
 
     <Accordion title="Error handling">
@@ -562,7 +659,7 @@ Before submitting your PR:
         :::js
 
         ```bash
-        jarn test
+        pnpm test
         ```
         :::
         All unit tests must pass
@@ -578,7 +675,7 @@ Before submitting your PR:
         :::js
 
         ```bash
-        yarn test:int
+        pnpm test:int
         ```
         :::
         (Run if your changes affect integrations)
@@ -595,8 +692,8 @@ Before submitting your PR:
         :::js
 
         ```bash
-        yarn format
-        yarn lint
+        pnpm format
+        pnpm lint
         ```
         :::
         Code must pass all style checks
@@ -619,7 +716,18 @@ Before submitting your PR:
 
 ### Test writing guidelines
 
-Write effective tests:
+In order to write effective tests, there's a few good practices to follow:
+
+:::python
+- Use natural language to describe the test in docstrings
+- Use descriptive variable names
+- Be exhaustive with assertions
+:::
+:::js
+- Encapsulate the test in a `describe` block that describes the component being tested
+- Use natural language to describe the test name
+- Be exhaustive with assertions
+:::
 
 <Tabs>
     <Tab title="Unit tests">
@@ -637,7 +745,18 @@ Write effective tests:
         ```
         :::
         :::js
-        TODO
+        ```typescript
+        describe("DocumentProcessor", () => {
+            it("should handle empty document list", () => {
+                const processor = new DocumentProcessor();
+                const result = processor.process([]);
+
+                expect(result.success).toBe(true);
+                expect(result.processedCount).toBe(0);
+                expect(result.errors).toHaveLength(0);
+            });
+        });
+        ```
         :::
     </Tab>
 
@@ -656,7 +775,14 @@ Write effective tests:
         ```
         :::
         :::js
-        TODO
+        ```typescript
+        describe("ChatOpenAI", () => {
+            it("should test with real API", () => {
+                const chat = new ChatOpenAI();
+                const response = chat.invoke("Hello");
+            });
+        });
+        ```
         :::
     </Tab>
 
@@ -679,7 +805,15 @@ Write effective tests:
         ```
         :::
         :::js
-        TODO
+        ```typescript
+        describe("APIService", () => {
+            it("should call with retry", () => {
+                const mockClient = new MockClient();
+                const service = new APIService(client: mockClient);
+                const result = service.callWithRetry();
+            });
+        });
+        ```
         :::
     </Tab>
 </Tabs>
