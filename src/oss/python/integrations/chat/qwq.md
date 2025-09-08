@@ -8,7 +8,7 @@ This will help you get started with QwQ [chat models](../../concepts/chat_models
 
 ### Integration details
 
-| Class | Package | Local | Serializable | Package downloads | Package latest |
+| Class | Package | Local | Serializable | Package downloads | Version |
 | :--- | :--- | :---: |  :---: | :---: | :---: |
 | [ChatQwQ](https://pypi.org/project/langchain-qwq/) | [langchain-qwq](https://pypi.org/project/langchain-qwq/) | ❌ | beta | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-qwq?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-qwq?style=flat-square&label=%20) |
 
