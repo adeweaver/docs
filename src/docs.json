@@ -191,7 +191,8 @@
                     "pages": [
                       "oss/python/langgraph/overview",
                       "oss/python/langgraph/installation",
-                      "oss/python/langgraph/quickstart"
+                      "oss/python/langgraph/quickstart",
+                      "oss/python/langgraph/workflows-agents"
                     ]
                   },
                   {
@@ -1221,7 +1222,8 @@
                     "pages": [
                       "oss/javascript/langgraph/overview",
                       "oss/javascript/langgraph/installation",
-                      "oss/javascript/langgraph/quickstart"
+                      "oss/javascript/langgraph/quickstart",
+                      "oss/javascript/langgraph/workflows-agents"
                     ]
                   },
                   {
