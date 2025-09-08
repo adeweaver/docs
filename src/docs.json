@@ -133,52 +133,52 @@
                   {
                     "group": "Get started",
                     "pages": [
-                      "oss/python/langchain-overview",
-                      "oss/python/langchain-installation",
-                      "oss/python/langchain-quickstart",
-                      "oss/python/langchain-philosophy"
+                      "oss/python/langchain/overview",
+                      "oss/python/langchain/installation",
+                      "oss/python/langchain/quickstart",
+                      "oss/python/langchain/philosophy"
                     ]
                   },
                   {
                     "group": "Core concepts",
                     "pages": [
-                      "oss/python/langchain-models",
-                      "oss/python/langchain-messages",
-                      "oss/python/langchain-tools",
-                      "oss/python/langchain-agents",
-                      "oss/python/langchain-short-term-memory",
-                      "oss/python/langchain-streaming"
+                      "oss/python/langchain/models",
+                      "oss/python/langchain/messages",
+                      "oss/python/langchain/tools",
+                      "oss/python/langchain/agents",
+                      "oss/python/langchain/short-term-memory",
+                      "oss/python/langchain/streaming"
                     ]
                   },
                   {
                     "group": "Advanced",
                     "pages": [
-                      "oss/python/langchain-long-term-memory",
-                      "oss/python/langchain-context-engineering",
-                      "oss/python/langchain-structured-output",
-                      "oss/python/langchain-mcp",
+                      "oss/python/langchain/long-term-memory",
+                      "oss/python/langchain/context-engineering",
+                      "oss/python/langchain/structured-output",
+                      "oss/python/langchain/mcp",
                       "oss/python/langchain-human-in-the-loop",
-                      "oss/python/langchain-multi-agent",
-                      "oss/python/langchain-retrieval",
-                      "oss/python/langchain-runtime",
-                      "oss/python/langchain-middleware"
+                      "oss/python/langchain/multi-agent",
+                      "oss/python/langchain/retrieval",
+                      "oss/python/langchain/runtime",
+                      "oss/python/langchain/middleware"
                     ]
                   },
                   {
                     "group": "Tutorials",
                     "pages": [
-                      "oss/python/langchain-knowledge-base",
-                      "oss/python/langchain-rag"
+                      "oss/python/langchain/knowledge-base",
+                      "oss/python/langchain/rag"
                     ]
                   },
                   {
                     "group": "Production",
                     "pages": [
-                      "oss/python/langchain-studio",
-                      "oss/python/langchain-test",
-                      "oss/python/langchain-deploy",
-                      "oss/python/langchain-ui",
-                      "oss/python/langchain-observability"
+                      "oss/python/langchain/studio",
+                      "oss/python/langchain/test",
+                      "oss/python/langchain/deploy",
+                      "oss/python/langchain/ui",
+                      "oss/python/langchain/observability"
                     ]
                   }
                 ]
