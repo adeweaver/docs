@@ -9,7 +9,7 @@ This guide reviews common workflow and agent patterns.
 
 ![Agent Workflow](/oss/images/agent_workflow.png)
 
-LangGraph offers several benefits when building agents and workflows, including persistence, streaming, and support for debugging as well as deployment.
+LangGraph offers several benefits when building agents and workflows, including [persistence](/oss/langgraph/persistence), [streaming](/oss/langgraph/streaming), and support for debugging as well as [deployment](/oss/langgraph/deploy).
 
 ## Setup
 
@@ -41,27 +41,26 @@ llm = ChatAnthropic(model="claude-3-5-sonnet-latest")
 :::
 
 :::js
-<Accordion title="Install dependencies">
-    <CodeGroup>
-    ```bash npm
-    npm install @langchain/langgraph@next @langchain/core@next
-    ```
+1. Install dependencies
+<CodeGroup>
+```bash npm
+npm install @langchain/langgraph@next @langchain/core@next
+```
 
-    ```bash pnpm
-    pnpm add @langchain/langgraph@next @langchain/core@next
-    ```
+```bash pnpm
+pnpm add @langchain/langgraph@next @langchain/core@next
+```
 
-    ```bash yarn
-    yarn add @langchain/langgraph@next @langchain/core@next
-    ```
+```bash yarn
+yarn add @langchain/langgraph@next @langchain/core@next
+```
 
-    ```bash bun
-    bun add @langchain/langgraph@next @langchain/core@next
-    ```
-    </CodeGroup>
-</Accordion>
+```bash bun
+bun add @langchain/langgraph@next @langchain/core@next
+```
+</CodeGroup>
 
-With dependencies installed, you can initialize the LLM.
+2. Initialize the LLM:
 
 ```typescript
 import { ChatAnthropic } from "@langchain/anthropic";
@@ -75,11 +74,9 @@ const llm = new ChatAnthropic({
 
 ## LLMs and augmentations
 
-Workflows and agentic systems are based on LLMs and the various augmentations you add to them. [Tool calling](/oss/langchain-tools), [structured outputs](/oss/langchain-structured-output), and [short term memory](/oss/langchain-short-term-memory) are a few options for tailoring LLMs to your needs.
+Workflows and agentic systems are based on LLMs and the various augmentations you add to them. [Tool calling](/oss/langchain/tools), [structured outputs](/oss/langchain/structured-output), and [short term memory](/oss/langchain/short-term-memory) are a few options for tailoring LLMs to your needs.
 
 ![LLM augmentations](/oss/images/augmented_llm.png)
-
-### Code examples
 
 :::python
 ```python
@@ -171,12 +168,9 @@ Prompt chaining is when each LLM call processes the output of the previous call.
 
 ![Prompt chaining](/oss/images/prompt_chain.png)
 
-### Code examples
-
 :::python
-<Tabs>
-<Tab title="Graph API">
-```python
+<CodeGroup>
+```python Graph API
 from typing_extensions import TypedDict
 from langgraph.graph import StateGraph, START, END
 from IPython.display import Image, display
@@ -257,9 +251,7 @@ if "improved_joke" in state:
 else:
     print("Joke failed quality gate - no punchline detected!")
 ```
-</Tab>
-<Tab title="Functional API">
-```python
+```python Functional API
 from langgraph.func import entrypoint, task
 
 
@@ -308,14 +300,12 @@ for step in prompt_chaining_workflow.stream("cats", stream_mode="updates"):
     print(step)
     print("\n")
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 :::
 
 :::js
-<Tabs>
-<Tab title="Graph API">
-```typescript
+<CodeGroup>
+```typescript Graph API
 import { StateGraph, Annotation } from "@langchain/langgraph";
 
 // Graph state
@@ -389,9 +379,7 @@ if (state.improvedJoke !== undefined) {
   console.log("Joke failed quality gate - no punchline detected!");
 }
 ```
-</Tab>
-<Tab title="Functional API">
-```typescript
+```typescript Functional API
 import { task, entrypoint } from "@langchain/langgraph";
 
 // Tasks
@@ -448,8 +436,7 @@ for await (const step of stream) {
   console.log(step);
 }
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 :::
 
 ## Parallelization
@@ -466,11 +453,9 @@ Some examples include:
 
 ![parallelization.png](/oss/images/parallelization.png)
 
-### Code examples
 :::python
-<Tabs>
-<Tab title="Graph API">
-```python
+<CodeGroup>
+```python Graph API
 # Graph state
 class State(TypedDict):
     topic: str
@@ -538,9 +523,7 @@ display(Image(parallel_workflow.get_graph().draw_mermaid_png()))
 state = parallel_workflow.invoke({"topic": "cats"})
 print(state["combined_output"])
 ```
-</Tab>
-<Tab title="Functional API">
-```python
+```python Functional API
 @task
 def call_llm_1(topic: str):
     """First LLM call to generate initial joke"""
@@ -588,14 +571,12 @@ for step in parallel_workflow.stream("cats", stream_mode="updates"):
     print(step)
     print("\n")
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 :::
 
 :::js
-<Tabs>
-<Tab title="Graph API">
-```typescript
+<CodeGroup>
+```typescript Graph API
 import { StateGraph, Annotation } from "@langchain/langgraph";
 
 // Graph state
@@ -654,9 +635,7 @@ const parallelWorkflow = new StateGraph(StateAnnotation)
 const result = await parallelWorkflow.invoke({ topic: "cats" });
 console.log(result.combinedOutput);
 ```
-</Tab>
-<Tab title="Functional API">
-```typescript
+```typescript Functional API
 import { task, entrypoint } from "@langchain/langgraph";
 
 // Tasks
@@ -716,8 +695,7 @@ for await (const step of stream) {
   console.log(step);
 }
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 :::
 
 ## Routing
@@ -726,12 +704,9 @@ Routing workflows process inputs and then directs them to context-specific tasks
 
 ![routing.png](/oss/images/routing.png)
 
-### Code examples
-
 :::python
-<Tabs>
-<Tab title="Graph API">
-```python
+<CodeGroup>
+```python Graph API
 from typing_extensions import Literal
 from langchain_core.messages import HumanMessage, SystemMessage
 
@@ -836,9 +811,7 @@ display(Image(router_workflow.get_graph().draw_mermaid_png()))
 state = router_workflow.invoke({"input": "Write me a joke about cats"})
 print(state["output"])
 ```
-</Tab>
-<Tab title="Functional API">
-```python
+```python Functional API
 from typing_extensions import Literal
 from pydantic import BaseModel
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -908,14 +881,12 @@ for step in router_workflow.stream("Write me a joke about cats", stream_mode="up
     print(step)
     print("\n")
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 :::
 
 :::js
-<Tabs>
-<Tab title="Graph API">
-```typescript
+<CodeGroup>
+```typescript Graph API
 import { StateGraph, Annotation } from "@langchain/langgraph";
 import { z } from "zod";
 
@@ -1024,9 +995,7 @@ const state = await routerWorkflow.invoke({
 });
 console.log(state.output);
 ```
-</Tab>
-<Tab title="Functional API">
-```typescript
+```typescript Functional API
 import { z } from "zod";
 import { task, entrypoint } from "@langchain/langgraph";
 
@@ -1121,8 +1090,7 @@ for await (const step of stream) {
   console.log(step);
 }
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 :::
 
 ## Orchestrator-worker
@@ -1137,12 +1105,9 @@ In an orchestrator-worker configuration, the orchestrator:
 
 Orchestrator-worker workflows provide more flexibility and are often used when subtasks cannot be predefined the way they can with [parallelization](#parallelization). This is common with workflows that write code or need to update content across multiple files. For example, a workflow that needs to update installation instructions for multiple Python libraries across an unknown number of documents might use this pattern.
 
-### Code examples
-
 :::python
-<Tabs>
-<Tab title="Graph API">
-```python
+<CodeGroup>
+```python Graph API
 from typing import Annotated, List
 import operator
 
@@ -1166,11 +1131,182 @@ class Sections(BaseModel):
 # Augment the LLM with schema for structured output
 planner = llm.with_structured_output(Sections)
 ```
+```python Functional API
+from typing import List
+
+
+# Schema for structured output to use in planning
+class Section(BaseModel):
+    name: str = Field(
+        description="Name for this section of the report.",
+    )
+    description: str = Field(
+        description="Brief overview of the main topics and concepts to be covered in this section.",
+    )
+
+
+class Sections(BaseModel):
+    sections: List[Section] = Field(
+        description="Sections of the report.",
+    )
+
+
+# Augment the LLM with schema for structured output
+planner = llm.with_structured_output(Sections)
+
+
+@task
+def orchestrator(topic: str):
+    """Orchestrator that generates a plan for the report"""
+    # Generate queries
+    report_sections = planner.invoke(
+        [
+            SystemMessage(content="Generate a plan for the report."),
+            HumanMessage(content=f"Here is the report topic: {topic}"),
+        ]
+    )
+
+    return report_sections.sections
+
+
+@task
+def llm_call(section: Section):
+    """Worker writes a section of the report"""
+
+    # Generate section
+    result = llm.invoke(
+        [
+            SystemMessage(content="Write a report section."),
+            HumanMessage(
+                content=f"Here is the section name: {section.name} and description: {section.description}"
+            ),
+        ]
+    )
+
+    # Write the updated section to completed sections
+    return result.content
+
+
+@task
+def synthesizer(completed_sections: list[str]):
+    """Synthesize full report from sections"""
+    final_report = "\n\n---\n\n".join(completed_sections)
+    return final_report
+
+
+@entrypoint()
+def orchestrator_worker(topic: str):
+    sections = orchestrator(topic).result()
+    section_futures = [llm_call(section) for section in sections]
+    final_report = synthesizer(
+        [section_fut.result() for section_fut in section_futures]
+    ).result()
+    return final_report
+
+# Invoke
+report = orchestrator_worker.invoke("Create a report on LLM scaling laws")
+from IPython.display import Markdown
+Markdown(report)
+```
+</CodeGroup>
+:::
+
+:::js
+<CodeGroup>
+```typescript Graph API
+
+type SectionSchema = {
+    name: string;
+    description: string;
+}
+type SectionsSchema = {
+    sections: SectionSchema[];
+}
+
+// Augment the LLM with schema for structured output
+const planner = llm.withStructuredOutput(sectionsSchema);
+```
+```typescript Functional API
+import { z } from "zod";
+import { task, entrypoint } from "@langchain/langgraph";
+
+// Schema for structured output to use in planning
+const sectionSchema = z.object({
+  name: z.string().describe("Name for this section of the report."),
+  description: z.string().describe(
+    "Brief overview of the main topics and concepts to be covered in this section."
+  ),
+});
+
+const sectionsSchema = z.object({
+  sections: z.array(sectionSchema).describe("Sections of the report."),
+});
+
+// Augment the LLM with schema for structured output
+const planner = llm.withStructuredOutput(sectionsSchema);
+
+// Tasks
+const orchestrator = task("orchestrator", async (topic: string) => {
+  // Generate queries
+  const reportSections = await planner.invoke([
+    { role: "system", content: "Generate a plan for the report." },
+    { role: "user", content: `Here is the report topic: ${topic}` },
+  ]);
+
+  return reportSections.sections;
+});
+
+const llmCall = task("sectionWriter", async (section: z.infer<typeof sectionSchema>) => {
+  // Generate section
+  const result = await llm.invoke([
+    {
+      role: "system",
+      content: "Write a report section.",
+    },
+    {
+      role: "user",
+      content: `Here is the section name: ${section.name} and description: ${section.description}`,
+    },
+  ]);
+
+  return result.content;
+});
+
+const synthesizer = task("synthesizer", async (completedSections: string[]) => {
+  // Synthesize full report from sections
+  return completedSections.join("\n\n---\n\n");
+});
+
+// Build workflow
+const workflow = entrypoint(
+  "orchestratorWorker",
+  async (topic: string) => {
+    const sections = await orchestrator(topic);
+    const completedSections = await Promise.all(
+      sections.map((section) => llmCall(section))
+    );
+    return synthesizer(completedSections);
+  }
+);
+
+// Invoke
+const stream = await workflow.stream("Create a report on LLM scaling laws", {
+  streamMode: "updates",
+});
+
+for await (const step of stream) {
+  console.log(step);
+}
+```
+</CodeGroup>
+:::
 
 ### Creating workers in LangGraph
 
 Orchestrator-worker workflows are common and LangGraph has built-in support for them. The `Send` API lets you dynamically create worker nodes and send them specific inputs. Each worker has its own state, and all worker outputs are written to a shared state key that is accessible to the orchestrator graph. This gives the orchestrator access to all worker output and allows it to synthesize them into a final output. The example below iterates over a list of sections and uses the `Send` API to send a section to each worker.
 
+
+:::python
 ```python
 from langgraph.types import Send
 
@@ -1273,110 +1409,8 @@ state = orchestrator_worker.invoke({"topic": "Create a report on LLM scaling law
 from IPython.display import Markdown
 Markdown(state["final_report"])
 ```
-</Tab>
-<Tab title="Functional API">
-```python
-from typing import List
-
-
-# Schema for structured output to use in planning
-class Section(BaseModel):
-    name: str = Field(
-        description="Name for this section of the report.",
-    )
-    description: str = Field(
-        description="Brief overview of the main topics and concepts to be covered in this section.",
-    )
-
-
-class Sections(BaseModel):
-    sections: List[Section] = Field(
-        description="Sections of the report.",
-    )
-
-
-# Augment the LLM with schema for structured output
-planner = llm.with_structured_output(Sections)
-
-
-@task
-def orchestrator(topic: str):
-    """Orchestrator that generates a plan for the report"""
-    # Generate queries
-    report_sections = planner.invoke(
-        [
-            SystemMessage(content="Generate a plan for the report."),
-            HumanMessage(content=f"Here is the report topic: {topic}"),
-        ]
-    )
-
-    return report_sections.sections
-
-
-@task
-def llm_call(section: Section):
-    """Worker writes a section of the report"""
-
-    # Generate section
-    result = llm.invoke(
-        [
-            SystemMessage(content="Write a report section."),
-            HumanMessage(
-                content=f"Here is the section name: {section.name} and description: {section.description}"
-            ),
-        ]
-    )
-
-    # Write the updated section to completed sections
-    return result.content
-
-
-@task
-def synthesizer(completed_sections: list[str]):
-    """Synthesize full report from sections"""
-    final_report = "\n\n---\n\n".join(completed_sections)
-    return final_report
-
-
-@entrypoint()
-def orchestrator_worker(topic: str):
-    sections = orchestrator(topic).result()
-    section_futures = [llm_call(section) for section in sections]
-    final_report = synthesizer(
-        [section_fut.result() for section_fut in section_futures]
-    ).result()
-    return final_report
-
-# Invoke
-report = orchestrator_worker.invoke("Create a report on LLM scaling laws")
-from IPython.display import Markdown
-Markdown(report)
-```
-</Tab>
-</Tabs>
 :::
-
 :::js
-<Tabs>
-<Tab title="Graph API">
-```typescript
-
-type SectionSchema = {
-    name: string;
-    description: string;
-}
-type SectionsSchema = {
-    sections: SectionSchema[];
-}
-
-// Augment the LLM with schema for structured output
-const planner = llm.withStructuredOutput(sectionsSchema);
-```
-
-### Creating workers in LangGraph
-
-Orchestrator-worker workflows are common and LangGraph has built-in support for them. The `Send` API lets you dynamically create worker nodes and send them specific inputs. Each worker has its own state, and all worker outputs are written to a shared state key that is accessible to the orchestrator graph. This gives the orchestrator access to all worker output and allows it to synthesize them into a final output. The example below iterates over a list of sections and uses the `Send` API to send a section to each worker.
-
 ```typescript
 import { Annotation, StateGraph, Send } from "@langchain/langgraph";
 
@@ -1467,98 +1501,19 @@ const state = await orchestratorWorker.invoke({
 });
 console.log(state.finalReport);
 ```
-</Tab>
-<Tab title="Functional API">
-```typescript
-import { z } from "zod";
-import { task, entrypoint } from "@langchain/langgraph";
-
-// Schema for structured output to use in planning
-const sectionSchema = z.object({
-  name: z.string().describe("Name for this section of the report."),
-  description: z.string().describe(
-    "Brief overview of the main topics and concepts to be covered in this section."
-  ),
-});
-
-const sectionsSchema = z.object({
-  sections: z.array(sectionSchema).describe("Sections of the report."),
-});
-
-// Augment the LLM with schema for structured output
-const planner = llm.withStructuredOutput(sectionsSchema);
-
-// Tasks
-const orchestrator = task("orchestrator", async (topic: string) => {
-  // Generate queries
-  const reportSections = await planner.invoke([
-    { role: "system", content: "Generate a plan for the report." },
-    { role: "user", content: `Here is the report topic: ${topic}` },
-  ]);
-
-  return reportSections.sections;
-});
-
-const llmCall = task("sectionWriter", async (section: z.infer<typeof sectionSchema>) => {
-  // Generate section
-  const result = await llm.invoke([
-    {
-      role: "system",
-      content: "Write a report section.",
-    },
-    {
-      role: "user",
-      content: `Here is the section name: ${section.name} and description: ${section.description}`,
-    },
-  ]);
-
-  return result.content;
-});
-
-const synthesizer = task("synthesizer", async (completedSections: string[]) => {
-  // Synthesize full report from sections
-  return completedSections.join("\n\n---\n\n");
-});
-
-// Build workflow
-const workflow = entrypoint(
-  "orchestratorWorker",
-  async (topic: string) => {
-    const sections = await orchestrator(topic);
-    const completedSections = await Promise.all(
-      sections.map((section) => llmCall(section))
-    );
-    return synthesizer(completedSections);
-  }
-);
-
-// Invoke
-const stream = await workflow.stream("Create a report on LLM scaling laws", {
-  streamMode: "updates",
-});
-
-for await (const step of stream) {
-  console.log(step);
-}
-```
-</Tab>
-</Tabs>
 :::
 
 ## Evaluator-optimizer
 
-In evaluator-optimizer workflows, one LLM call creates a response and the other evaluates that response. If the evaluator or a human-in-the-loop determines the response needs refinement, feedback is provided and the response is recreated. This loop continues until an acceptable response is generated.
+In evaluator-optimizer workflows, one LLM call creates a response and the other evaluates that response. If the evaluator or a [human-in-the-loop](/oss/langgraph/human-in-the-loop) determines the response needs refinement, feedback is provided and the response is recreated. This loop continues until an acceptable response is generated.
 
 Evaluator-optimizer workflows are commonly used when there's particular success criteria for a task, but iteration is required to meet that criteria. For example, there's not always a perfect match when translating text between two languages. It might take a few iterations to generate a translation with the same meaning across the two languages.
 
 ![evaluator_optimizer.png](/oss/images/evaluator_optimizer.png)
 
-### Code examples
-
 :::python
-<Tabs>
-<Tab title="Graph API">
-```python
+<CodeGroup>
+```python Graph API
 # Graph state
 class State(TypedDict):
     joke: str
@@ -1640,9 +1595,7 @@ display(Image(optimizer_workflow.get_graph().draw_mermaid_png()))
 state = optimizer_workflow.invoke({"topic": "Cats"})
 print(state["joke"])
 ```
-</Tab>
-<Tab title="Functional API">
-```python
+```python Functional API
 # Schema for structured output to use in evaluation
 class Feedback(BaseModel):
     grade: Literal["funny", "not funny"] = Field(
@@ -1693,14 +1646,12 @@ for step in optimizer_workflow.stream("Cats", stream_mode="updates"):
     print(step)
     print("\n")
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 :::
 
 :::js
-<Tabs>
-<Tab title="Graph API">
-```typescript
+<CodeGroup>
+```typescript Graph API
 import { z } from "zod";
 import { Annotation, StateGraph } from "@langchain/langgraph";
 
@@ -1776,9 +1727,7 @@ const optimizerWorkflow = new StateGraph(StateAnnotation)
 const state = await optimizerWorkflow.invoke({ topic: "Cats" });
 console.log(state.joke);
 ```
-</Tab>
-<Tab title="Functional API">
-```typescript
+```typescript Functional API
 import { z } from "zod";
 import { task, entrypoint } from "@langchain/langgraph";
 
@@ -1844,15 +1793,18 @@ for await (const step of stream) {
   console.log("\n");
 }
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 :::
 
 ## Agents
 
-Agents are typically implemented as an LLM performing actions using tools. They operate in continuous feedback loops, and are used in situations where problems and solutions are unpredictable. Agents have more autonomy than workflows, and can make decisions about the tools they use and how to solve problems. You can still define the available toolset and guidelines for how agents behave.
+Agents are typically implemented as an LLM performing actions using [tools](/oss/langchain/tools). They operate in continuous feedback loops, and are used in situations where problems and solutions are unpredictable. Agents have more autonomy than workflows, and can make decisions about the tools they use and how to solve problems. You can still define the available toolset and guidelines for how agents behave.
 
 ![agent.png](/oss/images/agent.png)
+
+<Note>
+To get started with agents, see the [quickstart](/oss/langchain/quickstart) or read more about [how they work](/oss/langchain/agents) in LangChain.
+</Note>
 
 :::python
 ```python Using tools
@@ -1898,11 +1850,9 @@ tools = [add, multiply, divide]
 tools_by_name = {tool.name: tool for tool in tools}
 llm_with_tools = llm.bind_tools(tools)
 ```
-### Additional code examples
 
-<Tabs>
-<Tab title="Graph API">
-```python
+<CodeGroup>
+```python Graph API
 from langgraph.graph import MessagesState
 from langchain_core.messages import SystemMessage, HumanMessage, ToolMessage
 
@@ -1981,9 +1931,7 @@ messages = agent.invoke({"messages": messages})
 for m in messages["messages"]:
     m.pretty_print()
 ```
-</Tab>
-<Tab title="Functional API">
-```python
+```python Functional API
 from langgraph.graph import add_messages
 from langchain_core.messages import (
     SystemMessage,
@@ -2038,8 +1986,7 @@ for chunk in agent.stream(messages, stream_mode="updates"):
     print(chunk)
     print("\n")
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 :::
 
 :::js
@@ -2095,10 +2042,9 @@ const tools = [add, multiply, divide];
 const toolsByName = Object.fromEntries(tools.map((tool) => [tool.name, tool]));
 const llmWithTools = llm.bindTools(tools);
 ```
-### Additional code examples
-<Tabs>
-<Tab title="Graph API">
-```typescript
+
+<CodeGroup>
+```typescript Graph API
 import { MessagesAnnotation, StateGraph } from "@langchain/langgraph";
 import { ToolNode } from "@langchain/langgraph/prebuilt";
 import {
@@ -2163,9 +2109,7 @@ const messages = [{
 const result = await agentBuilder.invoke({ messages });
 console.log(result.messages);
 ```
-</Tab>
-<Tab title="Functional API">
-```typescript
+```typescript Functional API
 import { task, entrypoint, addMessages } from "@langchain/langgraph";
 import { BaseMessageLike, ToolCall } from "@langchain/core/messages";
 
@@ -2224,10 +2168,5 @@ for await (const step of stream) {
   console.log(step);
 }
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 :::
-
-<Note>
-To get started with agents, see the [quickstart](/oss/langchain-quickstart) or read more about [how they work](/oss/langchain-agents) in LangChain.
-</Note>
