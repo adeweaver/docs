@@ -10,7 +10,7 @@ Writer's [context-aware splitting endpoint](https://dev.writer.com/api-guides/to
 
 ### Integration details
 
-| Class                                                                                                            | Package                                                        | Local | Serializable | JS support |                                        Package downloads                                         |                                        Package latest                                         |
+| Class                                                                                                            | Package                                                        | Local | Serializable | JS support |                                        Downloads                                         |                                        Version                                         |
 |:-----------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------|:-----:|:------------:|:----------:|:------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------:|
 | [WriterTextSplitter](https://github.com/writer/langchain-writer/blob/main/langchain_writer/text_splitter.py#L11) | [langchain-writer](https://pypi.org/project/langchain-writer/) |   ❌   |      ❌       |     ❌      | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-writer?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-writer?style=flat-square&label=%20) |
 
