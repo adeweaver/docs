@@ -94,7 +94,7 @@
 
   // File associations
   "files.associations": {
-    "*.mdx": "mdx"
+    "*.mdx": "markdown"
   },
 
   // Disable minimap for documentation files
