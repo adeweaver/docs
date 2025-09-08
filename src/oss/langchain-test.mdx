@@ -5,19 +5,19 @@ title: Test
 Agentic applications let an LLM decide its own next steps to solve a problem. That flexibility is powerful, but the model's black-box nature makes it hard to predict how a tweak in one part of your agent will affect the rest. To build production-ready agents, thorough testing is essential.
 
 There are a few approaches we will cover to test your agents:
-- **Unit tests** exercise small, deterministic pieces of your agent in isolation using in-memory fakes so you can assert exact behavior quickly and cheaply.
-- **Integration tests** validate how components interact under real conditions, testing the agent using real network calls (live LLM endpoints, retrievers, and external APIs) to confirm that components work together, credentials and schemas line up, and latency is acceptable.
+- [Unit tests](#unit-testing) exercise small, deterministic pieces of your agent in isolation using in-memory fakes so you can assert exact behavior quickly and deterministically.
+- [Integration tests](#integration-testing) test the agent using real network calls to confirm that components work together, credentials and schemas line up, and latency is acceptable.
 
-Agentic applications tend to lean more on integration because they chain multiple components together and must deal with the nondeterministic nature of LLMs, where outputs can vary across runs. To keep these tests cost-effective, we will also cover how to record and replay responses (see [Caching](#caching)).
+Agentic applications tend to lean more on integration because they chain multiple components together and must deal with flakiness due to the nondeterministic nature of LLMs.
 
-## Unit testing
+## Unit Testing
+
+### Mocking Chat Model
 
 For logic not requiring API calls, you can use an in-memory stub for mocking responses.
 
 :::python
-LangChain provides `GenericFakeChatModel` for mocking text responses. It accepts an iterator of responses and returns one per invocation. It supports both regular and streaming usage.
-
-### Basic invocation
+LangChain provides [`GenericFakeChatModel`](https://python.langchain.com/api_reference/core/language_models/langchain_core.language_models.fake_chat_models.GenericFakeChatModel.html) for mocking text responses. It accepts an iterator of responses and returns one per invocation. It supports both regular and streaming usage.
 
 ```python
 from langchain_core.language_models.fake_chat_models import GenericFakeChatModel
@@ -35,10 +35,7 @@ model.invoke("hello, again!")
 # AIMessage(content='bar', additional_kwargs={}, response_metadata={}, id='lc_run--...')
 ```
 
-### Agent with fake model
-
-We can pre-load three responses into the model and test 
-
+<Accordion title="Agent with GenericFakeChatModel">
 ```python
 from langchain_core.language_models.fake_chat_models import GenericFakeChatModel
 from langchain.agents import create_agent
@@ -58,44 +55,46 @@ def test_prompt_formatting():
     ]})
     assert result["messages"][-1].content_blocks == [{'type': 'text', 'text': 'bar'}]
 ```
+</Accordion>
 :::
 
 :::js
-LangChain provides `FakeChatModel` for mocking text responses. It accepts an array of responses and returns one per invocation.
+LangChain provides [`FakeListChatModel`](https://v03.api.js.langchain.com/classes/_langchain_core.utils_testing.FakeListChatModel.html) for mocking text responses. It accepts an array of responses and returns one per invocation.
 
-### Agent with fake model
+```ts
+import { FakeListChatModel } from "@langchain/core/utils/testing";
 
-We can pre-load responses into the model and test:
+const model = new FakeListChatModel({ responses: ["foo", "bar"] })
 
-```typescript
-import { FakeChatModel } from "@langchain/core/utils/testing";
-import { createAgent } from "langchain";
-
-const model = new FakeChatModel({
-  responses: ["foo", "bar"]
-});
-
-const agent = createAgent({
-  llm: model,
-  tools: [],
-  prompt: "Echo: {input}"
-});
-
-async function testPromptFormatting() {
-  const result = await agent.invoke({
-    messages: [{ role: "user", content: "hello" }]
-  });
-  expect(result.messages[result.messages.length - 1].contentBlocks).toBe([{type: "text", text: "foo"}]);
-
-  const result2 = await agent.invoke({
-    messages: [{ role: "user", content: "hello, again!" }]
-  });
-  expect(result2.messages[result2.messages.length - 1].contentBlocks).toBe([{type: "text", text: "bar"}]);
-}
+await model.invoke("hello")
+# AIMessage {
+#   "content": "foo",
+#   "additional_kwargs": {},
+#   "response_metadata": {},
+#   "id": "lc_run--..."
+# }
 ```
+
+If we invoke the model again, it will return the next item in the list:
+
+```ts
+await model.invoke("hello, again!")
+# AIMessage {
+#   "content": "bar",
+#   "additional_kwargs": {},
+#   "response_metadata": {},
+#   "id": "lc_run--..."
+# }
+```
+
+<Accordion title="Agent with FakeChatModel">
+```ts
+// TODO
+```
+</Accordion>
 :::
 
-### Testing stateful logic
+### InMemorySaver Checkpointer
 
 You can simulate multiple turns to test state-dependent behavior, such as switching models based on conversation length.
 
@@ -139,64 +138,30 @@ def test_model_switching():
 :::
 
 :::js
-```typescript
-import { FakeChatModel } from "@langchain/core/utils/testing";
-import { createAgent } from "langchain"
-import { AIMessage } from "@langchain/core/messages";
-import { MemorySaver } from "@langchain/langgraph";
-
-const smallModel = new FakeChatModel({
-  responses: Array(3).fill("small response")
-});
-
-const largeModel = new FakeChatModel({
-  responses: ["large response"]
-});
-
-function chooseModel(state: any): any {
-  const messages = state.messages;
-  const aiMessageCount = messages.filter((m: any) => m instanceof AIMessage).length;
-
-  console.log(messages);
-  console.log(aiMessageCount);
-
-  return aiMessageCount > 2 ? largeModel : smallModel;
-}
-
-const agent = createAgent({
-  llm: chooseModel,
-  tools: [],
-  checkpointer: new MemorySaver()
-});
-
-async function testModelSwitching() {
-  // Simulate 4 conversation turns
-  for (let i = 0; i < 4; i++) {
-    const result = await agent.invoke(
-      { messages: [{ role: "user", content: `message ${i}` }] },
-      { configurable: { thread_id: "1" } }
-    );
-  }
-  
-  expect(result.messages[result.messages.length - 1].contentBlocks).toBe([{type: "text", text: "large response"}]);
-}
+```ts
+// TODO
 ```
 :::
 
-## Integration testing
+## Integration Testing
 
-Many agent behaviors only emerge when using a real LLM, such as which tool the agent decides to call, how it formats responses, or whether a prompt modification affects the entire execution trajectory. LangChain offers an [`agentevals`](https://github.com/langchain-ai/agentevals) package that provides evaluators specifically designed for testing agent trajectories with live models.
+Many agent behaviors only emerge when using a real LLM, such as which tool the agent decides to call, how it formats responses, or whether a prompt modification affects the entire execution trajectory. LangChain's [`agentevals`](https://github.com/langchain-ai/agentevals) package that provides evaluators specifically designed for testing agent trajectories with live models.
 
-AgentEvals lets you easily evaluate the trajectory of your agent (i.e. the agent's message history) by performing a **trajectory match** or by using an **LLM judge**:
+AgentEvals lets you easily evaluate the trajectory of your agent (the exact sequence of messages, including tool calls) by performing a **trajectory match** or by using an **LLM judge**:
 
 <Card title="Trajectory match" icon="equals" arrow="true" href="#trajectory-match-evaluator">
+Hard-code a reference trajectory for a given input and validate the run via a step-by-step comparison.
+
 Ideal for testing well-defined workflows where you know the expected behavior. Use when you have specific expectations about which tools should be called and in what order. This approach is deterministic, fast, and cost-effective since it doesn't require additional LLM calls.
 </Card>
+
 <Card title="LLM-as-judge" icon="gavel" arrow="true" href="#llm-as-judge-evaluator">
-More flexible and can assess nuanced aspects like efficiency and appropriateness, but requires an LLM API call and is less deterministic. Use when you want to evaluate the overall quality and reasonableness of the agent's trajectory without strict tool call or ordering requirements.
+Use a LLM to qualitatively validate your agent's execution trajectory. The "judge" LLM reviews the agent's decisions against a prompt rubric (which can include a reference trajectory).
+
+More flexible and can assess nuanced aspects like efficiency and appropriateness, but requires an LLM call and is less deterministic. Use when you want to evaluate the overall quality and reasonableness of the agent's trajectory without strict tool call or ordering requirements.
 </Card>
 
-### Installing agentevals
+### Installing AgentEvals
 
 :::python
 ```bash
@@ -210,9 +175,9 @@ npm install agentevals @langchain/core
 ```
 :::
 
-Or, clone the [AgentEvals repo](https://github.com/langchain-ai/agentevals) directly.
+Or, clone the [AgentEvals repository](https://github.com/langchain-ai/agentevals) directly.
 
-### Trajectory match evaluator
+### Trajectory Match Evaluator
 
 :::python
 AgentEvals offers the `create_trajectory_match_evaluator` function to match your agent's trajectory against a reference trajectory. There are four modes to choose from:
@@ -278,7 +243,7 @@ def test_weather_tool_called_strict():
 :::
 
 :::js
-```typescript highlight={25-27}
+```ts highlight={25-27}
 import { createAgent } from "langchain"
 import { tool } from "@langchain/core/tools";
 import { HumanMessage, AIMessage, ToolMessage } from "@langchain/core/messages";
@@ -400,7 +365,7 @@ def test_multiple_tools_any_order():
 :::
 
 :::js
-```typescript highlight={34-36}
+```ts highlight={34-36}
 import { createAgent } from "langchain"
 import { tool } from "@langchain/core/tools";
 import { HumanMessage, AIMessage, ToolMessage } from "@langchain/core/messages";
@@ -535,7 +500,7 @@ def test_agent_calls_required_tools_plus_extra():
 :::
 
 :::js
-```typescript highlight={34-36}
+```ts highlight={34-36}
 import { createAgent } from "langchain"
 import { tool } from "@langchain/core/tools";
 import { HumanMessage, AIMessage, ToolMessage } from "@langchain/core/messages";
@@ -612,14 +577,14 @@ async function testAgentCallsRequiredToolsPlusExtra() {
 
 <Info>
 :::python
-You can also set the `tool_args_match_mode` property and/or `tool_args_match_overrides` to customize how the evaluator considers equality between tool calls in the actual trajectory vs. the reference. By default, only tool calls with the same arguments to the same tool are considered equal. Visit the [repo](https://github.com/langchain-ai/agentevals?tab=readme-ov-file#tool-args-match-modes) for more details. 
+You can also set the `tool_args_match_mode` property and/or `tool_args_match_overrides` to customize how the evaluator considers equality between tool calls in the actual trajectory vs. the reference. By default, only tool calls with the same arguments to the same tool are considered equal. Visit the [repository](https://github.com/langchain-ai/agentevals?tab=readme-ov-file#tool-args-match-modes) for more details. 
 :::
 :::js
-You can also set the `toolArgsMatchMode` property and/or `toolArgsMatchOverrides` to customize how the evaluator considers equality between tool calls in the actual trajectory vs. the reference. By default, only tool calls with the same arguments to the same tool are considered equal. Visit the [repo](https://github.com/langchain-ai/agentevals?tab=readme-ov-file#tool-args-match-modes) for more details.
+You can also set the `toolArgsMatchMode` property and/or `toolArgsMatchOverrides` to customize how the evaluator considers equality between tool calls in the actual trajectory vs. the reference. By default, only tool calls with the same arguments to the same tool are considered equal. Visit the [repository](https://github.com/langchain-ai/agentevals?tab=readme-ov-file#tool-args-match-modes) for more details.
 :::
 </Info>
 
-### LLM-as-judge evaluator
+### LLM-as-Judge Evaluator
 
 :::python
 You can also use an LLM to evaluate the agent's execution path with the `create_trajectory_llm_as_judge` function. Unlike the trajectory match evaluators, it doesn't require a reference trajectory, but one can be provided if available.
@@ -666,7 +631,7 @@ def test_trajectory_quality():
 ```
 
 :::js
-```typescript highlight={23-26}
+```ts highlight={23-26}
 import { createAgent } from "langchain"
 import { tool } from "@langchain/core/tools";
 import { HumanMessage, AIMessage, ToolMessage } from "@langchain/core/messages";
@@ -732,7 +697,7 @@ evaluation = judge_with_reference(
 :::
 
 :::js
-```typescript
+```ts
 import { TRAJECTORY_ACCURACY_PROMPT_WITH_REFERENCE } from "agentevals";
 
 const evaluator = createTrajectoryLLMAsJudge({
@@ -750,11 +715,11 @@ const evaluation = await evaluator({
 </Accordion>
 
 <Info>
-For more configurability over how the LLM evaluates the trajectory, visit the [repo](https://github.com/langchain-ai/agentevals?tab=readme-ov-file#trajectory-llm-as-judge).
+For more configurability over how the LLM evaluates the trajectory, visit the [repository](https://github.com/langchain-ai/agentevals?tab=readme-ov-file#trajectory-llm-as-judge).
 </Info>
 
 :::python
-### Async support
+### Async Support
 
 All `agentevals` evaluators support Python asyncio. For evaluators that use factory functions, async versions are available by adding `async` after `create_` in the function name.
 
@@ -786,7 +751,7 @@ async def test_async_evaluation():
 
 :::
 
-## LangSmith integration
+## LangSmith Integration
 
 For tracking experiments over time, you can log evaluator results to [LangSmith](https://smith.langchain.com/), a platform for building production-grade LLM applications that includes tracing, evaluation, and experimentation tools.
 
@@ -887,9 +852,9 @@ To learn more about evaluating your agent, see the [LangSmith docs](/langsmith/p
 :::js
 LangSmith offers two main approaches for running evaluations: [Vitest/Jest](/langsmith/vitest-jest) integration and the `evaluate` function.
 
-### Using Vitest/Jest integration
+<Accordion title="Using vitest/jest integration">
 
-```typescript
+```ts
 import * as ls from "langsmith/vitest";
 // import * as ls from "langsmith/jest";
 
@@ -950,11 +915,13 @@ vitest run test_trajectory.eval.ts
 jest test_trajectory.eval.ts
 ```
 
-### Using the evaluate function
+</Accordion>
+
+<Accordion title="Using the evaluate function">
 
 Alternatively, you can create a dataset in LangSmith and use the `evaluate` function:
 
-```typescript
+```ts
 import { evaluate } from "langsmith/evaluation";
 import { createTrajectoryLLMAsJudge, TRAJECTORY_ACCURACY_PROMPT } from "agentevals";
 
@@ -979,12 +946,14 @@ await evaluate(
 
 Results will be automatically logged to LangSmith.
 
+</Accordion>
+
 <Tip>
-To learn more about evaluating your agent with LangSmith, see the [LangSmith docs](/langsmith/vitest-jest).
+To learn more about evaluating your agent, see the [LangSmith docs](/langsmith/vitest-jest).
 </Tip>
 :::
 
-## Caching
+## Recording & Replaying HTTP Calls
 
 Integration tests that call real LLM APIs can be slow and expensive, especially when run frequently in CI/CD pipelines. We recommend using a library for recording HTTP requests and responses, then replaying them in subsequent runs without making actual network calls.
 
