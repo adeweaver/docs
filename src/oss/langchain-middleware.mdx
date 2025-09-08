@@ -54,7 +54,7 @@ Each middleware can add in three different types of modifiers:
 :::
 
 :::python
-An agent can contain multiple middleware. Each middleware does not need to implement all three of `before_model`, `modify_model_request`, `after_model`.
+An agent can contain `before_model`, `modify_model_request`, or `after_model` middleware. All three do not need to be implemented.
 :::
 :::js
 An agent can contain multiple middleware. Each middleware does not need to implement all three of `beforeModel`, `modifyModelRequest`, `afterModel`.
