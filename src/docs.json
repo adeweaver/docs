@@ -686,11 +686,15 @@
                           "langsmith/trace-with-langgraph",
                           "langsmith/trace-anthropic",
                           "langsmith/trace-openai",
+                          "langsmith/trace-with-autogen",
+                          "langsmith/trace-claude-code",
+                          "langsmith/trace-with-crewai",
+                          "langsmith/trace-with-google-adk",
                           "langsmith/trace-with-instructor",
-                          "langsmith/trace-with-vercel-ai-sdk",
-                          "langsmith/trace-with-opentelemetry",
                           "langsmith/trace-with-openai-agents-sdk",
-                          "langsmith/trace-claude-code"
+                          "langsmith/trace-with-opentelemetry",
+                          "langsmith/trace-with-semantic-kernel",
+                          "langsmith/trace-with-vercel-ai-sdk"
                         ]
                       },
                       {
@@ -1697,11 +1701,15 @@
                           "langsmith/trace-with-langgraph",
                           "langsmith/trace-anthropic",
                           "langsmith/trace-openai",
+                          "langsmith/trace-with-autogen",
+                          "langsmith/trace-claude-code",
+                          "langsmith/trace-with-crewai",
+                          "langsmith/trace-with-google-adk",
                           "langsmith/trace-with-instructor",
-                          "langsmith/trace-with-vercel-ai-sdk",
-                          "langsmith/trace-with-opentelemetry",
                           "langsmith/trace-with-openai-agents-sdk",
-                          "langsmith/trace-claude-code"
+                          "langsmith/trace-with-opentelemetry",
+                          "langsmith/trace-with-semantic-kernel",
+                          "langsmith/trace-with-vercel-ai-sdk"
                         ]
                       },
                       {
