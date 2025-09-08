@@ -42,7 +42,7 @@ export LANGSMITH_PROJECT=<your_project_name>
 
 ### 2. Configure OpenTelemetry integration
 
-In your Google ADK application, import and configure the LangSmith OpenTelemetry integration:
+In your Google ADK application, import and configure the LangSmith OpenTelemetry integration. This will automatically instrument Google ADK spans for OpenTelemetry.
 
 ```python
 from langsmith.integrations.otel import configure
@@ -51,7 +51,7 @@ from langsmith.integrations.otel import configure
 configure(project_name="adk-example")  # Optional: can also use environment variables
 ```
 
-Alternatively, you can use the direct GoogleADKInstrumentor for more explicit control:
+Alternatively, you can use the Openinference GoogleADKInstrumentor
 
 ```python
 from langsmith.integrations.otel import configure
