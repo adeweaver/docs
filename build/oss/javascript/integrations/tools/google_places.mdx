@@ -1,0 +1,31 @@
+---
+title: Google Places Tool
+---
+
+The Google Places Tool allows your agent to utilize the Google Places API in order to find addresses,
+phone numbers, website, etc. from text about a location listed on Google Places.
+
+## Setup
+
+You will need to get an API key from [Google here](https://developers.google.com/maps/documentation/places/web-service/overview)
+and [enable the new Places API](https://console.cloud.google.com/apis/library/places.googleapis.com). Then, set your API key
+as `process.env.GOOGLE_PLACES_API_KEY` or pass it in as an `apiKey` constructor argument.
+
+## Usage
+
+import IntegrationInstallTooltip from '/snippets/javascript-integrations/integration-install-tooltip.mdx';
+
+<IntegrationInstallTooltip/>
+
+```bash npm
+npm install @langchain/openai @langchain/community @langchain/core
+```
+
+import GooglePlaces from "/snippets/javascript-integrations/examples/tools/google_places.mdx";
+
+<GooglePlaces />
+
+## Related
+
+- Tool [conceptual guide](/oss/javascript/concepts/tools)
+- Tool [how-to guides](/oss/javascript/how-to/#tools)
