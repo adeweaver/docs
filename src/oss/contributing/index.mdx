@@ -16,7 +16,6 @@ Being in a rapidly developing field, we are extremely open to contributions to o
         <Steps>
             <Step title="Search">
                 Check if the issue already exists in our GitHub Issues for the respective repo:
-                {/* TODO fix the icon backgrounds and fill colors to respect theme */}
                 :::python
                 <Columns cols={2}>
                     <Card title="LangChain" icon="link" href="https://github.com/langchain-ai/langchain" />
@@ -37,6 +36,12 @@ Being in a rapidly developing field, we are extremely open to contributions to o
                 A project maintainer will triage the issue and may ask for additional information. Please be patient as we manage a high volume of issues.
             </Step>
         </Steps>
+
+        If you are adding an issue, please try to keep it focused on a single topic. If two issues are related, or blocking, please link them rather than combining them. For example,
+
+        ```text
+        This issue is blocked by #123 and related to #456.
+        ```
     </Accordion>
 
     <Accordion title="Suggest features" icon="wand-magic-sparkles">
@@ -70,6 +75,26 @@ Being in a rapidly developing field, we are extremely open to contributions to o
         With a large userbase, it can be hard for our small team to keep up with all the feature requests and bug fixes. If you have the skills and time, we would love your help!
 
         <Card title="How to make your first PR" href="/oss/contributing/code" arrow />
+
+        If you start working on an issue, please assign it to yourself or ask a maintainer to do so. This helps avoid duplicate work.
+
+        If you are looking for something to work on, check out the issues labeled "good first issue" or "help wanted" in our GitHub repos:
+
+        :::python
+        <Columns cols={2}>
+            <Card title="LangChain" icon="link" href="https://github.com/langchain-ai/langchain/labels" />
+            <Card title="LangGraph" icon="circle-nodes" href="https://github.com/langchain-ai/langgraph/labels" />
+        </Columns>
+        :::
+        :::js
+        <Columns cols={2}>
+            <Card title="LangChain" icon="link" href="https://github.com/langchain-ai/langchainjs/labels" />
+            <Card title="LangGraph" icon="circle-nodes" href="https://github.com/langchain-ai/langgraphjs/labels" />
+        </Columns>
+        :::
+    </Accordion>
+    <Accordion title="Add a new integration" icon="plug-circle-plus">
+        TODO
     </Accordion>
 </AccordionGroup>
 

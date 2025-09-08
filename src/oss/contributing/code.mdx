@@ -484,7 +484,9 @@ For bugfix contributions:
 
 ### New features
 
-Feature contribution requirements:
+We aim to keep the bar high for new features. We generally don't accept new core abstractions, changes to infra, changes to dependencies, or new agents/chains from outside contributors without an existing forum post discussion or issue that demonstrates an acute need for them.
+
+In general, feature contribution requirements include:
 
 <Steps>
     <Step title="Design discussion">
@@ -505,8 +507,11 @@ Feature contribution requirements:
         - How does this interact with existing features?
         - Are there performance implications?
         - Does this introduce new dependencies?
+
+        We will reject features that are likely to lead to security vulnerabilities or reports.
     </Step>
 </Steps>
+
 
 ### Security guidelines
 
@@ -606,6 +611,10 @@ Before submitting your PR:
         All type hints must be valid
     </Step>
     :::
+
+    <Step title="PR submission">
+        Push your branch and open a pull request. Follow the provided form template. Note related issues using [closing keywords](https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword). After submitting, wait, and check to ensure the CI checks pass. If any checks fail, address the issues promptly - maintainers may close PRs that do not pass CI within a reasonable timeframe.
+    </Step>
 </Steps>
 
 ### Test writing guidelines
