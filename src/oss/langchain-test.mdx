@@ -60,14 +60,14 @@ agent = create_agent(
 # First invocation
 agent.invoke(HumanMessage(content="I live in Sydney, Australia."))
 
-# Second invocation: the first message is peristed (Sydney location), so the model returns GMT+10 time
+# Second invocation: the first message is persisted (Sydney location), so the model returns GMT+10 time
 agent.invoke(HumanMessage(content="What's my local time?"))
 ```
 :::
 
 ## Integration Testing
 
-Many agent behaviors only emerge when using a real LLM, such as which tool the agent decides to call, how it formats responses, or whether a prompt modification affects the entire execution trajectory. LangChain's [`agentevals`](https://github.com/langchain-ai/agentevals) package that provides evaluators specifically designed for testing agent trajectories with live models.
+Many agent behaviors only emerge when using a real LLM, such as which tool the agent decides to call, how it formats responses, or whether a prompt modification affects the entire execution trajectory. LangChain's [`agentevals`](https://github.com/langchain-ai/agentevals) package provides evaluators specifically designed for testing agent trajectories with live models.
 
 AgentEvals lets you easily evaluate the trajectory of your agent (the exact sequence of messages, including tool calls) by performing a **trajectory match** or by using an **LLM judge**:
 
