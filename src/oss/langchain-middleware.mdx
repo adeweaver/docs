@@ -642,6 +642,10 @@ const result = await agent.invoke({
 
 ### Context Extension
 
+<Note>
+This is currently only available in JS.
+</Note>
+
 Context properties are configuration values passed through the runnable config. Unlike state, context is read-only and typically used for configuration that doesn't change during execution.
 
 :::js
@@ -689,16 +693,24 @@ from langchain.agents.middleware import AgentMiddleware
 from langchain_core.messages import HumanMessage
 from typing import Any, Dict
 
+class Middleware1State(AgentState):
+    prop_1: str
+    shared_prop: int
+
+class Middleware2State(AgentState):
+    prop_2: bool
+    shared_prop: int
+
 class Middleware1(AgentMiddleware):
     def before_model(self, state: Dict[str, Any]) -> Dict[str, Any] | None:
         # Access prop1 and sharedProp from state
-        print(f"Middleware1: prop1={state.get('prop1')}, sharedProp={state.get('sharedProp')}")
+        print(f"Middleware1: prop1={state.get('prop_1')}, sharedProp={state.get('shared_prop')}")
         return None
 
 class Middleware2(AgentMiddleware):
     def before_model(self, state: Dict[str, Any]) -> Dict[str, Any] | None:
         # Access prop2 and sharedProp from state
-        print(f"Middleware2: prop2={state.get('prop2')}, sharedProp={state.get('sharedProp')}")
+        print(f"Middleware2: prop2={state.get('prop_2')}, sharedProp={state.get('shared_prop')}")
         return None
 
 agent = create_agent(
@@ -706,14 +718,6 @@ agent = create_agent(
     tools=[],
     middleware=[Middleware1(), Middleware2()],
 )
-
-# Must provide all required properties
-result = agent.invoke({
-    "messages": [HumanMessage("Hello")],
-    "prop1": "value1",  # Required by middleware1
-    "prop2": True,  # Required by middleware2
-    "sharedProp": 42,  # Required by both
-})
 ```
 :::
 
