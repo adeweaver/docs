@@ -1,0 +1,40 @@
+---
+title: MISSING_CHECKPOINTER
+---
+
+import AlphaCallout from "/snippets/alpha-lg-callout.mdx";
+
+<AlphaCallout />
+
+You are attempting to use built-in LangGraph persistence without providing a checkpointer.
+
+This happens when `checkpointer` is missing in `compile()` method of [`StateGraph`](https://langchain-ai.github.io/langgraph/reference/graphs/#langgraph.graph.StateGraph) or [`entrypoint`](https://langchain-ai.github.io/langgraph/reference/func/#langgraph.func.entrypoint).
+
+## Troubleshooting
+
+The following may help resolve this error:
+
+-   Initialize and pass a checkpointer to `compile()` method of [`StateGraph`](https://langchain-ai.github.io/langgraph/reference/graphs/#langgraph.graph.StateGraph) or [`entrypoint`](https://langchain-ai.github.io/langgraph/reference/func/#langgraph.func.entrypoint).
+
+```python
+from langgraph.checkpoint.memory import InMemorySaver
+checkpointer = InMemorySaver()
+
+# Graph API
+graph = StateGraph(...).compile(checkpointer=checkpointer)
+
+# Functional API
+@entrypoint(checkpointer=checkpointer)
+def workflow(messages: list[str]) -> str:
+    ...
+```
+
+
+
+
+
+-   Use LangGraph API. When using the LangGraph API, you don't need to implement or configure checkpointers manually. The API handles all persistence infrastructure for you behind the scenes.
+
+## Related
+
+- Read more about [persistence](/oss/python/langgraph/persistence).
