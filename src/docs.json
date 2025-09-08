@@ -160,7 +160,8 @@
                       "oss/python/langchain-human-in-the-loop",
                       "oss/python/langchain-multi-agent",
                       "oss/python/langchain-retrieval",
-                      "oss/python/langchain-runtime"
+                      "oss/python/langchain-runtime",
+                      "oss/python/langchain-middleware"
                     ]
                   },
                   {
@@ -686,11 +687,15 @@
                           "langsmith/trace-with-langgraph",
                           "langsmith/trace-anthropic",
                           "langsmith/trace-openai",
+                          "langsmith/trace-with-autogen",
+                          "langsmith/trace-claude-code",
+                          "langsmith/trace-with-crewai",
+                          "langsmith/trace-with-google-adk",
                           "langsmith/trace-with-instructor",
-                          "langsmith/trace-with-vercel-ai-sdk",
-                          "langsmith/trace-with-opentelemetry",
                           "langsmith/trace-with-openai-agents-sdk",
-                          "langsmith/trace-claude-code"
+                          "langsmith/trace-with-opentelemetry",
+                          "langsmith/trace-with-semantic-kernel",
+                          "langsmith/trace-with-vercel-ai-sdk"
                         ]
                       },
                       {
@@ -1164,7 +1169,8 @@
                       "oss/javascript/langchain-human-in-the-loop",
                       "oss/javascript/langchain-multi-agent",
                       "oss/javascript/langchain-retrieval",
-                      "oss/javascript/langchain-runtime"
+                      "oss/javascript/langchain-runtime",
+                      "oss/javascript/langchain-middleware"
                     ]
                   },
                   {
@@ -1697,11 +1703,15 @@
                           "langsmith/trace-with-langgraph",
                           "langsmith/trace-anthropic",
                           "langsmith/trace-openai",
+                          "langsmith/trace-with-autogen",
+                          "langsmith/trace-claude-code",
+                          "langsmith/trace-with-crewai",
+                          "langsmith/trace-with-google-adk",
                           "langsmith/trace-with-instructor",
-                          "langsmith/trace-with-vercel-ai-sdk",
-                          "langsmith/trace-with-opentelemetry",
                           "langsmith/trace-with-openai-agents-sdk",
-                          "langsmith/trace-claude-code"
+                          "langsmith/trace-with-opentelemetry",
+                          "langsmith/trace-with-semantic-kernel",
+                          "langsmith/trace-with-vercel-ai-sdk"
                         ]
                       },
                       {

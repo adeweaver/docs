@@ -756,7 +756,7 @@ is a good general purpose solution, but comes with some trade-offs:
 
 Another common approach is a two-step chain, in which we always run a search (potentially using the raw
 user query) and incorporate the result as context for a single LLM query. This results in a single
-inference all per query, buying reduced latency at the expense of flexibility.
+inference call per query, buying reduced latency at the expense of flexibility.
 
 In this approach we no longer call the model in a loop, but instead make a single pass. We can implement
 this chain by removing tools from the agent and instead incorporating the retrieval step into a custom
