@@ -140,7 +140,7 @@ As such, when middleware are used, there are some restrictions on the arguments 
 - `postModelHook` must not be provided. Use `AgentMiddleware.afterModel` instead.
 :::
 
-## Built-in Middleware
+## Built-in middleware
 
 LangChain provides several built in middleware to use off-the-shelf
 
@@ -152,7 +152,7 @@ LangChain provides several built in middleware to use off-the-shelf
 
 The `summarizationMiddleware` automatically manages conversation history by summarizing older messages when token limits are approached. This middleware monitors the total token count of messages and creates concise summaries to preserve context while staying within model limits.
 
-**Key Features:**
+**Key keatures:**
 
 - Automatic token counting and threshold monitoring
 - Intelligent message partitioning that preserves AI/Tool message pairs
@@ -204,7 +204,7 @@ const agent = createAgent({
 ```
 :::
 
-**Configuration Options:**
+**Configuration options:**
 
 - `model`: Language model to use for generating summaries (required)
 - `maxTokensBeforeSummary`: Token threshold that triggers summarization
@@ -223,14 +223,14 @@ The middleware ensures tool call integrity by:
 
 The `humanInTheLoopMiddleware` enables human oversight and intervention for tool calls made by AI agents. This middleware intercepts tool executions and allows human operators to approve, modify, reject, or manually respond to tool calls before they execute.
 
-**Key Features:**
+**Key features:**
 
 - Selective tool approval based on configuration
 - Multiple response types (accept, edit, ignore, response)
 - Asynchronous approval workflow using LangGraph interrupts
 - Custom approval messages with contextual information
 
-**Use Cases:**
+**Use cases:**
 
 - High-stakes operations requiring human approval (database writes, file system changes)
 - Quality control and safety checks for AI actions
@@ -301,7 +301,7 @@ const agent = createAgent({
 ```
 :::
 
-**Handling Approval Requests:**
+**Handling approval requests:**
 
 When a tool requires approval, the agent execution pauses and waits for human input:
 
@@ -367,7 +367,7 @@ if (state.next?.length > 0) {
 ```
 :::
 
-**Response Types:**
+**Response types:**
 
 - `accept`: Execute the tool with original arguments
 - `edit`: Modify arguments before execution - `{ type: "edit", args: { action: "tool_name", args: { modified: "args" } } }`
@@ -578,7 +578,7 @@ function afterModel (state: AgentState): AgentUpdate | AgentJump | undefined {
 
 Middleware can extend the agent's state with custom properties, enabling rich data flow between middleware components and ensuring type safety throughout the agent execution.
 
-### State Extension
+### State extension
 
 Middleware can define additional state properties that persist throughout the agent's execution. These properties become part of the agent's state and are available to all hooks for said middleware.
 
@@ -639,7 +639,7 @@ const result = await agent.invoke({
 ```
 :::
 
-### Context Extension
+### Context extension
 
 <Note>
 This is currently only available in JavaScript.
@@ -682,7 +682,7 @@ await agent.invoke(
 ```
 :::
 
-### Combining Multiple Middleware
+### Combining multiple middleware
 
 When using multiple middleware, their state and context schemas are merged. All required properties from all middleware must be satisfied:
 
@@ -755,7 +755,7 @@ const result = await agent.invoke({
 ```
 :::
 
-### Agent-Level Context Schema
+### Agent-level context schema
 
 Agents can also define their own context requirements that combine with middleware requirements:
 
@@ -789,7 +789,7 @@ await agent.invoke(
 ```
 :::
 
-### Best Practices
+### Best practices
 
 1. **Use State for Dynamic Data**: Properties that change during execution (user session, accumulated data)
 2. **Use Context for Configuration**: Static configuration values (API keys, feature flags, limits)
@@ -830,7 +830,7 @@ You can provide multiple middlewares. They are executed in the following logic:
 **`afterModel`**: Are run in the _reverse_ order that they are passed in. If an earlier middleware exits early, then following middleware are not run
 :::
 
-## Agent Jumps
+## Agent jumps
 
 In order to **exit early**, you can add a `jump_to` key to the state update with one of the following values:
 
