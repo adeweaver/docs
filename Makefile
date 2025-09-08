@@ -1,4 +1,4 @@
-.PHONY: dev build format lint test install clean format_diff lint_diff unsafe_format lint_md lint_md_fix mint-broken-links mint-preview
+.PHONY: dev build format lint test install clean format_diff lint_diff unsafe_format lint_md lint_md_fix mint-broken-links
 
 dev:
 	@echo "Starting development mode..."
@@ -61,21 +61,16 @@ clean:
 	@find . -name "*.pyd" -delete
 	@find . -name "__pycache__" -type d -exec rm -rf {} +
 
-# Mintlify commands (run from src directory where docs.json is located)
+# Mintlify commands (run from build directory where final docs are generated)
 mint-broken-links:
 	@echo "Checking for broken links..."
-	@cd src && mint broken-links
-
-mint-preview:
-	@echo "Starting mint preview..."
-	@cd src && mint preview
+	@cd build && mint broken-links
 
 help:
 	@echo "Available commands:"
 	@echo "  make dev             - Start development mode with file watching and mint dev"
 	@echo "  make build           - Build documentation to ./build directory"
-	@echo "  make mint-broken-links - Check for broken links (safe, avoids .venv issues)"
-	@echo "  make mint-preview    - Start mint preview server (safe, avoids .venv issues)"
+	@echo "  make mint-broken-links - Check for broken links in built documentation"
 	@echo "  make format          - Format code"
 	@echo "  make lint            - Lint code"
 	@echo "  make lint_md         - Lint markdown files"

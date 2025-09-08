@@ -65,7 +65,7 @@ Makefile              # Build automation
 - **Only edit files in `src/`** - The `build/` directory is automatically generated
 - **Use Mintlify syntax** - See [Mintlify documentation](https://mintlify.com/docs) for formatting guidelines
 - **Test your changes** - Use `docs dev` to preview changes locally with hot reload (on save)
-- **Use safe Mintlify commands** - Use `make mint-broken-links` instead of `mint broken-links` to avoid .venv parsing errors
+- **Use safe Mintlify commands** - Use `make mint-broken-links` instead of `mint broken-links` to check final built documentation
 
 ### Available Commands
 
@@ -73,8 +73,7 @@ Makefile              # Build automation
 
 - `make dev` - Start development mode with file watching and live rebuild
 - `make build` - Build documentation to `./build` directory
-- `make mint-broken-links` - Check for broken links (safe, avoids .venv issues)
-- `make mint-preview` - Start mint preview server (safe, avoids .venv issues)
+- `make mint-broken-links` - Check for broken links in built documentation
 - `make install` - Install all dependencies
 - `make clean` - Remove build artifacts
 - `make test` - Run the test suite
@@ -209,15 +208,14 @@ Unable to parse .venv/lib/python3.13/site-packages/soupsieve-2.7.dist-info/licen
 1. **Use the safe Make commands** (recommended):
    ```bash
    make mint-broken-links  # Instead of 'mint broken-links'
-   make mint-preview      # Instead of 'mint preview'
    ```
 
-2. **Run Mintlify commands from the src directory**:
+2. **Run Mintlify commands from the build directory**:
    ```bash
-   cd src                 # Change to src directory where docs.json is
+   cd build               # Change to build directory where final docs are
    mint broken-links      # Now safe to run
    ```
 
-**Why this works**: The solution ensures Mintlify commands run from the `src/` directory where the docs.json file is located, which is the intended working directory. This avoids scanning the Python virtual environment in the project root.
+**Why this works**: The solution ensures Mintlify commands run from the `build/` directory where the final documentation is generated, which is the correct place to check for broken links. This avoids scanning the Python virtual environment in the project root.
 
 **Prevention**: Always use the provided Make commands instead of running raw `mint` commands from the project root.
