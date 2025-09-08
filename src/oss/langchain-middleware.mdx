@@ -2,7 +2,6 @@
 title: Middleware
 ---
 
-## Overview
 
 Middleware provides a way to more tightly control what happens inside the agent.
 
@@ -146,8 +145,8 @@ As such, when middleware are used, there are some restrictions on the arguments 
 LangChain provides several built in middleware to use off-the-shelf
 
 - [Summarization](#summarization)
-- [Human in the loop](#human-in-the-loop)
-- [Anthropic Prompt Caching](#anthropic-prompt-caching)
+- [Human-in-the-loop](#human-in-the-loop)
+- [Anthropic prompt caching](#anthropic-prompt-caching)
 
 ### Summarization
 
@@ -220,7 +219,7 @@ The middleware ensures tool call integrity by:
 2. Preserving the most recent messages for continuity
 3. Including previous summaries in new summarization cycles
 
-### Human in the loop
+### Human-in-the-loop
 
 The `humanInTheLoopMiddleware` enables human oversight and intervention for tool calls made by AI agents. This middleware intercepts tool executions and allows human operators to approve, modify, reject, or manually respond to tool calls before they execute.
 
@@ -384,7 +383,7 @@ if (state.next?.length > 0) {
 
 The middleware processes tool calls in order, bundling multiple approval requests into a single interrupt for efficiency. Tools not requiring approval execute immediately without interruption.
 
-### Anthropic Prompt Caching
+### Anthropic prompt caching
 
 `AnthropicPromptCachingMiddleware` is a middleware that enables you to enable Anthropic's native prompt caching.
 
@@ -643,7 +642,7 @@ const result = await agent.invoke({
 ### Context Extension
 
 <Note>
-This is currently only available in JS.
+This is currently only available in JavaScript.
 </Note>
 
 Context properties are configuration values passed through the runnable config. Unlike state, context is read-only and typically used for configuration that doesn't change during execution.
