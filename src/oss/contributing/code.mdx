@@ -31,6 +31,8 @@ LangChain follows these core principles for code contributions:
     </Card>
 </CardGroup>
 
+---
+
 ## Getting started
 
 ### Quick fix: submit a bugfix
@@ -40,23 +42,40 @@ For simple bugfixes, you can get started immediately:
 <Steps>
     <Step title="Fork the repository">
         :::python
-        Fork the [LangChain](https://github.com/langchain-ai/langchain) or [LangGraph](https://github.com/langchain-ai/langgraph) repo to your GitHub account
+        Fork the [LangChain](https://github.com/langchain-ai/langchain) or [LangGraph](https://github.com/langchain-ai/langgraph) repo to your personal GitHub account
         :::
         :::js
-        Fork the [LangChain](https://github.com/langchain-ai/langchainjs) or [LangGraph](https://github.com/langchain-ai/langgraphjs) repo to your GitHub account
+        Fork the [LangChain](https://github.com/langchain-ai/langchainjs) or [LangGraph](https://github.com/langchain-ai/langgraphjs) repo to your personal GitHub account
         :::
     </Step>
 
     <Step title="Clone and setup">
+        :::python
+
         ```bash
         git clone https://github.com/your-username/name-of-forked-repo.git
+
+        # For instance, for LangChain:
+        git clone https://github.com/parrot123/langchain.git
         ```
 
-        {/* TODO js */}
-        :::python
-        ```
-        # Inside your repo
+        ```bash
+        # Inside your repo, install dependencies
         uv sync --all-groups
+        ```
+        :::
+        :::js
+
+        ```bash
+        git clone https://github.com/your-username/name-of-forked-repo.git
+
+        # For instance, for LangChain:
+        git clone https://github.com/parrot123/langchainjs.git
+        ```
+
+        ```bash
+        # Inside your repo, install dependencies
+        yarn
         ```
         :::
     </Step>
@@ -116,6 +135,11 @@ For ongoing development or larger contributions:
     This project uses [`uv`](https://docs.astral.sh/uv/getting-started/installation/) for dependency management. Make sure you have the latest version of `uv` installed.
 </Warning>
 :::
+:::js
+<Warning>
+    This project uses [`yarn`](https://yarnpkg.com/) for dependency management. Make sure you have the latest version of `yarn` installed.
+</Warning>
+:::
 
 Set up your development environment:
 
@@ -123,19 +147,21 @@ Set up your development environment:
 <Tabs>
     <Tab title="Core packages">
         For changes to `langchain-core`:
+
         ```bash
         cd libs/core
         uv sync --all-groups
-        make test  # Ensure tests pass before developing
+        make test  # Ensure tests pass before starting development
         ```
     </Tab>
 
     <Tab title="Main package">
         For changes to `langchain`:
+
         ```bash
         cd libs/langchain
         uv sync --all-groups
-        make test  # Ensure tests pass before developing
+        make test  # Ensure tests pass before starting development
         ```
     </Tab>
 
@@ -144,7 +170,7 @@ Set up your development environment:
 
         ```bash
         cd libs/partners/langchain-{partner}
-        make test  # Ensure tests pass before developing
+        make test  # Ensure tests pass before starting development
         ```
     </Tab>
 
@@ -153,34 +179,50 @@ Set up your development environment:
 
 ## Repository structure
 
-{/* TODO LangGraph */}
-LangChain is organized as a monorepo with multiple packages:
+<Tabs>
+    <Tab title="LangChain" icon="link">
+        LangChain is organized as a monorepo with multiple packages:
 
-<AccordionGroup>
-    <Accordion title="Core packages" defaultOpen>
-        - **`langchain-core`**: Base interfaces and core abstractions
-        - **`langchain`**: Main package with chains, agents, and retrieval logic
-    </Accordion>
+        <AccordionGroup>
+            <Accordion title="Core packages" defaultOpen>
+                :::python
+                - **`langchain-core` (`libs/core/`)**: Base interfaces and core abstractions
+                - **`langchain` (`libs/langchain/`)**: Main package with chains, agents, and retrieval logic
+                :::
+                :::js
+                - **`langchain-core` (`langchain-core/`)**: Base interfaces and core abstractions
+                - **`langchain` (`langchain/`)**: Main package with chains, agents, and retrieval logic
+                :::
+            </Accordion>
 
-    <Accordion title="Partner packages">
-        Located in `libs/partners/`, these are independently versioned packages for specific integrations:
-        - **`langchain-openai`**: OpenAI integrations
-        - **`langchain-anthropic`**: Anthropic integrations
-        - **`langchain-google-genai`**: Google Generative AI integrations
-        - And many more.
+            <Accordion title="Partner packages">
 
-        <Important>
-            Many partner packages are in external repositories. Please check the [list of integrations](/oss/integrations/providers) for details.
-        </Important>
+                :::python
+                Located in `libs/partners/`, these are independently versioned packages for specific integrations. For example:
+                :::
+                :::js
+                Located in `libs/`, these are independently versioned packages for specific integrations. For example:
+                :::
+                - **`langchain-openai`**: OpenAI integrations
+                - **`langchain-anthropic`**: Anthropic integrations
+                - **`langchain-google-genai`**: Google Generative AI integrations
 
-    </Accordion>
+                Many partner packages are in external repositories. Please check the [list of integrations](/oss/integrations/providers) for details.
 
-    <Accordion title="Supporting packages">
-        - **`langchain-text-splitters`**: Text splitting utilities
-        - **`langchain-cli`**: Command line interface
-        - **`langchain-standard-tests`**: Standard test suites for integrations
-    </Accordion>
-</AccordionGroup>
+            </Accordion>
+
+            <Accordion title="Supporting packages">
+                - **`langchain-text-splitters`**: Text splitting utilities
+                - **`langchain-cli`**: Command line interface
+                - **`langchain-standard-tests`**: Standard test suites for integrations
+            </Accordion>
+        </AccordionGroup>
+    </Tab>
+    <Tab title="LangGraph" icon="circle-nodes">
+        WIP - coming soon!
+    </Tab>
+</Tabs>
+
 
 ## Development workflow
 
