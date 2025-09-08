@@ -164,6 +164,26 @@ The `summarizationMiddleware` automatically manages conversation history by summ
 - Long-running conversations that exceed token limits
 - Multi-turn dialogues with extensive context
 
+:::python
+```python
+from langchain.agents import create_agent
+from langchain.middleware import SummarizationMiddleware
+
+agent = create_agent(
+    model="openai:gpt-4o",
+    tools=[weather_tool, calculator_tool],
+    middleware=[
+        SummarizationMiddleware(
+            model="openai:gpt-4o-mini",
+            max_tokens_before_summary=4000,  # Trigger summarization at 4000 tokens
+            messages_to_keep=20,  # Keep last 20 messages after summary
+            summary_prompt="Custom prompt for summarization...",  # Optional
+        ),
+    ],
+)
+```
+:::
+
 :::js
 ```typescript
 import { createAgent } from "langchain";
@@ -218,6 +238,38 @@ The `humanInTheLoopMiddleware` enables human oversight and intervention for tool
 - Compliance scenarios requiring audit trails
 - Development and testing of agent behaviors
 
+:::python
+```python
+from langchain.agents import create_agent
+from langchain.middleware import HumanInTheLoopMiddleware
+from langgraph.checkpoint.memory import InMemorySaver
+
+agent = create_agent(
+    model="openai:gpt-4o",
+    tools=[write_file_tool, execute_sql_tool, read_data_tool],
+    middleware=[
+        HumanInTheLoopMiddleware(
+            tool_configs={
+                "write_file": {
+                    "require_approval": True,
+                    "description": "⚠️ File write operation requires approval",
+                },
+                "execute_sql": {
+                    "require_approval": True,
+                    "description": "🚨 SQL execution requires DBA approval",
+                },
+                "read_data": {
+                    "require_approval": False,  # Safe operation, no approval needed
+                },
+            },
+            message_prefix="Tool execution pending approval",
+        ),
+    ],
+    checkpointer=InMemorySaver(),  # Required for interrupts
+)
+```
+:::
+
 :::js
 ```typescript
 import { createAgent } from "langchain";
@@ -253,6 +305,38 @@ const agent = createAgent({
 **Handling Approval Requests:**
 
 When a tool requires approval, the agent execution pauses and waits for human input:
+
+:::python
+```python
+from langchain_core.messages import HumanMessage
+from langgraph import Command
+
+# Initial invocation
+result = agent.invoke(
+    {
+        "messages": [HumanMessage("Delete old records from the database")],
+    },
+    config
+)
+
+# Check if paused for approval
+state = agent.graph.get_state(config)
+if state.next:
+    requests = state.tasks[0].interrupts[0].value
+
+    # Display tool details to human
+    print("Tool:", requests[0].action)
+    print("Arguments:", requests[0].args)
+
+    # Resume with approval decision
+    agent.invoke(
+        Command(
+            resume=[{"type": "accept"}]  # or "edit", "ignore", "response"
+        ),
+        config
+    )
+```
+:::
 
 :::js
 ```typescript
@@ -598,6 +682,40 @@ await agent.invoke(
 ### Combining Multiple Middleware
 
 When using multiple middleware, their state and context schemas are merged. All required properties from all middleware must be satisfied:
+
+:::python
+```python
+from langchain.agents.middleware import AgentMiddleware
+from langchain_core.messages import HumanMessage
+from typing import Any, Dict
+
+class Middleware1(AgentMiddleware):
+    def before_model(self, state: Dict[str, Any]) -> Dict[str, Any] | None:
+        # Access prop1 and sharedProp from state
+        print(f"Middleware1: prop1={state.get('prop1')}, sharedProp={state.get('sharedProp')}")
+        return None
+
+class Middleware2(AgentMiddleware):
+    def before_model(self, state: Dict[str, Any]) -> Dict[str, Any] | None:
+        # Access prop2 and sharedProp from state
+        print(f"Middleware2: prop2={state.get('prop2')}, sharedProp={state.get('sharedProp')}")
+        return None
+
+agent = create_agent(
+    model="openai:gpt-4o",
+    tools=[],
+    middleware=[Middleware1(), Middleware2()],
+)
+
+# Must provide all required properties
+result = agent.invoke({
+    "messages": [HumanMessage("Hello")],
+    "prop1": "value1",  # Required by middleware1
+    "prop2": True,  # Required by middleware2
+    "sharedProp": 42,  # Required by both
+})
+```
+:::
 
 :::js
 
