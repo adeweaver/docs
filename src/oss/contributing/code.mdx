@@ -78,6 +78,8 @@ For simple bugfixes, you can get started immediately:
         ```bash
         # Inside your repo, install dependencies
         pnpm install
+        # Create a build for all packages to resolve workspace dependencies
+        pnpm build
         ```
         :::
     </Step>
@@ -101,6 +103,8 @@ For simple bugfixes, you can get started immediately:
         Run the build command to ensure the package still builds properly
         ```bash
         pnpm build
+        # or build a specific workspace package
+        pnpm --filter @langchain/core build
         ```
     </Step>
     :::
@@ -116,6 +120,13 @@ For simple bugfixes, you can get started immediately:
         ```bash
         pnpm test
         pnpm lint
+        # or run tests in a specific workspace package
+        cd libs/langchain-core
+        pnpm test
+        pnpm lint
+        # or run tests for a specific package from the root of the repo
+        pnpm --filter @langchain/core test
+        pnpm --filter @langchain/core lint
         ```
         :::
     </Step>
@@ -156,7 +167,7 @@ For ongoing development or larger contributions:
 :::
 :::js
 <Warning>
-    This project uses [`pnpm`](https://pnpm.io/) for dependency management. Make sure you have the latest version of `pnpm` installed.
+    This project uses [`pnpm`](https://pnpm.io/) for dependency management. Make sure you have the latest version of `pnpm` installed, or run `corepack enable` (on Node 24+) to setup the required pnpm version.
 </Warning>
 :::
 
@@ -176,9 +187,13 @@ Set up your development environment:
         :::
         :::js
         ```bash
-        cd libs/langchain-core
         pnpm install
-        pnpm test  # Ensure tests pass before starting development
+        # run tests for a package from the package directory
+        cd libs/langchain-core
+        pnpm test
+        # or run tests for a package from the root of the repo
+        pnpm --filter @langchain/core test
+
         ```
         :::
     </Tab>
@@ -195,9 +210,8 @@ Set up your development environment:
         :::
         :::js
         ```bash
-        cd langchain
         pnpm install
-        pnpm test  # Ensure tests pass before starting development
+        pnpm --filter langchain test  # Ensure tests pass before starting development
         ```
         :::
     </Tab>
@@ -217,9 +231,8 @@ Set up your development environment:
         For changes to [partner integrations](/oss/integrations/providers):
 
         ```bash
-        cd libs/providers/langchain-{partner}
         pnpm install
-        pnpm test  # Ensure tests pass before starting development
+        pnpm filter @langchain/{provider} test  # Ensure tests pass before starting development
         ```
     </Tab>
     :::
@@ -320,12 +333,21 @@ Every code change must include comprehensive tests. No exceptions.
         :::
         :::js
         ```bash
+        # run the entire test suite
         pnpm test
+        # or run a specific test file
+        pnpm test src/tests/FILENAME_BEING_TESTED.test.ts
+        # or run a specific test function
+        pnpm test -t "the test that should be run"
         ```
         :::
     </Step>
 
     <Step title="Integration tests">
+        Integration tests require access to external services/ provider APIs (which can cost money) and therefore are not run by default.
+
+        Not every code change will require an integration test, but keep in mind that we'll require/ run integration tests separately as apart of our review process.
+
         :::python
         **Location**: `tests/integration_tests/`
         :::
