@@ -18,16 +18,20 @@ Being in a rapidly developing field, we are extremely open to contributions to o
                 Check if the issue already exists in our GitHub Issues for the respective repo:
                 {/* TODO fix the icon backgrounds and fill colors to respect theme */}
                 :::python
-                <Card title="LangChain" icon="/images/brand/langchain.svg" href="https://github.com/langchain-ai/langchain" />
-                <Card title="LangGraph" icon="/images/brand/langgraph.svg" href="https://github.com/langchain-ai/langgraph" />
+                <Columns cols={2}>
+                    <Card title="LangChain" icon="link" href="https://github.com/langchain-ai/langchain" />
+                    <Card title="LangGraph" icon="circle-nodes" href="https://github.com/langchain-ai/langgraph" />
+                </Columns>
                 :::
                 :::js
-                <Card title="LangChain" icon="/images/brand/langchain.svg" href="https://github.com/langchain-ai/langchainjs" />
-                <Card title="LangGraph" icon="/images/brand/langgraph.svg" href="https://github.com/langchain-ai/langgraphjs" />
+                <Columns cols={2}>
+                    <Card title="LangChain" icon="link" href="https://github.com/langchain-ai/langchainjs" />
+                    <Card title="LangGraph" icon="circle-nodes" href="https://github.com/langchain-ai/langgraphjs" />
+                </Columns>
                 :::
             </Step>
             <Step title="Create Issue">
-                If not, create a new issue with following the issue template provided for the project. Be sure to include any relevant labels.
+                If no issue exists, create a new one. When writing, be sure to follow the template provided. Attach any relevant labels to the final issue once created.
             </Step>
             <Step title="Wait">
                 A project maintainer will triage the issue and may ask for additional information. Please be patient as we manage a high volume of issues.
@@ -40,18 +44,18 @@ Being in a rapidly developing field, we are extremely open to contributions to o
 
         <Steps>
             <Step title="Search">
-                Search our [forum](https://forum.langchain.com/) for existing feature requests
+                Search our [forum](https://forum.langchain.com/) for existing feature requests.
             </Step>
             <Step title="Discuss">
                 :::python
-                If it doesn't exist, start a new dicussion under the [relevant category](https://forum.langchain.com/c/help/langchain/14) so that project maintainers and the community can provide feedback.
+                If no requests exist, start a new discussion under the [relevant category](https://forum.langchain.com/c/help/langchain/14) so that project maintainers and the community can provide feedback.
                 :::
                 :::js
-                If it doesn't exist, start a new dicussion under the [relevant category](https://forum.langchain.com/c/help/langgraph/13) so that project maintainers and the community can provide feedback.
+                If no requests exist, start a new discussion under the [relevant category](https://forum.langchain.com/c/help/langchain/13) so that project maintainers and the community can provide feedback.
                 :::
             </Step>
             <Step title="Describe">
-                Be sure to describe the use case and why it would be valuable to others.
+                Be sure to describe the use case and why it would be valuable to others. If possible, provide examples or mockups where applicable.
             </Step>
         </Steps>
     </Accordion>
@@ -63,10 +67,10 @@ Being in a rapidly developing field, we are extremely open to contributions to o
     </Accordion>
 
     <Accordion title="Contribute code" icon="code">
-        With a wide user base, it can be hard for our small team to keep up with all the feature requests and bug fixes. If you have the skills and time, we would love your help!
+        With a large userbase, it can be hard for our small team to keep up with all the feature requests and bug fixes. If you have the skills and time, we would love your help!
 
         <Card title="How to make your first PR" href="/oss/contributing/code" arrow />
     </Accordion>
 </AccordionGroup>
 
-Thank you for helping make LangChain better!
+Thank you for helping make LangChain better! 🦜❤️
