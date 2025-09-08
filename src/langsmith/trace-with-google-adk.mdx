@@ -3,7 +3,7 @@ title: Trace with Google ADK
 sidebarTitle: Google ADK
 ---
 
-LangSmith supports tracing Google Agent Development Kit (ADK) applications through OpenTelemetry integration. This guide shows you how to automatically capture traces from your Google ADK agents and send them to LangSmith for monitoring and analysis.
+LangSmith supports tracing Google Agent Development Kit (ADK) applications through the OpenTelemetry integration. This guide shows you how to automatically capture traces from your [Google ADK](https://github.com/google/adk-python) agents and send them to LangSmith for monitoring and analysis.
 
 ## Installation
 
@@ -22,7 +22,7 @@ uv add langsmith google-adk
 </CodeGroup>
 
 <Info>
-Requires LangSmith Python SDK version `langsmith>=0.4.26` for optimal
+Requires LangSmith Python SDK version `langsmith>=0.4.26` for optimal OpenTelemetry support.
 </Info>
 
 ## Setup
@@ -48,10 +48,10 @@ In your Google ADK application, import and configure the LangSmith OpenTelemetry
 from langsmith.integrations.otel import configure
 
 # Configure LangSmith tracing
-configure(project_name="adk-example")  # Optional: can also use environment variables
+configure(project_name="adk-example")  # Optional: can also use LANGSMITH_PROJECT and LANGSMITH_API_KEY environment variables
 ```
 
-Alternatively, you can use the Openinference GoogleADKInstrumentor
+Alternatively, you can use the Openinference GoogleADKInstrumentor:
 
 ```python
 from langsmith.integrations.otel import configure
@@ -71,6 +71,8 @@ You do not need to set any OpenTelemetry environment variables or configure expo
 ### 3. Create and run your ADK agent
 
 Once configured, your Google ADK application will automatically send traces to LangSmith:
+
+This example includes a minimal app that sets up an agent, session, and runner, then sends a message and streams events.
 
 ```python
 import asyncio
@@ -153,12 +155,12 @@ if __name__ == "__main__":
 
 ## View traces in LangSmith
 
-After running your Google ADK application, you can view the traces in your LangSmith dashboard. The traces will include:
-
-- **Agent conversations**: Complete conversation flows between users and your ADK agents
-- **Tool calls**: Individual function calls made by your agents
+- **Agent conversations**: Complete conversation flows between users and your ADK agents.
+- **Tool calls**: Individual function calls made by your agents.
+- **Model interactions**: LLM requests and responses using Gemini models.
+- **Session information**: User and session context for organizing related traces.
 - **Model interactions**: LLM requests and responses using Gemini models
-- **Session information**: User and session context for organizing related traces
+![LangSmith dashboard with raw input from run and trace information.](/langsmith/images/adk.png)
 
 ![](/langsmith/images/adk.png)
 
