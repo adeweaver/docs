@@ -13,7 +13,7 @@ Our implementation supports almost anything that is OIDC compliant, with a few e
 
 By default, LangSmith Self-Hosted supports the `Authorization Code` flow with `Client Secret`. In this version of the flow, your client secret is stored security in the LangSmith platform (not on the frontend) and used for authentication and establishing auth sessions.
 
-### Requirements
+### Prerequisites
 
 <Note>
 You may upgrade a [basic auth](/langsmith/self-host-basic-auth) installation to this mode, but not a [none auth](/langsmith/authentication-methods#none) installation. In order to upgrade, simply remove the basic auth configuration and add the required configuration parameters as shown below. Users may then login via OAuth *only*. **In order to maintain access post-upgrade, you must have access to login via OAuth using an email address that previously logged in via basic auth.**
@@ -67,9 +67,7 @@ All of the environment variables in this section are for the `platform-backend` 
 * `OAUTH_SESSION_MAX_SEC` (default 1 day) can be overridden to a maximum of one week (`604800`)
 * For identity provider setups that don't support refresh tokens, setting `OAUTH_OVERRIDE_TOKEN_EXPIRY="true"` will take `OAUTH_SESSION_MAX_SEC` as the session length, ignoring the identity token expiration
 
-### Identity Provider (IdP) Setup
-
-**Google Workspace**
+### Google Workspace IdP setup
 
 You can use Google Workspace as a single sign-on (SSO) provider using [OAuth2.0 and OIDC](https://developers.google.com/identity/openid-connect/openid-connect) without PKCE.
 
@@ -107,6 +105,21 @@ You must have administrator-level access to your organization's Google Cloud Pla
     4. `oauthIssuerUrl`: `https://accounts.google.com`
     5. `oauth.enabled`: `true`
     6. `authType`: `mixed`
+
+### Okta IdP setup
+
+#### Supported features
+
+- IdP initiated SSO (Single Sign-On)
+- SP-initiated SSO
+
+#### Configuration steps
+
+
+
+#### SP-initiated SSO
+
+Once service-provide-initiated SSO is configured, users can sign in using the **Login via SSO** button in the LangSmith UI.
 
 ## Without Client Secret (PKCE) (Deprecated)
 
