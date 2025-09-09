@@ -8,13 +8,13 @@ import AlphaCallout from "/snippets/alpha-lg-callout.mdx";
 
 You are attempting to use built-in LangGraph persistence without providing a checkpointer.
 
-This happens when `checkpointer` is missing in `compile()` method of @[`StateGraph`][StateGraph] or @[`entrypoint`][entrypoint].
+This happens when a `checkpointer` is missing in the `compile()` method of @[`StateGraph`][StateGraph] or @[`entrypoint`][entrypoint].
 
 ## Troubleshooting
 
 The following may help resolve this error:
 
--   Initialize and pass a checkpointer to `compile()` method of @[`StateGraph`][StateGraph] or @[`entrypoint`][entrypoint].
+-   Initialize and pass a checkpointer to the `compile()` method of @[`StateGraph`][StateGraph] or @[`entrypoint`][entrypoint].
 
 :::python
 
@@ -55,7 +55,7 @@ const workflow = entrypoint(
 
 :::
 
--   Use LangGraph API. When using the LangGraph API, you don't need to implement or configure checkpointers manually. The API handles all persistence infrastructure for you behind the scenes.
+-   Use the LangGraph API so you don't need to implement or configure checkpointers manually. The API handles all persistence infrastructure for you.
 
 ## Related
 
