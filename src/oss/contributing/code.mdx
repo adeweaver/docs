@@ -3,7 +3,7 @@ title: Contributing to code
 sidebarTitle: Code
 ---
 
-Code contributions are welcome and essential to LangChain's growth. Whether you're fixing bugs, adding features, or improving performance, your contributions help make LangChain better for everyone.
+Code contributions are welcome! Whether you're fixing bugs, adding features, or improving performance, your contributions help deliver a better experience for everyone.
 
 <Note>
     Before submitting large **new features or integrations**, please first discuss your ideas in [the forum](https://forum.langchain.com/). This ensures alignment with project goals and prevents duplicate work.
@@ -13,7 +13,7 @@ Code contributions are welcome and essential to LangChain's growth. Whether you'
 
 ## Philosophy
 
-LangChain follows these core principles for code contributions:
+Aim to follow these core principles for code contributions:
 
 <CardGroup cols={2}>
     <Card title="Backwards compatibility" icon="shield" href="#backwards-compatibility" arrow>
@@ -59,6 +59,9 @@ For simple bugfixes, you can get started immediately:
 
         # For instance, for LangChain:
         git clone https://github.com/parrot123/langchain.git
+
+        # For LangGraph:
+        git clone https://github.com/parrot123/langgraph.git
         ```
 
         ```bash
@@ -73,6 +76,9 @@ For simple bugfixes, you can get started immediately:
 
         # For instance, for LangChain:
         git clone https://github.com/parrot123/langchainjs.git
+
+        # For LangGraph:
+        git clone https://github.com/parrot123/langgraphjs.git
         ```
 
         ```bash
@@ -86,7 +92,7 @@ For simple bugfixes, you can get started immediately:
 
     <Step title="Create a branch">
         ```bash
-        git checkout -b fix/your-bugfix-name
+        git checkout -b your-username/short-bugfix-name
         ```
     </Step>
 
@@ -112,19 +118,27 @@ For simple bugfixes, you can get started immediately:
     <Step title="Run tests">
         :::python
         ```bash
-        make test
         make lint
+        make test
+
+        # For bugfixes involving integrations, also run:
+        make integration_tests
         ```
         :::
         :::js
         ```bash
-        pnpm test
         pnpm lint
-        # or run tests in a specific workspace package
+        pnpm test
+
+        # For bugfixes involving integrations, also run:
+        pnpm test:int
+
+        # Or run tests in a specific workspace package
         cd libs/langchain-core
         pnpm test
         pnpm lint
-        # or run tests for a specific package from the root of the repo
+
+        # Or run tests for a specific package from the root of the repo
         pnpm --filter @langchain/core test
         pnpm --filter @langchain/core lint
         ```
@@ -162,12 +176,12 @@ For ongoing development or larger contributions:
 
 :::python
 <Warning>
-    This project uses [`uv`](https://docs.astral.sh/uv/getting-started/installation/) for dependency management. Make sure you have the latest version of `uv` installed.
+    Our Python projects use [`uv`](https://docs.astral.sh/uv/getting-started/installation/) for dependency management. Make sure you have the latest version of `uv` installed.
 </Warning>
 :::
 :::js
 <Warning>
-    This project uses [`pnpm`](https://pnpm.io/) for dependency management. Make sure you have the latest version of `pnpm` installed, or run `corepack enable` (on Node 24+) to setup the required pnpm version.
+    Our JS/TS projects uses [`pnpm`](https://pnpm.io/) for dependency management. Make sure you have the latest version of `pnpm` installed, or run `corepack enable` (on Node 24+) to setup the required pnpm version.
 </Warning>
 :::
 
@@ -188,10 +202,11 @@ Set up your development environment:
         :::js
         ```bash
         pnpm install
-        # run tests for a package from the package directory
+        # Run tests for a package from the package directory
         cd libs/langchain-core
         pnpm test
-        # or run tests for a package from the root of the repo
+
+        # Or run tests for a package from the root of the repo
         pnpm --filter @langchain/core test
 
         ```
@@ -327,17 +342,17 @@ Every code change must include comprehensive tests. No exceptions.
         :::python
         ```bash
         make test
-        # or directly:
+        # Or directly:
         uv run --group test pytest tests/unit_tests
         ```
         :::
         :::js
         ```bash
-        # run the entire test suite
+        # Run the entire test suite
         pnpm test
-        # or run a specific test file
+        # Or run a specific test file
         pnpm test src/tests/FILENAME_BEING_TESTED.test.ts
-        # or run a specific test function
+        # Or run a specific test function
         pnpm test -t "the test that should be run"
         ```
         :::
@@ -630,7 +645,6 @@ In general, feature contribution requirements include:
     </Step>
 </Steps>
 
-
 ### Security guidelines
 
 <Warning>
@@ -772,7 +786,7 @@ In order to write effective tests, there's a few good practices to follow:
         :::js
         ```typescript
         describe("DocumentProcessor", () => {
-            it("should handle empty document list", () => {
+            it("Should handle empty document list", () => {
                 const processor = new DocumentProcessor();
                 const result = processor.process([]);
 
@@ -802,7 +816,7 @@ In order to write effective tests, there's a few good practices to follow:
         :::js
         ```typescript
         describe("ChatOpenAI", () => {
-            it("should test with real API", () => {
+            it("Should test with real API", () => {
                 const chat = new ChatOpenAI();
                 const response = chat.invoke("Hello");
             });
@@ -832,7 +846,7 @@ In order to write effective tests, there's a few good practices to follow:
         :::js
         ```typescript
         describe("APIService", () => {
-            it("should call with retry", () => {
+            it("Should call with retry", () => {
                 const mockClient = new MockClient();
                 const service = new APIService(client: mockClient);
                 const result = service.callWithRetry();
