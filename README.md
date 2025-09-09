@@ -74,6 +74,7 @@ Makefile              # Build automation
 - `make dev` - Start development mode with file watching and live rebuild
 - `make build` - Build documentation to `./build` directory
 - `make mint-broken-links` - Check for broken links in built documentation (excludes integrations)
+- `make mint-broken-links-all` - Check for broken links in built documentation (includes all directories)
 - `make install` - Install all dependencies
 - `make clean` - Remove build artifacts
 - `make test` - Run the test suite
