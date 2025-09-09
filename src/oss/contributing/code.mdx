@@ -101,7 +101,7 @@ For simple bugfixes, you can get started immediately:
     </Step>
 
     <Step title="Add tests">
-        Include unit tests that fail without your fix
+        Include unit tests that fail without your fix. This allows us to verify the bug is resolved and prevents regressions
     </Step>
 
     :::js
@@ -145,8 +145,8 @@ For simple bugfixes, you can get started immediately:
         :::
     </Step>
 
-    <Step title="Submit pull request">
-        Follow the PR template and reference the issue you're fixing, if applicable
+    <Step title="Submit a pull request">
+        Follow the PR template provided. If applicable, reference the issue you're fixing using [closing keywords](https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword) (e.g. `Fixes #123`).
     </Step>
 </Steps>
 
@@ -266,12 +266,12 @@ Set up your development environment:
         <AccordionGroup>
             <Accordion title="Core packages" defaultOpen>
                 :::python
-                - **`langchain-core` (located in `libs/core/`)**: Base interfaces and core abstractions
-                - **`langchain` (located in `libs/langchain/`)**: Main package with chains, agents, and retrieval logic
+                - **[`langchain-core`](https://github.com/langchain-ai/langchain/tree/master/libs/core#readme)** (located in `libs/core/`): Base interfaces and core abstractions
+                - **[`langchain`](https://github.com/langchain-ai/langchain/tree/master/libs/langchain#readme)** (located in `libs/langchain/`): Main package with chains, agents, and retrieval logic
                 :::
                 :::js
-                - **`@langchain/core` (located in `libs/langchain-core/`)**: Base interfaces and core abstractions
-                - **`langchain` (located in `libs/langchain/`)**: Main package with chains, agents, and retrieval logic
+                - **[`@langchain/core`](https://github.com/langchain-ai/langchainjs/tree/main/langchain-core#readme)** (located in `libs/langchain-core/`): Base interfaces and core abstractions
+                - **[`langchain`](https://github.com/langchain-ai/langchainjs/tree/main/langchain#readme)** (located in `libs/langchain/`): Main package with chains, agents, and retrieval logic
                 :::
             </Accordion>
 
@@ -279,30 +279,30 @@ Set up your development environment:
 
                 :::python
                 Located in `libs/partners/`, these are independently versioned packages for specific integrations. For example:
-                - **`langchain-openai`**: [OpenAI](/oss/integrations/providers/openai) integrations
-                - **`langchain-anthropic`**: [Anthropic](oss/integrations/providers/anthropic) integrations
-                - **`langchain-google-genai`**: [Google Generative AI](/oss/integrations/chat/google_generative_ai) integrations
+                - **[`langchain-openai`](https://github.com/langchain-ai/langchain/tree/master/libs/partners/openai#readme)**: [OpenAI](/oss/integrations/providers/openai) integrations
+                - **[`langchain-anthropic`](https://github.com/langchain-ai/langchain/tree/master/libs/partners/anthropic#readme)**: [Anthropic](oss/integrations/providers/anthropic) integrations
+                - **[`langchain-google-genai`](https://github.com/langchain-ai/langchain-google/)**: [Google Generative AI](/oss/integrations/chat/google_generative_ai) integrations
 
                 Many partner packages are in external repositories. Please check the [list of integrations](/oss/integrations/providers) for details.
                 :::
                 :::js
                 Located in `libs/providers/`, these are independently versioned packages for specific integrations. For example:
-                - **`@langchain/openai`**: [OpenAI](/oss/integrations/providers/openai) integrations
-                - **`@langchain/anthropic`**: [Anthropic](oss/integrations/providers/anthropic) integrations
-                - **`@langchain/google-genai`**: [Google Generative AI](/oss/integrations/chat/google_generative_ai) integrations
+                - **[`@langchain/openai`](https://github.com/langchain-ai/langchainjs/tree/main/libs/langchain-openai#readme)**: [OpenAI](/oss/integrations/providers/openai) integrations
+                - **[`@langchain/anthropic`](https://github.com/langchain-ai/langchainjs/tree/main/libs/langchain-anthropic#readme)**: [Anthropic](oss/integrations/providers/anthropic) integrations
+                - **[`@langchain/google-genai`](https://github.com/langchain-ai/langchainjs/tree/main/libs/langchain-google-genai#readme)**: [Google Generative AI](/oss/integrations/chat/google_generative_ai) integrations
                 :::
 
             </Accordion>
 
             <Accordion title="Supporting packages">
                 :::python
-                - **`langchain-text-splitters`**: Text splitting utilities
-                - **`langchain-cli`**: Command line interface
-                - **`langchain-standard-tests`**: Standard test suites for integrations
+                - **[`langchain-text-splitters`](https://github.com/langchain-ai/langchain/tree/master/libs/text-splitters#readme)**: Text splitting utilities
+                - **[`langchain-standard-tests`](https://github.com/langchain-ai/langchain/tree/master/libs/standard-tests#readme)**: Standard test suites for integrations
+                - **[`langchain-cli`](https://github.com/langchain-ai/langchain/tree/master/libs/cli#readme)**: Command line interface
                 :::
                 :::js
-                - **`@langchain/textsplitters`**: Text splitting utilities
-                - **`@langchain/standard-tests`**: Standard test suites for integrations
+                - **[`@langchain/textsplitters`](https://github.com/langchain-ai/langchainjs/tree/main/libs/langchain-textsplitters#readme)**: Text splitting utilities
+                - **[`@langchain/standard-tests`](https://github.com/langchain-ai/langchainjs/tree/main/libs/langchain-standard-tests#readme)**: Standard test suites for integrations
                 :::
 
             </Accordion>
@@ -388,9 +388,9 @@ Every code change must include comprehensive tests. No exceptions.
     </Step>
 
     <Step title="Test quality checklist">
-        - [ ] Tests fail when your code is broken
-        - [ ] Edge cases and error conditions are tested
-        - [ ] Proper use of fixtures and mocks
+        - Tests fail when your code is broken
+        - Edge cases and error conditions are tested
+        - Proper use of fixtures and mocks
     </Step>
 </Steps>
 
@@ -423,7 +423,6 @@ Quality requirements:
 
             Returns:
                 Processing results with success/failure counts.
-
             """
         ```
         :::
@@ -507,7 +506,7 @@ Quality requirements:
 
         **Standards**:
         - Descriptive variable names
-        - Break up complex functions (aim for >20 lines)
+        - Break up complex functions (aim for fewer than 20 lines)
         - Follow existing patterns in the codebase
     </Tab>
 </Tabs>
@@ -516,7 +515,7 @@ Quality requirements:
 ### Pre-commit hooks
 
 <Note>
-    Pre-commit hooks automatically run formatting and linting on every commit.
+    Pre-commit hooks automatically run formatting and linting on every commit, helping to catch issues early.
 </Note>
 
 Setup pre-commit hooks:
@@ -569,10 +568,10 @@ Maintain compatibility:
     <Accordion title="Safe changes">
         **Acceptable modifications**:
         :::python
-        - Adding new optional parameters (use `*` for keyword-only)
+        - Adding new optional parameters
         :::
         :::js
-        - Adding new optional parameters/ type parameters
+        - Adding new optional parameters/type parameters
         :::
         - Adding new methods to classes
         - Improving performance without changing behavior
@@ -580,12 +579,12 @@ Maintain compatibility:
     </Accordion>
 
     <Accordion title="Before making changes">
-        **Check if your target is public**:
+        - **Would this break existing user code?**
+        - Check if your target is public
         :::python
         - If needed, is it exported in `__init__.py`?
         :::
         - Are there existing usage patterns in tests?
-        - Would this break existing user code?
     </Accordion>
 </AccordionGroup>
 
@@ -623,7 +622,7 @@ In general, feature contribution requirements include:
 
 <Steps>
     <Step title="Design discussion">
-        Open a GitHub issue describing:
+        Open a forum post describing:
         - The problem you're solving
         - Proposed API design
         - Expected usage patterns
@@ -631,8 +630,7 @@ In general, feature contribution requirements include:
 
     <Step title="Implementation">
         - Follow existing code patterns
-        - Include comprehensive tests
-        - Add complete documentation
+        - Include comprehensive tests and documentation
         - Consider security implications
     </Step>
 
@@ -658,10 +656,10 @@ Security checklist:
         - Validate and sanitize all user inputs
         - Properly escape data in templates and queries
         :::python
-        - Never use `eval()`, `exec()`, or `pickle` on user data
+        - Never use `eval()`, `exec()`, or `pickle` on user data, as this can lead to arbitrary code execution vulnerabilities
         :::
         :::js
-        - Never use `eval()`
+        - Never use `eval()`, as this can lead to arbitrary code execution vulnerabilities
         :::
     </Accordion>
 
@@ -684,73 +682,81 @@ Security checklist:
 
 ### Running tests locally
 
-Before submitting your PR:
+Before submitting your PR, ensure you have completed the following steps. Note that the requirements differ slightly between LangChain and LangGraph.
 
-<Steps>
-    <Step title="Unit tests">
-        :::python
+<Tabs>
+    <Tab title="LangChain" icon="link">
+        <Steps>
+            <Step title="Unit tests">
+                :::python
 
-        ```bash
-        make test
-        ```
-        :::
-        :::js
+                ```bash
+                make test
+                ```
+                :::
+                :::js
 
-        ```bash
-        pnpm test
-        ```
-        :::
-        All unit tests must pass
-    </Step>
+                ```bash
+                pnpm test
+                ```
+                :::
+                All unit tests must pass
+            </Step>
 
-    <Step title="Integration tests">
-        :::python
+            <Step title="Integration tests">
+                :::python
 
-        ```bash
-        make integration_tests
-        ```
-        :::
-        :::js
+                ```bash
+                make integration_tests
+                ```
+                :::
+                :::js
 
-        ```bash
-        pnpm test:int
-        ```
-        :::
-        (Run if your changes affect integrations)
-    </Step>
+                ```bash
+                pnpm test:int
+                ```
+                :::
+                (Run if your changes affect integrations)
+            </Step>
 
-    <Step title="Formatting">
-        :::python
+            <Step title="Formatting">
+                :::python
 
-        ```bash
-        make format
-        make lint
-        ```
-        :::
-        :::js
+                ```bash
+                make format
+                make lint
+                ```
+                :::
+                :::js
 
-        ```bash
-        pnpm format
-        pnpm lint
-        ```
-        :::
-        Code must pass all style checks
-    </Step>
+                ```bash
+                pnpm format
+                pnpm lint
+                ```
+                :::
+                Code must pass all style checks
+            </Step>
 
-    :::python
+            :::python
 
-    <Step title="Type checking">
-        ```bash
-        make type_check
-        ```
-        All type hints must be valid
-    </Step>
-    :::
+            <Step title="Type checking">
+                ```bash
+                make type_check
+                ```
+                All type hints must be valid
+            </Step>
+            :::
 
-    <Step title="PR submission">
-        Push your branch and open a pull request. Follow the provided form template. Note related issues using [closing keywords](https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword). After submitting, wait, and check to ensure the CI checks pass. If any checks fail, address the issues promptly - maintainers may close PRs that do not pass CI within a reasonable timeframe.
-    </Step>
-</Steps>
+            <Step title="PR submission">
+                Push your branch and open a pull request. Follow the provided form template. Note related issues using [closing keywords](https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword). After submitting, wait, and check to ensure the CI checks pass. If any checks fail, address the issues promptly - maintainers may close PRs that do not pass CI within a reasonable timeframe.
+            </Step>
+        </Steps>
+    </Tab>
+    <Tab title="LangGraph" icon="circle-nodes">
+        WIP - coming soon!
+    </Tab>
+</Tabs>
+
 
 ### Test writing guidelines
 
