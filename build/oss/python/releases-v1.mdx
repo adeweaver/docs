@@ -1,0 +1,224 @@
+---
+title: LangChain Python v1.0
+sidebarTitle: v1.0
+---
+
+import AlphaCallout from '/snippets/alpha-lc-callout.mdx';
+
+<AlphaCallout />
+
+<Note>
+    1.0 Alpha releases are available for the following packages:
+
+    - `langchain`
+    - `langchain-core`
+    - `langchain-anthropic`
+    - `langchain-openai`
+
+    Broader support will be rolled out during the alpha period.
+</Note>
+
+## <Icon icon="sparkles" /> New features
+
+LangChain 1.0 introduces new features:
+
+- A new `.content_blocks` property on message objects. This property provides a fully typed view of message content and standardizes modern LLM features across providers, including reasoning, citations, server-side tool calls, and more. There are no breaking changes associated with the new message content. Refer to the [message content](/oss/python/langchain/messages#content) docs for more info.
+
+- New prebuilt `langgraph` chains and agents in `langchain`. The surface area of the `langchain` package has been reduced to focus on popular and essential abstractions. A new `langchain-legacy` package is available for backward compatibility. Refer to the new [agents docs](/oss/python/langchain/agents) and to the [release notes](https://github.com/langchain-ai/langchain/releases/tag/langchain%3D%3D1.0.0a1) for more detail.
+
+## <Icon icon="ban" /> Breaking changes
+
+<Accordion title="Dropped Python 3.9 support" icon="python">
+    Python 3.9 is [end of life](https://devguide.python.org/versions/) in October 2025. Consequently, all LangChain packages now require Python 3.10 or higher.
+</Accordion>
+
+<Accordion title="Some legacy code moved to `langchain-legacy`">
+    The new `langchain` package features a reduced surface area that focuses on standard interfaces for LangChain components (e.g., `init_chat_model` and `init_embeddings`) as well as pre-built chains and agents backed by the `langgraph` runtime.
+
+    Existing functionality outside this focus, such as the indexing API and exports of `langchain-community` features, have been moved to the `langchain-legacy` package.
+
+    To restore the previous behavior, update package installs of `langchain` to `langchain-legacy`, and replace imports:
+
+    Before:
+    ```python
+    from langchain import ...
+    ```
+
+    After:
+    ```python
+    from langchain_legacy import ...
+    ```
+</Accordion>
+
+<Accordion title="Updated return type for chat models">
+    The return type signature for chat model invocation has been fixed from `BaseMessage` to `AIMessage`. Custom chat models implementing `bind_tools` should update their return signature to avoid type checker errors:
+
+    Before:
+    ```python
+    Runnable[LanguageModelInput, BaseMessage]:
+    ```
+
+    After:
+    ```python
+    Runnable[LanguageModelInput, AIMessage]:
+    ```
+</Accordion>
+
+<Accordion title="Default message format for OpenAI Responses API">
+    When interacting with the Responses API, `langchain-openai` now defaults to storing response items in message `content`. This behavior was previously opt-in by specifying `output_version="responses/v1"` when instantiating `ChatOpenAI`. This was done to resolve `BadRequestError` that can arise in some multi-turn contexts.
+
+    **To restore previous behavior**, set the `LC_OUTPUT_VERSION` environment variable to `v0`, or specify `output_version="v0"` when instantiating `ChatOpenAI`:
+
+    ```python
+    os.environ["LC_OUTPUT_VERSION"] = "v0"
+
+    # or
+
+    from langchain_openai import ChatOpenAI
+
+    llm = ChatOpenA(model="...", output_version="v0")
+    ```
+</Accordion>
+
+<Accordion title="Default `max_tokens` in `langchain-anthropic`">
+    The `max_tokens` parameter in `ChatAnthropic` will now default to new values that are higher than the previous default of `1024`. The new default will vary based on the model chosen.
+</Accordion>
+
+<Accordion title="Removal of deprecated objects">
+
+Methods, functions, and other objects that were already deprecated and slated for removal in 1.0 have been deleted.
+
+{/* TODO full list? */}
+
+</Accordion>
+
+## <Icon icon="box-archive" /> Deprecations
+
+<Accordion title="`.text()` is now a property">
+    Use of the `.text()` method on message objects should be updated to drop the parentheses:
+
+    ```python
+    # Before
+    text = response.text()  # Method call
+
+    # After
+    text = response.text    # Property access
+    ```
+
+    Existing usage patterns (i.e., `.text()`) will continue to function but now emit a warning.
+</Accordion>
+
+
+## <Icon icon="robot" /> Prebuilt agents
+
+The **`langchain`** release focuses on reducing LangChain's surface area and narrowing in on popular and essential abstractions.
+
+### ReAct agent migration
+
+**`create_react_agent` has moved from `langgraph.prebuilts` to `langchain.agents`** with significant enhancements:
+
+**Enhanced structured output**
+
+`create_agent` has improved coercion of outputs to structured data types:
+
+```python
+from langchain.agents import create_agent
+from langchain_core.messages import HumanMessage
+from pydantic import BaseModel
+
+class Weather(BaseModel):
+    temperature: float
+    condition: str
+
+def weather_tool(city: str) -> str:
+    """Get the weather for a city."""
+    return f"it's sunny and 70 degrees in {city}"
+
+agent = create_agent(
+    "openai:gpt-4o-mini",
+    tools=[weather_tool],
+    response_format=Weather
+)
+result = agent.invoke({"messages": [HumanMessage("What's the weather in SF?")]})
+print(repr(result["structured_response"]))
+#> Weather(temperature=70.0, condition='sunny')
+```
+
+**Structural improvements**
+
+- **Main loop integration**: Structured output is now generated in the main loop instead of requiring an additional LLM call
+- **Tool/output choice**: Models can choose between calling tools, generating structured output, or both
+- **Cost reduction**: Eliminates extra expense from additional LLM calls
+
+**Advanced configuration**
+
+Two strategies for structured output generation:
+
+1. **Artificial tool calling** (default for most models)
+    - LangChain generates tools matching your response format schema
+    - Model calls these tools, LangChain coerces args to desired format
+    - Configure with `ToolStrategy` hint
+
+2. **Provider implementations**
+    - Uses native structured output support when available
+    - Configure with `ProviderStrategy` hint
+
+<Warning>
+    **Prompted output** is no longer supported via the `response_format` argument.
+</Warning>
+
+### Error handling
+
+**Structured output errors**
+
+Control error handling via the `handle_errors` arg to `ToolStrategy`:
+
+- **Parsing errors**: Model generates data that doesn't match desired structure
+- **Multiple tool calls**: Model generates 2+ tool calls for structured output schemas
+
+**Tool calling errors**
+
+Updated error handling for tool failures:
+
+- **Invocation failure**: Agent returns artificial `ToolMessage` asking model to retry (unchanged)
+- **Execution failure**: Agent now raises `ToolException` by default instead of retrying (prevents infinite loops)
+
+Configure behavior via `handle_tool_errors` arg to `ToolNode`.
+
+### Breaking changes
+
+**Pre-bound models**
+
+To better support structured output, `create_agent` no longer supports pre-bound models with tools or configuration:
+
+```python
+# No longer supported
+model_with_tools = ChatOpenAI().bind_tools([some_tool])
+agent = create_agent(model_with_tools, tools=[])
+
+# Use instead
+agent = create_agent("openai:gpt-4o-mini", tools=[some_tool])
+```
+
+<Note>
+    Dynamic model functions can return pre-bound models if structured output is *not* used.
+</Note>
+
+**Import changes**
+
+```python
+# Before
+from langgraph.prebuilts import create_agent, ToolNode, AgentState
+
+# After
+from langchain.agents import create_agent, ToolNode, AgentState
+```
+
+## <Icon icon="bullhorn" /> Reporting issues
+
+Please report any issues discovered with 1.0 on [GitHub](https://github.com/langchain-ai/langchain/issues) using the [`'v1'` label](https://github.com/langchain-ai/langchain/issues?q=state%3Aopen%20label%3Av1).
+
+## See also
+
+- [Versioning](/oss/python/versioning) - Understanding version numbers
+- [Release policy](/oss/python/release-policy) - Detailed release policies
