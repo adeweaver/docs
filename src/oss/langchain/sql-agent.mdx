@@ -66,13 +66,13 @@ export LANGSMITH_API_KEY="..."
 
 First, we need to select our LLM. 
 :::python
-Any model supporting [tool-calling](oss/python/integrations/providers) should work. 
+Any model supporting [tool-calling](/oss/integrations/providers) should work. 
 
 <ChatModelTabsPy />
 :::
 :::js
 
-Any model supporting [tool-calling](oss/python/integrations/providers) should work. 
+Any model supporting [tool-calling](/oss/integrations/providers) should work. 
 <ChatModelTabsJS />
 :::
 
@@ -777,7 +777,7 @@ agent = create_agent(
 :::python
 ## 5. Customizing the agent
 
-The prebuilt agent lets us get started quickly, but at each step, the agent has access to the full set of tools. We can enforce a higher degree of control in LangGraph by customizing the agent. Below, we implement a simple ReAct-agent setup, with dedicated nodes for specific tasks. We will add customer information to [state](../../concepts/low_level.md#state).
+The prebuilt agent lets us get started quickly, but at each step, the agent has access to the full set of tools. We can enforce a higher degree of control in LangGraph by customizing the agent. Below, we implement a simple ReAct-agent setup, with dedicated nodes for specific tasks. We will add customer information to [state](/oss/langgraph/graph-api#state).
 
 You will construct a dedicated node to set up the database for use by a particular customer. The customer node will fetch the customer ID and store it to state.
 
