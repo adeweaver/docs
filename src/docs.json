@@ -438,9 +438,25 @@
                   {
                     "group": "Integrations",
                     "pages": [
-                      "oss/python/contributing/integrations",
-                      "oss/python/contributing/standard-tests",
-                      "oss/python/contributing/publish"
+                      {
+                        "group": "LangChain",
+                        "pages": [
+                          "oss/python/contributing/integrations-langchain",
+                          "oss/python/contributing/implement-langchain",
+                          "oss/python/contributing/standard-tests-langchain",
+                          "oss/python/contributing/publish-langchain"
+                        ]
+                      },
+                      {
+                        "group": "LangGraph",
+                        "pages": [
+                          "oss/python/contributing/integrations-langgraph",
+                          "oss/python/contributing/implement-langgraph",
+                          "oss/python/contributing/standard-tests-langgraph",
+                          "oss/python/contributing/publish-langgraph"
+                        ]
+                      },
+                      "oss/python/contributing/comarketing"
                     ]
                   }
                 ]
@@ -1464,9 +1480,25 @@
                   {
                     "group": "Integrations",
                     "pages": [
-                      "oss/javascript/contributing/integrations",
-                      "oss/javascript/contributing/standard-tests",
-                      "oss/javascript/contributing/publish"
+                      {
+                        "group": "LangChain",
+                        "pages": [
+                          "oss/javascript/contributing/integrations-langchain",
+                          "oss/javascript/contributing/implement-langchain",
+                          "oss/javascript/contributing/standard-tests-langchain",
+                          "oss/javascript/contributing/publish-langchain"
+                        ]
+                      },
+                      {
+                        "group": "LangGraph",
+                        "pages": [
+                          "oss/javascript/contributing/integrations-langgraph",
+                          "oss/javascript/contributing/implement-langgraph",
+                          "oss/javascript/contributing/standard-tests-langgraph",
+                          "oss/javascript/contributing/publish-langgraph"
+                        ]
+                      },
+                      "oss/javascript/contributing/comarketing"
                     ]
                   }
                 ]

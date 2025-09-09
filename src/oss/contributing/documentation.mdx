@@ -9,8 +9,6 @@ Accessible documentation is a vital part of LangChain. We welcome both new docum
     We generally do not merge new tutorials from outside contributors without an acute need.
 </Note>
 
-## Philosophy
-
 All documentation falls under one of four categories:
 
 <CardGroup cols={2}>
@@ -35,7 +33,7 @@ All documentation falls under one of four categories:
 
 ## Getting started
 
-### Quick edit: fix a typo
+### <Icon icon="text-slash" size={24}/> Quick edit: fix a typo
 
 For simple changes like fixing typos, you can edit directly on GitHub without setting up a local development environment:
 
@@ -157,7 +155,7 @@ Our documentation uses a build pipeline that allows us to write in MDX and use M
 
 ---
 
-## Documentation types
+## <Icon icon="book" size={24}/> Documentation types
 
 <Note>
     Where applicable, all documentation must have translations in both Python and JavaScript/TypeScript. See [our localization guide](#localization) for details.
@@ -165,7 +163,7 @@ Our documentation uses a build pipeline that allows us to write in MDX and use M
 
 ### Conceptual guides
 
-Conceptual guides fall under the "Explanation" quadrant of Diataxis. They cover LangChain terms and core concepts abstractly, providing deeper understanding.
+Conceptual guide cover core concepts abstractly, providing deep understanding.
 
 <AccordionGroup>
     <Accordion title="Characteristics">
@@ -201,22 +199,39 @@ References contain detailed, low-level information describing exactly what funct
         - **Authoritative**: The definitive source for technical details
     </Accordion>
 
-    <Accordion title="API reference tips">
-        - Be concise but complete
-        - Discuss special cases and deviations from expectations
-        - Detail required inputs and outputs
-        - Include realistic examples
-        - Use proper type annotations
+    <Accordion title="Types of LangChain references">
+        - **API references**: Auto-generated from code docstrings
+        - **Integration guides**: Manual documentation for specific providers/tools
+        - **Configuration references**: Detailed parameter specifications
+        - **Schema documentation**: Data structure and format specifications
+    </Accordion>
+
+    <Accordion title="Contributing to references">
+        - **API references**: Update docstrings in source code repositories
+        - **Integration guides**: Create/edit `.mdx` files in the [docs repository](https://github.com/langchain-ai/docs) under `/src/`
+        - **Manual references**: Edit existing pages
+    </Accordion>
+
+    <Accordion title="LangChain reference best practices">
+        - **Integration consistency**: Follow existing patterns for provider-specific documentation
+        - **Code examples**: Include both basic usage and common edge cases/failure modes
+        - **Version compatibility**: Note when features require specific versions
     </Accordion>
 </AccordionGroup>
 
 **Existing references**
-- [LangChain Python API reference](https://python.langchain.com/api_reference/)
-- [LangChain JavaScript/TypeScript API reference](https://v03.api.js.langchain.com/index.html)
+- [LangChain Python API reference](https://python.langchain.com/api_reference/) (auto-generated from docstrings)
+- [LangChain JavaScript/TypeScript API reference](https://v03.api.js.langchain.com/index.html) (auto-generated from docstrings)
+
+**When to create new reference documentation:**
+- New integrations or providers need dedicated reference pages
+- Complex configuration options require detailed explanation
+- API changes introduce new parameters or behavior
+- Community frequently asks questions about specific functionality
 
 ---
 
-## Writing standard
+## <Icon icon="pen" size={24}/> Writing standard
 
 ### Mintlify components
 
@@ -280,7 +295,7 @@ Content for both languages (not wrapped)
 
 ---
 
-## Quality standards
+## <Icon icon="star" size={24}/> Quality standards
 
 ### General guidelines
 
@@ -336,7 +351,7 @@ Before submitting documentation:
 
 ---
 
-## In-code documentation
+## <Icon icon="i-cursor" size={24}/> In-code documentation
 
 ### Language and style
 
