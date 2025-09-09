@@ -1,21 +1,20 @@
-# Documentation Update
+# Documentation update
 
 ## Overview
 <!-- Brief description of what documentation is being added/updated -->
 
-## Type of Change
+## Type of change
 <!-- Check the relevant box -->
 - [ ] New documentation page
 - [ ] Update existing documentation
-- [ ] Fix typo, broken link, or formatting issue
+- [ ] Fix typo, bug, broken link, or formatting issue
 - [ ] Remove outdated content
 - [ ] Other (please describe):
 
-## Related Issues/PRs
+## Related issues/PRs
 <!-- Link to related issues, feature PRs, or discussions (if applicable) -->
 - GitHub issue:
 - Feature PR:
-- Slack thread:
 
 <!-- For LangChain employees, if applicable: -->
 - Linear issue:
@@ -24,16 +23,12 @@
 ## Checklist
 <!-- Check all that apply -->
 - [ ] I have read the [contributing guidelines](README.md)
-- [ ] I have tested my changes locally using `make dev`
-- [ ] I have run `make mint-broken-links` to check for broken links (after running `make build`)
+- [ ] I have tested my changes locally using `docs dev`
 - [ ] All code examples have been tested and work correctly
-- [ ] I have followed the [Mintlify documentation standards](https://mintlify.com/docs)
-- [ ] I have added appropriate frontmatter (title, description) to new pages
-- [ ] I have used relative paths for internal links
-- [ ] I have added alt text to any images
+- [ ] I have used **root relative** paths for internal links
 - [ ] I have updated navigation in `src/docs.json` if needed
 - [ ] I have gotten approval from the relevant reviewers
 - [ ] (Internal team members only / optional) I have created a preview deployment using the [Create Preview Branch workflow](https://github.com/langchain-ai/docs/actions/workflows/create-preview-branch.yml)
 
-## Additional Notes
+## Additional notes
 <!-- Any other information that would be helpful for reviewers -->
