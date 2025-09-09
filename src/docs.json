@@ -335,16 +335,7 @@
                           "oss/python/integrations/text_embedding/openai"
                         ]
                       },
-                      "oss/python/integrations/providers/all_providers",
-                      {
-                        "group": "Contribute an integration",
-                        "pages": [
-                          "oss/python/integrations/contributing/index",
-                          "oss/python/integrations/contributing/package",
-                          "oss/python/integrations/contributing/standard_tests",
-                          "oss/python/integrations/contributing/publish"
-                        ]
-                      }
+                      "oss/python/integrations/providers/all_providers"
                     ]
                   },
                   {
@@ -433,7 +424,8 @@
                     "pages": [
                       "oss/python/contributing",
                       "oss/python/contributing/documentation",
-                      "oss/python/contributing/code"
+                      "oss/python/contributing/code",
+                      "oss/python/contributing/review"
                     ]
                   },
                   {
@@ -1476,7 +1468,8 @@
                     "pages": [
                       "oss/javascript/contributing",
                       "oss/javascript/contributing/documentation",
-                      "oss/javascript/contributing/code"
+                      "oss/javascript/contributing/code",
+                      "oss/javascript/contributing/review"
                     ]
                   },
                   {

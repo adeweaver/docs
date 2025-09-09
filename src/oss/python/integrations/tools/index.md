@@ -9,7 +9,7 @@ A [toolkit](/docs/concepts/tools/#toolkits) is a collection of tools meant to be
 <Note>
 
 If you'd like to write your own tool, see [this how-to](/docs/how_to/custom_tools/).
-If you'd like to contribute an integration, see [Contributing integrations](/docs/contributing/how_to/integrations/).
+If you'd like to contribute an integration, see [Contributing integrations](/oss/contributing#add-a-new-integration).
 
 </Note>
 

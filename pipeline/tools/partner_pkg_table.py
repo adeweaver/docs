@@ -141,7 +141,7 @@ title: Integration packages
 
 <Info>
 
-If you'd like to contribute an integration, see [Contributing integrations](/oss/integrations/contributing).
+If you'd like to contribute an integration, see [Contributing integrations](/oss/contributing#add-a-new-integration).
 
 </Info>
 
