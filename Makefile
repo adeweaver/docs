@@ -62,15 +62,26 @@ clean:
 	@find . -name "__pycache__" -type d -exec rm -rf {} +
 
 # Mintlify commands (run from build directory where final docs are generated)
-mint-broken-links:
-	@echo "Checking for broken links..."
-	@cd build && mint broken-links
+# Note: mint must be installed globally via npm
+mint-broken-links: build
+	@echo "Checking for broken links (excluding integrations directories)..."
+	@command -v mint >/dev/null 2>&1 || { echo "Error: mint is not installed. Run 'npm install -g mint@4.1.0'"; exit 1; }
+	@cd build && mint broken-links 2>&1 | awk '\
+		/^oss\/(python|javascript)\/integrations\// { skip=1; next } \
+		/^[a-zA-Z]/ && !/^[ \t]/ { skip=0 } \
+		!skip { \
+			if (/^[ \t]+\//) link_count++; \
+			if (/broken links found\.$$/) { \
+				gsub(/[0-9]+ broken links found\./, link_count " broken links found (excluding integrations)."); \
+			} \
+			print \
+		}'
 
 help:
 	@echo "Available commands:"
 	@echo "  make dev             - Start development mode with file watching and mint dev"
 	@echo "  make build           - Build documentation to ./build directory"
-	@echo "  make mint-broken-links - Check for broken links in built documentation"
+	@echo "  make mint-broken-links - Check for broken links in built documentation (excludes integrations)"
 	@echo "  make format          - Format code"
 	@echo "  make lint            - Lint code"
 	@echo "  make lint_md         - Lint markdown files"
