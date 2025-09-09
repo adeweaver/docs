@@ -1,8 +1,8 @@
 ---
-title: Writer Tools
+title: WRITER Tools
 ---
 
-This guide provides a quick overview for getting started with Writer [tools](https://python.langchain.com/docs/concepts/tools/). For detailed documentation of all Writer features and configurations head to the [Writer docs](https://dev.writer.com/home).
+This guide provides a quick overview for getting started with WRITER [tools](https://python.langchain.com/docs/concepts/tools/). For detailed documentation of all WRITER features and configurations head to the [WRITER docs](https://dev.writer.com/home).
 
 ## Overview
 
@@ -11,10 +11,14 @@ This guide provides a quick overview for getting started with Writer [tools](htt
 | Class                                                                                                      | Package          | Local | Serializable | JS support |                                        Downloads                                         |                                        Version                                         |
 |:-----------------------------------------------------------------------------------------------------------|:-----------------| :---: | :---: |:----------:|:------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------:|
 | [GraphTool](https://github.com/writer/langchain-writer/blob/main/langchain_writer/tools.py#L9) | [langchain-writer](https://pypi.org/project/langchain-writer/) |      ❌       |                                       ❌                                       | ❌ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-writer?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-writer?style=flat-square&label=%20) |
+| [TranslationTool](https://github.com/writer/langchain-writer/blob/main/langchain_writer/tools.py) | [langchain-writer](https://pypi.org/project/langchain-writer/) |      ❌       |                                       ❌                                       | ❌ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-writer?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-writer?style=flat-square&label=%20) |
+| [WebSearchTool](https://github.com/writer/langchain-writer/blob/main/langchain_writer/tools.py) | [langchain-writer](https://pypi.org/project/langchain-writer/) |      ❌       |                                       ❌                                       | ❌ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-writer?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-writer?style=flat-square&label=%20) |
 
 ### Features
 
-We provide usage of two types of tools for use with `ChatWriter`: `function` and `graph`.
+We provide usage of several types of tools for use with `ChatWriter`: `function`, `graph`, `translation`, and `web_search`.
+
+> **Important Limitation**: WRITER only allows a single WRITER tool (translation, graph, web_search, llm, image, vision) to be bound at a time. You cannot bind multiple WRITER tools simultaneously, but you can bind multiple custom function tools along with one WRITER tool.
 
 #### Function
 
@@ -22,18 +26,26 @@ Functions are the most common type of tool, which allows the LLM to call externa
 
 #### Graph
 
-The `Graph` tool is Writer's graph-based retrieval-augmented generation (RAG) called Knowledge Graph. This tool enables developers to simply pass the graph ID to the model and it will return the answer to the question in the prompt. To learn more, see our [Knowledge Graph API docs](https://dev.writer.com/api-guides/knowledge-graph).
+The `Graph` tool is WRITER's graph-based retrieval-augmented generation (RAG) called Knowledge Graph. This tool enables developers to simply pass the graph ID to the model and it will return the answer to the question in the prompt. To learn more, see our [Knowledge Graph API docs](https://dev.writer.com/api-guides/knowledge-graph).
+
+#### Translation
+
+The translation tool allows you to translate text during a conversation with a Palmyra model. While Palmyra X models can perform translation tasks, they are not optimized for these tasks and may not perform well without correct prompting. See our [translation API docs](https://dev.writer.com/home/translation-tool#translate-text-in-a-chat) for more information.
+
+#### Web Search
+
+The web search tool allows you to search the web for current information during a conversation with a Palmyra model. While Palmyra models have extensive knowledge, they may not have access to the most current information or real-time data. The web search tool enables your AI assistant to find up-to-date information, news, and facts from the web. See our [web search API docs](https://dev.writer.com/home/web-search-tool#web-search-in-a-chat) for more information.
 
 ## Setup
 
-Sign up for [Writer AI Studio](https://app.writer.com/aistudio/signup?utm_campaign=devrel) to generate an API key (you can follow this [Quickstart](https://dev.writer.com/api-guides/quickstart)). Then, set the WRITER_API_KEY environment variable:
+Sign up for [WRITER AI Studio](https://app.writer.com/aistudio/signup?utm_campaign=devrel) to generate an API key (you can follow this [Quickstart](https://dev.writer.com/api-guides/quickstart)). Then, set the WRITER_API_KEY environment variable:
 
 ```python
 import getpass
 import os
 
 if not os.getenv("WRITER_API_KEY"):
-    os.environ["WRITER_API_KEY"] = getpass.getpass("Enter your Writer API key: ")
+    os.environ["WRITER_API_KEY"] = getpass.getpass("Enter your WRITER API key: ")
 ```
 
 ## Usage
@@ -50,8 +62,37 @@ from langchain_writer.tools import GraphTool
 
 chat = ChatWriter()
 
-graph_id = getpass.getpass("Enter Writer Knowledge Graph ID: ")
+graph_id = getpass.getpass("Enter WRITER Knowledge Graph ID: ")
 graph_tool = GraphTool(graph_ids=[graph_id])
+```
+
+### Translation Tools
+
+The translation tool allows you to translate text during a conversation with a Palmyra model. While Palmyra X models can perform translation tasks, they are not optimized for these tasks and may not perform well without correct prompting.
+
+To use the translation tool, import and initialize the built-in `TranslationTool`:
+
+```python
+from langchain_writer.tools import TranslationTool
+
+# Initialize the translation tool
+translation_tool = TranslationTool()
+```
+
+### Web Search Tools
+
+The web search tool allows you to search the web for current information during a conversation with a Palmyra model. While Palmyra models have extensive knowledge, they may not have access to the most current information or real-time data. The web search tool enables your AI assistant to find up-to-date information, news, and facts from the web.
+
+To use the web search tool, import and initialize the built-in `WebSearchTool`:
+
+```python
+from langchain_writer.tools import WebSearchTool
+
+# Initialize the web search tool with optional configuration
+web_search_tool = WebSearchTool(
+    include_domains=["wikipedia.org", "github.com", "techcrunch.com"],
+    exclude_domains=["quora.com"]
+)
 ```
 
 ## Instantiation
@@ -111,24 +152,48 @@ get_product_info = {
 
 ### Binding tools
 
-Then, you can simply bind all tools to the `ChatWriter` instance:
+**Important Note**: WRITER only allows a single WRITER tool (translation, graph, web_search, llm, image, vision) to be bound at a time. You cannot bind multiple WRITER tools simultaneously. However, you can bind multiple custom function tools along with one WRITER tool.
 
 ```python
-chat.bind_tools(
+# ✅ Correct: One WRITER tool + multiple function tools
+llm_with_tools = chat.bind_tools(
     [graph_tool, get_supercopa_trophies_count, GetWeather, get_product_info]
+)
+
+# ✅ Correct: Different WRITER tool + function tools
+llm_with_tools = chat.bind_tools(
+    [translation_tool, get_supercopa_trophies_count, GetWeather]
+)
+
+# ❌ Incorrect: Multiple WRITER tools (will cause BadRequestError)
+llm_with_tools = chat.bind_tools(
+    [graph_tool, translation_tool, web_search_tool]  # This will fail
 )
 ```
 
-All tools are stored in the `tools` attribute of the `ChatWriter` instance:
+If you need to use different WRITER tools, you have several options:
+
+**Option 1: Rebind tools for each conversation**:
 
 ```python
-chat.tools
+# Use graph tool for one conversation
+llm_with_tools = chat.bind_tools([graph_tool, get_supercopa_trophies_count])
+response1 = llm_with_tools.invoke([HumanMessage("Use the knowledge graph to answer...")])
+
+# Switch to translation tool for another conversation
+llm_with_tools = chat.bind_tools([translation_tool, get_supercopa_trophies_count])
+response2 = llm_with_tools.invoke([HumanMessage("Translate this text...")])
 ```
 
-The tool choice mode is stored at the `tool_choice` attribute, which is `auto` by default:
+**Option 2: Use separate ChatWriter instances**:
 
 ```python
-chat.tool_choice
+# Create separate ChatWriter instances for different tools
+chat_with_graph = ChatWriter()
+llm_with_graph_tool = chat_with_graph.bind_tools([graph_tool])
+
+chat_with_translation = ChatWriter()
+llm_with_translation_tool = chat_with_translation.bind_tools([translation_tool])
 ```
 
 ## Invocation
@@ -138,14 +203,34 @@ The model will automatically choose the tool during invocation with all modes (s
 ```python
 from langchain_core.messages import HumanMessage
 
+# Example with graph tool and function tools
+llm_with_tools = chat.bind_tools([graph_tool, get_supercopa_trophies_count])
 messages = [
     HumanMessage(
-        "Use knowledge graph tool to compose this answer. Tell me what th first line of documents stored in your KG. Also I want to know: how many SuperCopa trophies have Barcelona won?"
+        "Use knowledge graph tool to compose this answer. Tell me what the first line of documents stored in your KG. Also I want to know: how many SuperCopa trophies have Barcelona won?"
     )
 ]
 
-response = chat.invoke(messages)
+response = llm_with_tools.invoke(messages)
 messages.append(response)
+
+# Example with translation tool
+llm_with_translation = chat.bind_tools([translation_tool])
+translation_messages = [
+    HumanMessage("Translate 'Hello, world!' to Spanish")
+]
+
+translation_response = llm_with_translation.invoke(translation_messages)
+print(translation_response.content)  # Output: "¡Hola, mundo!"
+
+# Example with web search tool
+llm_with_search = chat.bind_tools([web_search_tool])
+search_messages = [
+    HumanMessage("What are the latest developments in AI technology? Please search the web for current information.")
+]
+
+search_response = llm_with_search.invoke(search_messages)
+print(search_response.content)  # Output: Current AI developments based on web search
 ```
 
 In the case of function tools, you will receive an assistant message with the tool call request.
@@ -164,7 +249,7 @@ for tool_call in response.tool_calls:
     tool_msg = selected_tool.invoke(tool_call)
     messages.append(tool_msg)
 
-response = chat.invoke(messages)
+response = llm_with_tools.invoke(messages)
 print(response.content)
 ```
 
@@ -182,7 +267,7 @@ print(response.content)
 
 ## Chaining
 
-Due to specificity of Writer Graph tool (you don't need to call it manually, Writer server will call it by himself and return RAG based generation) it's impossible to invoke it separately, so GraphTool can't be used as part of chain
+Due to specificity of WRITER Graph tool (you don't need to call it manually, WRITER server will call it itself and return RAG based generation) it's impossible to invoke it separately, so GraphTool can't be used as part of chain
 
 ## API reference
 
