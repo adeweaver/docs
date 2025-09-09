@@ -26,6 +26,7 @@ A ReAct loop runs until a stop condition - i.e. when the model emits a final ans
 </Card>
 
 <Card>
+
 ```mermaid
 %%{
   init: {
@@ -54,21 +55,22 @@ graph TD
   class QUERY blueHighlight;
   class ANSWER blueHighlight;
 ```
+
 </Card>
 
 </Columns>
 
-
-
 <Info>
-Under the hood, `create_agent()` builds a **graph**-based agent runtime using [LangGraph](./langgraph/overview). A graph consists of nodes (steps) and edges (connections) that define how your agent processes information. The agent moves through this graph, executing nodes like the model node (which calls the model), the tools node (which executes tools), or pre/post model hook nodes. Learn more about the [graph API](./langgraph/graph-api).
+
+Under the hood, `create_agent()` builds a **graph**-based agent runtime using [LangGraph](/langgraph/overview). A graph consists of nodes (steps) and edges (connections) that define how your agent processes information. The agent moves through this graph, executing nodes like the model node (which calls the model), the tools node (which executes tools), or pre/post model hook nodes. Learn more about the [graph API](/langgraph/graph-api).
+
 </Info>
 
 ## Core components
 
 ### Model
 
-The [model](./langchain-models) is the reasoning engine of your agent. It can be specified in multiple ways, supporting both static and dynamic model selection.
+The [model](/langchain/models) is the reasoning engine of your agent. It can be specified in multiple ways, supporting both static and dynamic model selection.
 
 #### Static model
 
@@ -199,7 +201,7 @@ const agent = createAgent({
 :::
 
 <Tip>
-For model configuration details, see [Models](./langchain-models).
+For model configuration details, see [Models](/langchain/models).
 </Tip>
 
 ### Tools
@@ -339,7 +341,7 @@ const toolNode = new ToolNode({
 :::
 
 <Tip>
-To learn more about error handling in `ToolNode`, see [ToolNode](./langchain-tools#toolnode).
+To learn more about error handling in `ToolNode`, see [ToolNode](/langchain/tools#toolnode).
 </Tip>
 
 ### Tool use in the ReAct loop
@@ -404,7 +406,7 @@ I found wireless headphones (model WH-1000XM5) with 10 units in stock...
 </Card>
 
 <Tip>
-To learn more about tools, see [Tools](./langchain-tools).
+To learn more about tools, see [Tools](/langchain/tools).
 </Tip>
 
 ### Prompt
@@ -495,7 +497,7 @@ const agent = createAgent({
 When no `prompt` is provided, the agent will infer its task from the messages directly.
 
 <Tip>
-For more details on message types and formatting, see [Messages](./langchain-messages).
+For more details on message types and formatting, see [Messages](/langchain/messages).
 </Tip>
 
 ## Advanced configuration
@@ -568,7 +570,7 @@ console.log(result.structuredResponse);
 ```
 :::
 <Tip>
-To learn about structured output, see [Structured Output](./langchain-structured-output).
+To learn about structured output, see [Structured Output](/langchain/structured-output).
 </Tip>
 
 ### Memory
@@ -622,7 +624,7 @@ const CustomAgentState = createAgent({
 :::
 
 <Tip>
-To learn more about memory, including how to implement long-term memory that persists across sessions, see [Memory](./langchain-memory).
+To learn more about memory, including how to implement long-term memory that persists across sessions, see [Memory](/langchain/memory).
 </Tip>
 
 ### Pre-model hook
@@ -920,5 +922,5 @@ for await (const chunk of stream) {
 :::
 
 <Tip>
-For more details on streaming, see [Streaming](./langchain-streaming).
+For more details on streaming, see [Streaming](/langchain/streaming).
 </Tip>
