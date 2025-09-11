@@ -2,7 +2,7 @@
 title: WRITER Tools
 ---
 
-This guide provides a quick overview for getting started with WRITER [tools](https://python.langchain.com/docs/concepts/tools/). For detailed documentation of all WRITER features and configurations head to the [WRITER docs](https://dev.writer.com/home).
+This guide provides an overview for getting started with WRITER [tools](https://python.langchain.com/docs/concepts/tools/). For detailed documentation of all WRITER features and configurations, head to the [WRITER docs](https://dev.writer.com/home).
 
 ## Overview
 
@@ -16,29 +16,29 @@ This guide provides a quick overview for getting started with WRITER [tools](htt
 
 ### Features
 
-We provide usage of several types of tools for use with `ChatWriter`: `function`, `graph`, `translation`, and `web_search`.
+`ChatWriter` supports several tool types: `function`, `graph`, `translation`, and `web_search`.
 
-> **Important Limitation**: WRITER only allows a single WRITER tool (translation, graph, web_search, llm, image, vision) to be bound at a time. You cannot bind multiple WRITER tools simultaneously, but you can bind multiple custom function tools along with one WRITER tool.
+> **Important limitation**: You can only use one WRITER tool (translation, graph, web_search, llm, image, vision) at a time. While you can't combine multiple WRITER tools, you can use one WRITER tool alongside multiple custom function tools.
 
 #### Function
 
-Functions are the most common type of tool, which allows the LLM to call external APIs, fetch data from databases, and generally perform any external action you want to do. Visit our [tool calling docs](https://dev.writer.com/api-guides/tool-calling#tool-calling) for additional information.
+Functions are the most common type of tool, which allows the LLM to call external APIs, fetch data from databases, and generally perform any external action you want to do. Visit WRITER's [tool calling docs](https://dev.writer.com/home/tool-calling) for additional information.
 
 #### Graph
 
-The `Graph` tool is WRITER's graph-based retrieval-augmented generation (RAG) called Knowledge Graph. This tool enables developers to simply pass the graph ID to the model and it will return the answer to the question in the prompt. To learn more, see our [Knowledge Graph API docs](https://dev.writer.com/api-guides/knowledge-graph).
+The `Graph` tool uses WRITER's Knowledge Graph, which is a graph-based retrieval-augmented generation (RAG) system. When using this tool, developers provide a graph ID that references their specific Knowledge Graph. The model then uses this graph to find relevant information and generate accurate answers to questions in the prompt. This allows the model to access and utilize custom knowledge bases during conversations. For more details, see WRITER's [Knowledge Graph API docs](https://dev.writer.com/home/knowledge-graph).
 
 #### Translation
 
-The translation tool allows you to translate text during a conversation with a Palmyra model. While Palmyra X models can perform translation tasks, they are not optimized for these tasks and may not perform well without correct prompting. See our [translation API docs](https://dev.writer.com/home/translation-tool#translate-text-in-a-chat) for more information.
+The translation tool allows you to translate text during a conversation with a Palmyra model. While Palmyra X models can perform translation tasks, they are not optimized for these tasks and may not perform well without correct prompting. See WRITER's [translation API docs](https://dev.writer.com/home/translation-tool#translate-text-in-a-chat) for more information.
 
 #### Web Search
 
-The web search tool allows you to search the web for current information during a conversation with a Palmyra model. While Palmyra models have extensive knowledge, they may not have access to the most current information or real-time data. The web search tool enables your AI assistant to find up-to-date information, news, and facts from the web. See our [web search API docs](https://dev.writer.com/home/web-search-tool#web-search-in-a-chat) for more information.
+The web search tool allows you to search the web for current information during a conversation with a Palmyra model. While Palmyra models have extensive knowledge, they may not have access to the most current information or real-time data. The web search tool enables your AI assistant to find up-to-date information, news, and facts from the web. See WRITER's [web search API docs](https://dev.writer.com/home/web-search-tool#web-search-in-a-chat) for more information.
 
 ## Setup
 
-Sign up for [WRITER AI Studio](https://app.writer.com/aistudio/signup?utm_campaign=devrel) to generate an API key (you can follow this [Quickstart](https://dev.writer.com/api-guides/quickstart)). Then, set the WRITER_API_KEY environment variable:
+Sign up for [WRITER AI Studio](https://app.writer.com/aistudio/signup?utm_campaign=devrel) to generate an API key (you can follow this [Quickstart](https://dev.writer.com/home/quickstart)). Then, set the `WRITER_API_KEY` environment variable:
 
 ```python
 import getpass
@@ -152,7 +152,7 @@ get_product_info = {
 
 ### Binding tools
 
-**Important Note**: WRITER only allows a single WRITER tool (translation, graph, web_search, llm, image, vision) to be bound at a time. You cannot bind multiple WRITER tools simultaneously. However, you can bind multiple custom function tools along with one WRITER tool.
+**Important note**: WRITER only allows a single WRITER tool (translation, graph, web_search, llm, image, vision) to be bound at a time. You cannot bind multiple WRITER tools simultaneously. However, you can bind multiple custom function tools along with one WRITER tool.
 
 ```python
 # ✅ Correct: One WRITER tool + multiple function tools
@@ -267,7 +267,7 @@ print(response.content)
 
 ## Chaining
 
-Due to specificity of WRITER Graph tool (you don't need to call it manually, WRITER server will call it itself and return RAG based generation) it's impossible to invoke it separately, so GraphTool can't be used as part of chain
+The WRITER Graph tool works differently from other tools; when used, the WRITER server automatically handles calling the Knowledge Graph and generating responses using RAG. Because of this automated server-side handling, you cannot invoke the `GraphTool` independently or use it as part of a LangChain chain. You must use the `GraphTool` directly with a `ChatWriter` instance as shown in the examples above.
 
 ## API reference
 
